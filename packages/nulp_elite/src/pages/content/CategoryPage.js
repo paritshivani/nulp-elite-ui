@@ -60,8 +60,10 @@ const CategoryPage = () => {
   };
 
   useEffect(() => {
-    fetchMoreItems();
-  }, [selectedDomain]);
+    if (selectedDomain) {
+      fetchMoreItems();
+    }
+  }, []);
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
@@ -110,7 +112,7 @@ const CategoryPage = () => {
     };
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
       const response = await getAllContents(url, data, headers);
       setData(response.data.result.content);
     } catch (error) {
@@ -142,7 +144,7 @@ const CategoryPage = () => {
     } finally {
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,
@@ -182,7 +184,9 @@ const CategoryPage = () => {
     return "";
   };
   useEffect(() => {
-    fetchMoreItems(category);
+    if (category) {
+      fetchMoreItems(category);
+    }
     fetchDomains();
   }, [category]);
 
@@ -203,11 +207,11 @@ const CategoryPage = () => {
       )}
 
       <Container maxWidth="xl" role="main" className="allContent">
-        <Box
-          className="d-flex jc-bw mr-20 my-20"
-          style={{ alignItems: "center" }}
-        >
-          {domainName && (
+        {domainName && (
+          <Box
+            className="d-flex jc-bw mr-20 my-20"
+            style={{ alignItems: "center" }}
+          >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
               className="d-flex h3-title ml-neg-20"
@@ -220,8 +224,8 @@ const CategoryPage = () => {
                 {domainName}
               </Box>
             </Box>
-          )}
-        </Box>
+          </Box>
+        )}
         {error && (
           <Alert className="my-4" severity="error">
             {error}
@@ -239,7 +243,7 @@ const CategoryPage = () => {
 
         <Box textAlign="center">
           <Box>
-            <Grid container spacing={2} style={{ marginTop: "10px" }}>
+            <Grid container spacing={2}>
               {data &&
                 data.map((item) => (
                   <Grid

@@ -71,7 +71,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
     fontWeight: "400",
     marginLeft: "auto",
-    width: "16%",
+    // width: "16%",
+    display: "inline-block",
   },
   receiverMessage: {
     margin: "13px 0",
@@ -556,7 +557,10 @@ const Chat = ({
 
       {receiverData && receiverData.length > 0 && !messages.length > 0 ? (
         <div className={classes.chat}>
-          <Box className="h5-title my-15" style={{ color: "#484848" }}>
+          <Box
+            className="h5-title my-15"
+            style={{ color: "#484848", textAlign: "left" }}
+          >
             {receiverData[0]?.bio}
             <Box className="my-15">
               Connect with them to get insights on what they do or simply
@@ -570,7 +574,7 @@ const Chat = ({
             {t("YOUR_CHAT_WILL_DISAPPEAR")}
           </Alert>
           {messages.map((msg, index) => (
-            <div key={index}>
+            <div key={index} style={{ textAlign: "right" }}>
               {index === 0 ||
               getTimeAgo(msg.timestamp) !==
                 getTimeAgo(messages[index - 1].timestamp) ? (

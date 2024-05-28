@@ -293,32 +293,7 @@ const DomainList = () => {
       request: {
         filters: {
           se_boards: [null],
-          primaryCategory: [
-            "Collection",
-            "Resource",
-            "Content Playlist",
-            "Course",
-            "Course Assessment",
-            "Digital Textbook",
-            "eTextbook",
-            "Explanation Content",
-            "Learning Resource",
-            "Lesson Plan Unit",
-            "Practice Question Set",
-            "Teacher Resource",
-            "Textbook Unit",
-            "LessonPlan",
-            "FocusSpot",
-            "Learning Outcome Definition",
-            "Curiosity Questions",
-            "MarkingSchemeRubric",
-            "ExplanationResource",
-            "ExperientialResource",
-            "Practice Resource",
-            "TVLesson",
-            "Course Unit",
-            "Exam Question",
-          ],
+          primaryCategory: ["Course"],
           visibility: ["Default", "Parent"],
         },
         limit: 100,
@@ -393,19 +368,8 @@ const DomainList = () => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
       {isMobile ? (
-        <Container maxWidth="xxl" role="main" className="allContent">
+        <Container maxWidth="xl" role="main" className="allContent">
           {error && <Alert severity="error">{error}</Alert>}
-          {/* <Box sx={{background:'#fff',padding:'20px 10px 30px 10px', margin:'25px 0'}}>
-<ThemeProvider theme={theme}>
-<Typography variant="h3" sx={{ margin: '10px 0 10px 0' }}>Filter by popular domain</Typography>
-<Box sx={{boxShadow:'0px 4px 4px 0px #00000040',padding:'10px 10px',background:'#F4FBFF'}}>
-{/* <DomainCarousel  domain={frameworkHardCodedData.result.framework.categories[0].terms}></DomainCarousel> 
-</Box>
-
-</ThemeProvider> 
-</Box> */}
-          {/* <DomainCarousel data={data?.framework?.categories[0].terms}></DomainCarousel> */}
-
           <Box sx={{ paddingTop: "30px" }}>
             <Grid
               container
@@ -586,7 +550,7 @@ const DomainList = () => {
         </Box>
       </Container>
 
-      <Container maxWidth="xl" className="allContent" role="main">
+      <Container maxWidth="xl" className="allContent xs-mb-75 " role="main">
         {error && <Alert severity="error">{error}</Alert>}
 
         <Box textAlign="center">

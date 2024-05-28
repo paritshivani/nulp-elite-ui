@@ -118,7 +118,7 @@
   "INVITE": "Invite",
   "SEND_INVITATION": "Send Invitation",
   "INVITATION_CHAT_ACCEPTED": "Invitation Chat Accepted",
-  "INVITATION_NOT_ACCEPTED": "Invitation Not Accepted",
+  "INVITATION_NOT_ACCEPTED": "Invitation sent waiting for approval",
   "INVITATION_SEND_SUCCESSFULLY": "Invitation Send Successfully",
   "CLOSE": "Close",
   "YEAR_OF_BIRTH": "Year of Birth",
@@ -210,5 +210,6 @@
   "COMPLETION_CERTIFICATE_ISSUED": "Completion certificate issued",
   "COMPLETION": "Completion",
   "ASSESSMENT": "Assesment",
-  "ENROLLED_ON": "Enrolled On"
+  "ENROLLED_ON": "Enrolled On",
+  "BACK_TO_LEARNNG": "Back to Learning"
 }

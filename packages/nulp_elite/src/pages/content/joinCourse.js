@@ -109,7 +109,7 @@ const JoinCourse = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COURSE.HIERARCHY}/${contentId}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams}&licenseDetails=name,description,url`;
+        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COURSE.HIERARCHY}/${contentId}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
         const response = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
@@ -1050,7 +1050,7 @@ const JoinCourse = () => {
                 {t("COURSES_MODULE")}
               </AccordionSummary>
               <AccordionDetails>
-                {courseData?.result?.content?.children.map((faqIndex) => (
+                {userData?.result?.content?.children.map((faqIndex) => (
                   <Accordion
                     key={faqIndex.id}
                     style={{ borderRadius: "10px", margin: "10px 0" }}

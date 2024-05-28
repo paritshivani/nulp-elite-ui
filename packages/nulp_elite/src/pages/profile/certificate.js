@@ -115,7 +115,7 @@ const Certificate = () => {
           </Alert>
         )}
         <Box textAlign="center" padding="10">
-          <Breadcrumbs
+          {/* <Breadcrumbs
             aria-label="breadcrumb"
             style={{
               padding: "25px 0",
@@ -129,18 +129,22 @@ const Certificate = () => {
             <Link underline="hover" href="" aria-current="page" color="#484848">
               {t("CERTIFICATES")}
             </Link>
-          </Breadcrumbs>
-          <Button
-            type="button"
-            className="viewAll xs-mr-10"
-            onClick={handleGoBack}
-          >
-            Back to Learning
-          </Button>
-          <Card style={{ padding: "20px", textAlign: "left" }}>
+          </Breadcrumbs> */}
+          <Box className="d-flex jc-bw alignItems-center mb-20">
             <Box style={{ display: "flex", alignItems: "end" }}>
-              <DescriptionOutlinedIcon /> {t("CERTIFICATES")}
+              <DescriptionOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
+              {t("DOWNLOAD_CERTIFICATES")}
             </Box>
+            <Link
+              type="button"
+              href="/profile"
+              className="viewAll xs-mr-10"
+              // onClick={handleGoBack}
+            >
+              {t("BACK_TO_LEARNNG")}
+            </Link>
+          </Box>
+          <Card style={{ padding: "20px", textAlign: "left" }}>
             <Grid
               container
               spacing={2}
@@ -270,6 +274,7 @@ const Certificate = () => {
                             alignItems: "end",
                             color: "#1976d2",
                           }}
+                          className="text-green"
                         >
                           <SimCardDownloadOutlinedIcon />
                           <Link

@@ -85,11 +85,11 @@ export default function BoxCard({ items, index, onClick }) {
           width: "100%",
           height: "141px",
           background:
-            "linear-gradient(45deg, RGBA(28, 25, 25, 0.46) 7%, RGBA(20, 18, 18, 0.57) 45%)",
+            "linear-gradient(45deg, rgb(28 25 25 / 29%) 7%, rgb(20 18 18 / 9%) 45%)",
           zIndex: 999,
           margin: "0",
-          borderTopLeftRadius: "5px",
-          borderTopRightRadius: "5px",
+          borderTopLeftRadius: "10px",
+          borderTopRightRadius: "10px",
         }}
       ></div>
       <CardContent>
@@ -109,14 +109,16 @@ export default function BoxCard({ items, index, onClick }) {
             className="card-img"
           />
         </Box>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          className="cardTitle mt-40"
-        >
-          {items.name}
-        </Typography>
+        {items.name && (
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            className="cardTitle mt-40"
+          >
+            {items.name}
+          </Typography>
+        )}
         <Typography
           variant="body2"
           color="#5B5B5B"
@@ -172,8 +174,7 @@ export default function BoxCard({ items, index, onClick }) {
           >
             {items.enrolledDate && (
               <Box>
-                {" "}
-                {t("ENROLLED_ON")}: :{" "}
+                {t("ENROLLED_ON")} :
                 {unixTimestampToHumanDate(items.enrolledDate)}{" "}
               </Box>
             )}
@@ -185,7 +186,6 @@ export default function BoxCard({ items, index, onClick }) {
       items.se_boards ||
       items.se_gradeLevels ? (
         <div>
-          <Divider></Divider>
           <Box className="my-10 textLeft">
             {(items.board || items.se_boards) && (
               <Button type="button" size="small" className="labelOne">
@@ -205,16 +205,16 @@ export default function BoxCard({ items, index, onClick }) {
       {items.content ? (
         <div>
           {/* <Divider></Divider> */}
-          <Box className="my-10">
+          <Box className="my-10 pl-20">
             <Typography
               style={{
                 marginTop: "10px",
                 color:
                   items.status === 2
-                    ? "red"
+                    ? "#FF0000"
                     : items.status === 1
                     ? "blue"
-                    : "green",
+                    : "#579b00",
                 fontSize: "12px",
                 padding: "10px 0",
                 textAlign: "left",

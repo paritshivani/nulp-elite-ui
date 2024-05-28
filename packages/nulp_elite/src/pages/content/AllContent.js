@@ -16,7 +16,7 @@ import "react-multi-carousel/lib/styles.css";
 import DomainCarousel from "components/domainCarousel";
 import SummarizeOutlinedIcon from "@mui/icons-material/SummarizeOutlined";
 import domainWithImage from "../../assets/domainImgForm.json";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import Alert from "@mui/material/Alert";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
@@ -60,6 +60,7 @@ const responsiveCard = {
 };
 
 const AllContent = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [domain, setDomain] = useState();
@@ -339,11 +340,11 @@ const AllContent = () => {
       )}
 
       <Container maxWidth="xl" role="main" className="pb-30 allContent">
-        <Box
-          className="d-flex jc-bw mr-20 my-20"
-          style={{ alignItems: "center" }}
-        >
-          {domainName && (
+        {domainName && (
+          <Box
+            className="d-flex jc-bw mr-20 my-20"
+            style={{ alignItems: "center" }}
+          >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
               className="d-flex h3-title ml-neg-20"
@@ -356,8 +357,8 @@ const AllContent = () => {
                 {domainName}
               </Box>
             </Box>
-          )}
-        </Box>
+          </Box>
+        )}
         {/* <Box className="text-heading lg-d-flex my-20">
           You are viewing content for :
           <Box className="text-primary">Mobility and accessibliy</Box>

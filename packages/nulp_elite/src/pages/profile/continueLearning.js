@@ -129,7 +129,11 @@ const ContinueLearning = () => {
   return (
     <div>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Container maxWidth="xxl" role="main" className="container-pb">
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="allContent filter-profile"
+      >
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -143,7 +147,7 @@ const ContinueLearning = () => {
           />
         </Box>
         <Box textAlign="center" padding="10">
-          <Box sx={{ paddingTop: "30px" }}>
+          <Box>
             <Grid
               container
               spacing={2}

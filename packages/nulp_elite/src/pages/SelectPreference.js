@@ -393,19 +393,21 @@ const SelectPreference = ({ isOpen, onClose }) => {
           </Select>
         </FormControl>
       </Box>
-      <Button
-        className="custom-btn-primary my-10"
-        onClick={handleSavePreferences}
-        disabled={isDisabled}
-      >
-        {t("SUBMIT")}
-      </Button>
-
-      {!isEmptyPreference && (
-        <Button className="custom-btn-default" onClick={handleClose}>
-          {t("CANCEL")}
+      <Box className="d-flex jc-en">
+        <Button
+          className="custom-btn-primary my-10 mr-20"
+          onClick={handleSavePreferences}
+          disabled={isDisabled}
+        >
+          {t("SUBMIT")}
         </Button>
-      )}
+
+        {!isEmptyPreference && (
+          <Button className="custom-btn-default" onClick={handleClose}>
+            {t("CANCEL")}
+          </Button>
+        )}
+      </Box>
     </div>
   );
 };

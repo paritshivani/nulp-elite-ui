@@ -375,7 +375,8 @@ const ContentList = (props) => {
             xs={12}
             md={4}
             lg={9}
-            className="sm-p-25 left-container mt-2"
+            className="sm-p-25"
+            style={{ paddingTop: "0" }}
           >
             <Box textAlign="center" padding="10">
               <Box>
