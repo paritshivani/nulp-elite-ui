@@ -70,7 +70,7 @@ function Header() {
         }}
       >
         <Box>
-          <Link href="/all" className="pl-18 py-15">
+          <Link href="/domainList" className="pl-18 py-15">
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
