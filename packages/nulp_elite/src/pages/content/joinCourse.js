@@ -247,9 +247,7 @@ const JoinCourse = () => {
     if (chat.length === 0) {
       setOpen(true);
     } else if (!isMobile && chat[0]?.is_accepted == true) {
-      navigate("/addConnections", {
-        state: { senderUserId: _userId, receiverUserId: creatorId },
-      });
+      setOpen(true);
     } else {
       navigate("/chat", {
         state: { senderUserId: _userId, receiverUserId: creatorId },

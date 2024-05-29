@@ -392,6 +392,7 @@ const Profile = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
     fetchData();
+    window.location.reload();
   };
 
   return (

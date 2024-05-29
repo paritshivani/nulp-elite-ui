@@ -63,7 +63,7 @@ const ContinueLearning = () => {
     };
 
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?orgdetails=${appConfig.Course.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.Course.contentApiQueryParams.licenseDetails}&fields=${urlConfig.params.enrolledCourses.fields}&batchDetails=${urlConfig.params.enrolledCourses.batchDetails}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?orgdetails=${appConfig.Course.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.Course.contentApiQueryParams.licenseDetails}&fields=${urlConfig.params.enrolledCourses.fields}&batchDetails=${urlConfig.params.enrolledCourses.batchDetails}&contentDetails=${urlConfig.params.enrolledCourses.contentDetails}`;
       const response = await fetch(url, headers);
       const responseData = await response.json();
       setData(responseData.result.courses);
@@ -179,6 +179,7 @@ const ContinueLearning = () => {
                     style={{ marginBottom: "10px" }}
                     key={items.contentId}
                   >
+                    {console.log("999999999999999992222222222222222", items)}
                     <BoxCard
                       items={items.content}
                       index={filteredCourses.length}

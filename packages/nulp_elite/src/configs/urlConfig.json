@@ -40,7 +40,8 @@
     "questionSetRead": "instructions",
     "enrolledCourses": {
       "fields": "contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,board,subject,trackable,primaryCategory,organisation",
-      "batchDetails": "name,endDate,startDate,status,enrollmentType,createdBy,certificates"
+      "batchDetails": "name,endDate,startDate,status,enrollmentType,createdBy,certificates",
+      "contentDetails": "primaryCategory,se_gradeLevels,gradeLevel"
     },
     "objectCategory": {
       "fields": "objectMetadata,forms,name"

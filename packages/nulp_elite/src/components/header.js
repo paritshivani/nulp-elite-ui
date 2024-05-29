@@ -27,7 +27,9 @@ import GTranslateIcon from "@mui/icons-material/GTranslate";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
-function Header() {
+import { useNavigate } from "react-router-dom";
+
+function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
   const [language, setLanguage] = useState("en");
 
@@ -39,6 +41,8 @@ function Header() {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -59,6 +63,22 @@ function Header() {
   useEffect(() => {
     setActivePath(location.pathname);
   }, [location.pathname]);
+
+  const onGlobalSearch = () => {
+    navigate("/contentList/1", {
+      state: { globalSearchQuery: searchQuery },
+    });
+  };
+
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      onGlobalSearch();
+    }
+  };
 
   return (
     <>
@@ -319,9 +339,16 @@ function Header() {
                 variant="outlined"
                 size="small"
                 fullWidth
+                value={searchQuery}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
                 InputProps={{
                   endAdornment: (
-                    <IconButton type="submit" aria-label="search">
+                    <IconButton
+                      type="submit"
+                      aria-label="search"
+                      onClick={onGlobalSearch}
+                    >
                       <SearchIcon />
                     </IconButton>
                   ),

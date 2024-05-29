@@ -293,13 +293,13 @@ const Chat = ({
         setMessage("");
         setTextValue("");
         if (!messages.length > 0) {
-          navigate("/addConnections");
+          navigate(-1);
           window.location.reload();
+          if (onChatSent) {
+            onChatSent();
+          }
         }
         fetchChats(); // Fetch messages after sending a message
-        if (onChatSent) {
-          onChatSent();
-        }
       } catch (error) {
         console.error("Error saving message:", error);
         showErrorMessage(t("FAILED_TO_SEND_CHAT"));

@@ -73,7 +73,9 @@ const ContentList = (props) => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [channelData, setChannelData] = React.useState(true);
-
+  const [globalSearchQuery, setGlobalSearchQuery] = useState(
+    location.state?.globalSearchQuery || undefined
+  );
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -92,6 +94,10 @@ const ContentList = (props) => {
   useEffect(() => {
     fetchData();
   }, [domain]);
+
+  useEffect(() => {
+    fetchData();
+  }, [globalSearchQuery]);
 
   const handleFilterChange = (selectedOptions) => {
     const selectedValues = selectedOptions.map((option) => option.value);
@@ -133,7 +139,7 @@ const ContentList = (props) => {
           se_gradeLevels: filters.se_gradeleverl,
         },
         limit: 20,
-        query: search.query || domainquery,
+        query: search.query || domainquery || globalSearchQuery,
         offset: 20 * (currentPage - 1),
         sort_by: {
           lastUpdatedOn: "desc",
@@ -281,7 +287,7 @@ const ContentList = (props) => {
 
   return (
     <div>
-      <Header />
+      <Header globalSearchQuery={globalSearchQuery} />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
       <Box>

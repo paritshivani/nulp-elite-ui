@@ -118,20 +118,6 @@ const AddConnections = () => {
   const navigate = useNavigate();
   const [selectedChatUser, setSelectedChatUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const {
-    senderUserId: routeSenderUserId,
-    receiverUserId: routeReceiverUserId,
-  } = location.state || {};
-
-  // useEffect(() => {
-  //   if (routeSenderUserId && routeReceiverUserId) {
-  //     setSelectedChatUser({
-  //       senderUserId: routeSenderUserId,
-  //       receiverUserId: routeReceiverUserId,
-  //     });
-  //     setSelectedUserId(routeReceiverUserId);
-  //   }
-  // }, [routeSenderUserId, routeReceiverUserId]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
