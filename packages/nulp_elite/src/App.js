@@ -41,7 +41,9 @@ import Message from "pages/connections/message";
 import Terms from "pages/terms";
 import SelectPreference from "pages/SelectPreference";
 import Chat from "pages/connections/chat";
+import SampleComponent from "components/SampleComponent";
 const urlConfig = require("./configs/urlConfig.json");
+const routeConfig = require("./configs/routeConfig.json");
 
 function App() {
   // const [t] = useTranslation();
@@ -55,109 +57,125 @@ function App() {
   const routes = [
     {
       moduleName: "nulp_elite",
-      path: "/all",
+      path: routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT,
       component: AllContent,
     },
     {
       moduleName: "nulp_elite",
-      path: "/profile",
+      path: routeConfig.ROUTES.POFILE_PAGE.PROFILE,
       component: Profile,
     },
     {
       moduleName: "nulp_elite",
-      path: "/certificate",
+      path: routeConfig.ROUTES.CERTIFICATE_PAGE.CERTIFICATE,
       component: Certificate,
     },
     {
       moduleName: "nulp_elite",
-      path: "/learningHistory",
+      path: routeConfig.ROUTES.LEARNING_HISTORY_PAGE.LEARNING_HISTORY,
       component: LearningHistory,
     },
     {
       moduleName: "nulp_elite",
-      path: "/continueLearning",
+      path: routeConfig.ROUTES.CONTINUE_LEARNING_PAGE.CONTINUE_LEARNING,
       component: continueLearning,
     },
     {
       moduleName: "nulp_elite",
-      path: "/help",
+      path: routeConfig.ROUTES.HELP_PAGE.HELP,
       component: FAQPage,
     },
     {
       moduleName: "nulp_elite",
-      path: "/addConnections",
+      path: routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION,
       component: AddConnections,
     },
     {
       moduleName: "nulp_elite",
-      path: "/domainList",
+      path: routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST,
       component: DomainList,
     },
     {
       moduleName: "nulp_elite",
-      path: "/contentList/:pageNumber",
+      path:
+        routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST +
+        routeConfig.ROUTES.CONTENTLIST_PAGE.PAGENUMBER,
       component: ContentList,
     },
     {
       moduleName: "nulp_elite",
-      path: "/joinCourse/:contentId",
+      path:
+        routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE +
+        routeConfig.ROUTES.JOIN_COURSE_PAGE.CONTENT_ID,
       component: JoinCourse,
     },
+    // {
+    //   moduleName: "nulp_elite",
+    //   path: "/joinCourse/:contentId",
+    //   component: JoinCourse,
+    // },
 
     {
       moduleName: "nulp_elite",
-      path: "/player",
+      path: routeConfig.ROUTES.PLAYER_PAGE.PLAYER,
       component: Player,
     },
     {
       moduleName: "nulp_elite",
-      path: "/pdf",
+      path: routeConfig.ROUTES.PDF_PAGE.PDF,
       component: PDFContent,
     },
     {
       moduleName: "nulp_elite",
-      path: "/noresult",
+      path: routeConfig.ROUTES.NORESULT_PAGE.NORESULT,
       component: NoResult,
     },
     {
       moduleName: "nulp_elite",
-      path: "/certificateOld",
+      path: routeConfig.ROUTES.CERTIFICATE_OLD_PAGE.CERTIFICATE_OLD,
       component: Certificate,
     },
     {
       moduleName: "nulp_elite",
-      path: "/signup",
+      path: routeConfig.ROUTES.SIGNUP_PAGE.SIGNUP,
       component: Registration,
     },
     {
       moduleName: "nulp_elite",
-      path: "/terms",
+      path: routeConfig.ROUTES.TERMS_PAGE.TERMS,
       component: Terms,
     },
     {
       moduleName: "nulp_elite",
-      path: "/otp",
+      path: routeConfig.ROUTES.OTP_PAGE.OTP,
       component: Otp,
     },
     {
       moduleName: "nulp_elite",
-      path: "/view-all/:category",
+      path:
+        routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL +
+        routeConfig.ROUTES.VIEW_ALL_PAGE.CATEGORY,
       component: CategoryPage,
     },
     {
       moduleName: "nulp_elite",
-      path: "/message",
+      path: routeConfig.ROUTES.MESSAGE_PAGE.MESSAGE,
       component: Message,
     },
     {
       moduleName: "nulp_elite",
-      path: "/SelectPreference",
+      path: routeConfig.ROUTES.SELECT_PREFERENCE_PAGE.SELECT_PREFERENCE,
       component: SelectPreference,
     },
     {
       moduleName: "nulp_elite",
-      path: "/chat",
+      path: routeConfig.ROUTES.CHAT_PAGE.CHAT,
       component: Chat,
+    },
+    {
+      moduleName: "nulp_elite",
+      path: "/webapp/demo",
+      component: SampleComponent,
     },
   ];
 

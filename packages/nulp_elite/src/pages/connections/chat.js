@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#FFF5E9",
   },
   chatHeader: {
-    padding: "8px 16px",
+    padding: "8px 11px",
     backgroundColor: "#FFE6C8 !important",
     color: "#484848",
     display: "flex",
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     display: "table",
     borderRadius: "5px",
     color: "#212121",
-    backgroundColor: "#fff !important",
+    backgroundColor: "#effaff !important",
     fontSize: "16px",
     fontWeight: "400",
   },
@@ -470,7 +470,7 @@ const Chat = ({
               }}
             >
               <div>
-                <Typography className="h2-title">
+                <Typography className="h2-title chat-hed">
                   {receiverData[0].firstName}{" "}
                   {receiverData[0].lastName && receiverData[0].lastName}
                 </Typography>
@@ -517,7 +517,7 @@ const Chat = ({
         </DialogTitle>
         <DialogContent>
           <Box className="h5-title">
-            Are you sure you want to block this user?
+            {t("ARE_YOU_SURE_YOU_WANT_TO_BLOCK_THIS_USER")}
           </Box>
           <Box py={2}>
             <TextField
@@ -563,8 +563,7 @@ const Chat = ({
           >
             {receiverData[0]?.bio}
             <Box className="my-15">
-              Connect with them to get insights on what they do or simply
-              answers to your question!
+              {t("CONNECT_WITH_THEM_TO_GET_INSIGHTS")}
             </Box>
           </Box>
         </div>
@@ -665,7 +664,7 @@ const Chat = ({
               {t("SYSTEM_GENERATED_MESSAGE")}
             </Alert>
           )}
-          <div className="d-flex">
+          <div className="d-flex sendMessag">
             <TextField
               multiline
               minRows={2}

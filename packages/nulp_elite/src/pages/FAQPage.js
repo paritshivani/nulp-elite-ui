@@ -8,12 +8,11 @@ import Box from "@mui/material/Box";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { makeStyles } from "@mui/styles";
-import Alert from '@mui/material/Alert';
-
+import Alert from "@mui/material/Alert";
 
 const useStyles = makeStyles((theme) => ({
   active: {
-    color: "blue", // Change color to blue
+    color: "#004367", // Change color to blue
     textDecoration: "underline", // Add underline
   },
 }));
@@ -49,17 +48,23 @@ const FAQPage = () => {
     <div>
       <Header />
       <Container maxWidth="xxl" role="main" className="container-pb">
-      {error &&  <Alert severity="error" className="my-10">{error}</Alert> }
-      <Box sx={{ fontSize: "18px", color: "#484848",marginTop:'15px' }}>
-              {t("FAQS")}
-            </Box>
+        {error && (
+          <Alert severity="error" className="my-10">
+            {error}
+          </Alert>
+        )}
+        <Box sx={{ fontSize: "18px", color: "#484848", marginTop: "15px" }}>
+          {t("FAQS")}
+        </Box>
         <Grid container spacing={2}>
-       
           <Grid item xs={12} lg={3}>
-            <ul className="bg-white" style={{borderRadius:'5px'}}>
-            <Box sx={{ fontSize: "18px", color: "#484848" }}>
-              {t("SELECT_CATEGORY")}
-            </Box>
+            <ul className="bg-white h6-title" style={{ borderRadius: "5px" }}>
+              <Box
+                sx={{ fontSize: "18px", color: "#484848" }}
+                className="h5-title"
+              >
+                {t("SELECT_CATEGORY")}
+              </Box>
               {faqData.map((category, index) => (
                 <li
                   key={index}
@@ -73,7 +78,7 @@ const FAQPage = () => {
               ))}
             </ul>
           </Grid>
-          <Grid item xs={12} lg={9} >
+          <Grid item xs={12} lg={9}>
             {faqData
               .filter((category) => category.name === selectedCategory)
               .map((selectedCategoryData, index) => (
@@ -82,33 +87,36 @@ const FAQPage = () => {
                     <Accordion
                       key={faqIndex}
                       style={{
-                        background: "#fee9dd",
+                        background: "#f9fafc",
                         borderRadius: "10px",
                         marginTop: "10px",
                         maxHeight: "calc(100vh - 20px)",
                         overflow: "auto",
                       }}
                     >
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
-                         
-                          style={{
-                            background: "#fee9dd",
-                            borderRadius: "10px",
-                            position: "sticky",
-                            top: "0",
-                            zIndex: "1",
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        style={{
+                          background: "#F9FAFC",
+                          borderRadius: "10px",
+                          position: "sticky",
+                          top: "0",
+                          zIndex: "1",
+                        }}
+                        className="h5-title"
+                      >
+                        {faq.topic}
+                      </AccordionSummary>
+                      <AccordionDetails
+                        style={{ background: "#fff" }}
+                        className="h6-title"
+                      >
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: faq.description,
                           }}
-                        >
-                          {faq.topic}
-                        </AccordionSummary>
-                        <AccordionDetails style={{ background: "#fff" }}>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: faq.description,
-                            }}
-                            />
-                        </AccordionDetails>
+                        />
+                      </AccordionDetails>
                     </Accordion>
                   ))}
                 </div>

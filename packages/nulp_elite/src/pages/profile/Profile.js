@@ -400,7 +400,7 @@ const Profile = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xxl" role="main" className="xs-p-0">
+      <Container maxWidth="xxl" role="main" className="xs-p-0 xs-pb-75 pt-1">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -413,7 +413,7 @@ const Profile = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container mt-2"
+            className="sm-p-25 left-container profile mt-2"
           >
             <Box sx={{ fontSize: "18px", color: "#484848" }}>
               {t("MY_PROFILE")}
@@ -423,7 +423,7 @@ const Profile = () => {
               textAlign="center"
               padding="10"
               sx={{ marginTop: "22px" }}
-              className="xs-pr-16"
+              className="xs-pr-16 mb-10"
             >
               <Box className="grey-bx">
                 <Box
@@ -440,17 +440,10 @@ const Profile = () => {
                       </div>
                     </>
                   )}
-                  <CardContent
-                    style={{
-                      textAlign: "left",
-                      paddingTop: "0",
-                      width: "85%",
-                      padding: "7px 7px 0",
-                    }}
-                  >
+                  <CardContent className="profile-cardContent">
                     {userData && (
                       <>
-                        <Box className="d-flex jc-bw mb-10">
+                        <Box className="d-flex jc-bw mb-10 alignItems-center">
                           <Box>
                             <Typography className="h4-title">
                               {userData?.result?.response?.firstName}{" "}
@@ -461,10 +454,10 @@ const Profile = () => {
                                 userInfo?.[0]?.designation && (
                                   <>{userInfo[0].designation} </>
                                 )}
-                              <Box className="twoLineEllipsis">
+                              <Box className="cardLabelEllips">
                                 {userInfo?.length &&
                                   userInfo?.[0]?.designation &&
-                                  " | "}
+                                  "   | "}{" "}
                                 ID: {userData?.result?.response?.userName}{" "}
                                 {
                                   userData?.result?.response?.organisations
@@ -493,16 +486,17 @@ const Profile = () => {
 
                 <Box className="mb-15 mt-20">
                   <Box
+                    className="d-flex jc-bw"
                     sx={{
-                      display: "flex",
                       flexDirection: "row",
-                      justifyContent: "space-between",
                       padding: "0 0 12px 15px",
                     }}
                   >
                     <Box
-                      style={{ display: "flex", alignItems: "center" }}
-                      className="h4-title"
+                      style={{
+                        alignItems: "center",
+                      }}
+                      className="h4-title d-flex fw-400"
                     >
                       <EmojiEventsOutlinedIcon
                         style={{ paddingRight: "10px" }}
@@ -533,7 +527,7 @@ const Profile = () => {
                     <Grid item xs={3} md={3} className="circular">
                       <Typography
                         style={{
-                          margin: "9px 0",
+                          margin: "9px 10px 9px 0",
                           display: "block",
                           textAlign: "left",
                         }}
@@ -544,7 +538,7 @@ const Profile = () => {
                     </Grid>
                     <Grid
                       item
-                      xs={3}
+                      xs={2}
                       md={3}
                       style={{ paddingRight: "0", textAlign: "right" }}
                     >
@@ -557,7 +551,7 @@ const Profile = () => {
                         />
                       )}
                     </Grid>
-                    <Grid item xs={3} md={3}>
+                    <Grid item xs={4} md={3}>
                       <Typography
                         variant="h7"
                         style={{
@@ -579,6 +573,7 @@ const Profile = () => {
                     // onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
+                    className="xs-w-300"
                     open={isEditing}
                     onClose={handleCloseEditDialog}
                   >
@@ -743,6 +738,7 @@ const Profile = () => {
                 aria-describedby="modal-modal-description"
                 isableEscapeKeyDown={!isEmptyPreference}
                 open={openModal}
+                className="xs-w-300"
                 onClose={(event, reason) => {
                   if (
                     reason === "backdropClick" ||
@@ -766,23 +762,30 @@ const Profile = () => {
                 </Box>
               </Modal>
 
-              <Box className="grey-bx p-10">
-                <Box className="h4-title d-flex">
-                  <SettingsOutlinedIcon className="pr-5" />
-                  User Preferences
+              <Box className="grey-bx p-10 py-15">
+                <Box className="h4-title d-flex pt-10">
+                  <SettingsOutlinedIcon className="pr-5 fw-400" />
+                  {t("USER_PREFERENCES")}
                 </Box>
                 <Box className="mb-20">
-                  <Box className="h5-title mt-15 mb-10">Domain :{domain}</Box>
-                  <Box className="h5-title">Sub-Domain:{subDomain}</Box>
+                  <Box className="h5-title mt-15 mb-10">
+                    <span className="fw-400"> {t("DOMAIN")} </span> : {domain}
+                  </Box>
+                  <Box className="h5-title">
+                    <span className="fw-400"> {t("SUB_DOMAIN")} </span>:{" "}
+                    {subDomain}
+                  </Box>
+                </Box>
+                <Box className="text-center">
+                  <Button
+                    type="button"
+                    className="custom-btn-primary my-10"
+                    onClick={handleOpenModal}
+                  >
+                    {t("CHANGE_PREFERENCES")}
+                  </Button>
                 </Box>
               </Box>
-              <Button
-                type="button"
-                className="custom-btn-primary my-30"
-                onClick={handleOpenModal}
-              >
-                {t("CHANGE_PREFERENCES")}
-              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={8} lg={8} className="xs-pl-0">

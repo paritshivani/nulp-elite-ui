@@ -115,7 +115,7 @@
       "LOCATION_SEARCH": "data/v1/location/search",
       "TYPE": "user/v1/type/list",
       "VALIDATE_CERTIFICATE": "certreg/v1/certs/validate",
-      "DOWNLOAD_CERTIFICATE": "certreg/v1/certs/download",
+      "DOWNLOAD_CERTIFICATE": "rc/certificate/v1/download",
       "GET_USER_FEED": "user/v1/feed",
       "USER_MIGRATE": "user/v1/migrate",
       "TNC_ACCEPT_LOGIN": "user/v2/accept/tnc",
@@ -410,7 +410,8 @@
       "GET_BLOCK_USER": "/directConnect/get-block-user",
       "BLOCK": "/directConnect/block-user",
       "UNBLOCK": "/directConnect/unblock-user",
-      "UPDATE_CHAT": "/directConnect/update-chat"
+      "UPDATE_CHAT": "/directConnect/update-chat",
+      "GET_BLOCK_USER_LIST": "/directConnect/get-block-user-list"
     }
   }
 }

@@ -26,6 +26,9 @@ import Carousel from "react-multi-carousel";
 import DomainCarousel from "components/domainCarousel";
 import domainWithImage from "../../assets/domainImgForm.json";
 import DrawerFilter from "components/drawerFilter";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 const responsive = {
   superLargeDesktop: {
@@ -76,6 +79,8 @@ const ContentList = (props) => {
   const [globalSearchQuery, setGlobalSearchQuery] = useState(
     location.state?.globalSearchQuery || undefined
   );
+  const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -99,6 +104,16 @@ const ContentList = (props) => {
     fetchData();
   }, [globalSearchQuery]);
 
+  useEffect(() => {
+    if (
+      (location.state?.globalSearchQuery &&
+        location.state?.globalSearchQuery !== globalSearchQuery) ||
+      location.state?.globalSearchQuery === ""
+    ) {
+      setGlobalSearchQuery(location.state?.globalSearchQuery);
+    }
+  }, [location.state?.globalSearchQuery, globalSearchQuery]);
+
   const handleFilterChange = (selectedOptions) => {
     const selectedValues = selectedOptions.map((option) => option.value);
     setFilters({ ...filters, se_gradeleverl: selectedValues });
@@ -107,10 +122,6 @@ const ContentList = (props) => {
   const handlefilter = (selectedOption) => {
     const selectedValue = selectedOption.map((option) => option.value);
     setDomainfilter({ ...domainfilter, se_board: selectedValue });
-  };
-
-  const handleSearch = (query) => {
-    setSearch({ ...search, query });
   };
 
   const fetchData = async () => {
@@ -139,7 +150,7 @@ const ContentList = (props) => {
           se_gradeLevels: filters.se_gradeleverl,
         },
         limit: 20,
-        query: search.query || domainquery || globalSearchQuery,
+        query: search.query || globalSearchQuery,
         offset: 20 * (currentPage - 1),
         sort_by: {
           lastUpdatedOn: "desc",
@@ -284,45 +295,70 @@ const ContentList = (props) => {
     setDomainName(domainName);
     navigate(`/contentList/1`, { state: { domain: query } });
   };
+  const handleSearch = () => {
+    navigate("/contentList/1", {
+      state: { globalSearchQuery: searchQuery },
+    });
+  };
+
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+    console.log("value", event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      fetchData();
+    }
+  };
 
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
+      <Box
+        className="lg-hide header-bg w-40 mr-30"
+        style={{ alignItems: "center", paddingLeft: "23px" }}
+      >
+        <Box className="h1-title px-10 pr-20">{t("EXPLORE")}</Box>
+        <TextField
+          placeholder={t("What do you want to learn today?  ")}
+          variant="outlined"
+          size="small"
+          fullWidth
+          value={searchQuery}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          InputProps={{
+            endAdornment: (
+              <IconButton
+                type="submit"
+                aria-label="search"
+                onClick={handleSearch}
+              >
+                <SearchIcon />
+              </IconButton>
+            ),
+          }}
+        />
+      </Box>
       <Box>
         {domainList && domainList.length > 0 ? (
-          <Carousel
-            swipeable={false}
-            draggable={false}
-            showDots={true}
-            responsive={responsive}
-            ssr={true}
-            infinite={true}
-            autoPlaySpeed={1000}
-            keyBoardControl={true}
-            customTransition="all .5"
-            transitionDuration={500}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["tablet", "mobile"]}
-            dotListClass="custom-dot-list-style"
-            itemClass="carousel-item-padding-40-px"
-          >
-            <DomainCarousel
-              // className={`my-class ${
-              //   activeStates[index] ? "carousel-active-ui" : ""
-              // }`}
-              onSelectDomain={handleDomainFilter}
-              selectedDomainCode={domain}
-              domains={domainList}
-            />
-          </Carousel>
+          <DomainCarousel
+            // className={`my-class ${
+            //   activeStates[index] ? "carousel-active-ui" : ""
+            // }`}
+            onSelectDomain={handleDomainFilter}
+            selectedDomainCode={domain}
+            domains={domainList}
+          />
         ) : (
           <NoResult />
         )}
       </Box>
 
-      <Container maxWidth="xl" role="main" className="allContent">
+      <Container maxWidth="xl" role="main" className="allContent xs-pb-20">
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
         {/* <Box
@@ -347,21 +383,21 @@ const ContentList = (props) => {
           className="d-flex jc-bw mr-20 my-20"
           style={{ alignItems: "center" }}
         >
-          {domainName && (
-            <Box
-              sx={{ marginTop: "10px", alignItems: "center" }}
-              className="d-flex h3-title ml-neg-20"
-            >
-              {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+          <Box
+            sx={{ marginTop: "10px", alignItems: "center" }}
+            className="d-flex h3-title ml-neg-20"
+          >
+            {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+            {domainName && (
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
                 className="text-blueShade2"
               >
                 {domainName}
               </Box>
-            </Box>
-          )}
-          <Link onClick={handleGoBack} className="viewAll">
+            )}
+          </Box>
+          <Link onClick={handleGoBack} className="viewAll xs-hide">
             {t("BACK")}
           </Link>
         </Box>
@@ -400,7 +436,7 @@ const ContentList = (props) => {
                       {data?.content?.map((items, index) => (
                         <Grid
                           item
-                          xs={2}
+                          xs={6}
                           md={6}
                           lg={3}
                           style={{ marginBottom: "10px" }}

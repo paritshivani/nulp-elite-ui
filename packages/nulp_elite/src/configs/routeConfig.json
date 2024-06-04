@@ -1,0 +1,70 @@
+{
+  "ROUTES": {
+    "POFILE_PAGE": {
+      "PROFILE": "/profile"
+    },
+    "ALL_CONTENT_PAGE": {
+      "ALL_CONTENT": "/all"
+    },
+    "CERTIFICATE_PAGE": {
+      "CERTIFICATE": "/certificate"
+    },
+    "LEARNING_HISTORY_PAGE": {
+      "LEARNING_HISTORY": "/learningHistory"
+    },
+    "CONTINUE_LEARNING_PAGE": {
+      "CONTINUE_LEARNING": "/continueLearning"
+    },
+    "HELP_PAGE": {
+      "HELP": "/help"
+    },
+    "ADDCONNECTION_PAGE": {
+      "ADDCONNECTION": "/addConnections"
+    },
+    "DOMAINLIST_PAGE": {
+      "DOMAINLIST": "/domainList"
+    },
+    "CONTENTLIST_PAGE": {
+      "CONTENTLIST": "/contentList",
+      "PAGENUMBER": "/:pageNumber"
+    },
+    "JOIN_COURSE_PAGE": {
+      "JOIN_COURSE": "/joinCourse",
+      "CONTENT_ID": "/:contentId"
+    },
+    "PLAYER_PAGE": {
+      "PLAYER": "/player"
+    },
+    "PDF_PAGE": {
+      "PDF": "/pdf"
+    },
+    "NORESULT_PAGE": {
+      "NORESULT": "/noresult"
+    },
+    "CERTIFICATE_OLD_PAGE": {
+      "CERTIFICATE_OLD": "/certificateOld"
+    },
+    "SIGNUP_PAGE": {
+      "SIGNUP": "/signup"
+    },
+    "TERMS_PAGE": {
+      "TERMS": "/terms"
+    },
+    "OTP_PAGE": {
+      "OTP": "/otp"
+    },
+    "VIEW_ALL_PAGE": {
+      "VIEW_ALL": "/view-all",
+      "CATEGORY": "/:category"
+    },
+    "MESSAGE_PAGE": {
+      "MESSAGE": "/message"
+    },
+    "SELECT_PREFERENCE_PAGE": {
+      "SELECT_PREFERENCE": "/selectPreference"
+    },
+    "CHAT_PAGE": {
+      "CHAT": "/chat"
+    }
+  }
+}

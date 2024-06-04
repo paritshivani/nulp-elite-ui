@@ -89,18 +89,29 @@ export default function DomainCarousel({
     }
   }, [selectedDomainCode]);
 
+  useEffect(() => {
+    console.log("activeStates", activeStates);
+  }, [activeStates]);
+
   // Function to push data to the array
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
   const handleDomainClick = (query, index, name) => {
     setActiveStates(index === activeStates ? null : index);
+    if (index === activeStates) {
+      onSelectDomain(null, null);
+    } else {
+      onSelectDomain(query, name);
+    }
+
     // const newActiveStates = [...activeStates]; // Create a copy of activeStates
     // newActiveStates[index] = !newActiveStates[index]; // Toggle the active state at the clicked index
     // setActiveStates(newActiveStates);
-    onSelectDomain(query, name);
+
     // setIsActive(!isActive);
   };
+
   const handleMouseEnter = (index) => {
     setActiveDomain(index);
   };

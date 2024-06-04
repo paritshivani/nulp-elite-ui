@@ -163,6 +163,7 @@
   "LEARNING_HISTORY": "Learning History",
   "SAVE": "Save",
   "DOMAIN": "Domain",
+  "SUB_DOMAIN": "Sub-Domain",
   "EDIT_PROFILE": "Edit profile",
   "SELECT_PREFERENCE": "Select Preference",
   "JOIN_COURSE_MESSAGE": "Join the course and select any module to start viewing content!",
@@ -211,5 +212,14 @@
   "COMPLETION": "Completion",
   "ASSESSMENT": "Assesment",
   "ENROLLED_ON": "Enrolled On",
-  "BACK_TO_LEARNNG": "Back to Learning"
+  "BACK_TO_LEARNNG": "Back to Learning",
+  "USER_PREFERENCES": "User Preferences",
+  "ADD_NEW_CONNECTION": "Add New Connection",
+  "ADD_NEW": "Add New",
+  "OK": "Ok",
+  "BLOCK_USER_LIST": "Block user list",
+  "ARE_YOU_SURE_YOU_WANT_TO_REJECT_THIS_REQUEST": " Are you sure you want to reject this request?",
+  "ARE_YOU_SURE_YOU_WANT_TO_BLOCK_THIS_USER": "  Are you sure you want to block this user?",
+  "CONNECT_WITH_THEM_TO_GET_INSIGHTS": "Connect with them to get insights on what they do or simply answers to your question!",
+  "NO_RESULT_FOUND": "No result Found"
 }

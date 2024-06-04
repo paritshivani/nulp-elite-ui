@@ -686,14 +686,14 @@ const JoinCourse = () => {
         </Box>
       </Modal>
 
-      <Container maxWidth="xxl" role="main" className="xs-pr-0">
+      <Container maxWidth="xxl" role="main" className="xs-pr-0 xs-pb-20">
         <Grid container spacing={2}>
           <Grid
             item
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container mt-9"
+            className="sm-p-25 left-container mt-9 xs-px-0"
           >
             {/* <Breadcrumbs
             aria-label="breadcrumb"
@@ -713,7 +713,7 @@ const JoinCourse = () => {
             <Grid container spacing={2}>
               <Breadcrumbs
                 aria-label="breadcrumb"
-                className="h6-title my-15 pl-18"
+                className="h6-title mt-15 pl-18"
               >
                 <Link
                   underline="hover"
@@ -745,44 +745,55 @@ const JoinCourse = () => {
                 ></Link>
               </Grid>
             </Grid>
-            <Box className="h3-title"> {userData?.result?.content?.name}</Box>
-            <Box>
-              <Typography
-                variant="h7"
-                style={{
-                  margin: "12px 0 12px 0",
-                  display: "block",
-                  fontSize: "13px",
-                }}
-              >
-                {t("CONTENT_TAGS")}:
-                <Button
-                  size="small"
-                  style={{
-                    color: "#424242",
-                    fontSize: "12px",
-                    margin: "0 10px",
-                  }}
-                  className="bg-blueShade3"
-                >
-                  {courseData?.result?.content?.children[0]?.children[0]?.board}
-                </Button>
-                <Button
-                  size="small"
-                  style={{
-                    color: "#424242",
-                    fontSize: "10px",
-                  }}
-                  className="bg-blueShade3"
-                >
-                  {" "}
-                  {
-                    courseData?.result?.content?.children[0]?.children[0]
-                      .gradeLevel?.[0]
-                  }
-                </Button>
-              </Typography>
+            <Box className="h3-title my-10">
+              {" "}
+              {userData?.result?.content?.name}
             </Box>
+
+            {(courseData?.result?.content?.children[0]?.children[0]?.board ||
+              courseData?.result?.content?.children[0]?.children[0]
+                .gradeLevel?.[0]) && (
+              <Box>
+                <Typography
+                  variant="h7"
+                  style={{
+                    margin: "12px 0 12px 0",
+                    display: "block",
+                    fontSize: "13px",
+                  }}
+                >
+                  {t("CONTENT_TAGS")}:
+                  <Button
+                    size="small"
+                    style={{
+                      color: "#424242",
+                      fontSize: "12px",
+                      margin: "0 10px",
+                    }}
+                    className="bg-blueShade3"
+                  >
+                    {
+                      courseData?.result?.content?.children[0]?.children[0]
+                        ?.board
+                    }
+                  </Button>
+                  <Button
+                    size="small"
+                    style={{
+                      color: "#424242",
+                      fontSize: "10px",
+                    }}
+                    className="bg-blueShade3"
+                  >
+                    {" "}
+                    {
+                      courseData?.result?.content?.children[0]?.children[0]
+                        .gradeLevel?.[0]
+                    }
+                  </Button>
+                </Typography>
+              </Box>
+            )}
             <Box
               style={{
                 background: "#F9FAFC",
@@ -980,7 +991,7 @@ const JoinCourse = () => {
                 </Modal>
               )}
             </div>
-            <Box className="my-20 xs-hide">
+            <Box className="mb-30 xs-hide">
               <FacebookShareButton url={shareUrl} className="pr-5">
                 <FacebookIcon size={32} round={true} />
               </FacebookShareButton>

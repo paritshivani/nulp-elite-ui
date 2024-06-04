@@ -90,7 +90,7 @@ function Header({ globalSearchQuery }) {
         }}
       >
         <Box>
-          <Link href="/domainList" className="pl-18 py-15">
+          <Link href="/all" className="pl-0 py-15">
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
@@ -196,7 +196,7 @@ function Header({ globalSearchQuery }) {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "row",
-                paddingRight: "32px",
+                paddingRight: "15px",
               }}
             >
               {/* <InputLabel id="language-select-label">
@@ -331,7 +331,7 @@ function Header({ globalSearchQuery }) {
             {/* Search Box */}
             <Box
               className="xs-hide d-flex header-bg w-40 mr-30"
-              style={{ alignItems: "center", paddingLeft: "23px" }}
+              style={{ alignItems: "center", paddingLeft: "8px" }}
             >
               <Box className="h1-title px-10 pr-20">{t("EXPLORE")}</Box>
               <TextField
@@ -459,7 +459,7 @@ function Header({ globalSearchQuery }) {
               </Menu>
             </Box>
           </Box>
-          <Box className="lg-hide header-bg" style={{ padding: "10px" }}>
+          {/* <Box className="lg-hide header-bg" style={{ padding: "10px" }}>
             <TextField
               placeholder={t("What do you want to learn today?")}
               variant="outlined"
@@ -474,7 +474,7 @@ function Header({ globalSearchQuery }) {
                 ),
               }}
             />
-          </Box>
+          </Box> */}
         </Container>
       </AppBar>
     </>

@@ -21,25 +21,7 @@ import Alert from "@mui/material/Alert";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
-const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 8,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
-};
+
 const responsiveCard = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -287,59 +269,16 @@ const AllContent = () => {
     <>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      {/* <Box sx={{ background: "#2D2D2D", padding: "20px" }} className="xs-hide">
-        <p
-          style={{
-            fontSize: "20px",
-            fontWeight: "700",
-            color: "#fff",
-            paddingBottom: "5px",
-            margin: "0",
-          }}
-        >
-          {t("EXPLORE_CONTENT_RELATED_TO_YOUR_DOMAIN")}
-        </p>
-        <p
-          style={{
-            fontSize: "16px",
-            fontWeight: "700",
-            color: "#C1C1C1",
-            margin: "0",
-            paddingBottom: "30px",
-          }}
-        >
-          {t("LEARN_FROM_WELL_CURATED")}
-        </p>
-        <SearchBox onSearch={handleSearch} />
-      </Box>  */}
-      {/* <Box sx={{ fontWeight: "600", fontSize: "16px", padding: "10px" }}>
-        {t("FILTER_BY_POPULAR_DOMAIN")}
-      </Box> */}
+
       {domain && (
-        <Carousel
-          swipeable={false}
-          draggable={false}
-          showDots={true}
-          responsive={responsive}
-          ssr={true}
-          infinite={true}
-          autoPlaySpeed={1000}
-          keyBoardControl={true}
-          customTransition="all .5"
-          transitionDuration={500}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          dotListClass="custom-dot-list-style"
-          itemClass="carousel-item-padding-40-px"
-        >
-          <DomainCarousel
-            onSelectDomain={handleDomainFilter}
-            domains={domain}
-          />
-        </Carousel>
+        <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       )}
 
-      <Container maxWidth="xl" role="main" className="pb-30 allContent">
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="pb-30 allContent xs-pb-20"
+      >
         {domainName && (
           <Box
             className="d-flex jc-bw mr-20 my-20"
@@ -382,7 +321,7 @@ const AllContent = () => {
 
             <React.Fragment key={category}>
               <Box
-                className="d-flex mr-20"
+                className="d-flex mr-20 mt-20"
                 style={{
                   justifyContent: "space-between",
                   alignItems: "center",
@@ -391,7 +330,7 @@ const AllContent = () => {
                 <Box
                   style={{
                     display: "inline-block",
-                    margin: "33px 0px 20px",
+                    margin: "25px 0px 20px",
                   }}
                   className="h4-title "
                 >
@@ -427,12 +366,12 @@ const AllContent = () => {
                   transitionDuration={500}
                   containerClass="carousel-container"
                   removeArrowOnDeviceType={["tablet", "mobile"]}
-                  dotListClass="custom-dot-list-style"
-                  itemClass="carousel-item-padding-40-px"
+                  dotListClass="custom-dot-list"
+                  itemClass="carousel-item-padding-40-px allContentList xs-pb-20"
                 >
                   {expandedCategory === category
                     ? items.map((item) => (
-                        <Grid item xs={6} md={6} lg={2} key={item.id}>
+                        <Grid item xs={12} md={6} lg={2} key={item.id}>
                           <BoxCard
                             items={item}
                             onClick={() =>

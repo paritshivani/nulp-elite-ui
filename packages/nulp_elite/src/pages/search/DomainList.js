@@ -28,6 +28,9 @@ import BoxCard from "../../components/Card";
 import SummarizeOutlinedIcon from "@mui/icons-material/SummarizeOutlined";
 import BookmarkAddedOutlinedIcon from "@mui/icons-material/BookmarkAddedOutlined";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -69,7 +72,7 @@ const responsive = {
   },
 };
 
-const DomainList = () => {
+const DomainList = ({ globalSearchQuery }) => {
   const { t } = useTranslation();
   // console.log(data.result.categories.terms.category);
   // const [search, setSearch] = React.useState(true);
@@ -88,6 +91,8 @@ const DomainList = () => {
   const [domain, setDomain] = useState();
   const [popularCourses, setPopularCourses] = useState([]);
   const [recentlyAddedCourses, setRecentlyAddedCourses] = useState([]);
+
+  const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -227,7 +232,9 @@ const DomainList = () => {
           "se_mediums",
           "primaryCategory",
         ],
+
         offset: 0,
+        query: globalSearchQuery || searchQuery,
       },
     };
 
@@ -270,6 +277,7 @@ const DomainList = () => {
     navigate("/contentList/1", { state: { domainquery } });
   };
   const handleDomainFilter = (query, domainName) => {
+    setDomain(query);
     navigate("/contentList/1", {
       state: { domain: query, domainName: domainName },
     });
@@ -362,10 +370,55 @@ const DomainList = () => {
     }
   };
 
+  const onMobileSearch = () => {
+    navigate("/contentList/1", {
+      state: { globalSearchQuery: searchQuery },
+    });
+  };
+
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+    console.log("value", event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      onMobileSearch();
+    }
+  };
+
   return (
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+
+      {/* Search Box */}
+      <Box
+        className="lg-hide d-flex header-bg w-40 mr-30"
+        style={{ alignItems: "center", paddingLeft: "23px" }}
+      >
+        <Box className="h1-title px-10 pr-20">{t("EXPLORE")}</Box>
+        <TextField
+          placeholder={t("What do you want to learn today?  ")}
+          variant="outlined"
+          size="small"
+          fullWidth
+          value={searchQuery}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          InputProps={{
+            endAdornment: (
+              <IconButton
+                type="submit"
+                aria-label="search"
+                onClick={onMobileSearch}
+              >
+                <SearchIcon />
+              </IconButton>
+            ),
+          }}
+        />
+      </Box>
 
       {isMobile ? (
         <Container maxWidth="xl" role="main" className="allContent">
@@ -425,33 +478,17 @@ const DomainList = () => {
           </Box>
         </Container>
       ) : domain ? (
-        <Carousel
-          swipeable={false}
-          draggable={false}
-          showDots={true}
-          responsive={responsive}
-          ssr={true}
-          infinite={true}
-          autoPlaySpeed={1000}
-          keyBoardControl={true}
-          customTransition="all .5"
-          transitionDuration={500}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          dotListClass="custom-dot-list-style"
-          itemClass="carousel-item-padding-40-px"
-        >
-          <DomainCarousel
-            onSelectDomain={handleDomainFilter}
-            domains={domain}
-          />
-        </Carousel>
+        <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
         <div></div>
         // <NoResult />
       )}
 
-      <Container maxWidth="xl" className="xs-pb-20 allContent" role="main">
+      <Container
+        maxWidth="xl"
+        className="xs-pb-20 allContent allContentList"
+        role="main"
+      >
         {error && <Alert severity="error">{error}</Alert>}
 
         <Box textAlign="center">

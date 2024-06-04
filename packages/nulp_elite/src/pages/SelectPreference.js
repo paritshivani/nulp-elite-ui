@@ -395,7 +395,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
       </Box>
       <Box className="d-flex jc-en">
         <Button
-          className="custom-btn-primary my-10 mr-20"
+          className="custom-btn-primary my-10 lg-mr-20"
           onClick={handleSavePreferences}
           disabled={isDisabled}
         >

@@ -23,13 +23,13 @@ body {
   border-radius: 8px;
 }
 .cardCourses {
-  border-radius: 5px, 0px, 0px, 5px;
+  border-radius: 5px 0px 0px 5px;
   color: #15353f;
   padding: 1px 10px;
   font-size: 12px;
   background: #ffd337;
   font-weight: 500;
-  padding: 4px 25px;
+  padding: 5px;
   border-radius: 7px 0 0 6px;
 }
 .cardTitle {
@@ -44,6 +44,7 @@ body {
   -webkit-box-orient: vertical;
   width: 96%;
   text-align: left;
+  height: 67px;
 }
 .oneLineEllipsis {
   z-index: 9999;
@@ -89,6 +90,7 @@ body {
 }
 .MuiBottomNavigation-root {
   justify-content: space-around !important;
+  margin-top: 30px;
 }
 .navigateActive {
   /* background: #004367 !important; */
@@ -109,6 +111,128 @@ body {
   font-size: 14px !important;
 }
 @media (min-width: 320px) {
+  .pt-1 {
+    padding-top: 1px !important;
+  }
+  .pl-0 {
+    padding-left: 0 !important;
+  }
+  .invite-text {
+    font-size: 12px;
+    color: rgb(14, 122, 156);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .pt-10 {
+    padding-top: 10px !important;
+  }
+  .pr-16 {
+    padding-right: 16px !important;
+  }
+  .lg-mr-20 {
+    margin-right: 20px !important;
+  }
+  .circular .MuiTypography-caption {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: #dcab00;
+  }
+  .MuiCardContent-root.profile-cardContent {
+    text-align: left;
+    padding: 0px 8px !important;
+    width: 70%;
+  }
+  .profile {
+    box-shadow: none !important;
+  }
+  .fw-400 {
+    font-weight: 400 !important;
+  }
+  .card-img-container {
+    border-radius: 10px 10px 0 0;
+    left: 21px;
+    position: absolute;
+    text-align: center;
+    top: 40px;
+    z-index: 999;
+  }
+  .card-media {
+    display: block;
+    height: 89px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: relative;
+    background: linear-gradient(
+      45deg,
+      rgba(28, 25, 25, 0.46) 7%,
+      rgba(20, 18, 18, 0.57) 45%
+    );
+  }
+  .card-div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 89px;
+    background: linear-gradient(
+      45deg,
+      rgba(28, 25, 25, 0.29) 7%,
+      rgba(20, 18, 18, 0.09) 45%
+    );
+    z-index: 999;
+    margin: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .chat-hed {
+    display: block !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 200px;
+  }
+  .sendMessag button,
+  .sendMessag fieldset {
+    background: #fff;
+    border: none;
+  }
+  .sendMessag button:hover {
+    background: #fff !important;
+  }
+  .cardLabelEllips {
+    width: 72px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block !important;
+  }
+  .labelOne {
+    background: #dddddd !important;
+    color: #212121 !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    padding: 5px !important;
+    margin: 10px 4px 0 16px !important;
+    border-radius: 5px !important;
+  }
+  button.labelOne:hover {
+    background: #dddddd !important;
+  }
+  .labeltwo {
+    background: #e1f5ff !important;
+    color: #212121 !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    padding: 5px !important;
+    margin: 10px 7px 0 6px !important;
+    border-radius: 5px !important;
+  }
+  button.labeltwo:hover {
+    background: #e1f5ff !important;
+  }
   .addConnectChat .MuiFormControl-fullWidth,
   .jss1 .MuiFormControl-fullWidth {
     width: 92% !important;
@@ -141,7 +265,7 @@ body {
     top: 0;
     left: 0;
     padding: 20px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 5px;
+    box-shadow: none !important;
     outline: none;
     border-radius: 8px;
     width: 90%;
@@ -149,6 +273,14 @@ body {
     height: 64%;
     max-height: 66vh;
     overflow-y: auto;
+  }
+  .contentCreator .jss7 {
+    position: inherit !important;
+    padding: 5px !important;
+    height: 52%;
+    display: inherit;
+    overflow: hidden;
+    background: #fff5e9;
   }
   .preference .MuiListItemText-root {
     display: inline-block !important;
@@ -193,12 +325,61 @@ body {
   }
 }
 @media (max-width: 768px) {
+  .xs-p-0 {
+    padding-top: 0 !important;
+  }
+  .xs-text-left {
+    text-align: left;
+    padding-bottom: 10px;
+  }
+  /* .profile .card-img-container {
+    top: 98px !important;
+  } */
+  .xs-cert-btn {
+    padding: 9px 10px !important;
+    margin-right: 0 !important;
+  }
+
+  .xs-nega-margin {
+    margin: 15px -16px !important;
+  }
+  .xs-px-0 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  /* .allContentList .react-multi-carousel-list {
+    height: 354px;
+  } */
+  .bottom-align {
+    text-align: left !important;
+    position: absolute;
+    bottom: -6px;
+  }
+  .allContentList .cardTitle {
+    height: 65px;
+  }
+
+  /* .react-multi-carousel-item {
+    width: 280px !important;
+  } */
+  .MuiCardContent-root {
+    padding: 16px 16px 0 16px !important;
+  }
+  .labelOne {
+    justify-content: left;
+  }
+  .labeltwo {
+    justify-content: left;
+  }
   /* .cardTitle {
     height: 64px !important;
   } */
   .react-multi-carousel-item.carousel-item-padding-40-px {
-    margin-right: 4px !important;
+    padding-right: 15px !important;
   }
+  /* .cardTitle {
+    height: 65px;
+  } */
   .carousel-active-ui .imgBorder,
   .carousel-active-ui img {
     background: #008bd1 !important;
@@ -250,10 +431,10 @@ body {
     width: 88px !important;
   }
   .rightshade {
-    height: 100px !important;
-    right: -100px !important;
+    height: 77px !important;
+    right: 1px !important;
     top: -4px !important;
-    width: 137px !important;
+    width: 69px !important;
   }
   .sx-bottom {
     bottom: 50px;
@@ -290,14 +471,59 @@ body {
   .container-pb {
     margin-bottom: 105px !important;
   }
-  .xs-p-0 {
-    padding-top: 0 !important;
-  }
+
   .xs-pb-20 {
-    padding-bottom: 20px !important;
+    padding-bottom: 45px !important;
+  }
+  .xs-pb-75 {
+    padding-bottom: 75px !important;
+  }
+  .xs-pt-15 {
+    padding-top: 15px;
+  }
+  .xs-cert-bx {
+    text-align: left;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .xs-shadow-none {
+    box-shadow: none !important;
+  }
+  .xs-w-300 .MuiBox-root {
+    width: 300px !important;
   }
 }
 @media (min-width: 769px) {
+  .lg-mb-20 {
+    margin-bottom: 20px;
+  }
+  .chatIcon {
+    bottom: 173px;
+  }
+  .card-img-container {
+    top: 83px;
+  }
+  .card-media {
+    height: 128px;
+  }
+  .card-div {
+    height: 128px;
+  }
+  .mr-20 {
+    margin-right: 20px !important;
+  }
+  /* .labelOne {
+    padding: 3px 15px !important;
+  }
+  .labeltwo {
+    padding: 7px 15px !important;
+  } */
+  .sm-p-25 {
+    padding: 0 25px;
+  }
+
   .filter-profile .MuiAutocomplete-root {
     width: 34% !important;
     margin-left: 20px;
@@ -369,7 +595,7 @@ body {
 .profile-btn {
   font-size: 17px !important;
   color: rgb(66, 66, 66);
-  padding-right: 25px !important;
+  padding-right: 7px !important;
 }
 .ml-neg-20 {
   margin-left: -20px !important;
@@ -380,9 +606,7 @@ body {
 .mt-9 {
   margin-top: 9px !important;
 }
-.mr-20 {
-  margin-right: 20px !important;
-}
+
 .custom-dot-list-style {
   display: none !important;
 }
@@ -419,7 +643,7 @@ body {
 
 .scrolled {
   position: fixed !important;
-  top: 86px;
+  top: 85px;
   width: 100%;
   z-index: 999999 !important;
   background: #f4fbff;
@@ -437,6 +661,9 @@ body {
 .mb-20 {
   margin-bottom: 20px !important;
 }
+.mb-30 {
+  margin-bottom: 30px !important;
+}
 .mb-15 {
   margin-bottom: 15px !important;
 }
@@ -449,9 +676,6 @@ body {
 }
 .sm-pt-22 {
   padding: 22px 0 0 0;
-}
-.sm-p-25 {
-  padding: 0 25px;
 }
 
 /* .react-multi-carousel-list {
@@ -467,9 +691,7 @@ body {
 .sm-w-700 .MuiDialog-paper {
   width: 62%;
 }
-.chatIcon {
-  bottom: 173px;
-}
+
 .react-multiple-carousel {
   background: #004367 !important;
   border-radius: none !important;
@@ -487,11 +709,11 @@ header {
   border-bottom: solid 1px #fff;
 }
 .MuiCircularProgress-colorPrimary {
-  width: 80px !important;
-  height: 80px !important;
+  width: 50px !important;
+  height: 50px !important;
 }
 .circular .MuiCircularProgress-colorPrimary {
-  color: #f0bdf5;
+  color: #dcab00;
 }
 .custom-button-group {
   display: flex;
@@ -615,7 +837,7 @@ Footer {
   border: 1px solid #d3d3d3;
 }
 .bg-white li {
-  padding: 10px;
+  padding: 6px;
 }
 .filter-domain .MuiOutlinedInput-root,
 .filter-domain .MuiFormControl-fullWidth {
@@ -650,15 +872,15 @@ Footer {
 }
 .custom-btn-default {
   border-radius: 30px !important;
-  color: #0e7a9c !important;
+  color: #004367 !important;
   padding: 10px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
-  border: solid 1px #0e7a9c !important;
+  border: solid 1px #004367 !important;
   background: #fff !important;
 }
 .custom-btn-default:hover {
-  border: solid 1px #0e7a9c !important;
+  border: solid 1px #004367 !important;
   background: #fff !important;
 }
 .custom-btn-danger {
@@ -676,31 +898,17 @@ Footer {
   background: #e02f1d !important;
 }
 .card-img {
-  height: 70px;
-  width: 70px;
+  background: #fff;
+  border: 5px solid #fff;
+  border-radius: 90px;
+  box-shadow: 0 5px 6px 0 #00000040;
+  height: 55px;
   max-width: 100%;
   object-fit: cover;
-  border-radius: 90px;
-  border: solid 5px #fff;
-  padding: 0px;
-  box-shadow: 0px 5px 6px 0px #00000040;
-
-  /* box-shadow: 0px -5px 6px 0px #FFFFFF40; */
+  padding: 0;
+  width: 55px;
 }
-.card-img-container {
-  position: absolute;
-  top: 84px;
-  left: 30px;
-  text-align: center;
-  z-index: 999;
-  /* Water Management */
 
-  border-radius: 10px 10px 0px 0px;
-  /* left: 30px;
-
-    top: 91px; */
-  z-index: 999;
-}
 .my-10 {
   margin: 10px 0;
 }
@@ -727,14 +935,14 @@ Footer {
   border-bottom: solid 3px #004367 !important;
 }
 .dayDisplay {
-  text-align: center;
-  background: #7c7a7a;
-  display: inline-block;
-  margin: 0 auto;
-  color: #fff;
+  background: #dddddd;
   border-radius: 5px;
-  padding: 7px;
+  color: #212121;
+  display: inline-block;
   font-size: 11px;
+  margin: 0 auto;
+  padding: 3px 6px;
+  text-align: center;
 }
 .joinCourse div {
   margin: 10px 0;
@@ -766,13 +974,14 @@ button {
 .alignItems-center {
   align-items: center;
 }
+
 .viewAll {
   border: none !important;
   border-radius: 30px !important;
   color: #000 !important;
   font-size: 12px !important;
   font-weight: 500 !important;
-  padding: 9px 39px !important;
+  padding: 9px 39px;
   text-align: center !important;
   text-decoration: none !important;
   background: #d9d9d9 !important;
@@ -780,32 +989,7 @@ button {
 .viewAll:hover {
   background: #d9d9d9 !important;
 }
-.labelOne {
-  background: #dddddd !important;
-  color: #212121 !important;
-  font-size: 10px !important;
-  font-weight: 400 !important;
-  padding: 7px 15px !important;
-  padding: 3px 15px !important;
-  margin: 10px !important;
-  border-radius: 5px !important;
-}
-.labelOne:hover {
-  background: #dddddd !important;
-}
-.labeltwo {
-  background: #e1f5ff !important;
-  color: #212121 !important;
-  font-size: 10px !important;
-  font-weight: 400 !important;
-  padding: 7px 15px !important;
-  padding: 3px 15px !important;
-  margin: 10px !important;
-  border-radius: 5px !important;
-}
-.labeltwo:hover {
-  background: #e1f5ff !important;
-}
+
 .textLeft {
   text-align: left !important;
 }
@@ -817,7 +1001,7 @@ button {
 .h2-title {
   color: #484848 !important;
   font-size: 20px !important;
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 .h3-title {
   color: #484848 !important;
@@ -827,7 +1011,7 @@ button {
 .h4-title {
   color: #484848 !important;
   font-size: 16px !important;
-  font-weight: 600 !important;
+  font-weight: 600;
 }
 
 .h5-title {
@@ -943,6 +1127,9 @@ button {
 .text-center {
   text-align: center;
 }
+.text-left {
+  text-align: left;
+}
 .left-container {
   border-right: 1px solid #dddddd;
   border-radius: 3px;
@@ -957,11 +1144,12 @@ button {
 }
 .MuiTab-root {
   color: #212121 !important;
-  font-size: 16px !important;
+  font-size: 12px !important;
   font-weight: 500 !important;
-  text-align: center !important;
-  width: 52%;
   padding-left: 0 !important;
+  text-align: center !important;
+  width: 33%;
+  padding: 12px 0px !important;
 }
 .MuiTabs-indicator {
   border-bottom: 4px solid #0e7a9c !important;
@@ -1021,7 +1209,7 @@ custom-chip {
 }
 .left-bx {
   text-align: left;
-  margin: -8px 0 11px 15px;
+  margin: -5px 0 11px 15px;
 }
 .text-grey {
   color: #484848 !important;
@@ -1093,6 +1281,7 @@ custom-chip {
   font-size: 16px !important;
   color: #212121 !important;
   text-align: center !important;
+  font-weight: 500 !important;
 }
 .tab-text.Mui-selected {
   color: #0e7a9c !important;
@@ -1188,7 +1377,7 @@ custom-chip {
   cursor: pointer;
   width: 40px;
   object-fit: "contain";
-  transition: all 3s ease-in-out;
+  /* transition: all 3s ease-in-out; */
 }
 .domainHover:hover {
   /* background-color: #1ea4ce; */

@@ -206,7 +206,7 @@ const CategoryPage = () => {
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       )}
 
-      <Container maxWidth="xl" role="main" className="allContent">
+      <Container maxWidth="xl" role="main" className="allContent xs-pb-20 ">
         {domainName && (
           <Box
             className="d-flex jc-bw mr-20 my-20"
@@ -232,7 +232,7 @@ const CategoryPage = () => {
           </Alert>
         )}
         <Box
-          className="d-flex jc-bw mr-20 my-20 xs-hide"
+          className="d-flex jc-bw mr-20 my-20"
           style={{ alignItems: "center" }}
         >
           <p className="h3-title">{category}</p>

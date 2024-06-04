@@ -18,7 +18,12 @@ cd prod-build && tar -cf ../shiksha-ui.tar . && cd ../
 if [ ! -d "../dist" ]; then
     mkdir ../dist
 fi
-cp -r prod-build/* ../dist/
+if [ ! -d "../dist/webapp" ]; then
+    mkdir ../dist/webapp
+fi
+
+cp -r prod-build/* ../dist/webapp/
+
 find ../dist -type f -name 'index.html' -exec bash -c 'mv "$1" "${1%.html}.ejs" && sed -i "/<body>/s|<body>|&\
   <input type=\"hidden\" id=\"userId\" value=\"<%=userId%>\" />\
   <input type=\"hidden\" id=\"userSid\" value=\"<%=userSid%>\" />\
@@ -46,7 +51,6 @@ find ../dist -type f -name 'index.html' -exec bash -c 'mv "$1" "${1%.html}.ejs" 
   <input type=\"hidden\" id=\"sunbirdDefaultFileSize\" value=\"<%=sunbirdDefaultFileSize%>\" />\
   <input type=\"hidden\" id=\"reportsLocation\" value=\"<%=reportsLocation%>\" />\
   <input type=\"hidden\" id=\"previewCdnUrl\" value=\"<%=previewCdnUrl%>\" />\
-  <input type=\"hidden\" id=\"cdnWorking\" value=\"<%=cdnWorking%>\" />\
   <input type=\"hidden\" id=\"offlineDesktopAppTenant\" value=\"<%=offlineDesktopAppTenant%>\" />\
   <input type=\"hidden\" id=\"offlineDesktopAppVersion\" value=\"<%=offlineDesktopAppVersion%>\" />\
   <input type=\"hidden\" id=\"offlineDesktopAppReleaseDate\" value=\"<%=offlineDesktopAppReleaseDate%>\" />\
@@ -69,3 +73,6 @@ find ../dist -type f -name 'index.html' -exec bash -c 'mv "$1" "${1%.html}.ejs" 
   <input type=\"hidden\" id=\"sunbirdCollectionChildrenLimit\" value=\"<%=sunbirdCollectionChildrenLimit%>\" />\
   <input type=\"hidden\" id=\"uciBotPhoneNumber\" value=\"<%=uciBotPhoneNumber%>\" />\
   |" "${1%.html}.ejs"' _ {} \;
+
+# rm ../dist/webapp/index.ejs  # need to uncomment this line when dev deployment
+cp -r ../dist/webapp/* ../dist/
