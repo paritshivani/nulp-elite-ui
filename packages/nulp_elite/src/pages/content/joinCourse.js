@@ -671,13 +671,13 @@ const JoinCourse = () => {
           <Box className="d-flex jc-en">
             <Button
               onClick={handleDontShareClick}
-              className="custom-btn-primary pr-18"
+              className="custom-btn-default mr-5"
             >
               {t("DONT_SHARE")}
             </Button>
             <Button
               onClick={handleShareClick}
-              className="custom-btn-default"
+              className="custom-btn-primary"
               disabled={!shareEnabled}
             >
               {t("SHARE")}
@@ -686,7 +686,7 @@ const JoinCourse = () => {
         </Box>
       </Modal>
 
-      <Container maxWidth="xxl" role="main" className="xs-pr-0 xs-pb-20">
+      <Container maxWidth="xxl" role="main" className="xs-pr-0 xs-pb-20 mt-12">
         <Grid container spacing={2}>
           <Grid
             item

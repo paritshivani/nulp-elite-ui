@@ -1320,7 +1320,7 @@ const AddConnections = () => {
                 xs={12}
                 md={4}
                 lg={4}
-                className="sm-p-25 left-container mt-2 pr-16 xs-shadow-none"
+                className="sm-p-25 left-container lg-mt-12 pr-16 xs-shadow-none"
               >
                 <Box
                   className="d-flex my-15"
@@ -1497,31 +1497,23 @@ const AddConnections = () => {
                                 onClose={handleCloseModal}
                                 aria-labelledby="modal-title"
                                 aria-describedby="modal-desc"
-                                className="sx-bottom"
                                 sx={{
                                   display: "flex",
                                   justifyContent: "center",
-                                  alignItems: "flex-end",
                                   pt: "10vh",
                                   p: "0",
                                 }}
                               >
                                 <ModalContent sx={{ width: 400 }} style={{}}>
                                   <div style={{ textAlign: "center" }}>
-                                    <h2
-                                      style={{
-                                        fontSize: "14px",
-                                        textAlign: "center",
-                                        padding: "13px",
-                                      }}
-                                    >
+                                    <h2 className="h5-title">
                                       {t("INVITATION_NOT_ACCEPTED")}
                                     </h2>
                                     <Button
                                       onClick={(e) => {
                                         setShowChatModal(false);
                                       }}
-                                      className="custom-btn-primary"
+                                      className="custom-btn-default mb-10"
                                     >
                                       {t("CLOSE")}
                                     </Button>
@@ -1624,9 +1616,6 @@ const AddConnections = () => {
                                     </Link>
 
                                     <Dialog open={open} onClose={handleClose}>
-                                      <DialogTitle>
-                                        {"Are you sure?"}
-                                      </DialogTitle>
                                       <DialogContent>
                                         <DialogContentText>
                                           {t(
@@ -1637,7 +1626,7 @@ const AddConnections = () => {
                                       <DialogActions>
                                         <Button
                                           type="button"
-                                          className="custom-btn-primary"
+                                          className="custom-btn-default"
                                           onClick={handleClose}
                                         >
                                           {t("CANCEL")}
@@ -1733,7 +1722,6 @@ const AddConnections = () => {
                                     {t("UNBLOCK")}
                                   </Link>
                                   <Dialog open={open} onClose={handleClose}>
-                                    <DialogTitle>{"Are you sure?"}</DialogTitle>
                                     <DialogContent>
                                       <DialogContentText>
                                         Are you sure you want to unblock this
@@ -1921,6 +1909,8 @@ const AddConnections = () => {
                   <Box className="text-center">
                     {!selectedChatUser ? (
                       <Box className="center-container">
+                        <img src={require(`../../assets/chat.png`)} />
+
                         <ForumOutlinedIcon style={{ fontSize: "100px" }} />
                         <Box className="demo-chat">
                           {t("START_A_CONVERSATION")}

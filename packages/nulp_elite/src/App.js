@@ -20,7 +20,7 @@ import { useTranslation, initReactI18next } from "react-i18next";
 import i18n from "i18next";
 
 import * as util from "services/utilService";
-import { ChakraProvider } from "@chakra-ui/react";
+// import { ChakraProvider } from "@chakra-ui/react";
 import Profile from "pages/profile/Profile";
 import Certificate from "pages/profile/certificate";
 import FAQPage from "pages/FAQPage";

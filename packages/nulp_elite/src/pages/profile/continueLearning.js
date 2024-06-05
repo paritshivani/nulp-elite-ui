@@ -148,11 +148,7 @@ const ContinueLearning = () => {
         </Box>
         <Box textAlign="center" padding="10">
           <Box>
-            <Grid
-              container
-              spacing={2}
-              style={{ margin: "20px 0", marginBottom: "10px" }}
-            >
+            <Grid container spacing={2}>
               {/* 
               {filteredCourses.map((items) => (
                 <Grid

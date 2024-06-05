@@ -121,7 +121,7 @@ export default function DomainCarousel({
   };
 
   return (
-    <Box style={{ position: "relative" }} className="bg-blue">
+    <Box style={{ position: "relative" }} className="bg-blue mt-9">
       {isMobile ? (
         <>
           <Carousel
@@ -135,7 +135,7 @@ export default function DomainCarousel({
             keyBoardControl={true}
             customTransition="all .5"
             transitionDuration={500}
-            containerClass="carousel-container"
+            containerClass="carousel-container carousel-bx"
             dotListClass="custom-dot-list-style-none"
             itemClass="carousel-item-padding-40-px"
           >
@@ -184,8 +184,6 @@ export default function DomainCarousel({
                 </Box>
               ))}
           </Carousel>
-          <Box className="leftshade"></Box>
-          <Box className="rightshade"></Box>
         </>
       ) : (
         <Box
@@ -222,8 +220,9 @@ export default function DomainCarousel({
                       background: "#fff",
                       padding: "10px",
                       borderRadius: "10px",
-                      height: "45px",
-                      width: "45px",
+                      height: "35px",
+                      width: "35px",
+                      textAlign: "center",
                     }}
                   >
                     {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
@@ -232,7 +231,7 @@ export default function DomainCarousel({
                     <img
                       className="domainHover"
                       src={require(`../assets/domainImgs${domain.image}`)}
-                      style={{ width: "40px", objectFit: "contain" }}
+                      style={{ width: "30px", objectFit: "contain" }}
                       alt={domain.name}
                     />
 

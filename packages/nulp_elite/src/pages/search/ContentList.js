@@ -385,7 +385,7 @@ const ContentList = (props) => {
         >
           <Box
             sx={{ marginTop: "10px", alignItems: "center" }}
-            className="d-flex h3-title ml-neg-20"
+            className="d-flex h3-title"
           >
             {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
             {domainName && (

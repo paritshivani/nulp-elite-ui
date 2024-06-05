@@ -11,7 +11,7 @@ import SimCardDownloadOutlinedIcon from "@mui/icons-material/SimCardDownloadOutl
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import data from "../../assets/certificates.json";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Card from "@mui/material/Card";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
@@ -22,9 +22,7 @@ import Alert from "@mui/material/Alert";
 import ToasterCommon from "../ToasterCommon";
 import { Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import { jsPDF } from "jspdf";
-import { svg2pdf } from "svg2pdf.js";
-import DOMPurify from "dompurify";
+import html2pdf from "html2pdf.js";
 
 const Certificate = () => {
   const { t } = useTranslation();
@@ -101,7 +99,7 @@ const Certificate = () => {
     fetchData();
   }, []);
 
-  const getCertificate = async (template, osid) => {
+  const getCertificate = async (template, osid, certificateName) => {
     setError(null);
     try {
       let config = {
@@ -117,9 +115,33 @@ const Certificate = () => {
       };
 
       const response = await axios.request(config);
-      setSvgData(response.data);
       if (response.data) {
-        await downloadPDF(response.data);
+        setSvgData(response.data);
+        await handleDownloadPdf(certificateName);
+      }
+    } catch (error) {
+      console.error("Error fetching user certificate:", error);
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    }
+  };
+  const getCertificateReport = async (id, certificateName) => {
+    setError(null);
+    try {
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.DOWNLOAD_CERTIFICATE_REPORT}/${id}`,
+        withCredentials: true,
+        headers: {
+          Accept: "image/svg+xml",
+          "Content-Type": "application/json, text/plain",
+        },
+      };
+
+      const response = await axios.request(config);
+      if (response.data) {
+        setSvgData(response.data.result.printUri);
+        await handleDownloadPdf(certificateName);
       }
     } catch (error) {
       console.error("Error fetching user certificate:", error);
@@ -135,41 +157,29 @@ const Certificate = () => {
   const handleGoBack = () => {
     navigate(-1);
   };
-  const downloadPDF = async (svgData) => {
-    // Sanitize the SVG data
-    const cleanSvgData = DOMPurify.sanitize(svgData);
-
-    // Create a temporary div to parse the sanitized SVG data
-    const svgContainer = document.createElement("div");
-    svgContainer.innerHTML = cleanSvgData;
-
-    const svgElement = svgContainer.querySelector("svg");
-    if (!svgElement) {
-      console.error("No SVG element found");
-      return;
+  useEffect(() => {
+    if (svgData.startsWith("data:image/svg+xml,")) {
+      const encodedSvg = svgData.slice("data:image/svg+xml,".length);
+      const decodedSvgContent = decodeURIComponent(encodedSvg);
+      setSvgData(decodedSvgContent);
     }
+  }, [svgData]);
 
-    // Adjust the dimensions of the jsPDF document
-    const width = svgElement.getAttribute("width") || svgElement.clientWidth;
-    const height = svgElement.getAttribute("height") || svgElement.clientHeight;
+  const handleDownloadPdf = async (certificateName) => {
+    const element = svgContainerRef.current;
 
-    const doc = new jsPDF({
-      orientation: "landscape",
-      unit: "pt",
-      format: [width, height],
-    });
+    if (element) {
+      const opt = {
+        margin: 0,
+        filename: `${certificateName}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      };
 
-    // Convert the SVG to PDF using svg2pdf
-    await svg2pdf(svgElement, doc, {
-      xOffset: 0,
-      yOffset: 0,
-      scale: 1,
-    });
-
-    // Save the PDF document
-    doc.save("certificate.pdf");
+      html2pdf().set(opt).from(element).save();
+    }
   };
-
   return (
     <div>
       <Box className="lg-hide">
@@ -179,7 +189,7 @@ const Certificate = () => {
       <Container
         maxWidth="xxl"
         role="main"
-        className="container-pb mb-20  xs-pb-75"
+        className="container-pb mb-20  xs-pb-75 lg-mt-12"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -195,7 +205,7 @@ const Certificate = () => {
           </Box>
           <Box className="d-flex jc-bw alignItems-center lg-mb-20">
             <Box style={{ display: "flex", alignItems: "end" }}>
-              <DescriptionOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
+              <ReceiptLongIcon style={{ paddingRight: "10px" }} />{" "}
               {t("DOWNLOAD_CERTIFICATES")}
             </Box>
             <Link
@@ -269,6 +279,7 @@ const Certificate = () => {
                               alignItems: "end",
                               color: "#1976d2",
                             }}
+                            className="text-green"
                           >
                             <SimCardDownloadOutlinedIcon />
                             <Link
@@ -280,16 +291,25 @@ const Certificate = () => {
                                 display: "block",
                               }}
                               key={certificate._id} // Add key prop
+                              onClick={() => {
+                                getCertificateReport(
+                                  certificate._id,
+                                  certificate._source.data.badge.name
+                                );
+                              }}
                             >
                               {t("CERTIFICATES")}
                             </Link>
+                            <div
+                              ref={svgContainerRef}
+                              dangerouslySetInnerHTML={{ __html: svgData }}
+                            />
                           </Box>
                         </Card>
                       </Grid>
                     ))}
                   {otherCertData.map((certificate) => (
                     <Grid item xs={12} md={4} key={certificate.osid}>
-                      {console.log("77777777777777777777777777", certificate)}
                       <Card
                         sx={{
                           marginTop: "10px",
@@ -352,12 +372,17 @@ const Certificate = () => {
                             onClick={() => {
                               getCertificate(
                                 certificate.templateUrl,
-                                certificate.osid
+                                certificate.osid,
+                                certificate.training.name
                               );
                             }}
                           >
                             {t("CERTIFICATES")}
                           </Link>
+                          <div
+                            ref={svgContainerRef}
+                            dangerouslySetInnerHTML={{ __html: svgData }}
+                          />
                         </Box>
                       </Card>
                     </Grid>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { Box, Heading, Text, Button } from '@chakra-ui/react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import Typography from "@mui/material/Typography";
@@ -394,10 +393,9 @@ const DomainList = ({ globalSearchQuery }) => {
 
       {/* Search Box */}
       <Box
-        className="lg-hide d-flex header-bg w-40 mr-30"
+        className="lg-hide d-flex header-bg"
         style={{ alignItems: "center", paddingLeft: "23px" }}
       >
-        <Box className="h1-title px-10 pr-20">{t("EXPLORE")}</Box>
         <TextField
           placeholder={t("What do you want to learn today?  ")}
           variant="outlined"

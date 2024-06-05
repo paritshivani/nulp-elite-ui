@@ -28,6 +28,7 @@ import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -223,7 +224,7 @@ function Header({ globalSearchQuery }) {
       </Box>
 
       {/* Top Navigation Bar */}
-      <AppBar className="lg-my-10  bg-inherit pos-inherit mt-65">
+      <AppBar className=" bg-inherit pos-inherit mt-65">
         <Container className="p-0">
           <Box className="d-flex">
             <Toolbar
@@ -372,7 +373,7 @@ function Header({ globalSearchQuery }) {
                   padding: "10px",
                 }}
               >
-                <MenuBookOutlinedIcon
+                <HomeIcon
                   style={{ padding: "0 10px", verticalAlign: "middle" }}
                 />
                 {t("Home")}

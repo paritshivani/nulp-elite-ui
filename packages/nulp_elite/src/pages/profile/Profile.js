@@ -13,7 +13,7 @@ import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import TimelapseOutlinedIcon from "@mui/icons-material/TimelapseOutlined";
 import Grid from "@mui/material/Grid";
 import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutlined";
-import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
 import CircularProgressWithLabel from "../../components/CircularProgressWithLabel";
 import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
@@ -33,6 +33,8 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
+import WatchLaterOutlinedIcon from "@mui/icons-material/WatchLaterOutlined";
+import DomainVerificationOutlinedIcon from "@mui/icons-material/DomainVerificationOutlined";
 import {
   Button,
   FormControl,
@@ -413,7 +415,7 @@ const Profile = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container profile mt-2"
+            className="sm-p-25 left-container profile lg-mt-12"
           >
             <Box sx={{ fontSize: "18px", color: "#484848" }}>
               {t("MY_PROFILE")}
@@ -703,17 +705,13 @@ const Profile = () => {
 
                         <Box pt={4} className="d-flex jc-en">
                           <Button
-                            className="custom-btn-primary mr-5"
-                            type="submit"
-                          >
-                            {t("SAVE")}
-                          </Button>
-
-                          <Button
-                            className="custom-btn-default"
+                            className="custom-btn-default mr-5"
                             onClick={handleCloseEditDialog}
                           >
                             {t("CANCEL")}
+                          </Button>
+                          <Button className="custom-btn-primary " type="submit">
+                            {t("SAVE")}
                           </Button>
                         </Box>
                       </form>
@@ -727,7 +725,7 @@ const Profile = () => {
                 onClick={handleCertificateButtonClick}
                 disabled={isButtonDisabled}
               >
-                <ReceiptLongOutlinedIcon className="pr-5" />
+                <ReceiptLongIcon className="pr-5" />
                 {t("Download Certificates")}
               </Button>
 
@@ -802,11 +800,13 @@ const Profile = () => {
                       <Tab
                         label="Continue learning"
                         className="tab-text"
+                        icon={<DomainVerificationOutlinedIcon />}
                         value="1"
                       />
                       <Tab
                         label="Learning History"
                         className="tab-text"
+                        icon={<WatchLaterOutlinedIcon />}
                         value="2"
                         // onClick={handleLearningHistoryClick}
                       />
