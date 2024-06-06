@@ -443,17 +443,32 @@ function Header({ globalSearchQuery }) {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem>
-                  <Link href="/profile" underline="none" textAlign="center">
+                  <Link
+                    href="/profile"
+                    className={activePath === "/profile" ? "Menuactive" : ""}
+                    underline="none"
+                    textAlign="center"
+                  >
                     {t("PROFILE")}
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/help" underline="none" textAlign="center">
+                  <Link
+                    href="/help"
+                    className={activePath === "/help" ? "Menuactive" : ""}
+                    underline="none"
+                    textAlign="center"
+                  >
                     {t("HELP")}
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/logoff" underline="none" textAlign="center">
+                  <Link
+                    href="/logoff"
+                    className={activePath === "/logoff" ? "Menuactive" : ""}
+                    underline="none"
+                    textAlign="center"
+                  >
                     {t("LOGOUT")}
                   </Link>
                 </MenuItem>

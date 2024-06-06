@@ -239,7 +239,7 @@ export default function DomainCarousel({
 
                     {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
                   </Box>
-                  {activeDomain === index && (
+                  {(activeDomain === index || activeStates === index) && (
                     <span className="pl-5">{domain.name}</span>
                     // <Box
                     //   className="domainText"
