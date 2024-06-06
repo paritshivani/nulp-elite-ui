@@ -21,6 +21,13 @@ import Alert from "@mui/material/Alert";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
+import CollectionIcon from "@mui/icons-material/Collections";
+import ResourceIcon from "@mui/icons-material/LibraryBooks";
+import ContentPlaylistIcon from "@mui/icons-material/PlaylistPlay";
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CardMembershipSharpIcon from "@mui/icons-material/CardMembershipSharp";
+const routeConfig = require("../../configs/routeConfig.json");
 
 const responsiveCard = {
   superLargeDesktop: {
@@ -39,6 +46,19 @@ const responsiveCard = {
     breakpoint: { max: 464, min: 0 },
     items: 2,
   },
+};
+const iconMapping = {
+  Collection: CollectionIcon,
+  Resource: ResourceIcon,
+  "Content Playlist": ContentPlaylistIcon,
+  Course: CardMembershipSharpIcon,
+  "Course Assessment": SummarizeOutlinedIcon,
+  "Explanation Content": ContentCopyIcon,
+  "Learning Resource": LocalLibraryIcon,
+  "Lesson Plan Unit": SummarizeOutlinedIcon,
+  "Practice Question Set": SummarizeOutlinedIcon,
+  LessonPlan: SummarizeOutlinedIcon,
+  "Course Unit": LocalLibraryIcon,
 };
 
 const AllContent = () => {
@@ -199,12 +219,10 @@ const AllContent = () => {
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
       const response = await frameworkService.getChannel(url, headers);
-      // console.log("channel---",response.data.result);
       setChannelData(response.data.result);
     } catch (error) {
       console.log("error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-    } finally {
     }
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
@@ -258,9 +276,13 @@ const AllContent = () => {
   const handleCardClick = (item, courseType) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId: item.identifier } });
-      navigate(`/joinCourse/${item.identifier}`);
+      navigate(
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${item.identifier}`
+      );
     } else {
-      navigate("/player", { state: { content: item } });
+      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
+        state: { content: item },
+      });
       // navigate("/player");
     }
   };
@@ -316,90 +338,92 @@ const AllContent = () => {
               acc[item.primaryCategory].push(item);
               return acc;
             }, {})
-          ).map(([category, items]) => (
-            // console.log(data,"hi"),
-
-            <React.Fragment key={category}>
-              <Box
-                className="d-flex mr-20 mt-20"
-                style={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
+          ).map(([category, items]) => {
+            const IconComponent =
+              iconMapping[category] || SummarizeOutlinedIcon;
+            return (
+              <React.Fragment key={category}>
                 <Box
+                  className="d-flex mr-20 mt-20"
                   style={{
-                    display: "inline-block",
-                    margin: "25px 0px 20px",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
-                  className="h4-title "
                 >
-                  <SummarizeOutlinedIcon style={{ verticalAlign: "top" }} />{" "}
                   <Box
                     style={{
                       display: "inline-block",
+                      margin: "25px 0px 20px",
                     }}
-                    className="h3-title"
+                    className="h4-title "
                   >
-                    {category}{" "}
-                  </Box>{" "}
+                    <IconComponent style={{ verticalAlign: "top" }} />{" "}
+                    <Box
+                      style={{
+                        display: "inline-block",
+                      }}
+                      className="h3-title"
+                    >
+                      {category}{" "}
+                    </Box>{" "}
+                  </Box>
+                  <Box>
+                    {items?.length > 4 && (
+                      <Link to={`/view-all/${category}`} className="viewAll">
+                        {t("VIEW_ALL")}
+                      </Link>
+                    )}
+                  </Box>
                 </Box>
-                <Box>
-                  {items?.length > 4 && (
-                    <Link to={`/view-all/${category}`} className="viewAll">
-                      {t("VIEW_ALL")}
-                    </Link>
-                  )}
-                </Box>
-              </Box>
-              {isMobile ? (
-                <Carousel
-                  swipeable={false}
-                  draggable={false}
-                  showDots={true}
-                  responsive={responsiveCard}
-                  ssr={true}
-                  infinite={true}
-                  autoPlaySpeed={1000}
-                  keyBoardControl={true}
-                  customTransition="all .5"
-                  transitionDuration={500}
-                  containerClass="carousel-container"
-                  removeArrowOnDeviceType={["tablet", "mobile"]}
-                  dotListClass="custom-dot-list"
-                  itemClass="carousel-item-padding-40-px allContentList xs-pb-20"
-                >
-                  {expandedCategory === category
-                    ? items.map((item) => (
-                        <Grid item xs={12} md={6} lg={2} key={item.id}>
-                          <BoxCard
-                            items={item}
-                            onClick={() =>
-                              handleCardClick(item, item.primaryCategory)
-                            }
-                          ></BoxCard>
-                        </Grid>
-                      ))
-                    : items.slice(0, 4).map((item) => (
-                        <Grid item xs={6} md={6} lg={2} key={item.id}>
-                          <BoxCard
-                            items={item}
-                            onClick={() =>
-                              handleCardClick(item, item.primaryCategory)
-                            }
-                          ></BoxCard>
-                        </Grid>
-                      ))}
-                </Carousel>
-              ) : (
-                <Grid container spacing={2}>
-                  {expandedCategory === category
-                    ? renderItems(items, category)
-                    : renderItems(items.slice(0, 5), category)}
-                </Grid>
-              )}
-            </React.Fragment>
-          ))}
+                {isMobile ? (
+                  <Carousel
+                    swipeable={false}
+                    draggable={false}
+                    showDots={true}
+                    responsive={responsiveCard}
+                    ssr={true}
+                    infinite={true}
+                    autoPlaySpeed={1000}
+                    keyBoardControl={true}
+                    customTransition="all .5"
+                    transitionDuration={500}
+                    containerClass="carousel-container"
+                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                    dotListClass="custom-dot-list"
+                    itemClass="carousel-item-padding-40-px allContentList xs-pb-20"
+                  >
+                    {expandedCategory === category
+                      ? items.map((item) => (
+                          <Grid item xs={12} md={6} lg={2} key={item.id}>
+                            <BoxCard
+                              items={item}
+                              onClick={() =>
+                                handleCardClick(item, item.primaryCategory)
+                              }
+                            ></BoxCard>
+                          </Grid>
+                        ))
+                      : items.slice(0, 4).map((item) => (
+                          <Grid item xs={6} md={6} lg={2} key={item.id}>
+                            <BoxCard
+                              items={item}
+                              onClick={() =>
+                                handleCardClick(item, item.primaryCategory)
+                              }
+                            ></BoxCard>
+                          </Grid>
+                        ))}
+                  </Carousel>
+                ) : (
+                  <Grid container spacing={2}>
+                    {expandedCategory === category
+                      ? renderItems(items, category)
+                      : renderItems(items.slice(0, 5), category)}
+                  </Grid>
+                )}
+              </React.Fragment>
+            );
+          })}
       </Container>
       <FloatingChatIcon />
       <Footer />

@@ -192,9 +192,11 @@ const CategoryPage = () => {
 
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
-      navigate(`/joinCourse/${contentId}`);
+      navigate(
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+      );
     } else {
-      navigate("/player");
+      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
     }
   };
 

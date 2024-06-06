@@ -26,6 +26,7 @@ import Carousel from "react-multi-carousel";
 import DomainCarousel from "components/domainCarousel";
 import domainWithImage from "../../assets/domainImgForm.json";
 import DrawerFilter from "components/drawerFilter";
+const routeConfig = require("../../configs/routeConfig.json");
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -193,7 +194,9 @@ const ContentList = (props) => {
       setPageNumber(value);
       setCurrentPage(value);
       setData({});
-      navigate(`/contentList/${value}`, { state: { domain: domain } });
+      navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/${value}`, {
+        state: { domain: domain },
+      });
       // fetchData();
     }
   };
@@ -281,9 +284,11 @@ const ContentList = (props) => {
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
-      navigate(`/joinCourse/${contentId}`);
+      navigate(
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+      );
     } else {
-      navigate("/player");
+      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
     }
   };
 
@@ -293,7 +298,9 @@ const ContentList = (props) => {
     setCurrentPage(1);
     setData({});
     setDomainName(domainName);
-    navigate(`/contentList/1`, { state: { domain: query } });
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+      state: { domain: query },
+    });
   };
   const handleSearch = () => {
     navigate("/contentList/1", {

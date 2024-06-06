@@ -50,6 +50,8 @@ import {
   TwitterIcon,
 } from "react-share";
 import AddConnections from "pages/connections/AddConnections";
+const routeConfig = require("../../configs/routeConfig.json");
+
 const JoinCourse = () => {
   const { t } = useTranslation();
   const [courseData, setCourseData] = useState();
@@ -249,7 +251,7 @@ const JoinCourse = () => {
     } else if (!isMobile && chat[0]?.is_accepted == true) {
       setOpen(true);
     } else {
-      navigate("/chat", {
+      navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.CHAT, {
         state: { senderUserId: _userId, receiverUserId: creatorId },
       });
     }
@@ -269,7 +271,9 @@ const JoinCourse = () => {
   };
 
   const handleLinkClick = () => {
-    navigate("/player", { state: { content: courseData.result.content } });
+    navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
+      state: { content: courseData.result.content },
+    });
   };
 
   const handleSnackbarClose = (event, reason) => {

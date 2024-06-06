@@ -19,6 +19,7 @@ const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
 import BoxCard from "components/Card";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+const routeConfig = require("../../configs/routeConfig.json");
 
 const LearningHistory = () => {
   const { t } = useTranslation();
@@ -113,7 +114,9 @@ const LearningHistory = () => {
                       items={course}
                       index={courseData.result.courses.length}
                       onClick={() =>
-                        navigate(`/joinCourse/${course.content.identifier}`)
+                        navigate(
+                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${course.content.identifier}`
+                        )
                       }
                     />
                   </Grid>

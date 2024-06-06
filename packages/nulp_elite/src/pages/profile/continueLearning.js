@@ -19,6 +19,7 @@ import Alert from "@mui/material/Alert";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
+const routeConfig = require("../../configs/routeConfig.json");
 
 const ContinueLearning = () => {
   const { t } = useTranslation();
@@ -121,9 +122,11 @@ const ContinueLearning = () => {
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
-      navigate(`/joinCourse/${contentId}`);
+      navigate(
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+      );
     } else {
-      navigate("/player");
+      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
     }
   };
   return (
