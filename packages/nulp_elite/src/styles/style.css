@@ -913,7 +913,7 @@ Footer {
   background: #fff !important;
 }
 .custom-btn-default:hover {
-  border: solid 1px #004367 !important;
+  border: solid 1px #004367;
   background: #fff !important;
 }
 .custom-btn-danger {
@@ -1509,4 +1509,8 @@ header .MuiContainer-maxWidthLg {
 }
 .css-i4urlq:focus-visible {
   outline: 0;
+}
+
+.MuiInputBase-adornedEnd {
+  background: #fff !important;
 }
