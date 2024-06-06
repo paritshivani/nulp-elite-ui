@@ -1476,9 +1476,9 @@ custom-chip {
   text-decoration: none;
 }
 .Menuactive {
-  background: #0e7a9c;
-  padding: 10px;
-  border-radius: 5px;
+  background: #0e7a9c !important;
+  padding: 10px !important;
+  border-radius: 5px !important;
   color: #fff !important;
 }
 .allContent .MuiGrid-item {
