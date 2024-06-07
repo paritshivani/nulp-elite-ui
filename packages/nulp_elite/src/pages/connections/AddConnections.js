@@ -1225,7 +1225,7 @@ const AddConnections = () => {
   };
   const showMessages = (creatorId) => {
     if (isMobile) {
-      navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION.CHAT, {
+      navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.CHAT, {
         state: { senderUserId: loggedInUserId, receiverUserId: creatorId },
       });
     } else {
