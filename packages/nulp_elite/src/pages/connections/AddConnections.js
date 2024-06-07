@@ -1417,7 +1417,6 @@ const AddConnections = () => {
                                   onClick={() => {
                                     showMessages(item.userId);
                                   }}
-                                  className="bg-blue"
                                   style={{
                                     fontWeight:
                                       item.userId === selectedUserId
@@ -1426,6 +1425,10 @@ const AddConnections = () => {
                                     color:
                                       item.userId === selectedUserId
                                         ? "black"
+                                        : "inherit",
+                                    backgroundColor:
+                                      item.userId === selectedUserId
+                                        ? "#f4fbff"
                                         : "inherit",
                                   }}
                                 >
@@ -1664,7 +1667,6 @@ const AddConnections = () => {
                                 key={item.userId}
                               >
                                 <ListItem
-                                  className="bg-blue"
                                   style={{
                                     fontWeight: "normal",
                                     color: "inherit",
