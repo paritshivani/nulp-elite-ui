@@ -401,13 +401,14 @@ const DomainList = ({ globalSearchQuery }) => {
       {/* Search Box */}
       <Box
         className="lg-hide d-flex header-bg"
-        style={{ alignItems: "center", paddingLeft: "23px" }}
+        style={{ alignItems: "center", paddingLeft: "19px" }}
       >
         <TextField
           placeholder={t("What do you want to learn today?  ")}
           variant="outlined"
           size="small"
           fullWidth
+          className="searchField"
           value={searchQuery}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
