@@ -29,6 +29,9 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import * as util from "../services/utilService";
+const urlConfig = require("../configs/urlConfig.json");
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -44,6 +47,8 @@ function Header({ globalSearchQuery }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const navigate = useNavigate();
+  const _userId = util.userId();
+  const [userData, setUserData] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -63,6 +68,7 @@ function Header({ globalSearchQuery }) {
 
   useEffect(() => {
     setActivePath(location.pathname);
+    fetchData();
   }, [location.pathname]);
 
   const onGlobalSearch = () => {
@@ -78,6 +84,24 @@ function Header({ globalSearchQuery }) {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       onGlobalSearch();
+    }
+  };
+  const fetchData = async () => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
+
+      const header = "application/json";
+      const response = await fetch(url, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+      });
+      const data = await response.json();
+      setUserData(data);
+      const rootOrgId = data.result.response.rootOrgId;
+      sessionStorage.setItem("rootOrgId", rootOrgId);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
   };
 
@@ -426,10 +450,15 @@ function Header({ globalSearchQuery }) {
                   sx={{ p: 0 }}
                   className="profile-btn"
                 >
-                  <AccountCircleOutlinedIcon
-                    style={{ padding: "0 10px", verticalAlign: "middle" }}
-                  />{" "}
-                  {t("PROFILE")}
+                  {userData && (
+                    <>
+                      <div className="img-text-circle">
+                        {userData?.result?.response?.firstName[0]}
+                      </div>
+                      {userData?.result?.response?.firstName}
+                    </>
+                  )}
+                  <ExpandMoreIcon />
                 </IconButton>
               </Tooltip>
               <Menu

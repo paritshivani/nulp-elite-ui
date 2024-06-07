@@ -1434,28 +1434,35 @@ const AddConnections = () => {
                                 >
                                   <ListItemText
                                     primary={
-                                      <span
-                                        style={{
-                                          color:
-                                            item.userId === selectedUserId
-                                              ? "black"
-                                              : item.isRead === false
-                                              ? "black"
-                                              : "black",
-                                          fontWeight:
-                                            item.userId === selectedUserId
-                                              ? "bold"
-                                              : item.isRead === false
-                                              ? "bold"
-                                              : "normal",
-                                        }}
-                                      >
-                                        {`${item.firstName} ${
-                                          item.lastName ? item.lastName : " "
-                                        } |  ${item.designation}`}
+                                      <>
+                                        <span
+                                          style={{
+                                            color:
+                                              item.userId === selectedUserId
+                                                ? "black"
+                                                : item.isRead === false
+                                                ? "black"
+                                                : "black",
+                                            fontWeight:
+                                              item.userId === selectedUserId
+                                                ? "bold"
+                                                : item.isRead === false
+                                                ? "bold"
+                                                : "normal",
+                                          }}
+                                        >
+                                          {`${item.firstName} ${
+                                            item.lastName ? item.lastName : " "
+                                          }`}
+                                        </span>
+                                        <span className="designation">{` |  ${item.designation}`}</span>
+                                      </>
+                                    }
+                                    secondary={
+                                      <span className="designation">
+                                        {item.latestChat}
                                       </span>
                                     }
-                                    secondary={item.latestChat}
                                     onClick={() =>
                                       handleAcceptedChatOpen(
                                         item.userId,
