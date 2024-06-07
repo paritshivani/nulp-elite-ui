@@ -414,7 +414,13 @@ function Header({ globalSearchQuery }) {
               </Link>
 
               {/* User Profile */}
-              <Tooltip>
+              <Tooltip
+                className={
+                  activePath === "/profile" || activePath === "/help"
+                    ? "Menuactive"
+                    : ""
+                }
+              >
                 <IconButton
                   onClick={handleOpenUserMenu}
                   sx={{ p: 0 }}
