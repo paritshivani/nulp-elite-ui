@@ -217,7 +217,7 @@ const CategoryPage = () => {
           >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
-              className="d-flex h3-title ml-neg-20"
+              className="d-flex h3-title"
             >
               {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
               <Box
@@ -246,7 +246,7 @@ const CategoryPage = () => {
 
         <Box textAlign="center">
           <Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className="xs-pb-20">
               {data &&
                 data.map((item) => (
                   <Grid

@@ -776,11 +776,12 @@ const Profile = () => {
                 </Box>
                 <Box className="mb-20">
                   <Box className="h5-title mt-15 mb-10">
-                    <span className="fw-400"> {t("DOMAIN")} </span> : {domain}
+                    <span className="fw-400"> {t("DOMAIN")} </span> :{" "}
+                    <span className="fw-600">{domain}</span>
                   </Box>
                   <Box className="h5-title">
                     <span className="fw-400"> {t("SUB_DOMAIN")} </span>:{" "}
-                    {subDomain}
+                    <span className="fw-600"> {subDomain}</span>
                   </Box>
                 </Box>
                 <Box className="text-center">
@@ -808,13 +809,13 @@ const Profile = () => {
                     >
                       <Tab
                         label="Continue learning"
-                        className="tab-text"
+                        className="tab-text profile-tab"
                         icon={<DomainVerificationOutlinedIcon />}
                         value="1"
                       />
                       <Tab
                         label="Learning History"
-                        className="tab-text"
+                        className="tab-text profile-tab"
                         icon={<WatchLaterOutlinedIcon />}
                         value="2"
                         // onClick={handleLearningHistoryClick}

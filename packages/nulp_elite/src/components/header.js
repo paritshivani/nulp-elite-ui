@@ -2,19 +2,15 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
 import DevicesIcon from "@mui/icons-material/Devices";
 import WebIcon from "@mui/icons-material/Web";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -115,7 +111,7 @@ function Header({ globalSearchQuery }) {
         }}
       >
         <Box>
-          <Link href="/all" className="pl-0 py-15">
+          <Link href="/domainlist" className="pl-0 py-15">
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
@@ -260,7 +256,7 @@ function Header({ globalSearchQuery }) {
               }}
               className="lg-hide lg-mt-10"
             >
-              <Box className="d-flex lg-hide">
+              <Box className="d-flex lg-hide hamberger-icon">
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -452,10 +448,13 @@ function Header({ globalSearchQuery }) {
                 >
                   {userData && (
                     <>
-                      <div className="img-text-circle">
+                      <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
-                      {userData?.result?.response?.firstName}
+                      <div className="text-ellipsis">
+                        {" "}
+                        {userData?.result?.response?.firstName}
+                      </div>{" "}
                     </>
                   )}
                   <ExpandMoreIcon />
