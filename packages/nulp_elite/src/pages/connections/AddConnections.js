@@ -1734,10 +1734,10 @@ const AddConnections = () => {
                                     <DialogActions>
                                       <Button
                                         type="button"
-                                        className="custom-btn-primary"
+                                        className="custom-btn-default"
                                         onClick={handleClose}
                                       >
-                                        Cancel
+                                        {t("CANCEL")}
                                       </Button>
                                       <Button
                                         onClick={() =>
@@ -1747,7 +1747,7 @@ const AddConnections = () => {
                                         className="custom-btn-primary"
                                         autoFocus
                                       >
-                                        OK
+                                        {t("OK")}
                                       </Button>
                                     </DialogActions>
                                   </Dialog>
