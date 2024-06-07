@@ -374,7 +374,7 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <HomeIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                 />
                 {t("Home")}
               </Link>
@@ -391,7 +391,7 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                 />
                 {t("CONTENT")}
               </Link>
@@ -408,7 +408,7 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <ChatOutlinedIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                 />
                 {t("CONNECTIONS")}
               </Link>
@@ -421,7 +421,7 @@ function Header({ globalSearchQuery }) {
                   className="profile-btn"
                 >
                   <AccountCircleOutlinedIcon
-                    style={{ padding: "0 10px", verticalAlign: "middle" }}
+                    style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                   />{" "}
                   {t("PROFILE")}
                 </IconButton>

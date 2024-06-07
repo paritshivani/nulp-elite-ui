@@ -407,7 +407,8 @@ button {
   } */
   .carousel-active-ui .imgBorder,
   .carousel-active-ui img {
-    background: #008bd1 !important;
+    background: #1ea4ce !important;
+    /* filter: brightness(0) invert(1); */
   }
   .react-multi-carousel-list {
     padding-top: 8px !important;
@@ -527,6 +528,12 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .carousel-bx .my-class:hover {
+    background: #1ea4ce;
+    color: #fff;
+    border-radius: 4px;
+    padding: 5px;
+  }
   .header-bg fieldset {
     border-radius: 10px;
   }
@@ -663,12 +670,7 @@ button {
 .carousel-bx .my-class:first-child {
   margin-left: 0 !important;
 }
-.carousel-bx .my-class:hover {
-  background: #1ea4ce;
-  color: #fff;
-  border-radius: 4px;
-  padding: 5px;
-}
+
 .lg-d-flex {
   display: flex;
 }
@@ -689,6 +691,7 @@ button {
   width: 100%;
   z-index: 999999 !important;
   background: #f4fbff;
+  transition: #f4fbff 0.3s ease, top 0.3s ease;
 }
 .preference .MuiSelect-multiple {
   display: flex !important;
