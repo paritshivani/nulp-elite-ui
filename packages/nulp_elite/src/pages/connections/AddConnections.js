@@ -1459,11 +1459,11 @@ const AddConnections = () => {
                                             item.lastName ? item.lastName : " "
                                           }`}
                                         </span>
-                                        <span className="designation">{` |  ${item.designation}`}</span>
+                                        <span className="h6-title ">{` |  ${item.designation}`}</span>
                                       </>
                                     }
                                     secondary={
-                                      <span className="designation">
+                                      <span className="h6-title ">
                                         {item.latestChat}
                                       </span>
                                     }
@@ -1519,7 +1519,7 @@ const AddConnections = () => {
                                   p: "0",
                                 }}
                               >
-                                <ModalContent sx={{ width: 400 }} style={{}}>
+                                <ModalContent sx={{ width: "80%" }}>
                                   <div style={{ textAlign: "center" }}>
                                     <h2 className="h5-title">
                                       {t("INVITATION_NOT_ACCEPTED")}
@@ -2007,7 +2007,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
 };
 
 const ModalContent = styled("div")(
