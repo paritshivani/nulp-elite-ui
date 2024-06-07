@@ -38,6 +38,7 @@ const CategoryPage = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState();
+  const routeConfig = require("../../configs/routeConfig.json");
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
