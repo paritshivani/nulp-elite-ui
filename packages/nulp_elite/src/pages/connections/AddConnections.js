@@ -1285,7 +1285,11 @@ const AddConnections = () => {
     <Box>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Container maxWidth="xxl" role="main" className="pt-0 xs-p-0 xs-pb-75">
+      <Container
+        maxWidth="xxl"
+        role="main"
+        className="pt-0 xs-p-0 xs-pb-75 lg-ml-0"
+      >
         {error && (
           <Alert severity="error" className="my-10">
             {error}
