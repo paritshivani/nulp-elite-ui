@@ -111,6 +111,9 @@ button {
   /* background: #004367 !important; */
   margin: -10px 0 !important;
 }
+.navigateActive .profile-text-circle {
+  background: #0e7a9c;
+}
 .navigateActive svg,
 .navigateActive span {
   color: #0e7a9c !important;
