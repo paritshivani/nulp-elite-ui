@@ -328,7 +328,6 @@ const ContentList = (props) => {
         className="lg-hide header-bg w-40 mr-30"
         style={{ alignItems: "center", paddingLeft: "23px" }}
       >
-        <Box className="h1-title px-10 pr-20">{t("EXPLORE")}</Box>
         <TextField
           placeholder={t("What do you want to learn today?  ")}
           variant="outlined"
@@ -337,6 +336,7 @@ const ContentList = (props) => {
           value={searchQuery}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
+          className="searchField"
           InputProps={{
             endAdornment: (
               <IconButton

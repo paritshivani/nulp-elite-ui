@@ -19,6 +19,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
+const routeConfig = require("../configs/routeConfig.json");
+
 // const styles = {
 //   BottomNavigation: {
 //     width: '100%',
@@ -90,38 +92,57 @@ export default function Footer() {
             onChange={(event, newValue) => setValue(newValue)}
           >
             <BottomNavigationAction
-              onClick={() => navigate("/domainList")}
+              onClick={() =>
+                navigate(routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST)
+              }
               label={t("SEARCH")}
               icon={<SearchSharpIcon />}
               className={
-                location.pathname === "/domainList" ? "navigateActive" : ""
+                location.pathname ===
+                `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
+                  ? "navigateActive"
+                  : ""
               }
             />
             <BottomNavigationAction
-              onClick={() => navigate("/all")}
+              onClick={() =>
+                navigate(routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT)
+              }
               label={t("CONTENTS")}
-              className={location.pathname === "/all" ? "navigateActive" : ""}
+              className={
+                location.pathname ===
+                `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
+                  ? "navigateActive"
+                  : ""
+              }
               icon={<MenuBookOutlinedIcon />}
             />
             <BottomNavigationAction
-              onClick={() => navigate("/addConnections")}
+              onClick={() =>
+                navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION)
+              }
               label={t("CONNECTION")}
               className={
-                location.pathname === "/addConnections" ? "navigateActive" : ""
+                location.pathname ===
+                `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                  ? "navigateActive"
+                  : ""
               }
               icon={<ChatOutlinedIcon />}
             />
             <BottomNavigationAction
-              onClick={() => navigate("/profile")}
+              onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.POFILE)}
               label={t("PROFILE")}
               className={
-                location.pathname === "/profile" ? "navigateActive" : ""
+                location.pathname === `${routeConfig.ROUTES.POFILE_PAGE.POFILE}`
+                  ? "navigateActive"
+                  : ""
               }
               icon={
                 <>
                   {userData && (
                     <>
-                      <div className="profile-text-circle">
+                      <div className="img-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
                     </>
