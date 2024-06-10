@@ -365,7 +365,11 @@ const ContentList = (props) => {
         )}
       </Box>
 
-      <Container maxWidth="xl" role="main" className="allContent xs-pb-20">
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="allContent xs-pb-20  pb-30"
+      >
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
         {/* <Box
@@ -424,7 +428,7 @@ const ContentList = (props) => {
             xs={12}
             md={4}
             lg={9}
-            className="sm-p-25"
+            className="sm-p-25 height-none"
             style={{ paddingTop: "0" }}
           >
             <Box textAlign="center" padding="10">
