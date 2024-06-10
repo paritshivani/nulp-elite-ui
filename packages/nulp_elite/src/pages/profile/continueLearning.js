@@ -135,7 +135,7 @@ const ContinueLearning = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="allContent filter-profile"
+        className="allContent filter-profile allContentlearning"
       >
         {error && (
           <Alert severity="error" className="my-10">

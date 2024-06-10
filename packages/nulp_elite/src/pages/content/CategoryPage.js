@@ -209,7 +209,11 @@ const CategoryPage = () => {
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       )}
 
-      <Container maxWidth="xl" role="main" className="allContent xs-pb-20 ">
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="allContent xs-pb-20 pb-30"
+      >
         {domainName && (
           <Box
             className="d-flex jc-bw mr-20 my-20"

@@ -742,7 +742,7 @@ const JoinCourse = () => {
                 </Link>
               </Breadcrumbs>
 
-              <Grid item xs={4}>
+              {/* <Grid item xs={4}>
                 <Link
                   href="#"
                   style={{
@@ -751,7 +751,7 @@ const JoinCourse = () => {
                     display: "block",
                   }}
                 ></Link>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Box className="h3-title my-10">
               {" "}
@@ -802,6 +802,7 @@ const JoinCourse = () => {
                 </Typography>
               </Box>
             )}
+            <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
               style={{
                 background: "#F9FAFC",
@@ -999,7 +1000,7 @@ const JoinCourse = () => {
                 </Modal>
               )}
             </div>
-            <Box className="mb-30 xs-hide">
+            <Box className="xs-hide">
               <FacebookShareButton url={shareUrl} className="pr-5">
                 <FacebookIcon size={32} round={true} />
               </FacebookShareButton>
@@ -1019,7 +1020,10 @@ const JoinCourse = () => {
             </Box>
           </Grid>
           <Grid item xs={12} md={8} lg={8} className="mb-20 xs-pr-16">
-            <Box style={{ textAlign: "right" }}> {renderActionButton()}</Box>
+            <Box style={{ textAlign: "right" }} className="xs-hide">
+              {" "}
+              {renderActionButton()}
+            </Box>
 
             {/* <Box
               sx={{

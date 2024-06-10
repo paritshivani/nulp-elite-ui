@@ -167,10 +167,16 @@ button {
     margin-right: 20px !important;
   }
   .circular .MuiTypography-caption {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 700;
     text-align: center;
     color: #dcab00;
+  }
+  .circularBlue .MuiTypography-caption {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    color: #065872;
   }
   .MuiCardContent-root.profile-cardContent {
     text-align: left;
@@ -555,6 +561,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .pb-0 {
+    padding-bottom: 0 !important;
+  }
   .lg-ml-0 {
     margin-left: 0 !important;
   }
@@ -575,6 +584,12 @@ button {
   }
   .allContent .MuiGrid-item {
     height: 352px;
+  }
+  .allContentProfile .MuiGrid-item {
+    height: 335px !important;
+  }
+  .allContentlearning .MuiGrid-item {
+    height: 318px !important;
   }
   .lg-mt-12 {
     margin-top: 12px !important;
@@ -757,7 +772,7 @@ button {
 }
 
 .profile-btn:hover {
-  background: #0e7ab0 !important;
+  background: none !important;
 }
 /* .react-multi-carousel-list {
     padding: 20px !important;
@@ -1380,6 +1395,10 @@ custom-chip {
 .bg-blueShade3:hover {
   background: #e3f5ff !important;
 }
+.fs-12 {
+  font-size: 12px !important;
+}
+
 .fs-14 {
   font-size: 14px !important;
 }
