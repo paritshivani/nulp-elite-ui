@@ -49,7 +49,7 @@ export default function BoxCard({ items, index, onClick }) {
           title="green iguana"
         />
         <div onClick={onClick} className="card-div"></div>
-        <CardContent>
+        <CardContent className="pb-0">
           {items.content.primaryCategory && (
             <Typography
               gutterBottom

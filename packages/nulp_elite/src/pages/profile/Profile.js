@@ -534,7 +534,7 @@ const Profile = () => {
                           display: "block",
                           textAlign: "left",
                         }}
-                        className="fs-14 text-yellow"
+                        className="fs-12 text-yellow"
                       >
                         {t("CERTIFICATIONS_RECEIVED")}
                       </Typography>
@@ -543,6 +543,7 @@ const Profile = () => {
                       item
                       xs={2}
                       md={3}
+                      className="circularBlue"
                       style={{ paddingRight: "0", textAlign: "right" }}
                     >
                       {courseData && (
@@ -562,9 +563,12 @@ const Profile = () => {
                           display: "block",
                           textAlign: "left",
                         }}
-                        className="fs-14 text-blueShade0"
+                        className="fs-12 text-blueShade0"
                       >
-                        {t("COURSES_THAN_LAST_MONTH")}
+                        {t("COURSES_THAN")}
+                        <span style={{ color: "#00A2D5" }}>
+                          {t("LAST_MONTH")}
+                        </span>
                       </Typography>
                     </Grid>
                   </Grid>
