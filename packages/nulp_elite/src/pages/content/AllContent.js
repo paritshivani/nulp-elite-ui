@@ -299,7 +299,7 @@ const AllContent = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="pb-30 allContent xs-pb-20"
+        className="pb-30 allContent xs-pb-80"
       >
         {domainName && (
           <Box
@@ -308,7 +308,7 @@ const AllContent = () => {
           >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
-              className="d-flex h3-title ml-neg-20"
+              className="d-flex h3-title"
             >
               {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
               <Box

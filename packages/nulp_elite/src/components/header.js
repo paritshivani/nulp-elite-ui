@@ -2,19 +2,15 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
 import DevicesIcon from "@mui/icons-material/Devices";
 import WebIcon from "@mui/icons-material/Web";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -29,6 +25,9 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import * as util from "../services/utilService";
+const urlConfig = require("../configs/urlConfig.json");
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -44,6 +43,8 @@ function Header({ globalSearchQuery }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const navigate = useNavigate();
+  const _userId = util.userId();
+  const [userData, setUserData] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -63,6 +64,7 @@ function Header({ globalSearchQuery }) {
 
   useEffect(() => {
     setActivePath(location.pathname);
+    fetchData();
   }, [location.pathname]);
 
   const onGlobalSearch = () => {
@@ -80,6 +82,24 @@ function Header({ globalSearchQuery }) {
       onGlobalSearch();
     }
   };
+  const fetchData = async () => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
+
+      const header = "application/json";
+      const response = await fetch(url, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+      });
+      const data = await response.json();
+      setUserData(data);
+      const rootOrgId = data.result.response.rootOrgId;
+      sessionStorage.setItem("rootOrgId", rootOrgId);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   return (
     <>
@@ -91,7 +111,7 @@ function Header({ globalSearchQuery }) {
         }}
       >
         <Box>
-          <Link href="/all" className="pl-0 py-15">
+          <Link href="/domainlist" className="pl-0 py-15">
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
@@ -236,7 +256,7 @@ function Header({ globalSearchQuery }) {
               }}
               className="lg-hide lg-mt-10"
             >
-              <Box className="d-flex lg-hide">
+              <Box className="d-flex lg-hide hamberger-icon">
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -374,7 +394,7 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <HomeIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                 />
                 {t("Home")}
               </Link>
@@ -391,7 +411,7 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                 />
                 {t("CONTENT")}
               </Link>
@@ -408,22 +428,36 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <ChatOutlinedIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                 />
                 {t("CONNECTIONS")}
               </Link>
 
               {/* User Profile */}
-              <Tooltip>
+              <Tooltip
+                className={
+                  activePath === "/profile" || activePath === "/help"
+                    ? "Menuactive"
+                    : ""
+                }
+              >
                 <IconButton
                   onClick={handleOpenUserMenu}
                   sx={{ p: 0 }}
                   className="profile-btn"
                 >
-                  <AccountCircleOutlinedIcon
-                    style={{ padding: "0 10px", verticalAlign: "middle" }}
-                  />{" "}
-                  {t("PROFILE")}
+                  {userData && (
+                    <>
+                      <div className="profile-text-circle">
+                        {userData?.result?.response?.firstName[0]}
+                      </div>
+                      <div className="text-ellipsis">
+                        {" "}
+                        {userData?.result?.response?.firstName}
+                      </div>{" "}
+                    </>
+                  )}
+                  <ExpandMoreIcon />
                 </IconButton>
               </Tooltip>
               <Menu

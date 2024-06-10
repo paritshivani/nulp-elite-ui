@@ -690,14 +690,18 @@ const JoinCourse = () => {
         </Box>
       </Modal>
 
-      <Container maxWidth="xxl" role="main" className="xs-pr-0 xs-pb-20 mt-12">
+      <Container
+        maxWidth="xxl"
+        role="main"
+        className="xs-pr-0 xs-pb-20 lg-mt-12"
+      >
         <Grid container spacing={2}>
           <Grid
             item
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container mt-9 xs-px-0"
+            className="sm-p-25 left-container mt-9 xs-px-0 xs-pl-15"
           >
             {/* <Breadcrumbs
             aria-label="breadcrumb"
@@ -879,11 +883,11 @@ const JoinCourse = () => {
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
                 <ul>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
                     {t("COMPLETION")}
                   </li>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
                     {t("ASSESSMENT")}
                   </li>
@@ -1181,11 +1185,11 @@ const JoinCourse = () => {
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
                 <ul>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
                     {t("COMPLETION")}
                   </li>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
                     {t("ASSESSMENT")}
                   </li>
