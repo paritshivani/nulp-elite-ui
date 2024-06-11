@@ -377,7 +377,7 @@ const DomainList = ({ globalSearchQuery }) => {
   };
 
   const onMobileSearch = () => {
-    navigate("/contentList/1", {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
