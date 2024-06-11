@@ -26,6 +26,7 @@ import Carousel from "react-multi-carousel";
 import DomainCarousel from "components/domainCarousel";
 import domainWithImage from "../../assets/domainImgForm.json";
 import DrawerFilter from "components/drawerFilter";
+const routeConfig = require("../../configs/routeConfig.json");
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -193,7 +194,9 @@ const ContentList = (props) => {
       setPageNumber(value);
       setCurrentPage(value);
       setData({});
-      navigate(`/contentList/${value}`, { state: { domain: domain } });
+      navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/${value}`, {
+        state: { domain: domain },
+      });
       // fetchData();
     }
   };
@@ -281,9 +284,11 @@ const ContentList = (props) => {
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
-      navigate(`/joinCourse/${contentId}`);
+      navigate(
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+      );
     } else {
-      navigate("/player");
+      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
     }
   };
 
@@ -293,7 +298,9 @@ const ContentList = (props) => {
     setCurrentPage(1);
     setData({});
     setDomainName(domainName);
-    navigate(`/contentList/1`, { state: { domain: query } });
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+      state: { domain: query },
+    });
   };
   const handleSearch = () => {
     navigate("/contentList/1", {
@@ -325,7 +332,6 @@ const ContentList = (props) => {
         className="lg-hide header-bg w-40 mr-30"
         style={{ alignItems: "center", paddingLeft: "23px" }}
       >
-        <Box className="h1-title px-10 pr-20">{t("EXPLORE")}</Box>
         <TextField
           placeholder={t("What do you want to learn today?  ")}
           variant="outlined"
@@ -334,6 +340,7 @@ const ContentList = (props) => {
           value={searchQuery}
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
+          className="searchField"
           InputProps={{
             endAdornment: (
               <IconButton
@@ -362,7 +369,11 @@ const ContentList = (props) => {
         )}
       </Box>
 
-      <Container maxWidth="xl" role="main" className="allContent xs-pb-20">
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="allContent xs-pb-20  pb-30"
+      >
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
         {/* <Box
@@ -421,7 +432,7 @@ const ContentList = (props) => {
             xs={12}
             md={4}
             lg={9}
-            className="sm-p-25"
+            className="sm-p-25 height-none"
             style={{ paddingTop: "0" }}
           >
             <Box textAlign="center" padding="10">

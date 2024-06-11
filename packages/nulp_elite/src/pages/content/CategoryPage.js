@@ -38,6 +38,7 @@ const CategoryPage = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState();
+  const routeConfig = require("../../configs/routeConfig.json");
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -192,9 +193,11 @@ const CategoryPage = () => {
 
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
-      navigate(`/joinCourse/${contentId}`);
+      navigate(
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+      );
     } else {
-      navigate("/player");
+      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
     }
   };
 
@@ -206,7 +209,11 @@ const CategoryPage = () => {
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       )}
 
-      <Container maxWidth="xl" role="main" className="allContent xs-pb-20 ">
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="allContent xs-pb-20 pb-30"
+      >
         {domainName && (
           <Box
             className="d-flex jc-bw mr-20 my-20"
@@ -214,7 +221,7 @@ const CategoryPage = () => {
           >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
-              className="d-flex h3-title ml-neg-20"
+              className="d-flex h3-title"
             >
               {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
               <Box
@@ -243,7 +250,7 @@ const CategoryPage = () => {
 
         <Box textAlign="center">
           <Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className="xs-pb-20">
               {data &&
                 data.map((item) => (
                   <Grid

@@ -43,6 +43,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+const routeConfig = require("../../configs/routeConfig.json");
 // Define modal styles
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -1224,7 +1225,7 @@ const AddConnections = () => {
   };
   const showMessages = (creatorId) => {
     if (isMobile) {
-      navigate("/chat", {
+      navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.CHAT, {
         state: { senderUserId: loggedInUserId, receiverUserId: creatorId },
       });
     } else {
@@ -1284,7 +1285,11 @@ const AddConnections = () => {
     <Box>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Container maxWidth="xxl" role="main" className="pt-0 xs-p-0 xs-pb-75">
+      <Container
+        maxWidth="xxl"
+        role="main"
+        className="pt-0 xs-p-0 xs-pb-75 lg-ml-0"
+      >
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -1416,7 +1421,6 @@ const AddConnections = () => {
                                   onClick={() => {
                                     showMessages(item.userId);
                                   }}
-                                  className="bg-blue"
                                   style={{
                                     fontWeight:
                                       item.userId === selectedUserId
@@ -1426,32 +1430,43 @@ const AddConnections = () => {
                                       item.userId === selectedUserId
                                         ? "black"
                                         : "inherit",
+                                    backgroundColor:
+                                      item.userId === selectedUserId
+                                        ? "#f4fbff"
+                                        : "inherit",
                                   }}
                                 >
                                   <ListItemText
                                     primary={
-                                      <span
-                                        style={{
-                                          color:
-                                            item.userId === selectedUserId
-                                              ? "black"
-                                              : item.isRead === false
-                                              ? "black"
-                                              : "black",
-                                          fontWeight:
-                                            item.userId === selectedUserId
-                                              ? "bold"
-                                              : item.isRead === false
-                                              ? "bold"
-                                              : "normal",
-                                        }}
-                                      >
-                                        {`${item.firstName} ${
-                                          item.lastName ? item.lastName : " "
-                                        } |  ${item.designation}`}
+                                      <>
+                                        <span
+                                          style={{
+                                            color:
+                                              item.userId === selectedUserId
+                                                ? "black"
+                                                : item.isRead === false
+                                                ? "black"
+                                                : "black",
+                                            fontWeight:
+                                              item.userId === selectedUserId
+                                                ? "bold"
+                                                : item.isRead === false
+                                                ? "bold"
+                                                : "normal",
+                                          }}
+                                        >
+                                          {`${item.firstName} ${
+                                            item.lastName ? item.lastName : " "
+                                          }`}
+                                        </span>
+                                        <span className="h6-title ">{` |  ${item.designation}`}</span>
+                                      </>
+                                    }
+                                    secondary={
+                                      <span className="h6-title ">
+                                        {item.latestChat}
                                       </span>
                                     }
-                                    secondary={item.latestChat}
                                     onClick={() =>
                                       handleAcceptedChatOpen(
                                         item.userId,
@@ -1504,7 +1519,7 @@ const AddConnections = () => {
                                   p: "0",
                                 }}
                               >
-                                <ModalContent sx={{ width: 400 }} style={{}}>
+                                <ModalContent sx={{ width: "80%" }}>
                                   <div style={{ textAlign: "center" }}>
                                     <h2 className="h5-title">
                                       {t("INVITATION_NOT_ACCEPTED")}
@@ -1663,7 +1678,6 @@ const AddConnections = () => {
                                 key={item.userId}
                               >
                                 <ListItem
-                                  className="bg-blue"
                                   style={{
                                     fontWeight: "normal",
                                     color: "inherit",
@@ -1731,10 +1745,10 @@ const AddConnections = () => {
                                     <DialogActions>
                                       <Button
                                         type="button"
-                                        className="custom-btn-primary"
+                                        className="custom-btn-default"
                                         onClick={handleClose}
                                       >
-                                        Cancel
+                                        {t("CANCEL")}
                                       </Button>
                                       <Button
                                         onClick={() =>
@@ -1744,7 +1758,7 @@ const AddConnections = () => {
                                         className="custom-btn-primary"
                                         autoFocus
                                       >
-                                        OK
+                                        {t("OK")}
                                       </Button>
                                     </DialogActions>
                                   </Dialog>
@@ -1773,6 +1787,7 @@ const AddConnections = () => {
                         onClose={() => {
                           setAutocompleteOpen(false);
                         }}
+                        icon={<CheckCircleOutlineIcon />}
                         options={options}
                         noOptionsText={t("NO_USERS_FOUND")}
                         getOptionLabel={getOptionLabel} // Adjust this based on your API response structure
@@ -1910,8 +1925,6 @@ const AddConnections = () => {
                     {!selectedChatUser ? (
                       <Box className="center-container">
                         <img src={require(`../../assets/chat.png`)} />
-
-                        <ForumOutlinedIcon style={{ fontSize: "100px" }} />
                         <Box className="demo-chat">
                           {t("START_A_CONVERSATION")}
                         </Box>
@@ -1994,7 +2007,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
 };
 
 const ModalContent = styled("div")(

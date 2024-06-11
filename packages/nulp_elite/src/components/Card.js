@@ -49,7 +49,7 @@ export default function BoxCard({ items, index, onClick }) {
           title="green iguana"
         />
         <div onClick={onClick} className="card-div"></div>
-        <CardContent>
+        <CardContent className="pb-0">
           {items.content.primaryCategory && (
             <Typography
               gutterBottom
@@ -171,7 +171,7 @@ export default function BoxCard({ items, index, onClick }) {
             color="#5B5B5B"
             style={{ fontSize: "11px", padding: "10px 0", textAlign: "left" }}
           >
-            <Box>
+            <Box className="cardLabelEllips">
               {items.organisation.length === 1
                 ? items.organisation[0]
                 : `${items.organisation[0]} + ${items.organisation.length - 1}`}

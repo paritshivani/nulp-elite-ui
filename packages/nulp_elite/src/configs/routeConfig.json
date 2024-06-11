@@ -19,7 +19,8 @@
       "HELP": "/help"
     },
     "ADDCONNECTION_PAGE": {
-      "ADDCONNECTION": "/addConnections"
+      "ADDCONNECTION": "/addConnections",
+      "CHAT": "/chat"
     },
     "DOMAINLIST_PAGE": {
       "DOMAINLIST": "/domainList"

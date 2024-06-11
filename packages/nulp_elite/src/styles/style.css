@@ -111,9 +111,12 @@ button {
   /* background: #004367 !important; */
   margin: -10px 0 !important;
 }
+.navigateActive .profile-text-circle {
+  background: #0e7a9c;
+}
 .navigateActive svg,
 .navigateActive span {
-  color: #004367 !important;
+  color: #0e7a9c !important;
 }
 .css-hip9hq-MuiPaper-root-MuiAppBar-root {
   background: #fff !important;
@@ -124,8 +127,24 @@ button {
 .MuiIconButton-sizeMedium {
   color: #484848 !important;
   font-size: 14px !important;
+  padding: 0 !important;
 }
 @media (min-width: 320px) {
+  .height-none .MuiGrid-item {
+    height: inherit !important;
+  }
+  .css-1aj41gs::before {
+    background: none !important;
+  }
+  .MuiAccordionDetails-root ul {
+    padding-left: 16px !important;
+  }
+  .react-multi-carousel-dot button {
+    border: 2px solid #ededed !important;
+  }
+  .cardBox {
+    box-shadow: 0px 4px 4px 0px #00000040 !important;
+  }
   .pt-1 {
     padding-top: 1px !important;
   }
@@ -148,21 +167,30 @@ button {
     margin-right: 20px !important;
   }
   .circular .MuiTypography-caption {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 700;
     text-align: center;
     color: #dcab00;
   }
+  .circularBlue .MuiTypography-caption {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    color: #065872;
+  }
   .MuiCardContent-root.profile-cardContent {
     text-align: left;
     padding: 0px 8px !important;
-    width: 70%;
+    width: 82%;
   }
   .profile {
     box-shadow: none !important;
   }
   .fw-400 {
     font-weight: 400 !important;
+  }
+  .fw-600 {
+    font-weight: 600 !important;
   }
   .card-img-container {
     border-radius: 10px 10px 0 0;
@@ -242,9 +270,10 @@ button {
     font-size: 10px !important;
     font-weight: 400 !important;
     padding: 5px !important;
-    margin: 10px 7px 0 6px !important;
+    margin: 10px 13px 0 6px !important;
     border-radius: 5px !important;
   }
+
   button.labeltwo:hover {
     background: #e1f5ff !important;
   }
@@ -346,6 +375,13 @@ button {
   }
 }
 @media (max-width: 768px) {
+  .joinCourse {
+    position: absolute;
+    top: 0 !important;
+    left: 0 !important;
+    width: inherit !important;
+    transform: none !important;
+  }
   .xs-p-0 {
     padding-top: 0 !important;
   }
@@ -401,9 +437,11 @@ button {
   /* .cardTitle {
     height: 65px;
   } */
-  .carousel-active-ui .imgBorder,
+  .carousel-active-ui .imgBorder {
+    background: #1ea4ce !important;
+  }
   .carousel-active-ui img {
-    background: #008bd1 !important;
+    filter: brightness(0) invert(1);
   }
   .react-multi-carousel-list {
     padding-top: 8px !important;
@@ -438,6 +476,9 @@ button {
   }
   .xs-pl-0 {
     padding-left: 0 !important;
+  }
+  .xs-pl-15 {
+    padding-left: 15px !important;
   }
   .xs-pr-16 {
     padding-right: 16px !important;
@@ -496,6 +537,9 @@ button {
   .xs-pb-20 {
     padding-bottom: 45px !important;
   }
+  .xs-pb-80 {
+    padding-bottom: 80px !important;
+  }
   .xs-pb-75 {
     padding-bottom: 75px !important;
   }
@@ -517,6 +561,36 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .pb-0 {
+    padding-bottom: 0 !important;
+  }
+  .lg-ml-0 {
+    margin-left: 0 !important;
+  }
+  /* .left-container ul {
+    padding: 0 !important;
+  } */
+  .carousel-bx .my-class:hover {
+    background: #1ea4ce;
+    color: #fff;
+    border-radius: 4px;
+    padding: 5px;
+  }
+  .header-bg fieldset {
+    border-radius: 10px;
+  }
+  .allContent .cardBox {
+    flex: 1;
+  }
+  .allContent .MuiGrid-item {
+    height: 352px;
+  }
+  .allContentProfile .MuiGrid-item {
+    height: 335px !important;
+  }
+  .allContentlearning .MuiGrid-item {
+    height: 318px !important;
+  }
   .lg-mt-12 {
     margin-top: 12px !important;
   }
@@ -644,12 +718,7 @@ button {
 .carousel-bx .my-class:first-child {
   margin-left: 0 !important;
 }
-.carousel-bx .my-class:hover {
-  background: #1ea4ce;
-  color: #fff;
-  border-radius: 4px;
-  padding: 5px;
-}
+
 .lg-d-flex {
   display: flex;
 }
@@ -670,6 +739,7 @@ button {
   width: 100%;
   z-index: 999999 !important;
   background: #f4fbff;
+  transition: #f4fbff 0.3s ease, top 0.3s ease;
 }
 .preference .MuiSelect-multiple {
   display: flex !important;
@@ -701,6 +771,9 @@ button {
   padding: 22px 0 0 0;
 }
 
+.profile-btn:hover {
+  background: none !important;
+}
 /* .react-multi-carousel-list {
     padding: 20px !important;
   } */
@@ -850,9 +923,9 @@ Footer {
 .MuiTabPanel-root {
   padding: 0 !important;
 }
-.css-148fdm8:hover {
+/* .css-148fdm8:hover {
   background: none !important;
-}
+} */
 .bg-white {
   background: #fff !important;
   padding: 20px;
@@ -879,9 +952,9 @@ Footer {
 .bio .MuiInputBase-formControl {
   padding: 0 !important;
 }
-.MuiButtonBase-root:hover {
+/* .MuiButtonBase-root:hover {
   background: transparent !important;
-}
+} */
 .custom-btn-primary {
   background: #0e7a9c !important;
   border-radius: 30px !important;
@@ -889,6 +962,7 @@ Footer {
   padding: 10px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
+  border: solid 1px #0e7a9c;
 }
 .custom-btn-primary:hover {
   background: #0e7a9c !important;
@@ -903,7 +977,7 @@ Footer {
   background: #fff !important;
 }
 .custom-btn-default:hover {
-  border: solid 1px #004367 !important;
+  border: solid 1px #004367;
   background: #fff !important;
 }
 .custom-btn-danger {
@@ -1004,7 +1078,7 @@ button {
   color: #000 !important;
   font-size: 12px !important;
   font-weight: 500 !important;
-  padding: 9px 39px;
+  padding: 9px 32px;
   text-align: center !important;
   text-decoration: none !important;
   background: #d9d9d9 !important;
@@ -1162,17 +1236,22 @@ button {
 
   /* height: 65vh; */
 }
-.left-container ul {
-  padding: 0 !important;
+.hamberger-icon svg {
+  width: 1.8em !important;
+  height: 1.8em !important;
 }
+
 .MuiTab-root {
   color: #212121 !important;
   font-size: 12px !important;
   font-weight: 500 !important;
   padding-left: 0 !important;
   text-align: center !important;
-  width: 33%;
+  width: 36%;
   padding: 12px 0px !important;
+}
+.profile-tab.MuiTab-root {
+  width: 51% !important;
 }
 .MuiTabs-indicator {
   border-bottom: 4px solid #0e7a9c !important;
@@ -1212,10 +1291,10 @@ button {
 .pb-30 {
   padding-bottom: 30px;
 }
-.connection-tab span {
+/* .connection-tab span {
   font-size: 14px !important;
   color: #000;
-}
+} */
 .connection-tab p {
   color: #c7c7c7 !important;
   font-size: 12px !important;
@@ -1266,6 +1345,26 @@ custom-chip {
   width: 53px;
   line-height: 1.1 !important;
 }
+.text-ellipsis {
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 112px;
+  padding-left: 3px;
+}
+.profile-text-circle {
+  align-items: center;
+  background-color: #484848;
+  border-radius: 100%;
+  color: #fff;
+  display: flex;
+  font-size: 18px;
+  font-weight: 500;
+  height: 32px;
+  justify-content: center;
+  line-height: 1.1 !important;
+  width: 34px;
+}
 .text-yellow {
   color: #dcab00;
 }
@@ -1296,6 +1395,10 @@ custom-chip {
 .bg-blueShade3:hover {
   background: #e3f5ff !important;
 }
+.fs-12 {
+  font-size: 12px !important;
+}
+
 .fs-14 {
   font-size: 14px !important;
 }
@@ -1308,6 +1411,7 @@ custom-chip {
   padding: 0 !important;
   text-align: center !important;
   padding-top: 10px !important;
+  margin-top: 10px !important;
 }
 .tab-text svg {
   vertical-align: middle;
@@ -1347,7 +1451,7 @@ custom-chip {
   border: none !important;
 }
 .addConnectChat .center-container {
-  transform: translate(0, 80%);
+  transform: translate(0, 52%);
   margin: 0 auto;
   text-align: center;
 }
@@ -1355,9 +1459,11 @@ custom-chip {
 .addConnectChat .jss1 {
   height: inherit !important;
   position: inherit !important;
+  margin-top: 5px;
 }
 .addConnectChat .jss2 {
   background: #ffe6c8 !important;
+  margin-top: 1px;
 }
 .addConnectChat .jss3 {
   background: #fff5e9 !important;
@@ -1466,9 +1572,9 @@ custom-chip {
   text-decoration: none;
 }
 .Menuactive {
-  background: #0e7a9c;
-  padding: 10px;
-  border-radius: 5px;
+  background: #0e7a9c !important;
+  padding: 10px !important;
+  border-radius: 5px !important;
   color: #fff !important;
 }
 .allContent .MuiGrid-item {
@@ -1476,9 +1582,7 @@ custom-chip {
   display: flex;
   flex-direction: column;
 }
-.allContent .cardBox {
-  flex: 1;
-}
+
 .jss1.jss3.MuiTabs-indicator {
   background: transparent !important;
 }
@@ -1501,4 +1605,22 @@ header .MuiContainer-maxWidthLg {
 }
 .css-i4urlq:focus-visible {
   outline: 0;
+}
+
+.MuiInputBase-adornedEnd {
+  background: #fff !important;
+}
+.profile .MuiButtonBase-root:hover {
+  background: rgb(14, 122, 156) !important;
+}
+.searchField fieldset {
+  border-radius: 10px !important;
+}
+.react-multi-carousel-dot--active button {
+  background: rgb(14, 122, 156) !important;
+  border: solid 1px rgb(14, 122, 156) !important;
+}
+.react-multi-carousel-dot button {
+  width: 15px !important;
+  height: 15px !important;
 }

@@ -46,6 +46,7 @@ import {
 import styled from "styled-components";
 import LearningHistory from "./learningHistory";
 import Certificate from "./certificate";
+const routeConfig = require("../../configs/routeConfig.json");
 
 const DELAY = 1500;
 const MAX_CHARS = 500;
@@ -366,16 +367,16 @@ const Profile = () => {
   };
 
   const handleLearningHistoryClick = () => {
-    navigate("/learningHistory");
+    navigate(routeConfig.ROUTES.CONTINUE_LEARNING_PAGE.CONTINUE_LEARNING);
   };
 
   const handleContinueLearningClick = () => {
-    navigate("/continueLearning");
+    navigate(routeConfig.ROUTES.CONTINUE_LEARNING_PAGE.CONTINUE_LEARNIN);
   };
 
   const handleCertificateButtonClick = () => {
     if (isMobile) {
-      navigate("/certificate");
+      navigate(routeConfig.ROUTES.CERTIFICATE_PAGE.CERTIFICATE);
     } else {
       setIsButtonDisabled(true);
       setShowCertificate(true);
@@ -533,7 +534,7 @@ const Profile = () => {
                           display: "block",
                           textAlign: "left",
                         }}
-                        className="fs-14 text-yellow"
+                        className="fs-12 text-yellow"
                       >
                         {t("CERTIFICATIONS_RECEIVED")}
                       </Typography>
@@ -542,6 +543,7 @@ const Profile = () => {
                       item
                       xs={2}
                       md={3}
+                      className="circularBlue"
                       style={{ paddingRight: "0", textAlign: "right" }}
                     >
                       {courseData && (
@@ -561,9 +563,12 @@ const Profile = () => {
                           display: "block",
                           textAlign: "left",
                         }}
-                        className="fs-14 text-blueShade0"
+                        className="fs-12 text-blueShade0"
                       >
-                        {t("COURSES_THAN_LAST_MONTH")}
+                        {t("COURSES_THAN")}
+                        <span style={{ color: "#00A2D5" }}>
+                          {t("LAST_MONTH")}
+                        </span>
                       </Typography>
                     </Grid>
                   </Grid>
@@ -720,10 +725,18 @@ const Profile = () => {
                 )}
               </Box>
               <Button
-                type="buttom"
-                className="my-30 custom-btn-primary"
+                type="button"
+                className="my-30"
                 onClick={handleCertificateButtonClick}
                 disabled={isButtonDisabled}
+                style={{
+                  backgroundColor: isButtonDisabled ? "gray" : "#0E7A9C",
+                  borderRadius: "30px",
+                  color: "#fff",
+                  padding: "10px 25px",
+                  fontWeight: " 500",
+                  fontSize: "12px",
+                }}
               >
                 <ReceiptLongIcon className="pr-5" />
                 {t("Download Certificates")}
@@ -767,11 +780,12 @@ const Profile = () => {
                 </Box>
                 <Box className="mb-20">
                   <Box className="h5-title mt-15 mb-10">
-                    <span className="fw-400"> {t("DOMAIN")} </span> : {domain}
+                    <span className="fw-400"> {t("DOMAIN")} </span> :{" "}
+                    <span className="fw-600">{domain}</span>
                   </Box>
                   <Box className="h5-title">
                     <span className="fw-400"> {t("SUB_DOMAIN")} </span>:{" "}
-                    {subDomain}
+                    <span className="fw-600"> {subDomain}</span>
                   </Box>
                 </Box>
                 <Box className="text-center">
@@ -786,7 +800,7 @@ const Profile = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="xs-pl-0">
+          <Grid item xs={12} md={8} lg={8} className="xs-pl-0 pb-20">
             {showCertificate ? (
               <Certificate />
             ) : (
@@ -799,13 +813,13 @@ const Profile = () => {
                     >
                       <Tab
                         label="Continue learning"
-                        className="tab-text"
+                        className="tab-text profile-tab"
                         icon={<DomainVerificationOutlinedIcon />}
                         value="1"
                       />
                       <Tab
                         label="Learning History"
-                        className="tab-text"
+                        className="tab-text profile-tab"
                         icon={<WatchLaterOutlinedIcon />}
                         value="2"
                         // onClick={handleLearningHistoryClick}

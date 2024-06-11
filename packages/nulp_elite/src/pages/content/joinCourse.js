@@ -50,6 +50,8 @@ import {
   TwitterIcon,
 } from "react-share";
 import AddConnections from "pages/connections/AddConnections";
+const routeConfig = require("../../configs/routeConfig.json");
+
 const JoinCourse = () => {
   const { t } = useTranslation();
   const [courseData, setCourseData] = useState();
@@ -249,7 +251,7 @@ const JoinCourse = () => {
     } else if (!isMobile && chat[0]?.is_accepted == true) {
       setOpen(true);
     } else {
-      navigate("/chat", {
+      navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.CHAT, {
         state: { senderUserId: _userId, receiverUserId: creatorId },
       });
     }
@@ -269,7 +271,9 @@ const JoinCourse = () => {
   };
 
   const handleLinkClick = () => {
-    navigate("/player", { state: { content: courseData.result.content } });
+    navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
+      state: { content: courseData.result.content },
+    });
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -686,14 +690,18 @@ const JoinCourse = () => {
         </Box>
       </Modal>
 
-      <Container maxWidth="xxl" role="main" className="xs-pr-0 xs-pb-20 mt-12">
+      <Container
+        maxWidth="xxl"
+        role="main"
+        className="xs-pr-0 xs-pb-20 lg-mt-12"
+      >
         <Grid container spacing={2}>
           <Grid
             item
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container mt-9 xs-px-0"
+            className="sm-p-25 left-container mt-9 xs-px-0 xs-pl-15"
           >
             {/* <Breadcrumbs
             aria-label="breadcrumb"
@@ -734,7 +742,7 @@ const JoinCourse = () => {
                 </Link>
               </Breadcrumbs>
 
-              <Grid item xs={4}>
+              {/* <Grid item xs={4}>
                 <Link
                   href="#"
                   style={{
@@ -743,7 +751,7 @@ const JoinCourse = () => {
                     display: "block",
                   }}
                 ></Link>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Box className="h3-title my-10">
               {" "}
@@ -794,6 +802,7 @@ const JoinCourse = () => {
                 </Typography>
               </Box>
             )}
+            <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
               style={{
                 background: "#F9FAFC",
@@ -858,7 +867,7 @@ const JoinCourse = () => {
               </Box>
             </Box>
             <Accordion
-              className="xs-hide"
+              className="xs-hide accordionBoxShadow"
               style={{
                 background: "#F9FAFC",
                 borderRadius: "10px",
@@ -869,17 +878,17 @@ const JoinCourse = () => {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
                 id="panel1-header"
-                className="h4-title accordionBoxShadow"
+                className="h4-title"
               >
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
                 <ul>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
                     {t("COMPLETION")}
                   </li>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
                     {t("ASSESSMENT")}
                   </li>
@@ -991,7 +1000,7 @@ const JoinCourse = () => {
                 </Modal>
               )}
             </div>
-            <Box className="mb-30 xs-hide">
+            <Box className="xs-hide">
               <FacebookShareButton url={shareUrl} className="pr-5">
                 <FacebookIcon size={32} round={true} />
               </FacebookShareButton>
@@ -1011,7 +1020,10 @@ const JoinCourse = () => {
             </Box>
           </Grid>
           <Grid item xs={12} md={8} lg={8} className="mb-20 xs-pr-16">
-            <Box style={{ textAlign: "right" }}> {renderActionButton()}</Box>
+            <Box style={{ textAlign: "right" }} className="xs-hide">
+              {" "}
+              {renderActionButton()}
+            </Box>
 
             {/* <Box
               sx={{
@@ -1177,11 +1189,11 @@ const JoinCourse = () => {
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
                 <ul>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
                     {t("COMPLETION")}
                   </li>
-                  <li className="pl-18 h6-title">
+                  <li className="h6-title">
                     {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
                     {t("ASSESSMENT")}
                   </li>
