@@ -66,6 +66,11 @@
     },
     "CHAT_PAGE": {
       "CHAT": "/webapp/chat"
+    },
+    "EVENTS": {
+      "EVENT_LIST": "/allevents",
+      "EVENT_DETAILS": "/eventDetails",
+      "EVENT_ID": "/:eventId"
     }
   }
 }
