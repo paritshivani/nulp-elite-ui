@@ -160,7 +160,7 @@ export default function DomainCarousel({
                       background: "#fff",
                       padding: "10px",
                       borderRadius: "10px",
-                      height: "45px",
+                      height: "38px",
                       width: "45px",
                     }}
                   >
