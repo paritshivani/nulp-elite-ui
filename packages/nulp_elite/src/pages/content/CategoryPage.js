@@ -221,7 +221,7 @@ const CategoryPage = () => {
           >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
-              className="d-flex h3-title"
+              className="d-flex h3-title xs-d-none"
             >
               {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
               <Box
