@@ -16,8 +16,18 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+const urlConfig = require("../configs/urlConfig.json");
+import * as frameworkService from "../services/frameworkService";
 
-const DrawerFilter = () => {
+const DrawerFilter = ({ SelectedFilters }) => {
+  const contentTypeList = ["Courses", "Manuals and SOPs", "Reports"];
+  const [subCategory, setSubCategory] = React.useState();
+  const [selectedContentType, setSelectedContentType] = useState([]);
+  const [selectedSubDomain, setSelectedSubDomain] = useState([]);
+
+  useEffect(() => {
+    fetchDataFramework();
+  }, []);
   const [state, setState] = React.useState({
     left: false,
   });
@@ -50,6 +60,66 @@ const DrawerFilter = () => {
 
     setState({ ...state, [anchor]: open });
   };
+  const showErrorMessage = (msg) => {
+    setToasterMessage(msg);
+    setTimeout(() => {
+      setToasterMessage("");
+    }, 2000);
+    setToasterOpen(true);
+  };
+
+  const fetchDataFramework = async () => {
+    const rootOrgId = sessionStorage.getItem("rootOrgId");
+    const defaultFramework = localStorage.getItem("defaultFramework");
+
+    try {
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const response = await frameworkService.getChannel(url);
+      console.log("user channel---", response);
+    } catch (error) {
+      console.log("error---", error);
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    } finally {
+    }
+    try {
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/
+      ${defaultFramework}?categories=${urlConfig.params.framework}`;
+
+      const response = await frameworkService.getSelectedFrameworkCategories(
+        url
+      );
+
+      setSubCategory(response?.data?.result?.framework?.categories[1].terms);
+    } catch (error) {
+      console.log("nulp--  error-", error);
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    } finally {
+      console.log("nulp finally---");
+    }
+  };
+
+  // Function to handle checkbox change
+  const handleCheckboxChange = (event, item, filterType) => {
+    if (filterType == "contentType") {
+      if (event.target.checked) {
+        // Add item to selectedItems if checked
+        setSelectedContentType((prev) => [...prev, item]);
+      } else {
+        // Remove item from selectedItems if unchecked
+        setSelectedContentType((prev) => prev.filter((i) => i !== item));
+      }
+    } else if (filterType == "subCategory") {
+      if (event.target.checked) {
+        // Add item to selectedItems if checked
+        console.log("item--", item);
+        setSelectedSubDomain((prev) => [...prev, item]);
+      } else {
+        // Remove item from selectedItems if unchecked
+        setSelectedSubDomain((prev) => prev.filter((i) => i !== item));
+      }
+    }
+    SelectedFilters({ selectedContentType, selectedSubDomain });
+  };
   const list = (anchor) => (
     <Box
       className="header-bg-blue p-10 filter-bx"
@@ -66,18 +136,21 @@ const DrawerFilter = () => {
       </Box>
       <Box className="filter-text mt-15">Content Type</Box>
       <List>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel control={<Checkbox />} label="Courses" />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel control={<Checkbox />} label="Manual and SOPs" />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel control={<Checkbox />} label="Courses" />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel control={<Checkbox />} label="Manual and SOPs" />
-        </ListItem>
+        {contentTypeList &&
+          contentTypeList.map((contentType) => (
+            <ListItem className="filter-ul-text">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={(event) =>
+                      handleCheckboxChange(event, contentType, "contentType")
+                    }
+                  />
+                }
+                label={contentType}
+              />
+            </ListItem>
+          ))}
       </List>
       <Box className="filter-text mt-15">Sub-domains</Box>
       <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
@@ -105,130 +178,25 @@ const DrawerFilter = () => {
       renderInput={(params) => <TextField  label="search" />}
     />             */}
       <List>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Energy & green building"
-          />
-        </ListItem>
-        <ListItem className="filter-ul-text">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Disaster Mangement and Resilience"
-          />
-        </ListItem>
+        {subCategory &&
+          subCategory.map((Item) => (
+            <ListItem className="filter-ul-text">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={(event) =>
+                      handleCheckboxChange(event, { Item }, "subCategory")
+                    }
+                    value={Item.name}
+                  />
+                }
+                label={Item.code}
+              />
+            </ListItem>
+          ))}
       </List>
     </Box>
   );
-
   return (
     <>
       {isMobile ? (
@@ -259,24 +227,25 @@ const DrawerFilter = () => {
           </Box>
           <Box className="filter-text mt-15 mb-15">Content Type</Box>
           <List>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel control={<Checkbox />} label="Courses" />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Manual and SOPs"
-              />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel control={<Checkbox />} label="Courses" />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Manual and SOPs"
-              />
-            </ListItem>
+            {contentTypeList &&
+              contentTypeList.map((contentType) => (
+                <ListItem className="filter-ul-text">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(event) =>
+                          handleCheckboxChange(
+                            event,
+                            contentType,
+                            "contentType"
+                          )
+                        }
+                      />
+                    }
+                    label={contentType}
+                  />
+                </ListItem>
+              ))}
           </List>
           <Box className="filter-text mt-15 mb-20">Sub-domains</Box>
           <FormControl>
@@ -304,48 +273,21 @@ const DrawerFilter = () => {
       renderInput={(params) => <TextField  label="search" />}
     />             */}
           <List>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Energy & green building"
-              />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Disaster Mangement and Resilience"
-              />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Environment and Climate"
-              />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Water Management"
-              />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel control={<Checkbox />} label="Skills" />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel control={<Checkbox />} label="Accessibility" />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="General Administration"
-              />
-            </ListItem>
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Safety and Security"
-              />
-            </ListItem>
+            {subCategory &&
+              subCategory.map((item) => (
+                <ListItem className="filter-ul-text">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(event) =>
+                          handleCheckboxChange(event, { item }, "subCategory")
+                        }
+                      />
+                    }
+                    label={item.code}
+                  />
+                </ListItem>
+              ))}
           </List>
         </Box>
       )}

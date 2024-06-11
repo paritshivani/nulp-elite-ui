@@ -42,6 +42,8 @@ import Terms from "pages/terms";
 import SelectPreference from "pages/SelectPreference";
 import Chat from "pages/connections/chat";
 import SampleComponent from "components/SampleComponent";
+import EventList from "pages/events/eventList";
+import EventDetails from "pages/events/eventDetails";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 
@@ -171,6 +173,18 @@ function App() {
       moduleName: "nulp_elite",
       path: routeConfig.ROUTES.CHAT_PAGE.CHAT,
       component: Chat,
+    },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.EVENTS.EVENT_LIST,
+      component: EventList,
+    },
+    {
+      moduleName: "nulp_elite",
+      path:
+        routeConfig.ROUTES.EVENTS.EVENT_DETAILS +
+        routeConfig.ROUTES.EVENTS.EVENT_ID,
+      component: EventDetails,
     },
     {
       moduleName: "nulp_elite",

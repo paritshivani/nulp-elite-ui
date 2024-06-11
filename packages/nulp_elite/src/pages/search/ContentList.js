@@ -318,6 +318,10 @@ const ContentList = (props) => {
       fetchData();
     }
   };
+  // Function to handle data from the child
+  const handlefilterChanges = (data) => {
+    console.log("data---", data);
+  };
 
   return (
     <div>
@@ -421,7 +425,7 @@ const ContentList = (props) => {
             className="sm-p-25 left-container mt-2 xs-hide left-filter"
             style={{ padding: "0" }}
           >
-            <DrawerFilter />
+            <DrawerFilter SelectedFilters={handlefilterChanges} />
           </Grid>
           <Grid
             item
