@@ -200,6 +200,13 @@ button {
     top: 40px;
     z-index: 999;
   }
+  .event-img-container {
+    width: 100px;
+    height: 100px;
+    box-shadow: 0px -5px 6px 0px #ffffff40;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+  }
   .card-media {
     display: block;
     height: 89px;
@@ -334,7 +341,7 @@ button {
     overflow: inherit;
   }
   .react-multiple-carousel__arrow {
-    background: #034569 !important;
+    background: #1ea4ce !important;
     border-radius: 5px !important;
     min-height: 42px !important;
     min-width: 30px !important;
@@ -375,6 +382,9 @@ button {
   }
 }
 @media (max-width: 768px) {
+  .xs-d-none {
+    display: block !important;
+  }
   .joinCourse {
     position: absolute;
     top: 0 !important;
@@ -582,7 +592,7 @@ button {
   .allContent .cardBox {
     flex: 1;
   }
-  .allContent .MuiGrid-item {
+  .allContent .MuiGrid-grid-lg-2 {
     height: 352px;
   }
   .allContentProfile .MuiGrid-item {
@@ -1005,6 +1015,16 @@ Footer {
   padding: 0;
   width: 55px;
 }
+.event-card-img {
+  background: #fff;
+  border: 1px solid #fff;
+  box-shadow: 0 5px 6px 0 #00000040;
+  height: 100px;
+  max-width: 100%;
+  object-fit: cover;
+  padding: 0;
+  width: 100px;
+}
 
 .my-10 {
   margin: 10px 0;
@@ -1123,6 +1143,9 @@ button {
 }
 .h6-title Link {
   color: #484848 !important;
+}
+.fs-12 {
+  font-size: 12px !important;
 }
 .text-heading {
   font-size: 16px;

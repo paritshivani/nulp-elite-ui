@@ -1,0 +1,98 @@
+{
+  "id": "api.search-service.search",
+  "ver": "3.0",
+  "ts": "2024-06-06T09:37:16ZZ",
+  "params": {
+    "resmsgid": "e36bf960-1268-46b8-9d9d-ef72a25cd501",
+    "msgid": null,
+    "err": null,
+    "status": "successful",
+    "errmsg": null
+  },
+  "responseCode": "OK",
+  "result": {
+    "count": 2,
+    "Event": [
+      {
+        "venue": "{\"name\":null}",
+        "code": "108",
+        "registrationStartDate": "2024-03-26",
+        "endDate": "2024-03-30",
+        "credentials": {
+          "enabled": "Yes"
+        },
+        "createdOn": "2024-05-15T09:24:26.670+0000",
+        "objectType": "Event",
+        "primaryCategory": "Event",
+        "registrationEndDate": "2024-03-30",
+        "lastUpdatedOn": "2024-05-15T09:25:47.434+0000",
+        "startTime": "16:53:09+05:30",
+        "contentType": "Event",
+        "trackable": {
+          "enabled": "Yes",
+          "autoBatch": "No"
+        },
+        "onlineProviderData": "{}",
+        "owner": "999",
+        "identifier": "do_11405554742608691218",
+        "IL_SYS_NODE_TYPE": "DATA_NODE",
+        "visibility": "Default",
+        "consumerId": "111c1220-3f1e-4ba2-9de9-5869cfe06662",
+        "eventType": "Online",
+        "graph_id": "domain",
+        "nodeType": "DATA_NODE",
+        "version": 2,
+        "versionKey": "1715765147434",
+        "leafNodesCount": 1,
+        "IL_FUNC_OBJECT_TYPE": "Event",
+        "userConsent": "No",
+        "name": "Event 7th",
+        "endTime": "17:53:09+05:30",
+        "IL_UNIQUE_ID": "do_11405554742608691218",
+        "startDate": "2024-03-26",
+        "node_id": 603326,
+        "status": "Live"
+      },
+      {
+        "code": "103",
+        "registrationStartDate": "2024-04-15",
+        "endDate": "2024-04-19",
+        "credentials": {
+          "enabled": "Yes"
+        },
+        "language": ["English"],
+        "createdOn": "2024-04-19T10:19:23.983+0000",
+        "objectType": "Event",
+        "primaryCategory": "Event",
+        "registrationEndDate": "2024-04-19",
+        "lastUpdatedOn": "2024-04-19T10:20:51.411+0000",
+        "startTime": "16:53:09+05:30",
+        "contentType": "Event",
+        "trackable": {
+          "enabled": "Yes",
+          "autoBatch": "No"
+        },
+        "owner": "10003",
+        "identifier": "do_114037171928899584118",
+        "audience": ["Student"],
+        "IL_SYS_NODE_TYPE": "DATA_NODE",
+        "visibility": "Default",
+        "consumerId": "111c1220-3f1e-4ba2-9de9-5869cfe06662",
+        "eventType": "Online",
+        "graph_id": "domain",
+        "nodeType": "DATA_NODE",
+        "version": 2,
+        "versionKey": "1713522051411",
+        "leafNodesCount": 1,
+        "IL_FUNC_OBJECT_TYPE": "Event",
+        "userConsent": "No",
+        "name": "Event 10th",
+        "endTime": "17:53:09+05:30",
+        "IL_UNIQUE_ID": "do_114037171928899584118",
+        "startDate": "2024-04-19",
+        "node_id": 771564,
+        "status": "Live"
+      }
+    ]
+  }
+}

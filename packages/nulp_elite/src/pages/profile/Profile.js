@@ -562,11 +562,14 @@ const Profile = () => {
                           margin: "9px 0",
                           display: "block",
                           textAlign: "left",
+                          paddingLeft: "7px",
+                          marginRight: "10px",
                         }}
                         className="fs-12 text-blueShade0"
                       >
                         {t("COURSES_THAN")}
-                        <span style={{ color: "#00A2D5" }}>
+
+                        <span style={{ color: "#00A2D5", paddingLeft: "5px" }}>
                           {t("LAST_MONTH")}
                         </span>
                       </Typography>
@@ -774,9 +777,9 @@ const Profile = () => {
               </Modal>
 
               <Box className="grey-bx p-10 py-15">
-                <Box className="h4-title d-flex pt-10">
+                <Box className="h4-title d-flex pt-10 alignItems-center">
                   <SettingsOutlinedIcon className="pr-5 fw-400" />
-                  {t("USER_PREFERENCES")}
+                  <Box>{t("USER_PREFERENCES")}</Box>
                 </Box>
                 <Box className="mb-20">
                   <Box className="h5-title mt-15 mb-10">
