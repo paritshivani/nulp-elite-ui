@@ -223,10 +223,12 @@ const CategoryPage = () => {
               sx={{ marginTop: "10px", alignItems: "center" }}
               className="d-flex h3-title xs-d-none"
             >
-              {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+              <Box className="h3-custom-title">
+                {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+              </Box>
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
-                className="text-blueShade2"
+                className="text-blueShade2 h4-custom"
               >
                 {domainName}
               </Box>
@@ -243,7 +245,7 @@ const CategoryPage = () => {
           style={{ alignItems: "center" }}
         >
           <p className="h3-title">{category}</p>
-          <Link onClick={handleGoBack} className="viewAll mr-20">
+          <Link onClick={handleGoBack} className="viewAll">
             {t("BACK")}
           </Link>
         </Box>

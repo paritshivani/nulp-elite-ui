@@ -402,11 +402,13 @@ const ContentList = (props) => {
             sx={{ marginTop: "10px", alignItems: "center" }}
             className="d-flex h3-title xs-d-none"
           >
-            {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+            <Box className="h3-custom-title">
+              {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+            </Box>
             {domainName && (
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
-                className="text-blueShade2"
+                className="text-blueShade2 h4-custom"
               >
                 {domainName}
               </Box>
