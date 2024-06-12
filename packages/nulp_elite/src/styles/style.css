@@ -239,7 +239,7 @@ button {
   }
   .sendMessag button,
   .sendMessag fieldset {
-    background: #fff;
+    /* background: #fff; */
     border: none;
   }
   .sendMessag button:hover {
