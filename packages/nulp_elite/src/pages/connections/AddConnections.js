@@ -121,6 +121,9 @@ const AddConnections = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [blockedUserList, setBlockedUserList] = useState([]);
   const [blockUserIds, setBlockUserIds] = useState([]);
+  const [openBlock, setOpenBlock] = React.useState(false);
+  const handleUnblockClose = () => setOpenBlock(false);
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -1246,11 +1249,11 @@ const AddConnections = () => {
     setOpen(false);
   };
   const handleUnblockedClick = () => {
-    setOpen(true);
+    setOpenBlock(true);
   };
   const unBlockedUserChat = (userId) => {
     handleUnblockUser(userId);
-    setOpen(false);
+    setOpenBlock(false);
   };
   const handleUnblockUser = async (receiverUserId) => {
     try {
@@ -1687,36 +1690,14 @@ const AddConnections = () => {
                                     primary={
                                       <span
                                         style={{
-                                          color:
-                                            item.userId === selectedUserId
-                                              ? "black"
-                                              : item.isRead === false
-                                              ? "black"
-                                              : "black",
-                                          fontWeight:
-                                            item.userId === selectedUserId
-                                              ? "bold"
-                                              : item.isRead === false
-                                              ? "bold"
-                                              : "normal",
+                                          fontSize: "14px",
+                                          color: "#000",
                                         }}
                                       >
                                         {`${item.firstName} ${
                                           item.lastName ? item.lastName : " "
                                         } |  ${item.designation}`}
                                       </span>
-                                    }
-                                    secondary={item.latestChat}
-                                    onClick={() =>
-                                      handleAcceptedChatOpen(
-                                        item.userId,
-                                        `${item.firstName}${
-                                          item.lastName
-                                            ? ` ${item.lastName}`
-                                            : ""
-                                        }`,
-                                        item.designation
-                                      )
                                     }
                                   />
                                   <Link
@@ -1735,7 +1716,10 @@ const AddConnections = () => {
                                   >
                                     {t("UNBLOCK")}
                                   </Link>
-                                  <Dialog open={open} onClose={handleClose}>
+                                  <Dialog
+                                    open={openBlock}
+                                    onClose={handleClose}
+                                  >
                                     <DialogContent>
                                       <DialogContentText>
                                         Are you sure you want to unblock this
@@ -1746,7 +1730,7 @@ const AddConnections = () => {
                                       <Button
                                         type="button"
                                         className="custom-btn-default"
-                                        onClick={handleClose}
+                                        onClick={handleUnblockClose}
                                       >
                                         {t("CANCEL")}
                                       </Button>
