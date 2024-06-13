@@ -111,7 +111,7 @@ const EventList = (props) => {
     }
   };
   const handleCardClick = (eventId) => {
-    navigate(`/eventDetails/${eventId}`);
+    navigate(`/webapp/eventDetails/${eventId}`);
   };
   // Function to handle data from the child
   const handlefilterChanges = (data) => {
@@ -222,25 +222,14 @@ const EventList = (props) => {
                           spacing={2}
                           style={{ marginBottom: "5px" }}
                         >
-                          {data.map((items, index) => (
-                            <Grid
-                              item
-                              xs={6}
-                              md={6}
-                              lg={6}
-                              style={{ marginBottom: "10px" }}
-                              key={items.identifier}
-                            >
-                              <EventCard
-                                items={items}
-                                index={index}
-                                onClick={() =>
-                                  handleCardClick(items.identifier)
-                                }
-                                // onClick={() => alert("hii")}
-                              ></EventCard>
-                            </Grid>
-                          ))}
+                          <EventCard
+                            items={items}
+                            index={index}
+                            onClick={() =>
+                              handleCardClick("do_11405689580730777611")
+                            }
+                            // onClick={() => alert("hii")}
+                          ></EventCard>
                         </Grid>
                       </TabPanel>
                       <TabPanel value="2" className="mt-15">
