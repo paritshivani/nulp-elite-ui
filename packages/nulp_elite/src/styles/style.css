@@ -399,6 +399,12 @@ button {
   }
 }
 @media (max-width: 768px) {
+  .allContent .cardBox {
+    flex: 1;
+  }
+  .allContent .MuiGrid-grid-xs-6 {
+    height: 309px;
+  }
   .xs-d-none {
     display: block !important;
   }
@@ -1630,7 +1636,7 @@ custom-chip {
   background: #484848 !important;
   border-radius: 0;
   color: #fff;
-  height: 25px !important;
+  height: 24px !important;
   min-width: 20px !important;
   padding: 10px !important;
   margin: 0 !important;
@@ -1719,4 +1725,7 @@ header .MuiContainer-maxWidthLg {
 .react-multi-carousel-dot button {
   width: 15px !important;
   height: 15px !important;
+}
+.MuiPagination-ul {
+  justify-content: end;
 }
