@@ -302,7 +302,7 @@ const AllContent = () => {
       )}
 
       <Container
-        maxWidth="xl"
+        fixed={false}
         role="main"
         className="pb-30 allContent xs-pb-80"
       >
@@ -399,27 +399,29 @@ const AllContent = () => {
                     dotListClass="custom-dot-list"
                     itemClass="carousel-item-padding-40-px allContentList xs-pb-20"
                   >
-                    {expandedCategory === category
-                      ? items.map((item) => (
-                          <Grid item xs={12} md={6} lg={2} key={item.id}>
-                            <BoxCard
-                              items={item}
-                              onClick={() =>
-                                handleCardClick(item, item.primaryCategory)
-                              }
-                            ></BoxCard>
-                          </Grid>
-                        ))
-                      : items.slice(0, 4).map((item) => (
-                          <Grid item xs={6} md={6} lg={2} key={item.id}>
-                            <BoxCard
-                              items={item}
-                              onClick={() =>
-                                handleCardClick(item, item.primaryCategory)
-                              }
-                            ></BoxCard>
-                          </Grid>
-                        ))}
+                    <Box className="custom-card">
+                      {expandedCategory === category
+                        ? items.map((item) => (
+                            <Box className="custom-card-box" key={item.id}>
+                              <BoxCard
+                                items={item}
+                                onClick={() =>
+                                  handleCardClick(item, item.primaryCategory)
+                                }
+                              ></BoxCard>
+                            </Box>
+                          ))
+                        : items.slice(0, 4).map((item) => (
+                            <Box className="custom-card-box" key={item.id}>
+                              <BoxCard
+                                items={item}
+                                onClick={() =>
+                                  handleCardClick(item, item.primaryCategory)
+                                }
+                              ></BoxCard>
+                            </Box>
+                          ))}
+                    </Box>
                   </Carousel>
                 ) : (
                   <Grid container spacing={2}>

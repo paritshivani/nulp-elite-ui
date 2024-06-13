@@ -405,16 +405,9 @@ function Header({ globalSearchQuery }) {
                   activePath ===
                   `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
                     ? "Menuactive"
-                    : ""
+                    : "headerMenu"
                 }
                 underline="none"
-                style={{
-                  my: 2,
-                  color: "#484848",
-                  display: "flex",
-                  margin: "0 20px",
-                  padding: "10px",
-                }}
               >
                 <HomeOutlinedIcon
                   style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
@@ -427,16 +420,9 @@ function Header({ globalSearchQuery }) {
                   activePath ===
                   `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
                     ? "Menuactive"
-                    : ""
+                    : "headerMenu"
                 }
                 underline="none"
-                style={{
-                  my: 2,
-                  color: "#484848",
-                  display: "flex",
-                  margin: "0 20px",
-                  padding: "10px",
-                }}
               >
                 <MenuBookOutlinedIcon
                   style={{ padding: "0 10px", verticalAlign: "middle" }}
@@ -449,16 +435,9 @@ function Header({ globalSearchQuery }) {
                   activePath ===
                   `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
                     ? "Menuactive"
-                    : ""
+                    : "headerMenu"
                 }
                 underline="none"
-                style={{
-                  my: 2,
-                  color: "#484848",
-                  display: "flex",
-                  margin: "0 20px",
-                  padding: "10px",
-                }}
               >
                 <ChatOutlinedIcon
                   style={{ padding: "0 10px", verticalAlign: "middle" }}
@@ -467,15 +446,10 @@ function Header({ globalSearchQuery }) {
               </Link>
               <Link
                 href="/allevents"
-                className={activePath === "/allevents" ? "Menuactive" : ""}
+                className={
+                  activePath === "/allevents" ? "Menuactive" : "headerMenu"
+                }
                 underline="none"
-                style={{
-                  my: 2,
-                  color: "#484848",
-                  display: "flex",
-                  margin: "0 20px",
-                  padding: "10px",
-                }}
               >
                 <VideocamOutlinedIcon
                   style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
