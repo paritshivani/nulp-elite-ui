@@ -427,7 +427,7 @@ const DomainList = ({ globalSearchQuery }) => {
       </Box>
 
       {isMobile ? (
-        <Container maxWidth="xl" role="main" className="allContent">
+        <Container maxWidth="xl" role="main">
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
             <Grid
@@ -436,7 +436,7 @@ const DomainList = ({ globalSearchQuery }) => {
               style={{ margin: "20px 0", marginBottom: "10px" }}
             >
               {data &&
-                data.slice(0, 10).map((term) => (
+                data.slice(0, 12).map((term) => (
                   <Grid
                     item
                     xs={6}
@@ -533,7 +533,7 @@ const DomainList = ({ globalSearchQuery }) => {
                     spacing={2}
                     style={{ margin: "20px 0", marginBottom: "10px" }}
                   >
-                    {popularCourses.slice(0, 10).map((items, index) => (
+                    {popularCourses.slice(0, 12).map((items, index) => (
                       <Grid
                         item
                         xs={6}
