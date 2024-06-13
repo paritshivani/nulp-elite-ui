@@ -1,71 +1,71 @@
 {
   "ROUTES": {
     "POFILE_PAGE": {
-      "PROFILE": "/profile"
+      "PROFILE": "/webapp/profile"
     },
     "ALL_CONTENT_PAGE": {
-      "ALL_CONTENT": "/all"
+      "ALL_CONTENT": "/webapp/all"
     },
     "CERTIFICATE_PAGE": {
-      "CERTIFICATE": "/certificate"
+      "CERTIFICATE": "/webapp/certificate"
     },
     "LEARNING_HISTORY_PAGE": {
-      "LEARNING_HISTORY": "/learningHistory"
+      "LEARNING_HISTORY": "/webapp/learningHistory"
     },
     "CONTINUE_LEARNING_PAGE": {
-      "CONTINUE_LEARNING": "/continueLearning"
+      "CONTINUE_LEARNING": "/webapp/continueLearning"
     },
     "HELP_PAGE": {
-      "HELP": "/help"
+      "HELP": "/webapp/help"
     },
     "ADDCONNECTION_PAGE": {
-      "ADDCONNECTION": "/addConnections",
-      "CHAT": "/chat"
+      "ADDCONNECTION": "/webapp/addConnections",
+      "CHAT": "/webapp/chat"
     },
     "DOMAINLIST_PAGE": {
-      "DOMAINLIST": "/domainList"
+      "DOMAINLIST": "/webapp/domainList"
     },
     "CONTENTLIST_PAGE": {
-      "CONTENTLIST": "/contentList",
+      "CONTENTLIST": "/webapp/contentList",
       "PAGENUMBER": "/:pageNumber"
     },
     "JOIN_COURSE_PAGE": {
-      "JOIN_COURSE": "/joinCourse",
+      "JOIN_COURSE": "/webapp/joinCourse",
       "CONTENT_ID": "/:contentId"
     },
     "PLAYER_PAGE": {
-      "PLAYER": "/player"
+      "PLAYER": "/webapp/player"
     },
     "PDF_PAGE": {
-      "PDF": "/pdf"
+      "PDF": "/webapp/pdf"
     },
     "NORESULT_PAGE": {
-      "NORESULT": "/noresult"
+      "NORESULT": "/webapp/noresult"
     },
     "CERTIFICATE_OLD_PAGE": {
-      "CERTIFICATE_OLD": "/certificateOld"
+      "CERTIFICATE_OLD": "/webapp/certificateOld"
     },
     "SIGNUP_PAGE": {
-      "SIGNUP": "/signup"
+      "SIGNUP": "/webapp/signup"
     },
     "TERMS_PAGE": {
-      "TERMS": "/terms"
+      "TERMS": "/webapp/terms"
     },
     "OTP_PAGE": {
-      "OTP": "/otp"
+      "OTP": "/webapp/otp"
     },
     "VIEW_ALL_PAGE": {
-      "VIEW_ALL": "/view-all",
+      "VIEW_ALL": "/webapp/view-all",
       "CATEGORY": "/:category"
     },
     "MESSAGE_PAGE": {
-      "MESSAGE": "/message"
+      "MESSAGE": "/webapp/message"
     },
     "SELECT_PREFERENCE_PAGE": {
-      "SELECT_PREFERENCE": "/selectPreference"
+      "SELECT_PREFERENCE": "/webapp/selectPreference"
     },
     "CHAT_PAGE": {
-      "CHAT": "/chat"
+      "CHAT": "/webapp/chat"
     },
     "EVENTS": {
       "EVENT_LIST": "/allevents",

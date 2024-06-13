@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
 import DevicesIcon from "@mui/icons-material/Devices";
 import WebIcon from "@mui/icons-material/Web";
+import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -28,6 +32,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+const routeConfig = require("../configs/routeConfig.json");
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -68,7 +73,7 @@ function Header({ globalSearchQuery }) {
   }, [location.pathname]);
 
   const onGlobalSearch = () => {
-    navigate("/contentList/1", {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
@@ -111,7 +116,10 @@ function Header({ globalSearchQuery }) {
         }}
       >
         <Box>
-          <Link href="/domainlist" className="pl-0 py-15">
+          <Link
+            href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
+            className="pl-0 py-15"
+          >
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
@@ -257,7 +265,7 @@ function Header({ globalSearchQuery }) {
               }}
               className="lg-hide lg-mt-10"
             >
-              <Box className="d-flex lg-hide hamberger-icon">
+              <Box className="d-flex lg-hide">
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -290,7 +298,11 @@ function Header({ globalSearchQuery }) {
                     onClose={handleCloseNavMenu}
                   >
                     <MenuItem>
-                      <Link href="/help" textAlign="center" underline="none">
+                      <Link
+                        href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                        textAlign="center"
+                        underline="none"
+                      >
                         <LiveHelpOutlinedIcon
                           style={{ verticalAlign: "bottom", color: "#000" }}
                         />{" "}
@@ -307,7 +319,10 @@ function Header({ globalSearchQuery }) {
                     </MenuItem>
                   </Menu>
                 </Box>
-                <Link href="/all" className="lg-pl-18 py-15">
+                <Link
+                  href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT_PAGE}
+                  className="pl-18 py-15"
+                >
                   <img
                     src={require("../assets/logo.png")}
                     style={{ maxWidth: "100%" }}
@@ -384,8 +399,13 @@ function Header({ globalSearchQuery }) {
               sx={{ flexGrow: 1, display: "flex", justifyContent: "flex-end" }}
             >
               <Link
-                href="/domainList"
-                className={activePath === "/domainList" ? "Menuactive" : ""}
+                href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
+                className={
+                  activePath ===
+                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
+                    ? "Menuactive"
+                    : ""
+                }
                 underline="none"
                 style={{
                   my: 2,
@@ -401,8 +421,13 @@ function Header({ globalSearchQuery }) {
                 {t("Home")}
               </Link>
               <Link
-                href="/all"
-                className={activePath === "/all" ? "Menuactive" : ""}
+                href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
+                className={
+                  activePath ===
+                  `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
+                    ? "Menuactive"
+                    : ""
+                }
                 underline="none"
                 style={{
                   my: 2,
@@ -413,13 +438,18 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px", verticalAlign: "middle" }}
                 />
                 {t("CONTENT")}
               </Link>
               <Link
-                href="/addConnections"
-                className={activePath === "/addConnections" ? "Menuactive" : ""}
+                href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
+                className={
+                  activePath ===
+                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                    ? "Menuactive"
+                    : ""
+                }
                 underline="none"
                 style={{
                   my: 2,
@@ -430,7 +460,7 @@ function Header({ globalSearchQuery }) {
                 }}
               >
                 <ChatOutlinedIcon
-                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
+                  style={{ padding: "0 10px", verticalAlign: "middle" }}
                 />
                 {t("CONNECTIONS")}
               </Link>
@@ -438,7 +468,8 @@ function Header({ globalSearchQuery }) {
               {/* User Profile */}
               <Tooltip
                 className={
-                  activePath === "/profile" || activePath === "/help"
+                  activePath === `${routeConfig.ROUTES.POFILE_PAGE.POFILE}` ||
+                  activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
                     ? "Menuactive"
                     : ""
                 }
@@ -450,13 +481,10 @@ function Header({ globalSearchQuery }) {
                 >
                   {userData && (
                     <>
-                      <div className="profile-text-circle">
+                      <div className="img-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
-                      <div className="text-ellipsis">
-                        {" "}
-                        {userData?.result?.response?.firstName}
-                      </div>{" "}
+                      {userData?.result?.response?.firstName}
                     </>
                   )}
                   <ExpandMoreIcon />
@@ -479,12 +507,20 @@ function Header({ globalSearchQuery }) {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem>
-                  <Link href="/profile" underline="none" textAlign="center">
+                  <Link
+                    href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
+                    underline="none"
+                    textAlign="center"
+                  >
                     {t("PROFILE")}
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/help" underline="none" textAlign="center">
+                  <Link
+                    href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                    underline="none"
+                    textAlign="center"
+                  >
                     {t("HELP")}
                   </Link>
                 </MenuItem>
