@@ -270,6 +270,9 @@ button {
     text-overflow: ellipsis;
     display: block !important;
   }
+  .eventTab .MuiTabs-flexContainer {
+    justify-content: center;
+  }
   .labelOne {
     background: #dddddd !important;
     color: #212121 !important;
@@ -585,6 +588,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .lg-w-140 {
+    width: 140px;
+  }
   .event-title {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -613,7 +619,8 @@ button {
     background: #0e7a9c;
     color: #fff;
     border-radius: 4px;
-    padding: 5px 82px 5px 5px;
+    padding: 5px;
+    width: 245px;
   }
   .header-bg fieldset {
     border-radius: 10px;
@@ -741,6 +748,10 @@ button {
 }
 .mt-9 {
   margin-top: 9px !important;
+}
+
+.mt-90 {
+  margin-top: 90px !important;
 }
 
 .custom-dot-list-style {
@@ -1079,6 +1090,9 @@ Footer {
 }
 .mt-20 {
   margin-top: 20px !important;
+}
+.mt-35 {
+  margin-top: 35px !important;
 }
 .addConnection .jss3 {
   background-color: transparent !important;
@@ -1478,6 +1492,7 @@ custom-chip {
   text-align: center !important;
   padding-top: 10px !important;
   margin-top: 10px !important;
+  color: #212121;
 }
 .tab-text svg {
   vertical-align: middle;
@@ -1652,7 +1667,16 @@ custom-chip {
 .jss1.jss3.MuiTabs-indicator {
   background: transparent !important;
 }
-
+.eventTab .jss1.jss3.MuiTabs-indicator {
+  left: 0 !important;
+  width: 532px !important;
+}
+.eventTab .MuiTab-root {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+.eventTab .css-1gsv261 {
+  border-bottom: none !important;
+}
 header .MuiContainer-maxWidthLg {
   max-width: inherit !important;
 }
