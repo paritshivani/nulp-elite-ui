@@ -348,7 +348,7 @@ const AllContent = () => {
             return (
               <React.Fragment key={category}>
                 <Box
-                  className="d-flex mr-20 mt-20"
+                  className="d-flex  mt-20"
                   style={{
                     justifyContent: "space-between",
                     alignItems: "center",
