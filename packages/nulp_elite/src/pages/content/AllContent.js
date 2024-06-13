@@ -24,9 +24,13 @@ import ToasterCommon from "../ToasterCommon";
 import CollectionIcon from "@mui/icons-material/Collections";
 import ResourceIcon from "@mui/icons-material/LibraryBooks";
 import ContentPlaylistIcon from "@mui/icons-material/PlaylistPlay";
-import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CardMembershipSharpIcon from "@mui/icons-material/CardMembershipSharp";
+import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
+import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 const routeConfig = require("../../configs/routeConfig.json");
 
 const responsiveCard = {
@@ -50,15 +54,15 @@ const responsiveCard = {
 const iconMapping = {
   Collection: CollectionIcon,
   Resource: ResourceIcon,
-  "Content Playlist": ContentPlaylistIcon,
+  "Content Playlist": FactCheckOutlinedIcon,
   Course: CardMembershipSharpIcon,
-  "Course Assessment": SummarizeOutlinedIcon,
+  "Course Assessment": InsertChartOutlinedIcon,
   "Explanation Content": ContentCopyIcon,
-  "Learning Resource": LocalLibraryIcon,
+  "Learning Resource": LocalLibraryOutlinedIcon,
   "Lesson Plan Unit": SummarizeOutlinedIcon,
   "Practice Question Set": SummarizeOutlinedIcon,
   LessonPlan: SummarizeOutlinedIcon,
-  "Course Unit": LocalLibraryIcon,
+  "Course Unit": AutoStoriesOutlinedIcon,
 };
 
 const AllContent = () => {
@@ -308,12 +312,14 @@ const AllContent = () => {
           >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
-              className="d-flex h3-title xs-d-none"
+              className="d-flex xs-d-none"
             >
-              {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+              <Box className="h3-custom-title">
+                {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+              </Box>
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
-                className="text-blueShade2"
+                className="text-blueShade2 h4-custom"
               >
                 {domainName}
               </Box>
