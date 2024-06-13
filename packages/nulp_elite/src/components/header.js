@@ -28,7 +28,7 @@ import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -123,6 +123,7 @@ function Header({ globalSearchQuery }) {
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
+              className="lg-w-140"
             />
           </Link>
         </Box>
@@ -325,6 +326,7 @@ function Header({ globalSearchQuery }) {
                   <img
                     src={require("../assets/logo.png")}
                     style={{ maxWidth: "100%" }}
+                    className="lg-w-140"
                   />
                 </Link>
               </Box>
@@ -413,8 +415,8 @@ function Header({ globalSearchQuery }) {
                   padding: "10px",
                 }}
               >
-                <HomeIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                <HomeOutlinedIcon
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
                 />
                 {t("Home")}
               </Link>
