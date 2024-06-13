@@ -33,6 +33,7 @@ import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const routeConfig = require("../configs/routeConfig.json");
+import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -498,7 +499,7 @@ function Header({ globalSearchQuery }) {
                 >
                   {userData && (
                     <>
-                      <div className="img-text-circle">
+                      <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
                       {userData?.result?.response?.firstName}
