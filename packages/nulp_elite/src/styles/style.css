@@ -1085,6 +1085,9 @@ Footer {
 .mt-15 {
   margin-top: 15px;
 }
+.mt-2 {
+  margin-top: 2px;
+}
 .mt-30 {
   margin-top: 30px;
 }
@@ -1658,6 +1661,9 @@ custom-chip {
   border-radius: 5px !important;
   color: #fff !important;
 }
+.Menuactive:hover {
+  background: #0e7a9c !important;
+}
 .allContent .MuiGrid-item {
   /* flex: 1; */
   display: flex;
@@ -1667,10 +1673,10 @@ custom-chip {
 .jss1.jss3.MuiTabs-indicator {
   background: transparent !important;
 }
-.eventTab .jss1.jss3.MuiTabs-indicator {
+/* .eventTab .jss1.jss3.MuiTabs-indicator {
   left: 0 !important;
   width: 532px !important;
-}
+} */
 .eventTab .MuiTab-root {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
