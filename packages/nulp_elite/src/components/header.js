@@ -115,6 +115,7 @@ function Header({ globalSearchQuery }) {
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
+              className="lg-w-140"
             />
           </Link>
         </Box>
@@ -310,6 +311,7 @@ function Header({ globalSearchQuery }) {
                   <img
                     src={require("../assets/logo.png")}
                     style={{ maxWidth: "100%" }}
+                    className="lg-w-140"
                   />
                 </Link>
               </Box>

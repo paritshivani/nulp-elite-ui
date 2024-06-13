@@ -31,6 +31,7 @@ import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
 const routeConfig = require("../../configs/routeConfig.json");
 
 const responsiveCard = {
@@ -55,7 +56,7 @@ const iconMapping = {
   Collection: CollectionIcon,
   Resource: ResourceIcon,
   "Content Playlist": FactCheckOutlinedIcon,
-  Course: CardMembershipSharpIcon,
+  Course: ChecklistOutlinedIcon,
   "Course Assessment": InsertChartOutlinedIcon,
   "Explanation Content": ContentCopyIcon,
   "Learning Resource": LocalLibraryOutlinedIcon,
@@ -306,10 +307,7 @@ const AllContent = () => {
         className="pb-30 allContent xs-pb-80"
       >
         {domainName && (
-          <Box
-            className="d-flex jc-bw mr-20 my-20"
-            style={{ alignItems: "center" }}
-          >
+          <Box className="d-flex jc-bw my-20" style={{ alignItems: "center" }}>
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
               className="d-flex xs-d-none"
@@ -424,7 +422,7 @@ const AllContent = () => {
                   <Grid container spacing={2}>
                     {expandedCategory === category
                       ? renderItems(items, category)
-                      : renderItems(items.slice(0, 5), category)}
+                      : renderItems(items.slice(0, 6), category)}
                   </Grid>
                 )}
               </React.Fragment>
