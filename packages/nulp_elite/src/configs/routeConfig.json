@@ -68,8 +68,8 @@
       "CHAT": "/webapp/chat"
     },
     "EVENTS": {
-      "EVENT_LIST": "/allevents",
-      "EVENT_DETAILS": "/eventDetails",
+      "EVENT_LIST": "webapp/allevents",
+      "EVENT_DETAILS": "webapp/eventDetails",
       "EVENT_ID": "/:eventId"
     }
   }
