@@ -499,7 +499,7 @@ const Profile = () => {
                       style={{
                         alignItems: "center",
                       }}
-                      className="h4-title d-flex fw-400"
+                      className="h4-title d-flex fw-400 my-15"
                     >
                       <EmojiEventsOutlinedIcon
                         style={{ paddingRight: "10px" }}
@@ -514,7 +514,7 @@ const Profile = () => {
                       xs={3}
                       md={3}
                       className="circular"
-                      style={{ paddingRight: "0", textAlign: "right" }}
+                      style={{ paddingRight: "0", textAlign: "center" }}
                     >
                       {certData &&
                         certData.certificatesReceived &&
@@ -544,7 +544,7 @@ const Profile = () => {
                       xs={2}
                       md={3}
                       className="circularBlue"
-                      style={{ paddingRight: "0", textAlign: "right" }}
+                      style={{ paddingRight: "0", textAlign: "center" }}
                     >
                       {courseData && (
                         <CircularProgressWithLabel
