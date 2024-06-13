@@ -1,0 +1,48 @@
+{
+  "id": "api.content.read",
+  "ver": "4.0",
+  "ts": "2024-06-13T08:59:29ZZ",
+  "params": {
+    "resmsgid": "32635357-7085-4c91-be0b-c2ee46a6bf8d",
+    "msgid": null,
+    "err": null,
+    "status": "successful",
+    "errmsg": null
+  },
+  "responseCode": "OK",
+  "result": {
+    "event": {
+      "venue": {
+        "name": null
+      },
+      "code": "1234",
+      "registrationStartDate": "2024-05-17",
+      "endDate": "2024-05-18",
+      "createdOn": "2024-05-17T07:07:44.104+0000",
+      "objectType": "Event",
+      "registrationEndDate": "2024-05-17",
+      "lastUpdatedOn": "2024-05-17T07:07:44.577+0000",
+      "startTime": "12:21:10+05:30",
+      "contentType": "Event",
+      "trackable": {
+        "enabled": "Yes",
+        "autoBatch": "Yes"
+      },
+      "onlineProviderData": {},
+      "owner": "6f7c0d19-dbc3-42a5-883c-6d7ae4b249d7",
+      "identifier": "do_11405689580730777611",
+      "lastStatusChangedOn": "2024-05-17T07:07:44.104+0000",
+      "consumerId": "52aa1fe8-3cb9-4f40-83a5-c3718c9edd8e",
+      "eventType": "Offline",
+      "languageCode": [],
+      "version": 2,
+      "versionKey": "1715929664577",
+      "leafNodesCount": 1,
+      "eventVisibility": "Public",
+      "name": "dmeo",
+      "endTime": "13:21:10+05:30",
+      "startDate": "2024-05-18",
+      "status": "Live"
+    }
+  }
+}
