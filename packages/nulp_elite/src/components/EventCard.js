@@ -9,7 +9,9 @@ import Box from "@mui/material/Box";
 import { Divider } from "native-base";
 import RandomImage from "../assets/cardRandomImgs.json";
 import { useTranslation } from "react-i18next";
-
+import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
+import AccessAlarmsOutlinedIcon from "@mui/icons-material/AccessAlarmsOutlined";
+import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 export default function EventCard({ items, index, onClick }) {
   const [imgUrl, setImgUrl] = useState();
   const [subdomain, setSubdomain] = useState();
@@ -32,7 +34,36 @@ export default function EventCard({ items, index, onClick }) {
     const options = { day: "2-digit", month: "long", year: "numeric" };
     return dateObject.toLocaleDateString("en-GB", options);
   };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  };
+  const formatTimeToIST = (timeString) => {
+    // Check if the timeString is a full date-time string
+    let dateObject = new Date(timeString);
 
+    // If it is not a valid date, assume it is just a time string (e.g., "14:30")
+    if (isNaN(dateObject.getTime())) {
+      const [hours, minutes] = timeString.split(":");
+      dateObject = new Date();
+      dateObject.setHours(hours);
+      dateObject.setMinutes(minutes);
+      dateObject.setSeconds(0);
+    }
+
+    // Convert the date to IST
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Kolkata",
+    };
+    return dateObject.toLocaleTimeString("en-GB", options);
+  };
   if (items.content) {
     return (
       <Card
@@ -61,7 +92,7 @@ export default function EventCard({ items, index, onClick }) {
               <Box className="cardCourses">{items.content.primaryCategory}</Box>
             </Typography>
           )}
-          <Box className="card-img-container">
+          <Box className="event-img-container">
             <img
               src={
                 items.content.appIcon
@@ -124,48 +155,43 @@ export default function EventCard({ items, index, onClick }) {
 
   return (
     <Card
-      className="cardBox"
-      sx={{ position: "relative", cursor: "pointer" }}
+      className="cardBox pb-20"
+      sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
       onClick={onClick}
     >
-      <CardMedia
-        className="card-media"
-        image={
-          subdomain
-            ? require(`./../assets/dummyCardImgs/${subdomain}.png`)
-            : require("./../assets/dummyCardImgs/Management.png")
-        }
-        title="green iguana"
-      />
-      <div onClick={onClick} className="card-div"></div>
-      <CardContent>
-        {/* {items.primaryCategory && (
-          <Typography
-            gutterBottom
-            variant="h7"
-            component="div"
-            className="ribbonCard"
-          >
-            <Box className="cardCourses">{items.primaryCategory}</Box>
-          </Typography>
-        )} */}
-        <Box className="card-img-container">
+      {/* <CardMedia className="card-media" title="green iguana" /> */}
+      {/* <div onClick={onClick} className="card-div"></div> */}
+      <CardContent className="d-flex jc-bw">
+        <Box>
+          {items.name && (
+            <Typography
+              gutterBottom
+              className="mt-10  event-title"
+              style={{ fontWeight: "500", fontSize: "24px", color: "#484848" }}
+            >
+              {items.name}
+            </Typography>
+          )}
+          <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
+            <Box className="d-flex jc-bw alignItems-center">
+              <TodayOutlinedIcon className="fs-12 pr-5" />
+              {formatDate(items.startDate)}
+            </Box>
+            <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+              <AccessAlarmsOutlinedIcon className="fs-12 pr-5" />
+
+              {formatTimeToIST(items.startTime)}
+            </Box>
+          </Box>
+        </Box>
+        <Box className="card-img-container" style={{ position: "inherit" }}>
           <img
             src={items.appIcon ? items.appIcon : require("assets/default.png")}
-            className="card-img"
+            className="event-card-img"
             alt="App Icon"
           />
         </Box>
-        {items.name && (
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            className="cardTitle mt-20"
-          >
-            {items.name}
-          </Typography>
-        )}
+
         {/* {items.organisation && items.organisation.length > 0 && (
           <Typography
             variant="body2"
@@ -180,6 +206,11 @@ export default function EventCard({ items, index, onClick }) {
           </Typography>
         )} */}
       </CardContent>
+      <Box>
+        <Button type="button" className="custom-btn-default ml-20">
+          View Details <ArrowForwardIosOutlinedIcon className="fs-12" />
+        </Button>
+      </Box>
       {/* {(items.board ||
         items.gradeLevel ||
         items.se_boards ||

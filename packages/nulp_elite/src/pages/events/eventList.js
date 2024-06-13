@@ -37,6 +37,7 @@ import TabPanel from "@material-ui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import PersonRemoveOutlinedIcon from "@mui/icons-material/PersonRemoveOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
+import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -121,7 +122,7 @@ const EventList = (props) => {
     setDomain(query);
     setPageNumber(1);
     setCurrentPage(1);
-    setData({});
+    // setData({});
     setDomainName(domainName);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
       state: { domain: query },
@@ -222,14 +223,25 @@ const EventList = (props) => {
                           spacing={2}
                           style={{ marginBottom: "5px" }}
                         >
-                          <EventCard
-                            items={items}
-                            index={index}
-                            onClick={() =>
-                              handleCardClick("do_11405689580730777611")
-                            }
-                            // onClick={() => alert("hii")}
-                          ></EventCard>
+                          {data.map((items, index) => (
+                            <Grid
+                              item
+                              xs={6}
+                              md={6}
+                              lg={6}
+                              style={{ marginBottom: "10px" }}
+                              key={items.identifier}
+                            >
+                              <EventCard
+                                items={items}
+                                index={index}
+                                onClick={() =>
+                                  handleCardClick("do_11405689580730777611")
+                                }
+                                // onClick={() => alert("hii")}
+                              ></EventCard>
+                            </Grid>
+                          ))}
                         </Grid>
                       </TabPanel>
                       <TabPanel value="2" className="mt-15">

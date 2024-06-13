@@ -18,6 +18,10 @@ import FormControl from "@mui/material/FormControl";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 const urlConfig = require("../configs/urlConfig.json");
 import * as frameworkService from "../services/frameworkService";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const DrawerFilter = ({ SelectedFilters }) => {
   const contentTypeList = ["Courses", "Manuals and SOPs", "Reports"];
@@ -134,6 +138,38 @@ const DrawerFilter = ({ SelectedFilters }) => {
           Clear all
         </Button>
       </Box>
+      <FormControl>
+        <InputLabel htmlFor="outlined-adornment-password">
+          Search for a webinar
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type="text"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton aria-label="toggle password visibility">
+                {<SearchOutlinedIcon />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Search Sub-domain"
+        />
+      </FormControl>
+      <Box className="filter-text mt-15">Select Date Range</Box>
+
+      <Box className="mt-9 dateRange">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker"]}>
+            <DatePicker label="Select Date From" className="mt-9" />
+          </DemoContainer>
+        </LocalizationProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker"]}>
+            <DatePicker label="Select Date To" className="mt-9" />
+          </DemoContainer>
+        </LocalizationProvider>
+      </Box>
+
       <Box className="filter-text mt-15">Content Type</Box>
       <List>
         {contentTypeList &&
@@ -218,14 +254,46 @@ const DrawerFilter = ({ SelectedFilters }) => {
           </div>
         </Box>
       ) : (
-        <Box className="header-bg-blue p-10 pl-18 filter-bx">
+        <Box className="header-bg-blue p-10 filter-bx">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
             <Box className="filter-title">Filter By:</Box>
             <Button type="button" className="viewAll">
               Clear all
             </Button>
           </Box>
-          <Box className="filter-text mt-15 mb-15">Content Type</Box>
+          <FormControl className="mt-9">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Search for a webinar
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type="text"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton aria-label="toggle password visibility">
+                    {<SearchOutlinedIcon />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Search Sub-domain"
+            />
+          </FormControl>
+          <Box className="filter-text mt-15">Select Date Range</Box>
+
+          <Box className="mt-9 dateRange">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker label="Select Date From" className="mt-9" />
+              </DemoContainer>
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker label="Select Date To" className="mt-9" />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Box>
+
+          <Box className="filter-text mt-15">Content Type</Box>
           <List>
             {contentTypeList &&
               contentTypeList.map((contentType) => (
@@ -247,7 +315,7 @@ const DrawerFilter = ({ SelectedFilters }) => {
                 </ListItem>
               ))}
           </List>
-          <Box className="filter-text mt-15 mb-20">Sub-domains</Box>
+          <Box className="filter-text lg-mt-12 mb-20">Sub-domains</Box>
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-password">
               Search Sub-domain
