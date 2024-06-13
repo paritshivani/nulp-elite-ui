@@ -105,7 +105,7 @@ const EventList = (props) => {
     }
   };
   const handleCardClick = (eventId) => {
-    navigate(`/eventDetails/${eventId}`);
+    navigate(`/webapp/eventDetails/${eventId}`);
   };
 
   return (
@@ -183,7 +183,9 @@ const EventList = (props) => {
                           <EventCard
                             items={items}
                             index={index}
-                            onClick={() => handleCardClick(items.identifier)}
+                            onClick={() =>
+                              handleCardClick("do_11405689580730777611")
+                            }
                             // onClick={() => alert("hii")}
                           ></EventCard>
                         </Grid>
