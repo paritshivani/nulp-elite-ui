@@ -33,6 +33,7 @@ import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const routeConfig = require("../configs/routeConfig.json");
+import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -404,19 +405,12 @@ function Header({ globalSearchQuery }) {
                   activePath ===
                   `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
                     ? "Menuactive"
-                    : ""
+                    : "headerMenu"
                 }
                 underline="none"
-                style={{
-                  my: 2,
-                  color: "#484848",
-                  display: "flex",
-                  margin: "0 20px",
-                  padding: "10px",
-                }}
               >
                 <HomeOutlinedIcon
-                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
+                  style={{ padding: "0 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("Home")}
               </Link>
@@ -426,19 +420,12 @@ function Header({ globalSearchQuery }) {
                   activePath ===
                   `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
                     ? "Menuactive"
-                    : ""
+                    : "headerMenu"
                 }
                 underline="none"
-                style={{
-                  my: 2,
-                  color: "#484848",
-                  display: "flex",
-                  margin: "0 20px",
-                  padding: "10px",
-                }}
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
                 {t("CONTENT")}
               </Link>
@@ -448,21 +435,26 @@ function Header({ globalSearchQuery }) {
                   activePath ===
                   `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
                     ? "Menuactive"
-                    : ""
+                    : "headerMenu"
                 }
                 underline="none"
-                style={{
-                  my: 2,
-                  color: "#484848",
-                  display: "flex",
-                  margin: "0 20px",
-                  padding: "10px",
-                }}
               >
                 <ChatOutlinedIcon
                   style={{ padding: "0 10px", verticalAlign: "middle" }}
                 />
                 {t("CONNECTIONS")}
+              </Link>
+              <Link
+                href="/allevents"
+                className={
+                  activePath === "/allevents" ? "Menuactive" : "headerMenu"
+                }
+                underline="none"
+              >
+                <VideocamOutlinedIcon
+                  style={{ padding: "0 5px 0 0", verticalAlign: "middle" }}
+                />
+                {t("WEBINAR")}
               </Link>
 
               {/* User Profile */}
@@ -481,7 +473,7 @@ function Header({ globalSearchQuery }) {
                 >
                   {userData && (
                     <>
-                      <div className="img-text-circle">
+                      <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
                       {userData?.result?.response?.firstName}

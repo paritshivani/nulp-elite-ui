@@ -133,9 +133,8 @@ const ContinueLearning = () => {
     <div>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <Container
-        maxWidth="xl"
         role="main"
-        className="allContent filter-profile allContentlearning"
+        className=" filter-profile allContentlearning cardheight"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -165,32 +164,36 @@ const ContinueLearning = () => {
                   <BoxCard items={items.content} index={filteredCourses.length}></BoxCard>
                 </Grid>
               ))} */}
-
-              {filteredCourses.length === 0 ? (
-                <NoResult />
-              ) : (
-                filteredCourses.map((items) => (
-                  <Grid
-                    item
-                    xs={6}
-                    md={6}
-                    lg={3}
-                    style={{ marginBottom: "10px" }}
-                    key={items.contentId}
-                  >
-                    <BoxCard
-                      items={items.content}
-                      index={filteredCourses.length}
-                      onClick={() =>
-                        handleCardClick(
-                          items.content.identifier,
-                          items.content.primaryCategory
-                        )
-                      }
-                    ></BoxCard>
-                  </Grid>
-                ))
-              )}
+              <Box className="custom-card">
+                {filteredCourses.length === 0 ? (
+                  <NoResult />
+                ) : (
+                  filteredCourses.map((items) => (
+                    // <Grid
+                    //   item
+                    //   xs={6}
+                    //   md={6}
+                    //   lg={3}
+                    //   style={{ marginBottom: "10px" }}
+                    //   key={items.contentId}
+                    // >
+                    <Box className="custom-card-box" key={items.contentId}>
+                      <BoxCard
+                        items={items.content}
+                        index={filteredCourses.length}
+                        onClick={() =>
+                          handleCardClick(
+                            items.content.identifier,
+                            items.content.primaryCategory
+                          )
+                        }
+                      ></BoxCard>
+                    </Box>
+                    // </Grid>
+                  ))
+                )}
+                <div className="blankCard"></div>
+              </Box>
             </Grid>
           </Box>
         </Box>

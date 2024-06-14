@@ -6,7 +6,7 @@ import Search from "components/search";
 import SearchBox from "components/search";
 import Filter from "components/filter";
 import contentData from "../../assets/contentSerach.json";
-import RandomImage from "../../assets/cardRandomImgs.json";
+// import RandomImage from "../../assets/cardRandomImgs.json";
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import Header from "components/header";
@@ -30,7 +30,14 @@ import DrawerFilter from "components/drawerFilter";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-
+import Tab from "@mui/material/Tab";
+import TabContext from "@material-ui/lab/TabContext";
+import TabList from "@material-ui/lab/TabList";
+import TabPanel from "@material-ui/lab/TabPanel";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import PersonRemoveOutlinedIcon from "@mui/icons-material/PersonRemoveOutlined";
+import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
+import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -107,6 +114,21 @@ const EventList = (props) => {
   const handleCardClick = (eventId) => {
     navigate(`/webapp/eventDetails/${eventId}`);
   };
+  // Function to handle data from the child
+  const handlefilterChanges = (data) => {
+    console.log("data---", data);
+  };
+  const handleDomainFilter = (query, domainName) => {
+    setDomain(query);
+    setPageNumber(1);
+    setCurrentPage(1);
+    // setData({});
+    setDomainName(domainName);
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+      state: { domain: query },
+    });
+  };
+  const [value, setValue] = React.useState("1");
 
   return (
     <div>
@@ -139,10 +161,29 @@ const EventList = (props) => {
           }}
         />
       </Box> */}
-
-      <Container maxWidth="xl" role="main" className="allContent xs-pb-20">
-        <Grid container spacing={2} className="pt-8 mt-15">
-          {/* <Grid
+      <DomainCarousel
+        onSelectDomain={handleDomainFilter}
+        selectedDomainCode={domain}
+        domains={domainList}
+      />
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="allContent xs-pb-20 eventTab"
+      >
+        <Grid container spacing={2} className="pt-8 mt-2">
+          <Grid
+            item
+            xs={12}
+            md={4}
+            lg={3}
+            className="sm-p-25 left-container profile"
+            style={{ padding: "0" }}
+          >
+            <DrawerFilter SelectedFilters={handlefilterChanges} />
+          </Grid>
+          <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20">
+            {/* <Grid
             item
             xs={12}
             md={4}
@@ -150,14 +191,7 @@ const EventList = (props) => {
             className="sm-p-25 left-container mt-2 xs-hide left-filter"
             style={{ padding: "0" }}
           ></Grid> */}
-          <Grid
-            item
-            xs={12}
-            md={4}
-            lg={9}
-            className="sm-p-25"
-            style={{ paddingTop: "0" }}
-          >
+
             <Box textAlign="center" padding="10">
               <Box>
                 {isLoading ? (
@@ -166,31 +200,55 @@ const EventList = (props) => {
                   <Alert severity="error">{error}</Alert>
                 ) : data ? (
                   <div>
-                    <Grid
-                      container
-                      spacing={2}
-                      style={{ margin: "20px 0", marginBottom: "10px" }}
-                    >
-                      {data.map((items, index) => (
+                    <TabContext value={value} className="eventTab">
+                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                        <TabList aria-label="lab API tabs example">
+                          <Tab
+                            label="My Webinar"
+                            className="tab-text"
+                            icon={<RecentActorsOutlinedIcon />}
+                            value="1"
+                          />
+                          <Tab
+                            label="All Webinar"
+                            className="tab-text"
+                            icon={<PublicOutlinedIcon />}
+                            value="2"
+                          />
+                        </TabList>
+                      </Box>
+                      <TabPanel value="1" className="mt-15">
                         <Grid
-                          item
-                          xs={6}
-                          md={6}
-                          lg={3}
-                          style={{ marginBottom: "10px" }}
-                          key={items.identifier}
+                          container
+                          spacing={2}
+                          style={{ marginBottom: "5px" }}
                         >
-                          <EventCard
-                            items={items}
-                            index={index}
-                            onClick={() =>
-                              handleCardClick("do_11405689580730777611")
-                            }
-                            // onClick={() => alert("hii")}
-                          ></EventCard>
+                          {data.map((items, index) => (
+                            <Grid
+                              item
+                              xs={6}
+                              md={6}
+                              lg={6}
+                              style={{ marginBottom: "10px" }}
+                              key={items.identifier}
+                            >
+                              <EventCard
+                                items={items}
+                                index={index}
+                                onClick={() =>
+                                  handleCardClick("do_11405689580730777611")
+                                }
+                                // onClick={() => alert("hii")}
+                              ></EventCard>
+                            </Grid>
+                          ))}
                         </Grid>
-                      ))}
-                    </Grid>
+                      </TabPanel>
+                      <TabPanel value="2" className="mt-15">
+                        All Webinar
+                      </TabPanel>
+                    </TabContext>
+
                     <Pagination
                       count={totalPages}
                       page={pageNumber}
