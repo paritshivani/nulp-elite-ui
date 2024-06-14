@@ -14,7 +14,7 @@ import AccessAlarmsOutlinedIcon from "@mui/icons-material/AccessAlarmsOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
-
+import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import * as util from "../../services/utilService";
 const EventDetailResponse = require("./detail.json");
 
@@ -149,32 +149,42 @@ const EventDetails = () => {
       <Header />
 
       <Container
-        role="main"
         className=" xs-pr-0 xs-pb-20 mt-12"
-        style={{ maxWidth: "100%", paddingLeft: "14px", paddingRight: "14px" }}
+        style={{
+          maxWidth: "100%",
+          paddingLeft: "14px",
+          paddingRight: "14px",
+          marginBottom: "20px",
+        }}
       >
-        <Grid container spacing={2}>
-          <Breadcrumbs aria-label="breadcrumb" className="h6-title mt-15 pl-18">
-            <Link
-              underline="hover"
-              style={{ maxHeight: "inherit" }}
-              onClick={handleGoBack}
-              color="#004367"
-              href="/all"
-            >
-              {t("ALL_WEBINARS")}
-            </Link>
-            <Link
-              underline="hover"
-              href=""
-              aria-current="page"
-              className="h6-title oneLineEllipsis"
-            >
-              {detalData.name}
-            </Link>
-          </Breadcrumbs>
-        </Grid>
-        <Grid container spacing={2} className="bg-whitee mt-20">
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          className="h6-title mt-15 pl-28"
+          style={{ padding: "0 0 20px 20px" }}
+        >
+          <Link
+            underline="hover"
+            style={{ maxHeight: "inherit" }}
+            onClick={handleGoBack}
+            color="#004367"
+            href="/all"
+          >
+            {t("ALL_WEBINARS")}
+          </Link>
+          <Link
+            underline="hover"
+            href=""
+            aria-current="page"
+            className="h6-title oneLineEllipsis"
+          >
+            {detalData.name}
+          </Link>
+        </Breadcrumbs>
+        <Grid
+          container
+          spacing={2}
+          className="bg-whitee mt-20 custom-event-container mb-20"
+        >
           <Grid item xs={6} md={6} lg={2}>
             {/* <img
               src={
@@ -191,22 +201,22 @@ const EventDetails = () => {
               alt="App Icon"
             />
           </Grid>
-          <Grid item xs={6} md={6} lg={8}>
+          <Grid item xs={6} md={6} lg={6} style={{ paddingLeft: "60px" }}>
             <Typography gutterBottom className="mt-10  h1-title mb-20">
               {detalData.name}
             </Typography>
             <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
               National Urban Learning Platform{" "}
             </Box>
-            <Box className="d-flex">
+            <Box className="d-flex mb-20 alignItems-center">
               <Box className="h5-title">Organised By:</Box>
-              <Box className="d-flex">
+              <Box className="d-flex alignItems-center pl-20">
                 <Box className="event-text-circle"></Box>
                 <Box className="h5-title">Komal Mane</Box>
               </Box>
             </Box>
 
-            <Box className="d-flex mb-10 h3-custom-title">
+            <Box className="d-flex mb-20 h3-custom-title">
               <Box className="d-flex jc-bw alignItems-center">
                 <TodayOutlinedIcon className="h3-custom-title pr-5" />
                 {formatDate(detalData.startDate)}
@@ -234,15 +244,53 @@ const EventDetails = () => {
                 style={{
                   borderRadius: "30px",
                   color: "#fff",
-                  padding: "10px 25px",
+                  padding: "10px 35px",
                   fontWeight: "500",
                   fontSize: "12px",
                   border: "solid 1px #1faf38",
                   background: "#1faf38",
+                  marginTop: "10px",
                 }}
               >
                 {t("JOIN_WEBINAR")}
               </Button>
+            </Box>
+            <Box className="d-flex">
+              <Button type="button" className="custom-btn-primary mr-20">
+                {t("ATTEND_WEBINAR")}
+              </Button>
+              <Button type="button" className="custom-btn-danger">
+                {t("UN_REGISTER_WEBINAR")}
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                type="button"
+                className="custom-btn-success"
+                startIcon={<AdjustOutlinedIcon />}
+              >
+                {t("VIEW_WEBINAR_RECORDING")}
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6} lg={4} className="text-right">
+            <Box className="xs-hide">
+              <FacebookShareButton url={shareUrl} className="pr-5">
+                <FacebookIcon size={32} round={true} />
+              </FacebookShareButton>
+              <WhatsappShareButton url={shareUrl} className="pr-5">
+                <WhatsappIcon size={32} round={true} />
+              </WhatsappShareButton>
+              <LinkedinShareButton url={shareUrl} className="pr-5">
+                <LinkedinIcon size={32} round={true} />
+              </LinkedinShareButton>
+              <TwitterShareButton url={shareUrl} className="pr-5">
+                <img
+                  src={require("../../assets/twitter.png")}
+                  alt="Twitter"
+                  style={{ width: 32, height: 32 }}
+                />
+              </TwitterShareButton>
             </Box>
           </Grid>
           <Box
@@ -252,10 +300,34 @@ const EventDetails = () => {
             {t("SPEAKER_DETAILS")}
           </Box>
           <Grid container spacing={2} className="pl-20 mb-20">
-            <Grid item xs={6} md={6} lg={4}>
+            <Grid item xs={6} md={6} lg={3}>
               <Box className="d-flex">
                 <img
                   src={require("../../assets/speakerOne.png")}
+                  className="eventImg"
+                />
+                <Box className="pl-20">
+                  <Box className="h5-title">Name Surname</Box>
+                  <Box className="h5-title">Designation</Box>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={6} md={6} lg={3}>
+              <Box className="d-flex">
+                <img
+                  src={require("../../assets/speakertwo.png")}
+                  className="eventImg"
+                />
+                <Box className="pl-20">
+                  <Box className="h5-title">Name Surname</Box>
+                  <Box className="h5-title">Designation</Box>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={6} md={6} lg={3}>
+              <Box className="d-flex">
+                <img
+                  src={require("../../assets/speakerthree.png")}
                   className="eventImg"
                 />
                 <Box className="pl-20">
