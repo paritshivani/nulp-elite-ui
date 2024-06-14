@@ -33,6 +33,7 @@ import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const routeConfig = require("../configs/routeConfig.json");
+import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -464,6 +465,23 @@ function Header({ globalSearchQuery }) {
                 />
                 {t("CONNECTIONS")}
               </Link>
+              <Link
+                href="/allevents"
+                className={activePath === "/allevents" ? "Menuactive" : ""}
+                underline="none"
+                style={{
+                  my: 2,
+                  color: "#484848",
+                  display: "flex",
+                  margin: "0 20px",
+                  padding: "10px",
+                }}
+              >
+                <VideocamOutlinedIcon
+                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
+                />
+                {t("WEBINAR")}
+              </Link>
 
               {/* User Profile */}
               <Tooltip
@@ -481,7 +499,7 @@ function Header({ globalSearchQuery }) {
                 >
                   {userData && (
                     <>
-                      <div className="img-text-circle">
+                      <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
                       {userData?.result?.response?.firstName}
