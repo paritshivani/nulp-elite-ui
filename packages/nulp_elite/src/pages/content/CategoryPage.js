@@ -113,7 +113,7 @@ const CategoryPage = () => {
     };
 
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
       const response = await getAllContents(url, data, headers);
       setData(response.data.result.content);
     } catch (error) {
@@ -251,28 +251,24 @@ const CategoryPage = () => {
         </Box>
 
         <Box textAlign="center">
-          <Box>
-            <Grid container spacing={2} className="xs-pb-20">
-              {data &&
-                data.map((item) => (
-                  <Grid
-                    item
-                    xs={6}
-                    md={6}
-                    lg={2}
-                    key={item.id}
-                    style={{ marginBottom: "10px" }}
-                  >
-                    <BoxCard
-                      items={item}
-                      index={item.count}
-                      onClick={() =>
-                        handleCardClick(item.identifier, item.contentType)
-                      }
-                    ></BoxCard>
-                  </Grid>
-                ))}
-            </Grid>
+          <Box className="custom-card xs-pb-20">
+            {data &&
+              data.map((item) => (
+                <Box
+                  className="custom-card-box"
+                  key={item.id}
+                  style={{ marginBottom: "10px" }}
+                >
+                  <BoxCard
+                    items={item}
+                    index={item.count}
+                    onClick={() =>
+                      handleCardClick(item.identifier, item.contentType)
+                    }
+                  ></BoxCard>
+                </Box>
+              ))}
+            <div className="blankCard"></div>
           </Box>
         </Box>
       </Container>

@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import EventCard from "components/EventCard";
 import Box from "@mui/material/Box";
+
 import { getAllContents } from "services/contentService";
+
+import Search from "components/search";
+import SearchBox from "components/search";
+import Filter from "components/filter";
+import contentData from "../../assets/contentSerach.json";
+// import RandomImage from "../../assets/cardRandomImgs.json";
+
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import Header from "components/header";
