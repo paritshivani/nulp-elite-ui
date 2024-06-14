@@ -167,22 +167,25 @@ const EventList = (props) => {
         domains={domainList}
       />
       <Container
-        maxWidth="xl"
-        role="main"
-        className="allContent xs-pb-20 eventTab"
+        className="xs-pb-20 eventTab"
+        style={{ maxWidth: "100%", paddingRight: "14px", paddingLeft: "14px" }}
       >
-        <Grid container spacing={2} className="pt-8 mt-2">
+        <Grid
+          container
+          spacing={2}
+          className="pt-8 mt-2 custom-event-container"
+        >
           <Grid
             item
             xs={12}
             md={4}
             lg={3}
             className="sm-p-25 left-container profile"
-            style={{ padding: "0" }}
+            style={{ padding: "0", borderRight: "none" }}
           >
             <DrawerFilter SelectedFilters={handlefilterChanges} />
           </Grid>
-          <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20">
+          <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20 pt-0">
             {/* <Grid
             item
             xs={12}

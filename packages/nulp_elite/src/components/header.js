@@ -445,7 +445,7 @@ function Header({ globalSearchQuery }) {
                 {t("CONNECTIONS")}
               </Link>
               <Link
-                href="/allevents"
+                href="/webapp/allevents"
                 className={
                   activePath === "/allevents" ? "Menuactive" : "headerMenu"
                 }
