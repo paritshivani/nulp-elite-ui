@@ -160,7 +160,7 @@ export default function BoxCard({ items, index, onClick }) {
             gutterBottom
             variant="h5"
             component="div"
-            className="cardTitle mt-20"
+            className="cardTitle mt-35"
           >
             {items.name}
           </Typography>
