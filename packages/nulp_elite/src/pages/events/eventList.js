@@ -6,7 +6,7 @@ import Search from "components/search";
 import SearchBox from "components/search";
 import Filter from "components/filter";
 import contentData from "../../assets/contentSerach.json";
-import RandomImage from "../../assets/cardRandomImgs.json";
+// import RandomImage from "../../assets/cardRandomImgs.json";
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import Header from "components/header";
