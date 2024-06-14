@@ -427,7 +427,10 @@ const DomainList = ({ globalSearchQuery }) => {
       </Box>
 
       {isMobile ? (
-        <Container maxWidth="xl" role="main">
+        <Container
+          role="main"
+          style={{ maxWidth: "100%", marginLeft: "14px", marginRight: "14px" }}
+        >
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
             <Grid
@@ -436,7 +439,7 @@ const DomainList = ({ globalSearchQuery }) => {
               style={{ margin: "20px 0", marginBottom: "10px" }}
             >
               {data &&
-                data.slice(0, 12).map((term) => (
+                data.slice(0, 10).map((term) => (
                   <Grid
                     item
                     xs={6}
@@ -529,7 +532,7 @@ const DomainList = ({ globalSearchQuery }) => {
               ) : popularCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
-                    {popularCourses.slice(0, 12).map((items, index) => (
+                    {popularCourses.slice(0, 10).map((items, index) => (
                       // <Grid
                       //   item
                       //   xs={6}
@@ -549,6 +552,7 @@ const DomainList = ({ globalSearchQuery }) => {
                       </Box>
                       // </Grid>
                     ))}
+                    <div className="blankCard"></div>
                   </Box>
                 </div>
               ) : (
@@ -563,7 +567,7 @@ const DomainList = ({ globalSearchQuery }) => {
                 <Alert severity="error">{error}</Alert>
               ) : popularCourses.length > 0 ? (
                 <Box className="custom-card">
-                  {popularCourses.slice(0, 10).map((items) => (
+                  {popularCourses.slice(0, 12).map((items) => (
                     // <Grid
                     //   item
                     //   xs={6}
@@ -582,6 +586,7 @@ const DomainList = ({ globalSearchQuery }) => {
                     </Box>
                     // </Grid>
                   ))}
+                  <div className="blankCard"></div>
                 </Box>
               ) : (
                 <NoResult />
@@ -626,7 +631,7 @@ const DomainList = ({ globalSearchQuery }) => {
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
-                    {recentlyAddedCourses.slice(0, 10).map((items, index) => (
+                    {recentlyAddedCourses.slice(0, 12).map((items, index) => (
                       // <Grid
                       //   item
                       //   xs={6}
@@ -645,6 +650,7 @@ const DomainList = ({ globalSearchQuery }) => {
                         />
                       </Box>
                     ))}
+                    <div className="blankCard"></div>
                   </Box>
                 </div>
               ) : (
@@ -660,7 +666,7 @@ const DomainList = ({ globalSearchQuery }) => {
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
-                    {recentlyAddedCourses.slice(0, 10).map((items) => (
+                    {recentlyAddedCourses.slice(0, 12).map((items) => (
                       // <Grid
                       //   item
                       //   xs={6}

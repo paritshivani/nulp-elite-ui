@@ -410,7 +410,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <HomeOutlinedIcon
-                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
+                  style={{ padding: "0 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("Home")}
               </Link>
@@ -425,7 +425,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0 10px", verticalAlign: "middle" }}
+                  style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
                 {t("CONTENT")}
               </Link>
@@ -452,7 +452,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <VideocamOutlinedIcon
-                  style={{ padding: "0 10px 0 0", verticalAlign: "middle" }}
+                  style={{ padding: "0 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("WEBINAR")}
               </Link>

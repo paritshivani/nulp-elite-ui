@@ -263,19 +263,20 @@ const AllContent = () => {
 
   const renderItems = (items, category) => {
     return items.map((item) => (
-      <Grid
-        item
-        xs={isMobile ? 12 : 12}
-        md={isMobile ? 12 : 6}
-        lg={isMobile ? 12 : 2}
-        key={item.id}
-        style={{ marginBottom: "10px" }}
-      >
+      // <Grid
+      //   item
+      //   xs={isMobile ? 12 : 12}
+      //   md={isMobile ? 12 : 6}
+      //   lg={isMobile ? 12 : 2}
+      //   key={item.id}
+      //   style={{ marginBottom: "10px" }}
+      // >
+      <Box className="custom-card-box" key={items.identifier}>
         <BoxCard
           items={item}
           onClick={() => handleCardClick(item, item.primaryCategory)}
         ></BoxCard>
-      </Grid>
+      </Box>
     ));
   };
   const handleCardClick = (item, courseType) => {
@@ -301,11 +302,7 @@ const AllContent = () => {
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       )}
 
-      <Container
-        fixed={false}
-        role="main"
-        className="pb-30 allContent xs-pb-80"
-      >
+      <Container role="main" className="pb-30 allContent xs-pb-80">
         {domainName && (
           <Box className="d-flex jc-bw my-20" style={{ alignItems: "center" }}>
             <Box
@@ -399,36 +396,37 @@ const AllContent = () => {
                     dotListClass="custom-dot-list"
                     itemClass="carousel-item-padding-40-px allContentList xs-pb-20"
                   >
-                    <Box className="custom-card">
-                      {expandedCategory === category
-                        ? items.map((item) => (
-                            <Box className="custom-card-box" key={item.id}>
-                              <BoxCard
-                                items={item}
-                                onClick={() =>
-                                  handleCardClick(item, item.primaryCategory)
-                                }
-                              ></BoxCard>
-                            </Box>
-                          ))
-                        : items.slice(0, 4).map((item) => (
-                            <Box className="custom-card-box" key={item.id}>
-                              <BoxCard
-                                items={item}
-                                onClick={() =>
-                                  handleCardClick(item, item.primaryCategory)
-                                }
-                              ></BoxCard>
-                            </Box>
-                          ))}
-                    </Box>
+                    {expandedCategory === category
+                      ? items.map((item) => (
+                          <Grid item xs={12} md={6} lg={2} key={item.id}>
+                            <BoxCard
+                              items={item}
+                              onClick={() =>
+                                handleCardClick(item, item.primaryCategory)
+                              }
+                            ></BoxCard>
+                          </Grid>
+                        ))
+                      : items.slice(0, 4).map((item) => (
+                          <Grid item xs={12} md={6} lg={2} key={item.id}>
+                            <BoxCard
+                              items={item}
+                              onClick={() =>
+                                handleCardClick(item, item.primaryCategory)
+                              }
+                            ></BoxCard>
+                          </Grid>
+                        ))}
                   </Carousel>
                 ) : (
-                  <Grid container spacing={2}>
-                    {expandedCategory === category
-                      ? renderItems(items, category)
-                      : renderItems(items.slice(0, 6), category)}
-                  </Grid>
+                  <div style={{ display: "inline" }}>
+                    <Box className="custom-card">
+                      {expandedCategory === category
+                        ? renderItems(items, category)
+                        : renderItems(items.slice(0, 5), category)}
+                    </Box>
+                    <div className="blankCard"></div>
+                  </div>
                 )}
               </React.Fragment>
             );

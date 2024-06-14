@@ -432,8 +432,8 @@ const ContentList = (props) => {
           <Grid
             item
             xs={12}
-            md={4}
-            lg={9}
+            md={8}
+            lg={7}
             className=" height-none lg-pl-12"
             style={{ paddingTop: "0" }}
           >
