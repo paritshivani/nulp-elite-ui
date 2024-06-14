@@ -18,7 +18,6 @@ export default function EventCard({ items, index, onClick }) {
   const { t } = useTranslation();
 
   useEffect(() => {
-    console.log("items---", items);
     if (items.se_gradeLevels) {
       setSubdomain(items.se_gradeLevels[0]);
     } else if (items.gradeLevel) {
