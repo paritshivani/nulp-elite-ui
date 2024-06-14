@@ -261,7 +261,7 @@ const DrawerFilter = ({ SelectedFilters }) => {
               Clear all
             </Button>
           </Box>
-          <FormControl className="mt-9">
+          <FormControl className="mt-15">
             <InputLabel htmlFor="outlined-adornment-password">
               Search for a webinar
             </InputLabel>
@@ -280,10 +280,10 @@ const DrawerFilter = ({ SelectedFilters }) => {
           </FormControl>
           <Box className="filter-text mt-15">Select Date Range</Box>
 
-          <Box className="mt-9 dateRange">
+          <Box className="dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Select Date From" className="mt-9" />
+                <DatePicker label="Select Date From" />
               </DemoContainer>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
