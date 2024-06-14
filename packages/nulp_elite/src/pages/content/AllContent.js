@@ -419,7 +419,7 @@ const AllContent = () => {
                         ))}
                   </Carousel>
                 ) : (
-                  <div style={{ display: "flex" }}>
+                  <div style={{ display: "inline" }}>
                     <Box className="custom-card">
                       {expandedCategory === category
                         ? renderItems(items, category)
