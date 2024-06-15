@@ -709,13 +709,14 @@ button {
   }
   .carousel-bx .my-class:hover span {
     width: 150px;
+    word-wrap: break-word;
   }
   .carousel-bx .my-class:hover {
     background: #0e7a9c;
     color: #fff;
     border-radius: 4px;
     padding: 5px;
-    width: 215px;
+    width: 190px;
     /* transition-duration: 1s;
     transition-timing-function: ease; */
 

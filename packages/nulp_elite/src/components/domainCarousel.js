@@ -5,6 +5,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import domainWithImage from "../assets/domainImgForm.json";
 import { Tooltip } from "@mui/material";
+import { MarginOutlined } from "@mui/icons-material";
 
 const responsive = {
   superLargeDesktop: {
@@ -160,7 +161,7 @@ export default function DomainCarousel({
                       background: "#fff",
                       padding: "4px",
                       borderRadius: "10px",
-                      height: "38px",
+                      height: "48px",
                       width: "48px",
                     }}
                   >
@@ -169,6 +170,7 @@ export default function DomainCarousel({
                     <img
                       src={require(`../assets/domainImgs${domain.image}`)}
                       alt={domain.name}
+                      style={{ transform: "translate(5px, 4px)" }}
                     />
                     {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
                   </Box>
@@ -222,6 +224,7 @@ export default function DomainCarousel({
                       height: "45px",
                       width: "45px",
                       textAlign: "center",
+                      MarginLeft: "5px",
                     }}
                   >
                     {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
@@ -239,7 +242,12 @@ export default function DomainCarousel({
                   </Box>
 
                   {(activeDomain === index || activeStates === index) && (
-                    <span className="pl-5 text-white">{domain.name}</span>
+                    <span
+                      className="pl-5 text-white"
+                      style={{ width: "190px" }}
+                    >
+                      {domain.name}
+                    </span>
                   )}
                 </Box>
               </Box>

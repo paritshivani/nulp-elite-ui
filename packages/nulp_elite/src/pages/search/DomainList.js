@@ -455,16 +455,17 @@ const DomainList = ({ globalSearchQuery }) => {
                       <Box
                         style={{
                           background: "#fff",
-                          padding: "10px",
+                          padding: "5px",
                           borderRadius: "10px",
                           height: "48px",
                           width: "48px",
                           border: "solid 1px #E1E1E1",
+                          textAlign: "center",
                         }}
                       >
                         <img
                           src={require(`../../assets/domainImgs${term.image}`)}
-                          style={{ width: "100%" }}
+                          style={{ transform: "translate(2px, 5px)" }}
                         />
                       </Box>
                       <h5
@@ -473,6 +474,8 @@ const DomainList = ({ globalSearchQuery }) => {
                           fontWeight: "500",
                           paddingLeft: "10px",
                           margin: "0",
+                          width: "90px",
+                          wordWrap: "break-word",
                         }}
                       >
                         {term.name}
