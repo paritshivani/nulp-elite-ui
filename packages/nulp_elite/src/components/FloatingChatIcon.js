@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Popover, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
+import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 import { t } from "i18next";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +57,6 @@ const FloatingChatIcon = () => {
             borderRadius: "50%",
             width: "30px", // Adjust the size as needed
             height: "3  2px", // Adjust the size as needed
-           
           }}
         />
         {t("NULP_ASSIST")}
