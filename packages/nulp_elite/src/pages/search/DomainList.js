@@ -427,7 +427,10 @@ const DomainList = ({ globalSearchQuery }) => {
       </Box>
 
       {isMobile ? (
-        <Container maxWidth="xl" role="main">
+        <Container
+          role="main"
+          style={{ maxWidth: "100%", marginLeft: "14px", marginRight: "14px" }}
+        >
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
             <Grid
@@ -436,7 +439,7 @@ const DomainList = ({ globalSearchQuery }) => {
               style={{ margin: "20px 0", marginBottom: "10px" }}
             >
               {data &&
-                data.slice(0, 12).map((term) => (
+                data.slice(0, 10).map((term) => (
                   <Grid
                     item
                     xs={6}
@@ -528,30 +531,29 @@ const DomainList = ({ globalSearchQuery }) => {
                 <Alert severity="error">{error}</Alert>
               ) : popularCourses.length > 0 ? (
                 <div>
-                  <Grid
-                    container
-                    spacing={2}
-                    style={{ margin: "20px 0", marginBottom: "10px" }}
-                  >
-                    {popularCourses.slice(0, 12).map((items, index) => (
-                      <Grid
-                        item
-                        xs={6}
-                        sm={isMobile ? 6 : 12} // Show 2 courses per line on mobile view
-                        md={6}
-                        lg={2}
-                        key={items.identifier}
-                        style={{ marginBottom: "10px" }}
-                      >
+                  <Box className="custom-card">
+                    {popularCourses.slice(0, 10).map((items, index) => (
+                      // <Grid
+                      //   item
+                      //   xs={6}
+                      //   sm={isMobile ? 6 : 12} // Show 2 courses per line on mobile view
+                      //   md={6}
+                      //   lg={2}
+                      //   key={items.identifier}
+                      //   style={{ marginBottom: "10px" }}
+                      // >
+                      <Box className="custom-card-box" key={items.identifier}>
                         <BoxCard
                           items={items}
                           onClick={() =>
                             handleCardClick(items.identifier, items.contentType)
                           }
                         />
-                      </Grid>
+                      </Box>
+                      // </Grid>
                     ))}
-                  </Grid>
+                    <div className="blankCard"></div>
+                  </Box>
                 </div>
               ) : (
                 <NoResult />
@@ -564,27 +566,28 @@ const DomainList = ({ globalSearchQuery }) => {
               ) : error ? (
                 <Alert severity="error">{error}</Alert>
               ) : popularCourses.length > 0 ? (
-                <div>
-                  <Grid container spacing={2}>
-                    {popularCourses.slice(0, 10).map((items) => (
-                      <Grid
-                        item
-                        xs={6}
-                        md={6}
-                        lg={2}
-                        key={items.identifier}
-                        style={{ marginBottom: "10px" }}
-                      >
-                        <BoxCard
-                          items={items}
-                          onClick={() =>
-                            handleCardClick(items.identifier, items.contentType)
-                          }
-                        />
-                      </Grid>
-                    ))}
-                  </Grid>
-                </div>
+                <Box className="custom-card">
+                  {popularCourses.slice(0, 12).map((items) => (
+                    // <Grid
+                    //   item
+                    //   xs={6}
+                    //   md={6}
+                    //   lg={2}
+                    //   key={items.identifier}
+                    //   style={{ marginBottom: "10px" }}
+                    // >
+                    <Box key={items.identifier} className="custom-card-box">
+                      <BoxCard
+                        items={items}
+                        onClick={() =>
+                          handleCardClick(items.identifier, items.contentType)
+                        }
+                      />
+                    </Box>
+                    // </Grid>
+                  ))}
+                  <div className="blankCard"></div>
+                </Box>
               ) : (
                 <NoResult />
               )}
@@ -627,26 +630,28 @@ const DomainList = ({ globalSearchQuery }) => {
                 <Alert severity="error">{error}</Alert>
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
-                  <Grid container spacing={2}>
-                    {recentlyAddedCourses.slice(0, 10).map((items, index) => (
-                      <Grid
-                        item
-                        xs={6}
-                        sm={isMobile ? 6 : 12} // Show 2 courses per line on mobile view
-                        md={6}
-                        lg={2}
-                        key={items.identifier}
-                        style={{ marginBottom: "10px" }}
-                      >
+                  <Box className="custom-card">
+                    {recentlyAddedCourses.slice(0, 12).map((items, index) => (
+                      // <Grid
+                      //   item
+                      //   xs={6}
+                      //   sm={isMobile ? 6 : 12} // Show 2 courses per line on mobile view
+                      //   md={6}
+                      //   lg={2}
+                      //   key={items.identifier}
+                      //   style={{ marginBottom: "10px" }}
+                      // >
+                      <Box className="custom-card-box" key={items.identifier}>
                         <BoxCard
                           items={items}
                           onClick={() =>
                             handleCardClick(items.identifier, items.contentType)
                           }
                         />
-                      </Grid>
+                      </Box>
                     ))}
-                  </Grid>
+                    <div className="blankCard"></div>
+                  </Box>
                 </div>
               ) : (
                 <NoResult />
@@ -660,25 +665,27 @@ const DomainList = ({ globalSearchQuery }) => {
                 <Alert severity="error">{error}</Alert>
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
-                  <Grid container spacing={2} style={{ marginBottom: "10px" }}>
-                    {recentlyAddedCourses.slice(0, 10).map((items) => (
-                      <Grid
-                        item
-                        xs={6}
-                        md={6}
-                        lg={2}
-                        key={items.identifier}
-                        style={{ marginBottom: "10px" }}
-                      >
+                  <Box className="custom-card">
+                    {recentlyAddedCourses.slice(0, 12).map((items) => (
+                      // <Grid
+                      //   item
+                      //   xs={6}
+                      //   md={6}
+                      //   lg={2}
+                      //   key={items.identifier}
+                      //   style={{ marginBottom: "10px" }}
+                      // >
+                      <Box className="custom-card-box" key={items.identifier}>
                         <BoxCard
                           items={items}
                           onClick={() =>
                             handleCardClick(items.identifier, items.contentType)
                           }
                         />
-                      </Grid>
+                      </Box>
                     ))}
-                  </Grid>
+                    <div className="blankCard"></div>
+                  </Box>
                 </div>
               ) : (
                 <NoResult />

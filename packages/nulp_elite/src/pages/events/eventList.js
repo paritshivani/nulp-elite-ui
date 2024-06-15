@@ -1,43 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import EventCard from "components/EventCard";
 import Box from "@mui/material/Box";
+
+import { getAllContents } from "services/contentService";
+
 import Search from "components/search";
 import SearchBox from "components/search";
 import Filter from "components/filter";
 import contentData from "../../assets/contentSerach.json";
-import RandomImage from "../../assets/cardRandomImgs.json";
+// import RandomImage from "../../assets/cardRandomImgs.json";
+
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
-import * as contentService from "../../services/contentService";
-import queryString from "query-string";
 import Pagination from "@mui/material/Pagination";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import NoResult from "pages/content/noResultFound";
 import { t } from "i18next";
 import Alert from "@mui/material/Alert";
 import { useTranslation } from "react-i18next";
-import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 const Events = require("./events.json");
 import ToasterCommon from "../ToasterCommon";
-import Carousel from "react-multi-carousel";
 import DomainCarousel from "components/domainCarousel";
 import domainWithImage from "../../assets/domainImgForm.json";
 import DrawerFilter from "components/drawerFilter";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
 import Tab from "@mui/material/Tab";
 import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
-import PersonRemoveOutlinedIcon from "@mui/icons-material/PersonRemoveOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
-import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -98,7 +92,8 @@ const EventList = (props) => {
   };
 
   useEffect(() => {
-    setData(Events.result.Event);
+    // setData(Events.result.Event);
+    fetchData();
   }, []);
 
   const handleChange = (event, value) => {
@@ -129,6 +124,88 @@ const EventList = (props) => {
     });
   };
   const [value, setValue] = React.useState("1");
+
+  const fetchData = async () => {
+    setError(null);
+    let data = JSON.stringify({
+      request: {
+        filters: {
+          // se_boards: [selectedDomain],
+          // primaryCategory: [
+          //   "Collection",
+          //   "Resource",
+          //   "Content Playlist",
+          //   "Course",
+          //   "Course Assessment",
+          //   "Digital Textbook",
+          //   "eTextbook",
+          //   "Explanation Content",
+          //   "Learning Resource",
+          //   "Lesson Plan Unit",
+          //   "Practice Question Set",
+          //   "Teacher Resource",
+          //   "Textbook Unit",
+          //   "LessonPlan",
+          //   "FocusSpot",
+          //   "Learning Outcome Definition",
+          //   "Curiosity Questions",
+          //   "MarkingSchemeRubric",
+          //   "ExplanationResource",
+          //   "ExperientialResource",
+          //   "Practice Resource",
+          //   "TVLesson",
+          //   "Course Unit",
+          //   "Exam Question",
+          // ],
+          // visibility: ["Default", "Parent"],
+          objectType: "Event",
+        },
+        limit: 100,
+        sort_by: { lastPublishedOn: "desc" },
+        offset: 0,
+      },
+    });
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
+    };
+    // console.log(data.result.content)
+
+    try {
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
+
+      const response = await getAllContents(url, data, headers);
+      const sortedData = response?.data?.result?.content?.sort((a, b) => {
+        // Sort "Course" items first, then by primaryCategory
+        if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
+          return -1; // "Course" comes before other categories
+        } else if (
+          a.primaryCategory !== "Course" &&
+          b.primaryCategory === "Course"
+        ) {
+          return 1; // Other categories come after "Course"
+        } else {
+          return a.primaryCategory.localeCompare(b.primaryCategory);
+        }
+      });
+      setData(sortedData);
+    } catch (error) {
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    }
+  };
+  const getCookieValue = (name) => {
+    const cookies = document.cookie.split("; ");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const [cookieName, cookieValue] = cookie.split("=");
+      if (cookieName === name) {
+        return cookieValue;
+      }
+    }
+    return "";
+  };
 
   return (
     <div>
@@ -167,22 +244,25 @@ const EventList = (props) => {
         domains={domainList}
       />
       <Container
-        maxWidth="xl"
-        role="main"
-        className="allContent xs-pb-20 eventTab"
+        className="xs-pb-20 eventTab"
+        style={{ maxWidth: "100%", paddingRight: "14px", paddingLeft: "14px" }}
       >
-        <Grid container spacing={2} className="pt-8 mt-2">
+        <Grid
+          container
+          spacing={2}
+          className="pt-8 mt-2 custom-event-container"
+        >
           <Grid
             item
             xs={12}
             md={4}
             lg={3}
             className="sm-p-25 left-container profile"
-            style={{ padding: "0" }}
+            style={{ padding: "0", borderRight: "none" }}
           >
             <DrawerFilter SelectedFilters={handlefilterChanges} />
           </Grid>
-          <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20">
+          <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20 pt-0">
             {/* <Grid
             item
             xs={12}
