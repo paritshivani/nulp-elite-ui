@@ -79,6 +79,7 @@ const LearningHistory = () => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <Container
         role="main"
+        maxWidth="xl"
         className=" filter-profile profile allContentProfile cardheight"
       >
         {error && (
@@ -117,6 +118,7 @@ const LearningHistory = () => {
                   </Box>
                 ))
               )}
+              <div className="blankCard"></div>
             </Box>
           </Box>
         </Box>
