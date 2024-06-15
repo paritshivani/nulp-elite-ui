@@ -708,7 +708,6 @@ button {
     color: white !important;
   }
   .carousel-bx .my-class span {
-    width: 118px;
     word-wrap: break-word;
   }
   .carousel-bx .my-class:hover {
@@ -716,7 +715,7 @@ button {
     color: #fff;
     border-radius: 4px;
     padding: 5px;
-    width: 190px;
+    width: 235px;
     /* transition-duration: 1s;
     transition-timing-function: ease; */
 
