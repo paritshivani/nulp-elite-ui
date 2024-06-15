@@ -43,7 +43,7 @@ const FloatingChatIcon = () => {
         }}
       >
         <iframe
-          src="http://20.0.1.7:5000"
+          src="http://localhost:5000"
           width="350"
           height="500"
           title="ChatBot"
