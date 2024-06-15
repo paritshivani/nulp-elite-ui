@@ -63,7 +63,6 @@ const ContentList = (props) => {
   const [gradeLevels, setGradeLevels] = useState([]);
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
-  // const { domain } = location.state || {};
   const [domain, setDomain] = useState(location.state?.domain || undefined);
   const [domainName, setDomainName] = useState(
     location.state?.domainName || undefined
@@ -81,7 +80,8 @@ const ContentList = (props) => {
     location.state?.globalSearchQuery || undefined
   );
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
-
+  const [contentTypeFilter, setContentTypeFilter] = useState([]);
+  const [subDomainFilter, setSubDomainFilter] = useState([]);
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -133,22 +133,24 @@ const ContentList = (props) => {
       request: {
         filters: {
           status: ["Live"],
-          contentType: [
-            "Collection",
-            "TextBook",
-            "Course",
-            "LessonPlan",
-            "Resource",
-            "SelfAssess",
-            "PracticeResource",
-            "LearningOutcomeDefinition",
-            "ExplanationResource",
-            "ExperientialResource",
-            "eTextBook",
-            "TVLesson",
-          ],
+          contentType: contentTypeFilter
+            ? contentTypeFilter
+            : [
+                "Collection",
+                "TextBook",
+                "Course",
+                "LessonPlan",
+                "Resource",
+                "SelfAssess",
+                "PracticeResource",
+                "LearningOutcomeDefinition",
+                "ExplanationResource",
+                "ExperientialResource",
+                "eTextBook",
+                "TVLesson",
+              ],
           se_boards: domainfilter.se_board || [domain],
-          se_gradeLevels: filters.se_gradeleverl,
+          se_gradeLevels: subDomainFilter,
         },
         limit: 20,
         query: search.query || globalSearchQuery,
@@ -167,7 +169,6 @@ const ContentList = (props) => {
 
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
-
       const response = await contentService.getAllContents(url, req, headers);
 
       if (response.data.result.content && response.data.result.count <= 20) {
@@ -319,8 +320,10 @@ const ContentList = (props) => {
     }
   };
   // Function to handle data from the child
-  const handlefilterChanges = (data) => {
-    console.log("data---", data);
+  const handlefilterChanges = (selectedFilters) => {
+    setContentTypeFilter[selectedFilters.contentFilter];
+    setSubDomainFilter[selectedFilters.subDomainFilter];
+    fetchData();
   };
 
   return (
@@ -427,7 +430,10 @@ const ContentList = (props) => {
             className="sm-p-25 left-container mt-2 xs-hide left-filter"
             style={{ padding: "0" }}
           >
-            <DrawerFilter SelectedFilters={handlefilterChanges} />
+            <DrawerFilter
+              SelectedFilters={handlefilterChanges}
+              renderedPage="contentlist"
+            />
           </Grid>
           <Grid
             item

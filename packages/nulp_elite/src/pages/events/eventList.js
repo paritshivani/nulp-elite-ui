@@ -249,7 +249,10 @@ const EventList = (props) => {
             className="sm-p-25 left-container profile"
             style={{ padding: "0" }}
           >
-            <DrawerFilter SelectedFilters={handlefilterChanges} />
+            <DrawerFilter
+              SelectedFilters={handlefilterChanges}
+              renderedPage="EventList"
+            />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20">
             {/* <Grid
