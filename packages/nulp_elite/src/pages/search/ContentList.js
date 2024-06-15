@@ -329,7 +329,7 @@ const ContentList = (props) => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
       <Box
-        className="lg-hide header-bg w-40 mr-30"
+        className="lg-hide header-bg"
         style={{ alignItems: "center", paddingLeft: "23px" }}
       >
         <TextField
@@ -369,11 +369,7 @@ const ContentList = (props) => {
         )}
       </Box>
 
-      <Container
-        maxWidth="xl"
-        role="main"
-        className="allContent xs-pb-20  pb-30"
-      >
+      <Container maxWidth="xl" className="allContent xs-pb-20  pb-30">
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
         {/* <Box
@@ -433,7 +429,7 @@ const ContentList = (props) => {
             item
             xs={12}
             md={8}
-            lg={7}
+            lg={8}
             className=" height-none lg-pl-12"
             style={{ paddingTop: "0" }}
           >

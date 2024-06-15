@@ -427,10 +427,7 @@ const DomainList = ({ globalSearchQuery }) => {
       </Box>
 
       {isMobile ? (
-        <Container
-          role="main"
-          style={{ maxWidth: "100%", marginLeft: "14px", marginRight: "14px" }}
-        >
+        <Container role="main" maxWidth="xxl">
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
             <Grid

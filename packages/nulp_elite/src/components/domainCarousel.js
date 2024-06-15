@@ -158,17 +158,16 @@ export default function DomainCarousel({
                     className="imgBorder"
                     style={{
                       background: "#fff",
-                      padding: "10px",
+                      padding: "4px",
                       borderRadius: "10px",
                       height: "38px",
-                      width: "45px",
+                      width: "48px",
                     }}
                   >
                     {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
                 {(domain.image == undefined)&& <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />} */}
                     <img
                       src={require(`../assets/domainImgs${domain.image}`)}
-                      style={{ width: "40px", objectFit: "contain" }}
                       alt={domain.name}
                     />
                     {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
@@ -218,10 +217,10 @@ export default function DomainCarousel({
                     className="imgBorder"
                     style={{
                       background: "#fff",
-                      padding: "10px",
+                      padding: "9px 5px 1px 5px",
                       borderRadius: "10px",
-                      height: "35px",
-                      width: "35px",
+                      height: "45px",
+                      width: "45px",
                       textAlign: "center",
                     }}
                   >
@@ -231,7 +230,6 @@ export default function DomainCarousel({
                     <img
                       className="domainHover"
                       src={require(`../assets/domainImgs${domain.image}`)}
-                      style={{ width: "30px", objectFit: "contain" }}
                       alt={domain.name}
                     />
 
@@ -239,19 +237,9 @@ export default function DomainCarousel({
 
                     {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
                   </Box>
+
                   {(activeDomain === index || activeStates === index) && (
-                    <span className="pl-5">{domain.name}</span>
-                    // <Box
-                    //   className="domainText"
-                    //   sx={{ alignSelf: "center", padding: "0 19px 0 5px" }}
-                    // >
-                    //   <Typography
-                    //     level="title-md"
-                    //     style={{ fontSize: "12px", opacity: isActive ? 1 : 0 }}
-                    //   >
-                    //     {domain.name}
-                    //   </Typography>
-                    // </Box>
+                    <span className="pl-5 text-white">{domain.name}</span>
                   )}
                 </Box>
               </Box>

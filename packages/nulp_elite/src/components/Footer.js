@@ -142,7 +142,7 @@ export default function Footer() {
                 <>
                   {userData && (
                     <>
-                      <div className="img-text-circle">
+                      <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
                     </>

@@ -302,7 +302,7 @@ const AllContent = () => {
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       )}
 
-      <Container role="main" className="pb-30 allContent xs-pb-80">
+      <Container maxWidth="xl" className="pb-30 allContent xs-pb-80">
         {domainName && (
           <Box className="d-flex jc-bw my-20" style={{ alignItems: "center" }}>
             <Box
@@ -419,14 +419,15 @@ const AllContent = () => {
                         ))}
                   </Carousel>
                 ) : (
-                  <div style={{ display: "inline" }}>
+                  <>
+                    {" "}
                     <Box className="custom-card">
                       {expandedCategory === category
                         ? renderItems(items, category)
                         : renderItems(items.slice(0, 5), category)}
                     </Box>
                     <div className="blankCard"></div>
-                  </div>
+                  </>
                 )}
               </React.Fragment>
             );
