@@ -121,7 +121,7 @@ const AddConnections = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [blockedUserList, setBlockedUserList] = useState([]);
   const [blockUserIds, setBlockUserIds] = useState([]);
-  const [openBlock, setOpenBlock] = React.useState(false);
+  const [openBlock, setOpenBlock] = useState(null);
   const handleUnblockClose = () => setOpenBlock(false);
 
   const showErrorMessage = (msg) => {
@@ -1248,12 +1248,12 @@ const AddConnections = () => {
     rejectChat(userId);
     setOpen(false);
   };
-  const handleUnblockedClick = () => {
-    setOpenBlock(true);
+  const handleUnblockedClick = (userId) => {
+    setOpenBlock(userId);
   };
   const unBlockedUserChat = (userId) => {
     handleUnblockUser(userId);
-    setOpenBlock(false);
+    setOpenBlock(null);
   };
   const handleUnblockUser = async (receiverUserId) => {
     try {
@@ -1703,10 +1703,9 @@ const AddConnections = () => {
                                   <Link
                                     underline="none"
                                     color="primary"
-                                    // onClick={handleOpen}
-                                    onClick={() => {
-                                      handleUnblockedClick();
-                                    }}
+                                    onClick={() =>
+                                      handleUnblockedClick(item.userId)
+                                    }
                                     style={{
                                       fontSize: "12px",
                                       color: "#0E7A9C",
@@ -1717,7 +1716,7 @@ const AddConnections = () => {
                                     {t("UNBLOCK")}
                                   </Link>
                                   <Dialog
-                                    open={openBlock}
+                                    open={openBlock === item.userId}
                                     onClose={handleClose}
                                   >
                                     <DialogContent>
@@ -1918,6 +1917,7 @@ const AddConnections = () => {
                       </Box>
                     ) : (
                       <Chat
+                        key={selectedUser.userId}
                         senderUserId={selectedChatUser.senderUserId}
                         receiverUserId={selectedChatUser.receiverUserId}
                       />

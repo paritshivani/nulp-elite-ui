@@ -7,13 +7,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Divider } from "native-base";
-import RandomImage from "../assets/cardRandomImgs.json";
+// import RandomImage from "../assets/cardRandomImgs.json";
 import { useTranslation } from "react-i18next";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import AccessAlarmsOutlinedIcon from "@mui/icons-material/AccessAlarmsOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 export default function EventCard({ items, index, onClick }) {
-  const [imgUrl, setImgUrl] = useState();
+  // const [imgUrl, setImgUrl] = useState();
   const [subdomain, setSubdomain] = useState();
   const { t } = useTranslation();
 
@@ -25,7 +25,7 @@ export default function EventCard({ items, index, onClick }) {
     } else {
       setSubdomain(undefined);
     }
-    setImgUrl(RandomImage.ImagePaths[index % 10 || 10]);
+    // setImgUrl(RandomImage.ImagePaths[index % 10 || 10]);
   }, [items, index]);
 
   const unixTimestampToHumanDate = (unixTimestamp) => {

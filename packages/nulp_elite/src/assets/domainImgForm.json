@@ -62,7 +62,7 @@
             "name": "Medical",
             "index": 6,
             "status": "Live",
-            "image": "/uran.png"
+            "image": "/gov.png"
           },
           {
             "identifier": "nulp_board_environment_swm",
@@ -86,7 +86,7 @@
             "name": "Health",
             "index": 9,
             "status": "Live",
-            "image": "/building.png"
+            "image": "/health.png"
           },
           {
             "identifier": "nulp_board_education",

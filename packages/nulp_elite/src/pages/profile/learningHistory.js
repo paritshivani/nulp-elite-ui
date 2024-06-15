@@ -78,9 +78,9 @@ const LearningHistory = () => {
     <div>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <Container
-        maxWidth="xl"
         role="main"
-        className="allContent filter-profile profile allContentProfile"
+        maxWidth="xl"
+        className=" filter-profile profile allContentProfile cardheight"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -100,16 +100,12 @@ const LearningHistory = () => {
             />
           </Box>
           <Box>
-            <Grid
-              container
-              spacing={2}
-              style={{ textAlign: "left", paddingTop: "10px" }}
-            >
+            <Box className="custom-card">
               {filteredCourses?.length === 0 ? (
                 <NoResult />
               ) : (
                 filteredCourses?.map((course) => (
-                  <Grid item xs={6} md={3} key={course.courseName}>
+                  <Box className="custom-card-box" key={course.courseName}>
                     <BoxCard
                       items={course}
                       index={courseData.result.courses.length}
@@ -119,10 +115,11 @@ const LearningHistory = () => {
                         )
                       }
                     />
-                  </Grid>
+                  </Box>
                 ))
               )}
-            </Grid>
+              <div className="blankCard"></div>
+            </Box>
           </Box>
         </Box>
       </Container>

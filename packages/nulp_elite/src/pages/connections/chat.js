@@ -122,12 +122,20 @@ const Chat = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const senderUserId = propSenderUserId || routeSenderUserId;
   const receiverUserId = propReceiverUserId || routeReceiverUserId;
+  const _userId = util.userId();
 
   const { t } = useTranslation();
 
   useEffect(() => {
-    const _userId = util.userId();
     setLoggedInUserId(_userId);
+    if (receiverUserId) {
+      fetchUserInfo(receiverUserId);
+      fetchChats();
+      fetchBlockUserStatus();
+    }
+  }, [receiverUserId, _userId]);
+
+  useEffect(() => {
     const getInvitationNotAcceptedUserByIds = async () => {
       const requestBody = {
         request: {
@@ -204,13 +212,13 @@ const Chat = ({
     }
   };
   useEffect(() => {
-    if (loggedInUserId) {
+    if (_userId) {
       // Fetch block user status when component mounts
       fetchBlockUserStatus();
       fetchChats();
       updateMessage();
     }
-  }, [loggedInUserId]);
+  }, [_userId]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -221,15 +229,15 @@ const Chat = ({
   };
 
   useEffect(() => {
-    if (loggedInUserId && !isBlocked && messages.length > 0) {
-      const intervalId = setInterval(fetchChats, 5000);
+    if (_userId && !isBlocked && messages.length > 0) {
+      const intervalId = setInterval(fetchChats, 2000);
       return () => clearInterval(intervalId);
     }
-  }, [loggedInUserId, isBlocked, messages]);
+  }, [_userId, isBlocked, messages]);
 
   const fetchBlockUserStatus = async () => {
     try {
-      const url = `${urlConfig.URLS.DIRECT_CONNECT.GET_BLOCK_USER}?sender_id=${loggedInUserId}&receiver_id=${receiverUserId}`;
+      const url = `${urlConfig.URLS.DIRECT_CONNECT.GET_BLOCK_USER}?sender_id=${_userId}&receiver_id=${receiverUserId}`;
       const response = await axios.get(url, {
         withCredentials: true,
       });
@@ -239,7 +247,7 @@ const Chat = ({
           : null;
 
       setIsBlocked(response.data.result.length > 0); // Update isBlocked state based on API response
-      setShowUnblockOption(blockedUserId === loggedInUserId);
+      setShowUnblockOption(blockedUserId === _userId);
     } catch (error) {
       console.error("Error fetching block user status:", error);
       showErrorMessage(t("FAILED_TO_BLOCK_USER"));
@@ -248,20 +256,22 @@ const Chat = ({
 
   const fetchChats = async () => {
     try {
-      const url = `${
-        urlConfig.URLS.DIRECT_CONNECT.GET_CHATS
-      }?sender_id=${loggedInUserId}&receiver_id=${receiverUserId}&is_accepted=${true}`;
+      if (receiverUserId) {
+        const url = `${
+          urlConfig.URLS.DIRECT_CONNECT.GET_CHATS
+        }?sender_id=${_userId}&receiver_id=${receiverUserId}&is_accepted=${true}`;
 
-      // Check if the user is not blocked before fetching chats
-      if (!isBlocked) {
-        const response = await axios.get(url, {
-          withCredentials: true,
-        });
-        setMessages(response.data.result || []);
-        if (!response.data.result.length > 0) {
-          setTextValue(
-            "Hello, I would like to connect with you regarding some queries i had in your course."
-          );
+        // Check if the user is not blocked before fetching chats
+        if (!isBlocked) {
+          const response = await axios.get(url, {
+            withCredentials: true,
+          });
+          setMessages(response.data.result || []);
+          if (!response.data.result.length > 0) {
+            setTextValue(
+              "Hello, I would like to connect with you regarding some queries i had in your course."
+            );
+          }
         }
       }
     } catch (error) {

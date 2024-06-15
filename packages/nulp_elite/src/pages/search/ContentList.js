@@ -332,7 +332,7 @@ const ContentList = (props) => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
       <Box
-        className="lg-hide header-bg w-40 mr-30"
+        className="lg-hide header-bg"
         style={{ alignItems: "center", paddingLeft: "23px" }}
       >
         <TextField
@@ -372,11 +372,7 @@ const ContentList = (props) => {
         )}
       </Box>
 
-      <Container
-        maxWidth="xl"
-        role="main"
-        className="allContent xs-pb-20  pb-30"
-      >
+      <Container maxWidth="xl" className="allContent xs-pb-20  pb-30">
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
         {/* <Box
@@ -438,9 +434,9 @@ const ContentList = (props) => {
           <Grid
             item
             xs={12}
-            md={4}
-            lg={9}
-            className="sm-p-25 height-none"
+            md={8}
+            lg={8}
+            className=" height-none lg-pl-12"
             style={{ paddingTop: "0" }}
           >
             <Box textAlign="center" padding="10">
@@ -451,18 +447,23 @@ const ContentList = (props) => {
                   <Alert severity="error">{error}</Alert>
                 ) : data && data.content && data.content.length > 0 ? (
                   <div>
-                    <Grid
+                    <Box className="custom-card">
+                      {/* <Grid
                       container
                       spacing={2}
                       style={{ margin: "20px 0", marginBottom: "10px" }}
-                    >
+                    > */}
                       {data?.content?.map((items, index) => (
-                        <Grid
-                          item
-                          xs={6}
-                          md={6}
-                          lg={3}
-                          style={{ marginBottom: "10px" }}
+                        // <Grid
+                        //   item
+                        //   xs={6}
+                        //   md={6}
+                        //   lg={3}
+                        //   style={{ marginBottom: "10px" }}
+                        //   key={items.identifier}
+                        // >
+                        <Box
+                          className="custom-card-box jc-bw"
                           key={items.identifier}
                         >
                           <BoxCard
@@ -475,9 +476,13 @@ const ContentList = (props) => {
                               )
                             }
                           ></BoxCard>
-                        </Grid>
+                        </Box>
+
+                        // </Grid>
                       ))}
-                    </Grid>
+                      <div className="blankCard"></div>
+                    </Box>
+                    {/* </Grid> */}
                     <Pagination
                       count={totalPages}
                       page={pageNumber}
