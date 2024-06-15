@@ -124,7 +124,7 @@ function Header({ globalSearchQuery }) {
             <img
               src={require("../assets/logo.png")}
               style={{ maxWidth: "100%" }}
-              className="lg-w-140"
+              className="lg-w-140  logo"
             />
           </Link>
         </Box>
@@ -322,12 +322,12 @@ function Header({ globalSearchQuery }) {
                 </Box>
                 <Link
                   href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT_PAGE}
-                  className="pl-18 py-15"
+                  className="py-15"
                 >
                   <img
                     src={require("../assets/logo.png")}
                     style={{ maxWidth: "100%" }}
-                    className="lg-w-140"
+                    className="lg-w-140 logo"
                   />
                 </Link>
               </Box>

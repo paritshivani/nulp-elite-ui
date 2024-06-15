@@ -101,9 +101,11 @@ export default function BoxCard({ items, index, onClick }) {
               color:
                 items.status === 2
                   ? "#065872"
-                  : items.status === 1
+                  : items.status === 1 && items.batch.status === 2
+                  ? "#FF0000"
+                  : items.status === 0 && items.batch.status === 1
                   ? "#579b00"
-                  : "#FF0000",
+                  : "#579b00",
               fontSize: "12px",
               padding: "10px 0",
               textAlign: "left",
@@ -112,9 +114,11 @@ export default function BoxCard({ items, index, onClick }) {
           >
             {items.status === 2
               ? t("Completed")
-              : items.status === 1
-              ? t("ongoing")
-              : t("Expired")}
+              : items.status === 1 && items.batch.status === 2
+              ? t("Expired")
+              : items.status === 0 && items.batch.status === 1
+              ? t("Ongoing")
+              : t("Ongoing")}
           </Typography>
         </Box>
       </Card>

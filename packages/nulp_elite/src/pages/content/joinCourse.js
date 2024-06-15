@@ -839,7 +839,10 @@ const JoinCourse = () => {
                     fontSize: "14px",
                   }}
                 >
-                  {t("BATCH_START_DATE")}: {formatDate(batchData?.startDate)}
+                  {t("BATCH_START_DATE")}:{" "}
+                  {batchData?.startDate
+                    ? formatDate(batchData?.startDate)
+                    : "Not Provided"}
                 </Typography>
                 <Typography
                   variant="h7"
@@ -850,7 +853,10 @@ const JoinCourse = () => {
                     fontSize: "14px",
                   }}
                 >
-                  {t("BATCH_END_DATE")}: {formatDate(batchData?.endDate)}
+                  {t("BATCH_END_DATE")}:{" "}
+                  {batchData?.endDate
+                    ? formatDate(batchData?.endDate)
+                    : "Not Provided"}
                 </Typography>
                 <Typography
                   variant="h7"
@@ -862,7 +868,9 @@ const JoinCourse = () => {
                   }}
                 >
                   {t("LAST_DATE_FOR_ENROLLMENT")}:{" "}
-                  {formatDate(batchData?.enrollmentEndDate)}
+                  {batchData?.enrollmentEndDate
+                    ? formatDate(batchData.enrollmentEndDate)
+                    : "Not Provided"}
                 </Typography>
               </Box>
             </Box>

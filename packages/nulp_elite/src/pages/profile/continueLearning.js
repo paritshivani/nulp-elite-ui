@@ -133,8 +133,8 @@ const ContinueLearning = () => {
     <div>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <Container
-        role="main"
-        className=" filter-profile allContentlearning cardheight"
+        maxWidth="xl"
+        className=" filter-profile allContentlearning cardheight lg-pr-0"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -148,22 +148,9 @@ const ContinueLearning = () => {
             onChange={handleFilterChange}
           />
         </Box>
-        <Box textAlign="center" padding="10">
+        <Box textAlign="center" padding="10" className="mt-30">
           <Box>
             <Grid container spacing={2}>
-              {/* 
-              {filteredCourses.map((items) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  lg={3}
-                  style={{ marginBottom: "10px" }}
-                  key={items.contentId}
-                >
-                  <BoxCard items={items.content} index={filteredCourses.length}></BoxCard>
-                </Grid>
-              ))} */}
               <Box className="custom-card">
                 {filteredCourses.length === 0 ? (
                   <NoResult />
