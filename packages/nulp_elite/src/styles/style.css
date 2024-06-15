@@ -425,14 +425,6 @@ button {
     justify-content: center;
   }
 
-  .carousel-active-ui {
-    /* background: #0e7a9c; */
-    justify-content: stretch;
-    border-radius: 5px;
-    padding: 7px;
-    margin-right: 12px;
-    color: #fff;
-  }
   .ml-20 {
     margin-left: 20px !important;
   }
@@ -638,6 +630,14 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .carousel-active-ui {
+    /* background: #0e7a9c; */
+    justify-content: stretch;
+    border-radius: 5px;
+    padding: 7px;
+    margin-right: 12px;
+    color: #fff;
+  }
   .cardCourses {
     width: 121px;
   }
@@ -707,8 +707,7 @@ button {
   .text-white {
     color: white !important;
   }
-  .carousel-bx .my-class:hover span {
-    width: 150px;
+  .carousel-bx .my-class span {
     word-wrap: break-word;
   }
   .carousel-bx .my-class:hover {
@@ -716,7 +715,7 @@ button {
     color: #fff;
     border-radius: 4px;
     padding: 5px;
-    width: 190px;
+    width: 245px;
     /* transition-duration: 1s;
     transition-timing-function: ease; */
 
@@ -861,7 +860,7 @@ button {
     margin-right: 18px;
   }
   .custom-card-box {
-    width: 255px;
+    width: 245px;
     padding: 0 6px;
   }
   .lg-mt-10 {
