@@ -664,6 +664,7 @@ button {
   }
   .header-bg.xs-hide.py-15 {
     justify-content: space-between !important;
+    align-items: center;
   }
   .headerMenu {
     align-content: center;
@@ -671,7 +672,7 @@ button {
     color: #484848 !important;
     display: flex;
     justify-content: flex-start;
-    padding: 10px 20px;
+    padding: 10px 9px;
     text-align: center;
   }
   .Menuactive {
@@ -787,6 +788,9 @@ button {
   } */
   .lg-mt-12 {
     margin-top: 12px !important;
+  }
+  .lg-mt-5 {
+    margin-top: 5px !important;
   }
   .lg-mb-20 {
     margin-bottom: 20px;
