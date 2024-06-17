@@ -304,7 +304,10 @@ const AllContent = () => {
 
       <Container maxWidth="xl" className="pb-30 allContent xs-pb-80">
         {domainName && (
-          <Box className="d-flex jc-bw my-20" style={{ alignItems: "center" }}>
+          <Box
+            className="d-flex jc-bw my-20 px-10"
+            style={{ alignItems: "center" }}
+          >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
               className="d-flex xs-d-none"
@@ -425,8 +428,8 @@ const AllContent = () => {
                       {expandedCategory === category
                         ? renderItems(items, category)
                         : renderItems(items.slice(0, 5), category)}
+                      <div className="blankCard"></div>
                     </Box>
-                    <div className="blankCard"></div>
                   </>
                 )}
               </React.Fragment>
