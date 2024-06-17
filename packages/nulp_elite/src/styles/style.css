@@ -636,7 +636,7 @@ button {
   .MuiModal-root .custom-btn-primary,
   .MuiModal-root .custom-btn-default {
     width: 116px;
-    padding: 6px 0 !important;
+    padding: 9px 0 !important;
   }
   .addConnectChat .jss3 {
     min-height: 346px;
@@ -671,7 +671,7 @@ button {
     color: #484848 !important;
     display: flex;
     justify-content: flex-start;
-    padding: 10px 14px;
+    padding: 10px 20px;
     text-align: center;
   }
   .Menuactive {
@@ -1884,11 +1884,13 @@ custom-chip {
   align-items: center;
   border-radius: 5px !important;
   padding: 10px 0 !important;
-  width: 155px;
+  width: 159px;
   display: block !important;
   text-align: center;
 }
-
+.profile-btn.Menuactive {
+  display: flex !important;
+}
 .Menuactive:hover {
   background: #0e7a9c !important;
 }
