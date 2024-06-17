@@ -23,6 +23,7 @@ import ToasterCommon from "../ToasterCommon";
 import { Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import html2pdf from "html2pdf.js";
+const routeConfig = require("../../configs/routeConfig.json");
 
 const Certificate = () => {
   const { t } = useTranslation();
@@ -210,7 +211,7 @@ const Certificate = () => {
             </Box>
             <Link
               type="button"
-              href="/profile"
+              href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
               className="viewAll xs-cert-btn"
               // onClick={handleGoBack}
             >

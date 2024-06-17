@@ -103,7 +103,7 @@ export default function BoxCard({ items, index, onClick }) {
                   ? "#065872"
                   : items.status === 1 && items.batch.status === 2
                   ? "#FF0000"
-                  : items.status === 0 && items.batch.status === 1
+                  : (items.status === 0 || 1) && items.batch.status === 1
                   ? "#579b00"
                   : "#579b00",
               fontSize: "12px",
@@ -116,7 +116,7 @@ export default function BoxCard({ items, index, onClick }) {
               ? t("Completed")
               : items.status === 1 && items.batch.status === 2
               ? t("Expired")
-              : items.status === 0 && items.batch.status === 1
+              : (items.status === 0 || 1) && items.batch.status === 1
               ? t("Ongoing")
               : t("Ongoing")}
           </Typography>
