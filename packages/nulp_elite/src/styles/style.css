@@ -303,7 +303,7 @@ button {
     background: #fff !important;
   }
   .cardLabelEllips {
-    width: 217px;
+    width: 175px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -630,6 +630,17 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .invite-popup .css-1xszg68 {
+    width: 27% !important;
+  }
+  .MuiModal-root .custom-btn-primary,
+  .MuiModal-root .custom-btn-default {
+    width: 116px;
+    padding: 6px 0 !important;
+  }
+  .addConnectChat .jss3 {
+    min-height: 346px;
+  }
   .carousel-active-ui {
     /* background: #0e7a9c; */
     justify-content: stretch;
@@ -691,6 +702,9 @@ button {
   .pb-0 {
     padding-bottom: 0 !important;
   }
+  .px-10 {
+    padding: 0 10px !important;
+  }
   .lg-ml-0 {
     margin-left: 0 !important;
   }
@@ -708,14 +722,15 @@ button {
     color: white !important;
   }
   .carousel-bx .my-class span {
-    word-wrap: break-word;
+    word-break: break-all;
+    width: 115px !important;
   }
   .carousel-bx .my-class:hover {
     background: #0e7a9c;
     color: #fff;
     border-radius: 4px;
     padding: 5px;
-    width: 245px;
+    width: 180px;
     /* transition-duration: 1s;
     transition-timing-function: ease; */
 
@@ -1865,10 +1880,15 @@ custom-chip {
 }
 .Menuactive {
   background: #0e7a9c !important;
-  padding: 10px !important;
-  border-radius: 5px !important;
   color: #fff !important;
+  align-items: center;
+  border-radius: 5px !important;
+  padding: 10px 0 !important;
+  width: 155px;
+  display: block !important;
+  text-align: center;
 }
+
 .Menuactive:hover {
   background: #0e7a9c !important;
 }

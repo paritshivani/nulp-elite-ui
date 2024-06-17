@@ -1291,7 +1291,7 @@ const AddConnections = () => {
       <Container
         maxWidth="xxl"
         role="main"
-        className="pt-0 xs-p-0 xs-pb-75 lg-ml-0"
+        className="pt-0 xs-p-0 xs-pb-75 lg-ml-0 lg-pr-0"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -1515,6 +1515,7 @@ const AddConnections = () => {
                                 onClose={handleCloseModal}
                                 aria-labelledby="modal-title"
                                 aria-describedby="modal-desc"
+                                className="invite-popup"
                                 sx={{
                                   display: "flex",
                                   justifyContent: "center",
