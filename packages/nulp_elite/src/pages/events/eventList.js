@@ -177,20 +177,20 @@ const EventList = (props) => {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
 
       const response = await getAllContents(url, data, headers);
-      const sortedData = response?.data?.result?.content?.sort((a, b) => {
-        // Sort "Course" items first, then by primaryCategory
-        if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
-          return -1; // "Course" comes before other categories
-        } else if (
-          a.primaryCategory !== "Course" &&
-          b.primaryCategory === "Course"
-        ) {
-          return 1; // Other categories come after "Course"
-        } else {
-          return a.primaryCategory.localeCompare(b.primaryCategory);
-        }
-      });
-      setData(sortedData);
+      // const sortedData = response?.data?.result?.content?.sort((a, b) => {
+      //   // Sort "Course" items first, then by primaryCategory
+      //   if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
+      //     return -1; // "Course" comes before other categories
+      //   } else if (
+      //     a.primaryCategory !== "Course" &&
+      //     b.primaryCategory === "Course"
+      //   ) {
+      //     return 1; // Other categories come after "Course"
+      //   } else {
+      //     return a.primaryCategory.localeCompare(b.primaryCategory);
+      //   }
+      // });
+      setData(response.data.result.Event);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }

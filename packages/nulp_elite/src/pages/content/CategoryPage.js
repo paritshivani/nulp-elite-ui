@@ -241,7 +241,7 @@ const CategoryPage = () => {
           </Alert>
         )}
         <Box
-          className="d-flex jc-bw mr-20 my-20"
+          className="d-flex jc-bw mr-20 my-20 px-10"
           style={{ alignItems: "center" }}
         >
           <p className="h3-title">{category}</p>
