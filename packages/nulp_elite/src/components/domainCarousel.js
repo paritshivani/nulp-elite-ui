@@ -43,7 +43,6 @@ export default function DomainCarousel({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [activeDomain, setActiveDomain] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  console.log("domains-----", domains);
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -75,9 +74,6 @@ export default function DomainCarousel({
     });
     const croppedArray = itemsArray?.slice(0, 10);
     setData(croppedArray);
-
-    console.log("itemsArray---", itemsArray);
-    console.log("data---", data);
   }, []);
 
   useEffect(() => {
@@ -105,12 +101,6 @@ export default function DomainCarousel({
     } else {
       onSelectDomain(query, name);
     }
-
-    // const newActiveStates = [...activeStates]; // Create a copy of activeStates
-    // newActiveStates[index] = !newActiveStates[index]; // Toggle the active state at the clicked index
-    // setActiveStates(newActiveStates);
-
-    // setIsActive(!isActive);
   };
 
   const handleMouseEnter = (index) => {
