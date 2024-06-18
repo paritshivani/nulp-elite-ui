@@ -269,7 +269,7 @@ const DomainList = ({ globalSearchQuery }) => {
 
   const loadContents = async (term) => {
     // console.log(term);
-    navigate(routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST / 1, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
       state: { domain: term.code },
     });
   };
@@ -282,7 +282,7 @@ const DomainList = ({ globalSearchQuery }) => {
   };
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
-    navigate(routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST / 1, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
       state: { domain: query, domainName: domainName },
     });
   };
