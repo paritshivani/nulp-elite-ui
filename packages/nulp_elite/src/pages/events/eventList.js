@@ -336,7 +336,7 @@ const EventList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container profile"
+            className="sm-p-25 left-container profile flter-btn"
             style={{ padding: "0", borderRight: "none" }}
           >
             <DrawerFilter
@@ -344,7 +344,7 @@ const EventList = (props) => {
               renderedPage="EventList"
             />
           </Grid>
-          <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20 pt-0">
+          <Grid item xs={12} md={8} lg={9} className="pb-20 pt-0 event-list ">
             <Box textAlign="center" padding="10">
               <Box>
                 {isLoading ? (
@@ -380,7 +380,7 @@ const EventList = (props) => {
                             data.map((items, index) => (
                               <Grid
                                 item
-                                xs={6}
+                                xs={12}
                                 md={6}
                                 lg={6}
                                 style={{ marginBottom: "10px" }}

@@ -185,7 +185,7 @@ const EventDetails = () => {
           spacing={2}
           className="bg-whitee mt-20 custom-event-container mb-20"
         >
-          <Grid item xs={6} md={6} lg={2}>
+          <Grid item xs={3} md={6} lg={2}>
             {/* <img
               src={
                 EventDetailResponse.appIcon
@@ -201,7 +201,7 @@ const EventDetails = () => {
               alt="App Icon"
             />
           </Grid>
-          <Grid item xs={6} md={6} lg={6} style={{ paddingLeft: "60px" }}>
+          <Grid item xs={9} md={6} lg={6} className="lg-pl-60">
             <Typography gutterBottom className="mt-10  h1-title mb-20">
               {detalData.name}
             </Typography>

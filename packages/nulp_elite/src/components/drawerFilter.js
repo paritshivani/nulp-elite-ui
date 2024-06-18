@@ -41,7 +41,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     fetchDataFramework();
   }, []);
   const [state, setState] = React.useState({
-    left: false,
+    filter: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   // const handleResize = () => {
@@ -285,7 +285,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       {isMobile ? (
         <Box>
           <div>
-            {["left"].map((anchor) => (
+            {["filter"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
                 <SwipeableDrawer
