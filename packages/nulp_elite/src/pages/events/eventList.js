@@ -390,7 +390,7 @@ const EventList = (props) => {
                                   items={items}
                                   index={index}
                                   onClick={() =>
-                                    handleCardClick("do_11405689580730777611")
+                                    handleCardClick(items.identifier)
                                   }
                                   // onClick={() => alert("hii")}
                                 ></EventCard>
@@ -418,9 +418,8 @@ const EventList = (props) => {
                                   items={items}
                                   index={index}
                                   onClick={() =>
-                                    handleCardClick("do_11405689580730777611")
+                                    handleCardClick("items.identifier")
                                   }
-                                  // onClick={() => alert("hii")}
                                 ></EventCard>
                               </Grid>
                             ))}
