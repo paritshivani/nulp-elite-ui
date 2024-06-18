@@ -140,24 +140,24 @@ const ContentList = (props) => {
       request: {
         filters: {
           status: ["Live"],
-          contentType: contentTypeFilter
-            ? contentTypeFilter
-            : [
-                "Collection",
-                "TextBook",
-                "Course",
-                "LessonPlan",
-                "Resource",
-                "SelfAssess",
-                "PracticeResource",
-                "LearningOutcomeDefinition",
-                "ExplanationResource",
-                "ExperientialResource",
-                "eTextBook",
-                "TVLesson",
-              ],
+          contentType: contentTypeFilter && contentTypeFilter.length > 0
+        ? contentTypeFilter
+        : [
+            "Collection",
+            "TextBook",
+            "Course",
+            "LessonPlan",
+            "Resource",
+            "SelfAssess",
+            "PracticeResource",
+            "LearningOutcomeDefinition",
+            "ExplanationResource",
+            "ExperientialResource",
+            "eTextBook",
+            "TVLesson",
+          ],
           se_boards: domainfilter.se_board || [domain],
-          se_gradeLevels: subDomainFilter,
+          se_gradeLevels: subDomainFilter && subDomainFilter.length>0 ? subDomainFilter : [],
         },
         limit: 20,
         query: search.query || globalSearchQuery,
@@ -205,7 +205,7 @@ const ContentList = (props) => {
       navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/${value}`, {
         state: { domain: domain },
       });
-      // fetchData();
+      fetchData();
     }
   };
 
@@ -328,11 +328,10 @@ const ContentList = (props) => {
   };
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
-    setContentTypeFilter[selectedFilters.contentFilter];
-
-    setSubDomainFilter[selectedFilters.subDomainFilter];
-    // fetchData();
-  };
+  setContentTypeFilter(selectedFilters.contentFilter || []);
+  setSubDomainFilter(selectedFilters.subDomainFilter || []);
+  fetchData(); 
+};
 
   return (
     <div>
@@ -434,6 +433,7 @@ const ContentList = (props) => {
             className="sm-p-25 left-container mt-2 xs-hide left-filter"
             style={{ padding: "0" }}
           >
+          
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
               renderedPage="contentlist"
