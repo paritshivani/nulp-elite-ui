@@ -132,15 +132,57 @@ const EventList = (props) => {
   const [value, setValue] = React.useState("1");
 
   const fetchAllData = async () => {
+    let filters = {};
+    if (searchQuery && domainfilter && subDomainFilter) {
+      filters = {
+        objectType: ["Event"],
+        query: searchQuery ? searchQuery : "",
+        se_boards: domainfilter.se_board || [domain],
+        se_gradeLevels: subDomainFilter,
+      };
+    } else if (searchQuery && domainfilter) {
+      filters = {
+        objectType: ["Event"],
+        query: searchQuery ? searchQuery : "",
+        se_boards: domainfilter.se_board || [domain],
+      };
+    } else if (searchQuery && subDomainFilter) {
+      filters = {
+        objectType: ["Event"],
+        query: searchQuery ? searchQuery : "",
+        se_gradeLevels: subDomainFilter,
+      };
+    } else if (domainfilter && subDomainFilter) {
+      filters = {
+        objectType: ["Event"],
+        se_boards: domainfilter.se_board || [domain],
+        se_gradeLevels: subDomainFilter,
+      };
+    } else if (domainfilter) {
+      filters = {
+        objectType: ["Event"],
+        se_boards: domainfilter.se_board || [domain],
+      };
+    } else if (subDomainFilter) {
+      filters = {
+        objectType: ["Event"],
+        se_gradeLevels: subDomainFilter,
+      };
+    } else if (searchQuery) {
+      filters = {
+        objectType: ["Event"],
+        query: searchQuery ? searchQuery : "",
+      };
+    } else {
+      filters = {
+        objectType: ["Event"],
+      };
+    }
+
     setError(null);
     let data = JSON.stringify({
       request: {
-        filters: {
-          objectType: "Event",
-          query: searchQuery ? searchQuery : "",
-          se_boards: domainfilter.se_board || [domain],
-          se_gradeLevels: subDomainFilter,
-        },
+        filters: filters,
         limit: 100,
         sort_by: { lastPublishedOn: "desc" },
         offset: 0,
