@@ -567,7 +567,7 @@ const DomainList = ({ globalSearchQuery }) => {
                 <Alert severity="error">{error}</Alert>
               ) : popularCourses.length > 0 ? (
                 <Box className="custom-card">
-                  {popularCourses.slice(0, 12).map((items) => (
+                  {popularCourses.slice(0, 10).map((items) => (
                     // <Grid
                     //   item
                     //   xs={6}
@@ -631,7 +631,7 @@ const DomainList = ({ globalSearchQuery }) => {
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
-                    {recentlyAddedCourses.slice(0, 12).map((items, index) => (
+                    {recentlyAddedCourses.slice(0, 10).map((items, index) => (
                       // <Grid
                       //   item
                       //   xs={6}
@@ -666,7 +666,7 @@ const DomainList = ({ globalSearchQuery }) => {
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
-                    {recentlyAddedCourses.slice(0, 12).map((items) => (
+                    {recentlyAddedCourses.slice(0, 10).map((items) => (
                       // <Grid
                       //   item
                       //   xs={6}
