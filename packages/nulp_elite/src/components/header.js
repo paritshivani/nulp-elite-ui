@@ -412,7 +412,7 @@ function Header({ globalSearchQuery }) {
                 <HomeOutlinedIcon
                   style={{ padding: "0 5px 0 0", verticalAlign: "middle" }}
                 />
-                {t("Home")}
+                {t("HOME")}
               </Link>
               <Link
                 href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
