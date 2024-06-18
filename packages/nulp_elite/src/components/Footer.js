@@ -131,10 +131,11 @@ export default function Footer() {
               icon={<ChatOutlinedIcon />}
             />
             <BottomNavigationAction
-              onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.POFILE)}
+              onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
               label={t("PROFILE")}
               className={
-                location.pathname === `${routeConfig.ROUTES.POFILE_PAGE.POFILE}`
+                location.pathname ===
+                `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}`
                   ? "navigateActive"
                   : ""
               }

@@ -460,7 +460,7 @@ function Header({ globalSearchQuery }) {
               {/* User Profile */}
               <Tooltip
                 className={
-                  activePath === `${routeConfig.ROUTES.POFILE_PAGE.POFILE}` ||
+                  activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
                   activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
                     ? "Menuactive"
                     : ""

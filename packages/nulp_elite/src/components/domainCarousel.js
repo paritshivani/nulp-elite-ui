@@ -43,7 +43,7 @@ export default function DomainCarousel({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [activeDomain, setActiveDomain] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-
+  console.log("domains-----", domains);
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
   };

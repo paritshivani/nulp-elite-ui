@@ -1918,6 +1918,7 @@ const AddConnections = () => {
                       </Box>
                     ) : (
                       <Chat
+                        key={selectedUser.userId}
                         senderUserId={selectedChatUser.senderUserId}
                         receiverUserId={selectedChatUser.receiverUserId}
                       />

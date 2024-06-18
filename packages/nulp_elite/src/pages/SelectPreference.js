@@ -80,7 +80,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
         const custodianOrgId = data?.result?.response?.value;
         setCustodianOrgId(custodianOrgId);
         // setUserRootOrgId(localStorage.getItem("userRootOrgId"));
-        const rootOrgId = localStorage.getItem("userRootOrgId");
+        const rootOrgId = localStorage.getItem("rootOrgId");
+        if(custodianOrgId){
         if (custodianOrgId === rootOrgId) {
           const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
           const response = await fetch(url);
@@ -95,6 +96,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
           const defaultFramework = data?.result?.channel?.defaultFramework;
           setDefaultFramework(defaultFramework);
         }
+      }
       } catch (error) {
         console.error("Error fetching user data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));

@@ -22,13 +22,21 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useTranslation } from "react-i18next";
+import ToasterCommon from "../pages/ToasterCommon";
 
-const DrawerFilter = ({ SelectedFilters }) => {
+const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const contentTypeList = ["Courses", "Manuals and SOPs", "Reports"];
   const [subCategory, setSubCategory] = React.useState();
   const [selectedContentType, setSelectedContentType] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
-
+  const [toasterMessage, setToasterMessage] = useState("");
+  const [toasterOpen, setToasterOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState();
+  const [eventSearch, setEventSearch] = useState();
+  const [selectedStartDate, setStartDate] = useState();
+  const [selectedEndDate, setEndDate] = useState();
+  const { t } = useTranslation();
   useEffect(() => {
     fetchDataFramework();
   }, []);
@@ -79,9 +87,7 @@ const DrawerFilter = ({ SelectedFilters }) => {
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
       const response = await frameworkService.getChannel(url);
-      console.log("user channel---", response);
     } catch (error) {
-      console.log("error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     } finally {
     }
@@ -95,34 +101,59 @@ const DrawerFilter = ({ SelectedFilters }) => {
 
       setSubCategory(response?.data?.result?.framework?.categories[1].terms);
     } catch (error) {
-      console.log("nulp--  error-", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     } finally {
-      console.log("nulp finally---");
     }
+  };
+  // Handle input change
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   // Function to handle checkbox change
   const handleCheckboxChange = (event, item, filterType) => {
+    console.log();
     if (filterType == "contentType") {
       if (event.target.checked) {
-        // Add item to selectedItems if checked
+        console.log("event.target.checked", selectedContentType);
+
         setSelectedContentType((prev) => [...prev, item]);
+        console.log("selectedContentType---", selectedContentType);
       } else {
-        // Remove item from selectedItems if unchecked
         setSelectedContentType((prev) => prev.filter((i) => i !== item));
+        console.log("selectedContentType1111---", selectedContentType);
       }
     } else if (filterType == "subCategory") {
       if (event.target.checked) {
-        // Add item to selectedItems if checked
-        console.log("item--", item);
-        setSelectedSubDomain((prev) => [...prev, item]);
+        console.log("item--", item.item);
+        setSelectedSubDomain((prev) => [...prev, item.item.code]);
+        console.log("selectedSubDomain---", selectedSubDomain);
       } else {
-        // Remove item from selectedItems if unchecked
-        setSelectedSubDomain((prev) => prev.filter((i) => i !== item));
+        setSelectedSubDomain((prev) => prev.filter((i) => i !== item.code));
+        console.log("selectedSubDomain111---", selectedSubDomain);
       }
+    } else if (filterType == "searchTerm") {
+      console.log("item--", item);
+      setEventSearch((prev) => [...prev, item]);
+      console.log("setEventSearch---", eventSearch);
+    } else if (filterType == "startDate") {
+      console.log("item--", item);
+      setStartDate((prev) => [...prev, item]);
+      console.log("startDate---", selectedStartDate);
+    } else if (filterType == "endDate") {
+      console.log("item--", item);
+      setEndDate((prev) => [...prev, item]);
+      console.log("endDate---", selectedEndDate);
     }
-    SelectedFilters({ selectedContentType, selectedSubDomain });
+    SelectedFilters({
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+      eventSearch: eventSearch,
+      contentFilter: selectedContentType,
+      subDomainFilter: selectedSubDomain,
+    });
+    console.log("selectedSubDomain222---", selectedSubDomain);
+    console.log("selectedContentType---", selectedContentType);
   };
   const list = (anchor) => (
     <Box
@@ -138,56 +169,71 @@ const DrawerFilter = ({ SelectedFilters }) => {
           Clear all
         </Button>
       </Box>
-      <FormControl>
-        <InputLabel htmlFor="outlined-adornment-password">
-          Search for a webinar
-        </InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          type="text"
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton aria-label="toggle password visibility">
-                {<SearchOutlinedIcon />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Search Sub-domain"
-        />
-      </FormControl>
-      <Box className="filter-text mt-15">Select Date Range</Box>
+      {renderedPage == "eventList" && (
+        <FormControl>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Search for a webinar
+          </InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type="text"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton aria-label="toggle password visibility">
+                  {<SearchOutlinedIcon />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Search Sub-domain"
+          />
+        </FormControl>
+      )}
 
-      <Box className="mt-9 dateRange">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker"]}>
-            <DatePicker label="Select Date From" className="mt-9" />
-          </DemoContainer>
-        </LocalizationProvider>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker"]}>
-            <DatePicker label="Select Date To" className="mt-9" />
-          </DemoContainer>
-        </LocalizationProvider>
-      </Box>
+      {renderedPage == "eventList" && (
+        <div>
+          {" "}
+          <Box className="filter-text mt-15">Select Date Range</Box>
+          <Box className="mt-9 dateRange">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker label="Select Date From" className="mt-9" />
+              </DemoContainer>
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker label="Select Date To" className="mt-9" />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Box>
+        </div>
+      )}
 
-      <Box className="filter-text mt-15">Content Type</Box>
-      <List>
-        {contentTypeList &&
-          contentTypeList.map((contentType) => (
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={(event) =>
-                      handleCheckboxChange(event, contentType, "contentType")
+      {renderedPage == "contentlist" && (
+        <div>
+          <Box className="filter-text mt-15">Content Type</Box>
+          <List>
+            {contentTypeList &&
+              contentTypeList.map((contentType) => (
+                <ListItem className="filter-ul-text">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(event) =>
+                          handleCheckboxChange(
+                            event,
+                            contentType,
+                            "contentType"
+                          )
+                        }
+                      />
                     }
+                    label={contentType}
                   />
-                }
-                label={contentType}
-              />
-            </ListItem>
-          ))}
-      </List>
+                </ListItem>
+              ))}
+          </List>
+        </div>
+      )}
       <Box className="filter-text mt-15">Sub-domains</Box>
       <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">
@@ -235,6 +281,7 @@ const DrawerFilter = ({ SelectedFilters }) => {
   );
   return (
     <>
+      {toasterMessage && <ToasterCommon response={toasterMessage} />}
       {isMobile ? (
         <Box>
           <div>
@@ -261,60 +308,102 @@ const DrawerFilter = ({ SelectedFilters }) => {
               Clear all
             </Button>
           </Box>
-          <FormControl className="mt-15">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Search for a webinar
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type="text"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility">
-                    {<SearchOutlinedIcon />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Search Sub-domain"
-            />
-          </FormControl>
-          <Box className="filter-text mt-15">Select Date Range</Box>
+          {renderedPage == "eventList" && (
+            <FormControl className="mt-9">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Search for a webinar
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-search"
+                type="text"
+                value={searchTerm}
+                onChange={handleInputChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleCheckboxChange(
+                        event,
+                        { searchTerm },
+                        "eventSearch"
+                      )}
+                    >
+                      {<SearchOutlinedIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Search Sub-domain"
+              />
+            </FormControl>
+          )}
+          {renderedPage == "eventList" && (
+            <div>
+              <Box className="filter-text mt-15">Select Date Range</Box>
 
-          <Box className="dateRange">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Select Date From" />
-              </DemoContainer>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Select Date To" className="mt-9" />
-              </DemoContainer>
-            </LocalizationProvider>
-          </Box>
+              <Box className="mt-9 dateRange">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      label="Select Date From"
+                      className="mt-9"
+                      value={selectedStartDate}
+                      onChange={(event) =>
+                        handleCheckboxChange(
+                          event,
+                          selectedStartDate,
+                          "startDate"
+                        )
+                      }
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      label="Select Date To"
+                      className="mt-9"
+                      value={selectedStartDate}
+                      onChange={(event) =>
+                        handleCheckboxChange(
+                          event,
+                          selectedStartDate,
+                          "startDate"
+                        )
+                      }
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
+            </div>
+          )}
 
-          <Box className="filter-text mt-15">Content Type</Box>
-          <List>
-            {contentTypeList &&
-              contentTypeList.map((contentType) => (
-                <ListItem className="filter-ul-text">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(event) =>
-                          handleCheckboxChange(
-                            event,
-                            contentType,
-                            "contentType"
-                          )
+          {renderedPage == "contentlist" && (
+            <div>
+              <Box className="filter-text mt-15">Content Type</Box>
+              <List>
+                {contentTypeList &&
+                  contentTypeList.map((contentType) => (
+                    <ListItem className="filter-ul-text">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={(event) =>
+                              handleCheckboxChange(
+                                event,
+                                contentType,
+                                "contentType"
+                              )
+                            }
+                          />
                         }
+                        label={contentType}
                       />
-                    }
-                    label={contentType}
-                  />
-                </ListItem>
-              ))}
-          </List>
+                    </ListItem>
+                  ))}
+              </List>
+            </div>
+          )}
           <Box className="filter-text lg-mt-12 mb-20">Sub-domains</Box>
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-password">
