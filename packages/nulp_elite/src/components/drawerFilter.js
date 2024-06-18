@@ -32,7 +32,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState();
+  const [eventSearch, setEventSearch] = useState();
+  const [selectedStartDate, setStartDate] = useState();
+  const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
   useEffect(() => {
     fetchDataFramework();
@@ -102,6 +105,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     } finally {
     }
   };
+  // Handle input change
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   // Function to handle checkbox change
   const handleCheckboxChange = (event, item, filterType) => {
@@ -125,9 +132,24 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
         setSelectedSubDomain((prev) => prev.filter((i) => i !== item.code));
         console.log("selectedSubDomain111---", selectedSubDomain);
       }
+    } else if (filterType == "searchTerm") {
+      console.log("item--", item);
+      setEventSearch((prev) => [...prev, item]);
+      console.log("setEventSearch---", eventSearch);
+    } else if (filterType == "startDate") {
+      console.log("item--", item);
+      setStartDate((prev) => [...prev, item]);
+      console.log("startDate---", selectedStartDate);
+    } else if (filterType == "endDate") {
+      console.log("item--", item);
+      setEndDate((prev) => [...prev, item]);
+      console.log("endDate---", selectedEndDate);
     }
     SelectedFilters({
-      selectedFilters: selectedContentType,
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+      eventSearch: eventSearch,
+      contentFilter: selectedContentType,
       subDomainFilter: selectedSubDomain,
     });
     console.log("selectedSubDomain222---", selectedSubDomain);
@@ -292,11 +314,20 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                 Search for a webinar
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password"
+                id="outlined-adornment-search"
                 type="text"
+                value={searchTerm}
+                onChange={handleInputChange}
                 endAdornment={
                   <InputAdornment position="end">
-                    <IconButton aria-label="toggle password visibility">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleCheckboxChange(
+                        event,
+                        { searchTerm },
+                        "eventSearch"
+                      )}
+                    >
                       {<SearchOutlinedIcon />}
                     </IconButton>
                   </InputAdornment>
@@ -312,12 +343,35 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               <Box className="mt-9 dateRange">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="Select Date From" className="mt-9" />
+                    <DatePicker
+                      label="Select Date From"
+                      className="mt-9"
+                      value={selectedStartDate}
+                      onChange={(event) =>
+                        handleCheckboxChange(
+                          event,
+                          selectedStartDate,
+                          "startDate"
+                        )
+                      }
+                      renderInput={(params) => <TextField {...params} />}
+                    />
                   </DemoContainer>
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="Select Date To" className="mt-9" />
+                    <DatePicker
+                      label="Select Date To"
+                      className="mt-9"
+                      value={selectedStartDate}
+                      onChange={(event) =>
+                        handleCheckboxChange(
+                          event,
+                          selectedStartDate,
+                          "startDate"
+                        )
+                      }
+                    />
                   </DemoContainer>
                 </LocalizationProvider>
               </Box>

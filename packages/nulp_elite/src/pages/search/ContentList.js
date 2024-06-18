@@ -103,6 +103,13 @@ const ContentList = (props) => {
 
   useEffect(() => {
     fetchData();
+  }, [contentTypeFilter]);
+  useEffect(() => {
+    fetchData();
+  }, [subDomainFilter]);
+
+  useEffect(() => {
+    fetchData();
   }, [globalSearchQuery]);
 
   useEffect(() => {
@@ -322,8 +329,9 @@ const ContentList = (props) => {
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
     setContentTypeFilter[selectedFilters.contentFilter];
+
     setSubDomainFilter[selectedFilters.subDomainFilter];
-    fetchData();
+    // fetchData();
   };
 
   return (

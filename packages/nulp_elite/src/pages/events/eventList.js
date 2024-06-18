@@ -57,6 +57,7 @@ const EventList = (props) => {
   const location = useLocation();
   const [pageNumber, setPageNumber] = useState(1);
   const [data, setData] = useState([]);
+  const [myData, setMyData] = useState([]);
   const [filters, setFilters] = useState({});
   const [domainfilter, setDomainfilter] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +83,9 @@ const EventList = (props) => {
     location.state?.globalSearchQuery || undefined
   );
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
-
+  const [subDomainFilter, setSubDomainFilter] = useState([]);
+  const [startDateFilter, setStartDateFilter] = useState([]);
+  const [endDateFilter, setEndDateFilter] = useState([]);
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -92,26 +95,31 @@ const EventList = (props) => {
   };
 
   useEffect(() => {
-    // setData(Events.result.Event);
-    fetchData();
+    fetchAllData();
+    fetchMyEvents();
+    Fetchdomain();
   }, []);
 
   const handleChange = (event, value) => {
-    alert("hello");
     if (value !== pageNumber) {
       setPageNumber(value);
       setCurrentPage(value);
       setData({});
       navigate(`/contentList/${value}`, { state: { domain: domain } });
-      // fetchData();
+      fetchAllData();
     }
   };
   const handleCardClick = (eventId) => {
     navigate(`/webapp/eventDetails/${eventId}`);
   };
   // Function to handle data from the child
-  const handlefilterChanges = (data) => {
-    console.log("data---", data);
+  const handlefilterChanges = (selectedFilters) => {
+    setStartDateFilter[selectedFilters.startDate];
+    setEndDateFilter[selectedFilters.endDate];
+    setSubDomainFilter[selectedFilters.subDomainFilter];
+    setSearchQuery[selectedFilters.searchQurery];
+
+    fetchAllData();
   };
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
@@ -119,46 +127,19 @@ const EventList = (props) => {
     setCurrentPage(1);
     // setData({});
     setDomainName(domainName);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: query },
-    });
+    fetchAllData();
   };
   const [value, setValue] = React.useState("1");
 
-  const fetchData = async () => {
+  const fetchAllData = async () => {
     setError(null);
     let data = JSON.stringify({
       request: {
         filters: {
-          // se_boards: [selectedDomain],
-          // primaryCategory: [
-          //   "Collection",
-          //   "Resource",
-          //   "Content Playlist",
-          //   "Course",
-          //   "Course Assessment",
-          //   "Digital Textbook",
-          //   "eTextbook",
-          //   "Explanation Content",
-          //   "Learning Resource",
-          //   "Lesson Plan Unit",
-          //   "Practice Question Set",
-          //   "Teacher Resource",
-          //   "Textbook Unit",
-          //   "LessonPlan",
-          //   "FocusSpot",
-          //   "Learning Outcome Definition",
-          //   "Curiosity Questions",
-          //   "MarkingSchemeRubric",
-          //   "ExplanationResource",
-          //   "ExperientialResource",
-          //   "Practice Resource",
-          //   "TVLesson",
-          //   "Course Unit",
-          //   "Exam Question",
-          // ],
-          // visibility: ["Default", "Parent"],
           objectType: "Event",
+          query: searchQuery ? searchQuery : "",
+          se_boards: domainfilter.se_board || [domain],
+          se_gradeLevels: subDomainFilter,
         },
         limit: 100,
         sort_by: { lastPublishedOn: "desc" },
@@ -177,36 +158,83 @@ const EventList = (props) => {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
 
       const response = await getAllContents(url, data, headers);
-      const sortedData = response?.data?.result?.content?.sort((a, b) => {
-        // Sort "Course" items first, then by primaryCategory
-        if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
-          return -1; // "Course" comes before other categories
-        } else if (
-          a.primaryCategory !== "Course" &&
-          b.primaryCategory === "Course"
-        ) {
-          return 1; // Other categories come after "Course"
-        } else {
-          return a.primaryCategory.localeCompare(b.primaryCategory);
-        }
-      });
-      setData(sortedData);
+      console.log("response-----", response);
+      setData(response.data.result.Event);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
-  const getCookieValue = (name) => {
-    const cookies = document.cookie.split("; ");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i];
-      const [cookieName, cookieValue] = cookie.split("=");
-      if (cookieName === name) {
-        return cookieValue;
-      }
-    }
-    return "";
-  };
 
+  const fetchMyEvents = async () => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      const _userId = util.userId();
+
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      try {
+        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?orgdetails=${appConfig.Course.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.Course.contentApiQueryParams.licenseDetails}&fields=${urlConfig.params.enrolledCourses.fields}&batchDetails=${urlConfig.params.enrolledCourses.batchDetails}&contentDetails=${urlConfig.params.enrolledCourses.contentDetails}`;
+        const response = await fetch(url, headers);
+        const responseData = await response.json();
+        setMyData(responseData.result.courses);
+      } catch (error) {
+        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  };
+  const Fetchdomain = async () => {
+    const defaultFramework = localStorage.getItem("defaultFramework");
+    try {
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
+
+      const response = await fetch(url);
+
+      if (response.ok) {
+        const responseData = await response.json();
+        if (
+          responseData.result &&
+          responseData.result.framework &&
+          responseData.result.framework.categories &&
+          responseData.result.framework.categories.length > 0 &&
+          responseData.result.framework.categories[0].terms
+        ) {
+          const domainOptions =
+            responseData.result.framework.categories[0].terms.map((term) => ({
+              value: term.code,
+              label: term.name,
+            }));
+          setCategory(domainOptions);
+          responseData.result.framework.categories[0].terms?.map((term) => {
+            setCategory(term);
+            if (domainWithImage) {
+              domainWithImage.result.form.data.fields.map((imgItem) => {
+                if ((term && term.code) === (imgItem && imgItem.code)) {
+                  term["image"] = imgItem.image ? imgItem.image : "";
+                }
+              });
+            }
+          });
+          const domainList =
+            responseData?.result?.framework?.categories[0].terms;
+          setDomainList(domainList);
+        }
+      } else {
+        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+        throw new Error(t("FAILED_TO_FETCH_DATA"));
+      }
+    } catch (error) {
+      console.log("Error fetching domain data:", error);
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -238,11 +266,20 @@ const EventList = (props) => {
           }}
         />
       </Box> */}
-      <DomainCarousel
-        onSelectDomain={handleDomainFilter}
-        selectedDomainCode={domain}
-        domains={domainList}
-      />
+      <Box>
+        {domainList && domainList.length > 0 ? (
+          <DomainCarousel
+            // className={`my-class ${
+            //   activeStates[index] ? "carousel-active-ui" : ""
+            // }`}
+            onSelectDomain={handleDomainFilter}
+            selectedDomainCode={domain}
+            domains={domainList}
+          />
+        ) : (
+          <NoResult />
+        )}
+      </Box>
       <Container
         className="xs-pb-20 eventTab"
         style={{ maxWidth: "100%", paddingRight: "14px", paddingLeft: "14px" }}
@@ -266,15 +303,6 @@ const EventList = (props) => {
             />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20 pt-0">
-            {/* <Grid
-            item
-            xs={12}
-            md={4}
-            lg={3}
-            className="sm-p-25 left-container mt-2 xs-hide left-filter"
-            style={{ padding: "0" }}
-          ></Grid> */}
-
             <Box textAlign="center" padding="10">
               <Box>
                 {isLoading ? (
@@ -306,29 +334,55 @@ const EventList = (props) => {
                           spacing={2}
                           style={{ marginBottom: "5px" }}
                         >
-                          {data.map((items, index) => (
-                            <Grid
-                              item
-                              xs={6}
-                              md={6}
-                              lg={6}
-                              style={{ marginBottom: "10px" }}
-                              key={items.identifier}
-                            >
-                              <EventCard
-                                items={items}
-                                index={index}
-                                onClick={() =>
-                                  handleCardClick("do_11405689580730777611")
-                                }
-                                // onClick={() => alert("hii")}
-                              ></EventCard>
-                            </Grid>
-                          ))}
+                          {data &&
+                            data.map((items, index) => (
+                              <Grid
+                                item
+                                xs={6}
+                                md={6}
+                                lg={6}
+                                style={{ marginBottom: "10px" }}
+                                key={items.identifier}
+                              >
+                                <EventCard
+                                  items={items}
+                                  index={index}
+                                  onClick={() =>
+                                    handleCardClick("do_11405689580730777611")
+                                  }
+                                  // onClick={() => alert("hii")}
+                                ></EventCard>
+                              </Grid>
+                            ))}
                         </Grid>
                       </TabPanel>
                       <TabPanel value="2" className="mt-15">
-                        All Webinar
+                        <Grid
+                          container
+                          spacing={2}
+                          style={{ marginBottom: "5px" }}
+                        >
+                          {data &&
+                            data.map((items, index) => (
+                              <Grid
+                                item
+                                xs={6}
+                                md={6}
+                                lg={6}
+                                style={{ marginBottom: "10px" }}
+                                key={items.identifier}
+                              >
+                                <EventCard
+                                  items={items}
+                                  index={index}
+                                  onClick={() =>
+                                    handleCardClick("do_11405689580730777611")
+                                  }
+                                  // onClick={() => alert("hii")}
+                                ></EventCard>
+                              </Grid>
+                            ))}
+                        </Grid>
                       </TabPanel>
                     </TabContext>
 
