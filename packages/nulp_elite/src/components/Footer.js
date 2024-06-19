@@ -20,6 +20,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 const routeConfig = require("../configs/routeConfig.json");
+import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 
 // const styles = {
 //   BottomNavigation: {
@@ -132,13 +133,13 @@ export default function Footer() {
             />
             <BottomNavigationAction
               onClick={() => navigate(routeConfig.ROUTES.EVENTS.EVENT_LIST)}
-              label={t("WEBINARSS")}
+              label={t("WEBINARS")}
               className={
                 location.pathname === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
                   ? "navigateActive"
                   : ""
               }
-              icon={<ChatOutlinedIcon />}
+              icon={<VideocamOutlinedIcon />}
             />
             <BottomNavigationAction
               onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}

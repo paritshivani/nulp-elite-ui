@@ -445,9 +445,11 @@ function Header({ globalSearchQuery }) {
                 {t("CONNECTIONS")}
               </Link>
               <Link
-                href="/webapp/allevents"
+                href={routeConfig.ROUTES.EVENTS.EVENT_LIST}
                 className={
-                  activePath === "/allevents" ? "Menuactive" : "headerMenu"
+                  activePath === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
+                    ? "Menuactive"
+                    : "headerMenu"
                 }
                 underline="none"
               >
