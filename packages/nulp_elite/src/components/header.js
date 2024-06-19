@@ -479,7 +479,7 @@ function Header({ globalSearchQuery }) {
                         {userData?.result?.response?.firstName[0]}
                       </div>
                       <div
-                        className="oneLineEllipsis"
+                        className="ellsp"
                         style={{
                           maxWidth: "52px",
                           textAlign: "left",
