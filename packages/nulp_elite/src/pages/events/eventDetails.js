@@ -47,6 +47,10 @@ const EventDetails = () => {
   const [detailData, setDetailDate] = useState();
   const [userCourseData, setUserCourseData] = useState({});
   const [userInfo, setUserInfo] = useState();
+  const [creatorInfo, setCreatorInfo] = useState();
+  const [batchData, setBatchData] = useState();
+  const [enrolled, setEnrolled] = useState(false);
+  const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
 
   const { t } = useTranslation();
   const showErrorMessage = (msg) => {
@@ -85,7 +89,7 @@ const EventDetails = () => {
         const data = await response.json();
         console.log("event data---", data);
         setDetailDate(data.result.event);
-
+        getUserData(data.result.event.owner, "creator");
         // setCreatorId(data?.result?.content?.createdBy);
         // setUserData(data);
       } catch (error) {
@@ -97,7 +101,7 @@ const EventDetails = () => {
     fetchData();
     fetchBatchData();
     checkEnrolledCourse();
-    getUserData();
+    getUserData(_userId, "loggedIn");
     isEnrolled();
     console.log("isEnrolled---", isEnrolled());
   }, []);
@@ -127,26 +131,24 @@ const EventDetails = () => {
       });
 
       const responseData = response.data;
-
+      console.log("responseData------", responseData.result.response.content);
       if (responseData.result.response) {
-        const { count, content } = responseData.result.response;
-        console.log(
-          "responseData.result.response------",
-          responseData.result.response
-        );
-        if (count === 0) {
+        if (responseData.result.response.count === 0) {
           // console.warn("This course has no active batches.");
           showErrorMessage(t("This course has no active Batches")); // Assuming `showErrorMessage` is used to display messages to the user
-        } else if (content && content.length > 0) {
-          const batchDetails = content[0];
+        } else if (
+          responseData.result.response.content &&
+          responseData.result.response.content.length >= 0
+        ) {
+          const batchDetails = responseData.result.response.content[0];
+          // setBatchData(responseData.result.response.content[0])
           console.log("batchDetails-----", batchDetails);
-          // setBatchData({
-          //   startDate: batchDetails.startDate,
-          //   endDate: batchDetails.endDate,
-          //   enrollmentEndDate: batchDetails.enrollmentEndDate,
-          //   batchId: batchDetails.batchId,
-          // });
-          // setBatchDetails(batchDetails);
+          setBatchData({
+            startDate: batchDetails.startDate,
+            endDate: batchDetails.endDate,
+            enrollmentEndDate: batchDetails.enrollmentEndDate,
+            batchId: batchDetails.batchId,
+          });
         } else {
           console.error("Batch data not found in response");
         }
@@ -160,14 +162,15 @@ const EventDetails = () => {
   };
   const checkEnrolledCourse = async () => {
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?orgdetails=${appConfig.Course.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.Course.contentApiQueryParams.licenseDetails}&fields=${urlConfig.params.enrolledCourses.fields}&batchDetails=${urlConfig.params.enrolledCourses.batchDetails}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}`;
       const response = await fetch(url);
       if (!response.ok) {
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
         throw new Error(t("FAILED_TO_FETCH_DATA"));
       }
       const data = await response.json();
-      setUserCourseData(data.result);
+      console.log("enrollment data ---", data.result.courses);
+      setUserCourseData(data.result.courses);
     } catch (error) {
       console.error("Error while fetching courses:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -208,31 +211,71 @@ const EventDetails = () => {
     };
     return dateObject.toLocaleTimeString("en-GB", options);
   };
-  const getUserData = async () => {
+  const getUserData = async (userId, userType) => {
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${userId}?fields=${urlConfig.params.userReadParam.fields}`;
 
-      const response = await fetch(
-        url
-        //    {
-        //   headers: {
-        //     Authorization:
-        //       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
-        //   },
-        // }
-      );
+      const response = await fetch(url);
       const data = await response.json();
-      setUserInfo(data.result.response);
+      if (userType == "loggedIn") {
+        setUserInfo(data.result.response);
+      } else if (userType == "creator") {
+        setCreatorInfo(data.result.response);
+      }
     } catch (error) {
       console.error("Error while getting user data:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
 
+  const enrollEvent = async (eventId) => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.ENROLL_USER_COURSE}`;
+      const requestBody = {
+        request: {
+          courseId: eventId,
+          userId: _userId,
+          batchId: batchData?.batchId,
+        },
+      };
+      const response = await axios.post(url, requestBody);
+      if (response.status === 200) {
+        setEnrolled(true);
+        setShowEnrollmentSnackbar(true);
+      }
+    } catch (error) {
+      console.error("Error enrolling in the course:", error);
+      showErrorMessage(t("FAILED_TO_ENROLL_INTO_COURSE"));
+    }
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowEnrollmentSnackbar(false);
+  };
+
   return (
     <div>
       <Header />
-
+      {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Snackbar
+        open={showEnrollmentSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ mt: 2 }}
+        >
+          {t("ENROLLMENT_SUCCESS_MESSAGE")}
+        </MuiAlert>
+      </Snackbar>
       {detailData && (
         <Container
           className=" xs-pr-0 xs-pb-20 mt-12"
@@ -294,13 +337,22 @@ const EventDetails = () => {
               <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
                 National Urban Learning Platform{" "}
               </Box>
-              <Box className="d-flex mb-20 alignItems-center">
-                <Box className="h5-title">Organised By:</Box>
-                <Box className="d-flex alignItems-center pl-20">
-                  <Box className="event-text-circle"></Box>
-                  <Box className="h5-title">Komal Mane</Box>
-                </Box>
-              </Box>
+              {creatorInfo &&
+                (creatorInfo.firstName || creatorInfo.lastName) && (
+                  <Box className="d-flex mb-20 alignItems-center">
+                    <Box className="h5-title">Organised By:</Box>
+                    <Box className="d-flex alignItems-center pl-20">
+                      <Box className="event-text-circle"></Box>
+                      <Box className="h5-title">
+                        {creatorInfo.firstName
+                          ? creatorInfo.firstName
+                          : "" + " " + creatorInfo.lastName
+                          ? creatorInfo.lastName
+                          : ""}
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
 
               <Box className="d-flex mb-20 h3-custom-title">
                 <Box className="d-flex jc-bw alignItems-center">
@@ -337,6 +389,7 @@ const EventDetails = () => {
                     background: "#1faf38",
                     marginTop: "10px",
                   }}
+                  onClick={enrollEvent(detailData.identifier)}
                 >
                   {t("JOIN_WEBINAR")}
                 </Button>
@@ -379,7 +432,7 @@ const EventDetails = () => {
                 </TwitterShareButton>
               </Box>
             </Grid>
-            <Box
+            {/* <Box
               className="h2-title lg-event-margin"
               style={{ fontWeight: "600", width: "100%" }}
             >
@@ -422,7 +475,7 @@ const EventDetails = () => {
                   </Box>
                 </Box>
               </Grid>
-            </Grid>
+            </Grid> */}
             <Box className="h2-title pl-20 mb-20" style={{ fontWeight: "600" }}>
               {t("WEBINAR_DETAILS")}
             </Box>
