@@ -384,8 +384,8 @@ const AllContent = () => {
                 </Box>
                 {isMobile ? (
                   <Carousel
-                    swipeable={false}
-                    draggable={false}
+                    swipeable={true}
+                    draggable={true}
                     showDots={true}
                     responsive={responsiveCard}
                     ssr={true}
