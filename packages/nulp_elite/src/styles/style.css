@@ -716,9 +716,9 @@ button {
     padding: 0 !important;
   }
   .content-list .MuiGrid-grid-lg-9 {
-    flex-basis: 76% !important;
+    flex-basis: 75.7% !important;
     flex-grow: 0;
-    max-width: 76% !important;
+    max-width: 75.7% !important;
   }
   .eventImg {
     width: 100px;
