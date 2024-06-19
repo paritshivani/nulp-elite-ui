@@ -106,9 +106,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path:
-        routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE +
-        routeConfig.ROUTES.JOIN_COURSE_PAGE.CONTENT_ID,
+      path: routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE,
       component: JoinCourse,
     },
     // {

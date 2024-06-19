@@ -283,7 +283,7 @@ const AllContent = () => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId: item.identifier } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${item.identifier}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${item.identifier}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
