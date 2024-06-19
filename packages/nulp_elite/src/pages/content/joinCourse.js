@@ -203,7 +203,7 @@ const JoinCourse = () => {
       try {
         const url = `${
           urlConfig.URLS.DIRECT_CONNECT.GET_CHATS
-        }?sender_id=${_userId}&receiver_id=${creatorId}&is_connection=${true}`;
+        }?sender_id=${_userId}&receiver_id=${creatorId}&is_accepted=${true}`;
 
         const response = await axios.get(url, {
           withCredentials: true,
@@ -490,8 +490,8 @@ const JoinCourse = () => {
 
   const consentUpdate = async (status) => {
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.CONSENT_READ}`;
-      const requestBody = {
+      const urlUpdate = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.CONSENT_UPDATE}`;
+      const updateRequestBody = {
         request: {
           consent: {
             status: status,
@@ -502,9 +502,24 @@ const JoinCourse = () => {
           },
         },
       };
-      const response = await axios.post(url, requestBody);
+      const response = await axios.post(urlUpdate, updateRequestBody);
       if (response.status === 200) {
-        setShowConsentForm(false);
+        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.CONSENT_READ}`;
+        const requestBody = {
+          request: {
+            consent: {
+              filters: {
+                userId: _userId,
+                consumerId: userInfo?.rootOrgId,
+                objectId: contentId,
+              },
+            },
+          },
+        };
+        const response = await axios.post(url, requestBody);
+        if (response.status === 200) {
+          setShowConsentForm(false);
+        }
       }
     } catch (error) {
       console.error("Error updating consent:", error);
@@ -628,32 +643,8 @@ const JoinCourse = () => {
             <span>{userInfo?.firstName}</span>
           </div>
           <div>
-            <label>{t("STATE")}:</label>
-            <span>{}</span>
-          </div>
-          <div>
             <label>{t("USER_ID")}:</label>
             <span>{userInfo?.organisations[0]?.userId}</span>
-          </div>
-          <div>
-            <label>{t("EXTERNAL_ID")}:</label>
-            <span>{}</span>
-          </div>
-          <div>
-            <label>{t("DISTRICT")}:</label>
-            <span>{}</span>
-          </div>
-          <div>
-            <label>{t("BLOCK")}:</label>
-            <span>{}</span>
-          </div>
-          <div>
-            <label>{t("SCHOOL_ID")}:</label>
-            <span>{}</span>
-          </div>
-          <div>
-            <label>{t("SCHOOL_OR_ORG_NAME")}:</label>
-            <span>{}</span>
           </div>
           <div>
             <label>{t("MOBILENUMBER")}:</label>
@@ -728,7 +719,7 @@ const JoinCourse = () => {
                   style={{ maxHeight: "inherit" }}
                   onClick={handleGoBack}
                   color="#004367"
-                  href="/all"
+                  href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
                 >
                   {t("ALL_CONTENT")}
                 </Link>
@@ -1256,7 +1247,7 @@ const JoinCourse = () => {
             </Accordion>
             <div className="lg-hide">
               <React.Fragment>
-                {chat.length === 0 && (
+                {chat && chat.length === 0 && (
                   <Button
                     onClick={handleDirectConnect}
                     variant="contained"
@@ -1268,7 +1259,7 @@ const JoinCourse = () => {
                     {t("CONNECT_WITH_CREATOR")}
                   </Button>
                 )}
-                {chat.length > 0 && chat[0]?.is_accepted === false && (
+                {chat && chat.length > 0 && chat[0]?.is_accepted === false && (
                   <React.Fragment>
                     <Alert severity="warning" style={{ margin: "10px 0" }}>
                       {t("YOUR_CHAT_REQUEST_IS_PENDING")}
@@ -1288,7 +1279,7 @@ const JoinCourse = () => {
                     </Button>
                   </React.Fragment>
                 )}
-                {chat.length > 0 && chat[0].is_accepted === true && (
+                {chat && chat.length > 0 && chat[0].is_accepted === true && (
                   <Button
                     onClick={handleDirectConnect}
                     variant="contained"
