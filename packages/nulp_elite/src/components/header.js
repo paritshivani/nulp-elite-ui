@@ -136,7 +136,7 @@ function Header({ globalSearchQuery }) {
           }}
         >
           {/* Navigation Links */}
-          <Box style={{ padding: "10px" }}>
+          {/* <Box style={{ padding: "10px" }}>
             <DevicesIcon
               style={{
                 padding: "0 10px",
@@ -157,7 +157,7 @@ function Header({ globalSearchQuery }) {
             >
               {t("MAIN_CONTENT")}{" "}
             </Link>
-          </Box>
+          </Box> */}
           <Box
             style={{
               padding: "0 10px",
@@ -201,7 +201,7 @@ function Header({ globalSearchQuery }) {
               A
             </Link>{" "}
           </Box>
-          <Box
+          {/* <Box
             style={{
               padding: "0 10px",
               color: "#424242",
@@ -217,7 +217,7 @@ function Header({ globalSearchQuery }) {
             >
               {t("SCREEN_READER")}{" "}
             </Link>
-          </Box>
+          </Box> */}
           {/* Language Select */}
           <Box sx={{ minWidth: 120, paddingLeft: "10px" }}>
             <FormControl

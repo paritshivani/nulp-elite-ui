@@ -111,7 +111,7 @@ const LearningHistory = () => {
                       index={courseData.result.courses.length}
                       onClick={() =>
                         navigate(
-                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${course.content.identifier}`
+                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
                         )
                       }
                     />
