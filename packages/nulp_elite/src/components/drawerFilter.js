@@ -26,7 +26,7 @@ import { useTranslation } from "react-i18next";
 import ToasterCommon from "../pages/ToasterCommon";
 
 const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
-  const contentTypeList = ["Courses", "Manuals and SOPs", "Reports"];
+  const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
   const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
@@ -50,7 +50,9 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       contentFilter: selectedContentType,
       subDomainFilter: selectedSubDomain,
     });
-    
+    console.log("Start Date Filter",selectedStartDate);
+    console.log("End Date Filter",selectedEndDate);
+    console.log("Search Filter----",eventSearch);
   }, [selectedContentType, selectedSubDomain, selectedStartDate, selectedEndDate, eventSearch]);
 
   const [state, setState] = useState({
@@ -278,9 +280,9 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleCheckboxChange(
-                        event,
-                        { searchTerm },
+                      onClick={() => handleCheckboxChange(
+                        null,
+                        searchTerm,
                         "eventSearch"
                       )}
                     >
@@ -303,10 +305,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                       label="Select Date From"
                       className="mt-9"
                       value={selectedStartDate}
-                      onChange={(event) =>
+                      onChange={(newValue) =>
                         handleCheckboxChange(
-                          event,
-                          selectedStartDate,
+                          null,
+                          newValue,
                           "startDate"
                         )
                       }
@@ -319,14 +321,15 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                     <DatePicker
                       label="Select Date To"
                       className="mt-9"
-                      value={selectedStartDate}
-                      onChange={(event) =>
+                      value={selectedEndDate}
+                      onChange={(newValue) =>
                         handleCheckboxChange(
-                          event,
-                          selectedStartDate,
-                          "startDate"
+                          null,
+                          newValue,
+                          "endDate"
                         )
                       }
+                      renderInput={(params) => <TextField {...params} />}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -340,7 +343,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               <List>
                 {contentTypeList &&
                   contentTypeList.map((contentType) => (
-                    <ListItem className="filter-ul-text">
+                    <ListItem className="filter-ul-text" key={contentType}>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -388,7 +391,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           <List>
             {subCategory &&
               subCategory.map((item) => (
-                <ListItem className="filter-ul-text">
+                <ListItem className="filter-ul-text" key={item.code}>
                   <FormControlLabel
                     control={
                       <Checkbox
