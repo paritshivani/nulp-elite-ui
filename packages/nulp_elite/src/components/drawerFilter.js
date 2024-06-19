@@ -282,7 +282,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   onClick={toggleDrawer(anchor, true)}
                   className="h6-title "
                 >
-                  {anchor} <ArrowForwardIosIcon sx={{ mr: 1 }} />
+                  {anchor}{" "}
+                  <ArrowForwardIosIcon
+                    sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
+                  />
                 </Button>
 
                 <SwipeableDrawer
