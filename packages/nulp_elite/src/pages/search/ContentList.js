@@ -449,7 +449,7 @@ const ContentList = (props) => {
             item
             xs={12}
             md={8}
-            lg={8}
+            lg={9}
             className=" height-none lg-pl-12 "
             style={{ paddingTop: "0" }}
           >

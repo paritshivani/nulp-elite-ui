@@ -414,7 +414,7 @@ button {
   .contentCreator {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 0 !important;
     padding: 20px;
     box-shadow: none !important;
     outline: none;
@@ -713,12 +713,12 @@ button {
   }
   .content-list .custom-card-box {
     width: 240px !important;
+    padding: 0 !important;
   }
-  .content-list .MuiGrid-grid-lg-8 {
-    flex-basis: 75.6667% !important;
-    -webkit-box-flex: 0;
+  .content-list .MuiGrid-grid-lg-9 {
+    flex-basis: 76% !important;
     flex-grow: 0;
-    max-width: 75.6667% !important;
+    max-width: 76% !important;
   }
   .eventImg {
     width: 100px;
@@ -971,7 +971,7 @@ button {
   }
 
   .contentCreator {
-    left: 35%;
+    left: 35% !important;
   }
   .contentCreator .jss9 {
     min-height: 200px;
