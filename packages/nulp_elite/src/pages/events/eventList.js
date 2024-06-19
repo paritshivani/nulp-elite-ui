@@ -99,6 +99,9 @@ const EventList = (props) => {
     fetchMyEvents();
     Fetchdomain();
   }, []);
+  useEffect(() => {
+    fetchAllData();
+  }, [subDomainFilter]);
 
   const handleChange = (event, value) => {
     if (value !== pageNumber) {
@@ -114,10 +117,10 @@ const EventList = (props) => {
   };
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
-    setStartDateFilter[selectedFilters.startDate];
-    setEndDateFilter[selectedFilters.endDate];
-    setSubDomainFilter[selectedFilters.subDomainFilter];
-    setSearchQuery[selectedFilters.searchQurery];
+    setStartDateFilter(selectedFilters.startDate);
+    setEndDateFilter(selectedFilters.endDate);
+    setSubDomainFilter(selectedFilters.subDomainFilter);
+    setSearchQuery(selectedFilters.searchQurery);
 
     fetchAllData();
   };
@@ -341,7 +344,7 @@ const EventList = (props) => {
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
-              renderedPage="EventList"
+              renderedPage="eventList"
             />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="xs-pl-0 pb-20 pt-0">

@@ -27,7 +27,7 @@ import ToasterCommon from "../pages/ToasterCommon";
 
 const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const contentTypeList = ["Courses", "Manuals and SOPs", "Reports"];
-  const [subCategory, setSubCategory] = React.useState();
+  const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
   const [toasterMessage, setToasterMessage] = useState("");
@@ -37,44 +37,35 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
+  
   useEffect(() => {
     fetchDataFramework();
   }, []);
+  
   useEffect(() => {
-    handleCheckboxChange();
-}, [selectedContentType,selectedSubDomain]);
-  const [state, setState] = React.useState({
+    SelectedFilters({
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+      eventSearch: eventSearch,
+      contentFilter: selectedContentType,
+      subDomainFilter: selectedSubDomain,
+    });
+    
+  }, [selectedContentType, selectedSubDomain, selectedStartDate, selectedEndDate, eventSearch]);
+
+  const [state, setState] = useState({
     left: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
-  // const handleResize = () => {
-  //   setIsMobile(window.innerWidth <= 767);
-  // };
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 0) {
-  //       setScrolled(true);
-  //     } else {
-  //       setScrolled(false);
-  //     }
-  //   };
 
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
   const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
+    if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
     }
 
     setState({ ...state, [anchor]: open });
   };
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -92,60 +83,43 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       const response = await frameworkService.getChannel(url);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-    } finally {
     }
+
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/
-      ${defaultFramework}?categories=${urlConfig.params.framework}`;
-
-      const response = await frameworkService.getSelectedFrameworkCategories(
-        url
-      );
-
-      setSubCategory(response?.data?.result?.framework?.categories[1].terms);
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const response = await frameworkService.getSelectedFrameworkCategories(url);
+      setSubCategory(response?.data?.result?.framework?.categories[1]?.terms || []);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-    } finally {
     }
   };
-  // Handle input change
+
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // Function to handle checkbox change
   const handleCheckboxChange = (event, item, filterType) => {
-    console.log();
-    if (filterType == "contentType") {
+    if (filterType === "contentType") {
       if (event.target.checked) {
-
         setSelectedContentType((prev) => [...prev, item]);
       } else {
         setSelectedContentType((prev) => prev.filter((i) => i !== item));
       }
-    } else if (filterType == "subCategory") {
+    } else if (filterType === "subCategory") {
       if (event.target.checked) {
         setSelectedSubDomain((prev) => [...prev, item.item.code]);
       } else {
-        setSelectedSubDomain((prev) => prev.filter((i) => i !== item.code));
+        setSelectedSubDomain((prev) => prev.filter((i) => i !== item.item.code));
       }
-    } else if (filterType == "searchTerm") {
+    } else if (filterType === "searchTerm") {
       setEventSearch((prev) => [...prev, item]);
-    } else if (filterType == "startDate") {
-      setStartDate((prev) => [...prev, item]);
-    } else if (filterType == "endDate") {
-      setEndDate((prev) => [...prev, item]);
+    } else if (filterType === "startDate") {
+      setStartDate(item);
+    } else if (filterType === "endDate") {
+      setEndDate(item);
     }
-    SelectedFilters({
-      startDate: selectedStartDate,
-      endDate: selectedEndDate,
-      eventSearch: eventSearch,
-      contentFilter: selectedContentType,
-      subDomainFilter: selectedSubDomain,
-    });
-    console.log("selectedSubDomain222---", selectedSubDomain);
-    console.log("selectedContentType---", selectedContentType);
   };
+
   const list = (anchor) => (
     <Box
       className="header-bg-blue p-10 filter-bx"
@@ -160,18 +134,16 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           Clear all
         </Button>
       </Box>
-      {renderedPage == "eventList" && (
+      {renderedPage === "eventList" && (
         <FormControl>
-          <InputLabel htmlFor="outlined-adornment-password">
-            Search for a webinar
-          </InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">Search for a webinar</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
             type="text"
             endAdornment={
               <InputAdornment position="end">
                 <IconButton aria-label="toggle password visibility">
-                  {<SearchOutlinedIcon />}
+                  <SearchOutlinedIcon />
                 </IconButton>
               </InputAdornment>
             }
@@ -180,97 +152,90 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
         </FormControl>
       )}
 
-      {renderedPage == "eventList" && (
+      {renderedPage === "eventList" && (
         <div>
-          {" "}
           <Box className="filter-text mt-15">Select Date Range</Box>
           <Box className="mt-9 dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Select Date From" className="mt-9" />
+                <DatePicker
+                  label="Select Date From"
+                  className="mt-9"
+                  value={selectedStartDate}
+                  onChange={(newValue) => handleCheckboxChange(null, newValue, "startDate")}
+                  renderInput={(params) => <TextField {...params} />}
+                />
               </DemoContainer>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Select Date To" className="mt-9" />
+                <DatePicker
+                  label="Select Date To"
+                  className="mt-9"
+                  value={selectedEndDate}
+                  onChange={(newValue) => handleCheckboxChange(null, newValue, "endDate")}
+                  renderInput={(params) => <TextField {...params} />}
+                />
               </DemoContainer>
             </LocalizationProvider>
           </Box>
         </div>
       )}
 
-      {renderedPage == "contentlist" && (
+      {renderedPage === "contentlist" && (
         <div>
           <Box className="filter-text mt-15">Content Type</Box>
           <List>
-            {contentTypeList &&
-              contentTypeList.map((contentType) => (
-                <ListItem className="filter-ul-text">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(event) =>
-                          handleCheckboxChange(
-                            event,
-                            contentType,
-                            "contentType"
-                          )
-                        }
-                      />
-                    }
-                    label={contentType}
-                  />
-                </ListItem>
-              ))}
+            {contentTypeList.map((contentType) => (
+              <ListItem className="filter-ul-text" key={contentType}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={(event) => handleCheckboxChange(event, contentType, "contentType")}
+                    />
+                  }
+                  label={contentType}
+                />
+              </ListItem>
+            ))}
           </List>
         </div>
       )}
+
       <Box className="filter-text mt-15">Sub-domains</Box>
       <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">
-          Search Sub-domain
-        </InputLabel>
+        <InputLabel htmlFor="outlined-adornment-password">Search Sub-domain</InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
           type="text"
           endAdornment={
             <InputAdornment position="end">
               <IconButton aria-label="toggle password visibility">
-                {<SearchOutlinedIcon />}
+                <SearchOutlinedIcon />
               </IconButton>
             </InputAdornment>
           }
           label="Search Sub-domain"
         />
       </FormControl>
-      {/* <Autocomplete
-      multiple
-      disablePortal
-      id="combo-box-demo"
-      sx={{ width: "100%", background: "#fff" }}
-      renderInput={(params) => <TextField  label="search" />}
-    />             */}
       <List>
-        {subCategory &&
-          subCategory.map((Item) => (
-            <ListItem className="filter-ul-text">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={(event) =>
-                      handleCheckboxChange(event, { Item }, "subCategory")
-                    }
-                    value={Item.name}
-                  />
-                }
-                label={Item.code}
-              />
-            </ListItem>
-          ))}
+        {subCategory.map((item) => (
+          <ListItem className="filter-ul-text" key={item.code}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={(event) => handleCheckboxChange(event, { item }, "subCategory")}
+                />
+              }
+              label={item.code}
+            />
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
-  return (
+
+   return (
     <>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       {isMobile ? (
@@ -299,7 +264,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               Clear all
             </Button>
           </Box>
-          {renderedPage == "eventList" && (
+          {renderedPage === "eventList" && (
             <FormControl className="mt-9">
               <InputLabel htmlFor="outlined-adornment-password">
                 Search for a webinar
