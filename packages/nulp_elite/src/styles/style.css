@@ -703,7 +703,10 @@ button {
 }
 @media (min-width: 769px) {
   .min-472 {
-    height: 472px;
+    min-height: 577px;
+  }
+  .min-h-600 {
+    min-height: 600px;
   }
   .profile-text-circle {
     margin-right: 10px;
@@ -795,7 +798,7 @@ button {
     width: 140px;
   }
   .event-title {
-    width: 377px;
+    width: 348px;
     font-size: 24px !important;
     height: 68px;
   }
@@ -970,6 +973,9 @@ button {
   .contentCreator {
     left: 35%;
   }
+  .contentCreator .jss9 {
+    min-height: 200px;
+  }
   .container-pb {
     margin-bottom: 105px !important;
   }
@@ -987,6 +993,7 @@ button {
     width: 245px;
     padding: 0 6px;
   }
+
   .lg-mt-10 {
     margin-top: 10px !important;
   }
@@ -1822,8 +1829,8 @@ custom-chip {
   border: 1px solid #ffffff;
 }
 .contentCreator .jss1 {
-  position: inherit !important;
-  height: 83% !important;
+  position: static !important;
+  height: 51vh !important;
 }
 .contentCreator fieldset {
   border: none !important;
@@ -1887,7 +1894,7 @@ custom-chip {
 }
 .filter-ul-text span {
   color: #4f4f4f !important;
-  font-size: 12px !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
   padding: 5px !important;
 }
