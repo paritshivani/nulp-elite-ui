@@ -45,7 +45,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     handleCheckboxChange();
   }, [selectedContentType, selectedSubDomain]);
   const [state, setState] = React.useState({
-    filter: false,
+    Filter: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   // const handleResize = () => {
@@ -276,10 +276,14 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       {isMobile ? (
         <Box>
           <div>
-            {["filter"].map((anchor) => (
+            {["Filter"].map((anchor) => (
               <React.Fragment key={anchor}>
-                <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-                <ArrowForwardIosIcon sx={{ mr: 1 }} />
+                <Button
+                  onClick={toggleDrawer(anchor, true)}
+                  className="h6-title "
+                >
+                  {anchor} <ArrowForwardIosIcon sx={{ mr: 1 }} />
+                </Button>
 
                 <SwipeableDrawer
                   anchor={anchor}

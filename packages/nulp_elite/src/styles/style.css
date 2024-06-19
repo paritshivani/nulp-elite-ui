@@ -683,7 +683,7 @@ button {
   .content-list .custom-card-box {
     width: 240px !important;
   }
-  .content-list .css-efwuvd {
+  .content-list .MuiGrid-grid-lg-8 {
     flex-basis: 75.6667% !important;
     -webkit-box-flex: 0;
     flex-grow: 0;
@@ -797,7 +797,7 @@ button {
     color: white !important;
   }
   .carousel-bx .my-class span {
-    word-break: break-all;
+    word-break: break-word;
     width: 115px !important;
   }
   .carousel-bx .my-class:hover {

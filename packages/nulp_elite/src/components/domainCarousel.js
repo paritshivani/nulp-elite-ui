@@ -146,7 +146,7 @@ export default function DomainCarousel({
                   style={{ display: "flex" }}
                 >
                   <Box
-                    className="imgBorder"
+                    className="imgBorder cursor-pointer"
                     style={{
                       background: "#fff",
                       padding: "4px",
@@ -166,7 +166,7 @@ export default function DomainCarousel({
                   </Box>
                   <Box
                     sx={{ alignSelf: "center", padding: "0 19px 0 5px" }}
-                    className="xs-hide"
+                    className="xs-hide cursor-pointer"
                   >
                     <Typography level="title-md" style={{ fontSize: "12px" }}>
                       {domain.name}
@@ -199,14 +199,14 @@ export default function DomainCarousel({
                 onMouseLeave={handleMouseLeave}
               >
                 <Box
-                  className="d-flex"
+                  className="d-flex cursor-pointer"
                   style={{
                     justifyContent: "space-between",
                     alignItems: "center",
                   }}
                 >
                   <Box
-                    className="imgBorder"
+                    className="imgBorder cursor-pointer"
                     style={{
                       background: "#fff",
                       padding: "9px 5px 1px 5px",
@@ -233,7 +233,7 @@ export default function DomainCarousel({
 
                   {(activeDomain === index || activeStates === index) && (
                     <span
-                      className="pl-5 text-white"
+                      className="pl-5 text-white cursor-pointer"
                       style={{ width: "190px" }}
                     >
                       {domain.name}
