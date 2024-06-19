@@ -127,6 +127,19 @@ button {
   overflow: hidden !important;
 }
 @media (min-width: 320px) {
+  .profile-text-circle {
+    align-items: center;
+    background-color: #484848;
+    border-radius: 100%;
+    color: #fff;
+    display: flex;
+    font-size: 18px;
+    font-weight: 500;
+    height: 32px;
+    justify-content: center;
+    line-height: 1.1 !important;
+    width: 34px;
+  }
   .eventImg {
     width: 50px;
     height: 50px;
@@ -680,6 +693,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .profile-text-circle {
+    margin-right: 10px;
+  }
   .content-list .custom-card-box {
     width: 240px !important;
   }
@@ -1717,20 +1733,7 @@ custom-chip {
   width: 112px;
   padding-left: 3px;
 }
-.profile-text-circle {
-  align-items: center;
-  background-color: #484848;
-  border-radius: 100%;
-  color: #fff;
-  display: flex;
-  font-size: 18px;
-  font-weight: 500;
-  height: 32px;
-  justify-content: center;
-  line-height: 1.1 !important;
-  width: 34px;
-  margin-right: 10px;
-}
+
 .event-text-circle {
   align-items: center;
   background-color: #d9d9d9;

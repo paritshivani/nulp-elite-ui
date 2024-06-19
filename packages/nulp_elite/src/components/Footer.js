@@ -131,6 +131,16 @@ export default function Footer() {
               icon={<ChatOutlinedIcon />}
             />
             <BottomNavigationAction
+              onClick={() => navigate(routeConfig.ROUTES.EVENTS.EVENT_LIST)}
+              label={t("WEBINARSS")}
+              className={
+                location.pathname === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
+                  ? "navigateActive"
+                  : ""
+              }
+              icon={<ChatOutlinedIcon />}
+            />
+            <BottomNavigationAction
               onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
               label={t("PROFILE")}
               className={
