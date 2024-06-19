@@ -383,7 +383,7 @@ const EventList = (props) => {
                                 xs={12}
                                 md={6}
                                 lg={6}
-                                style={{ marginBottom: "10px" }}
+                                style={{ marginBottom: "10px", max-width: "534px" }}
                                 key={items.identifier}
                               >
                                 <EventCard
