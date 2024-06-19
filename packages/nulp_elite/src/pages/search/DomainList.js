@@ -474,7 +474,7 @@ const DomainList = ({ globalSearchQuery }) => {
                           fontWeight: "500",
                           paddingLeft: "10px",
                           margin: "0",
-                          width: "70px",
+                          width: "86px",
                           wordWrap: "break-word",
                         }}
                       >

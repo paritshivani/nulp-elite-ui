@@ -365,7 +365,7 @@ const EventList = (props) => {
             md={4}
             lg={3}
             className="sm-p-25 left-container profile flter-btn"
-            style={{ padding: "0", borderRight: "none" }}
+            style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
@@ -413,7 +413,6 @@ const EventList = (props) => {
                                 lg={6}
                                 style={{
                                   marginBottom: "10px",
-                                  maxWidth: "534px",
                                 }}
                                 key={items.identifier}
                               >
