@@ -43,7 +43,6 @@ export default function DomainCarousel({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [activeDomain, setActiveDomain] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  console.log("domains-----", domains);
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -75,9 +74,6 @@ export default function DomainCarousel({
     });
     const croppedArray = itemsArray?.slice(0, 10);
     setData(croppedArray);
-
-    console.log("itemsArray---", itemsArray);
-    console.log("data---", data);
   }, []);
 
   useEffect(() => {
@@ -105,12 +101,6 @@ export default function DomainCarousel({
     } else {
       onSelectDomain(query, name);
     }
-
-    // const newActiveStates = [...activeStates]; // Create a copy of activeStates
-    // newActiveStates[index] = !newActiveStates[index]; // Toggle the active state at the clicked index
-    // setActiveStates(newActiveStates);
-
-    // setIsActive(!isActive);
   };
 
   const handleMouseEnter = (index) => {
@@ -126,8 +116,8 @@ export default function DomainCarousel({
       {isMobile ? (
         <>
           <Carousel
-            swipeable={false}
-            draggable={false}
+            swipeable={true}
+            draggable={true}
             showDots={["mobile"]} // Show dots only if there are more than 4 items
             responsive={responsive}
             ssr={true} // means to render carousel on server-side.
@@ -156,7 +146,7 @@ export default function DomainCarousel({
                   style={{ display: "flex" }}
                 >
                   <Box
-                    className="imgBorder"
+                    className="imgBorder cursor-pointer"
                     style={{
                       background: "#fff",
                       padding: "4px",
@@ -176,7 +166,7 @@ export default function DomainCarousel({
                   </Box>
                   <Box
                     sx={{ alignSelf: "center", padding: "0 19px 0 5px" }}
-                    className="xs-hide"
+                    className="xs-hide cursor-pointer"
                   >
                     <Typography level="title-md" style={{ fontSize: "12px" }}>
                       {domain.name}
@@ -209,14 +199,14 @@ export default function DomainCarousel({
                 onMouseLeave={handleMouseLeave}
               >
                 <Box
-                  className="d-flex"
+                  className="d-flex cursor-pointer"
                   style={{
                     justifyContent: "space-between",
                     alignItems: "center",
                   }}
                 >
                   <Box
-                    className="imgBorder"
+                    className="imgBorder cursor-pointer"
                     style={{
                       background: "#fff",
                       padding: "9px 5px 1px 5px",
@@ -243,7 +233,7 @@ export default function DomainCarousel({
 
                   {(activeDomain === index || activeStates === index) && (
                     <span
-                      className="pl-5 text-white"
+                      className="pl-5 text-white cursor-pointer"
                       style={{ width: "190px" }}
                     >
                       {domain.name}

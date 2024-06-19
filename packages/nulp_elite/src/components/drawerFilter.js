@@ -25,7 +25,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useTranslation } from "react-i18next";
 import ToasterCommon from "../pages/ToasterCommon";
 import dayjs from "dayjs";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
@@ -45,6 +45,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   }, []);
   
   useEffect(() => {
+
     SelectedFilters({
       startDate: selectedStartDate,
       endDate: selectedEndDate,
@@ -57,8 +58,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     console.log("Search Filter----",eventSearch);
   }, [selectedContentType, selectedSubDomain, selectedStartDate, selectedEndDate, eventSearch]);
 
-  const [state, setState] = useState({
-    left: false,
+
+  const [state, setState] = React.useState({
+    Filter: false,
+
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
@@ -254,9 +257,18 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       {isMobile ? (
         <Box>
           <div>
-            {["left"].map((anchor) => (
+            {["Filter"].map((anchor) => (
               <React.Fragment key={anchor}>
-                <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+                <Button
+                  onClick={toggleDrawer(anchor, true)}
+                  className="h6-title "
+                >
+                  {anchor}{" "}
+                  <ArrowForwardIosIcon
+                    sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
+                  />
+                </Button>
+
                 <SwipeableDrawer
                   anchor={anchor}
                   open={state[anchor]}

@@ -80,7 +80,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         const custodianOrgId = data?.result?.response?.value;
         setCustodianOrgId(custodianOrgId);
         // setUserRootOrgId(localStorage.getItem("userRootOrgId"));
-        const rootOrgId = localStorage.getItem("rootOrgId");
+        const rootOrgId = sessionStorage.getItem("rootOrgId");
         if(custodianOrgId){
         if (custodianOrgId === rootOrgId) {
           const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
