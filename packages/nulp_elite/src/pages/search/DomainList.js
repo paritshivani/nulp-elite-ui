@@ -269,7 +269,7 @@ const DomainList = ({ globalSearchQuery }) => {
 
   const loadContents = async (term) => {
     // console.log(term);
-    navigate(routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST / 1, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
       state: { domain: term.code },
     });
   };
@@ -282,7 +282,7 @@ const DomainList = ({ globalSearchQuery }) => {
   };
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
-    navigate(routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST / 1, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
       state: { domain: query, domainName: domainName },
     });
   };
@@ -474,7 +474,7 @@ const DomainList = ({ globalSearchQuery }) => {
                           fontWeight: "500",
                           paddingLeft: "10px",
                           margin: "0",
-                          width: "90px",
+                          width: "70px",
                           wordWrap: "break-word",
                         }}
                       >
@@ -495,7 +495,7 @@ const DomainList = ({ globalSearchQuery }) => {
 
       <Container
         maxWidth="xl"
-        className="xs-pb-20 allContent allContentList"
+        className=" allContent allContentList"
         role="main"
       >
         {error && <Alert severity="error">{error}</Alert>}

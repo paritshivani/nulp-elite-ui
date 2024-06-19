@@ -1363,7 +1363,10 @@ const AddConnections = () => {
                 <TabContext value={value} className="addConnection">
                   {!showTableTwo ? (
                     <>
-                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Box
+                        sx={{ borderBottom: 1, borderColor: "divider" }}
+                        className="addConnection"
+                      >
                         <TabList
                           onChange={handleChange}
                           aria-label="lab API tabs example"
@@ -1902,7 +1905,7 @@ const AddConnections = () => {
                 xs={12}
                 md={8}
                 lg={8}
-                className="pt-8 pb-20 lg-mt-5 xs-hide addConnectChat pl-0"
+                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0"
               >
                 {!isMobile && (
                   <Box className="text-center">
