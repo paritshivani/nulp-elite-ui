@@ -116,8 +116,8 @@ export default function DomainCarousel({
       {isMobile ? (
         <>
           <Carousel
-            swipeable={false}
-            draggable={false}
+            swipeable={true}
+            draggable={true}
             showDots={["mobile"]} // Show dots only if there are more than 4 items
             responsive={responsive}
             ssr={true} // means to render carousel on server-side.

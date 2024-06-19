@@ -118,7 +118,7 @@ function Header({ globalSearchQuery }) {
       >
         <Box>
           <Link
-            href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
+            href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
             className="pl-0 py-15"
           >
             <img
@@ -476,7 +476,12 @@ function Header({ globalSearchQuery }) {
                       <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
-                      {userData?.result?.response?.firstName}
+                      <div
+                        className="oneLineEllipsis"
+                        style={{ width: "80px" }}
+                      >
+                        {userData?.result?.response?.firstName}
+                      </div>
                     </>
                   )}
                   <ExpandMoreIcon />

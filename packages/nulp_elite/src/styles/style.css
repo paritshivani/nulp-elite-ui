@@ -127,9 +127,13 @@ button {
   overflow: hidden !important;
 }
 @media (min-width: 320px) {
+  .eventImg {
+    width: 50px;
+    height: 50px;
+  }
   .eventCardImg {
     width: 100px;
-    height: 1o0px;
+    height: 100px;
     border-radius: 10px;
     border: 2px solid #ffffff;
     box-shadow: 0px 5px 6px 0px #00000040;
@@ -451,9 +455,8 @@ button {
   }
 }
 @media (max-width: 768px) {
-  .eventCardImg {
-    width: 230px;
-    height: 230px;
+  .xs-pl-17 {
+    padding-left: 17px;
   }
   .eventTab .MuiTab-root {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
@@ -582,6 +585,12 @@ button {
   .xs-pl-0 {
     padding-left: 0 !important;
   }
+  .xs-pl-9 {
+    padding-left: 9px !important;
+  }
+  .xs-pl-30 {
+    padding-left: 30px !important;
+  }
   .xs-pl-15 {
     padding-left: 15px !important;
   }
@@ -671,8 +680,25 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .content-list .custom-card-box {
+    width: 240px !important;
+  }
+  .content-list .css-efwuvd {
+    flex-basis: 75.6667% !important;
+    -webkit-box-flex: 0;
+    flex-grow: 0;
+    max-width: 75.6667% !important;
+  }
+  .eventImg {
+    width: 100px;
+    height: 100px;
+  }
+  .eventCardImg {
+    width: 230px;
+    height: 230px;
+  }
   .lg-pl-60 {
-    padding-left: 60px;
+    padding-left: 60px !important;
   }
   .eventTab .MuiTab-root {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
@@ -836,6 +862,9 @@ button {
   } */
   .lg-mt-12 {
     margin-top: 12px !important;
+  }
+  .lg-mt-20 {
+    margin-top: 20px !important;
   }
   .lg-mt-5 {
     margin-top: 5px !important;
@@ -1085,8 +1114,8 @@ header {
   border-bottom: solid 1px #fff;
 }
 .MuiCircularProgress-colorPrimary {
-  width: 80px !important;
-  height: 80px !important;
+  width: 67px !important;
+  height: 67px !important;
 }
 .circular .MuiCircularProgress-colorPrimary {
   color: #dcab00;
@@ -1155,7 +1184,8 @@ header {
 .year-select {
   background: #fff;
 }
-Link {
+Link,
+.cursor-pointer {
   cursor: pointer !important;
 }
 
@@ -1364,7 +1394,7 @@ button {
 }
 .bg-whitee {
   background: #fff;
-  padding: 15px 16px 44px 16px;
+  padding: 15px 12px 44px 12px;
   border-radius: 10px;
 }
 .text-primary {
@@ -1579,6 +1609,9 @@ button {
   width: 36%;
   padding: 12px 0px !important;
 }
+.addConnection .MuiTab-root {
+  width: 33% !important;
+}
 .profile-tab.MuiTab-root {
   width: 51% !important;
 }
@@ -1711,10 +1744,6 @@ custom-chip {
   line-height: 1.1 !important;
   width: 34px;
   margin-right: 10px;
-}
-.eventImg {
-  width: 100px;
-  height: 100px;
 }
 
 .text-yellow {

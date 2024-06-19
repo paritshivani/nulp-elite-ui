@@ -24,6 +24,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useTranslation } from "react-i18next";
 import ToasterCommon from "../pages/ToasterCommon";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const contentTypeList = ["Courses", "Manuals and SOPs", "Reports"];
@@ -42,7 +43,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   }, []);
   useEffect(() => {
     handleCheckboxChange();
-}, [selectedContentType,selectedSubDomain]);
+  }, [selectedContentType, selectedSubDomain]);
   const [state, setState] = React.useState({
     filter: false,
   });
@@ -118,7 +119,6 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     console.log();
     if (filterType == "contentType") {
       if (event.target.checked) {
-
         setSelectedContentType((prev) => [...prev, item]);
       } else {
         setSelectedContentType((prev) => prev.filter((i) => i !== item));
@@ -279,6 +279,8 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
             {["filter"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+                <ArrowForwardIosIcon sx={{ mr: 1 }} />
+
                 <SwipeableDrawer
                   anchor={anchor}
                   open={state[anchor]}
