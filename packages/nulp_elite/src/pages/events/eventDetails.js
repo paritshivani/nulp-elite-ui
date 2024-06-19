@@ -17,6 +17,11 @@ import Link from "@mui/material/Link";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import * as util from "../../services/utilService";
 const EventDetailResponse = require("./detail.json");
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import ToasterCommon from "../ToasterCommon";
+import Alert from "@mui/material/Alert";
+import Modal from "@mui/material/Modal";
 import axios from "axios";
 
 const urlConfig = require("../../configs/urlConfig.json");
@@ -47,6 +52,13 @@ const EventDetails = () => {
   const [detailData, setDetailDate] = useState();
   const [userCourseData, setUserCourseData] = useState({});
   const [userInfo, setUserInfo] = useState();
+  const [creatorInfo, setCreatorInfo] = useState();
+  const [batchData, setBatchData] = useState();
+  const [enrolled, setEnrolled] = useState(false);
+  const [canEnroll, setCanEnroll] = useState(false);
+  const [canJoin, setCanJoin] = useState(false);
+
+  const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
 
   const { t } = useTranslation();
   const showErrorMessage = (msg) => {
@@ -85,9 +97,17 @@ const EventDetails = () => {
         const data = await response.json();
         console.log("event data---", data);
         setDetailDate(data.result.event);
-
-        // setCreatorId(data?.result?.content?.createdBy);
-        // setUserData(data);
+        getUserData(data.result.event.owner, "creator");
+        handleEnrollUnenrollBtn(
+          data.result.event.registrationStartDate,
+          data.result.event.registrationEndDate
+        );
+        handleJoinEventBtn(
+          data.result.event.startDate,
+          data.result.event.startTime,
+          data.result.event.endDate,
+          data.result.event.endTime
+        );
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -97,7 +117,7 @@ const EventDetails = () => {
     fetchData();
     fetchBatchData();
     checkEnrolledCourse();
-    getUserData();
+    getUserData(_userId, "loggedIn");
     isEnrolled();
     console.log("isEnrolled---", isEnrolled());
   }, []);
@@ -125,28 +145,25 @@ const EventDetails = () => {
           },
         },
       });
-
       const responseData = response.data;
-
+      console.log("responseData------", responseData.result.response.content);
       if (responseData.result.response) {
-        const { count, content } = responseData.result.response;
-        console.log(
-          "responseData.result.response------",
-          responseData.result.response
-        );
-        if (count === 0) {
+        if (responseData.result.response.count === 0) {
           // console.warn("This course has no active batches.");
           showErrorMessage(t("This course has no active Batches")); // Assuming `showErrorMessage` is used to display messages to the user
-        } else if (content && content.length > 0) {
-          const batchDetails = content[0];
+        } else if (
+          responseData.result.response.content &&
+          responseData.result.response.content.length >= 0
+        ) {
+          const batchDetails = responseData.result.response.content[0];
+          // setBatchData(responseData.result.response.content[0])
           console.log("batchDetails-----", batchDetails);
-          // setBatchData({
-          //   startDate: batchDetails.startDate,
-          //   endDate: batchDetails.endDate,
-          //   enrollmentEndDate: batchDetails.enrollmentEndDate,
-          //   batchId: batchDetails.batchId,
-          // });
-          // setBatchDetails(batchDetails);
+          setBatchData({
+            startDate: batchDetails.startDate,
+            endDate: batchDetails.endDate,
+            enrollmentEndDate: batchDetails.enrollmentEndDate,
+            batchId: batchDetails.batchId,
+          });
         } else {
           console.error("Batch data not found in response");
         }
@@ -160,14 +177,15 @@ const EventDetails = () => {
   };
   const checkEnrolledCourse = async () => {
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?orgdetails=${appConfig.Course.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.Course.contentApiQueryParams.licenseDetails}&fields=${urlConfig.params.enrolledCourses.fields}&batchDetails=${urlConfig.params.enrolledCourses.batchDetails}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}`;
       const response = await fetch(url);
       if (!response.ok) {
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
         throw new Error(t("FAILED_TO_FETCH_DATA"));
       }
       const data = await response.json();
-      setUserCourseData(data.result);
+      console.log("enrollment data ---", data.result.courses);
+      setUserCourseData(data.result.courses);
     } catch (error) {
       console.error("Error while fetching courses:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -175,15 +193,6 @@ const EventDetails = () => {
   };
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
   };
 
   const formatTimeToIST = (timeString) => {
@@ -208,31 +217,123 @@ const EventDetails = () => {
     };
     return dateObject.toLocaleTimeString("en-GB", options);
   };
-  const getUserData = async () => {
+  const getUserData = async (userId, userType) => {
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${userId}?fields=${urlConfig.params.userReadParam.fields}`;
 
-      const response = await fetch(
-        url
-        //    {
-        //   headers: {
-        //     Authorization:
-        //       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
-        //   },
-        // }
-      );
+      const response = await fetch(url);
       const data = await response.json();
-      setUserInfo(data.result.response);
+      if (userType == "loggedIn") {
+        setUserInfo(data.result.response);
+      } else if (userType == "creator") {
+        setCreatorInfo(data.result.response);
+      }
     } catch (error) {
       console.error("Error while getting user data:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
 
+  const enrollEvent = async (eventId) => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.ENROLL_USER_COURSE}`;
+      const requestBody = {
+        request: {
+          courseId: eventId,
+          userId: _userId,
+          batchId: batchData?.batchId,
+        },
+      };
+      const response = await axios.post(url, requestBody);
+      if (response.status === 200) {
+        setEnrolled(true);
+        setShowEnrollmentSnackbar(true);
+      }
+    } catch (error) {
+      console.error("Error enrolling in the course:", error);
+      showErrorMessage(t("FAILED_TO_ENROLL_INTO_COURSE"));
+    }
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowEnrollmentSnackbar(false);
+  };
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+  const formatTimeWithTimezone = (date) => {
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    const timezoneOffset = -date.getTimezoneOffset();
+    const offsetHours = String(
+      Math.floor(Math.abs(timezoneOffset) / 60)
+    ).padStart(2, "0");
+    const offsetMinutes = String(Math.abs(timezoneOffset) % 60).padStart(
+      2,
+      "0"
+    );
+    const offsetSign = timezoneOffset >= 0 ? "+" : "-";
+
+    return `${hours}:${minutes}:${seconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
+  };
+
+  const handleEnrollUnenrollBtn = async (enrollmentstart, enrollmentEnd) => {
+    // const todayDate = formatDate(new Date());
+    const todayDate = new Date();
+    const todayTime = formatTimeWithTimezone(new Date());
+    console.log("todayDate----", todayDate);
+    console.log("enrollmentstart----", enrollmentstart);
+    console.log("enrollmentEnd----", enrollmentEnd);
+
+    if (enrollmentstart <= todayDate && enrollmentEnd >= todayDate) {
+      setCanEnroll(true);
+    } else {
+      setCanEnroll(false);
+    }
+  };
+  const handleJoinEventBtn = async (startDate, startTime, endDate, endTime) => {
+    const todayDate = formatDate(new Date());
+    console.log("todayDate----", todayDate);
+    console.log("startDate----", startDate);
+    console.log("startTime----", startTime);
+    console.log("endDate----", endDate);
+    console.log("endTime----", endTime);
+    if (startDate <= todayDate && endDate >= todayDate) {
+      setCanJoin(true);
+    } else {
+      setCanJoin(false);
+    }
+  };
+
   return (
     <div>
       <Header />
-
+      {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Snackbar
+        open={showEnrollmentSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ mt: 2 }}
+        >
+          {t("ENROLLMENT_SUCCESS_MESSAGE")}
+        </MuiAlert>
+      </Snackbar>
       {detailData && (
         <Container
           className=" xs-pr-0 xs-pb-20 mt-12"
@@ -271,7 +372,7 @@ const EventDetails = () => {
             spacing={2}
             className="bg-whitee mt-20 custom-event-container mb-20"
           >
-            <Grid item xs={6} md={6} lg={2}>
+            <Grid item xs={3} md={6} lg={2}>
               {/* <img
               src={
                 EventDetailResponse.appIcon
@@ -287,20 +388,137 @@ const EventDetails = () => {
                 alt="App Icon"
               />
             </Grid>
-            <Grid item xs={6} md={6} lg={6} className="lg-pl-60">
+            <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
               <Typography gutterBottom className="mt-10  h1-title mb-20">
                 {detailData.name}
               </Typography>
-              <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+              <Box
+                className="h5-title mb-20 xs-hide"
+                style={{ fontWeight: "400" }}
+              >
                 National Urban Learning Platform{" "}
               </Box>
-              <Box className="d-flex mb-20 alignItems-center">
+              <Box className="d-flex mb-20 alignItems-center xs-hide">
                 <Box className="h5-title">Organised By:</Box>
                 <Box className="d-flex alignItems-center pl-20">
                   <Box className="event-text-circle"></Box>
                   <Box className="h5-title">Komal Mane</Box>
                 </Box>
               </Box>
+
+              <Box className="d-flex mb-20 h3-custom-title xs-hide">
+                <Box className="d-flex jc-bw alignItems-center">
+                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
+                  {formatDate(detailData.startDate)}
+                </Box>
+                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
+
+                  {formatTimeToIST(detailData.startTime)}
+                </Box>
+                <Box className="mx-15">To</Box>
+                <Box className="d-flex jc-bw alignItems-center">
+                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
+                  {formatDate(detailData.endDate)}
+                </Box>
+                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
+
+                  {formatTimeToIST(detailData.endTime)}
+                </Box>
+              </Box>
+              <Box className="xs-hide">
+                <Button
+                  type="button"
+                  className="custom-btn-success"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #1faf38",
+                    background: "#1faf38",
+                    marginTop: "10px",
+                  }}
+                >
+                  {t("JOIN_WEBINAR")}
+                </Button>
+              </Box>
+              <Box className="d-flex xs-hide">
+                <Button
+                  type="button"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #1976d2",
+                    background: "#1976d2",
+                    marginTop: "10px",
+                  }}
+                  className="custom-btn-primary mr-20"
+                >
+                  {t("ATTEND_WEBINAR")}
+                </Button>
+                <Button
+                  type="button"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #e02f1d ",
+                    background: "#e02f1d",
+                    marginTop: "10px",
+                  }}
+                  className="custom-btn-danger"
+                >
+                  {t("UN_REGISTER_WEBINAR")}
+                </Button>
+              </Box>
+              <Box className="xs-hide">
+                <Button
+                  type="button"
+                  className="custom-btn-success"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #1976d2",
+                    background: "#1976d2",
+                    marginTop: "10px",
+                  }}
+                  startIcon={<AdjustOutlinedIcon />}
+                >
+                  {t("VIEW_WEBINAR_RECORDING")}
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} className="lg-pl-60 lg-hide">
+              <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                National Urban Learning Platform{" "}
+              </Box>
+              {creatorInfo &&
+                (creatorInfo.firstName || creatorInfo.lastName) && (
+                  <Box className="d-flex mb-20 alignItems-center">
+                    <Box className="h5-title">Organised By:</Box>
+                    <Box className="d-flex alignItems-center pl-20">
+                      <Box className="event-text-circle"></Box>
+                      <Box className="h5-title">
+                        {creatorInfo.firstName
+                          ? creatorInfo.firstName
+                          : "" + " " + creatorInfo.lastName
+                          ? creatorInfo.lastName
+                          : ""}
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
 
               <Box className="d-flex mb-20 h3-custom-title">
                 <Box className="d-flex jc-bw alignItems-center">
@@ -312,7 +530,9 @@ const EventDetails = () => {
 
                   {formatTimeToIST(detailData.startTime)}
                 </Box>
-                <Box className="mx-15">To</Box>
+              </Box>
+              <Box className="d-flex mb-20 h3-custom-title">
+                <Box className="mr-15">To</Box>
                 <Box className="d-flex jc-bw alignItems-center">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
@@ -337,6 +557,7 @@ const EventDetails = () => {
                     background: "#1faf38",
                     marginTop: "10px",
                   }}
+                  onClick={enrollEvent(detailData.identifier)}
                 >
                   {t("JOIN_WEBINAR")}
                 </Button>
@@ -379,7 +600,7 @@ const EventDetails = () => {
                 </TwitterShareButton>
               </Box>
             </Grid>
-            <Box
+            {/* <Box
               className="h2-title lg-event-margin"
               style={{ fontWeight: "600", width: "100%" }}
             >
@@ -392,7 +613,7 @@ const EventDetails = () => {
                     src={require("../../assets/speakerOne.png")}
                     className="eventImg"
                   />
-                  <Box className="pl-20">
+                  <Box className="xs-pl-9 lg-pl-18">
                     <Box className="h5-title">Name Surname</Box>
                     <Box className="h5-title">Designation</Box>
                   </Box>
@@ -404,25 +625,25 @@ const EventDetails = () => {
                     src={require("../../assets/speakertwo.png")}
                     className="eventImg"
                   />
-                  <Box className="pl-20">
+                  <Box className="xs-pl-9 lg-pl-18">
                     <Box className="h5-title">Name Surname</Box>
                     <Box className="h5-title">Designation</Box>
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={6} lg={3}>
+              <Grid item xs={6} md={6} lg={3} className="mt-10">
                 <Box className="d-flex">
                   <img
                     src={require("../../assets/speakerthree.png")}
                     className="eventImg"
                   />
-                  <Box className="pl-20">
+                  <Box className="xs-pl-9 lg-pl-18">
                     <Box className="h5-title">Name Surname</Box>
                     <Box className="h5-title">Designation</Box>
                   </Box>
                 </Box>
               </Grid>
-            </Grid>
+            </Grid> */}
             <Box className="h2-title pl-20 mb-20" style={{ fontWeight: "600" }}>
               {t("WEBINAR_DETAILS")}
             </Box>

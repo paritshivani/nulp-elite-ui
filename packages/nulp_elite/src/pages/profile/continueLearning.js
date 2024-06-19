@@ -123,7 +123,7 @@ const ContinueLearning = () => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
@@ -151,7 +151,7 @@ const ContinueLearning = () => {
         <Box textAlign="center" padding="10" className="mt-30">
           <Box>
             <Grid container spacing={2}>
-              <Box className="custom-card">
+              <Box className="custom-card xs-pl-17">
                 {filteredCourses.length === 0 ? (
                   <NoResult />
                 ) : (

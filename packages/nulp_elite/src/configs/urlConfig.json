@@ -129,6 +129,7 @@
       "USER_DECLARATION": "user/v1/declarations",
       "GET_SESSION": "get/user/sessionId",
       "CONSENT_READ": "user/v1/consent/read",
+      "CONSENT_UPDATE": "user/v1/consent/update",
       "EMAIL_EXIST": "v1/exists/email",
       "USER_SIGNUP": "custom/user/signup"
     },

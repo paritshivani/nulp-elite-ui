@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     display: "table",
     borderRadius: "5px",
     color: "#212121",
-    backgroundColor: "#effaff !important",
+    backgroundColor: "#fff !important",
     fontSize: "16px",
     fontWeight: "400",
   },

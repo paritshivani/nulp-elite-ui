@@ -283,7 +283,7 @@ const AllContent = () => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId: item.identifier } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${item.identifier}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${item.identifier}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
@@ -384,8 +384,8 @@ const AllContent = () => {
                 </Box>
                 {isMobile ? (
                   <Carousel
-                    swipeable={false}
-                    draggable={false}
+                    swipeable={true}
+                    draggable={true}
                     showDots={true}
                     responsive={responsiveCard}
                     ssr={true}

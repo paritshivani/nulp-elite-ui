@@ -292,7 +292,7 @@ const DomainList = ({ globalSearchQuery }) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
@@ -474,7 +474,7 @@ const DomainList = ({ globalSearchQuery }) => {
                           fontWeight: "500",
                           paddingLeft: "10px",
                           margin: "0",
-                          width: "90px",
+                          width: "86px",
                           wordWrap: "break-word",
                         }}
                       >

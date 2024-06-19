@@ -118,7 +118,7 @@ function Header({ globalSearchQuery }) {
       >
         <Box>
           <Link
-            href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
+            href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
             className="pl-0 py-15"
           >
             <img
@@ -136,7 +136,7 @@ function Header({ globalSearchQuery }) {
           }}
         >
           {/* Navigation Links */}
-          <Box style={{ padding: "10px" }}>
+          {/* <Box style={{ padding: "10px" }}>
             <DevicesIcon
               style={{
                 padding: "0 10px",
@@ -157,7 +157,7 @@ function Header({ globalSearchQuery }) {
             >
               {t("MAIN_CONTENT")}{" "}
             </Link>
-          </Box>
+          </Box> */}
           <Box
             style={{
               padding: "0 10px",
@@ -201,7 +201,7 @@ function Header({ globalSearchQuery }) {
               A
             </Link>{" "}
           </Box>
-          <Box
+          {/* <Box
             style={{
               padding: "0 10px",
               color: "#424242",
@@ -217,7 +217,7 @@ function Header({ globalSearchQuery }) {
             >
               {t("SCREEN_READER")}{" "}
             </Link>
-          </Box>
+          </Box> */}
           {/* Language Select */}
           <Box sx={{ minWidth: 120, paddingLeft: "10px" }}>
             <FormControl
@@ -445,9 +445,11 @@ function Header({ globalSearchQuery }) {
                 {t("CONNECTIONS")}
               </Link>
               <Link
-                href="/webapp/allevents"
+                href={routeConfig.ROUTES.EVENTS.EVENT_LIST}
                 className={
-                  activePath === "/allevents" ? "Menuactive" : "headerMenu"
+                  activePath === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
+                    ? "Menuactive"
+                    : "headerMenu"
                 }
                 underline="none"
               >
@@ -476,7 +478,16 @@ function Header({ globalSearchQuery }) {
                       <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
-                      {userData?.result?.response?.firstName}
+                      <div
+                        className="ellsp"
+                        style={{
+                          maxWidth: "52px",
+                          textAlign: "left",
+                          paddingTop: "0",
+                        }}
+                      >
+                        {userData?.result?.response?.firstName}
+                      </div>
                     </>
                   )}
                   <ExpandMoreIcon />
