@@ -17,6 +17,11 @@ import Link from "@mui/material/Link";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import * as util from "../../services/utilService";
 const EventDetailResponse = require("./detail.json");
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import ToasterCommon from "../ToasterCommon";
+import Alert from "@mui/material/Alert";
+import Modal from "@mui/material/Modal";
 import axios from "axios";
 
 const urlConfig = require("../../configs/urlConfig.json");
@@ -50,6 +55,9 @@ const EventDetails = () => {
   const [creatorInfo, setCreatorInfo] = useState();
   const [batchData, setBatchData] = useState();
   const [enrolled, setEnrolled] = useState(false);
+  const [canEnroll, setCanEnroll] = useState(false);
+  const [canJoin, setCanJoin] = useState(false);
+
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
 
   const { t } = useTranslation();
@@ -90,8 +98,16 @@ const EventDetails = () => {
         console.log("event data---", data);
         setDetailDate(data.result.event);
         getUserData(data.result.event.owner, "creator");
-        // setCreatorId(data?.result?.content?.createdBy);
-        // setUserData(data);
+        handleEnrollUnenrollBtn(
+          data.result.event.registrationStartDate,
+          data.result.event.registrationEndDate
+        );
+        handleJoinEventBtn(
+          data.result.event.startDate,
+          data.result.event.startTime,
+          data.result.event.endDate,
+          data.result.event.endTime
+        );
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -129,7 +145,6 @@ const EventDetails = () => {
           },
         },
       });
-
       const responseData = response.data;
       console.log("responseData------", responseData.result.response.content);
       if (responseData.result.response) {
@@ -178,15 +193,6 @@ const EventDetails = () => {
   };
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
   };
 
   const formatTimeToIST = (timeString) => {
@@ -254,6 +260,58 @@ const EventDetails = () => {
       return;
     }
     setShowEnrollmentSnackbar(false);
+  };
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+  const formatTimeWithTimezone = (date) => {
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    const timezoneOffset = -date.getTimezoneOffset();
+    const offsetHours = String(
+      Math.floor(Math.abs(timezoneOffset) / 60)
+    ).padStart(2, "0");
+    const offsetMinutes = String(Math.abs(timezoneOffset) % 60).padStart(
+      2,
+      "0"
+    );
+    const offsetSign = timezoneOffset >= 0 ? "+" : "-";
+
+    return `${hours}:${minutes}:${seconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
+  };
+
+  const handleEnrollUnenrollBtn = async (enrollmentstart, enrollmentEnd) => {
+    // const todayDate = formatDate(new Date());
+    const todayDate = new Date();
+    const todayTime = formatTimeWithTimezone(new Date());
+    console.log("todayDate----", todayDate);
+    console.log("enrollmentstart----", enrollmentstart);
+    console.log("enrollmentEnd----", enrollmentEnd);
+
+    if (enrollmentstart <= todayDate && enrollmentEnd >= todayDate) {
+      setCanEnroll(true);
+    } else {
+      setCanEnroll(false);
+    }
+  };
+  const handleJoinEventBtn = async (startDate, startTime, endDate, endTime) => {
+    const todayDate = formatDate(new Date());
+    console.log("todayDate----", todayDate);
+    console.log("startDate----", startDate);
+    console.log("startTime----", startTime);
+    console.log("endDate----", endDate);
+    console.log("endTime----", endTime);
+    if (startDate <= todayDate && endDate >= todayDate) {
+      setCanJoin(true);
+    } else {
+      setCanJoin(false);
+    }
   };
 
   return (
