@@ -24,6 +24,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useTranslation } from "react-i18next";
 import ToasterCommon from "../pages/ToasterCommon";
+import dayjs from "dayjs";
+
 
 const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
@@ -100,6 +102,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     setSearchTerm(event.target.value);
   };
 
+   const handleSearch = () => {
+    setEventSearch(searchTerm);
+  };
+
   const handleCheckboxChange = (event, item, filterType) => {
     if (filterType === "contentType") {
       if (event.target.checked) {
@@ -114,12 +120,16 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
         setSelectedSubDomain((prev) => prev.filter((i) => i !== item.item.code));
       }
     } else if (filterType === "searchTerm") {
-      setEventSearch((prev) => [...prev, item]);
+      setEventSearch(item);
     } else if (filterType === "startDate") {
-      setStartDate(item);
-    } else if (filterType === "endDate") {
-      setEndDate(item);
-    }
+    const formattedDate = dayjs(item).format("YYYY-MM-DD");
+    console.log("Selected Start Date:", formattedDate);
+    setStartDate(formattedDate);
+  } else if (filterType === "endDate") {
+    const formattedDate = dayjs(item).format("YYYY-MM-DD");
+    console.log("Selected End Date:", formattedDate);
+    setEndDate(formattedDate);
+  }
   };
 
   const list = (anchor) => (
@@ -142,9 +152,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           <OutlinedInput
             id="outlined-adornment-password"
             type="text"
+            onChange={handleInputChange}
             endAdornment={
               <InputAdornment position="end">
-                <IconButton aria-label="toggle password visibility">
+                <IconButton aria-label="toggle password visibility" onClick={handleSearch}>
                   <SearchOutlinedIcon />
                 </IconButton>
               </InputAdornment>
@@ -159,27 +170,27 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           <Box className="filter-text mt-15">Select Date Range</Box>
           <Box className="mt-9 dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker
-                  label="Select Date From"
-                  className="mt-9"
-                  value={selectedStartDate}
-                  onChange={(newValue) => handleCheckboxChange(null, newValue, "startDate")}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker
-                  label="Select Date To"
-                  className="mt-9"
-                  value={selectedEndDate}
-                  onChange={(newValue) => handleCheckboxChange(null, newValue, "endDate")}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
+  <DemoContainer components={["DatePicker"]}>
+    <DatePicker
+      label="Select Date From"
+      className="mt-9"
+      value={selectedStartDate ? dayjs(selectedStartDate) : null}
+      onChange={(newValue) => handleCheckboxChange(null, newValue, "startDate")}
+      renderInput={(params) => <TextField {...params} />}
+    />
+  </DemoContainer>
+</LocalizationProvider>
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+  <DemoContainer components={["DatePicker"]}>
+    <DatePicker
+      label="Select Date To"
+      className="mt-9"
+      value={selectedEndDate ? dayjs(selectedEndDate) : null}
+      onChange={(newValue) => handleCheckboxChange(null, newValue, "endDate")}
+      renderInput={(params) => <TextField {...params} />}
+    />
+  </DemoContainer>
+</LocalizationProvider>
           </Box>
         </div>
       )}
@@ -299,40 +310,28 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               <Box className="filter-text mt-15">Select Date Range</Box>
 
               <Box className="mt-9 dateRange">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker
-                      label="Select Date From"
-                      className="mt-9"
-                      value={selectedStartDate}
-                      onChange={(newValue) =>
-                        handleCheckboxChange(
-                          null,
-                          newValue,
-                          "startDate"
-                        )
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker
-                      label="Select Date To"
-                      className="mt-9"
-                      value={selectedEndDate}
-                      onChange={(newValue) =>
-                        handleCheckboxChange(
-                          null,
-                          newValue,
-                          "endDate"
-                        )
-                      }
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
+               <LocalizationProvider dateAdapter={AdapterDayjs}>
+  <DemoContainer components={["DatePicker"]}>
+    <DatePicker
+      label="Select Date From"
+      className="mt-9"
+      value={selectedStartDate ? dayjs(selectedStartDate) : null}
+      onChange={(newValue) => handleCheckboxChange(null, newValue, "startDate")}
+      renderInput={(params) => <TextField {...params} />}
+    />
+  </DemoContainer>
+</LocalizationProvider>
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+  <DemoContainer components={["DatePicker"]}>
+    <DatePicker
+      label="Select Date To"
+      className="mt-9"
+      value={selectedEndDate ? dayjs(selectedEndDate) : null}
+      onChange={(newValue) => handleCheckboxChange(null, newValue, "endDate")}
+      renderInput={(params) => <TextField {...params} />}
+    />
+  </DemoContainer>
+</LocalizationProvider>
               </Box>
             </div>
           )}

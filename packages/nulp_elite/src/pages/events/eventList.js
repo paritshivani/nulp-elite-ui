@@ -101,7 +101,7 @@ const EventList = (props) => {
   }, []);
   useEffect(() => {
     fetchAllData();
-  }, [subDomainFilter]);
+  }, [subDomainFilter,endDateFilter]);
 
   const handleChange = (event, value) => {
     if (value !== pageNumber) {
@@ -182,6 +182,12 @@ const EventList = (props) => {
       };
     }
 
+    const startDate ={
+      ">=" : startDateFilter
+    }
+    const endDate ={
+      "<=" : endDateFilter
+    }
     setError(null);
     let data = JSON.stringify({
       request: {
@@ -189,6 +195,9 @@ const EventList = (props) => {
         limit: 100,
         sort_by: { lastPublishedOn: "desc" },
         offset: 0,
+        startDate:startDate,
+        endDate :endDate
+
       },
     });
 
