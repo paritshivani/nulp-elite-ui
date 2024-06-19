@@ -702,6 +702,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .min-472 {
+    height: 472px;
+  }
   .profile-text-circle {
     margin-right: 10px;
   }
