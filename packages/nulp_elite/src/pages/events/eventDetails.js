@@ -271,7 +271,7 @@ const EventDetails = () => {
             spacing={2}
             className="bg-whitee mt-20 custom-event-container mb-20"
           >
-            <Grid item xs={6} md={6} lg={2}>
+            <Grid item xs={3} md={6} lg={2}>
               {/* <img
               src={
                 EventDetailResponse.appIcon
@@ -287,10 +287,118 @@ const EventDetails = () => {
                 alt="App Icon"
               />
             </Grid>
-            <Grid item xs={6} md={6} lg={6} className="lg-pl-60">
+            <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
               <Typography gutterBottom className="mt-10  h1-title mb-20">
                 {detailData.name}
               </Typography>
+              <Box
+                className="h5-title mb-20 xs-hide"
+                style={{ fontWeight: "400" }}
+              >
+                National Urban Learning Platform{" "}
+              </Box>
+              <Box className="d-flex mb-20 alignItems-center xs-hide">
+                <Box className="h5-title">Organised By:</Box>
+                <Box className="d-flex alignItems-center pl-20">
+                  <Box className="event-text-circle"></Box>
+                  <Box className="h5-title">Komal Mane</Box>
+                </Box>
+              </Box>
+
+              <Box className="d-flex mb-20 h3-custom-title xs-hide">
+                <Box className="d-flex jc-bw alignItems-center">
+                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
+                  {formatDate(detailData.startDate)}
+                </Box>
+                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
+
+                  {formatTimeToIST(detailData.startTime)}
+                </Box>
+                <Box className="mx-15">To</Box>
+                <Box className="d-flex jc-bw alignItems-center">
+                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
+                  {formatDate(detailData.endDate)}
+                </Box>
+                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
+
+                  {formatTimeToIST(detailData.endTime)}
+                </Box>
+              </Box>
+              <Box className="xs-hide">
+                <Button
+                  type="button"
+                  className="custom-btn-success"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #1faf38",
+                    background: "#1faf38",
+                    marginTop: "10px",
+                  }}
+                >
+                  {t("JOIN_WEBINAR")}
+                </Button>
+              </Box>
+              <Box className="d-flex xs-hide">
+                <Button
+                  type="button"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #1976d2",
+                    background: "#1976d2",
+                    marginTop: "10px",
+                  }}
+                  className="custom-btn-primary mr-20"
+                >
+                  {t("ATTEND_WEBINAR")}
+                </Button>
+                <Button
+                  type="button"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #e02f1d ",
+                    background: "#e02f1d",
+                    marginTop: "10px",
+                  }}
+                  className="custom-btn-danger"
+                >
+                  {t("UN_REGISTER_WEBINAR")}
+                </Button>
+              </Box>
+              <Box className="xs-hide">
+                <Button
+                  type="button"
+                  className="custom-btn-success"
+                  style={{
+                    borderRadius: "30px",
+                    color: "#fff",
+                    padding: "10px 35px",
+                    fontWeight: "500",
+                    fontSize: "12px",
+                    border: "solid 1px #1976d2",
+                    background: "#1976d2",
+                    marginTop: "10px",
+                  }}
+                  startIcon={<AdjustOutlinedIcon />}
+                >
+                  {t("VIEW_WEBINAR_RECORDING")}
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} className="lg-pl-60 lg-hide">
               <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
                 National Urban Learning Platform{" "}
               </Box>
@@ -312,7 +420,9 @@ const EventDetails = () => {
 
                   {formatTimeToIST(detailData.startTime)}
                 </Box>
-                <Box className="mx-15">To</Box>
+              </Box>
+              <Box className="d-flex mb-20 h3-custom-title">
+                <Box className="mr-15">To</Box>
                 <Box className="d-flex jc-bw alignItems-center">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
@@ -392,7 +502,7 @@ const EventDetails = () => {
                     src={require("../../assets/speakerOne.png")}
                     className="eventImg"
                   />
-                  <Box className="pl-20">
+                  <Box className="xs-pl-9 lg-pl-18">
                     <Box className="h5-title">Name Surname</Box>
                     <Box className="h5-title">Designation</Box>
                   </Box>
@@ -404,19 +514,19 @@ const EventDetails = () => {
                     src={require("../../assets/speakertwo.png")}
                     className="eventImg"
                   />
-                  <Box className="pl-20">
+                  <Box className="xs-pl-9 lg-pl-18">
                     <Box className="h5-title">Name Surname</Box>
                     <Box className="h5-title">Designation</Box>
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={6} lg={3}>
+              <Grid item xs={6} md={6} lg={3} className="mt-10">
                 <Box className="d-flex">
                   <img
                     src={require("../../assets/speakerthree.png")}
                     className="eventImg"
                   />
-                  <Box className="pl-20">
+                  <Box className="xs-pl-9 lg-pl-18">
                     <Box className="h5-title">Name Surname</Box>
                     <Box className="h5-title">Designation</Box>
                   </Box>
