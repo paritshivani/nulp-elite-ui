@@ -99,6 +99,9 @@ const EventList = (props) => {
     fetchMyEvents();
     Fetchdomain();
   }, []);
+  useEffect(() => {
+    fetchAllData();
+  }, [subDomainFilter,endDateFilter,startDateFilter]);
 
   const handleChange = (event, value) => {
     if (value !== pageNumber) {
@@ -114,10 +117,10 @@ const EventList = (props) => {
   };
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
-    setStartDateFilter[selectedFilters.startDate];
-    setEndDateFilter[selectedFilters.endDate];
-    setSubDomainFilter[selectedFilters.subDomainFilter];
-    setSearchQuery[selectedFilters.searchQurery];
+    setStartDateFilter(selectedFilters.startDate);
+    setEndDateFilter(selectedFilters.endDate);
+    setSubDomainFilter(selectedFilters.subDomainFilter);
+    setSearchQuery(selectedFilters.searchQurery);
 
     fetchAllData();
   };
@@ -130,6 +133,12 @@ const EventList = (props) => {
     fetchAllData();
   };
   const [value, setValue] = React.useState("1");
+  const startDate ={
+      "<=" : startDateFilter
+    } || null
+    const endDate ={
+      ">=" : endDateFilter
+    } || null
 
   const fetchAllData = async () => {
     let filters = {};
@@ -139,46 +148,63 @@ const EventList = (props) => {
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         se_gradeLevels: subDomainFilter,
+        startDate:startDate,
+        endDate :endDate
       };
     } else if (searchQuery && domainfilter) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
+        startDate:startDate,
+        endDate :endDate
       };
     } else if (searchQuery && subDomainFilter) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_gradeLevels: subDomainFilter,
+        startDate:startDate,
+        endDate :endDate
       };
     } else if (domainfilter && subDomainFilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
         se_gradeLevels: subDomainFilter,
+        startDate:startDate || {},
+        endDate :endDate || {}
       };
     } else if (domainfilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
+        startDate:startDate|| {},
+        endDate :endDate || {}
       };
     } else if (subDomainFilter) {
       filters = {
         objectType: ["Event"],
         se_gradeLevels: subDomainFilter,
+        startDate:startDate || {},
+        endDate :endDate || {}
       };
     } else if (searchQuery) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
+        startDate:startDate || {},
+        endDate :endDate || {}
       };
     } else {
       filters = {
         objectType: ["Event"],
+        startDate:startDate || {},
+        endDate :endDate || {}
       };
     }
 
+    
     setError(null);
     let data = JSON.stringify({
       request: {
@@ -186,6 +212,8 @@ const EventList = (props) => {
         limit: 100,
         sort_by: { lastPublishedOn: "desc" },
         offset: 0,
+        
+
       },
     });
 
@@ -341,7 +369,7 @@ const EventList = (props) => {
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
-              renderedPage="EventList"
+              renderedPage="eventList"
             />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="pb-20 pt-0 event-list ">
