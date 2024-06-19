@@ -40,8 +40,11 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   useEffect(() => {
     fetchDataFramework();
   }, []);
+  useEffect(() => {
+    handleCheckboxChange();
+}, [selectedContentType,selectedSubDomain]);
   const [state, setState] = React.useState({
-    left: false,
+    filter: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   // const handleResize = () => {
@@ -115,35 +118,23 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     console.log();
     if (filterType == "contentType") {
       if (event.target.checked) {
-        console.log("event.target.checked", selectedContentType);
 
         setSelectedContentType((prev) => [...prev, item]);
-        console.log("selectedContentType---", selectedContentType);
       } else {
         setSelectedContentType((prev) => prev.filter((i) => i !== item));
-        console.log("selectedContentType1111---", selectedContentType);
       }
     } else if (filterType == "subCategory") {
       if (event.target.checked) {
-        console.log("item--", item.item);
         setSelectedSubDomain((prev) => [...prev, item.item.code]);
-        console.log("selectedSubDomain---", selectedSubDomain);
       } else {
         setSelectedSubDomain((prev) => prev.filter((i) => i !== item.code));
-        console.log("selectedSubDomain111---", selectedSubDomain);
       }
     } else if (filterType == "searchTerm") {
-      console.log("item--", item);
       setEventSearch((prev) => [...prev, item]);
-      console.log("setEventSearch---", eventSearch);
     } else if (filterType == "startDate") {
-      console.log("item--", item);
       setStartDate((prev) => [...prev, item]);
-      console.log("startDate---", selectedStartDate);
     } else if (filterType == "endDate") {
-      console.log("item--", item);
       setEndDate((prev) => [...prev, item]);
-      console.log("endDate---", selectedEndDate);
     }
     SelectedFilters({
       startDate: selectedStartDate,
@@ -285,7 +276,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       {isMobile ? (
         <Box>
           <div>
-            {["left"].map((anchor) => (
+            {["filter"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
                 <SwipeableDrawer

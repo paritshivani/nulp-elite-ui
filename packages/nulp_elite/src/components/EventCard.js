@@ -163,11 +163,7 @@ export default function EventCard({ items, index, onClick }) {
       <CardContent className="d-flex jc-bw">
         <Box>
           {items.name && (
-            <Typography
-              gutterBottom
-              className="mt-10  event-title"
-              style={{ fontWeight: "500", fontSize: "24px", color: "#484848" }}
-            >
+            <Typography gutterBottom className="mt-10  event-title">
               {items.name}
             </Typography>
           )}
@@ -206,7 +202,7 @@ export default function EventCard({ items, index, onClick }) {
         )} */}
       </CardContent>
       <Box>
-        <Button type="button" className="custom-btn-default ml-20">
+        <Button type="button" className="custom-btn-default ml-20 lg-mt-20">
           View Details <ArrowForwardIosOutlinedIcon className="fs-12" />
         </Button>
       </Box>
