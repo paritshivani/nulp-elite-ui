@@ -706,6 +706,16 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .contentCreator .jss3 {
+    position: inherit !important;
+  }
+  .profile-card .custom-card {
+    gap: 5px !important;
+  }
+  .profile-card .custom-card-box {
+    padding: 0 6px;
+    width: 210px !important;
+  }
   .Mui-disabled {
     background: #007b9d61 !important;
   }
