@@ -70,7 +70,6 @@ button {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   height: 26px;
-  display: block !important;
 }
 .ribbonCard {
   z-index: 999;
@@ -355,7 +354,7 @@ button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block !important;
+    display: -webkit-box !important;
   }
   .eventTab .MuiTabs-flexContainer {
     justify-content: center;
@@ -683,6 +682,13 @@ button {
   .xs-pb-75 {
     padding-bottom: 75px !important;
   }
+  .xs-shadow-none .scroll,
+  .xs-shadow-none .scroll-45 {
+    height: 100vh !important;
+  }
+  .xs-pb-62 {
+    padding-bottom: 62px !important;
+  }
   .xs-pt-15 {
     padding-top: 15px;
   }
@@ -706,6 +712,19 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .all-card-list .custom-card {
+    gap: 10px 35px;
+  }
+  .contentCreator .jss3 {
+    position: inherit !important;
+  }
+  .profile-card .custom-card {
+    gap: 5px !important;
+  }
+  .profile-card .custom-card-box {
+    padding: 0 6px;
+    width: 210px !important;
+  }
   .Mui-disabled {
     background: #007b9d61 !important;
   }
