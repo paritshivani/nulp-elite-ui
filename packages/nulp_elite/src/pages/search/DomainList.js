@@ -33,6 +33,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import Skeleton from "@mui/material/Skeleton";
+import SkeletonLoader from "components/skeletonLoader";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -491,18 +492,7 @@ const DomainList = ({ globalSearchQuery }) => {
       ) : domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
-        <div style={{ display: "flex", justifyContent: "center", gap: "30px" }}>
-          {/* <CircularProgress color="inherit" /> */}
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-          <Skeleton variant="rounded" width={120} height={60} />
-        </div>
+        <SkeletonLoader />
         // <NoResult />
       )}
 
