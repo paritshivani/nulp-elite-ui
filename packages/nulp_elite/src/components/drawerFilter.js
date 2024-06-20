@@ -150,13 +150,13 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
 
   const list = (anchor) => (
     <Box
-      className="header-bg-blue p-20 filter-bx"
+      className="header-bg-blue p-20 filter-bx "
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Box className="d-flex jc-bw w-100">
+      <Box className="d-flex jc-bw ">
         <Box className="filter-title">Filter By:</Box>
         <Button type="button" className="viewAll">
           Clear all

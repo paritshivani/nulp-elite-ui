@@ -367,6 +367,7 @@ button {
     padding: 5px !important;
     margin: 10px 4px 0 16px !important;
     border-radius: 5px !important;
+    width: 107px;
   }
   button.labelOne:hover {
     background: #dddddd !important;
@@ -379,6 +380,7 @@ button {
     padding: 5px !important;
     margin: 10px 13px 0 6px !important;
     border-radius: 5px !important;
+    width: 107px;
   }
 
   button.labeltwo:hover {
@@ -397,8 +399,9 @@ button {
   .jss1 .MuiButton-textPrimary {
     background: #fff !important;
     border: none !important;
-    padding: 25px 0;
-    float: right;
+    /* padding: 25px 0; */
+    /* float: right; */
+    width: 94px;
   }
   .MuiDrawer-paperAnchorLeft .css-1hskriy {
     width: 381px !important;
@@ -702,6 +705,16 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .custom-card::after {
+    content: "";
+    flex-grow: 1000000000;
+  }
+  .p-20 {
+    padding: 20px !important;
+  }
+  .w-100 .MuiFormControl-root.mt-9 {
+    width: 100%;
+  }
   .min-472 {
     min-height: 577px;
   }
@@ -714,6 +727,7 @@ button {
   .content-list .custom-card-box {
     width: 240px !important;
     padding: 0 !important;
+    margin-left: 31px;
   }
   .content-list .MuiGrid-grid-lg-9 {
     flex-basis: 75.7% !important;
@@ -742,12 +756,14 @@ button {
     width: 27% !important;
   }
   .MuiModal-root .custom-btn-primary,
-  .MuiModal-root .custom-btn-default {
+  .MuiDialog-container .custom-btn-primary,
+  .MuiModal-root .custom-btn-default,
+  .MuiDialog-container .custom-btn-default {
     width: 116px;
     padding: 9px 0 !important;
   }
   .addConnectChat .jss3 {
-    min-height: 346px;
+    min-height: 500px;
   }
   .carousel-active-ui {
     /* background: #0e7a9c; */
@@ -1073,7 +1089,7 @@ button {
   padding-bottom: 30px;
 }
 .scroll-45 {
-  height: 45vh;
+  height: 61vh;
   overflow-y: auto;
 }
 
