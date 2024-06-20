@@ -41,9 +41,7 @@ import { Button } from "native-base";
 import { maxWidth } from "@shiksha/common-lib";
 const EventDetails = () => {
   const { eventId } = useParams();
-  const _userId = util.userId()
-    ? util.userId()
-    : "44e13b6a-e5d2-4b23-89fe-c80c4880abcb"; // Assuming util.userId() is defined
+  const _userId = util.userId();
 
   const shareUrl = window.location.href; // Current page URL
   const [toasterMessage, setToasterMessage] = useState("");
@@ -60,7 +58,8 @@ const EventDetails = () => {
   const [isRecorded, setIsRecorded] = useState();
   const [isEnrolled, setIsEnrolled] = useState();
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
-
+  const [isRegStart, setIsRegStart] = useState();
+  const [regEnd, setRegEnd] = useState();
   const { t } = useTranslation();
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -117,19 +116,26 @@ const EventDetails = () => {
 
     fetchData();
     fetchBatchData();
-    checkEnrolledCourse();
     getUserData(_userId, "loggedIn");
-    setIsEnrolled(isEnrolledCheck());
-    console.log("isEnrolled---", isEnrolledCheck());
+    checkEnrolledCourse();
+    // setIsEnrolled(isEnrolledCheck());
+    // console.log("isEnrolled---", isEnrolledCheck());
   }, []);
-  const isEnrolledCheck = () => {
-    console.log("userCourseData----", userCourseData);
-    return (
-      userCourseData &&
-      userCourseData.courses &&
-      userCourseData.courses.some((course) => course.contentId === eventId)
-    );
-  };
+  // const isEnrolledCheck = () => {
+  //   console.log("userCourseData----", userCourseData);
+  //   // if (
+  //   //   userCourseData &&
+  //   //   userCourseData.map((course) => course.contentId === eventId)
+  //   // ) {
+  //   //   console.log("is enrolled");
+  //   // } else {
+  //   //   console.log("is not enrolled");
+  //   // }
+  //   return false;
+  //   // userCourseData &&
+  //   // userCourseData &&
+  //   // userCourseData.some((course) => course.contentId === eventId)
+  // };
 
   const fetchBatchData = async () => {
     try {
@@ -177,7 +183,7 @@ const EventDetails = () => {
   };
   const checkEnrolledCourse = async () => {
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
       const response = await fetch(url);
       if (!response.ok) {
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -186,6 +192,13 @@ const EventDetails = () => {
       const data = await response.json();
       console.log("enrollment data ---", data.result.courses);
       setUserCourseData(data.result.courses);
+      if (data.result.courses.length > 0) {
+        data.result.courses.map((event) => {
+          if (event.identifier === detailData.identifier) {
+            setIsEnrolled(true);
+          }
+        });
+      }
     } catch (error) {
       console.error("Error while fetching courses:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -295,39 +308,101 @@ const EventDetails = () => {
   };
 
   const handleEnrollUnenrollBtn = async (enrollmentstart, enrollmentEnd) => {
-    const todayDate = formatDate(new Date());
+    // const todayDate = formatDate(new Date());
 
-    console.log("todayDate----", todayDate);
-    console.log("enrollmentstart----", enrollmentstart);
-    console.log("enrollmentEnd----", enrollmentEnd);
+    const todayDate = new Date(); // You can also pass today's date as a parameter
+
+    const enrollmentStartDate = new Date(enrollmentStart);
+    const enrollmentEndDate = new Date(enrollmentEnd);
+    const currentDate = todayDate;
+
+    console.log("todayDate----", new Date(todayDate));
+    console.log("enrollmentstart----", new Date(enrollmentstart));
+    console.log("enrollmentEnd----", new Date(enrollmentEnd));
 
     if (
-      new Date(enrollmentstart) <= new Date(todayDate) &&
-      new Date(enrollmentEnd) >= new Date(todayDate)
+      enrollmentStartDate <= currentDate &&
+      enrollmentEndDate >= currentDate
     ) {
+      console.log("can Enroll");
       setCanEnroll(true);
+    } else if (enrollmentStartDate > currentDate) {
+      console.log("not started");
+      setIsRegStart(false);
+    } else if (enrollmentEndDate < currentDate) {
+      console.log("ended");
+      setRegEnd(true);
     } else {
-      setCanEnroll(false);
+      console.log("no clue");
     }
+
+    // if (
+    //   new Date(enrollmentstart) <= new Date(todayDate) &&
+    //   new Date(enrollmentEnd) >= new Date(todayDate)
+    // ) {
+    //   console.log("can Enroll");
+    //   setCanEnroll(true);
+    // } else if (new Date(enrollmentstart) > new Date(todayDate)) {
+    //   console.log("not str");
+    //   setIsRegStart(false);
+    // } else if (new Date(enrollmentEnd) < new Date(todayDate)) {
+    //   console.log("ended");
+    //   setRegEnd(true);
+    // } else {
+    //   console.log("no clue");
+    // }
   };
+  // const handleJoinEventBtn = async (startDate, startTime, endDate, endTime) => {
+  //   const todayDate = formatDate(new Date());
+  //   const todayTime = formatTimeWithTimezone(new Date());
+  //   console.log("todayDate----", new Date(todayDate));
+  //   console.log("startDate----", new Date(startDate));
+  //   console.log("startTime----", startTime);
+  //   console.log("endDate----", new Date(endDate));
+  //   console.log("endTime----", endTime);
+  //   if (
+  //     new Date(startDate) < new Date(todayDate) &&
+  //     new Date(endDate) > new Date(todayDate)
+  //   ) {
+  //     console.log("can Join");
+  //     setCanJoin(true);
+  //   } else {
+  //     console.log("can not Join");
+  //     setCanJoin(false);
+  //   }
+
+  //   if (Date(endDate) <= new Date(todayDate)) {
+  //     setIsRecorded(true);
+  //   }
+  // };
   const handleJoinEventBtn = async (startDate, startTime, endDate, endTime) => {
-    const todayDate = formatDate(new Date());
-    const todayTime = formatTimeWithTimezone(new Date());
+    // Helper function to combine date and time into a full Date object
+    const combineDateTime = (date, time) => {
+      return new Date(`${date}T${time}`);
+    };
+
+    // Current date and time
+    const todayDate = new Date();
+
+    // Combined start and end Date objects
+    const startDateTime = combineDateTime(startDate, startTime);
+    const endDateTime = combineDateTime(endDate, endTime);
+
     console.log("todayDate----", todayDate);
-    console.log("startDate----", startDate);
-    console.log("startTime----", startTime);
-    console.log("endDate----", endDate);
-    console.log("endTime----", endTime);
-    if (
-      new Date(startDate) <= new Date(todayDate) &&
-      new Date(endDate) >= new Date(todayDate)
-    ) {
+    console.log("startDateTime----", startDateTime);
+    console.log("endDateTime----", endDateTime);
+
+    // Check if the current date and time is within the event period
+    if (startDateTime <= todayDate && endDateTime >= todayDate) {
+      console.log("can Join");
       setCanJoin(true);
     } else {
+      console.log("can not Join");
       setCanJoin(false);
     }
 
-    if (Date(endDate) <= new Date(todayDate)) {
+    // Check if the event has ended
+    if (endDateTime <= todayDate) {
       setIsRecorded(true);
     }
   };
@@ -421,11 +496,22 @@ const EventDetails = () => {
                 National Urban Learning Platform{" "}
               </Box>
               <Box className="d-flex mb-20 alignItems-center xs-hide">
-                <Box className="h5-title">Organised By:</Box>
-                <Box className="d-flex alignItems-center pl-20">
-                  <Box className="event-text-circle"></Box>
-                  <Box className="h5-title">Komal Mane</Box>
-                </Box>
+                {creatorInfo &&
+                  (creatorInfo.firstName || creatorInfo.lastName) && (
+                    <Box className="d-flex mb-20 alignItems-center">
+                      <Box className="h5-title">Organised By:</Box>
+                      <Box className="d-flex alignItems-center pl-20">
+                        <Box className="event-text-circle"></Box>
+                        <Box className="h5-title">
+                          {creatorInfo.firstName
+                            ? creatorInfo.firstName
+                            : "" + " " + creatorInfo.lastName
+                            ? creatorInfo.lastName
+                            : ""}
+                        </Box>
+                      </Box>
+                    </Box>
+                  )}
               </Box>
 
               <Box className="d-flex mb-20 h3-custom-title xs-hide">
@@ -438,17 +524,23 @@ const EventDetails = () => {
 
                   {formatTimeToIST(detailData.startTime)}
                 </Box>
-                <Box className="mx-15">To</Box>
-                <Box className="d-flex jc-bw alignItems-center">
+                <Box className="mx-10">To</Box>
+                {/* <Box className="d-flex jc-bw alignItems-center">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
-                </Box>
+                </Box> */}
                 <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
 
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
+              {isRegStart === false && (
+                <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                  Registration will be ending on:{" "}
+                  {formatDate(detailData.registrationEndDate)}
+                </Box>
+              )}
               {canEnroll && !isEnrolled && (
                 <Box className="xs-hide">
                   <Button
@@ -508,6 +600,16 @@ const EventDetails = () => {
                   )}
                 </Box>
               )}
+              {isRegStart === false && (
+                <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                  Registration is not started yet
+                </Box>
+              )}
+              {regEnd && (
+                <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                  Registration has ended
+                </Box>
+              )}
               {!canEnroll && !canJoin && isRecorded && (
                 <Box className="xs-hide">
                   <Button
@@ -552,22 +654,22 @@ const EventDetails = () => {
                 )}
 
               <Box className="d-flex mb-20 h3-custom-title">
+                <Box className="d-flex jc-bw alignItems-center">Date:</Box>
                 <Box className="d-flex jc-bw alignItems-center">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.startDate)}
                 </Box>
                 <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
-
                   {formatTimeToIST(detailData.startTime)}
                 </Box>
-              </Box>
-              <Box className="d-flex mb-20 h3-custom-title">
-                <Box className="mr-15">To</Box>
-                <Box className="d-flex jc-bw alignItems-center">
+                {/* </Box>
+              <Box className="d-flex mb-20 h3-custom-title"> */}
+                <Box className="mr-5">To</Box>
+                {/* <Box className="d-flex jc-bw alignItems-center">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
-                </Box>
+                </Box> */}
                 <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
 
