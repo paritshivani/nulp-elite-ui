@@ -321,7 +321,7 @@ function Header({ globalSearchQuery }) {
                   </Menu>
                 </Box>
                 <Link
-                  href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT_PAGE}
+                  href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
                   className="py-15"
                 >
                   <img
