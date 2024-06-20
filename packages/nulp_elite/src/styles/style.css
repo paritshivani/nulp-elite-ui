@@ -70,6 +70,7 @@ button {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   height: 26px;
+  display: block !important;
 }
 .ribbonCard {
   z-index: 999;
@@ -705,14 +706,23 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .Mui-disabled {
+    background: #007b9d61 !important;
+  }
+  .domain-list .custom-card-box {
+    padding: 0 6px;
+    width: 245px;
+    padding-right: 24px !important;
+  }
   .custom-card::after {
     content: "";
     flex-grow: 1000000000;
   }
-  .p-20 {
-    padding: 20px !important;
+  .p-15 {
+    padding: 15px !important;
   }
-  .w-100 .MuiFormControl-root.mt-9 {
+  .w-100 .MuiFormControl-root.mt-9,
+  .w-100 .MuiFormControl-root {
     width: 100%;
   }
   .min-472 {
@@ -1642,7 +1652,6 @@ button {
   border-radius: 3px;
   box-shadow: 0px 4px 4px 0px #00000040 !important;
   background: #fff;
-  padding-bottom: 15px !important;
 
   /* height: 65vh; */
 }
