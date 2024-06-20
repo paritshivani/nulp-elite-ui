@@ -125,7 +125,8 @@ export default function Footer() {
               label={t("CONNECTION")}
               className={
                 location.pathname ===
-                `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}` ||
+                location.pathname === routeConfig.ROUTES.CHAT_PAGE.CHAT
                   ? "navigateActive"
                   : ""
               }

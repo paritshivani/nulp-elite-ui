@@ -34,6 +34,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import Skeleton from "@mui/material/Skeleton";
 import SkeletonLoader from "components/skeletonLoader";
+import FloatingChatIcon from "components/FloatingChatIcon";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -701,6 +702,7 @@ const DomainList = ({ globalSearchQuery }) => {
           )}
         </Box>
       </Container>
+      <FloatingChatIcon />
 
       <Footer />
     </div>

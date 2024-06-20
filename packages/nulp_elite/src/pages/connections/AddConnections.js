@@ -226,6 +226,9 @@ const AddConnections = () => {
   const handlePageChange = (event, newValue) => {
     setCurrentPage(newValue);
   };
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage]);
 
   useEffect(() => {
     setDesignationsList(designations);

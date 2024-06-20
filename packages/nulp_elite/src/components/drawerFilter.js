@@ -213,6 +213,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      checked={selectedContentType.includes(contentType)}
                       onChange={(event) => handleCheckboxChange(event, contentType, "contentType")}
                     />
                   }
@@ -252,7 +253,8 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  onChange={(event) => handleCheckboxChange(event, { item: option }, "subCategory")}
+                  checked={selectedSubDomain.includes(item.code)}
+                  onChange={(event) => handleCheckboxChange(event, { item }, "subCategory")}
                 />
               }
               label={item.code}
@@ -370,6 +372,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                       <FormControlLabel
                         control={
                           <Checkbox
+                            checked={selectedContentType.includes(contentType)}
                             onChange={(event) =>
                               handleCheckboxChange(
                                 event,
@@ -418,6 +421,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
+                        checked={selectedSubDomain.includes(item.code)}
                         onChange={(event) =>
                           handleCheckboxChange(event, { item }, "subCategory")
                         }
