@@ -32,6 +32,9 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
+import Skeleton from "@mui/material/Skeleton";
+import SkeletonLoader from "components/skeletonLoader";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -270,7 +273,7 @@ const DomainList = ({ globalSearchQuery }) => {
   const loadContents = async (term) => {
     // console.log(term);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: term.code },
+      state: { domain: term.code, domainName :term.name },
     });
   };
 
@@ -283,7 +286,7 @@ const DomainList = ({ globalSearchQuery }) => {
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: query, domainName: domainName },
+      state: { domain: query},
     });
   };
   // console.log(frameworkHardCodedData.result.framework.categories[0].terms);
@@ -489,7 +492,7 @@ const DomainList = ({ globalSearchQuery }) => {
       ) : domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
-        <div>{/* <CircularProgress color="inherit" /> */}</div>
+        <SkeletonLoader />
         // <NoResult />
       )}
 

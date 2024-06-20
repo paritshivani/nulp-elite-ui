@@ -102,7 +102,7 @@ const LearningHistory = () => {
           <Box>
             <Box className="custom-card">
               {filteredCourses?.length === 0 ? (
-                <NoResult />
+                <NoResult className="center-box" />
               ) : (
                 filteredCourses?.map((course) => (
                   <Box className="custom-card-box" key={course.courseName}>
