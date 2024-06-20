@@ -91,8 +91,8 @@ button {
 }
 
 .MuiBottomNavigation-root svg {
-  width: 1.4em !important;
-  height: 1.4em !important;
+  width: 23px !important;
+  height: 23px !important;
   color: #484848;
 }
 .MuiBottomNavigation-root span {
@@ -106,6 +106,7 @@ button {
 .MuiBottomNavigation-root {
   justify-content: space-around !important;
   margin-top: 30px;
+  background: #f9fafc !important;
 }
 .navigateActive {
   /* background: #004367 !important; */
@@ -367,7 +368,6 @@ button {
     padding: 5px !important;
     margin: 10px 4px 0 16px !important;
     border-radius: 5px !important;
-    width: 107px;
   }
   button.labelOne:hover {
     background: #dddddd !important;
@@ -380,7 +380,6 @@ button {
     padding: 5px !important;
     margin: 10px 13px 0 6px !important;
     border-radius: 5px !important;
-    width: 107px;
   }
 
   button.labeltwo:hover {
@@ -480,6 +479,15 @@ button {
   }
 }
 @media (max-width: 768px) {
+  .eventTab .left-container,
+  .content-list .left-container {
+    background: #fff !important;
+    border-radius: 3px;
+    border: 1px solid #ddd !important;
+    /* box-shadow: 0 4px 4px 0 #00000040!important; */
+    padding-bottom: 15px !important;
+    box-shadow: none !important;
+  }
   .xs-pl-17 {
     padding-left: 17px;
   }
@@ -712,6 +720,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .mr-13 {
+    margin-right: 13px !important;
+  }
   .all-card-list .custom-card {
     gap: 10px 35px;
   }
@@ -966,12 +977,12 @@ button {
   .mr-20 {
     margin-right: 20px !important;
   }
-  /* .labelOne {
-    padding: 3px 15px !important;
+  .labelOne {
+    width: 107px !important;
   }
   .labeltwo {
-    padding: 7px 15px !important;
-  } */
+    width: 107px !important;
+  }
   .sm-p-25 {
     padding: 0 25px;
   }

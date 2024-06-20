@@ -31,6 +31,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
+import FloatingChatIcon from "components/FloatingChatIcon";
 
 const responsive = {
   superLargeDesktop: {
@@ -513,6 +514,7 @@ const ContentList = (props) => {
           </Grid>
         </Grid>
       </Container>
+      <FloatingChatIcon />
       <Footer />
     </div>
   );

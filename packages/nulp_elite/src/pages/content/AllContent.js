@@ -378,7 +378,7 @@ const AllContent = () => {
                     {items?.length > 4 && (
                       <Link
                         to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}/${category}`}
-                        className="viewAll"
+                        className="viewAll mr-13"
                       >
                         {t("VIEW_ALL")}
                       </Link>
@@ -389,7 +389,7 @@ const AllContent = () => {
                   <Carousel
                     swipeable={true}
                     draggable={true}
-                    showDots={true}
+                    showDots="3"
                     responsive={responsiveCard}
                     ssr={true}
                     infinite={true}
