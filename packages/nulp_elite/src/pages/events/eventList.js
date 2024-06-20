@@ -33,6 +33,9 @@ import TabPanel from "@material-ui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import CircularProgress from "@mui/material/CircularProgress";
+
+import * as util from "../../services/utilService";
+
 import FloatingChatIcon from "components/FloatingChatIcon";
 
 const responsive = {
@@ -59,8 +62,8 @@ const EventList = (props) => {
   const [search, setSearch] = useState(true);
   const location = useLocation();
   const [pageNumber, setPageNumber] = useState(1);
-  const [data, setData] = useState([]);
-  const [myData, setMyData] = useState([]);
+  const [data, setData] = useState();
+  const [myData, setMyData] = useState();
   const [filters, setFilters] = useState({});
   const [domainfilter, setDomainfilter] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -89,6 +92,7 @@ const EventList = (props) => {
   const [subDomainFilter, setSubDomainFilter] = useState([]);
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
+  const [valueTab, setValueTab] = React.useState("1");
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -106,6 +110,10 @@ const EventList = (props) => {
     fetchAllData();
   }, [subDomainFilter, endDateFilter, startDateFilter]);
 
+  const handleChangeTab = (event, newValue) => {
+    setValueTab(newValue);
+  };
+
   const handleChange = (event, value) => {
     if (value !== pageNumber) {
       setPageNumber(value);
@@ -115,8 +123,8 @@ const EventList = (props) => {
       fetchAllData();
     }
   };
-  const handleCardClick = (eventId) => {
-    navigate(`/webapp/eventDetails/${eventId}`);
+  const handleCardClick = (identifier) => {
+    navigate(`/webapp/eventDetails/${identifier}`);
   };
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
@@ -214,7 +222,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 100,
-        sort_by: { lastPublishedOn: "desc",startDate: "desc" },
+        sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 0,
       },
     });
@@ -228,9 +236,8 @@ const EventList = (props) => {
 
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
-
       const response = await getAllContents(url, data, headers);
-      console.log("response-----", response);
+      console.log("All Event ----", response.data.result.Event);
       setData(response.data.result.Event);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -238,27 +245,35 @@ const EventList = (props) => {
   };
 
   const fetchMyEvents = async () => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
+    setIsLoading(true);
+    setError(null);
 
-      const _userId = util.userId();
+    const _userId = util.userId();
 
-      const headers = {
-        "Content-Type": "application/json",
-      };
-
-      try {
-        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?orgdetails=${appConfig.Course.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.Course.contentApiQueryParams.licenseDetails}&fields=${urlConfig.params.enrolledCourses.fields}&batchDetails=${urlConfig.params.enrolledCourses.batchDetails}&contentDetails=${urlConfig.params.enrolledCourses.contentDetails}`;
-        const response = await fetch(url, headers);
-        const responseData = await response.json();
-        setMyData(responseData.result.courses);
-      } catch (error) {
-        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-      } finally {
-        setIsLoading(false);
-      }
+    let data = JSON.stringify({
+      request: {
+        filters: { objectType: ["Event"] },
+        limit: 100,
+        sort_by: { lastPublishedOn: "desc" },
+        offset: 0,
+      },
+    });
+    const headers = {
+      "Content-Type": "application/json",
     };
+
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
+      const response = await fetch(url, headers);
+      const responseData = await response.json();
+      console.log("My data  ---", responseData.result.courses);
+      setMyData(responseData.result.courses);
+    } catch (error) {
+      console.log("m data error---", error);
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    } finally {
+      setIsLoading(false);
+    }
   };
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework") || "nulp";
@@ -311,39 +326,9 @@ const EventList = (props) => {
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-
-      {/* <Box
-        className="lg-hide header-bg w-40 mr-30"
-        style={{ alignItems: "center", paddingLeft: "23px" }}
-      >
-        <Box className="h1-title px-10 pr-20">{t("EXPLORE")}</Box>
-        <TextField
-          placeholder={t("What do you want to learn today?  ")}
-          variant="outlined"
-          size="small"
-          fullWidth
-          value={searchQuery}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-          InputProps={{
-            endAdornment: (
-              <IconButton
-                type="submit"
-                aria-label="search"
-                onClick={handleSearch}
-              >
-                <SearchIcon />
-              </IconButton>
-            ),
-          }}
-        />
-      </Box> */}
       <Box>
         {domainList && domainList.length > 0 ? (
           <DomainCarousel
-            // className={`my-class ${
-            //   activeStates[index] ? "carousel-active-ui" : ""
-            // }`}
             onSelectDomain={handleDomainFilter}
             selectedDomainCode={domain}
             domains={domainList}
@@ -384,9 +369,12 @@ const EventList = (props) => {
                   <Alert severity="error">{error}</Alert>
                 ) : data ? (
                   <div>
-                    <TabContext value={value} className="eventTab">
+                    <TabContext value={valueTab} className="eventTab">
                       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <TabList aria-label="lab API tabs example">
+                        <TabList
+                          onChange={handleChangeTab}
+                          aria-label="lab API tabs example"
+                        >
                           <Tab
                             label="My Webinar"
                             className="tab-text"
@@ -407,8 +395,8 @@ const EventList = (props) => {
                           spacing={2}
                           style={{ marginBottom: "5px" }}
                         >
-                          {data &&
-                            data.map((items, index) => (
+                          {myData && myData.length != 0 ? (
+                            myData.map((item, index) => (
                               <Grid
                                 item
                                 xs={12}
@@ -417,10 +405,10 @@ const EventList = (props) => {
                                 style={{
                                   marginBottom: "10px",
                                 }}
-                                key={items.identifier}
+                                key={item.identifier}
                               >
                                 <EventCard
-                                  items={items}
+                                  items={item}
                                   index={index}
                                   onClick={() =>
                                     handleCardClick(items.identifier)
@@ -428,7 +416,10 @@ const EventList = (props) => {
                                   // onClick={() => alert("hii")}
                                 ></EventCard>
                               </Grid>
-                            ))}
+                            ))
+                          ) : (
+                            <NoResult />
+                          )}
                         </Grid>
                       </TabPanel>
                       <TabPanel value="2" className="mt-15">
@@ -437,7 +428,7 @@ const EventList = (props) => {
                           spacing={2}
                           style={{ marginBottom: "5px" }}
                         >
-                          {data &&
+                          {data ? (
                             data.map((items, index) => (
                               <Grid
                                 item
@@ -451,11 +442,14 @@ const EventList = (props) => {
                                   items={items}
                                   index={index}
                                   onClick={() =>
-                                    handleCardClick("items.identifier")
+                                    handleCardClick(items.identifier)
                                   }
                                 ></EventCard>
                               </Grid>
-                            ))}
+                            ))
+                          ) : (
+                            <NoResult />
+                          )}
                         </Grid>
                       </TabPanel>
                     </TabContext>
