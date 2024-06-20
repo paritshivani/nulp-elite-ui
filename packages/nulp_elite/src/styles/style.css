@@ -91,8 +91,8 @@ button {
 }
 
 .MuiBottomNavigation-root svg {
-  width: 1.4em !important;
-  height: 1.4em !important;
+  width: 23px !important;
+  height: 23px !important;
   color: #484848;
 }
 .MuiBottomNavigation-root span {
@@ -486,6 +486,7 @@ button {
     border: 1px solid #ddd !important;
     /* box-shadow: 0 4px 4px 0 #00000040!important; */
     padding-bottom: 15px !important;
+    box-shadow: none !important;
   }
   .xs-pl-17 {
     padding-left: 17px;
