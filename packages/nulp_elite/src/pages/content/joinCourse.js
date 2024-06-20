@@ -1061,7 +1061,7 @@ const JoinCourse = () => {
                       {t("DESCRIPTION")}:
                     </Typography>
                     <Typography
-                      className="twoLineEllipsis h5-title mb-15"
+                      className="h5-title mb-15"
                       style={{ fontWeight: "600" }}
                     >
                       {userCourseData.courses[0].description.split(" ").length >
@@ -1070,7 +1070,7 @@ const JoinCourse = () => {
                           ? userCourseData.courses[0].description
                           : userCourseData.courses[0].description
                               .split(" ")
-                              .slice(0, 100)
+                              .slice(0, 30)
                               .join(" ") + "..."
                         : userCourseData.courses[0].description}
                     </Typography>

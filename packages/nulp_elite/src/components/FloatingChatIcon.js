@@ -49,9 +49,13 @@ const FloatingChatIcon = () => {
           title="ChatBot"
         />
       </Popover>
-      <Link href="#" color="primary" aria-label="chat" className="chatIcon">
+      <Link
+        onClick={handleOpenPopover}
+        color="primary"
+        aria-label="chat"
+        className="chatIcon"
+      >
         <HeadsetMicOutlinedIcon
-          onClick={handleOpenPopover}
           style={{
             paddingRight: "8px",
             borderRadius: "50%",
