@@ -224,9 +224,11 @@ const AddConnections = () => {
   const id = openPopover ? "simple-popover" : undefined;
 
   const handlePageChange = (event, newValue) => {
-    console.log("-------------------------000", newValue);
     setCurrentPage(newValue);
   };
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage]);
 
   useEffect(() => {
     setDesignationsList(designations);

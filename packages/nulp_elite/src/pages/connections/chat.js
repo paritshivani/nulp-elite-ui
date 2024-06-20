@@ -457,7 +457,7 @@ const Chat = ({
   };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className={classes.chatContainer}>
         <div
           className={classes.chatHeader}
