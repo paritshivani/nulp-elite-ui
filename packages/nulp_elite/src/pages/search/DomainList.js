@@ -489,15 +489,13 @@ const DomainList = ({ globalSearchQuery }) => {
       ) : domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
-        <div>
-          <CircularProgress color="inherit" />
-        </div>
+        <div>{/* <CircularProgress color="inherit" /> */}</div>
         // <NoResult />
       )}
 
       <Container
         maxWidth="xl"
-        className=" allContent allContentList"
+        className=" allContent allContentList domain-list"
         role="main"
       >
         {error && <Alert severity="error">{error}</Alert>}
@@ -598,7 +596,11 @@ const DomainList = ({ globalSearchQuery }) => {
         </Box>
       </Container>
 
-      <Container maxWidth="xl" className="allContent xs-mb-75 " role="main">
+      <Container
+        maxWidth="xl"
+        className="allContent xs-mb-75 domain-list"
+        role="main"
+      >
         {error && <Alert severity="error">{error}</Alert>}
 
         <Box textAlign="center">

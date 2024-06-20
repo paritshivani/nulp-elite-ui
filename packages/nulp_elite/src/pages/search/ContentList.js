@@ -380,7 +380,8 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <CircularProgress color="inherit" />
+          <div></div>
+          //CircularProgress color="inherit" />
         )}
       </Box>
 
@@ -438,8 +439,8 @@ const ContentList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container mt-2 xs-hide left-filter"
-            style={{ padding: "0" }}
+            className="sm-p-25 left-container mt-2 xs-hide left-filter w-100"
+            style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}

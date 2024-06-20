@@ -354,7 +354,7 @@ button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block !important;
+    display: -webkit-box !important;
   }
   .eventTab .MuiTabs-flexContainer {
     justify-content: center;
@@ -682,6 +682,13 @@ button {
   .xs-pb-75 {
     padding-bottom: 75px !important;
   }
+  .xs-shadow-none .scroll,
+  .xs-shadow-none .scroll-45 {
+    height: 100vh !important;
+  }
+  .xs-pb-62 {
+    padding-bottom: 62px !important;
+  }
   .xs-pt-15 {
     padding-top: 15px;
   }
@@ -705,15 +712,40 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .all-card-list .custom-card {
+    gap: 10px 35px;
+  }
+  .contentCreator .jss3 {
+    position: inherit !important;
+  }
+  .profile-card .custom-card {
+    gap: 5px !important;
+  }
+  .profile-card .custom-card-box {
+    padding: 0 6px;
+    width: 210px !important;
+  }
+  .Mui-disabled {
+    background: #007b9d61 !important;
+  }
+  .domain-list .custom-card-box {
+    padding: 0 6px;
+    width: 245px;
+    padding-right: 24px !important;
+  }
   .custom-card::after {
     content: "";
     flex-grow: 1000000000;
   }
-  .p-20 {
-    padding: 20px !important;
+  .p-15 {
+    padding: 15px !important;
   }
-  .w-100 .MuiFormControl-root.mt-9 {
+  .w-100 .MuiFormControl-root.mt-9,
+  .w-100 .MuiFormControl-root {
     width: 100%;
+  }
+  .w-100 .MuiSvgIcon-fontSizeMedium {
+    padding-right: 10px !important;
   }
   .min-472 {
     min-height: 577px;
@@ -1642,7 +1674,6 @@ button {
   border-radius: 3px;
   box-shadow: 0px 4px 4px 0px #00000040 !important;
   background: #fff;
-  padding-bottom: 15px !important;
 
   /* height: 65vh; */
 }

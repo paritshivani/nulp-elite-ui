@@ -213,7 +213,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 100,
-        sort_by: { lastPublishedOn: "desc" },
+        sort_by: { lastPublishedOn: "desc",startDate: "desc" },
         offset: 0,
       },
     });
@@ -348,7 +348,8 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <CircularProgress color="inherit" />
+          <div />
+          // <CircularProgress color="inherit" />
         )}
       </Box>
       <Container
