@@ -299,7 +299,7 @@ const ContentList = (props) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
@@ -381,7 +381,8 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <CircularProgress color="inherit" />
+          <div></div>
+          //CircularProgress color="inherit" />
         )}
       </Box>
 

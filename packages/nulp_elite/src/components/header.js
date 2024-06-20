@@ -403,7 +403,12 @@ function Header({ globalSearchQuery }) {
                 href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
                 className={
                   activePath ===
-                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
+                  `${
+                    routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                    activePath.startsWith(
+                      routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
+                    )
+                  }`
                     ? "Menuactive"
                     : "headerMenu"
                 }
@@ -418,7 +423,10 @@ function Header({ globalSearchQuery }) {
                 href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
                 className={
                   activePath ===
-                  `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
+                    routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
+                  activePath.startsWith(
+                    routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL
+                  )
                     ? "Menuactive"
                     : "headerMenu"
                 }
