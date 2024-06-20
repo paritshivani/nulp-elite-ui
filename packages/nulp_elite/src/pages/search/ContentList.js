@@ -32,6 +32,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import FloatingChatIcon from "components/FloatingChatIcon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const responsive = {
   superLargeDesktop: {
@@ -381,7 +382,7 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <div></div>
+          <SkeletonLoader />
           //CircularProgress color="inherit" />
         )}
       </Box>

@@ -20,6 +20,7 @@ import { t } from "i18next";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const CategoryPage = () => {
   // const history = useHistory();
@@ -205,8 +206,11 @@ const CategoryPage = () => {
     <>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      {domain && (
+
+      {domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
+      ) : (
+        <SkeletonLoader />
       )}
 
       <Container

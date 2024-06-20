@@ -37,6 +37,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import * as util from "../../services/utilService";
 
 import FloatingChatIcon from "components/FloatingChatIcon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const responsive = {
   superLargeDesktop: {
@@ -221,7 +222,7 @@ const EventList = (props) => {
     let data = JSON.stringify({
       request: {
         filters: filters,
-        limit: 100,
+        limit: 10,
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 0,
       },
@@ -253,7 +254,7 @@ const EventList = (props) => {
     let data = JSON.stringify({
       request: {
         filters: { objectType: ["Event"] },
-        limit: 100,
+        limit: 10,
         sort_by: { lastPublishedOn: "desc" },
         offset: 0,
       },
@@ -334,7 +335,7 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <div />
+          <SkeletonLoader />
           // <CircularProgress color="inherit" />
         )}
       </Box>
