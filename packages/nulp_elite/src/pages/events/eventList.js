@@ -34,6 +34,7 @@ import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import CircularProgress from "@mui/material/CircularProgress";
 import FloatingChatIcon from "components/FloatingChatIcon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const responsive = {
   superLargeDesktop: {
@@ -214,7 +215,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 100,
-        sort_by: { lastPublishedOn: "desc",startDate: "desc" },
+        sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 0,
       },
     });
@@ -349,7 +350,7 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <div />
+          <SkeletonLoader />
           // <CircularProgress color="inherit" />
         )}
       </Box>
