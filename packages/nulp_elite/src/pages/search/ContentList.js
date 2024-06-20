@@ -380,7 +380,8 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <CircularProgress color="inherit" />
+          <div></div>
+          //CircularProgress color="inherit" />
         )}
       </Box>
 

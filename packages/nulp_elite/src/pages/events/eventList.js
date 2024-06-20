@@ -348,7 +348,8 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <CircularProgress color="inherit" />
+          <div />
+          // <CircularProgress color="inherit" />
         )}
       </Box>
       <Container

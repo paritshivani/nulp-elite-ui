@@ -489,9 +489,7 @@ const DomainList = ({ globalSearchQuery }) => {
       ) : domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
-        <div>
-          <CircularProgress color="inherit" />
-        </div>
+        <div>{/* <CircularProgress color="inherit" /> */}</div>
         // <NoResult />
       )}
 
