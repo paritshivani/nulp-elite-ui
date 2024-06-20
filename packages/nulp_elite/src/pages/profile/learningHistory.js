@@ -80,7 +80,7 @@ const LearningHistory = () => {
       <Container
         role="main"
         maxWidth="xl"
-        className=" filter-profile profile allContentProfile cardheight"
+        className=" filter-profile profile allContentProfile cardheight profile-card"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -111,7 +111,7 @@ const LearningHistory = () => {
                       index={courseData.result.courses.length}
                       onClick={() =>
                         navigate(
-                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${course.content.identifier}`
+                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
                         )
                       }
                     />

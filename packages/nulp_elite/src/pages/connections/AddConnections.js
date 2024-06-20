@@ -43,6 +43,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import FloatingChatIcon from "components/FloatingChatIcon";
 const routeConfig = require("../../configs/routeConfig.json");
 // Define modal styles
 const useStyles = makeStyles((theme) => ({
@@ -1291,7 +1292,7 @@ const AddConnections = () => {
       <Container
         maxWidth="xxl"
         role="main"
-        className="pt-0 xs-p-0 xs-pb-75 lg-ml-0 lg-pr-0"
+        className="pt-0 xs-p-0 xs-pb-62 lg-ml-0 lg-pr-0"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -1905,7 +1906,7 @@ const AddConnections = () => {
                 xs={12}
                 md={8}
                 lg={8}
-                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0"
+                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0 min-h-600"
               >
                 {!isMobile && (
                   <Box className="text-center">
@@ -1933,6 +1934,7 @@ const AddConnections = () => {
           </Box>
         </Box>
       </Container>
+      <FloatingChatIcon />
       <Footer />
     </Box>
   );

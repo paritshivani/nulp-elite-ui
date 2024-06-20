@@ -80,11 +80,20 @@ const JoinCourse = () => {
   });
   const [showChat, setShowChat] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
-
+  const queryString = location.search;
+  const contentId = queryString.startsWith("?do_")
+    ? queryString.slice(1)
+    : null;
   // const { contentId } = location.state || {};
-  const { contentId } = useParams();
+  // const { contentId } = useParams();
   const _userId = util.userId(); // Assuming util.userId() is defined
   const shareUrl = window.location.href; // Current page URL
+  const [showMore, setShowMore] = useState(false);
+
+  const toggleShowMore = () => {
+    setShowMore((prevShowMore) => !prevShowMore);
+  };
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -1041,15 +1050,38 @@ const JoinCourse = () => {
               </Box>
             </Box> */}
             <Box>
-              <Typography className="h5-title" style={{ fontWeight: "600" }}>
-                {t("DESCRIPTION")}:
-              </Typography>
-              <Typography
-                className="twoLineEllipsis h5-title mb-15"
-                style={{ fontWeight: "600" }}
-              >
-                {courseData?.result?.content?.description}
-              </Typography>
+              {userCourseData &&
+                userCourseData.courses &&
+                userCourseData.courses.length > 0 && (
+                  <>
+                    <Typography
+                      className="h5-title"
+                      style={{ fontWeight: "600" }}
+                    >
+                      {t("DESCRIPTION")}:
+                    </Typography>
+                    <Typography
+                      className="h5-title mb-15"
+                      style={{ fontWeight: "600" }}
+                    >
+                      {userCourseData.courses[0].description.split(" ").length >
+                      100
+                        ? showMore
+                          ? userCourseData.courses[0].description
+                          : userCourseData.courses[0].description
+                              .split(" ")
+                              .slice(0, 30)
+                              .join(" ") + "..."
+                        : userCourseData.courses[0].description}
+                    </Typography>
+                    {userCourseData.courses[0].description.split(" ").length >
+                      100 && (
+                      <Button onClick={toggleShowMore}>
+                        {showMore ? t("Show Less") : t("Show More")}
+                      </Button>
+                    )}
+                  </>
+                )}
             </Box>
 
             <Accordion
@@ -1083,7 +1115,7 @@ const JoinCourse = () => {
                     >
                       {faqIndex.name}
                     </AccordionSummary>
-                    {faqIndex.children.map((faqIndexname) => (
+                    {faqIndex?.children?.map((faqIndexname) => (
                       <AccordionDetails
                         className="border-bottom"
                         style={{ paddingLeft: "35px" }}

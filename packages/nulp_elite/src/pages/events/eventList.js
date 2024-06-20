@@ -33,7 +33,10 @@ import TabPanel from "@material-ui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import CircularProgress from "@mui/material/CircularProgress";
+
 import * as util from "../../services/utilService";
+
+import FloatingChatIcon from "components/FloatingChatIcon";
 
 const responsive = {
   superLargeDesktop: {
@@ -157,7 +160,7 @@ const EventList = (props) => {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate,
         endDate: endDate,
       };
@@ -173,7 +176,7 @@ const EventList = (props) => {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate,
         endDate: endDate,
       };
@@ -181,7 +184,7 @@ const EventList = (props) => {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate || {},
         endDate: endDate || {},
       };
@@ -195,7 +198,7 @@ const EventList = (props) => {
     } else if (subDomainFilter) {
       filters = {
         objectType: ["Event"],
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate || {},
         endDate: endDate || {},
       };
@@ -219,7 +222,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 100,
-        sort_by: { lastPublishedOn: "desc" },
+        sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 0,
       },
     });
@@ -349,8 +352,8 @@ const EventList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container profile flter-btn"
-            style={{ padding: "0", borderRight: "none" }}
+            className="sm-p-25 left-container  flter-btn w-100"
+            style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
@@ -401,7 +404,6 @@ const EventList = (props) => {
                                 lg={6}
                                 style={{
                                   marginBottom: "10px",
-                                  maxWidth: "534px",
                                 }}
                                 key={item.identifier}
                               >
@@ -466,6 +468,7 @@ const EventList = (props) => {
           </Grid>
         </Grid>
       </Container>
+      <FloatingChatIcon />
       <Footer />
     </div>
   );

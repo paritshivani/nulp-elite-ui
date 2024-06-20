@@ -283,7 +283,7 @@ const AllContent = () => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId: item.identifier } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${item.identifier}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${item.identifier}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
@@ -302,7 +302,10 @@ const AllContent = () => {
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       )}
 
-      <Container maxWidth="xl" className="pb-30 allContent xs-pb-80">
+      <Container
+        maxWidth="xl"
+        className="pb-30 allContent xs-pb-80 all-card-list"
+      >
         {domainName && (
           <Box
             className="d-flex jc-bw my-20 px-10"
@@ -375,7 +378,7 @@ const AllContent = () => {
                     {items?.length > 4 && (
                       <Link
                         to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}/${category}`}
-                        className="viewAll"
+                        className="viewAll mr-13"
                       >
                         {t("VIEW_ALL")}
                       </Link>
@@ -386,7 +389,7 @@ const AllContent = () => {
                   <Carousel
                     swipeable={true}
                     draggable={true}
-                    showDots={true}
+                    showDots="3"
                     responsive={responsiveCard}
                     ssr={true}
                     infinite={true}

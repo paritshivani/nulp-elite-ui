@@ -292,7 +292,7 @@ const DomainList = ({ globalSearchQuery }) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
@@ -474,7 +474,7 @@ const DomainList = ({ globalSearchQuery }) => {
                           fontWeight: "500",
                           paddingLeft: "10px",
                           margin: "0",
-                          width: "70px",
+                          width: "86px",
                           wordWrap: "break-word",
                         }}
                       >
@@ -495,7 +495,7 @@ const DomainList = ({ globalSearchQuery }) => {
 
       <Container
         maxWidth="xl"
-        className=" allContent allContentList"
+        className=" allContent allContentList domain-list"
         role="main"
       >
         {error && <Alert severity="error">{error}</Alert>}
@@ -596,7 +596,11 @@ const DomainList = ({ globalSearchQuery }) => {
         </Box>
       </Container>
 
-      <Container maxWidth="xl" className="allContent xs-mb-75 " role="main">
+      <Container
+        maxWidth="xl"
+        className="allContent xs-mb-75 domain-list"
+        role="main"
+      >
         {error && <Alert severity="error">{error}</Alert>}
 
         <Box textAlign="center">

@@ -136,7 +136,7 @@ function Header({ globalSearchQuery }) {
           }}
         >
           {/* Navigation Links */}
-          <Box style={{ padding: "10px" }}>
+          {/* <Box style={{ padding: "10px" }}>
             <DevicesIcon
               style={{
                 padding: "0 10px",
@@ -157,7 +157,7 @@ function Header({ globalSearchQuery }) {
             >
               {t("MAIN_CONTENT")}{" "}
             </Link>
-          </Box>
+          </Box> */}
           <Box
             style={{
               padding: "0 10px",
@@ -201,7 +201,7 @@ function Header({ globalSearchQuery }) {
               A
             </Link>{" "}
           </Box>
-          <Box
+          {/* <Box
             style={{
               padding: "0 10px",
               color: "#424242",
@@ -217,7 +217,7 @@ function Header({ globalSearchQuery }) {
             >
               {t("SCREEN_READER")}{" "}
             </Link>
-          </Box>
+          </Box> */}
           {/* Language Select */}
           <Box sx={{ minWidth: 120, paddingLeft: "10px" }}>
             <FormControl
@@ -403,7 +403,12 @@ function Header({ globalSearchQuery }) {
                 href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
                 className={
                   activePath ===
-                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
+                  `${
+                    routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                    activePath.startsWith(
+                      routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
+                    )
+                  }`
                     ? "Menuactive"
                     : "headerMenu"
                 }
@@ -418,7 +423,10 @@ function Header({ globalSearchQuery }) {
                 href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
                 className={
                   activePath ===
-                  `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
+                    routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
+                  activePath.startsWith(
+                    routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL
+                  )
                     ? "Menuactive"
                     : "headerMenu"
                 }
