@@ -449,6 +449,7 @@ const EventDetails = () => {
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
+
               {canEnroll && !isEnrolled && (
                 <Box className="xs-hide">
                   <Button

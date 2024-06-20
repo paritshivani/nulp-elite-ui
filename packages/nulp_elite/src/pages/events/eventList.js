@@ -213,7 +213,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 100,
-        sort_by: { lastPublishedOn: "desc" },
+        sort_by: { lastPublishedOn: "desc",startDate: "desc" },
         offset: 0,
       },
     });
@@ -366,8 +366,8 @@ const EventList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container profile flter-btn"
-            style={{ padding: "0", borderRight: "none" }}
+            className="sm-p-25 left-container  flter-btn w-100"
+            style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
@@ -415,7 +415,6 @@ const EventList = (props) => {
                                 lg={6}
                                 style={{
                                   marginBottom: "10px",
-                                  maxWidth: "534px",
                                 }}
                                 key={items.identifier}
                               >

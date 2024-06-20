@@ -80,9 +80,12 @@ const JoinCourse = () => {
   });
   const [showChat, setShowChat] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
-
+  const queryString = location.search;
+  const contentId = queryString.startsWith("?do_")
+    ? queryString.slice(1)
+    : null;
   // const { contentId } = location.state || {};
-  const { contentId } = useParams();
+  // const { contentId } = useParams();
   const _userId = util.userId(); // Assuming util.userId() is defined
   const shareUrl = window.location.href; // Current page URL
   const style = {
@@ -1083,7 +1086,7 @@ const JoinCourse = () => {
                     >
                       {faqIndex.name}
                     </AccordionSummary>
-                    {faqIndex.children.map((faqIndexname) => (
+                    {faqIndex?.children?.map((faqIndexname) => (
                       <AccordionDetails
                         className="border-bottom"
                         style={{ paddingLeft: "35px" }}
