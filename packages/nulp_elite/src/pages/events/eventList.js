@@ -32,6 +32,8 @@ import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -101,7 +103,7 @@ const EventList = (props) => {
   }, []);
   useEffect(() => {
     fetchAllData();
-  }, [subDomainFilter,endDateFilter,startDateFilter]);
+  }, [subDomainFilter, endDateFilter, startDateFilter]);
 
   const handleChange = (event, value) => {
     if (value !== pageNumber) {
@@ -133,12 +135,14 @@ const EventList = (props) => {
     fetchAllData();
   };
   const [value, setValue] = React.useState("1");
-  const startDate ={
-      "<=" : startDateFilter
-    } || null
-    const endDate ={
-      ">=" : endDateFilter
-    } || null
+  const startDate =
+    {
+      "<=": startDateFilter,
+    } || null;
+  const endDate =
+    {
+      ">=": endDateFilter,
+    } || null;
 
   const fetchAllData = async () => {
     let filters = {};
@@ -148,63 +152,62 @@ const EventList = (props) => {
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         se_gradeLevels: subDomainFilter,
-        startDate:startDate,
-        endDate :endDate
+        startDate: startDate,
+        endDate: endDate,
       };
     } else if (searchQuery && domainfilter) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
-        startDate:startDate,
-        endDate :endDate
+        startDate: startDate,
+        endDate: endDate,
       };
     } else if (searchQuery && subDomainFilter) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_gradeLevels: subDomainFilter,
-        startDate:startDate,
-        endDate :endDate
+        startDate: startDate,
+        endDate: endDate,
       };
     } else if (domainfilter && subDomainFilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
         se_gradeLevels: subDomainFilter,
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else if (domainfilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
-        startDate:startDate|| {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else if (subDomainFilter) {
       filters = {
         objectType: ["Event"],
         se_gradeLevels: subDomainFilter,
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else if (searchQuery) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else {
       filters = {
         objectType: ["Event"],
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     }
 
-    
     setError(null);
     let data = JSON.stringify({
       request: {
@@ -212,8 +215,6 @@ const EventList = (props) => {
         limit: 100,
         sort_by: { lastPublishedOn: "desc" },
         offset: 0,
-        
-
       },
     });
 
@@ -259,7 +260,7 @@ const EventList = (props) => {
     };
   };
   const Fetchdomain = async () => {
-    const defaultFramework = localStorage.getItem("defaultFramework");
+    const defaultFramework = localStorage.getItem("defaultFramework") || "nulp";
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
 
@@ -347,7 +348,7 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <NoResult />
+          <CircularProgress color="inherit" />
         )}
       </Box>
       <Container

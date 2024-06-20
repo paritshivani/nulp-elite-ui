@@ -30,6 +30,7 @@ const routeConfig = require("../../configs/routeConfig.json");
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const responsive = {
   superLargeDesktop: {
@@ -379,7 +380,7 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <NoResult />
+          <CircularProgress color="inherit" />
         )}
       </Box>
 
