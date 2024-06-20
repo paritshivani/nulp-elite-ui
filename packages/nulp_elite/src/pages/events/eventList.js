@@ -151,7 +151,7 @@ const EventList = (props) => {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate,
         endDate: endDate,
       };
@@ -167,7 +167,7 @@ const EventList = (props) => {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate,
         endDate: endDate,
       };
@@ -175,7 +175,7 @@ const EventList = (props) => {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate || {},
         endDate: endDate || {},
       };
@@ -189,7 +189,7 @@ const EventList = (props) => {
     } else if (subDomainFilter) {
       filters = {
         objectType: ["Event"],
-        se_gradeLevels: subDomainFilter,
+        gradeLevel: subDomainFilter,
         startDate: startDate || {},
         endDate: endDate || {},
       };
