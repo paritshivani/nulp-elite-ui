@@ -491,9 +491,6 @@ const DomainList = ({ globalSearchQuery }) => {
       ) : domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
-      
-        // <NoResult />
-      )}
         <div style={{ display: "flex", justifyContent: "center", gap: "30px" }}>
           {/* <CircularProgress color="inherit" /> */}
           <Skeleton variant="rounded" width={120} height={60} />
@@ -506,6 +503,9 @@ const DomainList = ({ globalSearchQuery }) => {
           <Skeleton variant="rounded" width={120} height={60} />
           <Skeleton variant="rounded" width={120} height={60} />
         </div>
+        // <NoResult />
+      )}
+
       <Container
         maxWidth="xl"
         className=" allContent allContentList domain-list"
