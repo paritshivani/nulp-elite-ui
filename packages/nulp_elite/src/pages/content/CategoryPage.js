@@ -194,7 +194,7 @@ const CategoryPage = () => {
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
@@ -212,7 +212,7 @@ const CategoryPage = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="allContent xs-pb-20 pb-30"
+        className="allContent xs-pb-20 pb-30 domain-list"
       >
         {domainName && (
           <Box
@@ -245,7 +245,7 @@ const CategoryPage = () => {
           style={{ alignItems: "center" }}
         >
           <p className="h3-title">{category}</p>
-          <Link onClick={handleGoBack} className="viewAll">
+          <Link onClick={handleGoBack} className="viewAll mr-13">
             {t("BACK")}
           </Link>
         </Box>

@@ -30,6 +30,8 @@ const routeConfig = require("../../configs/routeConfig.json");
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import CircularProgress from "@mui/material/CircularProgress";
+import FloatingChatIcon from "components/FloatingChatIcon";
 
 const responsive = {
   superLargeDesktop: {
@@ -297,7 +299,7 @@ const ContentList = (props) => {
     if (courseType === "Course") {
       // navigate("/joinCourse", { state: { contentId } });
       navigate(
-        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}/${contentId}`
+        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
@@ -379,7 +381,8 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <NoResult />
+          <div></div>
+          //CircularProgress color="inherit" />
         )}
       </Box>
 
@@ -437,8 +440,8 @@ const ContentList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container mt-2 xs-hide left-filter"
-            style={{ padding: "0" }}
+            className="sm-p-25 left-container mt-2 xs-hide left-filter w-100"
+            style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
@@ -511,6 +514,7 @@ const ContentList = (props) => {
           </Grid>
         </Grid>
       </Container>
+      <FloatingChatIcon />
       <Footer />
     </div>
   );
