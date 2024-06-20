@@ -419,12 +419,12 @@ const ContentList = (props) => {
             <Box className="h3-custom-title">
               {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
             </Box>
-            {domainName && (
+            {domain && (
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
                 className="text-blueShade2 h4-custom"
               >
-                {domainName}
+                {domain}
               </Box>
             )}
           </Box>
