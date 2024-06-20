@@ -306,52 +306,68 @@ const EventDetails = () => {
 
     return `${hours}:${minutes}:${seconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
   };
+  const handleEnrollUnenrollBtn = async (enrollmentStart, enrollmentEnd) => {
+    const todayDate = new Date();
 
-  const handleEnrollUnenrollBtn = async (enrollmentstart, enrollmentEnd) => {
-    // const todayDate = formatDate(new Date());
+    // Helper function to strip the time part from a Date object
+    const stripTime = (date) => {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    };
 
-    const todayDate = new Date(); // You can also pass today's date as a parameter
+    // Strip the time part from all dates
+    const strippedTodayDate = stripTime(todayDate);
+    const strippedEnrollmentStartDate = stripTime(new Date(enrollmentStart));
+    const strippedEnrollmentEndDate = stripTime(new Date(enrollmentEnd));
 
-    const enrollmentStartDate = new Date(enrollmentStart);
-    const enrollmentEndDate = new Date(enrollmentEnd);
-    const currentDate = todayDate;
-
-    console.log("todayDate----", new Date(todayDate));
-    console.log("enrollmentstart----", new Date(enrollmentstart));
-    console.log("enrollmentEnd----", new Date(enrollmentEnd));
+    console.log("todayDate----", strippedTodayDate);
+    console.log("enrollmentStart----", strippedEnrollmentStartDate);
+    console.log("enrollmentEnd----", strippedEnrollmentEndDate);
 
     if (
-      enrollmentStartDate <= currentDate &&
-      enrollmentEndDate >= currentDate
+      strippedEnrollmentStartDate <= strippedTodayDate &&
+      strippedEnrollmentEndDate >= strippedTodayDate
     ) {
       console.log("can Enroll");
       setCanEnroll(true);
-    } else if (enrollmentStartDate > currentDate) {
+    } else if (strippedEnrollmentStartDate > strippedTodayDate) {
       console.log("not started");
       setIsRegStart(false);
-    } else if (enrollmentEndDate < currentDate) {
+    } else if (strippedEnrollmentEndDate < strippedTodayDate) {
       console.log("ended");
       setRegEnd(true);
     } else {
       console.log("no clue");
     }
-
-    // if (
-    //   new Date(enrollmentstart) <= new Date(todayDate) &&
-    //   new Date(enrollmentEnd) >= new Date(todayDate)
-    // ) {
-    //   console.log("can Enroll");
-    //   setCanEnroll(true);
-    // } else if (new Date(enrollmentstart) > new Date(todayDate)) {
-    //   console.log("not str");
-    //   setIsRegStart(false);
-    // } else if (new Date(enrollmentEnd) < new Date(todayDate)) {
-    //   console.log("ended");
-    //   setRegEnd(true);
-    // } else {
-    //   console.log("no clue");
-    // }
   };
+  // const handleEnrollUnenrollBtn = async (enrollmentstart, enrollmentEnd) => {
+  //   // const todayDate = formatDate(new Date());
+
+  //   const todayDate = new Date(); // You can also pass today's date as a parameter
+
+  //   const enrollmentStartDate = new Date(enrollmentstart);
+  //   const enrollmentEndDate = new Date(enrollmentEnd);
+  //   const currentDate = todayDate;
+
+  //   console.log("todayDate----", currentDate);
+  //   console.log("enrollmentstart----", enrollmentStartDate);
+  //   console.log("enrollmentEnd----", enrollmentEndDate);
+
+  //   if (
+  //     enrollmentStartDate <= currentDate &&
+  //     enrollmentEndDate >= currentDate
+  //   ) {
+  //     console.log("can Enroll");
+  //     setCanEnroll(true);
+  //   } else if (enrollmentStartDate > currentDate) {
+  //     console.log("not started");
+  //     setIsRegStart(false);
+  //   } else if (enrollmentEndDate < currentDate) {
+  //     console.log("ended");
+  //     setRegEnd(true);
+  //   } else {
+  //     console.log("no clue");
+  //   }
+  // };
   // const handleJoinEventBtn = async (startDate, startTime, endDate, endTime) => {
   //   const todayDate = formatDate(new Date());
   //   const todayTime = formatTimeWithTimezone(new Date());
@@ -535,32 +551,34 @@ const EventDetails = () => {
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
-              {isRegStart === false && (
-                <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
-                  Registration will be ending on:{" "}
-                  {formatDate(detailData.registrationEndDate)}
-                </Box>
-              )}
 
               {canEnroll && !isEnrolled && (
-                <Box className="xs-hide">
-                  <Button
-                    type="button"
-                    className="custom-btn-success"
-                    style={{
-                      borderRadius: "30px",
-                      color: "#fff",
-                      padding: "10px 35px",
-                      fontWeight: "500",
-                      fontSize: "12px",
-                      border: "solid 1px #1faf38",
-                      background: "#1faf38",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {t("JOIN_WEBINAR")}
-                  </Button>
-                </Box>
+                <div>
+                  {" "}
+                  <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                    Registration will be ending on:{" "}
+                    {formatDate(detailData.registrationEndDate)}
+                  </Box>
+                  <Box className="xs-hide">
+                    <Button
+                      onClick={enrollEvent}
+                      type="button"
+                      className="custom-btn-success"
+                      style={{
+                        borderRadius: "30px",
+                        color: "#fff",
+                        padding: "10px 35px",
+                        fontWeight: "500",
+                        fontSize: "12px",
+                        border: "solid 1px #1faf38",
+                        background: "#1faf38",
+                        marginTop: "10px",
+                      }}
+                    >
+                      {t("REGISTER_WEBINAR")}
+                    </Button>
+                  </Box>
+                </div>
               )}
               {canJoin && isEnrolled && (
                 <Box className="d-flex xs-hide">
@@ -603,7 +621,8 @@ const EventDetails = () => {
               )}
               {isRegStart === false && (
                 <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
-                  Registration is not started yet
+                  Registration will be starting on{" "}
+                  {formatDate(detailData.registrationStartDate)}
                 </Box>
               )}
               {regEnd && (
@@ -693,7 +712,7 @@ const EventDetails = () => {
                   }}
                   onClick={enrollEvent}
                 >
-                  {t("JOIN_WEBINAR")}
+                  {t("REGISTER_WEBINAR")}
                 </Button>
               </Box>
               <Box className="d-flex">
