@@ -212,7 +212,7 @@ const CategoryPage = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="allContent xs-pb-20 pb-30"
+        className="allContent xs-pb-20 pb-30 domain-list"
       >
         {domainName && (
           <Box
