@@ -519,7 +519,7 @@ const EventDetails = () => {
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.startDate)}
                 </Box>
-                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                <Box className="d-flex jc-bw alignItems-center pl-10 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
 
                   {formatTimeToIST(detailData.startTime)}
@@ -529,7 +529,7 @@ const EventDetails = () => {
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
                 </Box> */}
-                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                <Box className="d-flex jc-bw alignItems-center pl-10 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
 
                   {formatTimeToIST(detailData.endTime)}
@@ -778,7 +778,10 @@ const EventDetails = () => {
                 </Box>
               </Grid>
             </Grid> */}
-            <Box className="h2-title pl-20 mb-20" style={{ fontWeight: "600" }}>
+            <Box
+              className="h2-title pl-20 mb-20 mt-20"
+              style={{ fontWeight: "600" }}
+            >
               {t("WEBINAR_DETAILS")}
             </Box>
             <Box

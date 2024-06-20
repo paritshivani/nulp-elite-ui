@@ -32,6 +32,7 @@ import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOu
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
+import SkeletonLoader from "components/skeletonLoader";
 const routeConfig = require("../../configs/routeConfig.json");
 
 const responsiveCard = {
@@ -298,8 +299,10 @@ const AllContent = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      {domain && (
+      {domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
+      ) : (
+        <SkeletonLoader />
       )}
 
       <Container
