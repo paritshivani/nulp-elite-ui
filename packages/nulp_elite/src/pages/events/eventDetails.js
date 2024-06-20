@@ -248,6 +248,7 @@ const EventDetails = () => {
   };
 
   const enrollEvent = async () => {
+    console.log("here----");
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.ENROLL_USER_COURSE}`;
       const requestBody = {
@@ -261,6 +262,8 @@ const EventDetails = () => {
       if (response.status === 200) {
         setEnrolled(true);
         setShowEnrollmentSnackbar(true);
+      } else {
+        console.log("err-----", response);
       }
     } catch (error) {
       console.error("Error enrolling in the course:", error);
@@ -584,7 +587,7 @@ const EventDetails = () => {
                 <Box className="d-flex xs-hide">
                   <Button
                     type="button"
-                    onClick={attendWebinar()}
+                    onClick={attendWebinar}
                     style={{
                       borderRadius: "30px",
                       color: "#fff",
