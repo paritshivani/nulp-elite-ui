@@ -392,7 +392,7 @@ const EventDetails = () => {
           <Grid
             container
             spacing={2}
-            className="bg-whitee mt-20 custom-event-container mb-20"
+            className="bg-whitee custom-event-container mb-20"
           >
             <Grid item xs={3} md={6} lg={2}>
               {/* <img
