@@ -788,7 +788,13 @@ const Profile = () => {
                   </Box>
                   <Box className="h5-title">
                     <span className="fw-400"> {t("SUB_DOMAIN")} </span>:{" "}
-                    <span className="fw-600"> {subDomain}</span>
+                    <span className="fw-600">
+                      {subDomain
+                        ? subDomain?.length > 1
+                          ? subDomain?.join(", ")
+                          : subDomain[0]
+                        : ""}
+                    </span>
                   </Box>
                 </Box>
                 <Box className="text-center">
