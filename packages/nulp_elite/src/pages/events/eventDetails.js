@@ -54,10 +54,11 @@ const EventDetails = () => {
   const [userInfo, setUserInfo] = useState();
   const [creatorInfo, setCreatorInfo] = useState();
   const [batchData, setBatchData] = useState();
-  const [enrolled, setEnrolled] = useState(false);
-  const [canEnroll, setCanEnroll] = useState(false);
-  const [canJoin, setCanJoin] = useState(false);
-
+  const [enrolled, setEnrolled] = useState();
+  const [canEnroll, setCanEnroll] = useState();
+  const [canJoin, setCanJoin] = useState();
+  const [isRecorded, setIsRecorded] = useState();
+  const [isEnrolled, setIsEnrolled] = useState();
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
 
   const { t } = useTranslation();
@@ -118,10 +119,10 @@ const EventDetails = () => {
     fetchBatchData();
     checkEnrolledCourse();
     getUserData(_userId, "loggedIn");
-    isEnrolled();
-    console.log("isEnrolled---", isEnrolled());
+    setIsEnrolled(isEnrolledCheck());
+    console.log("isEnrolled---", isEnrolledCheck());
   }, []);
-  const isEnrolled = () => {
+  const isEnrolledCheck = () => {
     console.log("userCourseData----", userCourseData);
     return (
       userCourseData &&
@@ -136,7 +137,6 @@ const EventDetails = () => {
       const response = await axios.post(url, {
         request: {
           filters: {
-            status: "1",
             courseId: eventId,
             enrollmentType: "open",
           },
@@ -296,12 +296,15 @@ const EventDetails = () => {
 
   const handleEnrollUnenrollBtn = async (enrollmentstart, enrollmentEnd) => {
     const todayDate = formatDate(new Date());
-    const todayTime = formatTimeWithTimezone(new Date());
+
     console.log("todayDate----", todayDate);
     console.log("enrollmentstart----", enrollmentstart);
     console.log("enrollmentEnd----", enrollmentEnd);
 
-    if (enrollmentstart <= todayDate && enrollmentEnd >= todayDate) {
+    if (
+      new Date(enrollmentstart) <= new Date(todayDate) &&
+      new Date(enrollmentEnd) >= new Date(todayDate)
+    ) {
       setCanEnroll(true);
     } else {
       setCanEnroll(false);
@@ -309,18 +312,30 @@ const EventDetails = () => {
   };
   const handleJoinEventBtn = async (startDate, startTime, endDate, endTime) => {
     const todayDate = formatDate(new Date());
+    const todayTime = formatTimeWithTimezone(new Date());
     console.log("todayDate----", todayDate);
     console.log("startDate----", startDate);
     console.log("startTime----", startTime);
     console.log("endDate----", endDate);
     console.log("endTime----", endTime);
-    if (startDate <= todayDate && endDate >= todayDate) {
+    if (
+      new Date(startDate) <= new Date(todayDate) &&
+      new Date(endDate) >= new Date(todayDate)
+    ) {
       setCanJoin(true);
     } else {
       setCanJoin(false);
     }
+
+    if (Date(endDate) <= new Date(todayDate)) {
+      setIsRecorded(true);
+    }
   };
 
+  const attendWebinar = async () => {
+    const url = detailData.onlineProviderData.meetingLink; // Replace with your URL
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
   return (
     <div>
       <Header />
@@ -361,7 +376,7 @@ const EventDetails = () => {
               style={{ maxHeight: "inherit" }}
               onClick={handleGoBack}
               color="#004367"
-              href="/all"
+              href="/webapp/allevents"
             >
               {t("ALL_WEBINARS")}
             </Link>
@@ -377,7 +392,7 @@ const EventDetails = () => {
           <Grid
             container
             spacing={2}
-            className="bg-whitee mt-20 custom-event-container mb-20"
+            className="bg-whitee custom-event-container mb-20"
           >
             <Grid item xs={3} md={6} lg={2}>
               {/* <img
@@ -434,77 +449,87 @@ const EventDetails = () => {
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
-              <Box className="xs-hide">
-                <Button
-                  type="button"
-                  className="custom-btn-success"
-                  style={{
-                    borderRadius: "30px",
-                    color: "#fff",
-                    padding: "10px 35px",
-                    fontWeight: "500",
-                    fontSize: "12px",
-                    border: "solid 1px #1faf38",
-                    background: "#1faf38",
-                    marginTop: "10px",
-                  }}
-                >
-                  {t("JOIN_WEBINAR")}
-                </Button>
-              </Box>
-              <Box className="d-flex xs-hide">
-                <Button
-                  type="button"
-                  style={{
-                    borderRadius: "30px",
-                    color: "#fff",
-                    padding: "10px 35px",
-                    fontWeight: "500",
-                    fontSize: "12px",
-                    border: "solid 1px #1976d2",
-                    background: "#1976d2",
-                    marginTop: "10px",
-                  }}
-                  className="custom-btn-primary mr-20"
-                >
-                  {t("ATTEND_WEBINAR")}
-                </Button>
-                <Button
-                  type="button"
-                  style={{
-                    borderRadius: "30px",
-                    color: "#fff",
-                    padding: "10px 35px",
-                    fontWeight: "500",
-                    fontSize: "12px",
-                    border: "solid 1px #e02f1d ",
-                    background: "#e02f1d",
-                    marginTop: "10px",
-                  }}
-                  className="custom-btn-danger"
-                >
-                  {t("UN_REGISTER_WEBINAR")}
-                </Button>
-              </Box>
-              <Box className="xs-hide">
-                <Button
-                  type="button"
-                  className="custom-btn-success"
-                  style={{
-                    borderRadius: "30px",
-                    color: "#fff",
-                    padding: "10px 35px",
-                    fontWeight: "500",
-                    fontSize: "12px",
-                    border: "solid 1px #1976d2",
-                    background: "#1976d2",
-                    marginTop: "10px",
-                  }}
-                  startIcon={<AdjustOutlinedIcon />}
-                >
-                  {t("VIEW_WEBINAR_RECORDING")}
-                </Button>
-              </Box>
+
+              {canEnroll && !isEnrolled && (
+                <Box className="xs-hide">
+                  <Button
+                    type="button"
+                    className="custom-btn-success"
+                    style={{
+                      borderRadius: "30px",
+                      color: "#fff",
+                      padding: "10px 35px",
+                      fontWeight: "500",
+                      fontSize: "12px",
+                      border: "solid 1px #1faf38",
+                      background: "#1faf38",
+                      marginTop: "10px",
+                    }}
+                  >
+                    {t("JOIN_WEBINAR")}
+                  </Button>
+                </Box>
+              )}
+              {canJoin && isEnrolled && (
+                <Box className="d-flex xs-hide">
+                  <Button
+                    type="button"
+                    onClick={attendWebinar()}
+                    style={{
+                      borderRadius: "30px",
+                      color: "#fff",
+                      padding: "10px 35px",
+                      fontWeight: "500",
+                      fontSize: "12px",
+                      border: "solid 1px #1976d2",
+                      background: "#1976d2",
+                      marginTop: "10px",
+                    }}
+                    className="custom-btn-primary mr-20"
+                  >
+                    {t("ATTEND_WEBINAR")}
+                  </Button>
+                  {canEnroll && (
+                    <Button
+                      type="button"
+                      style={{
+                        borderRadius: "30px",
+                        color: "#fff",
+                        padding: "10px 35px",
+                        fontWeight: "500",
+                        fontSize: "12px",
+                        border: "solid 1px #e02f1d ",
+                        background: "#e02f1d",
+                        marginTop: "10px",
+                      }}
+                      className="custom-btn-danger"
+                    >
+                      {t("UN_REGISTER_WEBINAR")}
+                    </Button>
+                  )}
+                </Box>
+              )}
+              {!canEnroll && !canJoin && isRecorded && (
+                <Box className="xs-hide">
+                  <Button
+                    type="button"
+                    className="custom-btn-success"
+                    style={{
+                      borderRadius: "30px",
+                      color: "#fff",
+                      padding: "10px 35px",
+                      fontWeight: "500",
+                      fontSize: "12px",
+                      border: "solid 1px #1976d2",
+                      background: "#1976d2",
+                      marginTop: "10px",
+                    }}
+                    startIcon={<AdjustOutlinedIcon />}
+                  >
+                    {t("VIEW_WEBINAR_RECORDING")}
+                  </Button>
+                </Box>
+              )}
             </Grid>
             <Grid item xs={12} md={6} lg={6} className="lg-pl-60 lg-hide">
               <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>

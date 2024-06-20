@@ -33,6 +33,7 @@ import TabPanel from "@material-ui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import CircularProgress from "@mui/material/CircularProgress";
+import FloatingChatIcon from "components/FloatingChatIcon";
 
 const responsive = {
   superLargeDesktop: {
@@ -348,7 +349,8 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <CircularProgress color="inherit" />
+          <div />
+          // <CircularProgress color="inherit" />
         )}
       </Box>
       <Container
@@ -472,6 +474,7 @@ const EventList = (props) => {
           </Grid>
         </Grid>
       </Container>
+      <FloatingChatIcon />
       <Footer />
     </div>
   );

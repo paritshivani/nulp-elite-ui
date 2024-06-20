@@ -6,6 +6,7 @@ import "react-multi-carousel/lib/styles.css";
 import domainWithImage from "../assets/domainImgForm.json";
 import { Tooltip } from "@mui/material";
 import { MarginOutlined } from "@mui/icons-material";
+// import { useNavigate } from "react-router-dom";
 
 const responsive = {
   superLargeDesktop: {
@@ -43,6 +44,8 @@ export default function DomainCarousel({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [activeDomain, setActiveDomain] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  // const navigate = useNavigate();
+
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
   };
@@ -98,6 +101,7 @@ export default function DomainCarousel({
     setActiveStates(index === activeStates ? null : index);
     if (index === activeStates) {
       onSelectDomain(null, null);
+      // navigate(-2);
     } else {
       onSelectDomain(query, name);
     }
