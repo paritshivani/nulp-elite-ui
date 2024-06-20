@@ -37,6 +37,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import * as util from "../../services/utilService";
 
 import FloatingChatIcon from "components/FloatingChatIcon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const responsive = {
   superLargeDesktop: {
@@ -334,7 +335,7 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <div />
+          <SkeletonLoader />
           // <CircularProgress color="inherit" />
         )}
       </Box>

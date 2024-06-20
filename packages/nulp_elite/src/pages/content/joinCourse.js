@@ -1062,7 +1062,7 @@ const JoinCourse = () => {
                     </Typography>
                     <Typography
                       className="h5-title mb-15"
-                      style={{ fontWeight: "600" }}
+                      style={{ fontWeight: "400", fontSize: "14px" }}
                     >
                       {userCourseData.courses[0].description.split(" ").length >
                       100

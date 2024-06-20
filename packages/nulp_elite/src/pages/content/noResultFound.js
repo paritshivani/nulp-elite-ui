@@ -25,6 +25,7 @@ const NoResult = () => {
           margin: "20px 0 60px 0",
           BorderRadius: "10px",
         }}
+        className="center-box"
       >
         <SearchOffIcon style={{ fontSize: "70px", color: "#ccc" }} />
         <Box> {t("NO_RESULT_FOUND")}</Box>

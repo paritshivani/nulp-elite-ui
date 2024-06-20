@@ -355,7 +355,7 @@ button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box !important;
+    display: block !important;
   }
   .eventTab .MuiTabs-flexContainer {
     justify-content: center;
@@ -430,7 +430,7 @@ button {
   .contentCreator .jss7 {
     position: inherit !important;
     padding: 5px !important;
-    height: 52%;
+    height: 58%;
     display: inherit;
     overflow: hidden;
     background: #fff5e9;
@@ -720,6 +720,15 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .flter-btn.left-container .MuiIconButton-sizeMedium:hover {
+    background: none !important;
+  }
+  .pl-10 {
+    padding-left: 10px !important;
+  }
+  .addConnectChat .jss5 {
+    position: inherit !important;
+  }
   .mr-13 {
     margin-right: 13px !important;
   }
@@ -1440,6 +1449,12 @@ Footer {
 .mx-15 {
   margin: 0 15px !important;
 }
+.mx-10 {
+  margin: 0 10px !important;
+}
+.custom-event-container .center-box {
+  transform: translate(70%, 10px);
+}
 .mt-40 {
   margin: 40px 0 0 0 !important;
 }
@@ -1899,7 +1914,10 @@ custom-chip {
 }
 .contentCreator .MuiButton-textPrimary {
   background: #fff !important;
-  height: 80px !important;
+  width: 79px;
+}
+.contentCreator .jss5 {
+  position: inherit !important;
 }
 .social-icons {
   justify-content: space-between;
