@@ -234,12 +234,12 @@ const EventDetails = () => {
     }
   };
 
-  const enrollEvent = async (eventId) => {
+  const enrollEvent = async () => {
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.ENROLL_USER_COURSE}`;
       const requestBody = {
         request: {
-          courseId: eventId,
+          courseId: detailData.identifier,
           userId: _userId,
           batchId: batchData?.batchId,
         },
@@ -261,12 +261,20 @@ const EventDetails = () => {
     }
     setShowEnrollmentSnackbar(false);
   };
-  const formatDate = (date) => {
+  const formatDateForCompair = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
     const day = String(date.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
+  };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
   };
   const formatTimeWithTimezone = (date) => {
     const hours = String(date.getHours()).padStart(2, "0");
@@ -287,8 +295,7 @@ const EventDetails = () => {
   };
 
   const handleEnrollUnenrollBtn = async (enrollmentstart, enrollmentEnd) => {
-    // const todayDate = formatDate(new Date());
-    const todayDate = new Date();
+    const todayDate = formatDate(new Date());
     const todayTime = formatTimeWithTimezone(new Date());
     console.log("todayDate----", todayDate);
     console.log("enrollmentstart----", enrollmentstart);
@@ -557,7 +564,7 @@ const EventDetails = () => {
                     background: "#1faf38",
                     marginTop: "10px",
                   }}
-                  onClick={enrollEvent(detailData.identifier)}
+                  onClick={enrollEvent}
                 >
                   {t("JOIN_WEBINAR")}
                 </Button>

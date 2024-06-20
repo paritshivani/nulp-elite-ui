@@ -31,7 +31,7 @@ const routeConfig = require("../../configs/routeConfig.json");
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-
+import CircularProgress from "@mui/material/CircularProgress";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -489,7 +489,9 @@ const DomainList = ({ globalSearchQuery }) => {
       ) : domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
-        <div></div>
+        <div>
+          <CircularProgress color="inherit" />
+        </div>
         // <NoResult />
       )}
 
