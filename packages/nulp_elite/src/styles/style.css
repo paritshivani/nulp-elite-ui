@@ -705,12 +705,20 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .Mui-disabled {
+    background: #007b9d61 !important;
+  }
+  .domain-list .custom-card-box {
+    padding: 0 6px;
+    width: 245px;
+    padding-right: 24px !important;
+  }
   .custom-card::after {
     content: "";
     flex-grow: 1000000000;
   }
-  .p-20 {
-    padding: 20px !important;
+  .p-15 {
+    padding: 15px !important;
   }
   .w-100 .MuiFormControl-root.mt-9,
   .w-100 .MuiFormControl-root {
