@@ -725,6 +725,9 @@ button {
   .w-100 .MuiFormControl-root {
     width: 100%;
   }
+  .w-100 .MuiSvgIcon-fontSizeMedium {
+    padding-right: 10px !important;
+  }
   .min-472 {
     min-height: 577px;
   }

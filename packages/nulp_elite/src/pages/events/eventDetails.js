@@ -480,6 +480,7 @@ const EventDetails = () => {
                     border: "solid 1px #e02f1d ",
                     background: "#e02f1d",
                     marginTop: "10px",
+                    marginLeft: "10px",
                   }}
                   className="custom-btn-danger"
                 >
