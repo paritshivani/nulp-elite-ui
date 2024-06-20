@@ -101,7 +101,7 @@ const EventList = (props) => {
   }, []);
   useEffect(() => {
     fetchAllData();
-  }, [subDomainFilter,endDateFilter,startDateFilter]);
+  }, [subDomainFilter, endDateFilter, startDateFilter]);
 
   const handleChange = (event, value) => {
     if (value !== pageNumber) {
@@ -133,12 +133,14 @@ const EventList = (props) => {
     fetchAllData();
   };
   const [value, setValue] = React.useState("1");
-  const startDate ={
-      "<=" : startDateFilter
-    } || null
-    const endDate ={
-      ">=" : endDateFilter
-    } || null
+  const startDate =
+    {
+      "<=": startDateFilter,
+    } || null;
+  const endDate =
+    {
+      ">=": endDateFilter,
+    } || null;
 
   const fetchAllData = async () => {
     let filters = {};
@@ -148,63 +150,62 @@ const EventList = (props) => {
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         se_gradeLevels: subDomainFilter,
-        startDate:startDate,
-        endDate :endDate
+        startDate: startDate,
+        endDate: endDate,
       };
     } else if (searchQuery && domainfilter) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
-        startDate:startDate,
-        endDate :endDate
+        startDate: startDate,
+        endDate: endDate,
       };
     } else if (searchQuery && subDomainFilter) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         se_gradeLevels: subDomainFilter,
-        startDate:startDate,
-        endDate :endDate
+        startDate: startDate,
+        endDate: endDate,
       };
     } else if (domainfilter && subDomainFilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
         se_gradeLevels: subDomainFilter,
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else if (domainfilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
-        startDate:startDate|| {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else if (subDomainFilter) {
       filters = {
         objectType: ["Event"],
         se_gradeLevels: subDomainFilter,
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else if (searchQuery) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     } else {
       filters = {
         objectType: ["Event"],
-        startDate:startDate || {},
-        endDate :endDate || {}
+        startDate: startDate || {},
+        endDate: endDate || {},
       };
     }
 
-    
     setError(null);
     let data = JSON.stringify({
       request: {
@@ -212,8 +213,6 @@ const EventList = (props) => {
         limit: 100,
         sort_by: { lastPublishedOn: "desc" },
         offset: 0,
-        
-
       },
     });
 
@@ -364,7 +363,7 @@ const EventList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container profile flter-btn"
+            className="sm-p-25 left-container  flter-btn"
             style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter
