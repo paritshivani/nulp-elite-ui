@@ -57,8 +57,8 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     console.log("Search Filter----",eventSearch);
   }, [selectedContentType, selectedSubDomain, selectedStartDate, selectedEndDate, eventSearch]);
 
-  const [state, setState] = useState({
-    left: false,
+  const [state, setState] = React.useState({
+    Filter: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
