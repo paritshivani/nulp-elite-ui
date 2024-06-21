@@ -32,6 +32,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import FloatingChatIcon from "components/FloatingChatIcon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const responsive = {
   superLargeDesktop: {
@@ -381,7 +382,7 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <div></div>
+          <SkeletonLoader />
           //CircularProgress color="inherit" />
         )}
       </Box>
@@ -414,22 +415,24 @@ const ContentList = (props) => {
           className="d-flex jc-bw mr-20 my-20"
           style={{ alignItems: "center" }}
         >
-          <Box
-            sx={{ marginTop: "10px", alignItems: "center" }}
-            className="d-flex h3-title xs-d-none"
-          >
-            <Box className="h3-custom-title">
-              {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
-            </Box>
-            {domainName && (
+          {domainName ? (
+            <Box
+              sx={{ marginTop: "10px", alignItems: "center" }}
+              className="d-flex h3-title xs-d-none"
+            >
+              <Box className="h3-custom-title">
+                {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+              </Box>
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
                 className="text-blueShade2 h4-custom"
               >
                 {domainName}
               </Box>
-            )}
-          </Box>
+            </Box>
+          ) : (
+            <Box sx={{ marginTop: "10px" }}></Box>
+          )}
           <Link onClick={handleGoBack} className="viewAll xs-hide">
             {t("BACK")}
           </Link>
