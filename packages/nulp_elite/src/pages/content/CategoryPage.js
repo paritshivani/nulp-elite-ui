@@ -146,7 +146,7 @@ const CategoryPage = () => {
     } finally {
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,

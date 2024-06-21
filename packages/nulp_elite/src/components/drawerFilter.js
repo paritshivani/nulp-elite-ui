@@ -39,11 +39,11 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
-  
+
   useEffect(() => {
     fetchDataFramework();
   }, []);
-  
+
   useEffect(() => {
     SelectedFilters({
       startDate: selectedStartDate,
@@ -52,18 +52,28 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       contentFilter: selectedContentType,
       subDomainFilter: selectedSubDomain,
     });
-    console.log("Start Date Filter",selectedStartDate);
-    console.log("End Date Filter",selectedEndDate);
-    console.log("Search Filter----",eventSearch);
-  }, [selectedContentType, selectedSubDomain, selectedStartDate, selectedEndDate, eventSearch]);
+    console.log("Start Date Filter", selectedStartDate);
+    console.log("End Date Filter", selectedEndDate);
+    console.log("Search Filter----", eventSearch);
+  }, [
+    selectedContentType,
+    selectedSubDomain,
+    selectedStartDate,
+    selectedEndDate,
+    eventSearch,
+  ]);
 
   const [state, setState] = React.useState({
-    Filter: false,
+    left: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
   const toggleDrawer = (anchor, open) => (event) => {
-    if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
 
@@ -90,9 +100,13 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     }
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
-      const response = await frameworkService.getSelectedFrameworkCategories(url);
-      setSubCategory(response?.data?.result?.framework?.categories[1]?.terms || []);
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
+      const response = await frameworkService.getSelectedFrameworkCategories(
+        url
+      );
+      setSubCategory(
+        response?.data?.result?.framework?.categories[1]?.terms || []
+      );
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
@@ -102,7 +116,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     setSearchTerm(event.target.value);
   };
 
-   const handleSearch = () => {
+  const handleSearch = () => {
     setEventSearch(searchTerm);
   };
 
@@ -117,19 +131,21 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       if (event.target.checked) {
         setSelectedSubDomain((prev) => [...prev, item.item.code]);
       } else {
-        setSelectedSubDomain((prev) => prev.filter((i) => i !== item.item.code));
+        setSelectedSubDomain((prev) =>
+          prev.filter((i) => i !== item.item.code)
+        );
       }
     } else if (filterType === "searchTerm") {
       setEventSearch(item);
     } else if (filterType === "startDate") {
-    const formattedDate = dayjs(item).format("YYYY-MM-DD");
-    console.log("Selected Start Date:", formattedDate);
-    setStartDate(formattedDate);
-  } else if (filterType === "endDate") {
-    const formattedDate = dayjs(item).format("YYYY-MM-DD");
-    console.log("Selected End Date:", formattedDate);
-    setEndDate(formattedDate);
-  }
+      const formattedDate = dayjs(item).format("YYYY-MM-DD");
+      console.log("Selected Start Date:", formattedDate);
+      setStartDate(formattedDate);
+    } else if (filterType === "endDate") {
+      const formattedDate = dayjs(item).format("YYYY-MM-DD");
+      console.log("Selected End Date:", formattedDate);
+      setEndDate(formattedDate);
+    }
   };
 
   const handleClearAll = () => {
@@ -137,13 +153,13 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     setSelectedSubDomain([]);
     setSearchTerm("");
     setEventSearch("");
-    setStartDate(null);
-    setEndDate(null);
+    setStartDate([]);
+    setEndDate([]);
   };
 
   const list = (anchor) => (
     <Box
-      className="header-bg-blue p-20 filter-bx "
+      className="header-bg-blue p-20 filter-bx w-100"
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -151,20 +167,29 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     >
       <Box className="d-flex jc-bw">
         <Box className="filter-title">Filter By:</Box>
-        <Button type="button" className="viewAll" onClick={handleClearAll}>
+        <Button
+          type="button"
+          className="viewAll mb-20"
+          onClick={handleClearAll}
+        >
           Clear all
         </Button>
       </Box>
       {renderedPage === "eventList" && (
         <FormControl>
-          <InputLabel htmlFor="outlined-adornment-password">Search for a webinar</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Search for a webinar
+          </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
             type="text"
             onChange={handleInputChange}
             endAdornment={
               <InputAdornment position="end">
-                <IconButton aria-label="toggle password visibility" onClick={handleSearch}>
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleSearch}
+                >
                   <SearchOutlinedIcon />
                 </IconButton>
               </InputAdornment>
@@ -179,27 +204,31 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           <Box className="filter-text mt-15">Select Date Range</Box>
           <Box className="mt-9 dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DemoContainer components={["DatePicker"]}>
-    <DatePicker
-      label="Select Date From"
-      className="mt-9"
-      value={selectedStartDate ? dayjs(selectedStartDate) : null}
-      onChange={(newValue) => handleCheckboxChange(null, newValue, "startDate")}
-      renderInput={(params) => <TextField {...params} />}
-    />
-  </DemoContainer>
-</LocalizationProvider>
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DemoContainer components={["DatePicker"]}>
-    <DatePicker
-      label="Select Date To"
-      className="mt-9"
-      value={selectedEndDate ? dayjs(selectedEndDate) : null}
-      onChange={(newValue) => handleCheckboxChange(null, newValue, "endDate")}
-      renderInput={(params) => <TextField {...params} />}
-    />
-  </DemoContainer>
-</LocalizationProvider>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker
+                  label="Select Date From"
+                  className="mt-9"
+                  value={selectedStartDate ? dayjs(selectedStartDate) : null}
+                  onChange={(newValue) =>
+                    handleCheckboxChange(null, newValue, "startDate")
+                  }
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker
+                  label="Select Date To"
+                  className="mt-9"
+                  value={selectedEndDate ? dayjs(selectedEndDate) : null}
+                  onChange={(newValue) =>
+                    handleCheckboxChange(null, newValue, "endDate")
+                  }
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </Box>
         </div>
       )}
@@ -214,7 +243,9 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   control={
                     <Checkbox
                       checked={selectedContentType.includes(contentType)}
-                      onChange={(event) => handleCheckboxChange(event, contentType, "contentType")}
+                      onChange={(event) =>
+                        handleCheckboxChange(event, contentType, "contentType")
+                      }
                     />
                   }
                   label={contentType}
@@ -254,7 +285,9 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               control={
                 <Checkbox
                   checked={selectedSubDomain.includes(item.code)}
-                  onChange={(event) => handleCheckboxChange(event, { item }, "subCategory")}
+                  onChange={(event) =>
+                    handleCheckboxChange(event, { item }, "subCategory")
+                  }
                 />
               }
               label={item.code}
@@ -265,19 +298,19 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     </Box>
   );
 
-   return (
+  return (
     <>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       {isMobile ? (
         <Box>
           <div>
-            {["Filter"].map((anchor) => (
+            {["left"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <Button
                   onClick={toggleDrawer(anchor, true)}
                   className="h6-title "
                 >
-                  {anchor}{" "}
+                  Filters
                   <ArrowForwardIosIcon
                     sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
                   />
@@ -296,10 +329,14 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           </div>
         </Box>
       ) : (
-        <Box className="header-bg-blue p-15 filter-bx">
+        <Box className="header-bg-blue p-15 filter-bx w-100">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
             <Box className="filter-title">Filter By:</Box>
-            <Button type="button" className="viewAll" onClick={handleClearAll}>
+            <Button
+              type="button"
+              className="viewAll mb-20"
+              onClick={handleClearAll}
+            >
               Clear all
             </Button>
           </Box>
@@ -317,11 +354,9 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={() => handleCheckboxChange(
-                        null,
-                        searchTerm,
-                        "eventSearch"
-                      )}
+                      onClick={() =>
+                        handleCheckboxChange(null, searchTerm, "eventSearch")
+                      }
                     >
                       {<SearchOutlinedIcon />}
                     </IconButton>
@@ -336,28 +371,34 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               <Box className="filter-text mt-15">Select Date Range</Box>
 
               <Box className="mt-9 dateRange">
-               <LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DemoContainer components={["DatePicker"]}>
-    <DatePicker
-      label="Select Date From"
-      className="mt-9"
-      value={selectedStartDate ? dayjs(selectedStartDate) : null}
-      onChange={(newValue) => handleCheckboxChange(null, newValue, "startDate")}
-      renderInput={(params) => <TextField {...params} />}
-    />
-  </DemoContainer>
-</LocalizationProvider>
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-  <DemoContainer components={["DatePicker"]}>
-    <DatePicker
-      label="Select Date To"
-      className="mt-9"
-      value={selectedEndDate ? dayjs(selectedEndDate) : null}
-      onChange={(newValue) => handleCheckboxChange(null, newValue, "endDate")}
-      renderInput={(params) => <TextField {...params} />}
-    />
-  </DemoContainer>
-</LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      label="Select Date From"
+                      className="mt-9"
+                      value={
+                        selectedStartDate ? dayjs(selectedStartDate) : null
+                      }
+                      onChange={(newValue) =>
+                        handleCheckboxChange(null, newValue, "startDate")
+                      }
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      label="Select Date To"
+                      className="mt-9"
+                      value={selectedEndDate ? dayjs(selectedEndDate) : null}
+                      onChange={(newValue) =>
+                        handleCheckboxChange(null, newValue, "endDate")
+                      }
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
               </Box>
             </div>
           )}

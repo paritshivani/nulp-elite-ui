@@ -223,7 +223,7 @@ const ContentList = (props) => {
   const fetchGradeLevels = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
       const response = await fetch(url);
       const data = await response.json();
       if (
@@ -251,7 +251,7 @@ const ContentList = (props) => {
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?orgdetails=${urlConfig.params.framework}`;
 
       const response = await fetch(url);
 
@@ -389,7 +389,7 @@ const ContentList = (props) => {
 
       <Container
         maxWidth="xl"
-        className="allContent xs-pb-20  pb-30 content-list"
+        className="allContent xs-pb-20  pb-30 content-list eventTab"
       >
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
@@ -429,6 +429,7 @@ const ContentList = (props) => {
               >
                 {domainName}
               </Box>
+              
             </Box>
           ) : (
             <Box sx={{ marginTop: "10px" }}></Box>
@@ -437,19 +438,21 @@ const ContentList = (props) => {
             {t("BACK")}
           </Link>
         </Box>
+         
         <Grid container spacing={2} className="pt-8 mt-15">
           <Grid
             item
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container mt-2 xs-hide left-filter w-100"
+            className="sm-p-25 left-container  flter-btn w-100"
             style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
               renderedPage="contentlist"
             />
+           
           </Grid>
           <Grid
             item

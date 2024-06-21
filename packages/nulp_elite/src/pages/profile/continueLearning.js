@@ -77,7 +77,7 @@ const ContinueLearning = () => {
   const fetchGradeLevels = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
       const response = await fetch(url);
       const data = await response.json();
       if (
@@ -151,7 +151,7 @@ const ContinueLearning = () => {
         <Box textAlign="center" padding="10" className="mt-30">
           <Box>
             <Grid container spacing={2}>
-              <Box className="custom-card xs-pl-17 profile-card">
+              <Box className="custom-card xs-pl-17 profile-card-view">
                 {filteredCourses.length === 0 ? (
                   <NoResult />
                 ) : (
