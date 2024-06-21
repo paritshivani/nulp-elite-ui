@@ -100,7 +100,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     }
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
       );

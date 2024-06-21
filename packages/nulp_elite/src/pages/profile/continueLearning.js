@@ -77,7 +77,7 @@ const ContinueLearning = () => {
   const fetchGradeLevels = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
       const response = await fetch(url);
       const data = await response.json();
       if (

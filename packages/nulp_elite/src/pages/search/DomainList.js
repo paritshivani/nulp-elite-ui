@@ -136,8 +136,7 @@ const DomainList = ({ globalSearchQuery }) => {
       setIsLoading(false);
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/
-      ${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
@@ -274,7 +273,7 @@ const DomainList = ({ globalSearchQuery }) => {
   const loadContents = async (term) => {
     // console.log(term);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: term.code, domainName :term.name },
+      state: { domain: term.code, domainName: term.name },
     });
   };
 
@@ -287,7 +286,7 @@ const DomainList = ({ globalSearchQuery }) => {
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: query},
+      state: { domain: query, domainName: domainName },
     });
   };
   // console.log(frameworkHardCodedData.result.framework.categories[0].terms);
