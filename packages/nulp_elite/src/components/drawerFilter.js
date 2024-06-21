@@ -137,8 +137,8 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     setSelectedSubDomain([]);
     setSearchTerm("");
     setEventSearch("");
-    setStartDate(null);
-    setEndDate(null);
+    setStartDate([]);
+    setEndDate([]);
   };
 
   const list = (anchor) => (
