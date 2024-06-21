@@ -93,7 +93,7 @@ const EventList = (props) => {
   const [subDomainFilter, setSubDomainFilter] = useState([]);
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
-  const [valueTab, setValueTab] = React.useState("1");
+  const [valueTab, setValueTab] = React.useState("2");
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
