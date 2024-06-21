@@ -451,7 +451,7 @@ const EventDetails = () => {
       </Snackbar>
       {detailData && (
         <Container
-          className=" xs-pr-0 xs-pb-20 mt-12"
+          className=" xs-pr-0 xs-pb-20 mt-12 xss-p-0"
           style={{
             maxWidth: "100%",
             paddingLeft: "14px",
@@ -461,7 +461,7 @@ const EventDetails = () => {
         >
           <Breadcrumbs
             aria-label="breadcrumb"
-            className="h6-title mt-15 pl-28"
+            className="h6-title mt-15 pl-28 xss-pb-0"
             style={{ padding: "0 0 20px 20px" }}
           >
             <Link
@@ -533,7 +533,7 @@ const EventDetails = () => {
               </Box>
 
               <Box className="d-flex mb-20 h3-custom-title xs-hide">
-                <Box className="d-flex jc-bw alignItems-center">
+                <Box className="d-flex jc-bw alignItems-center  pr-5">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.startDate)}
                 </Box>
@@ -557,10 +557,6 @@ const EventDetails = () => {
               {canEnroll && !isEnrolled && (
                 <div>
                   {" "}
-                  <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
-                    Registration will be ending on:{" "}
-                    {formatDate(detailData.registrationEndDate)}
-                  </Box>
                   <Box className="xs-hide">
                     <Button
                       onPress={enrollEvent}
@@ -579,6 +575,157 @@ const EventDetails = () => {
                     >
                       {t("REGISTER_WEBINAR")}
                     </Button>
+                  </Box>
+                  <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                    Registration will be ending on:{" "}
+                    {formatDate(detailData.registrationEndDate)}
+                  </Box>
+                </div>
+              )}
+              {canJoin && isEnrolled && (
+                <Box className="d-flex xs-hide">
+                  <Button
+                    type="button"
+                    onClick={attendWebinar}
+                    style={{
+                      borderRadius: "30px",
+                      color: "#fff",
+                      padding: "10px 35px",
+                      fontWeight: "500",
+                      fontSize: "12px",
+                      border: "solid 1px #1976d2",
+                      background: "#1976d2",
+                      marginTop: "10px",
+                    }}
+                    className="custom-btn-primary mr-20"
+                  >
+                    {t("ATTEND_WEBINAR")}
+                  </Button>
+                  {canEnroll && (
+                    <Button
+                      type="button"
+                      style={{
+                        borderRadius: "30px",
+                        color: "#fff",
+                        padding: "10px 35px",
+                        fontWeight: "500",
+                        fontSize: "12px",
+                        border: "solid 1px #e02f1d ",
+                        background: "#e02f1d",
+                        marginTop: "10px",
+                      }}
+                      className="custom-btn-danger"
+                    >
+                      {t("UN_REGISTER_WEBINAR")}
+                    </Button>
+                  )}
+                </Box>
+              )}
+              {isRegStart === false && (
+                <Box
+                  className="h5-title mb-20 xs-hide"
+                  style={{ fontWeight: "400" }}
+                >
+                  Registration will be starting on{" "}
+                  {formatDate(detailData.registrationStartDate)}
+                </Box>
+              )}
+              {regEnd && (
+                <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                  Registration has ended
+                </Box>
+              )}
+              {!canEnroll && !canJoin && isRecorded && (
+                <Box className="xs-hide">
+                  <Button
+                    type="button"
+                    className="custom-btn-success"
+                    style={{
+                      borderRadius: "30px",
+                      color: "#fff",
+                      padding: "10px 35px",
+                      fontWeight: "500",
+                      fontSize: "12px",
+                      border: "solid 1px #1976d2",
+                      background: "#1976d2",
+                      marginTop: "10px",
+                    }}
+                    startIcon={<AdjustOutlinedIcon />}
+                  >
+                    {t("VIEW_WEBINAR_RECORDING")}
+                  </Button>
+                </Box>
+              )}
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} className="lg-pl-60 lg-hide">
+              <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                National Urban Learning Platform{" "}
+              </Box>
+              {creatorInfo &&
+                (creatorInfo.firstName || creatorInfo.lastName) && (
+                  <Box className="d-flex mb-20 alignItems-center">
+                    <Box className="h5-title">Organised By:</Box>
+                    <Box className="d-flex alignItems-center pl-20">
+                      <Box className="event-text-circle"></Box>
+                      <Box className="h5-title">
+                        {creatorInfo.firstName
+                          ? creatorInfo.firstName
+                          : "" + " " + creatorInfo.lastName
+                          ? creatorInfo.lastName
+                          : ""}
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+
+              <Box className="d-flex mb-20 h3-custom-title">
+                <Box className="d-flex jc-bw alignItems-center pr-5">Date:</Box>
+                <Box className="d-flex jc-bw alignItems-center pr-5">
+                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
+                  {formatDate(detailData.startDate)}
+                </Box>
+                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
+                  {formatTimeToIST(detailData.startTime)}
+                </Box>
+              </Box>
+              <Box className="d-flex mb-20 h3-custom-title">
+                <Box className="mr-5">To</Box>
+                {/* <Box className="d-flex jc-bw alignItems-center">
+                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
+                  {formatDate(detailData.endDate)}
+                </Box> */}
+                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
+
+                  {formatTimeToIST(detailData.endTime)}
+                </Box>
+              </Box>
+              {canEnroll && !isEnrolled && (
+                <div>
+                  {" "}
+                  <Box className="xs-hide">
+                    <Button
+                      type="button"
+                      className="custom-btn-success"
+                      style={{
+                        borderRadius: "30px",
+                        color: "#fff",
+                        padding: "10px 35px",
+                        fontWeight: "500",
+                        fontSize: "12px",
+                        border: "solid 1px #1faf38",
+                        background: "#1faf38",
+                        marginTop: "10px",
+                      }}
+                      onPress={() => enrollEvent}
+                    >
+                      {t("REGISTER_WEBINAR")}
+                    </Button>
+                  </Box>
+                  <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                    Registration will be ending on:{" "}
+                    {formatDate(detailData.registrationEndDate)}
                   </Box>
                 </div>
               )}
@@ -654,88 +801,7 @@ const EventDetails = () => {
                 </Box>
               )}
             </Grid>
-            <Grid item xs={12} md={6} lg={6} className="lg-pl-60 lg-hide">
-              <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
-                National Urban Learning Platform{" "}
-              </Box>
-              {creatorInfo &&
-                (creatorInfo.firstName || creatorInfo.lastName) && (
-                  <Box className="d-flex mb-20 alignItems-center">
-                    <Box className="h5-title">Organised By:</Box>
-                    <Box className="d-flex alignItems-center pl-20">
-                      <Box className="event-text-circle"></Box>
-                      <Box className="h5-title">
-                        {creatorInfo.firstName
-                          ? creatorInfo.firstName
-                          : "" + " " + creatorInfo.lastName
-                          ? creatorInfo.lastName
-                          : ""}
-                      </Box>
-                    </Box>
-                  </Box>
-                )}
-
-              <Box className="d-flex mb-20 h3-custom-title">
-                <Box className="d-flex jc-bw alignItems-center">Date:</Box>
-                <Box className="d-flex jc-bw alignItems-center">
-                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
-                  {formatDate(detailData.startDate)}
-                </Box>
-                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
-                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
-                  {formatTimeToIST(detailData.startTime)}
-                </Box>
-                {/* </Box>
-              <Box className="d-flex mb-20 h3-custom-title"> */}
-                <Box className="mr-5">To</Box>
-                {/* <Box className="d-flex jc-bw alignItems-center">
-                  <TodayOutlinedIcon className="h3-custom-title pr-5" />
-                  {formatDate(detailData.endDate)}
-                </Box> */}
-                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
-                  <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
-
-                  {formatTimeToIST(detailData.endTime)}
-                </Box>
-              </Box>
-              <Box>
-                <Button
-                  type="button"
-                  className="custom-btn-success"
-                  style={{
-                    borderRadius: "30px",
-                    color: "#fff",
-                    padding: "10px 35px",
-                    fontWeight: "500",
-                    fontSize: "12px",
-                    border: "solid 1px #1faf38",
-                    background: "#1faf38",
-                    marginTop: "10px",
-                  }}
-                  onPress={() => enrollEvent}
-                >
-                  {t("REGISTER_WEBINAR")}
-                </Button>
-              </Box>
-              <Box className="d-flex">
-                <Button type="button" className="custom-btn-primary mr-20">
-                  {t("ATTEND_WEBINAR")}
-                </Button>
-                <Button type="button" className="custom-btn-danger">
-                  {t("UN_REGISTER_WEBINAR")}
-                </Button>
-              </Box>
-              <Box>
-                <Button
-                  type="button"
-                  className="custom-btn-success"
-                  startIcon={<AdjustOutlinedIcon />}
-                >
-                  {t("VIEW_WEBINAR_RECORDING")}
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={6} lg={4} className="text-right">
+            <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
               <Box className="xs-hide">
                 <FacebookShareButton url={shareUrl} className="pr-5">
                   <FacebookIcon size={32} round={true} />

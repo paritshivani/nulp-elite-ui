@@ -283,7 +283,7 @@ const Certificate = () => {
                               alignItems: "end",
                               color: "#1976d2",
                             }}
-                            className="text-green"
+                            className="text-green cursor-pointer"
                           >
                             <SimCardDownloadOutlinedIcon />
                             <Link

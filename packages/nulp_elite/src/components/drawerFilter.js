@@ -64,7 +64,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   ]);
 
   const [state, setState] = React.useState({
-    Filter: false,
+    left: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
@@ -159,7 +159,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
 
   const list = (anchor) => (
     <Box
-      className="header-bg-blue p-20 filter-bx "
+      className="header-bg-blue p-20 filter-bx w-100"
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -167,7 +167,11 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     >
       <Box className="d-flex jc-bw">
         <Box className="filter-title">Filter By:</Box>
-        <Button type="button" className="viewAll" onClick={handleClearAll}>
+        <Button
+          type="button"
+          className="viewAll mb-20"
+          onClick={handleClearAll}
+        >
           Clear all
         </Button>
       </Box>
@@ -300,13 +304,13 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       {isMobile ? (
         <Box>
           <div>
-            {["Filter"].map((anchor) => (
+            {["left"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <Button
                   onClick={toggleDrawer(anchor, true)}
                   className="h6-title "
                 >
-                  {anchor}{" "}
+                  Filters
                   <ArrowForwardIosIcon
                     sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
                   />
@@ -325,10 +329,14 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           </div>
         </Box>
       ) : (
-        <Box className="header-bg-blue p-15 filter-bx">
+        <Box className="header-bg-blue p-15 filter-bx w-100">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
             <Box className="filter-title">Filter By:</Box>
-            <Button type="button" className="viewAll" onClick={handleClearAll}>
+            <Button
+              type="button"
+              className="viewAll mb-20"
+              onClick={handleClearAll}
+            >
               Clear all
             </Button>
           </Box>
