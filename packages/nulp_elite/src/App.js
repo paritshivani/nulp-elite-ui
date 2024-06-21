@@ -204,6 +204,10 @@ function App() {
         const rootOrgId = data.result.response.rootOrgId;
         sessionStorage.setItem("rootOrgId", rootOrgId);
         console.log(data.result.response.framework.board);
+        localStorage.setItem(
+          "defaultFramework",
+          data.result.response.framework.id
+        );
         if (data.result.response.framework.board) {
           setCheckPref(true);
         } else {

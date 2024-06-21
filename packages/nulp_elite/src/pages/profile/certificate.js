@@ -1,5 +1,3 @@
-// Profile.js
-
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Footer from "components/Footer";
@@ -35,6 +33,7 @@ const Certificate = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const navigate = useNavigate();
   const [svgData, setSvgData] = useState("");
+  const [showSvgContainer, setShowSvgContainer] = useState(false);
   const svgContainerRef = useRef(null);
 
   const showErrorMessage = (msg) => {
@@ -118,7 +117,9 @@ const Certificate = () => {
       const response = await axios.request(config);
       if (response.data) {
         setSvgData(response.data);
+        setShowSvgContainer(true); // Show SVG container before downloading
         await handleDownloadPdf(certificateName);
+        setShowSvgContainer(false); // Hide SVG container after downloading
       }
     } catch (error) {
       console.error("Error fetching user certificate:", error);
@@ -142,7 +143,9 @@ const Certificate = () => {
       const response = await axios.request(config);
       if (response.data) {
         setSvgData(response.data.result.printUri);
+        setShowSvgContainer(true); // Show SVG container before downloading
         await handleDownloadPdf(certificateName);
+        setShowSvgContainer(false); // Hide SVG container after downloading
       }
     } catch (error) {
       console.error("Error fetching user certificate:", error);
@@ -301,10 +304,6 @@ const Certificate = () => {
                             >
                               {t("CERTIFICATES")}
                             </Link>
-                            <div
-                              ref={svgContainerRef}
-                              dangerouslySetInnerHTML={{ __html: svgData }}
-                            />
                           </Box>
                         </Card>
                       </Grid>
@@ -357,8 +356,17 @@ const Certificate = () => {
                             display: "flex",
                             alignItems: "end",
                             color: "#1976d2",
+                            cursor: "pointer",
                           }}
                           className="text-green"
+                          key={certificate.osid}
+                          onClick={() => {
+                            getCertificate(
+                              certificate.templateUrl,
+                              certificate.osid,
+                              certificate.training.name
+                            );
+                          }}
                         >
                           <SimCardDownloadOutlinedIcon />
                           <Link
@@ -369,21 +377,9 @@ const Certificate = () => {
                               marginTop: "15px",
                               display: "block",
                             }}
-                            key={certificate.osid}
-                            onClick={() => {
-                              getCertificate(
-                                certificate.templateUrl,
-                                certificate.osid,
-                                certificate.training.name
-                              );
-                            }}
                           >
                             {t("CERTIFICATES")}
                           </Link>
-                          <div
-                            ref={svgContainerRef}
-                            dangerouslySetInnerHTML={{ __html: svgData }}
-                          />
                         </Box>
                       </Card>
                     </Grid>
@@ -393,6 +389,12 @@ const Certificate = () => {
             </Grid>
           </Card>
         </Box>
+        {showSvgContainer && (
+          <div
+            ref={svgContainerRef}
+            dangerouslySetInnerHTML={{ __html: svgData }}
+          />
+        )}
       </Container>
       <FloatingChatIcon />
       <Box className="lg-hide">

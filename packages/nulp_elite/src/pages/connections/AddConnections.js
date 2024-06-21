@@ -1392,6 +1392,7 @@ const AddConnections = () => {
                             value="2"
                             style={{ fontSize: "12px", color: "#484848" }}
                             onClick={() => {
+                              setOpen(false);
                               handleTabClick("Tab2");
                             }}
                           />
