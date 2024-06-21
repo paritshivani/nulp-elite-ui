@@ -80,7 +80,7 @@ const LearningHistory = () => {
       <Container
         role="main"
         maxWidth="xl"
-        className=" filter-profile profile allContentProfile cardheight  profile-card-view"
+        className=" filter-profile profile allContentProfile cardheight  profile-card"
       >
         {error && (
           <Alert severity="error" className="my-10">

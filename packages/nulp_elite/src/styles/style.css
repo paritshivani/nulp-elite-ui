@@ -532,7 +532,9 @@ button {
   .xss-pb-0 {
     padding: 3px 0 5px 16px !important;
   }
-
+  .MuiDrawer-paper {
+    background: #f9fafc !important;
+  }
   .xs-text-left {
     text-align: left;
     padding-bottom: 10px;
