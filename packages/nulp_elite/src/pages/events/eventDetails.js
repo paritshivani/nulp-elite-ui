@@ -52,7 +52,6 @@ const EventDetails = () => {
   const [userInfo, setUserInfo] = useState();
   const [creatorInfo, setCreatorInfo] = useState();
   const [batchData, setBatchData] = useState();
-  const [enrolled, setEnrolled] = useState();
   const [canEnroll, setCanEnroll] = useState();
   const [canJoin, setCanJoin] = useState();
   const [isRecorded, setIsRecorded] = useState();
@@ -260,7 +259,7 @@ const EventDetails = () => {
       };
       const response = await axios.post(url, requestBody);
       if (response.status === 200) {
-        setEnrolled(true);
+        setIsEnrolled(true);
         setShowEnrollmentSnackbar(true);
       } else {
         console.log("err-----", response);
@@ -560,7 +559,7 @@ const EventDetails = () => {
                   {" "}
                   <Box className="xs-hide">
                     <Button
-                      onClick={enrollEvent}
+                      onPress={enrollEvent}
                       type="button"
                       className="custom-btn-success"
                       style={{
@@ -707,7 +706,6 @@ const EventDetails = () => {
                   {" "}
                   <Box className="xs-hide">
                     <Button
-                      onClick={enrollEvent}
                       type="button"
                       className="custom-btn-success"
                       style={{
@@ -720,6 +718,7 @@ const EventDetails = () => {
                         background: "#1faf38",
                         marginTop: "10px",
                       }}
+                      onPress={() => enrollEvent}
                     >
                       {t("REGISTER_WEBINAR")}
                     </Button>

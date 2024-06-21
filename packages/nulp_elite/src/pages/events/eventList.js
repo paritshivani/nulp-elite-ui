@@ -147,12 +147,10 @@ const EventList = (props) => {
   const [value, setValue] = React.useState("1");
   const startDate =
     {
-      "<=": startDateFilter,
-    } || null;
-  const endDate =
-    {
-      ">=": endDateFilter,
-    } || null;
+       ">=": startDateFilter,
+        "<=": endDateFilter,
+    } || [];
+  
 
   const fetchAllData = async () => {
     let filters = {};
@@ -163,7 +161,6 @@ const EventList = (props) => {
         se_boards: domainfilter.se_board || [domain],
         gradeLevel: subDomainFilter,
         startDate: startDate,
-        endDate: endDate,
       };
     } else if (searchQuery && domainfilter) {
       filters = {
@@ -171,7 +168,6 @@ const EventList = (props) => {
         query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         startDate: startDate,
-        endDate: endDate,
       };
     } else if (searchQuery && subDomainFilter) {
       filters = {
@@ -179,7 +175,6 @@ const EventList = (props) => {
         query: searchQuery ? searchQuery : "",
         gradeLevel: subDomainFilter,
         startDate: startDate,
-        endDate: endDate,
       };
     } else if (domainfilter && subDomainFilter) {
       filters = {
@@ -187,34 +182,29 @@ const EventList = (props) => {
         se_boards: domainfilter.se_board || [domain],
         gradeLevel: subDomainFilter,
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else if (domainfilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else if (subDomainFilter) {
       filters = {
         objectType: ["Event"],
         gradeLevel: subDomainFilter,
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else if (searchQuery) {
       filters = {
         objectType: ["Event"],
         query: searchQuery ? searchQuery : "",
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else {
       filters = {
         objectType: ["Event"],
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     }
 
