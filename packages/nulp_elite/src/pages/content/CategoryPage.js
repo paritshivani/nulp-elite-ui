@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import BoxCard from "components/Card";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -24,22 +24,26 @@ import SkeletonLoader from "components/skeletonLoader";
 
 const CategoryPage = () => {
   // const history = useHistory();
-  const { category } = useParams();
-  const [domain, setDomain] = useState();
-  const [channelData, setChannelData] = React.useState(true);
-  const [selectedDomain, setSelectedDomain] = useState();
+  // const { category } = useParams();
+  const [domain, setDomain] = useState([]);
+  const [channelData, setChannelData] = useState(true);
+  const [selectedDomain, setSelectedDomain] = useState(null);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const { pageNumber } = useParams(1);
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(location.search || 1);
   const [totalPages, setTotalPages] = useState(1);
 
   const [itemsArray, setItemsArray] = useState([]);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
-  const [domainName, setDomainName] = useState();
+  const [domainName, setDomainName] = useState("");
   const routeConfig = require("../../configs/routeConfig.json");
+  const location = useLocation();
+  const queryString = location.search;
+  const category = queryString.startsWith("?")
+    ? decodeURIComponent(queryString.slice(1))
+    : null;
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -50,30 +54,28 @@ const CategoryPage = () => {
   };
 
   const handleSearch = (query) => {
-    // Implement your search logic here
     console.log("Search query:", query);
   };
+
   const handleDomainFilter = (query, domainName) => {
-    // Implement your search logic here
     setSelectedDomain(query);
     setDomainName(domainName);
     console.log("Search query:", selectedDomain);
-    fetchMoreItems(category);
+    fetchMoreItems(query, domainName);
   };
 
   useEffect(() => {
     if (selectedDomain) {
-      fetchMoreItems();
+      fetchMoreItems(category, selectedDomain);
     }
-  }, []);
+  }, [selectedDomain]);
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
   };
 
-  const fetchMoreItems = async (category) => {
+  const fetchMoreItems = async (category, selectedDomain) => {
     setError(null);
-    // Filters for API
     let data = JSON.stringify({
       request: {
         filters: {
@@ -143,7 +145,6 @@ const CategoryPage = () => {
     } catch (error) {
       console.log("error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-    } finally {
     }
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}`;
@@ -153,9 +154,9 @@ const CategoryPage = () => {
         headers
       );
 
-      response.data.result.framework.categories[0].terms.map((term) => {
+      response.data.result.framework.categories[0].terms.forEach((term) => {
         if (domainWithImage) {
-          domainWithImage.result.form.data.fields.map((imgItem) => {
+          domainWithImage.result.form.data.fields.forEach((imgItem) => {
             if ((term && term.code) === (imgItem && imgItem.code)) {
               term["image"] = imgItem.image ? imgItem.image : "";
               pushData(term);
@@ -164,14 +165,11 @@ const CategoryPage = () => {
           });
         }
       });
-      console.log("kkkkk----", itemsArray);
 
       setDomain(response.data.result.framework.categories[0].terms);
     } catch (error) {
       console.log("nulp--  error-", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-    } finally {
-      console.log("nulp finally---");
     }
   };
   const getCookieValue = (name) => {
@@ -187,7 +185,7 @@ const CategoryPage = () => {
   };
   useEffect(() => {
     if (category) {
-      fetchMoreItems(category);
+      fetchMoreItems(category, selectedDomain);
     }
     fetchDomains();
   }, [category]);
@@ -207,7 +205,7 @@ const CategoryPage = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      {domain ? (
+      {domain.length > 0 ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
         <SkeletonLoader />

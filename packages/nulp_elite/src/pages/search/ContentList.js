@@ -209,7 +209,7 @@ const ContentList = (props) => {
       setPageNumber(value);
       setCurrentPage(value);
       setData({});
-      navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/${value}`, {
+      navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?${value}`, {
         state: { domain: domain },
       });
       fetchData();
@@ -313,12 +313,12 @@ const ContentList = (props) => {
     setCurrentPage(1);
     setData({});
     setDomainName(domainName);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { domain: query },
     });
   };
   const handleSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
@@ -429,7 +429,6 @@ const ContentList = (props) => {
               >
                 {domainName}
               </Box>
-              
             </Box>
           ) : (
             <Box sx={{ marginTop: "10px" }}></Box>
@@ -438,7 +437,7 @@ const ContentList = (props) => {
             {t("BACK")}
           </Link>
         </Box>
-         
+
         <Grid container spacing={2} className="pt-8 mt-15">
           <Grid
             item
@@ -452,7 +451,6 @@ const ContentList = (props) => {
               SelectedFilters={handlefilterChanges}
               renderedPage="contentlist"
             />
-           
           </Grid>
           <Grid
             item
