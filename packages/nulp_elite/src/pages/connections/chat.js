@@ -29,9 +29,10 @@ import ToasterCommon from "../ToasterCommon";
 import Modal from "@mui/material/Modal";
 import Footer from "components/Footer";
 import Header from "components/header";
-
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 const moment = require("moment");
 const timezone = require("moment-timezone");
+import Picker from "emoji-picker-react";
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
     display: "flex",
@@ -127,6 +128,7 @@ const Chat = ({
   const _userId = util.userId();
 
   const { t } = useTranslation();
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   useEffect(() => {
     setLoggedInUserId(_userId);
@@ -455,6 +457,11 @@ const Chat = ({
     setPrefilledMessage(event.target.value);
     setTextValue(event.target.value);
   };
+  const onEmojiClick = (event, emojiObject) => {
+    const { emoji } = event;
+    setTextValue((prevTextValue) => prevTextValue + emoji);
+  };
+
   return (
     <>
       {/* <Header /> */}
@@ -686,7 +693,22 @@ const Chat = ({
                   {t("SYSTEM_GENERATED_MESSAGE")}
                 </Alert>
               )}
-            <div className="d-flex sendMessag">
+            <div className="d-flex sendMessag" style={{ position: "relative" }}>
+              {showEmojiPicker && (
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "50px",
+                    right: "0px",
+                    zIndex: 1,
+                  }}
+                >
+                  <Picker
+                    onEmojiClick={onEmojiClick}
+                    pickerStyle={{ width: "100%" }}
+                  />
+                </div>
+              )}
               <TextField
                 multiline
                 minRows={2}
@@ -698,6 +720,13 @@ const Chat = ({
                 fullWidth
                 sx={{ fontSize: "13px" }}
               />
+
+              <Button
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                style={{ color: "#484848", cursor: "pointer" }}
+              >
+                <InsertEmoticonIcon />
+              </Button>
               <Button
                 style={{ color: "#484848" }}
                 onClick={sendMessage}

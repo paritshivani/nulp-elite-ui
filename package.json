@@ -41,6 +41,7 @@
     "chakra-multiselect": "^0.4.13",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
+    "emoji-picker-react": "^4.10.0",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.2",
     "html2pdf.js": "^0.10.1",
