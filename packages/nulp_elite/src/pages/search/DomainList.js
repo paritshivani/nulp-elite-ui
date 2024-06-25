@@ -279,7 +279,7 @@ const DomainList = ({ globalSearchQuery }) => {
 
   const handleSearch = async (domainquery) => {
     console.log(domainquery);
-    navigate(routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST / 1, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { domainquery },
     });
   };
@@ -380,7 +380,7 @@ const DomainList = ({ globalSearchQuery }) => {
   };
 
   const onMobileSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
