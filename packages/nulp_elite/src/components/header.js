@@ -74,7 +74,7 @@ function Header({ globalSearchQuery }) {
   }, [location.pathname]);
 
   const onGlobalSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
