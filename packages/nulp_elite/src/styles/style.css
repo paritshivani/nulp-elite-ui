@@ -1755,6 +1755,13 @@ button {
   height: 44px;
   transition: top 0.3s ease;
 }
+tspan {
+  font-size: 8px !important;
+}
+.allContentlearning .custom-card {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+}
 .pos-fixed .MuiInputBase-input {
   font-size: 12px !important;
   padding-right: 23px !important;
