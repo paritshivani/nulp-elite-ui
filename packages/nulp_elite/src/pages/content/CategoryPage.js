@@ -33,6 +33,8 @@ const CategoryPage = () => {
   const { pageNumber } = useParams(1);
   const navigate = useNavigate();
   const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
 
   const [itemsArray, setItemsArray] = useState([]);
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -69,9 +71,17 @@ const CategoryPage = () => {
       fetchMoreItems(category, selectedDomain);
     }
   }, [selectedDomain]);
+  useEffect(()=>{
+    fetchMoreItems(category,selectedDomain)
+  },[currentPage]
+  )
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
+  };
+
+   const handlePageChange = (event, newValue) => {
+    setCurrentPage(newValue);
   };
 
   const fetchMoreItems = async (category, selectedDomain) => {
@@ -106,7 +116,7 @@ const CategoryPage = () => {
           "primaryCategory",
         ],
         facets: ["channel", "gradeLevel", "subject", "medium"],
-        offset: 0,
+        offset: 20 * (currentPage - 1),
       },
     });
 
@@ -119,6 +129,8 @@ const CategoryPage = () => {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
       const response = await getAllContents(url, data, headers);
       setData(response.data.result.content);
+      setTotalPages(Math.ceil(response?.data?.result?.count / 20));
+
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
@@ -272,6 +284,11 @@ const CategoryPage = () => {
               ))}
             <div className="blankCard"></div>
           </Box>
+           <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
         </Box>
       </Container>
       {/* <Pagination

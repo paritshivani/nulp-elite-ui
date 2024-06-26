@@ -188,7 +188,7 @@ const ContentList = (props) => {
       if (response.data.result.content && response.data.result.count <= 20) {
         setTotalPages(1);
       } else if (response.data.result.count > 20) {
-        setTotalPages(Math.floor(response.data.result.count / 20));
+        setTotalPages(Math.ceil(response.data.result.count / 20));
       }
 
       setData(response.data.result);
