@@ -89,7 +89,8 @@ const JoinCourse = () => {
   const _userId = util.userId(); // Assuming util.userId() is defined
   const shareUrl = window.location.href; // Current page URL
   const [showMore, setShowMore] = useState(false);
-
+  const [batchDetail, setBatchDetail] = useState("");
+  const [score, setScore] = useState("");
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -133,6 +134,7 @@ const JoinCourse = () => {
         const data = await response.json();
 
         setCreatorId(data?.result?.content?.createdBy);
+        setCourseData(data);
         setUserData(data);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -166,6 +168,7 @@ const JoinCourse = () => {
             showErrorMessage(t("This course has no active Batches")); // Assuming `showErrorMessage` is used to display messages to the user
           } else if (content && content.length > 0) {
             const batchDetails = content[0];
+            getBatchDetail(batchDetails.batchId);
             setBatchData({
               startDate: batchDetails.startDate,
               endDate: batchDetails.endDate,
@@ -195,6 +198,22 @@ const JoinCourse = () => {
         }
         const data = await response.json();
         setUserCourseData(data.result);
+      } catch (error) {
+        console.error("Error while fetching courses:", error);
+        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      }
+    };
+    const getBatchDetail = async (batchId) => {
+      try {
+        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.BATCH.GET_DETAILS}/${batchId}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+          throw new Error(t("FAILED_TO_FETCH_DATA"));
+        }
+        const data = await response.json();
+        setBatchDetail(data.result);
+        getScoreCriteria(data.result);
       } catch (error) {
         console.error("Error while fetching courses:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -605,6 +624,17 @@ const JoinCourse = () => {
     setOpen(false);
     window.location.reload();
   };
+  function getScoreCriteria(data) {
+    const certTemplateKeys = Object.keys(data?.response?.certTemplates);
+    const certTemplateId = certTemplateKeys[0];
+    const criteria =
+      data?.response?.certTemplates?.[certTemplateId]?.criteria?.assessment ||
+      data?.response?.cert_templates?.[certTemplateId]?.criteria?.assessment;
+
+    const score = criteria?.score?.[">="] || "no certificate";
+    setScore(score);
+    return score;
+  }
   return (
     <div>
       <Header />
@@ -891,16 +921,20 @@ const JoinCourse = () => {
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
-                <ul>
-                  <li className="h6-title">
-                    {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
-                    {t("COMPLETION")}
-                  </li>
-                  <li className="h6-title">
-                    {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
-                    {t("ASSESSMENT")}
-                  </li>
-                </ul>
+                {batchDetail && (
+                  <ul>
+                    <li className="h6-title">
+                      {t("COMPLETION_CERTIFICATE_ISSUED")}
+                    </li>
+                    {score !== "no certificate" && (
+                      <li className="h6-title">
+                        {t("CERT_ISSUED_SCORE")}
+                        {` ${score}% `}
+                        {t("ASSESSMENT")}
+                      </li>
+                    )}
+                  </ul>
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion
@@ -1050,38 +1084,36 @@ const JoinCourse = () => {
               </Box>
             </Box> */}
             <Box>
-              {userCourseData &&
-                userCourseData.courses &&
-                userCourseData.courses.length > 0 && (
-                  <>
-                    <Typography
-                      className="h5-title"
-                      style={{ fontWeight: "600" }}
-                    >
-                      {t("DESCRIPTION")}:
-                    </Typography>
-                    <Typography
-                      className="h5-title mb-15"
-                      style={{ fontWeight: "400", fontSize: "14px" }}
-                    >
-                      {userCourseData.courses[0].description.split(" ").length >
-                      100
-                        ? showMore
-                          ? userCourseData.courses[0].description
-                          : userCourseData.courses[0].description
-                              .split(" ")
-                              .slice(0, 30)
-                              .join(" ") + "..."
-                        : userCourseData.courses[0].description}
-                    </Typography>
-                    {userCourseData.courses[0].description.split(" ").length >
-                      100 && (
-                      <Button onClick={toggleShowMore}>
-                        {showMore ? t("Show Less") : t("Show More")}
-                      </Button>
-                    )}
-                  </>
-                )}
+              {courseData && courseData?.result?.content && (
+                <>
+                  <Typography
+                    className="h5-title"
+                    style={{ fontWeight: "600" }}
+                  >
+                    {t("DESCRIPTION")}:
+                  </Typography>
+                  <Typography
+                    className="h5-title mb-15"
+                    style={{ fontWeight: "400", fontSize: "14px" }}
+                  >
+                    {courseData?.result?.content?.description.split(" ")
+                      .length > 100
+                      ? showMore
+                        ? courseData?.result?.content?.description
+                        : courseData?.result?.content?.description
+                            .split(" ")
+                            .slice(0, 30)
+                            .join(" ") + "..."
+                      : courseData?.result?.content?.description}
+                  </Typography>
+                  {courseData?.result?.content?.description.split(" ").length >
+                    100 && (
+                    <Button onClick={toggleShowMore}>
+                      {showMore ? t("Show Less") : t("Show More")}
+                    </Button>
+                  )}
+                </>
+              )}
             </Box>
 
             <Accordion
@@ -1219,16 +1251,20 @@ const JoinCourse = () => {
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
-                <ul>
-                  <li className="h6-title">
-                    {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
-                    {t("COMPLETION")}
-                  </li>
-                  <li className="h6-title">
-                    {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
-                    {t("ASSESSMENT")}
-                  </li>
-                </ul>
+                {batchDetail && (
+                  <ul>
+                    <li className="h6-title">
+                      {t("COMPLETION_CERTIFICATE_ISSUED")}
+                    </li>
+                    {score !== "no certificate" && (
+                      <li className="h6-title">
+                        {t("CERT_ISSUED_SCORE")}
+                        {` ${score}% `}
+                        {t("ASSESSMENT")}
+                      </li>
+                    )}
+                  </ul>
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion

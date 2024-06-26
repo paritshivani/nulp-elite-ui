@@ -69,7 +69,7 @@ button {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  height: 26px;
+  /* height: 26px; */
 }
 .ribbonCard {
   z-index: 999;
@@ -139,16 +139,39 @@ button {
 @media (min-width: 320px) {
   .profile-text-circle {
     align-items: center;
-    background-color: #484848;
     border-radius: 100%;
     color: #fff;
+    background: #484848;
     display: flex;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 500;
-    height: 32px;
+    height: 24px;
     justify-content: center;
-    line-height: 1.1 !important;
-    width: 34px;
+    line-height: 1 !important;
+    width: 24px;
+    /* padding: 5px; */
+    box-shadow: 0 4px 4px 0 #00000040 !important;
+    font-size: 16px !important;
+  }
+  .notification-circle {
+    align-items: center;
+    border-radius: 100%;
+    background: #fff;
+    display: flex;
+    font-size: 12px;
+    font-weight: 500;
+    height: 24px;
+    justify-content: center;
+    line-height: 1 !important;
+    width: 24px;
+    padding: 5px;
+    /* box-shadow: 0 4px 4px 0 #00000040 !important; */
+    font-size: 10px !important;
+    margin: 0 10px;
+  }
+  .notification-circle svg {
+    font-size: 32px;
+    color: #0e7a9c;
   }
   .eventImg {
     width: 50px;
@@ -197,10 +220,7 @@ button {
     padding: 0;
     width: 48px;
   }
-  .blankCard {
-    flex-grow: 1;
-    width: 252px;
-  }
+
   .custom-card {
     margin-bottom: 31px !important;
     display: flex;
@@ -479,6 +499,10 @@ button {
   }
 }
 @media (max-width: 768px) {
+  .blankCard {
+    flex-grow: 1;
+    width: 252px;
+  }
   .eventTab .left-container,
   .content-list .left-container {
     background: #fff !important;
@@ -495,10 +519,10 @@ button {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
     width: 180px;
   }
-  .event-list .MuiTabs-indicator {
+  /* .event-list .MuiTabs-indicator {
     left: 0px !important;
     width: 180px !important;
-  }
+  } */
   .d-flex.sendMessag {
     background: #fff;
   }
@@ -736,10 +760,23 @@ button {
   }
 }
 @media (min-width: 769px) {
-  .profile-card-view .custom-card-box {
-    /* padding: 0 6px; */
+  .translate svg {
+    color: #fff !important;
+  }
+  .explore-text {
+    width: 390px !important;
+  }
+  .explore svg {
+    font-size: 20px !important;
+  }
+  /* .profile-card-view .custom-card-box {
     width: 224px !important;
     margin-right: 10px;
+  } */
+  .custom-card {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    /* grid-template-rows: 1fr 1fr !important; */
   }
   .flter-btn.left-container .MuiIconButton-sizeMedium:hover {
     background: none !important;
@@ -753,19 +790,19 @@ button {
   .mr-13 {
     margin-right: 13px !important;
   }
-  .all-card-list .custom-card {
+  /* .all-card-list .custom-card {
     gap: 10px 35px;
-  }
+  } */
   .contentCreator .jss3 {
     position: inherit !important;
   }
-  .profile-card .custom-card {
+  /* .profile-card .custom-card {
     gap: 5px !important;
-  }
-  .profile-card .custom-card-box {
+  } */
+  /* .profile-card .custom-card-box {
     padding: 0 6px;
     width: 210px !important;
-  }
+  } */
   .Mui-disabled {
     background: #007b9d61 !important;
   }
@@ -774,10 +811,10 @@ button {
     width: 245px;
     padding-right: 24px !important;
   }
-  .custom-card::after {
+  /* .custom-card::after {
     content: "";
     flex-grow: 1000000000;
-  }
+  } */
   .p-15 {
     padding: 15px !important;
   }
@@ -795,7 +832,7 @@ button {
     min-height: 600px;
   }
   .profile-text-circle {
-    margin-right: 10px;
+    margin-right: 5px;
   }
   .content-list .custom-card-box {
     width: 240px !important;
@@ -838,13 +875,11 @@ button {
   .addConnectChat .jss3 {
     min-height: 500px;
   }
-  .carousel-active-ui {
-    /* background: #0e7a9c; */
-    justify-content: stretch;
-    border-radius: 5px;
-    padding: 7px;
-    margin-right: 12px;
-    color: #fff;
+  .carousel-active-ui img {
+    filter: sepia(100%) hue-rotate(166deg) saturate(501%);
+  }
+  .carousel-active-ui .domainText {
+    color: #0e7a9c !important;
   }
   .cardCourses {
     width: 133px;
@@ -869,8 +904,12 @@ button {
     color: #484848 !important;
     display: flex;
     justify-content: flex-start;
-    padding: 10px 9px;
+    padding: 6px 15px;
     text-align: center;
+    font-size: 14px !important;
+  }
+  .headerMenu svg {
+    font-size: 20px !important;
   }
   .Menuactive {
     display: flex;
@@ -885,6 +924,10 @@ button {
   } */
   .lg-w-140 {
     width: 140px;
+  }
+  .lg-w-75 {
+    height: 45px;
+    object-fit: contain;
   }
   .event-title {
     width: 348px;
@@ -916,7 +959,7 @@ button {
   .text-white {
     color: white !important;
   }
-  .carousel-bx .my-class span {
+  /* .carousel-bx .my-class span {
     word-break: break-word;
     width: 115px !important;
   }
@@ -926,21 +969,16 @@ button {
     border-radius: 4px;
     padding: 5px;
     width: 180px;
-    /* transition-duration: 1s;
-    transition-timing-function: ease; */
 
     -webkit-animation-duration: 5s;
     animation-name: move-to-right;
 
-    /* specify the animation duration */
     animation-duration: 5s;
-
-    /* transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1); */
   }
   .carousel-bx .my-class {
     transition-duration: 1s;
     transition-timing-function: ease;
-  }
+  } */
   .carousel-bx {
     height: 76px;
   }
@@ -1026,10 +1064,10 @@ button {
   .mt-65 {
     margin-top: 92px;
   }
-  .carousel-active-ui {
+  /* .carousel-active-ui {
     background: #0e7a9c;
     width: 215px;
-  }
+  } */
   /* .carousel-active-ui .imgBorder {
     background: #0e7a9c !important;
     border: solid 1px #0e7a9c;
@@ -1073,6 +1111,16 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .domainText {
+    color: #484848 !important;
+    font-size: 10px !important;
+  }
+  .language .MuiSelect-select {
+    font-size: 12px !important;
+    color: #fff !important;
+    padding-right: 27px;
+    padding-left: 7px;
+  }
   .allContent .left-container {
     margin-left: 16px;
     max-width: 315px !important;
@@ -1095,24 +1143,21 @@ button {
     background: #f9fafc;
   }
 }
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   .custom-card-box {
     padding: 0 6px;
-    /* width: 211px; */
   }
 }
 @media (min-width: 1366px) {
   .custom-card-box {
     padding: 0 6px;
-    /* width: 232px; */
   }
 }
 @media (min-width: 1440px) {
   .custom-card-box {
     padding: 0 10px;
-    /* width: 243px; */
   }
-}
+} */
 /* .cardTitle {
   height: 68px;
 } */
@@ -1141,15 +1186,29 @@ button {
   display: none !important;
 }
 .carousel-bx {
+  box-shadow: 0 4px 4px 0 #00000040;
   justify-content: center;
   padding: 14px;
-  box-shadow: 0px 4px 4px 0px #00000040;
+  padding-top: 15px !important;
 }
 .carousel-bx .my-class {
-  margin: 0 32px !important;
+  margin: 0 25px !important;
 }
 .carousel-bx .my-class:first-child {
   margin-left: 0 !important;
+}
+.domainText {
+  color: #484848;
+  font-size: 11px;
+  text-align: center;
+  margin: 0au;
+  display: block;
+  width: 60px !important;
+  /* word-break: break-word; */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* border: solid; */
+  height: 16px;
 }
 
 .lg-d-flex {
@@ -1229,6 +1288,7 @@ button {
 .language fieldset {
   border: none !important;
 }
+
 header {
   box-shadow: none !important;
 }
@@ -1362,7 +1422,7 @@ Footer {
 } */
 .bg-white {
   background: #fff !important;
-  padding: 20px;
+  padding: 20px 20px 20px 5px;
   list-style-type: none;
   border: 1px solid #d3d3d3;
 }
@@ -1607,6 +1667,14 @@ button {
 .h6-title Link {
   color: #484848 !important;
 }
+.font-sizer {
+  font-size: 13px;
+  padding-right: 20px;
+  color: #fff !important;
+}
+.font-sizer a {
+  color: #fff !important;
+}
 .fs-12 {
   font-size: 12px !important;
 }
@@ -1682,9 +1750,22 @@ button {
 .pos-fixed {
   position: fixed;
   z-index: 99999;
-  top: 0px;
+  top: 40px;
   width: 100%;
   height: 44px;
+  transition: top 0.3s ease;
+}
+.pos-fixed .MuiInputBase-input {
+  font-size: 12px !important;
+  padding-right: 23px !important;
+}
+
+.scrolled .pos-fixed {
+  top: 0 !important;
+}
+
+.language svg {
+  right: 0 !important;
 }
 .pos-inherit {
   position: inherit !important;
@@ -2014,6 +2095,8 @@ custom-chip {
   cursor: pointer;
   margin: auto;
   display: block;
+  height: 48px;
+  margin-bottom: 10px;
 }
 /* .domainHover:hover {
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -2073,10 +2156,11 @@ custom-chip {
   color: #fff !important;
   align-items: center;
   border-radius: 5px !important;
-  padding: 10px 0 !important;
-  width: 159px;
+  padding: 5px !important;
+  width: 105px;
   display: block !important;
   text-align: center;
+  font-size: 14px !important;
 }
 .profile-btn.Menuactive {
   display: flex !important;

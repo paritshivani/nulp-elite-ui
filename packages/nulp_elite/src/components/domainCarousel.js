@@ -116,7 +116,7 @@ export default function DomainCarousel({
   };
 
   return (
-    <Box style={{ position: "relative" }} className="bg-blue mt-9">
+    <Box style={{ position: "relative" }} className="bg-blue">
       {isMobile ? (
         <>
           <Carousel
@@ -150,14 +150,15 @@ export default function DomainCarousel({
                   style={{ display: "flex" }}
                 >
                   <Box
-                    className="imgBorder cursor-pointer"
-                    style={{
-                      background: "#fff",
-                      padding: "4px",
-                      borderRadius: "10px",
-                      height: "48px",
-                      width: "48px",
-                    }}
+                    // className="imgBorder cursor-pointer"
+                    className="cursor-pointer"
+                    // style={{
+                    //   background: "#fff",
+                    //   padding: "4px",
+                    //   borderRadius: "10px",
+                    //   height: "48px",
+                    //   width: "48px",
+                    // }}
                   >
                     {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
                 {(domain.image == undefined)&& <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />} */}
@@ -202,25 +203,8 @@ export default function DomainCarousel({
                 onMouseEnter={(event) => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
               >
-                <Box
-                  className="d-flex cursor-pointer"
-                  style={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Box
-                    className="imgBorder cursor-pointer"
-                    style={{
-                      background: "#fff",
-                      padding: "9px 5px 1px 5px",
-                      borderRadius: "10px",
-                      height: "45px",
-                      width: "45px",
-                      textAlign: "center",
-                      MarginLeft: "5px",
-                    }}
-                  >
+                <Box className=" cursor-pointer">
+                  <Box className=" cursor-pointer">
                     {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
                 {(domain.image == undefined)&& <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />} */}
                     {/* <Tooltip title={domain.description}> */}
@@ -235,14 +219,28 @@ export default function DomainCarousel({
                     {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
                   </Box>
 
-                  {(activeDomain === index || activeStates === index) && (
-                    <span
-                      className="pl-5 text-white cursor-pointer"
-                      style={{ width: "190px" }}
+                  {/* {(activeDomain === index || activeStates === index) && ( */}
+                  <span className=" cursor-pointer ">
+                    <Tooltip
+                      className="domainText"
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                offset: [0, -14],
+                              },
+                            },
+                          ],
+                        },
+                      }}
+                      title={domain.name}
                     >
                       {domain.name}
-                    </span>
-                  )}
+                    </Tooltip>
+                  </span>
+                  {/* )} */}
                 </Box>
               </Box>
             ))}
