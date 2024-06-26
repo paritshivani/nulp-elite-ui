@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { makeStyles } from "@mui/styles";
 import {
   TextField,
@@ -36,6 +36,7 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 const moment = require("moment");
 const timezone = require("moment-timezone");
 import Picker from "emoji-picker-react";
+const routeConfig = require("../../configs/routeConfig.json");
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
     display: "flex",
@@ -140,6 +141,28 @@ const Chat = ({
     "Other",
   ];
   const [customReason, setCustomReason] = useState("");
+  const [activePath, setActivePath] = useState(location.pathname);
+  const emojiPickerRef = useRef(null);
+
+  useEffect(() => {
+    setActivePath(location.pathname);
+  }, [location.pathname]);
+  const handleClickOutside = (event) => {
+    if (
+      emojiPickerRef.current &&
+      !emojiPickerRef.current.contains(event.target)
+    ) {
+      setShowEmojiPicker(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleReasonChange = (event) => {
     const selectedReason = event.target.value;
     setReason(selectedReason);
@@ -331,8 +354,14 @@ const Chat = ({
         setMessage("");
         setTextValue("");
         if (!messages.length > 0) {
-          navigate(-1);
-          window.location.reload();
+          if (
+            isMobile &&
+            activePath === `${routeConfig.ROUTES.ADDCONNECTION_PAGE.CHAT}`
+          ) {
+            navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION);
+          } else {
+            window.location.reload();
+          }
           if (onChatSent) {
             onChatSent();
           }
@@ -740,6 +769,7 @@ const Chat = ({
             <div className="d-flex sendMessag" style={{ position: "relative" }}>
               {showEmojiPicker && (
                 <div
+                  ref={emojiPickerRef}
                   style={{
                     position: "absolute",
                     bottom: "50px",
