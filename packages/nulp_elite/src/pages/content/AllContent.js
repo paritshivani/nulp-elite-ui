@@ -434,7 +434,6 @@ const AllContent = () => {
                       {expandedCategory === category
                         ? renderItems(items, category)
                         : renderItems(items.slice(0, 5), category)}
-                      <div className="blankCard"></div>
                     </Box>
                   </>
                 )}
