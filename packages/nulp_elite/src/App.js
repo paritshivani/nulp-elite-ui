@@ -99,9 +99,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path:
-        routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST +
-        routeConfig.ROUTES.CONTENTLIST_PAGE.PAGENUMBER,
+      path: routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST,
       component: ContentList,
     },
     {
@@ -152,9 +150,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path:
-        routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL +
-        routeConfig.ROUTES.VIEW_ALL_PAGE.CATEGORY,
+      path: routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL,
       component: CategoryPage,
     },
     {
@@ -204,6 +200,10 @@ function App() {
         const rootOrgId = data.result.response.rootOrgId;
         sessionStorage.setItem("rootOrgId", rootOrgId);
         console.log(data.result.response.framework.board);
+        localStorage.setItem(
+          "defaultFramework",
+          data.result.response.framework.id
+        );
         if (data.result.response.framework.board) {
           setCheckPref(true);
         } else {

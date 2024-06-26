@@ -136,8 +136,7 @@ const DomainList = ({ globalSearchQuery }) => {
       setIsLoading(false);
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/
-      ${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
@@ -273,21 +272,21 @@ const DomainList = ({ globalSearchQuery }) => {
 
   const loadContents = async (term) => {
     // console.log(term);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: term.code, domainName :term.name },
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
+      state: { domain: term.code, domainName: term.name },
     });
   };
 
   const handleSearch = async (domainquery) => {
     console.log(domainquery);
-    navigate(routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST / 1, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { domainquery },
     });
   };
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: query},
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
+      state: { domain: query, domainName: domainName },
     });
   };
   // console.log(frameworkHardCodedData.result.framework.categories[0].terms);
@@ -381,7 +380,7 @@ const DomainList = ({ globalSearchQuery }) => {
   };
 
   const onMobileSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };

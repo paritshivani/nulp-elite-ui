@@ -81,22 +81,22 @@ const SelectPreference = ({ isOpen, onClose }) => {
         setCustodianOrgId(custodianOrgId);
         // setUserRootOrgId(localStorage.getItem("userRootOrgId"));
         const rootOrgId = sessionStorage.getItem("rootOrgId");
-        if(custodianOrgId){
-        if (custodianOrgId === rootOrgId) {
-          const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
-          const response = await fetch(url);
-          const data = await response.json();
-          const defaultFramework = data?.result?.channel?.defaultFramework;
-          setDefaultFramework(defaultFramework);
-          localStorage.setItem("defaultFramework", defaultFramework);
-        } else {
-          const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
-          const response = await fetch(url);
-          const data = await response.json();
-          const defaultFramework = data?.result?.channel?.defaultFramework;
-          setDefaultFramework(defaultFramework);
+        if (custodianOrgId) {
+          if (custodianOrgId === rootOrgId) {
+            const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const defaultFramework = data?.result?.channel?.defaultFramework;
+            setDefaultFramework(defaultFramework);
+            localStorage.setItem("defaultFramework", defaultFramework);
+          } else {
+            const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const defaultFramework = data?.result?.channel?.defaultFramework;
+            setDefaultFramework(defaultFramework);
+          }
         }
-      }
       } catch (error) {
         console.error("Error fetching user data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -143,7 +143,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
     setError(null);
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

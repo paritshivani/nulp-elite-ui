@@ -231,7 +231,7 @@ const AllContent = () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,
@@ -380,7 +380,7 @@ const AllContent = () => {
                   <Box>
                     {items?.length > 4 && (
                       <Link
-                        to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}/${category}`}
+                        to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}?${category}`}
                         className="viewAll mr-13"
                       >
                         {t("VIEW_ALL")}

@@ -93,7 +93,7 @@ const EventList = (props) => {
   const [subDomainFilter, setSubDomainFilter] = useState([]);
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
-  const [valueTab, setValueTab] = React.useState("1");
+  const [valueTab, setValueTab] = React.useState("2");
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -423,7 +423,7 @@ const EventList = (props) => {
                             data.map((items, index) => (
                               <Grid
                                 item
-                                xs={6}
+                                xs={12}
                                 md={6}
                                 lg={6}
                                 style={{ marginBottom: "10px" }}
@@ -439,7 +439,7 @@ const EventList = (props) => {
                               </Grid>
                             ))
                           ) : (
-                            <NoResult />
+                            <NoResult className="center-box" />
                           )}
                         </Grid>
                       </TabPanel>
