@@ -877,6 +877,24 @@ const EventDetails = () => {
             >
               {detailData.description}
             </Box>
+            <Box className="lg-hide">
+              <FacebookShareButton url={shareUrl} className="pr-5">
+                <FacebookIcon size={32} round={true} />
+              </FacebookShareButton>
+              <WhatsappShareButton url={shareUrl} className="pr-5">
+                <WhatsappIcon size={32} round={true} />
+              </WhatsappShareButton>
+              <LinkedinShareButton url={shareUrl} className="pr-5">
+                <LinkedinIcon size={32} round={true} />
+              </LinkedinShareButton>
+              <TwitterShareButton url={shareUrl} className="pr-5">
+                <img
+                  src={require("../../assets/twitter.png")}
+                  alt="Twitter"
+                  style={{ width: 32, height: 32 }}
+                />
+              </TwitterShareButton>
+            </Box>
           </Grid>
         </Container>
       )}
