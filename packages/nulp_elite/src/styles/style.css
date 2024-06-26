@@ -1758,7 +1758,8 @@ button {
 tspan {
   font-size: 8px !important;
 }
-.allContentlearning .custom-card {
+.allContentlearning .custom-card,
+.allContentProfile .custom-card {
   display: grid !important;
   grid-template-columns: repeat(3, 1fr) !important;
 }
