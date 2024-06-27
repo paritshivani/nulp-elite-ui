@@ -760,11 +760,14 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .w-100 {
+    width: 100% !important;
+  }
   .translate svg {
     color: #fff !important;
   }
   .explore-text {
-    width: 390px !important;
+    width: 67% !important;
   }
   .explore svg {
     font-size: 20px !important;
@@ -776,6 +779,8 @@ button {
   .custom-card {
     display: grid !important;
     grid-template-columns: repeat(5, 1fr) !important;
+    gap: 16px !important;
+
     /* grid-template-rows: 1fr 1fr !important; */
   }
   .flter-btn.left-container .MuiIconButton-sizeMedium:hover {
@@ -788,6 +793,9 @@ button {
     position: inherit !important;
   }
   .mr-13 {
+    margin-right: 13px !important;
+  }
+  .mr-30 {
     margin-right: 13px !important;
   }
   /* .all-card-list .custom-card {
@@ -808,8 +816,11 @@ button {
   }
   .domain-list .custom-card-box {
     padding: 0 6px;
-    width: 245px;
-    padding-right: 24px !important;
+    width: 244px;
+    /* padding-right: 24px !important; */
+  }
+  .allContentProfile {
+    padding-left: 5px !important;
   }
   /* .custom-card::after {
     content: "";
@@ -834,10 +845,16 @@ button {
   .profile-text-circle {
     margin-right: 5px;
   }
+
+  .content-list .custom-card {
+    grid-gap: 16px !important;
+    display: grid !important;
+    gap: 16px !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
   .content-list .custom-card-box {
-    width: 240px !important;
-    padding: 0 !important;
-    margin-left: 31px;
+    width: 247px !important;
+    padding: 0 6px !important;
   }
   .content-list .MuiGrid-grid-lg-9 {
     flex-basis: 75.7% !important;
@@ -1127,7 +1144,7 @@ button {
     margin-right: 18px;
   }
   .custom-card-box {
-    width: 245px;
+    width: 244px;
     padding: 0 6px;
   }
 
@@ -1192,11 +1209,11 @@ button {
   padding-top: 15px !important;
 }
 .carousel-bx .my-class {
-  margin: 0 25px !important;
+  margin: 0 45px !important;
 }
-.carousel-bx .my-class:first-child {
+/* .carousel-bx .my-class:first-child {
   margin-left: 0 !important;
-}
+} */
 .domainText {
   color: #484848;
   font-size: 11px;
@@ -1254,6 +1271,7 @@ button {
 }
 .footer {
   margin-top: 20px !important;
+  margin-bottom: 20px !important;
 }
 .senderMessage {
   width: 50%;
@@ -1756,19 +1774,38 @@ button {
   transition: top 0.3s ease;
 }
 tspan {
-  font-size: 8px !important;
+  font-size: 11px !important;
 }
+.MuiBarElement-root {
+  width: 40px !important;
+}
+.MuiChartsLegend-root {
+  margin-bottom: 20px !important;
+  padding-bottom: 20px !important;
+  transform: translate(-64px, -34px);
+}
+.css-aq68c9 {
+  height: 262px !important;
+}
+/* .MuiChartsLegend-mark {
+  width: 10px !important;
+  height: 10px !important;
+} */
 .allContentlearning .custom-card,
 .allContentProfile .custom-card {
   display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+.allContentlearning .custom-card-box,
+.allContentProfile .custom-card-box {
+  width: 214px !important;
 }
 .pos-fixed .MuiInputBase-input {
   font-size: 12px !important;
   padding-right: 23px !important;
 }
 
-.scrolled .pos-fixed {
+.scrolledTop .pos-fixed {
   top: 0 !important;
 }
 
@@ -1828,7 +1865,7 @@ tspan {
   padding: 12px 0px !important;
 }
 .addConnection .MuiTab-root {
-  width: 33% !important;
+  width: 35% !important;
 }
 .profile-tab.MuiTab-root {
   width: 51% !important;
@@ -1900,7 +1937,7 @@ custom-chip {
   color: #484848 !important;
 }
 .mr-30 {
-  margin-right: 30px;
+  margin-right: 30px !important;
 }
 .mr-5 {
   margin-right: 5px !important;
@@ -2165,7 +2202,7 @@ custom-chip {
   align-items: center;
   border-radius: 5px !important;
   padding: 5px !important;
-  width: 105px;
+  width: 140px;
   display: block !important;
   text-align: center;
   font-size: 14px !important;

@@ -138,7 +138,7 @@ const ContinueLearning = () => {
             {error}
           </Alert>
         )}
-        <Box style={{ margin: "20px 0" }}>
+        <Box style={{ margin: "20px 0 20px -9px" }}>
           <Filter
             options={gradeLevels}
             label="Filter by Sub-Domain"
@@ -148,7 +148,7 @@ const ContinueLearning = () => {
         <Box textAlign="center" padding="10" className="mt-30">
           <Box>
             <Grid container spacing={2}>
-              <Box className="custom-card xs-pl-17 profile-card-view">
+              <Box className="custom-card xs-pl-17 profile-card-view w-100">
                 {paginatedCourses.length === 0 ? (
                   <NoResult />
                 ) : (

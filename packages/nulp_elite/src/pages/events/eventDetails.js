@@ -20,9 +20,9 @@ const EventDetailResponse = require("./detail.json");
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import ToasterCommon from "../ToasterCommon";
-import Alert from "@mui/material/Alert";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import Alert from "@mui/material/Alert";
 
 const urlConfig = require("../../configs/urlConfig.json");
 
@@ -578,7 +578,10 @@ const EventDetails = () => {
                       {t("REGISTER_WEBINAR")}
                     </Button>
                   </Box>
-                  <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                  <Box
+                    className="h5-title mb-20 xs-hide "
+                    style={{ fontWeight: "400" }}
+                  >
                     Registration will be ending on:{" "}
                     {formatDate(detailData.registrationEndDate)}
                   </Box>
@@ -665,7 +668,7 @@ const EventDetails = () => {
               </Box>
               {creatorInfo &&
                 (creatorInfo.firstName || creatorInfo.lastName) && (
-                  <Box className="d-flex mb-20 alignItems-center">
+                  <Box className="d-flex alignItems-center">
                     <Box className="h5-title">Organised By:</Box>
                     <Box className="d-flex alignItems-center pl-20">
                       <Box className="event-text-circle"></Box>
@@ -709,7 +712,7 @@ const EventDetails = () => {
                   <Box className="xs-hide">
                     <Button
                       type="button"
-                      className="custom-btn-success"
+                      className="custom-btn-success mb-20"
                       style={{
                         borderRadius: "30px",
                         color: "#fff",
@@ -725,7 +728,10 @@ const EventDetails = () => {
                       {t("REGISTER_WEBINAR")}
                     </Button>
                   </Box>
-                  <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
+                  <Box
+                    className="h5-title mb-20 "
+                    style={{ fontWeight: "400" }}
+                  >
                     Registration will be ending on:{" "}
                     {formatDate(detailData.registrationEndDate)}
                   </Box>
@@ -778,7 +784,9 @@ const EventDetails = () => {
               )}
               {regEnd && (
                 <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
-                  Registration has ended
+                  <Alert severity="error">
+                    This Webinar has ended, you can access th recording link
+                  </Alert>
                 </Box>
               )}
               {!canEnroll && !canJoin && isRecorded && (
@@ -879,7 +887,7 @@ const EventDetails = () => {
             >
               {detailData.description}
             </Box>
-            <Box className="lg-hide">
+            <Box className="lg-hide ml-20">
               <FacebookShareButton url={shareUrl} className="pr-5">
                 <FacebookIcon size={32} round={true} />
               </FacebookShareButton>
