@@ -111,19 +111,19 @@ const EventList = (props) => {
   useEffect(() => {
     fetchAllData();
   }, [subDomainFilter, endDateFilter, startDateFilter]);
-  useEffect(()=>{
+  useEffect(() => {
     fetchAllData();
-  },[currentPage])
+  }, [currentPage]);
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
   };
 
- const handlePageChange = (event, newValue) => {
+  const handlePageChange = (event, newValue) => {
     setCurrentPage(newValue);
   };
   const handleCardClick = (identifier) => {
-    navigate(`/webapp/eventDetails/${identifier}`);
+    navigate(`/webapp/eventDetails?${identifier}`);
   };
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
@@ -145,10 +145,9 @@ const EventList = (props) => {
   const [value, setValue] = React.useState("1");
   const startDate =
     {
-       ">=": startDateFilter,
-        "<=": endDateFilter,
+      ">=": startDateFilter,
+      "<=": endDateFilter,
     } || [];
-  
 
   const fetchAllData = async () => {
     let filters = {};
@@ -212,7 +211,7 @@ const EventList = (props) => {
         filters: filters,
         limit: 10,
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
-        offset: 10 * (currentPage-1),
+        offset: 10 * (currentPage - 1),
       },
     });
 
@@ -442,14 +441,12 @@ const EventList = (props) => {
                           )}
                         </Grid>
                         <Pagination
-                      count={totalPages}
-                      page={currentPage}
-                      onChange={handlePageChange}
-                    />
+                          count={totalPages}
+                          page={currentPage}
+                          onChange={handlePageChange}
+                        />
                       </TabPanel>
                     </TabContext>
-
-                    
                   </div>
                 ) : (
                   <NoResult /> // Render NoResult component when there are no search results
