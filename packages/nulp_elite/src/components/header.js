@@ -76,7 +76,7 @@ function Header({ globalSearchQuery }) {
   }, [location.pathname]);
 
   const onGlobalSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
@@ -130,9 +130,12 @@ function Header({ globalSearchQuery }) {
   }, []);
   return (
     <>
-      <Box className={scrolled ? " scrolled" : ""}>
+      <Box className={scrolled ? " scrolledTop" : ""}>
         {/* Sidebar Navigation */}
-        <Box className="d-flex jc-en pr-20" sx={{ background: "#484848" }}>
+        <Box
+          className="d-flex jc-en pr-20 xs-hide"
+          sx={{ background: "#484848" }}
+        >
           <Box className="d-flex alignItems-center">
             <Link href="#" underline="none" className="font-sizer">
               {" "}
@@ -176,8 +179,8 @@ function Header({ globalSearchQuery }) {
             </FormControl>
           </Box>
         </Box>
-        <Box className="xs-hide d-flex pos-fixed  bg-white jc-bw">
-          <Box className="d-flex alignItems-center ">
+        <Box className="xs-hide d-flex pos-fixed  bg-white">
+          <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
               className="pl-0 py-15 d-flex"
@@ -305,7 +308,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <HomeOutlinedIcon
-                  style={{ padding: "0 5px 0 0", verticalAlign: "bottom" }}
+                  style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
                 {t("HOME")}
               </Link>
@@ -323,7 +326,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0 5px", verticalAlign: "bottom" }}
+                  style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
                 {t("CONTENT")}
               </Link>
@@ -338,7 +341,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <ChatOutlinedIcon
-                  style={{ padding: "0 10px", verticalAlign: "bottom" }}
+                  style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
                 {t("CONNECTIONS")}
               </Link>
@@ -352,21 +355,13 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <VideocamOutlinedIcon
-                  style={{ padding: "0 5px 0 0", verticalAlign: "bottom" }}
+                  style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
-                {t("WEBINAR")}
+                {t("EVENTS")}
               </Link>
-              <Link
-                href={routeConfig.ROUTES.EVENTS.EVENT_LIST}
-                className={
-                  activePath === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
-                    ? "Menuactive"
-                    : "headerMenu"
-                }
-                underline="none"
-              >
+              <Link href="" className="headerMenu" underline="none">
                 <Groups2OutlinedIcon
-                  style={{ padding: "0 5px 0 0", verticalAlign: "bottom" }}
+                  style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
                 {t("Discussions")}
               </Link>

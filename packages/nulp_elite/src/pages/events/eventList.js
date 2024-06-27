@@ -94,6 +94,7 @@ const EventList = (props) => {
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
   const [valueTab, setValueTab] = React.useState("2");
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -110,19 +111,16 @@ const EventList = (props) => {
   useEffect(() => {
     fetchAllData();
   }, [subDomainFilter, endDateFilter, startDateFilter]);
+  useEffect(()=>{
+    fetchAllData();
+  },[currentPage])
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
   };
 
-  const handleChange = (event, value) => {
-    if (value !== pageNumber) {
-      setPageNumber(value);
-      setCurrentPage(value);
-      setData({});
-      navigate(`/contentList/${value}`, { state: { domain: domain } });
-      fetchAllData();
-    }
+ const handlePageChange = (event, newValue) => {
+    setCurrentPage(newValue);
   };
   const handleCardClick = (identifier) => {
     navigate(`/webapp/eventDetails/${identifier}`);
@@ -214,7 +212,7 @@ const EventList = (props) => {
         filters: filters,
         limit: 10,
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
-        offset: 0,
+        offset: 10 * (currentPage-1),
       },
     });
 
@@ -230,6 +228,7 @@ const EventList = (props) => {
       const response = await getAllContents(url, data, headers);
       console.log("All Event ----", response.data.result.Event);
       setData(response.data.result.Event);
+      setTotalPages(Math.ceil(response.data.result.count / 10));
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
@@ -442,14 +441,15 @@ const EventList = (props) => {
                             <NoResult className="center-box" />
                           )}
                         </Grid>
+                        <Pagination
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={handlePageChange}
+                    />
                       </TabPanel>
                     </TabContext>
 
-                    <Pagination
-                      count={totalPages}
-                      page={pageNumber}
-                      onChange={handleChange}
-                    />
+                    
                   </div>
                 ) : (
                   <NoResult /> // Render NoResult component when there are no search results

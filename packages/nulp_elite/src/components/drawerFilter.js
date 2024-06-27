@@ -329,7 +329,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           </div>
         </Box>
       ) : (
-        <Box className="header-bg-blue p-15 filter-bx w-100">
+        <Box className="header-bg-blue p-15 filter-bx">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
             <Box className="filter-title">Filter By:</Box>
             <Button

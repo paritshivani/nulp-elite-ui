@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { makeStyles } from "@mui/styles";
 import {
   TextField,
@@ -9,6 +9,9 @@ import {
   DialogContent,
   DialogActions,
   TextareaAutosize,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import * as util from "../../services/utilService";
@@ -33,6 +36,7 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 const moment = require("moment");
 const timezone = require("moment-timezone");
 import Picker from "emoji-picker-react";
+const routeConfig = require("../../configs/routeConfig.json");
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
     display: "flex",
@@ -113,7 +117,7 @@ const Chat = ({
   const [toasterMessage, setToasterMessage] = useState("");
   const [receiverData, setReceiverData] = useState([]);
   const [prefilledMessage, setPrefilledMessage] = useState(
-    "Hello, I would like to connect with you regarding some queries i had in your course."
+    "Hello, I would like to connect with you regarding some queries I have about your course."
   );
   const [textValue, setTextValue] = useState("");
 
@@ -129,7 +133,50 @@ const Chat = ({
 
   const { t } = useTranslation();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const reasons = [
+    "Spam",
+    "Inappropriate Content",
+    "Harassment",
+    "Abusive Behavior",
+    "Other",
+  ];
+  const [customReason, setCustomReason] = useState("");
+  const [activePath, setActivePath] = useState(location.pathname);
+  const emojiPickerRef = useRef(null);
 
+  useEffect(() => {
+    setActivePath(location.pathname);
+  }, [location.pathname]);
+  const handleClickOutside = (event) => {
+    if (
+      emojiPickerRef.current &&
+      !emojiPickerRef.current.contains(event.target)
+    ) {
+      setShowEmojiPicker(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleReasonChange = (event) => {
+    const selectedReason = event.target.value;
+    setReason(selectedReason);
+    if (selectedReason !== "Other") {
+      setCustomReason("");
+    }
+  };
+  const handleConfirm = () => {
+    if (reason === "Other") {
+      handleBlockUserConfirmed(customReason);
+    } else {
+      handleBlockUserConfirmed(reason);
+    }
+  };
   useEffect(() => {
     setLoggedInUserId(_userId);
     if (receiverUserId) {
@@ -273,7 +320,7 @@ const Chat = ({
           setMessages(response.data.result || []);
           if (!response.data.result.length > 0) {
             setTextValue(
-              "Hello, I would like to connect with you regarding some queries i had in your course."
+              "Hello, I would like to connect with you regarding some queries I have about your course."
             );
           }
         }
@@ -307,8 +354,14 @@ const Chat = ({
         setMessage("");
         setTextValue("");
         if (!messages.length > 0) {
-          navigate(-1);
-          window.location.reload();
+          if (
+            isMobile &&
+            activePath === `${routeConfig.ROUTES.ADDCONNECTION_PAGE.CHAT}`
+          ) {
+            navigate(routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION);
+          } else {
+            window.location.reload();
+          }
           if (onChatSent) {
             onChatSent();
           }
@@ -422,7 +475,7 @@ const Chat = ({
     }
   };
 
-  const handleBlockUserConfirmed = async () => {
+  const handleBlockUserConfirmed = async (reason) => {
     try {
       const url = `${urlConfig.URLS.DIRECT_CONNECT.BLOCK}`;
       console.log("Blocking User");
@@ -529,15 +582,8 @@ const Chat = ({
             </Box>
           )}
         </div>
-        <Dialog
-          // open={open}
-          // onClose={handleClose}
-
-          open={dialogOpen}
-          onClose={handleDialogClose}
-        >
+        <Dialog open={dialogOpen} onClose={handleDialogClose}>
           <DialogTitle>
-            {" "}
             <Box className="h3-title">{t("BLOCK_USER")}</Box>
           </DialogTitle>
           <DialogContent>
@@ -546,6 +592,7 @@ const Chat = ({
             </Box>
             <Box py={2}>
               <TextField
+                select
                 id="reason"
                 name="reason"
                 label={
@@ -554,28 +601,54 @@ const Chat = ({
                     <span style={{ color: "red", marginLeft: "2px" }}>*</span>
                   </span>
                 }
-                multiline
-                rows={3}
                 variant="outlined"
                 fullWidth
                 value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
-            </Box>{" "}
+                onChange={handleReasonChange}
+              >
+                {reasons.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {reason === "Other" && (
+                <TextField
+                  id="customReason"
+                  name="customReason"
+                  label={
+                    <span>
+                      {t("PLEASE_SPECIFY")}
+                      <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                    </span>
+                  }
+                  multiline
+                  rows={3}
+                  variant="outlined"
+                  fullWidth
+                  value={customReason}
+                  onChange={(e) => setCustomReason(e.target.value)}
+                  style={{ marginTop: "16px" }}
+                />
+              )}
+            </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDialogClose} className="custom-btn-default">
-              {"CANCEL"}
+              {t("CANCEL")}
             </Button>
             <Button
-              onClick={handleBlockUserConfirmed}
+              onClick={handleConfirm}
               className="custom-btn-primary"
-              disabled={!reason}
+              disabled={!reason || (reason === "Other" && !customReason)}
               style={{
-                background: !reason ? "rgba(0, 67, 103, 0.5)" : "#004367",
+                background:
+                  !reason || (reason === "Other" && !customReason)
+                    ? "rgba(0, 67, 103, 0.5)"
+                    : "#004367",
               }}
             >
-              {"BLOCK"}
+              {t("BLOCK")}
             </Button>
           </DialogActions>
         </Dialog>
@@ -696,6 +769,7 @@ const Chat = ({
             <div className="d-flex sendMessag" style={{ position: "relative" }}>
               {showEmojiPicker && (
                 <div
+                  ref={emojiPickerRef}
                   style={{
                     position: "absolute",
                     bottom: "50px",

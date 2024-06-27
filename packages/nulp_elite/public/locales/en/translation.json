@@ -201,7 +201,7 @@
   "NULP_ASSIST": "NULP Assist",
   "EXPLORE": " Explore",
   "CONTENT_TAGS": "Content Tags",
-  "CERT_ISSUED_SCORE": "Certificate Issued Score",
+  "CERT_ISSUED_SCORE": "The certificate will be issued if you score greater than or equal to",
   "OR_GREATER": "Or greater",
   "REQUEST_SENT": "Request Sent",
   "START_A_CONVERSATION": "Start a conversation!",
@@ -209,9 +209,9 @@
   "REASON": "Reason",
   "SYSTEM_GENERATED_MESSAGE": "This is an auto-generated message, click to edit.",
   "ALL_CONTENT": "All Content",
-  "COMPLETION_CERTIFICATE_ISSUED": "Completion certificate issued",
+  "COMPLETION_CERTIFICATE_ISSUED": "The completion certificate will be issued upon 100% completion",
   "COMPLETION": "Completion",
-  "ASSESSMENT": "Assesment",
+  "ASSESSMENT": "in your assessment",
   "ENROLLED_ON": "Enrolled On",
   "BACK_TO_LEARNNG": "Back to Learning",
   "USER_PREFERENCES": "User Preferences",
@@ -231,5 +231,6 @@
   "ATTEND_WEBINAR": "Attend Webinar",
   "UN_REGISTER_WEBINAR": "Un-register from Webinar",
   "VIEW_WEBINAR_RECORDING": "View Webinar Recording",
-  "HOME": "Home"
+  "HOME": "Home",
+  "EVENTS": "Event"
 }

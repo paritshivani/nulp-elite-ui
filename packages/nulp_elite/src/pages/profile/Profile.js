@@ -46,8 +46,8 @@ import {
 import styled from "styled-components";
 import LearningHistory from "./learningHistory";
 import Certificate from "./certificate";
-import { BarChart } from "@mui/x-charts/BarChart";
-import { axisClasses } from "@mui/x-charts/ChartsAxis";
+// import { BarChart } from "@mui/x-charts/BarChart";
+// import { axisClasses } from "@mui/x-charts/ChartsAxis";
 
 const routeConfig = require("../../configs/routeConfig.json");
 
@@ -83,6 +83,9 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const MAX_FILE_SIZE_MB = 1;
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 1 MB in bytes
+const SUPPORTED_FILE_TYPES = ["image/jpeg", "image/png"];
 
 const Profile = () => {
   const [value, setValue] = useState("1");
@@ -122,37 +125,42 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   // for bar charts
-  const [layout, setLayout] = React.useState("vertical");
-  const dataset = [
-    [3, -7, "0"],
-    [0, -5, "1"],
-  ].map(([high, low, order]) => ({
-    high,
-    low,
-    order,
-  }));
-  const chartSettingsH = {
-    dataset,
-    height: 300,
-    yAxis: [{ scaleType: "band", dataKey: "order" }],
-    sx: {
-      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-        transform: "translateX(-10px)",
-      },
-    },
-    slotProps: {
-      legend: {
-        direction: "row",
-        position: { vertical: "bottom", horizontal: "middle" },
-        padding: -5,
-      },
-    },
-  };
-  const chartSettingsV = {
-    ...chartSettingsH,
-    xAxis: [{ scaleType: "band", dataKey: "order" }],
-    yAxis: undefined,
-  };
+  // const [layout, setLayout] = React.useState("vertical");
+  // const dataset = [
+  //   [3, -7, "0"],
+  //   [0, -5, "1"],
+  // ].map(([high, low, order]) => ({
+  //   high,
+  //   low,
+  //   order,
+  // }));
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
+  // };
+  // const chartSettingsV = {
+  //   ...chartSettingsH,
+  //   xAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   yAxis: undefined,
+  // };
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [fileError, setFileError] = useState("");
+  const [fileUploadMessage, setFileUploadMessage] = useState("");
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -432,6 +440,65 @@ const Profile = () => {
     window.location.reload();
   };
 
+  const validateFile = (file) => {
+    if (file.size > MAX_FILE_SIZE) {
+      setFileError(`File size cannot be more than ${MAX_FILE_SIZE_MB} MB`);
+      return false;
+    }
+    if (!SUPPORTED_FILE_TYPES.includes(file.type)) {
+      setFileError("Only JPEG and PNG files are supported");
+      return false;
+    }
+    setFileError("");
+    return true;
+  };
+  const handleFileChangeWithValidation = (e) => {
+    const file = e.target.files[0];
+    if (file && validateFile(file)) {
+      handleFileChange(e);
+    } else {
+      // Clear the file input if validation fails
+      e.target.value = null;
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleImageUpload = async () => {
+    if (!selectedFile) {
+      showErrorMessage("No file selected.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("userId", _userId);
+
+    try {
+      const url = `${urlConfig.URLS.POFILE_PAGE.UPLOAD_IMAGE}`;
+      await axios.post(url, formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setFileUploadMessage("Image uploaded successfully.");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      showErrorMessage(t("FAILED_TO_UPLOAD_IMAGE"));
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -504,7 +571,10 @@ const Profile = () => {
                             </Typography>
                           </Box>
 
-                          <ModeEditIcon onClick={handleOpenEditDialog} />
+                          <ModeEditIcon
+                            className="cursor-pointer"
+                            onClick={handleOpenEditDialog}
+                          />
                         </Box>
                       </>
                     )}
@@ -544,7 +614,7 @@ const Profile = () => {
 
                   <Grid container spacing={2}>
                     <Grid item xs={3} md={12}>
-                      <BarChart
+                      {/* <BarChart
                         xAxis={[{ scaleType: "band", data: ["certificate"] }]}
                         series={[
                           {
@@ -561,7 +631,7 @@ const Profile = () => {
                         ]}
                         width={394}
                         height={210}
-                      />
+                      /> */}
                       {/* {certData &&
                         certData.certificatesReceived &&
                         certData.totalCourses && (
@@ -586,7 +656,7 @@ const Profile = () => {
                       </Typography>
                     </Grid> */}
                     <Grid item xs={3} md={12}>
-                      <BarChart
+                      {/* <BarChart
                         xAxis={[{ scaleType: "band", data: ["courses"] }]}
                         series={[
                           {
@@ -603,7 +673,7 @@ const Profile = () => {
                         ]}
                         width={394}
                         height={210}
-                      />
+                      /> */}
                       {/* {certData &&
                         certData.certificatesReceived &&
                         certData.totalCourses && (
@@ -639,8 +709,6 @@ const Profile = () => {
 
                 {isEditing && (
                   <Modal
-                    // open={open}
-                    // onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                     className="xs-w-300"
@@ -770,7 +838,81 @@ const Profile = () => {
                             /{MAX_CHARS}
                           </Typography>
                         </Box>
+                        <Typography className="h4-title">
+                          {t("Profile image")}
+                        </Typography>
+                        <Box
+                          py={1}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Box sx={{ flex: "0 0 auto" }}>
+                            {previewUrl && (
+                              <img
+                                src={previewUrl}
+                                alt="Profile"
+                                style={{
+                                  width: "80px",
+                                  height: "80px",
+                                  borderRadius: "50%",
+                                  marginRight: "20px",
+                                }}
+                              />
+                            )}
+                          </Box>
+                          <Box
+                            sx={{
+                              flex: "1 1 auto",
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              fullWidth
+                              sx={{ mt: 2 }}
+                              className="custom-btn-default mr-5"
+                            >
+                              {t("Select image")}
+                              <input
+                                type="file"
+                                hidden
+                                onChange={handleFileChangeWithValidation}
+                              />
+                            </Button>
+                            {fileError && (
+                              <Typography variant="caption" color="error">
+                                {fileError}
+                              </Typography>
+                            )}
+                            {fileUploadMessage && (
+                              <Typography
+                                variant="caption"
+                                style={{
+                                  color: "green",
+                                }}
+                              >
+                                {fileUploadMessage}
+                              </Typography>
+                            )}
 
+                            {selectedFile && (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleImageUpload}
+                                fullWidth
+                                sx={{ mt: 2 }}
+                                className="custom-btn-primary"
+                              >
+                                {t("upload")}
+                              </Button>
+                            )}
+                          </Box>
+                        </Box>
                         <Box pt={4} className="d-flex jc-en">
                           <Button
                             className="custom-btn-default mr-5"
