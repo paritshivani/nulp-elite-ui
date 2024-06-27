@@ -111,19 +111,19 @@ const EventList = (props) => {
   useEffect(() => {
     fetchAllData();
   }, [subDomainFilter, endDateFilter, startDateFilter,searchQuery]);
-  useEffect(()=>{
+  useEffect(() => {
     fetchAllData();
-  },[currentPage])
+  }, [currentPage]);
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
   };
 
- const handlePageChange = (event, newValue) => {
+  const handlePageChange = (event, newValue) => {
     setCurrentPage(newValue);
   };
   const handleCardClick = (identifier) => {
-    navigate(`/webapp/eventDetails/${identifier}`);
+    navigate(`/webapp/eventDetails?${identifier}`);
   };
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
@@ -145,10 +145,9 @@ const EventList = (props) => {
   const [value, setValue] = React.useState("1");
   const startDate =
     {
-       ">=": startDateFilter,
-        "<=": endDateFilter,
+      ">=": startDateFilter,
+      "<=": endDateFilter,
     } || [];
-  
 
   const fetchAllData = async () => {
     console.log("search query--------",searchQuery);
@@ -215,19 +214,18 @@ const EventList = (props) => {
         limit: 10,
         query: searchQuery ? searchQuery : "",
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
-        offset: 10 * (currentPage-1),
+        offset: 10 * (currentPage - 1),
       },
     });
 
     const headers = {
+      withCredentials: true,
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
     };
     // console.log(data.result.content)
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
       const response = await getAllContents(url, data, headers);
       console.log("All Event ----", response.data.result.Event);
       setData(response.data.result.Event);
@@ -445,14 +443,12 @@ const EventList = (props) => {
                           )}
                         </Grid>
                         <Pagination
-                      count={totalPages}
-                      page={currentPage}
-                      onChange={handlePageChange}
-                    />
+                          count={totalPages}
+                          page={currentPage}
+                          onChange={handlePageChange}
+                        />
                       </TabPanel>
                     </TabContext>
-
-                    
                   </div>
                 ) : (
                   <NoResult /> // Render NoResult component when there are no search results
