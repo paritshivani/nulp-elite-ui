@@ -46,6 +46,9 @@ import {
 import styled from "styled-components";
 import LearningHistory from "./learningHistory";
 import Certificate from "./certificate";
+// import { BarChart } from "@mui/x-charts/BarChart";
+// import { axisClasses } from "@mui/x-charts/ChartsAxis";
+
 const routeConfig = require("../../configs/routeConfig.json");
 
 const DELAY = 1500;
@@ -121,6 +124,38 @@ const Profile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  // for bar charts
+  // const [layout, setLayout] = React.useState("vertical");
+  // const dataset = [
+  //   [3, -7, "0"],
+  //   [0, -5, "1"],
+  // ].map(([high, low, order]) => ({
+  //   high,
+  //   low,
+  //   order,
+  // }));
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
+  // };
+  // const chartSettingsV = {
+  //   ...chartSettingsH,
+  //   xAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   yAxis: undefined,
+  // };
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [fileError, setFileError] = useState("");
@@ -536,7 +571,10 @@ const Profile = () => {
                             </Typography>
                           </Box>
 
-                          <ModeEditIcon onClick={handleOpenEditDialog} />
+                          <ModeEditIcon
+                            className="cursor-pointer"
+                            onClick={handleOpenEditDialog}
+                          />
                         </Box>
                       </>
                     )}
@@ -575,14 +613,26 @@ const Profile = () => {
                   </Box>
 
                   <Grid container spacing={2}>
-                    <Grid
-                      item
-                      xs={3}
-                      md={3}
-                      className="circular"
-                      style={{ paddingRight: "0", textAlign: "center" }}
-                    >
-                      {certData &&
+                    <Grid item xs={3} md={12}>
+                      {/* <BarChart
+                        xAxis={[{ scaleType: "band", data: ["certificate"] }]}
+                        series={[
+                          {
+                            data: [4],
+                            stack: "A",
+                            label: "No.of courses with certificate",
+                          },
+
+                          {
+                            data: [2],
+                            stack: "B",
+                            label: "certficate received",
+                          },
+                        ]}
+                        width={394}
+                        height={210}
+                      /> */}
+                      {/* {certData &&
                         certData.certificatesReceived &&
                         certData.totalCourses && (
                           <CircularProgressWithLabel
@@ -591,9 +641,9 @@ const Profile = () => {
                             className="circular"
                             style={{ width: "80px", height: "80px" }}
                           />
-                        )}
+                        )} */}
                     </Grid>
-                    <Grid item xs={3} md={3} className="circular">
+                    {/* <Grid item xs={3} md={3} className="circular">
                       <Typography
                         style={{
                           margin: "9px 10px 9px 0",
@@ -604,24 +654,38 @@ const Profile = () => {
                       >
                         {t("CERTIFICATIONS_RECEIVED")}
                       </Typography>
+                    </Grid> */}
+                    <Grid item xs={3} md={12}>
+                      {/* <BarChart
+                        xAxis={[{ scaleType: "band", data: ["courses"] }]}
+                        series={[
+                          {
+                            data: [3],
+                            stack: "A",
+                            label: "Enrolled courses prev month",
+                          },
+
+                          {
+                            data: [1],
+                            stack: "B",
+                            label: "Enrolled courses current month",
+                          },
+                        ]}
+                        width={394}
+                        height={210}
+                      /> */}
+                      {/* {certData &&
+                        certData.certificatesReceived &&
+                        certData.totalCourses && (
+                          <CircularProgressWithLabel
+                            received={certData.certificatesReceived}
+                            total={certData.totalCourses}
+                            className="circular"
+                            style={{ width: "80px", height: "80px" }}
+                          />
+                        )} */}
                     </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      md={3}
-                      className="circularBlue"
-                      style={{ paddingRight: "0", textAlign: "center" }}
-                    >
-                      {courseData && (
-                        <CircularProgressWithLabel
-                          received={courseData.enrolledThisMonth}
-                          total={courseData.enrolledLastMonth}
-                          className="circular"
-                          style={{ width: "80px", height: "80px" }}
-                        />
-                      )}
-                    </Grid>
-                    <Grid item xs={4} md={3}>
+                    {/* <Grid item xs={4} md={3}>
                       <Typography
                         variant="h7"
                         style={{
@@ -639,7 +703,7 @@ const Profile = () => {
                           {t("LAST_MONTH")}
                         </span>
                       </Typography>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Box>
 
