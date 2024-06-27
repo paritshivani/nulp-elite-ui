@@ -84,11 +84,12 @@ const EventDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.READ}/${eventId}`;
+        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.EVENT.READ}/${eventId}`;
         const response = await fetch(url, {
-          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
           },
         });
         if (!response.ok) {
