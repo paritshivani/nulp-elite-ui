@@ -14,6 +14,7 @@ import * as util from "../../services/utilService";
 import Filter from "components/filter";
 import NoResult from "pages/content/noResultFound";
 import Alert from "@mui/material/Alert";
+import Pagination from "@mui/material/Pagination";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
@@ -28,6 +29,8 @@ const LearningHistory = () => {
   const [error, setError] = useState(null);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Number of items per page
   const navigate = useNavigate();
 
   const showErrorMessage = (msg) => {
@@ -64,9 +67,21 @@ const LearningHistory = () => {
   const handleFilterChange = (selectedOptions) => {
     console.log("Selected filter options:", selectedOptions); // Debug: Check selected filter options
     setSelectedStatus(selectedOptions);
+    setCurrentPage(1); // Reset to first page when filters change
   };
 
-  const filteredCourses = courseData?.result?.courses?.filter((course) => {
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  // Paginate the course data first
+  const paginatedCourseData = courseData?.result?.courses?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Then apply filters on the paginated data
+  const filteredCourses = paginatedCourseData?.filter((course) => {
     if (selectedStatus.length > 0) {
       const selectedValues = selectedStatus.map((option) => option.value);
       return selectedValues.includes(course.status);
@@ -80,7 +95,7 @@ const LearningHistory = () => {
       <Container
         role="main"
         maxWidth="xl"
-        className=" filter-profile profile allContentProfile cardheight  profile-card"
+        className="filter-profile profile allContentProfile cardheight  profile-card"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -121,6 +136,11 @@ const LearningHistory = () => {
               <div className="blankCard"></div>
             </Box>
           </Box>
+          <Pagination
+            count={Math.ceil(courseData?.result?.courses?.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
         </Box>
       </Container>
       <FloatingChatIcon />
@@ -128,4 +148,5 @@ const LearningHistory = () => {
     </div>
   );
 };
+
 export default LearningHistory;
