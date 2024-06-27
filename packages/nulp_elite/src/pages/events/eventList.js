@@ -216,14 +216,13 @@ const EventList = (props) => {
     });
 
     const headers = {
+      withCredentials: true,
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
     };
     // console.log(data.result.content)
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
       const response = await getAllContents(url, data, headers);
       console.log("All Event ----", response.data.result.Event);
       setData(response.data.result.Event);
