@@ -175,9 +175,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path:
-        routeConfig.ROUTES.EVENTS.EVENT_DETAILS +
-        routeConfig.ROUTES.EVENTS.EVENT_ID,
+      path: routeConfig.ROUTES.EVENTS.EVENT_DETAILS,
       component: EventDetails,
     },
     {

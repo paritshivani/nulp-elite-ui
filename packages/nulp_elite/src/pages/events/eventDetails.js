@@ -40,7 +40,10 @@ import AddConnections from "pages/connections/AddConnections";
 import { Button } from "native-base";
 import { maxWidth } from "@shiksha/common-lib";
 const EventDetails = () => {
-  const { eventId } = useParams();
+  // const { eventId } = useParams();
+  const location = useLocation();
+  const queryString = location.search;
+  const eventId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
   const _userId = util.userId();
 
   const shareUrl = window.location.href; // Current page URL
@@ -193,7 +196,7 @@ const EventDetails = () => {
       setUserCourseData(data.result.courses);
       if (data.result.courses.length > 0) {
         data.result.courses.map((event) => {
-          if (event.identifier === detailData.identifier) {
+          if (event?.identifier === detailData?.identifier) {
             setIsEnrolled(true);
           }
         });

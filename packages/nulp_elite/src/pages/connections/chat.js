@@ -314,11 +314,24 @@ const Chat = ({
 
         // Check if the user is not blocked before fetching chats
         if (!isBlocked) {
-          const response = await axios.get(url, {
-            withCredentials: true,
-          });
+          let attempts = 0;
+          const maxAttempts = 2;
+          let response;
+
+          // Retry fetching chats until data is received or max attempts reached
+          while (attempts < maxAttempts) {
+            response = await axios.get(url, { withCredentials: true });
+            if (response.data.result.length > 0) {
+              break; // Exit loop if data is received
+            }
+
+            attempts++;
+            await new Promise((res) => setTimeout(res, 1000)); // Wait 1 second before retrying
+          }
+
           setMessages(response.data.result || []);
-          if (!response.data.result.length > 0) {
+
+          if (response.data.result.length === 0) {
             setTextValue(
               "Hello, I would like to connect with you regarding some queries I have about your course."
             );
