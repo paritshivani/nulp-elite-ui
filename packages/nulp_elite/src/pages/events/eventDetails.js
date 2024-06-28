@@ -566,7 +566,7 @@ const EventDetails = () => {
                       type="button"
                       className="custom-btn-success"
                       style={{
-                        borderRadius: "30px",
+                        borderRadius: "10px",
                         color: "#fff",
                         padding: "10px 35px",
                         fontWeight: "500",
@@ -594,7 +594,7 @@ const EventDetails = () => {
                     type="button"
                     onClick={attendWebinar}
                     style={{
-                      borderRadius: "30px",
+                      borderRadius: "10px",
                       color: "#fff",
                       padding: "10px 35px",
                       fontWeight: "500",
@@ -611,7 +611,7 @@ const EventDetails = () => {
                     <Button
                       type="button"
                       style={{
-                        borderRadius: "30px",
+                        borderRadius: "10px",
                         color: "#fff",
                         padding: "10px 35px",
                         fontWeight: "500",
@@ -647,13 +647,13 @@ const EventDetails = () => {
                     type="button"
                     className="custom-btn-success"
                     style={{
-                      borderRadius: "30px",
+                      borderRadius: "10px",
                       color: "#fff",
                       padding: "10px 35px",
                       fontWeight: "500",
                       fontSize: "12px",
-                      border: "solid 1px #1976d2",
-                      background: "#1976d2",
+                      border: "solid 1px #0e7a9c",
+                      background: "#0e7a9c",
                       marginTop: "10px",
                     }}
                     startIcon={<AdjustOutlinedIcon />}
@@ -715,7 +715,7 @@ const EventDetails = () => {
                       type="button"
                       className="custom-btn-success mb-20"
                       style={{
-                        borderRadius: "30px",
+                        borderRadius: "10px",
                         color: "#fff",
                         padding: "10px 35px",
                         fontWeight: "500",
@@ -744,7 +744,7 @@ const EventDetails = () => {
                     type="button"
                     onClick={attendWebinar}
                     style={{
-                      borderRadius: "30px",
+                      borderRadius: "10px",
                       color: "#fff",
                       padding: "10px 35px",
                       fontWeight: "500",
@@ -761,7 +761,7 @@ const EventDetails = () => {
                     <Button
                       type="button"
                       style={{
-                        borderRadius: "30px",
+                        borderRadius: "10px",
                         color: "#fff",
                         padding: "10px 35px",
                         fontWeight: "500",
@@ -796,7 +796,7 @@ const EventDetails = () => {
                     type="button"
                     className="custom-btn-success"
                     style={{
-                      borderRadius: "30px",
+                      borderRadius: "10px",
                       color: "#fff",
                       padding: "10px 35px",
                       fontWeight: "500",

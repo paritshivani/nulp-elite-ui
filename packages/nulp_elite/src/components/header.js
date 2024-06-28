@@ -184,23 +184,15 @@ function Header({ globalSearchQuery }) {
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
               className="pl-0 py-15 d-flex"
+              style={{ width: "190px" }}
             >
               <img
                 src={require("../assets/logo.png")}
                 style={{ maxWidth: "100%" }}
-                className="lg-w-75  logo"
+                className="logo"
               />
             </Link>
-            <Link
-              href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-              className="pl-0 py-15 d-flex"
-            >
-              <img
-                style={{ maxWidth: "100%" }}
-                className="lg-w-75  logo"
-                src={require("../assets/mohua.png")}
-              />
-            </Link>
+
             <Box
               className="xs-hide d-flex explore explore-text"
               style={{

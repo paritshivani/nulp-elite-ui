@@ -96,7 +96,7 @@ export default function Footer() {
               onClick={() =>
                 navigate(routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST)
               }
-              label={t("SEARCH")}
+              label={t("HOME")}
               icon={<SearchSharpIcon />}
               className={
                 location.pathname ===

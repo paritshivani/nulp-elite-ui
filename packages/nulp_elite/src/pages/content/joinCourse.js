@@ -725,6 +725,12 @@ const JoinCourse = () => {
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
+        <Box
+          style={{ backgroundUrl: "./../assets/dummyCardImgs/Management.png" }}
+        >
+          <Box> {userData?.result?.content?.name}</Box>
+          <Box> {userData?.result?.content?.description}</Box>
+        </Box>
         <Grid container spacing={2}>
           <Grid
             item
