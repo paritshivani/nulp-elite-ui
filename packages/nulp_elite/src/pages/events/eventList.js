@@ -110,7 +110,7 @@ const EventList = (props) => {
   }, []);
   useEffect(() => {
     fetchAllData();
-  }, [subDomainFilter, endDateFilter, startDateFilter]);
+  }, [subDomainFilter, endDateFilter, startDateFilter,searchQuery]);
   useEffect(() => {
     fetchAllData();
   }, [currentPage]);
@@ -130,7 +130,7 @@ const EventList = (props) => {
     setStartDateFilter(selectedFilters.startDate);
     setEndDateFilter(selectedFilters.endDate);
     setSubDomainFilter(selectedFilters.subDomainFilter);
-    setSearchQuery(selectedFilters.searchQurery);
+    setSearchQuery(selectedFilters.eventSearch);
 
     fetchAllData();
   };
@@ -150,11 +150,13 @@ const EventList = (props) => {
     } || [];
 
   const fetchAllData = async () => {
+    console.log("search query--------",searchQuery);
+    console.log("selected Date----",startDateFilter,endDateFilter);
     let filters = {};
     if (searchQuery && domainfilter && subDomainFilter) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         gradeLevel: subDomainFilter,
         startDate: startDate,
@@ -162,14 +164,14 @@ const EventList = (props) => {
     } else if (searchQuery && domainfilter) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         startDate: startDate,
       };
     } else if (searchQuery && subDomainFilter) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         gradeLevel: subDomainFilter,
         startDate: startDate,
       };
@@ -195,7 +197,7 @@ const EventList = (props) => {
     } else if (searchQuery) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         startDate: startDate || {},
       };
     } else {
@@ -210,19 +212,21 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 10,
+        query: searchQuery ? searchQuery : "",
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 10 * (currentPage - 1),
       },
     });
 
     const headers = {
-      withCredentials: true,
       "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
     };
     // console.log(data.result.content)
 
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
       const response = await getAllContents(url, data, headers);
       console.log("All Event ----", response.data.result.Event);
       setData(response.data.result.Event);

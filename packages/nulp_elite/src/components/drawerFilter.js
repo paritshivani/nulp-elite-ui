@@ -52,9 +52,6 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       contentFilter: selectedContentType,
       subDomainFilter: selectedSubDomain,
     });
-    console.log("Start Date Filter", selectedStartDate);
-    console.log("End Date Filter", selectedEndDate);
-    console.log("Search Filter----", eventSearch);
   }, [
     selectedContentType,
     selectedSubDomain,
@@ -113,11 +110,11 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   };
 
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+    setEventSearch(event.target.value);
   };
 
   const handleSearch = () => {
-    setEventSearch(searchTerm);
+    setEventSearch(eventSearch);
   };
 
   const handleCheckboxChange = (event, item, filterType) => {
@@ -135,7 +132,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           prev.filter((i) => i !== item.item.code)
         );
       }
-    } else if (filterType === "searchTerm") {
+    } else if (filterType === "eventSearch") {
       setEventSearch(item);
     } else if (filterType === "startDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
@@ -329,7 +326,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           </div>
         </Box>
       ) : (
-        <Box className="header-bg-blue p-15 filter-bx w-100">
+        <Box className="header-bg-blue p-15 filter-bx">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
             <Box className="filter-title">Filter By:</Box>
             <Button
