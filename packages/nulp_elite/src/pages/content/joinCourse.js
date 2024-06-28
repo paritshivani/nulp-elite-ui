@@ -788,9 +788,10 @@ const JoinCourse = () => {
               {userData?.result?.content?.name}
             </Box>
 
-            {(courseData?.result?.content?.children[0]?.children[0]?.board ||
-              courseData?.result?.content?.children[0]?.children[0]
-                .gradeLevel?.[0]) && (
+            {(courseData?.result?.content?.board ||
+              courseData?.result?.content?.se_boards ||
+              courseData?.result?.content?.gradeLevel ||
+              courseData?.result?.content?.se_gradeLevels) && (
               <Box>
                 <Typography
                   variant="h7"
@@ -801,37 +802,72 @@ const JoinCourse = () => {
                   }}
                 >
                   {t("CONTENT_TAGS")}:
-                  <Button
-                    size="small"
-                    style={{
-                      color: "#424242",
-                      fontSize: "12px",
-                      margin: "0 10px",
-                    }}
-                    className="bg-blueShade3"
-                  >
-                    {
-                      courseData?.result?.content?.children[0]?.children[0]
-                        ?.board
-                    }
-                  </Button>
-                  <Button
-                    size="small"
-                    style={{
-                      color: "#424242",
-                      fontSize: "10px",
-                    }}
-                    className="bg-blueShade3"
-                  >
-                    {" "}
-                    {
-                      courseData?.result?.content?.children[0]?.children[0]
-                        .gradeLevel?.[0]
-                    }
-                  </Button>
+                  {courseData?.result?.content?.board &&
+                    courseData.result.content.board.map((item, index) => (
+                      <Button
+                        key={`board-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "12px",
+                          margin: "0 10px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.se_boards &&
+                    courseData.result.content.se_boards.map((item, index) => (
+                      <Button
+                        key={`se_boards-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "12px",
+                          margin: "0 10px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.gradeLevel &&
+                    courseData.result.content.gradeLevel.map((item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.se_gradeLevels &&
+                    courseData.result.content.se_gradeLevels.map(
+                      (item, index) => (
+                        <Button
+                          key={`se_gradeLevels-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px",
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      )
+                    )}
                 </Typography>
               </Box>
             )}
+
             <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
               style={{

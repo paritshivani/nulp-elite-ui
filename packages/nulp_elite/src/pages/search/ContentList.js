@@ -211,6 +211,7 @@ const ContentList = (props) => {
       setData({});
       navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?${value}`, {
         state: { domain: domain },
+        replace: true,
       });
       fetchData();
     }
@@ -313,9 +314,9 @@ const ContentList = (props) => {
     setCurrentPage(1);
     setData({});
     setDomainName(domainName);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
-      state: { domain: query },
-    });
+    // navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
+    //   state: { domain: query },
+    // });
   };
   const handleSearch = () => {
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {

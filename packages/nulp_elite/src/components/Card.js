@@ -194,23 +194,60 @@ export default function BoxCard({ items, index, onClick }) {
           <Box className="textLeft mb-15 d-flex">
             {(items.board || items.se_boards) && (
               <Tooltip
-                title={items.board || items.se_boards}
+                title={
+                  items.board
+                    ? items.board?.length > 1
+                      ? items.board?.join(", ")
+                      : items.board[0]
+                    : "" || items.se_boards
+                    ? items.se_boards?.length > 1
+                      ? items.se_boards?.join(", ")
+                      : items.se_boards[0]
+                    : ""
+                }
                 placement="top"
                 className="labelOne cardLabelEllips"
               >
-                <Button> {items.board || items.se_boards}</Button>
+                <Button>
+                  {items.board
+                    ? items.board.length === 1
+                      ? items.board[0]
+                      : `${items.board[0]} + ${items.board.length - 1}`
+                    : items.se_boards.length === 1
+                    ? items.se_boards[0]
+                    : `${items.se_boards[0]} + ${items.se_boards.length - 1}`}
+                </Button>
               </Tooltip>
-              // <Button type="button" size="small">
-              //   {items.board || items.se_boards}
-              // </Button>
             )}
             {(items.gradeLevel || items.se_gradeLevels) && (
               <Tooltip
-                title={items.gradeLevel || items.se_gradeLevels}
+                title={
+                  items.gradeLevel
+                    ? items.gradeLevel?.length > 1
+                      ? items.gradeLevel?.join(", ")
+                      : items.gradeLevel[0]
+                    : "" || items.se_gradeLevels
+                    ? items.se_gradeLevels?.length > 1
+                      ? items.se_gradeLevels?.join(", ")
+                      : items.se_gradeLevels[0]
+                    : ""
+                }
                 placement="top"
                 className="labeltwo cardLabelEllips"
               >
-                <Button> {items.gradeLevel || items.se_gradeLevels}</Button>
+                <Button>
+                  {items.gradeLevel
+                    ? items.gradeLevel.length === 1
+                      ? items.gradeLevel[0]
+                      : `${items.gradeLevel[0]} + ${
+                          items.gradeLevel.length - 1
+                        }`
+                    : items.se_gradeLevels.length === 1
+                    ? items.se_gradeLevels[0]
+                    : `${items.se_gradeLevels[0]} + ${
+                        items.se_gradeLevels.length - 1
+                      }`}
+                </Button>
               </Tooltip>
             )}
           </Box>
