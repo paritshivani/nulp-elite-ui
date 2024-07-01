@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 import InfoIcon from "@mui/icons-material/Info";
 import Tooltip from "@mui/material/Tooltip";
-
+const reasons = require("../../configs/blockReasons.json");
 const Chat = ({
   senderUserId: propSenderUserId,
   receiverUserId: propReceiverUserId,
@@ -136,32 +136,6 @@ const Chat = ({
 
   const { t } = useTranslation();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const reasons = [
-    {
-      option: "Harassment or Bullying",
-      description:
-        "Users engaging in harassment, bullying, or abusive behavior towards others can be blocked to maintain a safe and respectful environment.",
-    },
-    {
-      option: "Spam or Inappropriate Content",
-      description:
-        "Posting spam, malicious links, or inappropriate content (such as explicit images or hate speech) often results in being blocked.",
-    },
-    {
-      option: "Impersonation or Fake Profiles",
-      description:
-        "Users creating fake profiles or impersonating others to deceive or harm other users can be blocked to protect user identity and trust.",
-    },
-    {
-      option: "Threats or Dangerous Behaviour",
-      description:
-        "Making threats or promoting dangerous behavior, such as self-harm or violence, can result in immediate blocking to protect the well-being of the community.",
-    },
-    {
-      option: "Other",
-      description: "",
-    },
-  ];
   const [customReason, setCustomReason] = useState("");
   const [activePath, setActivePath] = useState(location.pathname);
   const emojiPickerRef = useRef(null);
