@@ -300,7 +300,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <HomeOutlinedIcon
-                  style={{ padding: "0 5px", verticalAlign: "middle" }}
+                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("HOME")}
               </Link>
@@ -318,7 +318,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0 5px", verticalAlign: "middle" }}
+                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("CONTENT")}
               </Link>
@@ -333,7 +333,7 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <ChatOutlinedIcon
-                  style={{ padding: "0 5px", verticalAlign: "middle" }}
+                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("CONNECTIONS")}
               </Link>
@@ -347,13 +347,13 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <VideocamOutlinedIcon
-                  style={{ padding: "0 5px", verticalAlign: "middle" }}
+                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("EVENTS")}
               </Link>
               <Link href="" className="headerMenu" underline="none">
                 <Groups2OutlinedIcon
-                  style={{ padding: "0 5px", verticalAlign: "middle" }}
+                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
                 />
                 {t("DISCUSSIONS")}
               </Link>
@@ -380,7 +380,7 @@ function Header({ globalSearchQuery }) {
                       <div
                         className="ellsp"
                         style={{
-                          maxWidth: "52px",
+                          maxWidth: "48px",
                           textAlign: "left",
                           paddingTop: "0",
                         }}
@@ -449,6 +449,7 @@ function Header({ globalSearchQuery }) {
                   justifyContent: "space-between",
                   background: "#fff",
                   width: "100%",
+                  marginLeft: "-4px",
                 }}
                 className="lg-hide lg-mt-10"
               >
@@ -465,7 +466,6 @@ function Header({ globalSearchQuery }) {
                     <SortOutlinedIcon />
                   </IconButton> */}
                   <Box
-                    className="xs-pl-5"
                     sx={{
                       display: { xs: "block", md: "none" },
                     }}

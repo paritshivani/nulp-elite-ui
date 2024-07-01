@@ -139,14 +139,15 @@ button {
 @media (min-width: 320px) {
   .domainHover {
     cursor: pointer;
-    margin: auto;
     display: block;
-    height: 40px;
+    height: 37px;
+    margin: auto;
+    margin-bottom: 10px;
   }
   .carousel-active-ui {
     border-radius: 10px;
     background: #fff;
-    padding: 5px 15px;
+    padding: 5px 0;
   }
   .carousel-active-ui img {
     filter: invert(68%) sepia(75%) saturate(1579%) hue-rotate(167deg)
@@ -274,8 +275,17 @@ button {
     max-width: 100% !important;
   } */
   .Menuactive .profile-text-circle {
-    background: #fff;
-    color: #0e7a9c;
+    background: #0e7a9c;
+    color: #fff;
+  }
+  .Menuactive.profile-btn {
+    align-items: center;
+    background: #fff !important;
+    border-radius: 5px !important;
+    color: #0e7a9c !important;
+    font-size: 14px !important;
+    padding: 5px !important;
+    text-align: center;
   }
   .height-none .MuiGrid-item {
     height: inherit !important;
@@ -568,7 +578,7 @@ button {
   }
   .logo {
     max-width: 100%;
-    width: 200px;
+    /* width: 200px; */
     padding-left: 0;
   }
   .allContent .cardBox {
@@ -832,6 +842,22 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .Menuactive.profile-btn {
+    align-items: center;
+    background: #0e7a9c !important;
+    border-radius: 5px !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    padding: 5px !important;
+    text-align: center;
+  }
+  .Menuactive .profile-text-circle {
+    background: #fff;
+    color: #0e7a9c;
+  }
+  .lg-ml-15 {
+    margin-left: -15px;
+  }
   .profile-text-circle {
     height: 24px;
     width: 24px;
@@ -2351,7 +2377,7 @@ header .MuiContainer-maxWidthLg {
   height: 42px !important;
 }
 .chartOne .MuiChartsLegend-row {
-  transform: translate(8px, 157px) !important;
+  transform: translate(8px, 253px) !important;
 }
 .chartOne .MuiBarElement-series-auto-generated-id-0 {
   transform: translate3d(50.4px, 50px, 0px) !important;
@@ -2369,28 +2395,38 @@ header .MuiContainer-maxWidthLg {
   transform: translate3d(49.6px, 105px, 0px) !important;
 }
 .chartTwo .MuiChartsLegend-row {
-  transform: translate(25px, 217px) !important;
+  transform: translate(25px, 250px) !important;
 }
-.chartOne .css-u9086j,
-.chartTwo .css-5ubp6v {
-  height: 172px !important;
-  width: 240px !important;
+.chartOne .css-j88ihe {
+  display: block;
+  height: 185px !important;
+  overflow: inherit;
+  width: 208px;
 }
-.chartOne .css-u9086j svg,
-.chartTwo .css-5ubp6v svg {
-  height: 200px !important;
+.chartTwo .css-j88ihe {
+  height: 169px !important;
+  width: 171px !important;
+  overflow: inherit;
+}
+.chartOne .css-j88ihe svg {
+  height: 164px;
+  overflow: inherit;
+}
+.chartTwo .css-j88ihe svg {
+  height: 160px;
+  overflow: inherit !important;
 }
 .contentdetail-bg {
   height: 138px !important;
   width: 100%;
   object-fit: cover;
-  filter: grayscale(70%);
+  filter: grayscale(20%);
   border-radius: 10px;
   box-shadow: 0 4px 4px 0 #00000040 !important;
 }
 .contentdetail-title {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
   color: #fff;
   font-size: 12px;
@@ -2398,10 +2434,16 @@ header .MuiContainer-maxWidthLg {
 }
 .contentdetail-desc {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 30px;
   color: #fff;
   width: 55%;
   font-size: 14px;
   text-shadow: 1px 1px 2px #666e70;
+}
+.carousel-bx.scrolled {
+  padding-top: 15px !important;
+}
+.my-class.carousel-active-ui .cursor-pointer {
+  width: 104px;
 }
