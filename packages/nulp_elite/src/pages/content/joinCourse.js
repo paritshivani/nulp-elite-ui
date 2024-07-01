@@ -368,7 +368,7 @@ const JoinCourse = () => {
           <Box>
             <Button
               onClick={handleLinkClick}
-              className="custom-btn-primary my-20 mr-5"
+              className="custom-btn-primary  mr-5"
             >
               {t("START_LEARNING")}
             </Button>
@@ -476,7 +476,7 @@ const JoinCourse = () => {
             onClick={handleJoinAndOpenModal}
             // onClick={handleOpenModal}
             disabled={isExpired} // Only disable if expired (not on last day)
-            className="custom-btn-primary my-20"
+            className="custom-btn-primary"
             style={{
               background: isExpired ? "#ccc" : "#004367",
             }}
@@ -727,24 +727,28 @@ const JoinCourse = () => {
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
-        <Box className="cardBox">
+        <Box className=" pos-relative xs-ml-15">
           <Box
-            style={{
-              backgroundImage: `url(require("./../assets/dummyCardImgs/abstract_03.svg"))`,
-              height: "200px",
-              width: "100%",
-            }}
+          // style={{
+          //   background: url(require("./../../assets/domainImgs/Water.png")),
+          //   height: "200px",
+          //   width: "100%",
+          // }}
           >
-            {/* <img src={speakerOne} alt="Speaker One" />
             <img
-              src={require("./../assets/speakerOne.png").default}
+              src={require("../../assets/dummyCardImgs/Education.png")}
               alt="Speaker One"
-            /> */}
-            <Box className="p-10 text-right">
+              className="contentdetail-bg"
+              style={{
+                height: "200px",
+                width: "100%",
+              }}
+            />
+            <Box className="p-10 text-right contentdetail-title">
               {" "}
               {userData?.result?.content?.name}
             </Box>
-            <Box className="p-10 text-right">
+            <Box className="p-10 text-right contentdetail-desc">
               {" "}
               {userData?.result?.content?.description}
             </Box>

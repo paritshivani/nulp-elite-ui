@@ -675,6 +675,9 @@ button {
   .xs-pr-16 {
     padding-right: 16px !important;
   }
+  .xs-ml-15 {
+    margin-left: -15px;
+  }
   .carousel-container-domain.react-multi-carousel-list {
     background: #f4fbff;
     box-shadow: 0 4px 4px 0 #00000040;
@@ -1884,6 +1887,9 @@ tspan {
 .pos-inherit {
   position: inherit !important;
 }
+.pos-relative {
+  position: relative !important;
+}
 
 .block-btn {
   border: solid 1px #e02f1d !important;
@@ -2342,5 +2348,60 @@ header .MuiContainer-maxWidthLg {
   height: 149px !important;
 }
 .chartOne .MuiBarElement-root {
-  height: 47px !important;
+  height: 42px !important;
+}
+.chartOne .MuiChartsLegend-row {
+  transform: translate(8px, 157px) !important;
+}
+.chartOne .MuiBarElement-series-auto-generated-id-0 {
+  transform: translate3d(50.4px, 50px, 0px) !important;
+}
+
+.chartOne .MuiBarElement-series-auto-generated-id-1 {
+  transform: translate3d(50.6px, 105px, 0px) !important;
+}
+.chartTwo .MuiBarElement-series-auto-generated-id-0 {
+  height: 42px !important;
+  transform: translate3d(50.4px, 54px, 0px) !important;
+}
+
+.chartTwo .MuiBarElement-series-auto-generated-id-1 {
+  transform: translate3d(49.6px, 105px, 0px) !important;
+}
+.chartTwo .MuiChartsLegend-row {
+  transform: translate(25px, 217px) !important;
+}
+.chartOne .css-u9086j,
+.chartTwo .css-5ubp6v {
+  height: 172px !important;
+  width: 240px !important;
+}
+.chartOne .css-u9086j svg,
+.chartTwo .css-5ubp6v svg {
+  height: 200px !important;
+}
+.contentdetail-bg {
+  height: 138px !important;
+  width: 100%;
+  object-fit: cover;
+  filter: grayscale(70%);
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 #00000040 !important;
+}
+.contentdetail-title {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #fff;
+  font-size: 12px;
+  text-shadow: 1px 1px 2px #666e70;
+}
+.contentdetail-desc {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  color: #fff;
+  width: 55%;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px #666e70;
 }

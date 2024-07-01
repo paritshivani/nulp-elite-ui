@@ -127,42 +127,42 @@ const Profile = () => {
   // for bar charts
   const chartSettingsH1 = {
     dataset: [
-      { high: 10, low: 5, order: "Course and Certificate" },
-      { high: 8, low: 4, order: "Only Certificates" },
+      { high: 3, low: 4, order: "1" },
+      { high: 1, low: 2, order: "1" },
     ],
     height: 300,
     yAxis: [{ scaleType: "band", dataKey: "order" }],
     sx: {
       [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-        transform: "translateX(-10px)",
+        transform: "translateX(-20px,-10px)",
       },
     },
     slotProps: {
       legend: {
         direction: "row",
         position: { vertical: "bottom", horizontal: "middle" },
-        padding: -5,
+        padding: -10,
       },
     },
   };
 
   const chartSettingsH2 = {
     dataset: [
-      { month: "Previous Month", courses: 7 },
-      { month: "Current Month", courses: 3 },
+      { high: 3, low: 4, order: "1" },
+      { high: 1, low: 2, order: "1" },
     ],
     height: 300,
-    yAxis: [{ scaleType: "band", dataKey: "month" }],
+    yAxis: [{ scaleType: "band", dataKey: "order" }],
     sx: {
       [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-        display: "none", // Hide the y-axis label
+        transform: "translateX(-20px,-10px)",
       },
     },
     slotProps: {
       legend: {
         direction: "row",
         position: { vertical: "bottom", horizontal: "middle" },
-        padding: -5,
+        padding: -10,
       },
     },
   };
@@ -705,7 +705,7 @@ const Profile = () => {
                       <Box className="h6-title pl-20">
                         Certifications Received
                       </Box>
-                      <BarChart
+                      {/* <BarChart
                         yAxis={[{ scaleType: "band", data: ["Data"] }]}
                         series={[
                           {
@@ -726,25 +726,29 @@ const Profile = () => {
                         {...chartSettingsH1}
                         width={220}
                         height={250}
-                      />
-                      {/* <BarChart
-                        xAxis={[{ scaleType: "band", data: ["certificate"] }]}
+                      /> */}
+                      <BarChart
+                        yAxis={[{ scaleType: "band", data: ["certificate"] }]}
                         series={[
                           {
-                            data: [4],
+                            data: [7],
                             stack: "A",
+                            layout: "horizontal",
                             label: "No.of courses with certificate",
+                            color: "#065872",
                           },
 
                           {
-                            data: [2],
+                            data: [4],
                             stack: "B",
+                            layout: "horizontal",
                             label: "certficate received",
+                            color: "#0e7a9c",
                           },
                         ]}
-                        width={394}
-                        height={210}
-                      /> */}
+                        width={261}
+                        height={200}
+                      />
                       {/* {certData &&
                         certData.certificatesReceived &&
                         certData.totalCourses && (
@@ -772,7 +776,7 @@ const Profile = () => {
                       <Box className="h6-title">
                         Courses more than last month
                       </Box>
-                      <BarChart
+                      {/* <BarChart
                         series={[
                           {
                             dataKey: "courses",
@@ -784,25 +788,29 @@ const Profile = () => {
                         {...chartSettingsH2}
                         width={220}
                         height={186}
-                      />
-                      {/* <BarChart
-                        xAxis={[{ scaleType: "band", data: ["courses"] }]}
+                      /> */}
+                      <BarChart
+                        yAxis={[{ scaleType: "band", data: ["courses"] }]}
                         series={[
                           {
                             data: [3],
                             stack: "A",
                             label: "Enrolled courses prev month",
+                            color: "#065872",
+                            layout: "horizontal",
                           },
 
                           {
                             data: [1],
                             stack: "B",
                             label: "Enrolled courses current month",
+                            color: "#0e7a9c",
+                            layout: "horizontal",
                           },
                         ]}
-                        width={394}
-                        height={210}
-                      /> */}
+                        width={221}
+                        height={285}
+                      />
                       {/* {certData &&
                         certData.certificatesReceived &&
                         certData.totalCourses && (
