@@ -742,6 +742,9 @@ button {
   .xs-mb-10 {
     margin-bottom: 10px;
   }
+  .react-multiple-carousel__arrow:before {
+    font-size: 13px !important;
+  }
   #menu-appbar .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
     width: 300px;
     height: 363px;
