@@ -298,7 +298,7 @@ const Profile = () => {
         const response = await fetch(url);
         const data = await response.json();
         setCertificateCountData({
-          totalCourses: data.result.courseWithCertificate,
+          courseWithCertificate: data.result.courseWithCertificate,
           certificatesReceived: data.result.certificateReceived,
         });
       } catch (error) {
@@ -705,142 +705,65 @@ const Profile = () => {
                       <Box className="h6-title pl-20">
                         Certifications Received
                       </Box>
-                      {/* <BarChart
-                        yAxis={[{ scaleType: "band", data: ["Data"] }]}
-                        series={[
-                          {
-                            data: [7],
-                            stack: "A",
-                            layout: "horizontal",
-                            label: "courses",
-                            color: "#065872",
-                          },
-                          {
-                            data: [2],
-                            stack: "A",
-                            layout: "horizontal",
-                            label: "certificates",
-                            color: "#0e7a9c",
-                          },
-                        ]}
-                        {...chartSettingsH1}
-                        width={220}
-                        height={250}
-                      /> */}
-                      <BarChart
-                        yAxis={[{ scaleType: "band", data: ["certificate"] }]}
-                        series={[
-                          {
-                            data: [7],
-                            stack: "A",
-                            layout: "horizontal",
-                            label: "No.of courses with certificate",
-                            color: "#065872",
-                          },
-
-                          {
-                            data: [4],
-                            stack: "B",
-                            layout: "horizontal",
-                            label: "certficate received",
-                            color: "#0e7a9c",
-                          },
-                        ]}
-                        width={261}
-                        height={200}
-                      />
-                      {/* {certData &&
-                        certData.certificatesReceived &&
-                        certData.totalCourses && (
-                          <CircularProgressWithLabel
-                            received={certData.certificatesReceived}
-                            total={certData.totalCourses}
-                            className="circular"
-                            style={{ width: "80px", height: "80px" }}
+                      {certData &&
+                        certData.certificatesReceived !== undefined &&
+                        certData.courseWithCertificate !== undefined && (
+                          <BarChart
+                            yAxis={[
+                              { scaleType: "band", data: ["certificate"] },
+                            ]}
+                            series={[
+                              {
+                                data: [certData.courseWithCertificate],
+                                stack: "A",
+                                layout: "horizontal",
+                                label: "No. of courses with certificate",
+                                color: "#065872",
+                              },
+                              {
+                                data: [certData.certificatesReceived],
+                                stack: "B",
+                                layout: "horizontal",
+                                label: "Certificate received",
+                                color: "#0e7a9c",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
                           />
-                        )} */}
+                        )}
                     </Grid>
-                    {/* <Grid item xs={3} md={3} className="circular">
-                      <Typography
-                        style={{
-                          margin: "9px 10px 9px 0",
-                          display: "block",
-                          textAlign: "left",
-                        }}
-                        className="fs-12 text-yellow"
-                      >
-                        {t("CERTIFICATIONS_RECEIVED")}
-                      </Typography>
-                    </Grid> */}
+
                     <Grid item xs={12} md={6} className="chartTwo">
                       <Box className="h6-title">
                         Courses more than last month
                       </Box>
-                      {/* <BarChart
-                        series={[
-                          {
-                            dataKey: "courses",
-                            label: "Courses",
-                            layout: "horizontal",
-                            color: "#0e7a9c",
-                          },
-                        ]}
-                        {...chartSettingsH2}
-                        width={220}
-                        height={186}
-                      /> */}
-                      <BarChart
-                        yAxis={[{ scaleType: "band", data: ["courses"] }]}
-                        series={[
-                          {
-                            data: [3],
-                            stack: "A",
-                            label: "Enrolled courses prev month",
-                            color: "#065872",
-                            layout: "horizontal",
-                          },
-
-                          {
-                            data: [1],
-                            stack: "B",
-                            label: "Enrolled courses current month",
-                            color: "#0e7a9c",
-                            layout: "horizontal",
-                          },
-                        ]}
-                        width={221}
-                        height={285}
-                      />
-                      {/* {certData &&
-                        certData.certificatesReceived &&
-                        certData.totalCourses && (
-                          <CircularProgressWithLabel
-                            received={certData.certificatesReceived}
-                            total={certData.totalCourses}
-                            className="circular"
-                            style={{ width: "80px", height: "80px" }}
+                      {courseData &&
+                        courseData.enrolledLastMonth !== undefined &&
+                        courseData.enrolledThisMonth !== undefined && (
+                          <BarChart
+                            yAxis={[{ scaleType: "band", data: ["courses"] }]}
+                            series={[
+                              {
+                                data: [courseData.enrolledLastMonth],
+                                stack: "A",
+                                label: "Enrolled courses prev month",
+                                color: "#065872",
+                                layout: "horizontal",
+                              },
+                              {
+                                data: [courseData.enrolledThisMonth],
+                                stack: "B",
+                                label: "Enrolled courses current month",
+                                color: "#0e7a9c",
+                                layout: "horizontal",
+                              },
+                            ]}
+                            width={221}
+                            height={285}
                           />
-                        )} */}
+                        )}
                     </Grid>
-                    {/* <Grid item xs={4} md={3}>
-                      <Typography
-                        variant="h7"
-                        style={{
-                          margin: "9px 0",
-                          display: "block",
-                          textAlign: "left",
-                          paddingLeft: "7px",
-                          marginRight: "10px",
-                        }}
-                        className="fs-12 text-blueShade0"
-                      >
-                        {t("COURSES_THAN")}
-
-                        <span style={{ color: "#00A2D5", paddingLeft: "5px" }}>
-                          {t("LAST_MONTH")}
-                        </span>
-                      </Typography>
-                    </Grid> */}
                   </Grid>
                 </Box>
 
