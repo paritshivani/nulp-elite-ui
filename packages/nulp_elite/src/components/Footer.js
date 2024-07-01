@@ -145,7 +145,7 @@ export default function Footer() {
             />
             <BottomNavigationAction
               onClick={() => navigate(routeConfig.ROUTES.EVENTS.EVENT_LIST)}
-              label={t("WEBINARS")}
+              label={t("EVENTS")}
               className={
                 location.pathname === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
                   ? "navigateActive"

@@ -742,14 +742,8 @@ const JoinCourse = () => {
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
-        <Box className=" pos-relative xs-ml-15">
-          <Box
-          // style={{
-          //   background: url(require("./../../assets/domainImgs/Water.png")),
-          //   height: "200px",
-          //   width: "100%",
-          // }}
-          >
+        <Box className=" pos-relative xs-ml-15 lg-ml-15">
+          <Box>
             <img
               src={
                 userData?.result?.content.se_gradeLevels
@@ -765,11 +759,11 @@ const JoinCourse = () => {
                 width: "100%",
               }}
             />
-            <Box className="p-10 text-right contentdetail-title">
+            <Box className="p-10 contentdetail-title">
               {" "}
               {userData?.result?.content?.name}
             </Box>
-            <Box className="p-10 text-right contentdetail-desc">
+            <Box className="p-10 contentdetail-desc">
               {" "}
               {userData?.result?.content?.description}
             </Box>
