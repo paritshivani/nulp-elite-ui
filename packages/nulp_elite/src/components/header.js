@@ -466,6 +466,7 @@ function Header({ globalSearchQuery }) {
                     <SortOutlinedIcon />
                   </IconButton> */}
                   <Box
+                    className="xs-pl-5"
                     sx={{
                       display: { xs: "block", md: "none" },
                     }}
