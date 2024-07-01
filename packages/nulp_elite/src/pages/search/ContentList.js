@@ -85,6 +85,8 @@ const ContentList = (props) => {
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const [contentTypeFilter, setContentTypeFilter] = useState([]);
   const [subDomainFilter, setSubDomainFilter] = useState([]);
+  const [contentCount, setContentCount] = useState(0);
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -187,8 +189,19 @@ const ContentList = (props) => {
 
       if (response.data.result.content && response.data.result.count <= 20) {
         setTotalPages(1);
+        if (response.data.result.count === 0) {
+          setContentCount(0);
+        } else {
+          setContentCount(response.data.result.count);
+        }
       } else if (response.data.result.count > 20) {
         setTotalPages(Math.ceil(response.data.result.count / 20));
+        let count = Number(response.data.result.count);
+        if (count === 0) {
+          setContentCount(0);
+        } else {
+          setContentCount(20);
+        }
       }
 
       setData(response.data.result);
@@ -416,19 +429,25 @@ const ContentList = (props) => {
           className="d-flex jc-bw mr-20 my-20"
           style={{ alignItems: "center" }}
         >
-          {domainName ? (
+          {domainName || searchQuery ? (
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
               className="d-flex h3-title xs-d-none"
             >
               <Box className="h3-custom-title">
-                {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
+                {domainName && !searchQuery
+                  ? t("YOU_ARE_VIEWING_CONTENTS_FOR")
+                  : t("YOU_ARE_SHOWING_CONTENTS_FOR")}
               </Box>
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
                 className="text-blueShade2 h4-custom"
               >
-                {domainName}
+                {domainName || searchQuery
+                  ? `${searchQuery || ""}${
+                      searchQuery && domainName ? ", " : ""
+                    }${domainName || ""}`
+                  : ""}
               </Box>
             </Box>
           ) : (
@@ -437,6 +456,10 @@ const ContentList = (props) => {
           <Link onClick={handleGoBack} className="viewAll xs-hide mr-30">
             {t("BACK")}
           </Link>
+        </Box>
+        <Box className="h3-custom-title">
+          {searchQuery &&
+            `Showing ${contentCount} out of ${data?.count || 0} results`}
         </Box>
 
         <Grid container spacing={2} className="pt-8 mt-15">

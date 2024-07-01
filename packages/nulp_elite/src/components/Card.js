@@ -9,7 +9,9 @@ import Box from "@mui/material/Box";
 import { Divider } from "native-base";
 import RandomImage from "../assets/cardRandomImgs.json";
 import { useTranslation } from "react-i18next";
-
+const processString = (str) => {
+  return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+};
 export default function BoxCard({ items, index, onClick }) {
   const [imgUrl, setImgUrl] = useState();
   const [subdomain, setSubdomain] = useState();
@@ -17,9 +19,9 @@ export default function BoxCard({ items, index, onClick }) {
 
   useEffect(() => {
     if (items.se_gradeLevels) {
-      setSubdomain(items.se_gradeLevels[0]);
+      setSubdomain(processString(items.se_gradeLevels[0]));
     } else if (items.gradeLevel) {
-      setSubdomain(items.gradeLevel[0]);
+      setSubdomain(processString(items.gradeLevel[0]));
     } else {
       setSubdomain(undefined);
     }
@@ -43,8 +45,8 @@ export default function BoxCard({ items, index, onClick }) {
           className="card-media"
           image={
             subdomain
-              ? require(`./../assets/dummyCardImgs/${subdomain}.png`)
-              : require("./../assets/dummyCardImgs/Management.png")
+              ? require(`./../assets/cardBanner/${subdomain}.png`)
+              : require("./../assets/cardBanner/management.png")
           }
           title="green iguana"
         />
@@ -138,8 +140,8 @@ export default function BoxCard({ items, index, onClick }) {
         className="card-media"
         image={
           subdomain
-            ? require(`./../assets/dummyCardImgs/${subdomain}.png`)
-            : require("./../assets/dummyCardImgs/Management.png")
+            ? require(`./../assets/cardBanner/${subdomain}.png`)
+            : require("./../assets/cardBanner/management.png")
         }
         title="green iguana"
       />

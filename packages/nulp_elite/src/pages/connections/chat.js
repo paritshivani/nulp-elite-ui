@@ -134,10 +134,10 @@ const Chat = ({
   const { t } = useTranslation();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const reasons = [
-    "Spam",
-    "Inappropriate Content",
-    "Harassment",
-    "Abusive Behavior",
+    "Harassment or Bullying",
+    "Spam or Inappropriate Content",
+    "Impersonation or Fake Profiles",
+    "Threats or Dangerous Behaviour",
     "Other",
   ];
   const [customReason, setCustomReason] = useState("");
