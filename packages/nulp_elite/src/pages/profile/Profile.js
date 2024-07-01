@@ -46,8 +46,8 @@ import {
 import styled from "styled-components";
 import LearningHistory from "./learningHistory";
 import Certificate from "./certificate";
-// import { BarChart } from "@mui/x-charts/BarChart";
-// import { axisClasses } from "@mui/x-charts/ChartsAxis";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { axisClasses } from "@mui/x-charts/ChartsAxis";
 
 const routeConfig = require("../../configs/routeConfig.json");
 
@@ -125,15 +125,49 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   // for bar charts
-  // const [layout, setLayout] = React.useState("vertical");
-  // const dataset = [
-  //   [3, -7, "0"],
-  //   [0, -5, "1"],
-  // ].map(([high, low, order]) => ({
-  //   high,
-  //   low,
-  //   order,
-  // }));
+  const chartSettingsH1 = {
+    dataset: [
+      { high: 3, low: 4, order: "1" },
+      { high: 1, low: 2, order: "1" },
+    ],
+    height: 300,
+    yAxis: [{ scaleType: "band", dataKey: "order" }],
+    sx: {
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+        transform: "translateX(-20px,-10px)",
+      },
+    },
+    slotProps: {
+      legend: {
+        direction: "row",
+        position: { vertical: "bottom", horizontal: "middle" },
+        padding: -10,
+      },
+    },
+  };
+
+  const chartSettingsH2 = {
+    dataset: [
+      { high: 3, low: 4, order: "1" },
+      { high: 1, low: 2, order: "1" },
+    ],
+    height: 300,
+    yAxis: [{ scaleType: "band", dataKey: "order" }],
+    sx: {
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+        transform: "translateX(-20px,-10px)",
+      },
+    },
+    slotProps: {
+      legend: {
+        direction: "row",
+        position: { vertical: "bottom", horizontal: "middle" },
+        padding: -10,
+      },
+    },
+  };
+
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
   // const chartSettingsH = {
   //   dataset,
   //   height: 300,
@@ -151,11 +185,65 @@ const Profile = () => {
   //     },
   //   },
   // };
-  // const chartSettingsV = {
-  //   ...chartSettingsH,
-  //   xAxis: [{ scaleType: "band", dataKey: "order" }],
-  //   yAxis: undefined,
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
+  //   const chartSettingsH = {
+  //     dataset,
+  //     height: 300,
+  //     yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //     sx: {
+  //       [& .${axisClasses.directionY} .${axisClasses.label}]: {
+  //         transform: "translateX(-10px)",
+  //       },
+  //     },
+  //     slotProps: {
+  //       legend: {
+  //         direction: "row",
+  //         position: { vertical: "bottom", horizontal: "middle" },
+  //         padding: -5,
+  //       },
+  //     },
+  //   };
+  // const dataset = [
+  //   { month: "Previous Month", courses: 7 },
+  //   { month: "Current Month", courses: 7 },
+  // ];
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "month" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
   // };
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
+
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
+  // };
+
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [fileError, setFileError] = useState("");
@@ -504,7 +592,7 @@ const Profile = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xxl" role="main" className="xs-p-0 xs-pb-75 pt-1 ">
+      <Container maxWidth="xl" role="main" className="xs-p-0 xs-pb-75 pt-1 ">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -613,25 +701,54 @@ const Profile = () => {
                   </Box>
 
                   <Grid container spacing={2}>
-                    <Grid item xs={3} md={12}>
+                    <Grid item xs={12} md={6} className="chartOne">
+                      <Box className="h6-title pl-20">
+                        Certifications Received
+                      </Box>
                       {/* <BarChart
-                        xAxis={[{ scaleType: "band", data: ["certificate"] }]}
+                        yAxis={[{ scaleType: "band", data: ["Data"] }]}
                         series={[
                           {
-                            data: [4],
+                            data: [7],
                             stack: "A",
+                            layout: "horizontal",
+                            label: "courses",
+                            color: "#065872",
+                          },
+                          {
+                            data: [2],
+                            stack: "A",
+                            layout: "horizontal",
+                            label: "certificates",
+                            color: "#0e7a9c",
+                          },
+                        ]}
+                        {...chartSettingsH1}
+                        width={220}
+                        height={250}
+                      /> */}
+                      <BarChart
+                        yAxis={[{ scaleType: "band", data: ["certificate"] }]}
+                        series={[
+                          {
+                            data: [7],
+                            stack: "A",
+                            layout: "horizontal",
                             label: "No.of courses with certificate",
+                            color: "#065872",
                           },
 
                           {
-                            data: [2],
+                            data: [4],
                             stack: "B",
+                            layout: "horizontal",
                             label: "certficate received",
+                            color: "#0e7a9c",
                           },
                         ]}
-                        width={394}
-                        height={210}
-                      /> */}
+                        width={261}
+                        height={200}
+                      />
                       {/* {certData &&
                         certData.certificatesReceived &&
                         certData.totalCourses && (
@@ -655,25 +772,45 @@ const Profile = () => {
                         {t("CERTIFICATIONS_RECEIVED")}
                       </Typography>
                     </Grid> */}
-                    <Grid item xs={3} md={12}>
+                    <Grid item xs={12} md={6} className="chartTwo">
+                      <Box className="h6-title">
+                        Courses more than last month
+                      </Box>
                       {/* <BarChart
-                        xAxis={[{ scaleType: "band", data: ["courses"] }]}
+                        series={[
+                          {
+                            dataKey: "courses",
+                            label: "Courses",
+                            layout: "horizontal",
+                            color: "#0e7a9c",
+                          },
+                        ]}
+                        {...chartSettingsH2}
+                        width={220}
+                        height={186}
+                      /> */}
+                      <BarChart
+                        yAxis={[{ scaleType: "band", data: ["courses"] }]}
                         series={[
                           {
                             data: [3],
                             stack: "A",
                             label: "Enrolled courses prev month",
+                            color: "#065872",
+                            layout: "horizontal",
                           },
 
                           {
                             data: [1],
                             stack: "B",
                             label: "Enrolled courses current month",
+                            color: "#0e7a9c",
+                            layout: "horizontal",
                           },
                         ]}
-                        width={394}
-                        height={210}
-                      /> */}
+                        width={221}
+                        height={285}
+                      />
                       {/* {certData &&
                         certData.certificatesReceived &&
                         certData.totalCourses && (
@@ -936,7 +1073,7 @@ const Profile = () => {
                 disabled={isButtonDisabled}
                 style={{
                   backgroundColor: isButtonDisabled ? "gray" : "#0E7A9C",
-                  borderRadius: "30px",
+                  borderRadius: "10px",
                   color: "#fff",
                   padding: "10px 25px",
                   fontWeight: " 500",
