@@ -184,7 +184,6 @@ function Header({ globalSearchQuery }) {
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
               className="pl-0 py-15 d-flex"
-              style={{ width: "190px" }}
             >
               <img
                 src={require("../assets/logo.png")}
