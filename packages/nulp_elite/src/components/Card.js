@@ -201,7 +201,7 @@ export default function BoxCard({ items, index, onClick }) {
                     ? items.board.join(", ")
                     : items.board?.[0] ||
                       (Array.isArray(items?.se_boards) &&
-                      items.se_boards.length > 1
+                      items?.se_boards.length > 1
                         ? items.se_boards.join(", ")
                         : items.se_boards?.[0] || "")
                 }
@@ -211,12 +211,15 @@ export default function BoxCard({ items, index, onClick }) {
                 <Button>
                   {Array.isArray(items?.board) && items.board.length === 1
                     ? items.board[0]
-                    : (Array.isArray(items?.board) &&
-                        `${items.board[0]} + ${items.board.length - 1}`) ||
-                      (Array.isArray(items?.se_boards) &&
-                        items.se_boards.length === 1)
+                    : Array.isArray(items?.board) && items.board.length > 1
+                    ? `${items.board[0]} + ${items.board.length - 1}`
+                    : Array.isArray(items?.se_boards) &&
+                      items.se_boards.length === 1
                     ? items.se_boards[0]
-                    : `${items.se_boards[0]} + ${items.se_boards.length - 1}`}
+                    : Array.isArray(items?.se_boards) &&
+                      items.se_boards.length > 1
+                    ? `${items.se_boards[0]} + ${items.se_boards.length - 1}`
+                    : ""}
                 </Button>
               </Tooltip>
             )}
