@@ -24,7 +24,7 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 3,
+    items: 4,
   },
 };
 
@@ -125,7 +125,7 @@ export default function DomainCarousel({
             showDots={["mobile"]} // Show dots only if there are more than 4 items
             responsive={responsive}
             ssr={true} // means to render carousel on server-side.
-            infinite={false}
+            infinite={true}
             autoPlaySpeed={1000}
             keyBoardControl={true}
             customTransition="all .5"
@@ -170,17 +170,14 @@ export default function DomainCarousel({
                     />
                     {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
                   </Box>
-                  <Box
-                    sx={{ alignSelf: "center", padding: "0 19px 0 5px" }}
-                    className="cursor-pointer"
-                  >
+                  <Box sx={{ alignSelf: "center" }} className="cursor-pointer">
                     <Typography
                       level="title-md"
                       style={{
                         fontSize: "12px",
-                        color: "#fff",
                         textAlign: "center",
                       }}
+                      className="domainText"
                     >
                       {domain.name}
                     </Typography>

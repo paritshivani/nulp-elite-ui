@@ -50,6 +50,8 @@ import {
   TwitterIcon,
 } from "react-share";
 import AddConnections from "pages/connections/AddConnections";
+// import speakerOne from "./../assets/speakerOne.png";
+
 const routeConfig = require("../../configs/routeConfig.json");
 
 const JoinCourse = () => {
@@ -725,13 +727,30 @@ const JoinCourse = () => {
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
-        <Box
-          style={{ backgroundUrl: "./../assets/dummyCardImgs/Management.png" }}
-        >
-          <Box> {userData?.result?.content?.name}</Box>
-          <Box> {userData?.result?.content?.description}</Box>
+        <Box className="cardBox">
+          <Box
+            style={{
+              backgroundImage: `url(require("./../assets/dummyCardImgs/abstract_03.svg"))`,
+              height: "200px",
+              width: "100%",
+            }}
+          >
+            {/* <img src={speakerOne} alt="Speaker One" />
+            <img
+              src={require("./../assets/speakerOne.png").default}
+              alt="Speaker One"
+            /> */}
+            <Box className="p-10 text-right">
+              {" "}
+              {userData?.result?.content?.name}
+            </Box>
+            <Box className="p-10 text-right">
+              {" "}
+              {userData?.result?.content?.description}
+            </Box>
+          </Box>
         </Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className="mt-9">
           <Grid
             item
             xs={12}

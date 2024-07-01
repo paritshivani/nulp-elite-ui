@@ -126,7 +126,10 @@ const Profile = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   // for bar charts
   const chartSettingsH1 = {
-    dataset: [{ high: 0, low: 0, order: "0" }],
+    dataset: [
+      { high: 10, low: 5, order: "Course and Certificate" },
+      { high: 8, low: 4, order: "Only Certificates" },
+    ],
     height: 300,
     yAxis: [{ scaleType: "band", dataKey: "order" }],
     sx: {
