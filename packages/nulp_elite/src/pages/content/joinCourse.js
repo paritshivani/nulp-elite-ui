@@ -94,6 +94,7 @@ const JoinCourse = () => {
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
+  const [activeBatch, SetActiveBatch] = useState(true);
 
   const style = {
     position: "absolute",
@@ -165,6 +166,7 @@ const JoinCourse = () => {
 
           if (count === 0) {
             // console.warn("This course has no active batches.");
+            SetActiveBatch(false);
             showErrorMessage(t("This course has no active Batches")); // Assuming `showErrorMessage` is used to display messages to the user
           } else if (content && content.length > 0) {
             const batchDetails = content[0];
@@ -430,7 +432,7 @@ const JoinCourse = () => {
               color: "red",
             }}
           >
-            {t("BATCH_EXPIRED_MESSAGE")}
+            <Alert severity="warning">{t("BATCH_EXPIRED_MESSAGE")}</Alert>
           </Typography>
         );
       } else {
@@ -464,7 +466,7 @@ const JoinCourse = () => {
                 color: "red",
               }}
             >
-              {t("BATCH_EXPIRED_MESSAGE")}
+              <Alert severity="warning">{t("BATCH_EXPIRED_MESSAGE")}</Alert>
             </Typography>
           );
         }
@@ -473,7 +475,7 @@ const JoinCourse = () => {
           <Button
             onClick={handleJoinAndOpenModal}
             // onClick={handleOpenModal}
-            disabled={isExpired} // Only disable if expired (not on last day)
+            disabled={isExpired || !activeBatch} // Only disable if expired (not on last day)
             className="custom-btn-primary my-20"
             style={{
               background: isExpired ? "#ccc" : "#004367",
@@ -625,11 +627,22 @@ const JoinCourse = () => {
     window.location.reload();
   };
   function getScoreCriteria(data) {
-    const certTemplateKeys = Object.keys(data?.response?.certTemplates);
+    // Check if certTemplates exists and is an object
+    if (
+      !data?.response?.certTemplates ||
+      typeof data.response.certTemplates !== "object"
+    ) {
+      setScore(false);
+      return "no certificate";
+    }
+
+    const certTemplateKeys = Object.keys(data.response.certTemplates);
+
     const certTemplateId = certTemplateKeys[0];
+
     const criteria =
-      data?.response?.certTemplates?.[certTemplateId]?.criteria?.assessment ||
-      data?.response?.cert_templates?.[certTemplateId]?.criteria?.assessment;
+      data.response.certTemplates[certTemplateId]?.criteria?.assessment ||
+      data.response.cert_templates?.[certTemplateId]?.criteria?.assessment;
 
     const score = criteria?.score?.[">="] || "no certificate";
     setScore(score);
