@@ -178,7 +178,7 @@
   "CONSENT_TEXT": "I consent to share my details with the admnistrator of this course. All course adminstrators are bound by the Privacy Policy and Course Terms in their use of my data.",
   "DONT_SHARE": "Do not share",
   "SHARE": "Share",
-  "BATCH_EXPIRED_MESSAGE": "You cannot enrol into this batch, as it is closed",
+  "BATCH_EXPIRED_MESSAGE": "You cannot enroll in this batch as it is closed.",
   "LEAVE_COURSE_CONFIRMATION_TITLE": "Batch Unenrolment",
   "LEAVE_COURSE_CONFIRMATION_MESSAGE": "Do you want to unenrol from this batch?",
   "ENROLLMENT_SUCCESS_MESSAGE": "Couse enroled for this batch Successfully",

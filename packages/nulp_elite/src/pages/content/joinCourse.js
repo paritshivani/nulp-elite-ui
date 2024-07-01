@@ -94,7 +94,7 @@ const JoinCourse = () => {
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
-  const [activeBatch, SetActiveBatch] = useState();
+  const [activeBatch, SetActiveBatch] = useState(true);
 
   const style = {
     position: "absolute",
@@ -432,7 +432,7 @@ const JoinCourse = () => {
               color: "red",
             }}
           >
-            {t("BATCH_EXPIRED_MESSAGE")}
+            <Alert severity="warning">{t("BATCH_EXPIRED_MESSAGE")}</Alert>
           </Typography>
         );
       } else {
@@ -466,7 +466,7 @@ const JoinCourse = () => {
                 color: "red",
               }}
             >
-              {t("BATCH_EXPIRED_MESSAGE")}
+              <Alert severity="warning">{t("BATCH_EXPIRED_MESSAGE")}</Alert>
             </Typography>
           );
         }
