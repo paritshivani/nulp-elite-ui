@@ -46,8 +46,8 @@ import {
 import styled from "styled-components";
 import LearningHistory from "./learningHistory";
 import Certificate from "./certificate";
-// import { BarChart } from "@mui/x-charts/BarChart";
-// import { axisClasses } from "@mui/x-charts/ChartsAxis";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { axisClasses } from "@mui/x-charts/ChartsAxis";
 
 const routeConfig = require("../../configs/routeConfig.json");
 
@@ -125,15 +125,45 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   // for bar charts
-  // const [layout, setLayout] = React.useState("vertical");
-  // const dataset = [
-  //   [3, -7, "0"],
-  //   [0, -5, "1"],
-  // ].map(([high, low, order]) => ({
-  //   high,
-  //   low,
-  //   order,
-  // }));
+  const chartSettingsH1 = {
+    dataset: [
+      { high: 1, low: 2, order: "1" },
+      { high: 1, low: 2, order: "1" },
+    ],
+    yAxis: [{ scaleType: "band", dataKey: "order" }],
+    sx: {
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {},
+    },
+    slotProps: {
+      legend: {
+        direction: "row",
+        position: { vertical: "bottom", horizontal: "middle" },
+      },
+    },
+  };
+
+  const chartSettingsH2 = {
+    dataset: [
+      { high: 3, low: 2, order: "1" },
+      { high: 3, low: 2, order: "1" },
+    ],
+    height: 300,
+    yAxis: [{ scaleType: "band", dataKey: "order" }],
+    sx: {
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+        transform: "translateX(-20px,-10px)",
+      },
+    },
+    slotProps: {
+      legend: {
+        direction: "row",
+        position: { vertical: "bottom", horizontal: "middle" },
+        padding: -10,
+      },
+    },
+  };
+
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
   // const chartSettingsH = {
   //   dataset,
   //   height: 300,
@@ -151,11 +181,65 @@ const Profile = () => {
   //     },
   //   },
   // };
-  // const chartSettingsV = {
-  //   ...chartSettingsH,
-  //   xAxis: [{ scaleType: "band", dataKey: "order" }],
-  //   yAxis: undefined,
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
+  //   const chartSettingsH = {
+  //     dataset,
+  //     height: 300,
+  //     yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //     sx: {
+  //       [& .${axisClasses.directionY} .${axisClasses.label}]: {
+  //         transform: "translateX(-10px)",
+  //       },
+  //     },
+  //     slotProps: {
+  //       legend: {
+  //         direction: "row",
+  //         position: { vertical: "bottom", horizontal: "middle" },
+  //         padding: -5,
+  //       },
+  //     },
+  //   };
+  // const dataset = [
+  //   { month: "Previous Month", courses: 7 },
+  //   { month: "Current Month", courses: 7 },
+  // ];
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "month" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
   // };
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
+
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
+  // };
+
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [fileError, setFileError] = useState("");
@@ -210,7 +294,7 @@ const Profile = () => {
         const response = await fetch(url);
         const data = await response.json();
         setCertificateCountData({
-          totalCourses: data.result.courseWithCertificate,
+          courseWithCertificate: data.result.courseWithCertificate,
           certificatesReceived: data.result.certificateReceived,
         });
       } catch (error) {
@@ -504,7 +588,7 @@ const Profile = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xxl" role="main" className="xs-p-0 xs-pb-75 pt-1 ">
+      <Container maxWidth="xl" role="main" className="xs-p-0 xs-pb-75 pt-1 ">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -613,97 +697,69 @@ const Profile = () => {
                   </Box>
 
                   <Grid container spacing={2}>
-                    <Grid item xs={3} md={12}>
-                      {/* <BarChart
-                        xAxis={[{ scaleType: "band", data: ["certificate"] }]}
-                        series={[
-                          {
-                            data: [4],
-                            stack: "A",
-                            label: "No.of courses with certificate",
-                          },
-
-                          {
-                            data: [2],
-                            stack: "B",
-                            label: "certficate received",
-                          },
-                        ]}
-                        width={394}
-                        height={210}
-                      /> */}
-                      {/* {certData &&
-                        certData.certificatesReceived &&
-                        certData.totalCourses && (
-                          <CircularProgressWithLabel
-                            received={certData.certificatesReceived}
-                            total={certData.totalCourses}
-                            className="circular"
-                            style={{ width: "80px", height: "80px" }}
+                    <Grid item xs={6} md={6} className="chartOne">
+                      <Box className="h6-title pl-20">
+                        Certifications Received
+                      </Box>
+                      {certData &&
+                        certData.certificatesReceived !== undefined &&
+                        certData.courseWithCertificate !== undefined && (
+                          <BarChart
+                            yAxis={[
+                              { scaleType: "band", data: ["certificate"] },
+                            ]}
+                            series={[
+                              {
+                                data: [certData.courseWithCertificate],
+                                stack: "A",
+                                layout: "horizontal",
+                                label: "No. of courses with certificate",
+                                color: "#065872",
+                              },
+                              {
+                                data: [certData.certificatesReceived],
+                                stack: "B",
+                                layout: "horizontal",
+                                label: "Certificate received",
+                                color: "#0e7a9c",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
                           />
-                        )} */}
+                        )}
                     </Grid>
-                    {/* <Grid item xs={3} md={3} className="circular">
-                      <Typography
-                        style={{
-                          margin: "9px 10px 9px 0",
-                          display: "block",
-                          textAlign: "left",
-                        }}
-                        className="fs-12 text-yellow"
-                      >
-                        {t("CERTIFICATIONS_RECEIVED")}
-                      </Typography>
-                    </Grid> */}
-                    <Grid item xs={3} md={12}>
-                      {/* <BarChart
-                        xAxis={[{ scaleType: "band", data: ["courses"] }]}
-                        series={[
-                          {
-                            data: [3],
-                            stack: "A",
-                            label: "Enrolled courses prev month",
-                          },
 
-                          {
-                            data: [1],
-                            stack: "B",
-                            label: "Enrolled courses current month",
-                          },
-                        ]}
-                        width={394}
-                        height={210}
-                      /> */}
-                      {/* {certData &&
-                        certData.certificatesReceived &&
-                        certData.totalCourses && (
-                          <CircularProgressWithLabel
-                            received={certData.certificatesReceived}
-                            total={certData.totalCourses}
-                            className="circular"
-                            style={{ width: "80px", height: "80px" }}
+                    <Grid item xs={12} md={6} className="chartTwo">
+                      <Box className="h6-title">
+                        Courses more than last month
+                      </Box>
+                      {courseData &&
+                        courseData.enrolledLastMonth !== undefined &&
+                        courseData.enrolledThisMonth !== undefined && (
+                          <BarChart
+                            yAxis={[{ scaleType: "band", data: ["courses"] }]}
+                            series={[
+                              {
+                                data: [courseData.enrolledLastMonth],
+                                stack: "A",
+                                label: "Enrolled courses prev month",
+                                color: "#065872",
+                                layout: "horizontal",
+                              },
+                              {
+                                data: [courseData.enrolledThisMonth],
+                                stack: "B",
+                                label: "Enrolled courses current month",
+                                color: "#0e7a9c",
+                                layout: "horizontal",
+                              },
+                            ]}
+                            width={221}
+                            height={285}
                           />
-                        )} */}
+                        )}
                     </Grid>
-                    {/* <Grid item xs={4} md={3}>
-                      <Typography
-                        variant="h7"
-                        style={{
-                          margin: "9px 0",
-                          display: "block",
-                          textAlign: "left",
-                          paddingLeft: "7px",
-                          marginRight: "10px",
-                        }}
-                        className="fs-12 text-blueShade0"
-                      >
-                        {t("COURSES_THAN")}
-
-                        <span style={{ color: "#00A2D5", paddingLeft: "5px" }}>
-                          {t("LAST_MONTH")}
-                        </span>
-                      </Typography>
-                    </Grid> */}
                   </Grid>
                 </Box>
 
@@ -936,7 +992,7 @@ const Profile = () => {
                 disabled={isButtonDisabled}
                 style={{
                   backgroundColor: isButtonDisabled ? "gray" : "#0E7A9C",
-                  borderRadius: "30px",
+                  borderRadius: "10px",
                   color: "#fff",
                   padding: "10px 25px",
                   fontWeight: " 500",

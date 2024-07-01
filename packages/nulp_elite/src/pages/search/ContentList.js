@@ -468,7 +468,7 @@ const ContentList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container  flter-btn w-100"
+            className="sm-p-25 left-container  flter-btn w-100 xs-m-10"
             style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter

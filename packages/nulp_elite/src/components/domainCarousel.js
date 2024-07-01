@@ -116,7 +116,7 @@ export default function DomainCarousel({
   };
 
   return (
-    <Box style={{ position: "relative" }} className="bg-blue">
+    <Box style={{ position: "relative" }} className="bg-darkblue">
       {isMobile ? (
         <>
           <Carousel
@@ -147,7 +147,6 @@ export default function DomainCarousel({
                   orientation="horizontal"
                   size="sm"
                   variant="outlined"
-                  style={{ display: "flex" }}
                 >
                   <Box
                     // className="imgBorder cursor-pointer"
@@ -165,15 +164,21 @@ export default function DomainCarousel({
                     <img
                       src={require(`../assets/domainImgs${domain.image}`)}
                       alt={domain.name}
-                      style={{ transform: "translate(5px, 4px)" }}
+                      className="domainHover"
+
+                      // style={{ transform: "translate(5px, 4px)" }}
                     />
                     {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
                   </Box>
-                  <Box
-                    sx={{ alignSelf: "center", padding: "0 19px 0 5px" }}
-                    className="xs-hide cursor-pointer"
-                  >
-                    <Typography level="title-md" style={{ fontSize: "12px" }}>
+                  <Box sx={{ alignSelf: "center" }} className="cursor-pointer">
+                    <Typography
+                      level="title-md"
+                      style={{
+                        fontSize: "12px",
+                        textAlign: "center",
+                      }}
+                      className="domainText"
+                    >
                       {domain.name}
                     </Typography>
                   </Box>
@@ -182,69 +187,58 @@ export default function DomainCarousel({
           </Carousel>
         </>
       ) : (
-        <Box
-          sx={{ display: "flex" }}
-          className={scrolled ? "carousel-bx scrolled" : "carousel-bx"}
-        >
-          {itemsArray &&
-            itemsArray?.slice(0, 10).map((domain, index) => (
-              <Box
-                className={`my-class ${
-                  activeStates === index ? "carousel-active-ui" : ""
-                }`}
-                onClick={(e) =>
-                  handleDomainClick(domain.code, index, domain.name)
-                }
-                key={index}
-                orientation="horizontal"
-                size="sm"
-                variant="outlined"
-                style={{ display: "flex", margin: "0 4px" }}
-                onMouseEnter={(event) => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <Box className=" cursor-pointer">
+        <>
+          <Box className="text-white h5-title pl-20 pt-10 pb-10">
+            Select your prefered domain :
+          </Box>
+
+          <Box
+            sx={{ display: "flex" }}
+            className={scrolled ? "carousel-bx scrolled" : "carousel-bx"}
+          >
+            {itemsArray &&
+              itemsArray?.slice(0, 10).map((domain, index) => (
+                <Box
+                  className={`my-class ${
+                    activeStates === index ? "carousel-active-ui" : ""
+                  }`}
+                  onClick={(e) =>
+                    handleDomainClick(domain.code, index, domain.name)
+                  }
+                  key={index}
+                  orientation="horizontal"
+                  size="sm"
+                  variant="outlined"
+                  style={{ display: "flex", margin: "0 4px" }}
+                  onMouseEnter={(event) => handleMouseEnter(index)}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <Box className=" cursor-pointer">
-                    {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
+                    <Box className=" cursor-pointer">
+                      {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
                 {(domain.image == undefined)&& <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />} */}
-                    {/* <Tooltip title={domain.description}> */}
-                    <img
-                      className="domainHover"
-                      src={require(`../assets/domainImgs${domain.image}`)}
-                      alt={domain.name}
-                    />
+                      {/* <Tooltip title={domain.description}> */}
+                      <img
+                        className="domainHover"
+                        src={require(`../assets/domainImgs${domain.image}`)}
+                        alt={domain.name}
+                      />
 
-                    {/* </Tooltip> */}
+                      {/* </Tooltip> */}
 
-                    {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
-                  </Box>
+                      {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
+                    </Box>
 
-                  {/* {(activeDomain === index || activeStates === index) && ( */}
-                  <span className=" cursor-pointer ">
-                    <Tooltip
-                      className="domainText"
-                      slotProps={{
-                        popper: {
-                          modifiers: [
-                            {
-                              name: "offset",
-                              options: {
-                                offset: [0, -14],
-                              },
-                            },
-                          ],
-                        },
-                      }}
-                      title={domain.name}
-                    >
+                    {/* {(activeDomain === index || activeStates === index) && ( */}
+                    <span className=" cursor-pointer domainText">
                       {domain.name}
-                    </Tooltip>
-                  </span>
-                  {/* )} */}
+                    </span>
+                    {/* )} */}
+                  </Box>
                 </Box>
-              </Box>
-            ))}
-        </Box>
+              ))}
+          </Box>
+        </>
       )}
     </Box>
   );

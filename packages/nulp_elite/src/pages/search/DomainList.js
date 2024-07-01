@@ -433,6 +433,10 @@ const DomainList = ({ globalSearchQuery }) => {
         <Container role="main" maxWidth="xxl">
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
+            <Box className="text-white h4-title">
+              Select your prefered domain :
+            </Box>
+
             <Grid
               container
               spacing={2}
@@ -454,32 +458,25 @@ const DomainList = ({ globalSearchQuery }) => {
                         flexDirection: "row",
                         alignItems: "center",
                       }}
+                      className="domainlist-bx"
                     >
-                      <Box
-                        style={{
-                          background: "#fff",
-                          padding: "5px",
-                          borderRadius: "10px",
-                          height: "48px",
-                          width: "48px",
-                          border: "solid 1px #E1E1E1",
-                          textAlign: "center",
-                        }}
-                      >
+                      <Box>
                         <img
+                          className="domainHover"
                           src={require(`../../assets/domainImgs${term.image}`)}
-                          style={{ transform: "translate(2px, 5px)" }}
+                          // style={{ transform: "translate(2px, 5px)" }}
                         />
                       </Box>
                       <h5
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          paddingLeft: "10px",
-                          margin: "0",
-                          width: "86px",
-                          wordWrap: "break-word",
-                        }}
+                        className=" cursor-pointer domainText"
+                        // style={{
+                        //   fontSize: "14px",
+                        //   fontWeight: "500",
+                        //   paddingLeft: "10px",
+                        //   margin: "0",
+                        //   width: "86px",
+                        //   wordWrap: "break-word",
+                        // }}
                       >
                         {term.name}
                       </h5>
