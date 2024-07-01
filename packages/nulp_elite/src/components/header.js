@@ -188,19 +188,10 @@ function Header({ globalSearchQuery }) {
               <img
                 src={require("../assets/logo.png")}
                 style={{ maxWidth: "100%" }}
-                className="lg-w-75  logo"
+                className="logo"
               />
             </Link>
-            <Link
-              href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-              className="pl-0 py-15 d-flex"
-            >
-              <img
-                style={{ maxWidth: "100%" }}
-                className="lg-w-75  logo"
-                src={require("../assets/mohua.png")}
-              />
-            </Link>
+
             <Box
               className="xs-hide d-flex explore explore-text"
               style={{
@@ -290,6 +281,7 @@ function Header({ globalSearchQuery }) {
                 display: "flex",
                 justifyContent: "flex-end",
                 alignItems: "center",
+                marginLeft: "20px",
               }}
             >
               <Link
@@ -363,7 +355,7 @@ function Header({ globalSearchQuery }) {
                 <Groups2OutlinedIcon
                   style={{ padding: "0 5px", verticalAlign: "middle" }}
                 />
-                {t("Discussions")}
+                {t("DISCUSSIONS")}
               </Link>
 
               {/* User Profile */}
@@ -461,7 +453,7 @@ function Header({ globalSearchQuery }) {
                 className="lg-hide lg-mt-10"
               >
                 <Box className="d-flex lg-hide">
-                  <IconButton
+                  {/* <IconButton
                     size="large"
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
@@ -471,8 +463,9 @@ function Header({ globalSearchQuery }) {
                     className="lg-hide"
                   >
                     <SortOutlinedIcon />
-                  </IconButton>
+                  </IconButton> */}
                   <Box
+                    className="xs-pl-5"
                     sx={{
                       display: { xs: "block", md: "none" },
                     }}
@@ -518,6 +511,80 @@ function Header({ globalSearchQuery }) {
                       </MenuItem>
                     </Menu>
                   </Box>
+                  <Tooltip
+                    className={
+                      activePath ===
+                        `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
+                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                        ? "Menuactive"
+                        : ""
+                    }
+                  >
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0 }}
+                      className="profile-btn"
+                    >
+                      {userData && (
+                        <>
+                          <div className="profile-text-circle">
+                            {userData?.result?.response?.firstName[0]}
+                          </div>
+                          <div
+                            className="ellsp xs-pl-5"
+                            style={{
+                              maxWidth: "52px",
+                              textAlign: "left",
+                              paddingTop: "0",
+                            }}
+                          >
+                            {userData?.result?.response?.firstName}
+                          </div>
+                        </>
+                      )}
+                      <ExpandMoreIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("PROFILE")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("HELP")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href="/logoff" underline="none" textAlign="center">
+                        {t("LOGOUT")}
+                      </Link>
+                    </MenuItem>
+                  </Menu>
                   <Link
                     href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
                     className="py-15"
@@ -529,9 +596,9 @@ function Header({ globalSearchQuery }) {
                     />
                   </Link>
                 </Box>
-                <Box className="lg-hide">
+                <Box className="lg-hide translate">
                   {/* Language Select */}
-                  <Box sx={{ minWidth: 120, paddingLeft: "10px" }}>
+                  <Box>
                     <FormControl
                       fullWidth
                       size="small"
@@ -539,6 +606,7 @@ function Header({ globalSearchQuery }) {
                         display: "flex",
                         alignItems: "center",
                         flexDirection: "row",
+                        justifyContent: "end",
                       }}
                     >
                       {/* <InputLabel id="language-select-label">

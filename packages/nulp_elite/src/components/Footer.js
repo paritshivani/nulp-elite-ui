@@ -21,6 +21,7 @@ import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 
 // const styles = {
 //   BottomNavigation: {
@@ -41,6 +42,16 @@ export default function Footer() {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const onGlobalSearch = () => {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
+      state: { globalSearchQuery: searchQuery },
+    });
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      onGlobalSearch();
+    }
   };
 
   const handleClose = () => {
@@ -96,7 +107,7 @@ export default function Footer() {
               onClick={() =>
                 navigate(routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST)
               }
-              label={t("SEARCH")}
+              label={t("HOME")}
               icon={<SearchSharpIcon />}
               className={
                 location.pathname ===
@@ -143,25 +154,15 @@ export default function Footer() {
               icon={<VideocamOutlinedIcon />}
             />
             <BottomNavigationAction
-              onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
-              label={t("PROFILE")}
-              className={
-                location.pathname ===
-                `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}`
-                  ? "navigateActive"
-                  : ""
-              }
-              icon={
-                <>
-                  {userData && (
-                    <>
-                      <div className="profile-text-circle">
-                        {userData?.result?.response?.firstName[0]}
-                      </div>
-                    </>
-                  )}
-                </>
-              }
+              // onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
+              label={t("DISCUSSIONS")}
+              // className={
+              //   location.pathname ===
+              //   `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}`
+              //     ? "navigateActive"
+              //     : ""
+              // }
+              icon={<Groups2OutlinedIcon />}
             />
           </BottomNavigation>
         </Box>
@@ -219,7 +220,7 @@ export default function Footer() {
             <Link
               underline="none"
               target="_blank"
-              href="#"
+              href={routeConfig.ROUTES.HELP_PAGE.HELP}
               style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
             >
               {t("FAQS")}

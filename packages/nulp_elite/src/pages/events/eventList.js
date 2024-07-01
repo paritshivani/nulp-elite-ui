@@ -440,7 +440,7 @@ const EventList = (props) => {
                               </Grid>
                             ))
                           ) : (
-                            <NoResult className="center-box" />
+                            <NoResult />
                           )}
                         </Grid>
                         <Pagination

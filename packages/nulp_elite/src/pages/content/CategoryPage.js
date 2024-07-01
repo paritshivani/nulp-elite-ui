@@ -251,15 +251,17 @@ const CategoryPage = () => {
             {error}
           </Alert>
         )}
-        <Box
-          className="d-flex jc-bw mr-20 my-20 px-10"
-          style={{ alignItems: "center" }}
-        >
-          <p className="h3-title">{category}</p>
-          <Link onClick={handleGoBack} className="viewAll mr-30">
-            {t("BACK")}
-          </Link>
-        </Box>
+        {category && (
+          <Box
+            className="d-flex jc-bw mr-20 my-20 px-10"
+            style={{ alignItems: "center" }}
+          >
+            <p className="h3-title">{category}</p>
+            <Link onClick={handleGoBack} className="viewAll mr-30">
+              {t("BACK")}
+            </Link>
+          </Box>
+        )}
 
         <Box textAlign="center">
           <Box className="custom-card xs-pb-20">

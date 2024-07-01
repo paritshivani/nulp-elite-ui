@@ -50,6 +50,8 @@ import {
   TwitterIcon,
 } from "react-share";
 import AddConnections from "pages/connections/AddConnections";
+// import speakerOne from "./../assets/speakerOne.png";
+
 const routeConfig = require("../../configs/routeConfig.json");
 
 const JoinCourse = () => {
@@ -368,7 +370,7 @@ const JoinCourse = () => {
           <Box>
             <Button
               onClick={handleLinkClick}
-              className="custom-btn-primary my-20 mr-5"
+              className="custom-btn-primary  mr-5"
             >
               {t("START_LEARNING")}
             </Button>
@@ -476,7 +478,7 @@ const JoinCourse = () => {
             onClick={handleJoinAndOpenModal}
             // onClick={handleOpenModal}
             disabled={isExpired || !activeBatch} // Only disable if expired (not on last day)
-            className="custom-btn-primary my-20"
+            className="custom-btn-primary"
             style={{
               background: isExpired ? "#ccc" : "#004367",
             }}
@@ -738,7 +740,34 @@ const JoinCourse = () => {
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
-        <Grid container spacing={2}>
+        <Box className=" pos-relative xs-ml-15">
+          <Box
+          // style={{
+          //   background: url(require("./../../assets/domainImgs/Water.png")),
+          //   height: "200px",
+          //   width: "100%",
+          // }}
+          >
+            <img
+              src={require("../../assets/dummyCardImgs/Education.png")}
+              alt="Speaker One"
+              className="contentdetail-bg"
+              style={{
+                height: "200px",
+                width: "100%",
+              }}
+            />
+            <Box className="p-10 text-right contentdetail-title">
+              {" "}
+              {userData?.result?.content?.name}
+            </Box>
+            <Box className="p-10 text-right contentdetail-desc">
+              {" "}
+              {userData?.result?.content?.description}
+            </Box>
+          </Box>
+        </Box>
+        <Grid container spacing={2} className="mt-9">
           <Grid
             item
             xs={12}
