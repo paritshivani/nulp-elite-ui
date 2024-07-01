@@ -127,29 +127,25 @@ const Profile = () => {
   // for bar charts
   const chartSettingsH1 = {
     dataset: [
-      { high: 3, low: 4, order: "1" },
+      { high: 1, low: 2, order: "1" },
       { high: 1, low: 2, order: "1" },
     ],
-    height: 300,
     yAxis: [{ scaleType: "band", dataKey: "order" }],
     sx: {
-      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-        transform: "translateX(-20px,-10px)",
-      },
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {},
     },
     slotProps: {
       legend: {
         direction: "row",
         position: { vertical: "bottom", horizontal: "middle" },
-        padding: -10,
       },
     },
   };
 
   const chartSettingsH2 = {
     dataset: [
-      { high: 3, low: 4, order: "1" },
-      { high: 1, low: 2, order: "1" },
+      { high: 3, low: 2, order: "1" },
+      { high: 3, low: 2, order: "1" },
     ],
     height: 300,
     yAxis: [{ scaleType: "band", dataKey: "order" }],
@@ -701,7 +697,7 @@ const Profile = () => {
                   </Box>
 
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={6} className="chartOne">
+                    <Grid item xs={6} md={6} className="chartOne">
                       <Box className="h6-title pl-20">
                         Certifications Received
                       </Box>
@@ -747,7 +743,7 @@ const Profile = () => {
                           },
                         ]}
                         width={261}
-                        height={200}
+                        height={285}
                       />
                       {/* {certData &&
                         certData.certificatesReceived &&
@@ -772,7 +768,7 @@ const Profile = () => {
                         {t("CERTIFICATIONS_RECEIVED")}
                       </Typography>
                     </Grid> */}
-                    <Grid item xs={12} md={6} className="chartTwo">
+                    <Grid item xs={6} md={6} className="chartTwo">
                       <Box className="h6-title">
                         Courses more than last month
                       </Box>
@@ -808,7 +804,7 @@ const Profile = () => {
                             layout: "horizontal",
                           },
                         ]}
-                        width={221}
+                        width={261}
                         height={285}
                       />
                       {/* {certData &&
