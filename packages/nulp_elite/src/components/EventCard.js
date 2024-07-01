@@ -12,6 +12,9 @@ import { useTranslation } from "react-i18next";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import AccessAlarmsOutlinedIcon from "@mui/icons-material/AccessAlarmsOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
+const processString = (str) => {
+  return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+};
 export default function EventCard({ items, index, onClick }) {
   // const [imgUrl, setImgUrl] = useState();
   const [subdomain, setSubdomain] = useState();
@@ -19,9 +22,9 @@ export default function EventCard({ items, index, onClick }) {
 
   useEffect(() => {
     if (items.se_gradeLevels) {
-      setSubdomain(items.se_gradeLevels[0]);
+      setSubdomain(processString(items.se_gradeLevels[0]));
     } else if (items.gradeLevel) {
-      setSubdomain(items.gradeLevel[0]);
+      setSubdomain(processString(items.gradeLevel[0]));
     } else {
       setSubdomain(undefined);
     }
@@ -74,8 +77,8 @@ export default function EventCard({ items, index, onClick }) {
           className="card-media"
           image={
             subdomain
-              ? require(`./../assets/dummyCardImgs/${subdomain}.png`)
-              : require("./../assets/dummyCardImgs/Management.png")
+              ? require(`./../assets/cardBanner/${subdomain}.png`)
+              : require("./../assets/cardBanner/management.png")
           }
           title="green iguana"
         />
