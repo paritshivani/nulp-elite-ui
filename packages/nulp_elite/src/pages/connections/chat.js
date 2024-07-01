@@ -94,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "400",
   },
 }));
+import InfoIcon from "@mui/icons-material/Info";
+import Tooltip from "@mui/material/Tooltip";
+
 const Chat = ({
   senderUserId: propSenderUserId,
   receiverUserId: propReceiverUserId,
@@ -134,11 +137,30 @@ const Chat = ({
   const { t } = useTranslation();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const reasons = [
-    "Harassment or Bullying",
-    "Spam or Inappropriate Content",
-    "Impersonation or Fake Profiles",
-    "Threats or Dangerous Behaviour",
-    "Other",
+    {
+      option: "Harassment or Bullying",
+      description:
+        "Users engaging in harassment, bullying, or abusive behavior towards others can be blocked to maintain a safe and respectful environment.",
+    },
+    {
+      option: "Spam or Inappropriate Content",
+      description:
+        "Posting spam, malicious links, or inappropriate content (such as explicit images or hate speech) often results in being blocked.",
+    },
+    {
+      option: "Impersonation or Fake Profiles",
+      description:
+        "Users creating fake profiles or impersonating others to deceive or harm other users can be blocked to protect user identity and trust.",
+    },
+    {
+      option: "Threats or Dangerous Behaviour",
+      description:
+        "Making threats or promoting dangerous behavior, such as self-harm or violence, can result in immediate blocking to protect the well-being of the community.",
+    },
+    {
+      option: "Other",
+      description: "",
+    },
   ];
   const [customReason, setCustomReason] = useState("");
   const [activePath, setActivePath] = useState(location.pathname);
@@ -620,8 +642,19 @@ const Chat = ({
                 onChange={handleReasonChange}
               >
                 {reasons.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
+                  <MenuItem key={option.option} value={option.option}>
+                    {option.option}
+                    {option.option !== "Other" && (
+                      <Tooltip
+                        title={option.description}
+                        placement="right-start"
+                        arrow
+                      >
+                        <IconButton size="small" style={{ marginLeft: "8px" }}>
+                          <InfoIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                   </MenuItem>
                 ))}
               </TextField>
