@@ -125,6 +125,15 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   // for bar charts
+  const defaultCertData = {
+    certificatesReceived: 0,
+    courseWithCertificate: 0,
+  };
+
+  const defaultCourseData = {
+    enrolledLastMonth: 0,
+    enrolledThisMonth: 0,
+  };
   const chartSettingsH1 = {
     dataset: [
       { high: 1, low: 2, order: "1" },
@@ -244,6 +253,7 @@ const Profile = () => {
   const [previewUrl, setPreviewUrl] = useState("");
   const [fileError, setFileError] = useState("");
   const [fileUploadMessage, setFileUploadMessage] = useState("");
+  const dummyData = [1, 1];
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -583,6 +593,25 @@ const Profile = () => {
     }
   };
 
+  // Use default data if certData or courseData is undefined or empty
+  const finalCertData =
+    certData &&
+    certData.certificatesReceived !== undefined &&
+    certData.courseWithCertificate !== undefined
+      ? certData
+      : defaultCertData;
+  const finalCourseData =
+    courseData &&
+    courseData.enrolledLastMonth !== undefined &&
+    courseData.enrolledThisMonth !== undefined
+      ? courseData
+      : defaultCourseData;
+  // Check if data is empty or zero
+  const isCertDataEmpty =
+    !finalCertData.certificatesReceived && !finalCertData.courseWithCertificate;
+  const isCourseDataEmpty =
+    !finalCourseData.enrolledThisMonth && !finalCourseData.enrolledLastMonth;
+
   return (
     <div>
       <Header />
@@ -695,70 +724,81 @@ const Profile = () => {
                       {t("PERFORMANCE")}
                     </Box>
                   </Box>
-
                   <Grid container spacing={2}>
                     <Grid item xs={6} md={6} className="chartOne">
                       <Box className="h6-title pl-20">
                         Certifications Received
                       </Box>
-                      {certData &&
-                        certData.certificatesReceived !== undefined &&
-                        certData.courseWithCertificate !== undefined && (
-                          <BarChart
-                            yAxis={[
-                              { scaleType: "band", data: ["certificate"] },
-                            ]}
-                            series={[
-                              {
-                                data: [certData.courseWithCertificate],
-                                stack: "A",
-                                layout: "horizontal",
-                                label: "No. of courses with certificate",
-                                color: "#065872",
-                              },
-                              {
-                                data: [certData.certificatesReceived],
-                                stack: "B",
-                                layout: "horizontal",
-                                label: "Certificate received",
-                                color: "#0e7a9c",
-                              },
-                            ]}
-                            width={261}
-                            height={200}
-                          />
-                        )}
+                      <BarChart
+                        yAxis={[{ scaleType: "band", data: ["certificate"] }]}
+                        series={[
+                          {
+                            data: isCertDataEmpty
+                              ? dummyData
+                              : [finalCertData.certificatesReceived],
+                            stack: "A",
+                            layout: "horizontal",
+                            label: isCertDataEmpty
+                              ? "Dummy data"
+                              : "Certificate received",
+                            color: "#0e7a9c",
+                          },
+                          {
+                            data: isCertDataEmpty
+                              ? dummyData
+                              : [finalCertData.courseWithCertificate],
+                            stack: "B",
+                            layout: "horizontal",
+                            label: isCertDataEmpty
+                              ? "Dummy data"
+                              : "No. of courses with certificate",
+                            color: "#065872",
+                          },
+                        ]}
+                        width={261}
+                        height={200}
+                        options={
+                          isCertDataEmpty ? { hover: { enabled: false } } : {}
+                        }
+                      />
                     </Grid>
 
                     <Grid item xs={12} md={6} className="chartTwo">
                       <Box className="h6-title">
                         Courses more than last month
                       </Box>
-                      {courseData &&
-                        courseData.enrolledLastMonth !== undefined &&
-                        courseData.enrolledThisMonth !== undefined && (
-                          <BarChart
-                            yAxis={[{ scaleType: "band", data: ["courses"] }]}
-                            series={[
-                              {
-                                data: [courseData.enrolledLastMonth],
-                                stack: "A",
-                                label: "Enrolled courses prev month",
-                                color: "#065872",
-                                layout: "horizontal",
-                              },
-                              {
-                                data: [courseData.enrolledThisMonth],
-                                stack: "B",
-                                label: "Enrolled courses current month",
-                                color: "#0e7a9c",
-                                layout: "horizontal",
-                              },
-                            ]}
-                            width={221}
-                            height={285}
-                          />
-                        )}
+                      <BarChart
+                        yAxis={[{ scaleType: "band", data: ["courses"] }]}
+                        series={[
+                          {
+                            data: isCourseDataEmpty
+                              ? dummyData
+                              : [finalCourseData.enrolledThisMonth],
+                            stack: "B",
+                            label: isCourseDataEmpty
+                              ? "Dummy data"
+                              : "Enrolled courses current month",
+                            color: "#0e7a9c",
+                            layout: "horizontal",
+                          },
+                          {
+                            data: isCourseDataEmpty
+                              ? dummyData
+                              : [finalCourseData.enrolledLastMonth],
+                            stack: "A",
+                            label: isCourseDataEmpty
+                              ? "Dummy data"
+                              : "Enrolled courses prev month",
+                            color: "#065872",
+                            layout: "horizontal",
+                          },
+                        ]}
+                        width={261}
+                        height={200}
+                        options={
+                          isCourseDataEmpty ? { hover: { enabled: false } } : {}
+                        }
+                      />
                     </Grid>
                   </Grid>
                 </Box>
