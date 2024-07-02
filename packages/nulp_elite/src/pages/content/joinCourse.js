@@ -738,7 +738,7 @@ const JoinCourse = () => {
       </Modal>
 
       <Container
-        maxWidth="xxl"
+        maxWidth="xl"
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
