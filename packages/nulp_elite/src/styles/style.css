@@ -559,7 +559,11 @@ button {
     width: 30px !important;
   }
   .profile-btn {
-    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+  .xs-py-3 {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
   }
   .allContentlearning .custom-card {
     justify-content: inherit !important;
@@ -597,12 +601,14 @@ button {
   .d-flex.sendMessag {
     background: #fff;
   }
+  .xs-h-28 {
+    height: 28px;
+  }
   .logo {
     max-width: 100%;
     /* width: 200px; */
     padding-left: 0;
     width: 180px;
-    margin-left: 10px;
   }
   .allContent .cardBox {
     height: 259px;
@@ -851,11 +857,13 @@ button {
   }
   .translate svg {
     font-size: 13px !important;
+    color: #fff;
   }
   .translate .MuiSelect-select {
     padding-left: 6px !important;
     padding-right: 14px !important;
     font-size: 11px;
+    color: #fff;
   }
   .profile-btn svg {
     font-size: 16px !important;
@@ -1282,6 +1290,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .lg-pr-20 {
+    padding-right: 20px !important;
+  }
   .language .MuiSelect-select {
     font-size: 12px !important;
     color: #fff !important;

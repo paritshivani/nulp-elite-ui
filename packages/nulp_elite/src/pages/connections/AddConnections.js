@@ -1545,7 +1545,7 @@ const AddConnections = () => {
                               >
                                 <ListItem className="connection-tab">
                                   <ListItemText
-                                    style={{ fontSize: "14px", color: "#000" }}
+                                    style={{ color: "#000" }}
                                     primary={`${item.firstName}${
                                       item.lastName ? ` ${item.lastName}` : ""
                                     } | ${item.designation}`}

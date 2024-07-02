@@ -133,10 +133,10 @@ function Header({ globalSearchQuery }) {
       <Box className={scrolled ? " scrolledTop" : ""}>
         {/* Sidebar Navigation */}
         <Box
-          className="d-flex jc-en pr-20 xs-hide"
+          className="d-flex jc-en lg-pr-20 xs-pr-16"
           sx={{ background: "#484848" }}
         >
-          <Box className="d-flex alignItems-center">
+          <Box className="d-flex alignItems-center xs-hide">
             <Link href="#" underline="none" className="font-sizer">
               {" "}
               +A
@@ -152,13 +152,12 @@ function Header({ globalSearchQuery }) {
             <FormControl
               fullWidth
               size="small"
-              className="translate"
+              className="translate xs-h-28"
               style={{
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "row",
                 justifyContent: "end",
-                paddingRight: "5px",
               }}
             >
               <GTranslateIcon />
@@ -183,7 +182,7 @@ function Header({ globalSearchQuery }) {
           <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-              className="pl-0 py-15 d-flex"
+              className="pl-0 py-15 d-flex xs-py-3"
             >
               <img
                 src={require("../assets/logo.png")}
@@ -449,7 +448,6 @@ function Header({ globalSearchQuery }) {
                   justifyContent: "space-between",
                   background: "#fff",
                   width: "100%",
-                  marginLeft: "-4px",
                 }}
                 className="lg-hide lg-mt-10"
               >
@@ -515,7 +513,7 @@ function Header({ globalSearchQuery }) {
 
                   <Link
                     href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-                    className="py-15"
+                    className="py-15 xs-py-3"
                   >
                     <img
                       src={require("../assets/logo.png")}
@@ -524,7 +522,8 @@ function Header({ globalSearchQuery }) {
                     />
                   </Link>
                 </Box>
-                <Box className="lg-hide translate">
+
+                <Box className="lg-hide xs-hide translate">
                   {/* Language Select */}
                   <Box>
                     <FormControl
@@ -558,26 +557,30 @@ function Header({ globalSearchQuery }) {
                     </FormControl>
                   </Box>
                 </Box>
-                <Tooltip
-                  className={
-                    activePath ===
-                      `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                    activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
-                      ? "Menuactive"
-                      : ""
-                  }
-                >
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    sx={{ p: 0 }}
-                    className="profile-btn"
+                <Box className="d-flex">
+                  <Box className="notification-circle lg-hide">
+                    <NotificationsNoneOutlinedIcon />
+                  </Box>
+                  <Tooltip
+                    className={
+                      activePath ===
+                        `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
+                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                        ? "Menuactive"
+                        : ""
+                    }
                   >
-                    {userData && (
-                      <>
-                        <div className="profile-text-circle">
-                          {userData?.result?.response?.firstName[0]}
-                        </div>
-                        {/* <div
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0 }}
+                      className="profile-btn"
+                    >
+                      {userData && (
+                        <>
+                          <div className="profile-text-circle">
+                            {userData?.result?.response?.firstName[0]}
+                          </div>
+                          {/* <div
                             className="ellsp xs-pl-5"
                             style={{
                               maxWidth: "52px",
@@ -587,52 +590,52 @@ function Header({ globalSearchQuery }) {
                           >
                             {userData?.result?.response?.firstName}
                           </div> */}
-                      </>
-                    )}
-                    {/* <ExpandMoreIcon /> */}
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("PROFILE")}
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.HELP_PAGE.HELP}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("HELP")}
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href="/logoff" underline="none" textAlign="center">
-                      {t("LOGOUT")}
-                    </Link>
-                  </MenuItem>
-                </Menu>
-
+                        </>
+                      )}
+                      {/* <ExpandMoreIcon /> */}
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("PROFILE")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("HELP")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href="/logoff" underline="none" textAlign="center">
+                        {t("LOGOUT")}
+                      </Link>
+                    </MenuItem>
+                  </Menu>
+                </Box>
                 {/* Language Select */}
               </Toolbar>{" "}
               {/* Search Box */}
