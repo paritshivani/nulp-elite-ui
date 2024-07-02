@@ -137,6 +137,10 @@ button {
   overflow: hidden !important;
 }
 @media (min-width: 320px) {
+  .addConnectChat .jss3 {
+    overflow-y: auto;
+    max-height: 440px;
+  }
   .domainHover {
     cursor: pointer;
     display: block;
@@ -464,7 +468,13 @@ button {
     border: none !important;
     /* padding: 25px 0; */
     /* float: right; */
-    width: 94px;
+    width: 46px;
+  }
+  .sendTextBox textarea {
+    padding-top: 24px;
+  }
+  .sendTextBox .MuiInputBase-fullWidth {
+    padding: 0 !important;
   }
   .MuiDrawer-paperAnchorLeft .css-1hskriy {
     width: 381px !important;
@@ -543,6 +553,18 @@ button {
   }
 }
 @media (max-width: 768px) {
+  .profile-text-circle {
+    font-size: 17px !important;
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .profile-btn {
+    margin-right: 10px !important;
+  }
+  .xs-py-3 {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
   .allContentlearning .custom-card {
     justify-content: inherit !important;
   }
@@ -559,8 +581,11 @@ button {
     border-radius: 3px;
     border: 1px solid #ddd !important;
     /* box-shadow: 0 4px 4px 0 #00000040!important; */
-    padding-bottom: 15px !important;
+    margin-bottom: 15px !important;
     box-shadow: none !important;
+  }
+  .translate {
+    width: 118px;
   }
   .xs-pl-17 {
     padding-left: 17px;
@@ -576,10 +601,14 @@ button {
   .d-flex.sendMessag {
     background: #fff;
   }
+  .xs-h-28 {
+    height: 28px;
+  }
   .logo {
     max-width: 100%;
     /* width: 200px; */
     padding-left: 0;
+    width: 180px;
   }
   .allContent .cardBox {
     height: 259px;
@@ -828,11 +857,13 @@ button {
   }
   .translate svg {
     font-size: 13px !important;
+    color: #fff;
   }
   .translate .MuiSelect-select {
     padding-left: 6px !important;
     padding-right: 14px !important;
     font-size: 11px;
+    color: #fff;
   }
   .profile-btn svg {
     font-size: 16px !important;
@@ -926,7 +957,7 @@ button {
     margin-right: 13px !important;
   }
   .mr-30 {
-    margin-right: 13px !important;
+    margin-right: 30px !important;
   }
   /* .all-card-list .custom-card {
     gap: 10px 35px;
@@ -941,8 +972,8 @@ button {
     padding: 0 6px;
     width: 210px !important;
   } */
-  .Mui-disabled {
-    background: #007b9d61 !important;
+  button.Mui-disabled {
+    background: #cacccc70 !important;
   }
   .domain-list .custom-card-box {
     padding: 0 6px;
@@ -1259,6 +1290,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .lg-pr-20 {
+    padding-right: 20px !important;
+  }
   .language .MuiSelect-select {
     font-size: 12px !important;
     color: #fff !important;
@@ -1584,7 +1618,7 @@ Footer {
   background: #0e7a9c !important;
   border-radius: 10px !important;
   color: #fff !important;
-  padding: 10px 25px !important;
+  padding: 6px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
@@ -1735,16 +1769,16 @@ button {
 .viewAll {
   border: none !important;
   border-radius: 10px !important;
-  color: #000 !important;
+  color: #fff !important;
   font-size: 12px !important;
   font-weight: 500 !important;
   padding: 9px 32px;
   text-align: center !important;
   text-decoration: none !important;
-  background: #d9d9d9 !important;
+  background: #057184 !important;
 }
 .viewAll:hover {
-  background: #d9d9d9 !important;
+  background: #057184 !important;
 }
 
 .textLeft {
@@ -1948,7 +1982,7 @@ tspan {
 }
 .left-container {
   border-right: 1px solid #dddddd;
-  border-radius: 3px;
+  border-radius: 10px;
   box-shadow: 0px 4px 4px 0px #00000040 !important;
   background: #fff;
 
@@ -2417,7 +2451,7 @@ header .MuiContainer-maxWidthLg {
   overflow: inherit !important;
 }
 .contentdetail-bg {
-  height: 138px !important;
+  height: 178px !important;
   width: 100%;
   object-fit: cover;
   filter: grayscale(20%);
