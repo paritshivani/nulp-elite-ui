@@ -873,6 +873,10 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .my-class.carousel-active-ui .cursor-pointer {
+    width: 104px;
+    margin-bottom: -12px;
+  }
   .Menuactive.profile-btn {
     align-items: center;
     background: #0e7a9c !important;
@@ -2477,7 +2481,4 @@ header .MuiContainer-maxWidthLg {
 }
 .carousel-bx.scrolled {
   padding-top: 15px !important;
-}
-.my-class.carousel-active-ui .cursor-pointer {
-  width: 104px;
 }
