@@ -1910,7 +1910,7 @@ const AddConnections = () => {
                 xs={12}
                 md={8}
                 lg={8}
-                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0 min-h-600"
+                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0"
               >
                 {!isMobile && (
                   <Box className="text-center">

@@ -53,7 +53,9 @@ import AddConnections from "pages/connections/AddConnections";
 // import speakerOne from "./../assets/speakerOne.png";
 
 const routeConfig = require("../../configs/routeConfig.json");
-
+const processString = (str) => {
+  return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+};
 const JoinCourse = () => {
   const { t } = useTranslation();
   const [courseData, setCourseData] = useState();
@@ -743,7 +745,13 @@ const JoinCourse = () => {
         <Box className=" pos-relative xs-ml-15 lg-ml-15">
           <Box>
             <img
-              src={require("../../assets/dummyCardImgs/Water Management.png")}
+              src={
+                userData?.result?.content.se_gradeLevels
+                  ? require(`../../assets/cardBanner/${processString(
+                      userData?.result?.content?.se_gradeLevels[0]
+                    )}.png`)
+                  : require("../../assets/cardBanner/management.png")
+              }
               alt="Speaker One"
               className="contentdetail-bg"
               style={{
