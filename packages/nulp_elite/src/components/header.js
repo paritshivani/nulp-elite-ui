@@ -49,6 +49,8 @@ function Header({ globalSearchQuery }) {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNotify, setAnchorElNotify] = React.useState(null);
+
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const navigate = useNavigate();
   const _userId = util.userId();
@@ -60,6 +62,9 @@ function Header({ globalSearchQuery }) {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+  const handleOpenNotifyMenu = (event) => {
+    setAnchorElNotify(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -67,6 +72,9 @@ function Header({ globalSearchQuery }) {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const handleCloseNotifyMenu = () => {
+    setAnchorElNotify(null);
   };
   const [activePath, setActivePath] = useState(location.pathname);
 
@@ -356,6 +364,48 @@ function Header({ globalSearchQuery }) {
                 />
                 {t("DISCUSSIONS")}
               </Link>
+              <Box className="notification-circle xs-hide">
+                {/* <NotificationsNoneOutlinedIcon />
+                    ekta */}
+
+                <Tooltip>
+                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                    <NotificationsNoneOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElNotify}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElNotify)}
+                  onClose={handleCloseNotifyMenu}
+                >
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 1
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 2
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 3
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </Box>
 
               {/* User Profile */}
               <Tooltip
@@ -431,9 +481,6 @@ function Header({ globalSearchQuery }) {
                   </Link>
                 </MenuItem>
               </Menu>
-              <Box className="notification-circle">
-                <NotificationsNoneOutlinedIcon />
-              </Box>
             </Box>
           </Box>
         </Box>
@@ -559,7 +606,46 @@ function Header({ globalSearchQuery }) {
                 </Box>
                 <Box className="d-flex">
                   <Box className="notification-circle lg-hide">
-                    <NotificationsNoneOutlinedIcon />
+                    {/* <NotificationsNoneOutlinedIcon />
+                    ekta */}
+
+                    <Tooltip>
+                      <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                        <NotificationsNoneOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      sx={{ mt: "45px" }}
+                      id="menu-appbar"
+                      anchorEl={anchorElNotify}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorElNotify)}
+                      onClose={handleCloseNotifyMenu}
+                    >
+                      <MenuItem>
+                        <Link underline="none" textAlign="center">
+                          Text 1
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link underline="none" textAlign="center">
+                          Text 2
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link underline="none" textAlign="center">
+                          Text 3
+                        </Link>
+                      </MenuItem>
+                    </Menu>
                   </Box>
                   <Tooltip
                     className={
