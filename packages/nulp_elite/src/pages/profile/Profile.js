@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBox from "components/search";
 import ContinueLearning from "./continueLearning";
 import SelectPreference from "pages/SelectPreference";
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, Alert } from "@mui/material";
 import _ from "lodash";
 import Modal from "@mui/material/Modal";
 const designations = require("../../configs/designations.json");
@@ -726,79 +726,106 @@ const Profile = () => {
                   </Box>
                   <Grid container spacing={2}>
                     <Grid item xs={6} md={6} className="chartOne">
-                      <Box className="h6-title pl-20">
-                        Certifications Received
-                      </Box>
-                      <BarChart
-                        yAxis={[{ scaleType: "band", data: ["certificate"] }]}
-                        series={[
-                          {
-                            data: isCertDataEmpty
-                              ? dummyData
-                              : [finalCertData.certificatesReceived],
-                            stack: "A",
-                            layout: "horizontal",
-                            label: isCertDataEmpty
-                              ? "Dummy data"
-                              : "Certificate received",
-                            color: "#0e7a9c",
-                          },
-                          {
-                            data: isCertDataEmpty
-                              ? dummyData
-                              : [finalCertData.courseWithCertificate],
-                            stack: "B",
-                            layout: "horizontal",
-                            label: isCertDataEmpty
-                              ? "Dummy data"
-                              : "No. of courses with certificate",
-                            color: "#065872",
-                          },
-                        ]}
-                        width={261}
-                        height={200}
-                        options={
-                          isCertDataEmpty ? { hover: { enabled: false } } : {}
-                        }
-                      />
+                      {!isCertDataEmpty ? (
+                        <>
+                          <Box className="h6-title pl-20">
+                            Certifications Received
+                          </Box>
+                          <BarChart
+                            yAxis={[
+                              { scaleType: "band", data: ["certificate"] },
+                            ]}
+                            series={[
+                              {
+                                data: isCertDataEmpty
+                                  ? dummyData
+                                  : [finalCertData.certificatesReceived],
+                                stack: "A",
+                                layout: "horizontal",
+                                label: isCertDataEmpty
+                                  ? "Dummy data"
+                                  : "Certificate received",
+                                color: "#0e7a9c",
+                              },
+                              {
+                                data: isCertDataEmpty
+                                  ? dummyData
+                                  : [finalCertData.courseWithCertificate],
+                                stack: "B",
+                                layout: "horizontal",
+                                label: isCertDataEmpty
+                                  ? "Dummy data"
+                                  : "No. of courses with certificate",
+                                color: "#065872",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
+                            options={
+                              isCertDataEmpty
+                                ? { hover: { enabled: false } }
+                                : {}
+                            }
+                          />
+                        </>
+                      ) : (
+                        <Grid item xs={6} md={6} className="chartOne">
+                          <Box className="h6-title pl-20">
+                            Certifications Received
+                          </Box>
+                          <Alert
+                            severity="info"
+                            style={{ backgroundColor: "transparent" }}
+                          >
+                            No certificates found
+                          </Alert>
+                        </Grid>
+                      )}
                     </Grid>
 
                     <Grid item xs={12} md={6} className="chartTwo">
-                      <Box className="h6-title">
-                        Courses more than last month
-                      </Box>
-                      <BarChart
-                        yAxis={[{ scaleType: "band", data: ["courses"] }]}
-                        series={[
-                          {
-                            data: isCourseDataEmpty
-                              ? dummyData
-                              : [finalCourseData.enrolledThisMonth],
-                            stack: "B",
-                            label: isCourseDataEmpty
-                              ? "Dummy data"
-                              : "Enrolled courses current month",
-                            color: "#0e7a9c",
-                            layout: "horizontal",
-                          },
-                          {
-                            data: isCourseDataEmpty
-                              ? dummyData
-                              : [finalCourseData.enrolledLastMonth],
-                            stack: "A",
-                            label: isCourseDataEmpty
-                              ? "Dummy data"
-                              : "Enrolled courses prev month",
-                            color: "#065872",
-                            layout: "horizontal",
-                          },
-                        ]}
-                        width={261}
-                        height={200}
-                        options={
-                          isCourseDataEmpty ? { hover: { enabled: false } } : {}
-                        }
-                      />
+                      {!isCourseDataEmpty ? (
+                        <>
+                          <Box className="h6-title">
+                            Courses more than last month
+                          </Box>
+                          <BarChart
+                            yAxis={[{ scaleType: "band", data: ["courses"] }]}
+                            series={[
+                              {
+                                data: [finalCourseData.enrolledThisMonth],
+                                stack: "B",
+                                label: "Enrolled courses current month",
+                                color: "#0e7a9c",
+                                layout: "horizontal",
+                              },
+                              {
+                                data: [finalCourseData.enrolledLastMonth],
+                                stack: "A",
+                                label: "Enrolled courses prev month",
+                                color: "#065872",
+                                layout: "horizontal",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
+                            options={{}}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <Box className="h6-title">
+                            Courses more than last month
+                          </Box>
+
+                          <Alert
+                            severity="info"
+                            style={{ backgroundColor: "transparent" }}
+                          >
+                            You are not enrolled in any course. Enroll now!
+                          </Alert>
+                        </>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
