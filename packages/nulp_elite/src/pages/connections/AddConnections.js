@@ -1545,7 +1545,7 @@ const AddConnections = () => {
                               >
                                 <ListItem className="connection-tab">
                                   <ListItemText
-                                    style={{ fontSize: "14px", color: "#000" }}
+                                    style={{ color: "#000" }}
                                     primary={`${item.firstName}${
                                       item.lastName ? ` ${item.lastName}` : ""
                                     } | ${item.designation}`}
@@ -1889,7 +1889,7 @@ const AddConnections = () => {
                 xs={12}
                 md={8}
                 lg={8}
-                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0 min-h-600"
+                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0"
               >
                 {!isMobile && (
                   <Box className="text-center">

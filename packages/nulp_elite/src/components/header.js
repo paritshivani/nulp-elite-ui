@@ -133,10 +133,10 @@ function Header({ globalSearchQuery }) {
       <Box className={scrolled ? " scrolledTop" : ""}>
         {/* Sidebar Navigation */}
         <Box
-          className="d-flex jc-en pr-20 xs-hide"
+          className="d-flex jc-en lg-pr-20 xs-pr-16"
           sx={{ background: "#484848" }}
         >
-          <Box className="d-flex alignItems-center">
+          <Box className="d-flex alignItems-center xs-hide">
             <Link href="#" underline="none" className="font-sizer">
               {" "}
               +A
@@ -152,13 +152,12 @@ function Header({ globalSearchQuery }) {
             <FormControl
               fullWidth
               size="small"
-              className="translate"
+              className="translate xs-h-28"
               style={{
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "row",
                 justifyContent: "end",
-                paddingRight: "5px",
               }}
             >
               <GTranslateIcon />
@@ -183,7 +182,7 @@ function Header({ globalSearchQuery }) {
           <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-              className="pl-0 py-15 d-flex"
+              className="pl-0 py-15 d-flex xs-py-3"
             >
               <img
                 src={require("../assets/logo.png")}
@@ -380,7 +379,7 @@ function Header({ globalSearchQuery }) {
                       <div
                         className="ellsp"
                         style={{
-                          maxWidth: "48px",
+                          maxWidth: "50px",
                           textAlign: "left",
                           paddingTop: "0",
                         }}
@@ -449,7 +448,6 @@ function Header({ globalSearchQuery }) {
                   justifyContent: "space-between",
                   background: "#fff",
                   width: "100%",
-                  marginLeft: "-4px",
                 }}
                 className="lg-hide lg-mt-10"
               >
@@ -512,6 +510,57 @@ function Header({ globalSearchQuery }) {
                       </MenuItem>
                     </Menu>
                   </Box>
+
+                  <Link
+                    href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
+                    className="py-15 xs-py-3"
+                  >
+                    <img
+                      src={require("../assets/logo.png")}
+                      style={{ maxWidth: "100%" }}
+                      className="lg-w-140 logo"
+                    />
+                  </Link>
+                </Box>
+
+                <Box className="lg-hide xs-hide translate">
+                  {/* Language Select */}
+                  <Box>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "end",
+                      }}
+                    >
+                      {/* <InputLabel id="language-select-label">
+                  {t("LANGUAGE")}
+                </InputLabel> */}
+                      <GTranslateIcon style={{ color: "#000" }} />
+                      <Select
+                        labelId="language-select-label"
+                        id="language-select"
+                        className="language"
+                        style={{ border: "none" }}
+                        label={t("LANGUAGE")}
+                        value={language}
+                        startIcon={<LanguageIcon />}
+                        onChange={handleChangeLanguage}
+                        inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                      >
+                        <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                        <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Box>
+                <Box className="d-flex">
+                  <Box className="notification-circle lg-hide">
+                    <NotificationsNoneOutlinedIcon />
+                  </Box>
                   <Tooltip
                     className={
                       activePath ===
@@ -531,7 +580,7 @@ function Header({ globalSearchQuery }) {
                           <div className="profile-text-circle">
                             {userData?.result?.response?.firstName[0]}
                           </div>
-                          <div
+                          {/* <div
                             className="ellsp xs-pl-5"
                             style={{
                               maxWidth: "52px",
@@ -540,10 +589,10 @@ function Header({ globalSearchQuery }) {
                             }}
                           >
                             {userData?.result?.response?.firstName}
-                          </div>
+                          </div> */}
                         </>
                       )}
-                      <ExpandMoreIcon />
+                      {/* <ExpandMoreIcon /> */}
                     </IconButton>
                   </Tooltip>
                   <Menu
@@ -586,52 +635,7 @@ function Header({ globalSearchQuery }) {
                       </Link>
                     </MenuItem>
                   </Menu>
-                  <Link
-                    href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-                    className="py-15"
-                  >
-                    <img
-                      src={require("../assets/logo.png")}
-                      style={{ maxWidth: "100%" }}
-                      className="lg-w-140 logo"
-                    />
-                  </Link>
                 </Box>
-                <Box className="lg-hide translate">
-                  {/* Language Select */}
-                  <Box>
-                    <FormControl
-                      fullWidth
-                      size="small"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        flexDirection: "row",
-                        justifyContent: "end",
-                      }}
-                    >
-                      {/* <InputLabel id="language-select-label">
-                  {t("LANGUAGE")}
-                </InputLabel> */}
-                      <GTranslateIcon style={{ color: "#000" }} />
-                      <Select
-                        labelId="language-select-label"
-                        id="language-select"
-                        className="language"
-                        style={{ border: "none" }}
-                        label={t("LANGUAGE")}
-                        value={language}
-                        startIcon={<LanguageIcon />}
-                        onChange={handleChangeLanguage}
-                        inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-                      >
-                        <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                        <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                </Box>
-
                 {/* Language Select */}
               </Toolbar>{" "}
               {/* Search Box */}
