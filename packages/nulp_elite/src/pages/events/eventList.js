@@ -153,8 +153,6 @@ const EventList = (props) => {
     }
 
   const fetchAllData = async () => {
-    console.log("search query--------", searchQuery);
-    console.log("selected Date----", startDateFilter, endDateFilter);
     let filters = {};
     if (searchQuery && domainfilter && subDomainFilter) {
       filters = {

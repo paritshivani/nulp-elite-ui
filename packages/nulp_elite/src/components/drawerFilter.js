@@ -53,7 +53,6 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       subDomainFilter: selectedSubDomain,
      
     });
-    console.log("-----------------",eventSearch);
   }, [
     selectedContentType,
     selectedSubDomain,
