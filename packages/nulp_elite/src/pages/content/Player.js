@@ -252,7 +252,7 @@ const Player = () => {
                 }
               }
             }}
-            public_url="http://127.0.0.1:8080"
+            public_url="https://devnulp.niua.org/newplayer"
             // public_url="https://nulp.niua.org"
           />
         )}
