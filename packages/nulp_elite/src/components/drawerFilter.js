@@ -35,7 +35,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState();
-  const [eventSearch, setEventSearch] = useState();
+  const [eventSearch, setEventSearch] = useState(null);
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
@@ -51,6 +51,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       eventSearch: eventSearch,
       contentFilter: selectedContentType,
       subDomainFilter: selectedSubDomain,
+     
     });
   }, [
     selectedContentType,
@@ -110,11 +111,15 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   };
 
   const handleInputChange = (event) => {
+   
     setEventSearch(event.target.value);
+    
   };
 
-  const handleSearch = () => {
-    setEventSearch(eventSearch);
+  const handleSearch = (event) => {
+   setEventSearch(event.target.value);
+      setEventSearch(searchTerm);
+    
   };
 
   const handleCheckboxChange = (event, item, filterType) => {
@@ -148,10 +153,10 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const handleClearAll = () => {
     setSelectedContentType([]);
     setSelectedSubDomain([]);
-    setSearchTerm("");
-    setEventSearch("");
-    setStartDate([]);
-    setEndDate([]);
+    setSearchTerm();
+    setEventSearch();
+    setStartDate(null);
+    setEndDate(null);
   };
 
   const list = (anchor) => (
@@ -187,7 +192,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   aria-label="toggle password visibility"
                   onClick={handleSearch}
                 >
-                  <SearchOutlinedIcon />
+                  <SearchOutlinedIcon  />
                 </IconButton>
               </InputAdornment>
             }
@@ -345,14 +350,14 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               <OutlinedInput
                 id="outlined-adornment-search"
                 type="text"
-                value={searchTerm}
+                value={eventSearch}
                 onChange={handleInputChange}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={() =>
-                        handleCheckboxChange(null, searchTerm, "eventSearch")
+                        handleCheckboxChange(null, eventSearch, "eventSearch")
                       }
                     >
                       {<SearchOutlinedIcon />}
