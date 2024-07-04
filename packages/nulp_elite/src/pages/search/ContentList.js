@@ -32,6 +32,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import FloatingChatIcon from "components/FloatingChatIcon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const responsive = {
   superLargeDesktop: {
@@ -84,6 +85,8 @@ const ContentList = (props) => {
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const [contentTypeFilter, setContentTypeFilter] = useState([]);
   const [subDomainFilter, setSubDomainFilter] = useState([]);
+  const [contentCount, setContentCount] = useState(0);
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -186,8 +189,19 @@ const ContentList = (props) => {
 
       if (response.data.result.content && response.data.result.count <= 20) {
         setTotalPages(1);
+        if (response.data.result.count === 0) {
+          setContentCount(0);
+        } else {
+          setContentCount(response.data.result.count);
+        }
       } else if (response.data.result.count > 20) {
-        setTotalPages(Math.floor(response.data.result.count / 20));
+        setTotalPages(Math.ceil(response.data.result.count / 20));
+        let count = Number(response.data.result.count);
+        if (count === 0) {
+          setContentCount(0);
+        } else {
+          setContentCount(20);
+        }
       }
 
       setData(response.data.result);
@@ -208,8 +222,9 @@ const ContentList = (props) => {
       setPageNumber(value);
       setCurrentPage(value);
       setData({});
-      navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/${value}`, {
+      navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?${value}`, {
         state: { domain: domain },
+        replace: true,
       });
       fetchData();
     }
@@ -222,7 +237,7 @@ const ContentList = (props) => {
   const fetchGradeLevels = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
       const response = await fetch(url);
       const data = await response.json();
       if (
@@ -250,7 +265,7 @@ const ContentList = (props) => {
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?orgdetails=${urlConfig.params.framework}`;
 
       const response = await fetch(url);
 
@@ -312,12 +327,12 @@ const ContentList = (props) => {
     setCurrentPage(1);
     setData({});
     setDomainName(domainName);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: query },
-    });
+    // navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
+    //   state: { domain: query },
+    // });
   };
   const handleSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
@@ -381,14 +396,14 @@ const ContentList = (props) => {
             domains={domainList}
           />
         ) : (
-          <div></div>
+          <SkeletonLoader />
           //CircularProgress color="inherit" />
         )}
       </Box>
 
       <Container
         maxWidth="xl"
-        className="allContent xs-pb-20  pb-30 content-list"
+        className="allContent xs-pb-20  pb-30 content-list eventTab"
       >
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
@@ -414,33 +429,46 @@ const ContentList = (props) => {
           className="d-flex jc-bw mr-20 my-20"
           style={{ alignItems: "center" }}
         >
-          <Box
-            sx={{ marginTop: "10px", alignItems: "center" }}
-            className="d-flex h3-title xs-d-none"
-          >
-            <Box className="h3-custom-title">
-              {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
-            </Box>
-            {domainName && (
+          {domainName || searchQuery ? (
+            <Box
+              sx={{ marginTop: "10px", alignItems: "center" }}
+              className="d-flex h3-title xs-d-none"
+            >
+              <Box className="h3-custom-title">
+                {domainName && !searchQuery
+                  ? t("YOU_ARE_VIEWING_CONTENTS_FOR")
+                  : t("YOU_ARE_SHOWING_CONTENTS_FOR")}
+              </Box>
               <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
                 className="text-blueShade2 h4-custom"
               >
-                {domainName}
+                {domainName || searchQuery
+                  ? `${searchQuery || ""}${
+                      searchQuery && domainName ? ", " : ""
+                    }${domainName || ""}`
+                  : ""}
               </Box>
-            )}
-          </Box>
+            </Box>
+          ) : (
+            <Box sx={{ marginTop: "10px" }}></Box>
+          )}
           <Link onClick={handleGoBack} className="viewAll xs-hide">
             {t("BACK")}
           </Link>
         </Box>
+        <Box className="h3-custom-title">
+          {searchQuery &&
+            `Showing ${contentCount} out of ${data?.count || 0} results`}
+        </Box>
+
         <Grid container spacing={2} className="pt-8 mt-15">
           <Grid
             item
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container mt-2 xs-hide left-filter w-100"
+            className="sm-p-25 left-container  flter-btn w-100 xs-m-10"
             style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
           >
             <DrawerFilter

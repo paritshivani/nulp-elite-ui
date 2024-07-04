@@ -34,6 +34,8 @@ const urlConfig = require("../configs/urlConfig.json");
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -47,6 +49,8 @@ function Header({ globalSearchQuery }) {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNotify, setAnchorElNotify] = React.useState(null);
+
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const navigate = useNavigate();
   const _userId = util.userId();
@@ -58,6 +62,9 @@ function Header({ globalSearchQuery }) {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+  const handleOpenNotifyMenu = (event) => {
+    setAnchorElNotify(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -65,6 +72,9 @@ function Header({ globalSearchQuery }) {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const handleCloseNotifyMenu = () => {
+    setAnchorElNotify(null);
   };
   const [activePath, setActivePath] = useState(location.pathname);
 
@@ -74,7 +84,7 @@ function Header({ globalSearchQuery }) {
   }, [location.pathname]);
 
   const onGlobalSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
@@ -106,37 +116,130 @@ function Header({ globalSearchQuery }) {
       console.error("Error fetching user data:", error);
     }
   };
+  const [scrolled, setScrolled] = useState(false);
+  // const navigate = useNavigate();
 
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 767);
+  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <>
-      {/* Sidebar Navigation */}
-      <Box
-        className="xs-hide bg-white d-flex pos-fixed"
-        style={{
-          justifyContent: "space-between",
-        }}
-      >
-        <Box>
-          <Link
-            href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-            className="pl-0 py-15"
-          >
-            <img
-              src={require("../assets/logo.png")}
-              style={{ maxWidth: "100%" }}
-              className="lg-w-140  logo"
-            />
-          </Link>
-        </Box>
+      <Box className="scrolledTop">
+        {/* Sidebar Navigation */}
         <Box
-          style={{
-            display: "flex",
-            alignItems: "center",
-            paddingRight: "14px",
-          }}
+          className="d-flex jc-en lg-pr-20 xs-pr-16"
+          sx={{ background: "#484848" }}
         >
-          {/* Navigation Links */}
-          {/* <Box style={{ padding: "10px" }}>
+          <Box className="d-flex alignItems-center xs-hide">
+            <Link href="#" underline="none" className="font-sizer">
+              {" "}
+              +A
+            </Link>{" "}
+            <Link href="#" underline="none" className="font-sizer">
+              A -{" "}
+            </Link>
+            <Link href="#" underline="none" className="font-sizer">
+              A
+            </Link>{" "}
+          </Box>
+          <Box sx={{ minWidth: 102, paddingLeft: "0" }}>
+            <FormControl
+              fullWidth
+              size="small"
+              className="translate xs-h-28"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "end",
+              }}
+            >
+              <GTranslateIcon />
+              <Select
+                labelId="language-select-label"
+                id="language-select"
+                className="language"
+                style={{ border: "none" }}
+                label={t("LANGUAGE")}
+                value={language}
+                startIcon={<LanguageIcon />}
+                onChange={handleChangeLanguage}
+                inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+              >
+                <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                <MenuItem value="hi">{t("HINDI")}</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+        <Box className="xs-hide d-flex pos-fixed  bg-white">
+          <Box className="d-flex alignItems-center w-100">
+            <Link
+              href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
+              className="pl-0 py-15 d-flex xs-py-3"
+            >
+              <img
+                src={require("../assets/logo.png")}
+                style={{ maxWidth: "100%" }}
+                className="logo"
+              />
+            </Link>
+
+            <Box
+              className="xs-hide d-flex explore explore-text"
+              style={{
+                alignItems: "center",
+                paddingLeft: "8px",
+                marginLeft: "10px",
+              }}
+            >
+              <Box className="h5-title px-10">{t("EXPLORE")}</Box>
+              <TextField
+                placeholder={t("What do you want to learn today?  ")}
+                variant="outlined"
+                size="small"
+                style={{ fontSize: "12px" }}
+                fullWidth
+                value={searchQuery}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      type="submit"
+                      aria-label="search"
+                      onClick={onGlobalSearch}
+                    >
+                      <SearchIcon />
+                    </IconButton>
+                  ),
+                }}
+              />
+            </Box>
+          </Box>
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "space-between",
+              paddingRight: "14px",
+            }}
+          >
+            {/* Navigation Links */}
+            {/* <Box style={{ padding: "10px" }}>
             <DevicesIcon
               style={{
                 padding: "0 10px",
@@ -158,50 +261,8 @@ function Header({ globalSearchQuery }) {
               {t("MAIN_CONTENT")}{" "}
             </Link>
           </Box> */}
-          <Box
-            style={{
-              padding: "0 10px",
-              color: "#424242",
-              fontSize: "16px",
-              borderRight: "solid 1px #424242",
-            }}
-          >
-            <Link
-              href="#"
-              underline="none"
-              style={{
-                color: "#424242",
-                fontSize: "16px",
-                paddingRight: "10px",
-              }}
-            >
-              {" "}
-              +A
-            </Link>{" "}
-            <Link
-              href="#"
-              underline="none"
-              style={{
-                color: "#424242",
-                fontSize: "16px",
-                paddingRight: "10px",
-              }}
-            >
-              A -{" "}
-            </Link>
-            <Link
-              href="#"
-              underline="none"
-              style={{
-                color: "#424242",
-                fontSize: "16px",
-                paddingRight: "10px",
-              }}
-            >
-              A
-            </Link>{" "}
-          </Box>
-          {/* <Box
+
+            {/* <Box
             style={{
               padding: "0 10px",
               color: "#424242",
@@ -218,157 +279,473 @@ function Header({ globalSearchQuery }) {
               {t("SCREEN_READER")}{" "}
             </Link>
           </Box> */}
-          {/* Language Select */}
-          <Box sx={{ minWidth: 120, paddingLeft: "10px" }}>
-            <FormControl
-              fullWidth
-              size="small"
-              style={{
+            {/* Language Select */}
+
+            <Box
+              className="xs-hide"
+              sx={{
+                flexGrow: 1,
                 display: "flex",
+                justifyContent: "flex-end",
                 alignItems: "center",
-                flexDirection: "row",
-                paddingRight: "15px",
+                marginLeft: "20px",
               }}
             >
-              {/* <InputLabel id="language-select-label">
-                  {t("LANGUAGE")}
-                </InputLabel> */}
-              <GTranslateIcon />
-              <Select
-                labelId="language-select-label"
-                id="language-select"
-                className="language"
-                style={{ border: "none" }}
-                label={t("LANGUAGE")}
-                value={language}
-                startIcon={<LanguageIcon />}
-                onChange={handleChangeLanguage}
-                inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+              <Link
+                href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
+                className={
+                  activePath ===
+                  `${
+                    routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                    activePath.startsWith(
+                      routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
+                    )
+                  }`
+                    ? "Menuactive"
+                    : "headerMenu"
+                }
+                underline="none"
               >
-                <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                <MenuItem value="hi">{t("HINDI")}</MenuItem>
-              </Select>
-            </FormControl>
+                <HomeOutlinedIcon
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "20px",
+                  }}
+                />
+                {t("HOME")}
+              </Link>
+              <Link
+                href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
+                className={
+                  activePath ===
+                    routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
+                  activePath.startsWith(
+                    routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL
+                  )
+                    ? "Menuactive"
+                    : "headerMenu"
+                }
+                underline="none"
+              >
+                <MenuBookOutlinedIcon
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "19px",
+                  }}
+                />
+                {t("CONTENT")}
+              </Link>
+              <Link
+                href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
+                className={
+                  activePath ===
+                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                    ? "Menuactive"
+                    : "headerMenu"
+                }
+                underline="none"
+              >
+                <ChatOutlinedIcon
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "17px",
+                  }}
+                />
+                {t("CONNECTIONS")}
+              </Link>
+              <Link
+                href={routeConfig.ROUTES.EVENTS.EVENT_LIST}
+                className={
+                  activePath === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
+                    ? "Menuactive"
+                    : "headerMenu"
+                }
+                underline="none"
+              >
+                <VideocamOutlinedIcon
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "23px",
+                  }}
+                />
+                {t("EVENTS")}
+              </Link>
+              <Link href="" className="headerMenu" underline="none">
+                <Groups2OutlinedIcon
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "22px",
+                  }}
+                />
+                {t("DISCUSSIONS")}
+              </Link>
+              <Box className="notification-circle xs-hide">
+                {/* <NotificationsNoneOutlinedIcon />
+                    ekta */}
+
+                <Tooltip>
+                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                    <NotificationsNoneOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElNotify}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElNotify)}
+                  onClose={handleCloseNotifyMenu}
+                >
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 1
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 2
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 3
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </Box>
+
+              {/* User Profile */}
+              <Tooltip
+                className={
+                  activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
+                  activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                    ? "Menuactive"
+                    : ""
+                }
+              >
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0 }}
+                  className="profile-btn"
+                >
+                  {userData && (
+                    <>
+                      <div className="profile-text-circle">
+                        {userData?.result?.response?.firstName[0]}
+                      </div>
+                      <div
+                        className="ellsp"
+                        style={{
+                          maxWidth: "50px",
+                          textAlign: "left",
+                          paddingTop: "0",
+                        }}
+                      >
+                        {userData?.result?.response?.firstName}
+                      </div>
+                    </>
+                  )}
+                  <ExpandMoreIcon />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem>
+                  <Link
+                    href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
+                    underline="none"
+                    textAlign="center"
+                  >
+                    {t("PROFILE")}
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link
+                    href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                    underline="none"
+                    textAlign="center"
+                  >
+                    {t("HELP")}
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/logoff" underline="none" textAlign="center">
+                    {t("LOGOUT")}
+                  </Link>
+                </MenuItem>
+              </Menu>
+            </Box>
           </Box>
         </Box>
-      </Box>
 
-      {/* Top Navigation Bar */}
-      <AppBar className=" bg-inherit pos-inherit mt-65">
-        <Container className="p-0">
-          <Box className="d-flex">
-            <Toolbar
-              disableGutters
-              style={{
-                justifyContent: "space-between",
-                background: "#fff",
-                width: "100%",
-              }}
-              className="lg-hide lg-mt-10"
-            >
-              <Box className="d-flex lg-hide">
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  color="inherit"
-                  className="lg-hide"
-                >
-                  <SortOutlinedIcon />
-                </IconButton>
-                <Box
-                  sx={{
-                    display: { xs: "block", md: "none" },
-                  }}
-                >
+        {/* Top Navigation Bar */}
+        <AppBar className=" bg-inherit pos-inherit mt-65">
+          <Container className="p-0">
+            <Box className="d-flex">
+              <Toolbar
+                disableGutters
+                style={{
+                  justifyContent: "space-between",
+                  background: "#fff",
+                  width: "100%",
+                }}
+                className="lg-hide lg-mt-10"
+              >
+                <Box className="d-flex lg-hide">
+                  {/* <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                    className="lg-hide"
+                  >
+                    <SortOutlinedIcon />
+                  </IconButton> */}
+                  <Box
+                    className="xs-pl-5"
+                    sx={{
+                      display: { xs: "block", md: "none" },
+                    }}
+                  >
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorElNav}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      open={Boolean(anchorElNav)}
+                      onClose={handleCloseNavMenu}
+                    >
+                      <MenuItem>
+                        <Link
+                          href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                          textAlign="center"
+                          underline="none"
+                        >
+                          <LiveHelpOutlinedIcon
+                            style={{ verticalAlign: "bottom", color: "#000" }}
+                          />{" "}
+                          {t("HELP")}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link
+                          href="/logoff"
+                          textAlign="center"
+                          underline="none"
+                        >
+                          <LogoutOutlinedIcon
+                            style={{ verticalAlign: "bottom", color: "#000" }}
+                          />{" "}
+                          {t("LOGOUT")}
+                        </Link>
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+
+                  <Link
+                    href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
+                    className="py-15 xs-py-3"
+                  >
+                    <img
+                      src={require("../assets/logo.png")}
+                      style={{ maxWidth: "100%" }}
+                      className="lg-w-140 logo"
+                    />
+                  </Link>
+                </Box>
+
+                <Box className="lg-hide xs-hide translate">
+                  {/* Language Select */}
+                  <Box>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "end",
+                      }}
+                    >
+                      {/* <InputLabel id="language-select-label">
+                  {t("LANGUAGE")}
+                </InputLabel> */}
+                      <GTranslateIcon style={{ color: "#000" }} />
+                      <Select
+                        labelId="language-select-label"
+                        id="language-select"
+                        className="language"
+                        style={{ border: "none" }}
+                        label={t("LANGUAGE")}
+                        value={language}
+                        startIcon={<LanguageIcon />}
+                        onChange={handleChangeLanguage}
+                        inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                      >
+                        <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                        <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Box>
+                <Box className="d-flex">
+                  <Box className="notification-circle lg-hide">
+                    {/* <NotificationsNoneOutlinedIcon />
+                    ekta */}
+
+                    <Tooltip>
+                      <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                        <NotificationsNoneOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      sx={{ mt: "45px" }}
+                      id="menu-appbar"
+                      anchorEl={anchorElNotify}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                      }}
+                      open={Boolean(anchorElNotify)}
+                      onClose={handleCloseNotifyMenu}
+                    >
+                      <MenuItem>
+                        <Link underline="none" textAlign="center">
+                          Text 1
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link underline="none" textAlign="center">
+                          Text 2
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link underline="none" textAlign="center">
+                          Text 3
+                        </Link>
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                  <Tooltip
+                    className={
+                      activePath ===
+                        `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
+                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                        ? "Menuactive"
+                        : ""
+                    }
+                  >
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0 }}
+                      className="profile-btn"
+                    >
+                      {userData && (
+                        <>
+                          <div className="profile-text-circle">
+                            {userData?.result?.response?.firstName[0]}
+                          </div>
+                          {/* <div
+                            className="ellsp xs-pl-5"
+                            style={{
+                              maxWidth: "52px",
+                              textAlign: "left",
+                              paddingTop: "0",
+                            }}
+                          >
+                            {userData?.result?.response?.firstName}
+                          </div> */}
+                        </>
+                      )}
+                      {/* <ExpandMoreIcon /> */}
+                    </IconButton>
+                  </Tooltip>
                   <Menu
+                    sx={{ mt: "45px" }}
                     id="menu-appbar"
-                    anchorEl={anchorElNav}
+                    anchorEl={anchorElUser}
                     anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
+                      vertical: "top",
+                      horizontal: "right",
                     }}
                     keepMounted
                     transformOrigin={{
                       vertical: "top",
-                      horizontal: "left",
+                      horizontal: "right",
                     }}
-                    open={Boolean(anchorElNav)}
-                    onClose={handleCloseNavMenu}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
                   >
                     <MenuItem>
                       <Link
-                        href={routeConfig.ROUTES.HELP_PAGE.HELP}
-                        textAlign="center"
+                        href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
                         underline="none"
+                        textAlign="center"
                       >
-                        <LiveHelpOutlinedIcon
-                          style={{ verticalAlign: "bottom", color: "#000" }}
-                        />{" "}
+                        {t("PROFILE")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                        underline="none"
+                        textAlign="center"
+                      >
                         {t("HELP")}
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link href="/logoff" textAlign="center" underline="none">
-                        <LogoutOutlinedIcon
-                          style={{ verticalAlign: "bottom", color: "#000" }}
-                        />{" "}
+                      <Link href="/logoff" underline="none" textAlign="center">
                         {t("LOGOUT")}
                       </Link>
                     </MenuItem>
                   </Menu>
                 </Box>
-                <Link
-                  href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT_PAGE}
-                  className="py-15"
-                >
-                  <img
-                    src={require("../assets/logo.png")}
-                    style={{ maxWidth: "100%" }}
-                    className="lg-w-140 logo"
-                  />
-                </Link>
-              </Box>
-              <Box className="lg-hide">
                 {/* Language Select */}
-                <Box sx={{ minWidth: 120, paddingLeft: "10px" }}>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      flexDirection: "row",
-                    }}
-                  >
-                    {/* <InputLabel id="language-select-label">
-                  {t("LANGUAGE")}
-                </InputLabel> */}
-                    <GTranslateIcon style={{ color: "#000" }} />
-                    <Select
-                      labelId="language-select-label"
-                      id="language-select"
-                      className="language"
-                      style={{ border: "none" }}
-                      label={t("LANGUAGE")}
-                      value={language}
-                      startIcon={<LanguageIcon />}
-                      onChange={handleChangeLanguage}
-                      inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-                    >
-                      <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                      <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-              </Box>
-
-              {/* Language Select */}
-            </Toolbar>{" "}
-            {/* Search Box */}
-            <Box
+              </Toolbar>{" "}
+              {/* Search Box */}
+              {/* <Box
               className="xs-hide d-flex header-bg w-40 mr-30"
               style={{ alignItems: "center", paddingLeft: "8px" }}
             >
@@ -394,7 +771,6 @@ function Header({ globalSearchQuery }) {
                 }}
               />
             </Box>
-            {/* Other Navigation Links */}
             <Box
               className="xs-hide header-bg py-15"
               sx={{ flexGrow: 1, display: "flex", justifyContent: "flex-end" }}
@@ -467,7 +843,6 @@ function Header({ globalSearchQuery }) {
                 {t("WEBINAR")}
               </Link>
 
-              {/* User Profile */}
               <Tooltip
                 className={
                   activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
@@ -541,9 +916,9 @@ function Header({ globalSearchQuery }) {
                   </Link>
                 </MenuItem>
               </Menu>
+            </Box> */}
             </Box>
-          </Box>
-          {/* <Box className="lg-hide header-bg" style={{ padding: "10px" }}>
+            {/* <Box className="lg-hide header-bg" style={{ padding: "10px" }}>
             <TextField
               placeholder={t("What do you want to learn today?")}
               variant="outlined"
@@ -559,8 +934,9 @@ function Header({ globalSearchQuery }) {
               }}
             />
           </Box> */}
-        </Container>
-      </AppBar>
+          </Container>
+        </AppBar>
+      </Box>
     </>
   );
 }

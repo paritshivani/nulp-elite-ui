@@ -35,7 +35,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState();
-  const [eventSearch, setEventSearch] = useState();
+  const [eventSearch, setEventSearch] = useState(null);
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
@@ -51,10 +51,8 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       eventSearch: eventSearch,
       contentFilter: selectedContentType,
       subDomainFilter: selectedSubDomain,
+     
     });
-    console.log("Start Date Filter", selectedStartDate);
-    console.log("End Date Filter", selectedEndDate);
-    console.log("Search Filter----", eventSearch);
   }, [
     selectedContentType,
     selectedSubDomain,
@@ -64,7 +62,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   ]);
 
   const [state, setState] = React.useState({
-    Filter: false,
+    left: false,
   });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
@@ -100,7 +98,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     }
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
       );
@@ -113,11 +111,15 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   };
 
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+   
+    setEventSearch(event.target.value);
+    
   };
 
-  const handleSearch = () => {
-    setEventSearch(searchTerm);
+  const handleSearch = (event) => {
+   setEventSearch(event.target.value);
+      setEventSearch(searchTerm);
+    
   };
 
   const handleCheckboxChange = (event, item, filterType) => {
@@ -135,7 +137,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           prev.filter((i) => i !== item.item.code)
         );
       }
-    } else if (filterType === "searchTerm") {
+    } else if (filterType === "eventSearch") {
       setEventSearch(item);
     } else if (filterType === "startDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
@@ -148,17 +150,30 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     }
   };
 
+  const handleClearAll = () => {
+    setSelectedContentType([]);
+    setSelectedSubDomain([]);
+    setSearchTerm();
+    setEventSearch();
+    setStartDate(null);
+    setEndDate(null);
+  };
+
   const list = (anchor) => (
     <Box
-      className="header-bg-blue p-20 filter-bx "
+      className="header-bg-blue p-20 filter-bx w-100"
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Box className="d-flex jc-bw ">
+      <Box className="d-flex jc-bw">
         <Box className="filter-title">Filter By:</Box>
-        <Button type="button" className="viewAll">
+        <Button
+          type="button"
+          className="viewAll mb-20"
+          onClick={handleClearAll}
+        >
           Clear all
         </Button>
       </Box>
@@ -177,7 +192,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   aria-label="toggle password visibility"
                   onClick={handleSearch}
                 >
-                  <SearchOutlinedIcon />
+                  <SearchOutlinedIcon  />
                 </IconButton>
               </InputAdornment>
             }
@@ -229,6 +244,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      checked={selectedContentType.includes(contentType)}
                       onChange={(event) =>
                         handleCheckboxChange(event, contentType, "contentType")
                       }
@@ -270,6 +286,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
             <FormControlLabel
               control={
                 <Checkbox
+                  checked={selectedSubDomain.includes(item.code)}
                   onChange={(event) =>
                     handleCheckboxChange(event, { item }, "subCategory")
                   }
@@ -289,13 +306,13 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
       {isMobile ? (
         <Box>
           <div>
-            {["Filter"].map((anchor) => (
+            {["left"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <Button
                   onClick={toggleDrawer(anchor, true)}
                   className="h6-title "
                 >
-                  {anchor}{" "}
+                  Filters
                   <ArrowForwardIosIcon
                     sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
                   />
@@ -317,7 +334,11 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
         <Box className="header-bg-blue p-15 filter-bx">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
             <Box className="filter-title">Filter By:</Box>
-            <Button type="button" className="viewAll mb-15">
+            <Button
+              type="button"
+              className="viewAll mb-20"
+              onClick={handleClearAll}
+            >
               Clear all
             </Button>
           </Box>
@@ -329,14 +350,14 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
               <OutlinedInput
                 id="outlined-adornment-search"
                 type="text"
-                value={searchTerm}
+                value={eventSearch}
                 onChange={handleInputChange}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={() =>
-                        handleCheckboxChange(null, searchTerm, "eventSearch")
+                        handleCheckboxChange(null, eventSearch, "eventSearch")
                       }
                     >
                       {<SearchOutlinedIcon />}
@@ -394,6 +415,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                       <FormControlLabel
                         control={
                           <Checkbox
+                            checked={selectedContentType.includes(contentType)}
                             onChange={(event) =>
                               handleCheckboxChange(
                                 event,
@@ -442,6 +464,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   <FormControlLabel
                     control={
                       <Checkbox
+                        checked={selectedSubDomain.includes(item.code)}
                         onChange={(event) =>
                           handleCheckboxChange(event, { item }, "subCategory")
                         }

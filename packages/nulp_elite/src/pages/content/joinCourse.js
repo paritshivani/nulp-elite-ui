@@ -50,8 +50,12 @@ import {
   TwitterIcon,
 } from "react-share";
 import AddConnections from "pages/connections/AddConnections";
-const routeConfig = require("../../configs/routeConfig.json");
+// import speakerOne from "./../assets/speakerOne.png";
 
+const routeConfig = require("../../configs/routeConfig.json");
+const processString = (str) => {
+  return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+};
 const JoinCourse = () => {
   const { t } = useTranslation();
   const [courseData, setCourseData] = useState();
@@ -89,10 +93,12 @@ const JoinCourse = () => {
   const _userId = util.userId(); // Assuming util.userId() is defined
   const shareUrl = window.location.href; // Current page URL
   const [showMore, setShowMore] = useState(false);
-
+  const [batchDetail, setBatchDetail] = useState("");
+  const [score, setScore] = useState("");
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
+  const [activeBatch, SetActiveBatch] = useState(true);
 
   const style = {
     position: "absolute",
@@ -133,6 +139,7 @@ const JoinCourse = () => {
         const data = await response.json();
 
         setCreatorId(data?.result?.content?.createdBy);
+        setCourseData(data);
         setUserData(data);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -163,9 +170,11 @@ const JoinCourse = () => {
 
           if (count === 0) {
             // console.warn("This course has no active batches.");
+            SetActiveBatch(false);
             showErrorMessage(t("This course has no active Batches")); // Assuming `showErrorMessage` is used to display messages to the user
           } else if (content && content.length > 0) {
             const batchDetails = content[0];
+            getBatchDetail(batchDetails.batchId);
             setBatchData({
               startDate: batchDetails.startDate,
               endDate: batchDetails.endDate,
@@ -195,6 +204,22 @@ const JoinCourse = () => {
         }
         const data = await response.json();
         setUserCourseData(data.result);
+      } catch (error) {
+        console.error("Error while fetching courses:", error);
+        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      }
+    };
+    const getBatchDetail = async (batchId) => {
+      try {
+        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.BATCH.GET_DETAILS}/${batchId}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+          throw new Error(t("FAILED_TO_FETCH_DATA"));
+        }
+        const data = await response.json();
+        setBatchDetail(data.result);
+        getScoreCriteria(data.result);
       } catch (error) {
         console.error("Error while fetching courses:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -347,7 +372,7 @@ const JoinCourse = () => {
           <Box>
             <Button
               onClick={handleLinkClick}
-              className="custom-btn-primary my-20 mr-5"
+              className="custom-btn-primary  mr-5"
             >
               {t("START_LEARNING")}
             </Button>
@@ -411,7 +436,7 @@ const JoinCourse = () => {
               color: "red",
             }}
           >
-            {t("BATCH_EXPIRED_MESSAGE")}
+            <Alert severity="warning">{t("BATCH_EXPIRED_MESSAGE")}</Alert>
           </Typography>
         );
       } else {
@@ -445,7 +470,7 @@ const JoinCourse = () => {
                 color: "red",
               }}
             >
-              {t("BATCH_EXPIRED_MESSAGE")}
+              <Alert severity="warning">{t("BATCH_EXPIRED_MESSAGE")}</Alert>
             </Typography>
           );
         }
@@ -454,8 +479,8 @@ const JoinCourse = () => {
           <Button
             onClick={handleJoinAndOpenModal}
             // onClick={handleOpenModal}
-            disabled={isExpired} // Only disable if expired (not on last day)
-            className="custom-btn-primary my-20"
+            disabled={isExpired || !activeBatch} // Only disable if expired (not on last day)
+            className="custom-btn-primary"
             style={{
               background: isExpired ? "#ccc" : "#004367",
             }}
@@ -605,6 +630,28 @@ const JoinCourse = () => {
     setOpen(false);
     window.location.reload();
   };
+  function getScoreCriteria(data) {
+    // Check if certTemplates exists and is an object
+    if (
+      !data?.response?.certTemplates ||
+      typeof data.response.certTemplates !== "object"
+    ) {
+      setScore(false);
+      return "no certificate";
+    }
+
+    const certTemplateKeys = Object.keys(data.response.certTemplates);
+
+    const certTemplateId = certTemplateKeys[0];
+
+    const criteria =
+      data.response.certTemplates[certTemplateId]?.criteria?.assessment ||
+      data.response.cert_templates?.[certTemplateId]?.criteria?.assessment;
+
+    const score = criteria?.score?.[">="] || "no certificate";
+    setScore(score);
+    return score;
+  }
   return (
     <div>
       <Header />
@@ -691,11 +738,38 @@ const JoinCourse = () => {
       </Modal>
 
       <Container
-        maxWidth="xxl"
+        maxWidth="xl"
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
-        <Grid container spacing={2}>
+        <Box className=" pos-relative xs-ml-15 lg-ml-15">
+          <Box>
+            <img
+              src={
+                userData?.result?.content.se_gradeLevels
+                  ? require(`../../assets/cardBanner/${processString(
+                      userData?.result?.content?.se_gradeLevels[0]
+                    )}.png`)
+                  : require("../../assets/cardBanner/management.png")
+              }
+              alt="Speaker One"
+              className="contentdetail-bg"
+              style={{
+                height: "200px",
+                width: "100%",
+              }}
+            />
+            <Box className="p-10 contentdetail-title">
+              {" "}
+              {userData?.result?.content?.name}
+            </Box>
+            <Box className="p-10 contentdetail-desc">
+              {" "}
+              {userData?.result?.content?.description}
+            </Box>
+          </Box>
+        </Box>
+        <Grid container spacing={2} className="mt-9">
           <Grid
             item
             xs={12}
@@ -758,9 +832,10 @@ const JoinCourse = () => {
               {userData?.result?.content?.name}
             </Box>
 
-            {(courseData?.result?.content?.children[0]?.children[0]?.board ||
-              courseData?.result?.content?.children[0]?.children[0]
-                .gradeLevel?.[0]) && (
+            {(courseData?.result?.content?.board ||
+              courseData?.result?.content?.se_boards ||
+              courseData?.result?.content?.gradeLevel ||
+              courseData?.result?.content?.se_gradeLevels) && (
               <Box>
                 <Typography
                   variant="h7"
@@ -771,37 +846,72 @@ const JoinCourse = () => {
                   }}
                 >
                   {t("CONTENT_TAGS")}:
-                  <Button
-                    size="small"
-                    style={{
-                      color: "#424242",
-                      fontSize: "12px",
-                      margin: "0 10px",
-                    }}
-                    className="bg-blueShade3"
-                  >
-                    {
-                      courseData?.result?.content?.children[0]?.children[0]
-                        ?.board
-                    }
-                  </Button>
-                  <Button
-                    size="small"
-                    style={{
-                      color: "#424242",
-                      fontSize: "10px",
-                    }}
-                    className="bg-blueShade3"
-                  >
-                    {" "}
-                    {
-                      courseData?.result?.content?.children[0]?.children[0]
-                        .gradeLevel?.[0]
-                    }
-                  </Button>
+                  {courseData?.result?.content?.board &&
+                    courseData.result.content.board.map((item, index) => (
+                      <Button
+                        key={`board-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "12px",
+                          margin: "0 10px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.se_boards &&
+                    courseData.result.content.se_boards.map((item, index) => (
+                      <Button
+                        key={`se_boards-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "12px",
+                          margin: "0 10px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.gradeLevel &&
+                    courseData.result.content.gradeLevel.map((item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.se_gradeLevels &&
+                    courseData.result.content.se_gradeLevels.map(
+                      (item, index) => (
+                        <Button
+                          key={`se_gradeLevels-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px",
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      )
+                    )}
                 </Typography>
               </Box>
             )}
+
             <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
               style={{
@@ -891,16 +1001,20 @@ const JoinCourse = () => {
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
-                <ul>
-                  <li className="h6-title">
-                    {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
-                    {t("COMPLETION")}
-                  </li>
-                  <li className="h6-title">
-                    {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
-                    {t("ASSESSMENT")}
-                  </li>
-                </ul>
+                {batchDetail && (
+                  <ul>
+                    <li className="h6-title">
+                      {t("COMPLETION_CERTIFICATE_ISSUED")}
+                    </li>
+                    {score !== "no certificate" && (
+                      <li className="h6-title">
+                        {t("CERT_ISSUED_SCORE")}
+                        {` ${score}% `}
+                        {t("ASSESSMENT")}
+                      </li>
+                    )}
+                  </ul>
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion
@@ -1050,38 +1164,36 @@ const JoinCourse = () => {
               </Box>
             </Box> */}
             <Box>
-              {userCourseData &&
-                userCourseData.courses &&
-                userCourseData.courses.length > 0 && (
-                  <>
-                    <Typography
-                      className="h5-title"
-                      style={{ fontWeight: "600" }}
-                    >
-                      {t("DESCRIPTION")}:
-                    </Typography>
-                    <Typography
-                      className="h5-title mb-15"
-                      style={{ fontWeight: "600" }}
-                    >
-                      {userCourseData.courses[0].description.split(" ").length >
-                      100
-                        ? showMore
-                          ? userCourseData.courses[0].description
-                          : userCourseData.courses[0].description
-                              .split(" ")
-                              .slice(0, 30)
-                              .join(" ") + "..."
-                        : userCourseData.courses[0].description}
-                    </Typography>
-                    {userCourseData.courses[0].description.split(" ").length >
-                      100 && (
-                      <Button onClick={toggleShowMore}>
-                        {showMore ? t("Show Less") : t("Show More")}
-                      </Button>
-                    )}
-                  </>
-                )}
+              {courseData && courseData?.result?.content && (
+                <>
+                  <Typography
+                    className="h5-title"
+                    style={{ fontWeight: "600" }}
+                  >
+                    {t("DESCRIPTION")}:
+                  </Typography>
+                  <Typography
+                    className="h5-title mb-15"
+                    style={{ fontWeight: "400", fontSize: "14px" }}
+                  >
+                    {courseData?.result?.content?.description.split(" ")
+                      .length > 100
+                      ? showMore
+                        ? courseData?.result?.content?.description
+                        : courseData?.result?.content?.description
+                            .split(" ")
+                            .slice(0, 30)
+                            .join(" ") + "..."
+                      : courseData?.result?.content?.description}
+                  </Typography>
+                  {courseData?.result?.content?.description.split(" ").length >
+                    100 && (
+                    <Button onClick={toggleShowMore}>
+                      {showMore ? t("Show Less") : t("Show More")}
+                    </Button>
+                  )}
+                </>
+              )}
             </Box>
 
             <Accordion
@@ -1219,16 +1331,20 @@ const JoinCourse = () => {
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
-                <ul>
-                  <li className="h6-title">
-                    {t("COMPLETION_CERTIFICATE_ISSUED")} 100%
-                    {t("COMPLETION")}
-                  </li>
-                  <li className="h6-title">
-                    {t("CERT_ISSUED_SCORE")} 60% {t("OR_GREATER")}{" "}
-                    {t("ASSESSMENT")}
-                  </li>
-                </ul>
+                {batchDetail && (
+                  <ul>
+                    <li className="h6-title">
+                      {t("COMPLETION_CERTIFICATE_ISSUED")}
+                    </li>
+                    {score !== "no certificate" && (
+                      <li className="h6-title">
+                        {t("CERT_ISSUED_SCORE")}
+                        {` ${score}% `}
+                        {t("ASSESSMENT")}
+                      </li>
+                    )}
+                  </ul>
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion

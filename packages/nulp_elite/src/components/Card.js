@@ -9,7 +9,9 @@ import Box from "@mui/material/Box";
 import { Divider } from "native-base";
 import RandomImage from "../assets/cardRandomImgs.json";
 import { useTranslation } from "react-i18next";
-
+const processString = (str) => {
+  return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+};
 export default function BoxCard({ items, index, onClick }) {
   const [imgUrl, setImgUrl] = useState();
   const [subdomain, setSubdomain] = useState();
@@ -17,9 +19,9 @@ export default function BoxCard({ items, index, onClick }) {
 
   useEffect(() => {
     if (items.se_gradeLevels) {
-      setSubdomain(items.se_gradeLevels[0]);
+      setSubdomain(processString(items.se_gradeLevels[0]));
     } else if (items.gradeLevel) {
-      setSubdomain(items.gradeLevel[0]);
+      setSubdomain(processString(items.gradeLevel[0]));
     } else {
       setSubdomain(undefined);
     }
@@ -43,8 +45,8 @@ export default function BoxCard({ items, index, onClick }) {
           className="card-media"
           image={
             subdomain
-              ? require(`./../assets/dummyCardImgs/${subdomain}.png`)
-              : require("./../assets/dummyCardImgs/Management.png")
+              ? require(`./../assets/cardBanner/${subdomain}.png`)
+              : require("./../assets/cardBanner/management.png")
           }
           title="green iguana"
         />
@@ -98,27 +100,30 @@ export default function BoxCard({ items, index, onClick }) {
           <Typography
             style={{
               marginTop: "10px",
-              color:
-                items.status === 2
-                  ? "#065872"
-                  : items.status === 1 && items.batch.status === 2
-                  ? "#FF0000"
-                  : (items.status === 0 || 1) && items.batch.status === 1
-                  ? "#579b00"
-                  : "#579b00",
+              color: (() => {
+                if (items.status === 2) return "#065872";
+                if (items.batch.status === 2) return "#FF0000";
+                if (
+                  (items.status === 0 || items.status === 1) &&
+                  items.batch.status === 1
+                )
+                  return "#579b00";
+              })(),
               fontSize: "12px",
               padding: "10px 0",
               textAlign: "left",
               fontWeight: "500",
             }}
           >
-            {items.status === 2
-              ? t("Completed")
-              : items.status === 1 && items.batch.status === 2
-              ? t("Expired")
-              : (items.status === 0 || 1) && items.batch.status === 1
-              ? t("Ongoing")
-              : t("Ongoing")}
+            {(() => {
+              if (items.status === 2) return t("Completed");
+              if (items.batch.status === 2) return t("Expired");
+              if (
+                (items.status === 0 || items.status === 1) &&
+                items.batch.status === 1
+              )
+                return t("Ongoing");
+            })()}
           </Typography>
         </Box>
       </Card>
@@ -135,8 +140,8 @@ export default function BoxCard({ items, index, onClick }) {
         className="card-media"
         image={
           subdomain
-            ? require(`./../assets/dummyCardImgs/${subdomain}.png`)
-            : require("./../assets/dummyCardImgs/Management.png")
+            ? require(`./../assets/cardBanner/${subdomain}.png`)
+            : require("./../assets/cardBanner/management.png")
         }
         title="green iguana"
       />
@@ -183,31 +188,71 @@ export default function BoxCard({ items, index, onClick }) {
           </Typography>
         )}
       </CardContent>
-      {(items.board ||
-        items.gradeLevel ||
-        items.se_boards ||
-        items.se_gradeLevels) && (
+      {(items?.board ||
+        items?.gradeLevel ||
+        items?.se_boards ||
+        items?.se_gradeLevels) && (
         <>
           <Box className="textLeft mb-15 d-flex">
-            {(items.board || items.se_boards) && (
+            {(items?.board || items?.se_boards) && (
               <Tooltip
-                title={items.board || items.se_boards}
+                title={
+                  Array.isArray(items?.board) && items.board.length > 1
+                    ? items.board.join(", ")
+                    : items.board?.[0] ||
+                      (Array.isArray(items?.se_boards) &&
+                      items?.se_boards.length > 1
+                        ? items.se_boards.join(", ")
+                        : items.se_boards?.[0] || "")
+                }
                 placement="top"
                 className="labelOne cardLabelEllips"
               >
-                <Button> {items.board || items.se_boards}</Button>
+                <Button>
+                  {Array.isArray(items?.board) && items.board.length === 1
+                    ? items.board[0]
+                    : Array.isArray(items?.board) && items.board.length > 1
+                    ? `${items.board[0]} + ${items.board.length - 1}`
+                    : Array.isArray(items?.se_boards) &&
+                      items.se_boards.length === 1
+                    ? items.se_boards[0]
+                    : Array.isArray(items?.se_boards) &&
+                      items.se_boards.length > 1
+                    ? `${items.se_boards[0]} + ${items.se_boards.length - 1}`
+                    : ""}
+                </Button>
               </Tooltip>
-              // <Button type="button" size="small">
-              //   {items.board || items.se_boards}
-              // </Button>
             )}
             {(items.gradeLevel || items.se_gradeLevels) && (
               <Tooltip
-                title={items.gradeLevel || items.se_gradeLevels}
+                title={
+                  Array.isArray(items?.gradeLevel) &&
+                  items.gradeLevel.length > 1
+                    ? items.gradeLevel.join(", ")
+                    : items.gradeLevel?.[0] ||
+                      (Array.isArray(items?.se_gradeLevels) &&
+                      items.se_gradeLevels.length > 1
+                        ? items.se_gradeLevels.join(", ")
+                        : items.se_gradeLevels?.[0] || "")
+                }
                 placement="top"
                 className="labeltwo cardLabelEllips"
               >
-                <Button> {items.gradeLevel || items.se_gradeLevels}</Button>
+                <Button>
+                  {Array.isArray(items?.gradeLevel) &&
+                  items.gradeLevel.length === 1
+                    ? items.gradeLevel[0]
+                    : (Array.isArray(items?.gradeLevel) &&
+                        `${items.gradeLevel[0]} + ${
+                          items.gradeLevel.length - 1
+                        }`) ||
+                      (Array.isArray(items?.se_gradeLevels) &&
+                        items.se_gradeLevels.length === 1)
+                    ? items.se_gradeLevels[0]
+                    : `${items.se_gradeLevels[0]} + ${
+                        items.se_gradeLevels.length - 1
+                      }`}
+                </Button>
               </Tooltip>
             )}
           </Box>

@@ -32,6 +32,10 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
+import Skeleton from "@mui/material/Skeleton";
+import SkeletonLoader from "components/skeletonLoader";
+import FloatingChatIcon from "components/FloatingChatIcon";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -132,8 +136,7 @@ const DomainList = ({ globalSearchQuery }) => {
       setIsLoading(false);
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/
-      ${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
@@ -269,20 +272,20 @@ const DomainList = ({ globalSearchQuery }) => {
 
   const loadContents = async (term) => {
     // console.log(term);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
-      state: { domain: term.code },
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
+      state: { domain: term.code, domainName: term.name },
     });
   };
 
   const handleSearch = async (domainquery) => {
     console.log(domainquery);
-    navigate(routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST / 1, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { domainquery },
     });
   };
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { domain: query, domainName: domainName },
     });
   };
@@ -377,7 +380,7 @@ const DomainList = ({ globalSearchQuery }) => {
   };
 
   const onMobileSearch = () => {
-    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}/1`, {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
   };
@@ -430,6 +433,10 @@ const DomainList = ({ globalSearchQuery }) => {
         <Container role="main" maxWidth="xxl">
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
+            <Box className="text-white h4-title">
+              Select your prefered domain :
+            </Box>
+
             <Grid
               container
               spacing={2}
@@ -451,32 +458,25 @@ const DomainList = ({ globalSearchQuery }) => {
                         flexDirection: "row",
                         alignItems: "center",
                       }}
+                      className="domainlist-bx"
                     >
-                      <Box
-                        style={{
-                          background: "#fff",
-                          padding: "5px",
-                          borderRadius: "10px",
-                          height: "48px",
-                          width: "48px",
-                          border: "solid 1px #E1E1E1",
-                          textAlign: "center",
-                        }}
-                      >
+                      <Box>
                         <img
+                          className="domainHover"
                           src={require(`../../assets/domainImgs${term.image}`)}
-                          style={{ transform: "translate(2px, 5px)" }}
+                          // style={{ transform: "translate(2px, 5px)" }}
                         />
                       </Box>
                       <h5
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          paddingLeft: "10px",
-                          margin: "0",
-                          width: "86px",
-                          wordWrap: "break-word",
-                        }}
+                        className=" cursor-pointer domainText"
+                        // style={{
+                        //   fontSize: "14px",
+                        //   fontWeight: "500",
+                        //   paddingLeft: "10px",
+                        //   margin: "0",
+                        //   width: "86px",
+                        //   wordWrap: "break-word",
+                        // }}
                       >
                         {term.name}
                       </h5>
@@ -489,7 +489,7 @@ const DomainList = ({ globalSearchQuery }) => {
       ) : domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
-        <div>{/* <CircularProgress color="inherit" /> */}</div>
+        <SkeletonLoader />
         // <NoResult />
       )}
 
@@ -698,6 +698,7 @@ const DomainList = ({ globalSearchQuery }) => {
           )}
         </Box>
       </Container>
+      <FloatingChatIcon />
 
       <Footer />
     </div>

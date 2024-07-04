@@ -32,6 +32,7 @@ import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOu
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
+import SkeletonLoader from "components/skeletonLoader";
 const routeConfig = require("../../configs/routeConfig.json");
 
 const responsiveCard = {
@@ -230,7 +231,7 @@ const AllContent = () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,
@@ -298,8 +299,10 @@ const AllContent = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      {domain && (
+      {domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
+      ) : (
+        <SkeletonLoader />
       )}
 
       <Container
@@ -377,8 +380,8 @@ const AllContent = () => {
                   <Box>
                     {items?.length > 4 && (
                       <Link
-                        to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}/${category}`}
-                        className="viewAll mr-13"
+                        to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}?${category}`}
+                        className="viewAll mr-30"
                       >
                         {t("VIEW_ALL")}
                       </Link>
@@ -431,7 +434,6 @@ const AllContent = () => {
                       {expandedCategory === category
                         ? renderItems(items, category)
                         : renderItems(items.slice(0, 5), category)}
-                      <div className="blankCard"></div>
                     </Box>
                   </>
                 )}

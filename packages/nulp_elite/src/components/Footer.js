@@ -21,6 +21,8 @@ import * as util from "../services/utilService";
 const urlConfig = require("../configs/urlConfig.json");
 const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 // const styles = {
 //   BottomNavigation: {
@@ -41,6 +43,16 @@ export default function Footer() {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const onGlobalSearch = () => {
+    navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
+      state: { globalSearchQuery: searchQuery },
+    });
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      onGlobalSearch();
+    }
   };
 
   const handleClose = () => {
@@ -96,8 +108,8 @@ export default function Footer() {
               onClick={() =>
                 navigate(routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST)
               }
-              label={t("SEARCH")}
-              icon={<SearchSharpIcon />}
+              label={t("HOME")}
+              icon={<HomeOutlinedIcon />}
               className={
                 location.pathname ===
                 `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
@@ -125,7 +137,8 @@ export default function Footer() {
               label={t("CONNECTION")}
               className={
                 location.pathname ===
-                `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}` ||
+                location.pathname === routeConfig.ROUTES.CHAT_PAGE.CHAT
                   ? "navigateActive"
                   : ""
               }
@@ -133,7 +146,7 @@ export default function Footer() {
             />
             <BottomNavigationAction
               onClick={() => navigate(routeConfig.ROUTES.EVENTS.EVENT_LIST)}
-              label={t("WEBINARS")}
+              label={t("EVENTS")}
               className={
                 location.pathname === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
                   ? "navigateActive"
@@ -142,25 +155,15 @@ export default function Footer() {
               icon={<VideocamOutlinedIcon />}
             />
             <BottomNavigationAction
-              onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
-              label={t("PROFILE")}
-              className={
-                location.pathname ===
-                `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}`
-                  ? "navigateActive"
-                  : ""
-              }
-              icon={
-                <>
-                  {userData && (
-                    <>
-                      <div className="profile-text-circle">
-                        {userData?.result?.response?.firstName[0]}
-                      </div>
-                    </>
-                  )}
-                </>
-              }
+              // onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
+              label={t("DISCUSSIONS")}
+              // className={
+              //   location.pathname ===
+              //   `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}`
+              //     ? "navigateActive"
+              //     : ""
+              // }
+              icon={<Groups2OutlinedIcon />}
             />
           </BottomNavigation>
         </Box>
@@ -171,6 +174,7 @@ export default function Footer() {
           background: "#065872",
           color: "#fff",
           padding: "15px 15px 13px",
+          marginTop: "auto",
         }}
       >
         {/* <Box>dfgdfgsg */}
@@ -209,7 +213,6 @@ export default function Footer() {
             </Link>
             <Link
               underline="none"
-              target="_blank"
               href="#"
               style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
             >
@@ -217,15 +220,13 @@ export default function Footer() {
             </Link>
             <Link
               underline="none"
-              target="_blank"
-              href="#"
+              href={routeConfig.ROUTES.HELP_PAGE.HELP}
               style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
             >
               {t("FAQS")}
             </Link>
             <Link
               underline="none"
-              target="_blank"
               href="/logout"
               style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
             >

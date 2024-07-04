@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBox from "components/search";
 import ContinueLearning from "./continueLearning";
 import SelectPreference from "pages/SelectPreference";
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, Alert } from "@mui/material";
 import _ from "lodash";
 import Modal from "@mui/material/Modal";
 const designations = require("../../configs/designations.json");
@@ -46,6 +46,9 @@ import {
 import styled from "styled-components";
 import LearningHistory from "./learningHistory";
 import Certificate from "./certificate";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { axisClasses } from "@mui/x-charts/ChartsAxis";
+
 const routeConfig = require("../../configs/routeConfig.json");
 
 const DELAY = 1500;
@@ -80,6 +83,9 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const MAX_FILE_SIZE_MB = 1;
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 1 MB in bytes
+const SUPPORTED_FILE_TYPES = ["image/jpeg", "image/png"];
 
 const Profile = () => {
   const [value, setValue] = useState("1");
@@ -118,6 +124,136 @@ const Profile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  // for bar charts
+  const defaultCertData = {
+    certificatesReceived: 0,
+    courseWithCertificate: 0,
+  };
+
+  const defaultCourseData = {
+    enrolledLastMonth: 0,
+    enrolledThisMonth: 0,
+  };
+  const chartSettingsH1 = {
+    dataset: [
+      { high: 1, low: 2, order: "1" },
+      { high: 1, low: 2, order: "1" },
+    ],
+    yAxis: [{ scaleType: "band", dataKey: "order" }],
+    sx: {
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {},
+    },
+    slotProps: {
+      legend: {
+        direction: "row",
+        position: { vertical: "bottom", horizontal: "middle" },
+      },
+    },
+  };
+
+  const chartSettingsH2 = {
+    dataset: [
+      { high: 3, low: 2, order: "1" },
+      { high: 3, low: 2, order: "1" },
+    ],
+    height: 300,
+    yAxis: [{ scaleType: "band", dataKey: "order" }],
+    sx: {
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+        transform: "translateX(-20px,-10px)",
+      },
+    },
+    slotProps: {
+      legend: {
+        direction: "row",
+        position: { vertical: "bottom", horizontal: "middle" },
+        padding: -10,
+      },
+    },
+  };
+
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
+  // };
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
+  //   const chartSettingsH = {
+  //     dataset,
+  //     height: 300,
+  //     yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //     sx: {
+  //       [& .${axisClasses.directionY} .${axisClasses.label}]: {
+  //         transform: "translateX(-10px)",
+  //       },
+  //     },
+  //     slotProps: {
+  //       legend: {
+  //         direction: "row",
+  //         position: { vertical: "bottom", horizontal: "middle" },
+  //         padding: -5,
+  //       },
+  //     },
+  //   };
+  // const dataset = [
+  //   { month: "Previous Month", courses: 7 },
+  //   { month: "Current Month", courses: 7 },
+  // ];
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "month" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
+  // };
+  // const dataset = [{ high: 0, low: -1, order: "0" }];
+
+  // const chartSettingsH = {
+  //   dataset,
+  //   height: 300,
+  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
+  //   sx: {
+  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+  //       transform: "translateX(-10px)",
+  //     },
+  //   },
+  //   slotProps: {
+  //     legend: {
+  //       direction: "row",
+  //       position: { vertical: "bottom", horizontal: "middle" },
+  //       padding: -5,
+  //     },
+  //   },
+  // };
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [fileError, setFileError] = useState("");
+  const [fileUploadMessage, setFileUploadMessage] = useState("");
+  const dummyData = [1, 1];
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -168,7 +304,7 @@ const Profile = () => {
         const response = await fetch(url);
         const data = await response.json();
         setCertificateCountData({
-          totalCourses: data.result.courseWithCertificate,
+          courseWithCertificate: data.result.courseWithCertificate,
           certificatesReceived: data.result.certificateReceived,
         });
       } catch (error) {
@@ -398,12 +534,90 @@ const Profile = () => {
     window.location.reload();
   };
 
+  const validateFile = (file) => {
+    if (file.size > MAX_FILE_SIZE) {
+      setFileError(`File size cannot be more than ${MAX_FILE_SIZE_MB} MB`);
+      return false;
+    }
+    if (!SUPPORTED_FILE_TYPES.includes(file.type)) {
+      setFileError("Only JPEG and PNG files are supported");
+      return false;
+    }
+    setFileError("");
+    return true;
+  };
+  const handleFileChangeWithValidation = (e) => {
+    const file = e.target.files[0];
+    if (file && validateFile(file)) {
+      handleFileChange(e);
+    } else {
+      // Clear the file input if validation fails
+      e.target.value = null;
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleImageUpload = async () => {
+    if (!selectedFile) {
+      showErrorMessage("No file selected.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("userId", _userId);
+
+    try {
+      const url = `${urlConfig.URLS.POFILE_PAGE.UPLOAD_IMAGE}`;
+      await axios.post(url, formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setFileUploadMessage("Image uploaded successfully.");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      showErrorMessage(t("FAILED_TO_UPLOAD_IMAGE"));
+    }
+  };
+
+  // Use default data if certData or courseData is undefined or empty
+  const finalCertData =
+    certData &&
+    certData.certificatesReceived !== undefined &&
+    certData.courseWithCertificate !== undefined
+      ? certData
+      : defaultCertData;
+  const finalCourseData =
+    courseData &&
+    courseData.enrolledLastMonth !== undefined &&
+    courseData.enrolledThisMonth !== undefined
+      ? courseData
+      : defaultCourseData;
+  // Check if data is empty or zero
+  const isCertDataEmpty =
+    !finalCertData.certificatesReceived && !finalCertData.courseWithCertificate;
+  const isCourseDataEmpty =
+    !finalCourseData.enrolledThisMonth && !finalCourseData.enrolledLastMonth;
+
   return (
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xxl" role="main" className="xs-p-0 xs-pb-75 pt-1">
+      <Container maxWidth="xl" role="main" className="xs-pb-75 pt-1 ">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -470,7 +684,10 @@ const Profile = () => {
                             </Typography>
                           </Box>
 
-                          <ModeEditIcon onClick={handleOpenEditDialog} />
+                          <ModeEditIcon
+                            className="cursor-pointer"
+                            onClick={handleOpenEditDialog}
+                          />
                         </Box>
                       </>
                     )}
@@ -507,80 +724,120 @@ const Profile = () => {
                       {t("PERFORMANCE")}
                     </Box>
                   </Box>
-
                   <Grid container spacing={2}>
-                    <Grid
-                      item
-                      xs={3}
-                      md={3}
-                      className="circular"
-                      style={{ paddingRight: "0", textAlign: "center" }}
-                    >
-                      {certData &&
-                        certData.certificatesReceived &&
-                        certData.totalCourses && (
-                          <CircularProgressWithLabel
-                            received={certData.certificatesReceived}
-                            total={certData.totalCourses}
-                            className="circular"
-                            style={{ width: "80px", height: "80px" }}
+                    <Grid item xs={6} md={6} className="chartOne">
+                      {!isCertDataEmpty ? (
+                        <>
+                          <Box className="h6-title pl-20">
+                            Certifications Received
+                          </Box>
+                          <BarChart
+                            yAxis={[
+                              { scaleType: "band", data: ["certificate"] },
+                            ]}
+                            series={[
+                              {
+                                data: isCertDataEmpty
+                                  ? dummyData
+                                  : [finalCertData.certificatesReceived],
+                                stack: "A",
+                                layout: "horizontal",
+                                label: isCertDataEmpty
+                                  ? "Dummy data"
+                                  : "Certificate received",
+                                color: "#0e7a9c",
+                              },
+                              {
+                                data: isCertDataEmpty
+                                  ? dummyData
+                                  : [finalCertData.courseWithCertificate],
+                                stack: "B",
+                                layout: "horizontal",
+                                label: isCertDataEmpty
+                                  ? "Dummy data"
+                                  : "No. of courses with certificate",
+                                color: "#065872",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
+                            options={
+                              isCertDataEmpty
+                                ? { hover: { enabled: false } }
+                                : {}
+                            }
                           />
-                        )}
-                    </Grid>
-                    <Grid item xs={3} md={3} className="circular">
-                      <Typography
-                        style={{
-                          margin: "9px 10px 9px 0",
-                          display: "block",
-                          textAlign: "left",
-                        }}
-                        className="fs-12 text-yellow"
-                      >
-                        {t("CERTIFICATIONS_RECEIVED")}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      md={3}
-                      className="circularBlue"
-                      style={{ paddingRight: "0", textAlign: "center" }}
-                    >
-                      {courseData && (
-                        <CircularProgressWithLabel
-                          received={courseData.enrolledThisMonth}
-                          total={courseData.enrolledLastMonth}
-                          className="circular"
-                          style={{ width: "80px", height: "80px" }}
-                        />
+                        </>
+                      ) : (
+                        <>
+                          <Box className="h6-title pl-20">
+                            Certifications Received
+                          </Box>
+                          <Alert
+                            severity="info"
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
+                          >
+                            No certificates found
+                          </Alert>
+                        </>
                       )}
                     </Grid>
-                    <Grid item xs={4} md={3}>
-                      <Typography
-                        variant="h7"
-                        style={{
-                          margin: "9px 0",
-                          display: "block",
-                          textAlign: "left",
-                          paddingLeft: "7px",
-                          marginRight: "10px",
-                        }}
-                        className="fs-12 text-blueShade0"
-                      >
-                        {t("COURSES_THAN")}
 
-                        <span style={{ color: "#00A2D5", paddingLeft: "5px" }}>
-                          {t("LAST_MONTH")}
-                        </span>
-                      </Typography>
+                    <Grid item xs={12} md={6} className="chartTwo">
+                      {!isCourseDataEmpty ? (
+                        <>
+                          <Box className="h6-title  pl-20">
+                            Courses more than last month
+                          </Box>
+                          <BarChart
+                            yAxis={[{ scaleType: "band", data: ["courses"] }]}
+                            series={[
+                              {
+                                data: [finalCourseData.enrolledThisMonth],
+                                stack: "B",
+                                label: "Enrolled courses current month",
+                                color: "#0e7a9c",
+                                layout: "horizontal",
+                              },
+                              {
+                                data: [finalCourseData.enrolledLastMonth],
+                                stack: "A",
+                                label: "Enrolled courses prev month",
+                                color: "#065872",
+                                layout: "horizontal",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
+                            options={{}}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <Box className="h6-title  pl-20">
+                            Courses more than last month
+                          </Box>
+
+                          <Alert
+                            severity="info"
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
+                          >
+                            You are not enrolled in any course. Enroll now!
+                          </Alert>
+                        </>
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
 
                 {isEditing && (
                   <Modal
-                    // open={open}
-                    // onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                     className="xs-w-300"
@@ -710,7 +967,81 @@ const Profile = () => {
                             /{MAX_CHARS}
                           </Typography>
                         </Box>
+                        <Typography className="h4-title">
+                          {t("Profile image")}
+                        </Typography>
+                        <Box
+                          py={1}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Box sx={{ flex: "0 0 auto" }}>
+                            {previewUrl && (
+                              <img
+                                src={previewUrl}
+                                alt="Profile"
+                                style={{
+                                  width: "80px",
+                                  height: "80px",
+                                  borderRadius: "50%",
+                                  marginRight: "20px",
+                                }}
+                              />
+                            )}
+                          </Box>
+                          <Box
+                            sx={{
+                              flex: "1 1 auto",
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <Button
+                              variant="outlined"
+                              component="label"
+                              fullWidth
+                              sx={{ mt: 2 }}
+                              className="custom-btn-default mr-5"
+                            >
+                              {t("Select image")}
+                              <input
+                                type="file"
+                                hidden
+                                onChange={handleFileChangeWithValidation}
+                              />
+                            </Button>
+                            {fileError && (
+                              <Typography variant="caption" color="error">
+                                {fileError}
+                              </Typography>
+                            )}
+                            {fileUploadMessage && (
+                              <Typography
+                                variant="caption"
+                                style={{
+                                  color: "green",
+                                }}
+                              >
+                                {fileUploadMessage}
+                              </Typography>
+                            )}
 
+                            {selectedFile && (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleImageUpload}
+                                fullWidth
+                                sx={{ mt: 2 }}
+                                className="custom-btn-primary"
+                              >
+                                {t("upload")}
+                              </Button>
+                            )}
+                          </Box>
+                        </Box>
                         <Box pt={4} className="d-flex jc-en">
                           <Button
                             className="custom-btn-default mr-5"
@@ -734,7 +1065,7 @@ const Profile = () => {
                 disabled={isButtonDisabled}
                 style={{
                   backgroundColor: isButtonDisabled ? "gray" : "#0E7A9C",
-                  borderRadius: "30px",
+                  borderRadius: "10px",
                   color: "#fff",
                   padding: "10px 25px",
                   fontWeight: " 500",
@@ -809,7 +1140,7 @@ const Profile = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="xs-pl-0 pb-20">
+          <Grid item xs={12} md={8} lg={8} className="pb-20">
             {showCertificate ? (
               <Certificate />
             ) : (

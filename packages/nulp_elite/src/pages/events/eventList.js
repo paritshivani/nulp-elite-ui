@@ -37,6 +37,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import * as util from "../../services/utilService";
 
 import FloatingChatIcon from "components/FloatingChatIcon";
+import SkeletonLoader from "components/skeletonLoader";
 
 const responsive = {
   superLargeDesktop: {
@@ -93,6 +94,7 @@ const EventList = (props) => {
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
   const [valueTab, setValueTab] = React.useState("2");
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -108,30 +110,27 @@ const EventList = (props) => {
   }, []);
   useEffect(() => {
     fetchAllData();
-  }, [subDomainFilter, endDateFilter, startDateFilter]);
+  }, [subDomainFilter, endDateFilter, startDateFilter, searchQuery,domainName,domain]);
+  useEffect(() => {
+    fetchAllData();
+  }, [currentPage]);
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
   };
 
-  const handleChange = (event, value) => {
-    if (value !== pageNumber) {
-      setPageNumber(value);
-      setCurrentPage(value);
-      setData({});
-      navigate(`/contentList/${value}`, { state: { domain: domain } });
-      fetchAllData();
-    }
+  const handlePageChange = (event, newValue) => {
+    setCurrentPage(newValue);
   };
   const handleCardClick = (identifier) => {
-    navigate(`/webapp/eventDetails/${identifier}`);
+    navigate(`/webapp/eventDetails?${identifier}`);
   };
   // Function to handle data from the child
   const handlefilterChanges = (selectedFilters) => {
     setStartDateFilter(selectedFilters.startDate);
     setEndDateFilter(selectedFilters.endDate);
     setSubDomainFilter(selectedFilters.subDomainFilter);
-    setSearchQuery(selectedFilters.searchQurery);
+    setSearchQuery(selectedFilters.eventSearch);
 
     fetchAllData();
   };
@@ -144,41 +143,38 @@ const EventList = (props) => {
     fetchAllData();
   };
   const [value, setValue] = React.useState("1");
-  const startDate =
-    {
-      "<=": startDateFilter,
-    } || null;
-  const endDate =
-    {
-      ">=": endDateFilter,
-    } || null;
+ let startDate = [];
+    if(startDateFilter!=null && endDateFilter!=null){
+       startDate =
+      {
+        ">=": startDateFilter,
+          "<=": endDateFilter,
+      } || [];
+    }
 
   const fetchAllData = async () => {
     let filters = {};
     if (searchQuery && domainfilter && subDomainFilter) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         gradeLevel: subDomainFilter,
         startDate: startDate,
-        endDate: endDate,
       };
     } else if (searchQuery && domainfilter) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         se_boards: domainfilter.se_board || [domain],
         startDate: startDate,
-        endDate: endDate,
       };
     } else if (searchQuery && subDomainFilter) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         gradeLevel: subDomainFilter,
         startDate: startDate,
-        endDate: endDate,
       };
     } else if (domainfilter && subDomainFilter) {
       filters = {
@@ -186,34 +182,29 @@ const EventList = (props) => {
         se_boards: domainfilter.se_board || [domain],
         gradeLevel: subDomainFilter,
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else if (domainfilter) {
       filters = {
         objectType: ["Event"],
         se_boards: domainfilter.se_board || [domain],
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else if (subDomainFilter) {
       filters = {
         objectType: ["Event"],
         gradeLevel: subDomainFilter,
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else if (searchQuery) {
       filters = {
         objectType: ["Event"],
-        query: searchQuery ? searchQuery : "",
+        // query: searchQuery ? searchQuery : "",
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     } else {
       filters = {
         objectType: ["Event"],
         startDate: startDate || {},
-        endDate: endDate || {},
       };
     }
 
@@ -222,8 +213,9 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 10,
+        query: searchQuery ? searchQuery : "",
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
-        offset: 0,
+        offset: 10 * (currentPage - 1),
       },
     });
 
@@ -239,6 +231,7 @@ const EventList = (props) => {
       const response = await getAllContents(url, data, headers);
       console.log("All Event ----", response.data.result.Event);
       setData(response.data.result.Event);
+      setTotalPages(Math.ceil(response.data.result.count / 10));
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
@@ -334,14 +327,11 @@ const EventList = (props) => {
             domains={domainList}
           />
         ) : (
-          <div />
+          <SkeletonLoader />
           // <CircularProgress color="inherit" />
         )}
       </Box>
-      <Container
-        className="xs-pb-20 eventTab"
-        style={{ maxWidth: "100%", paddingRight: "14px", paddingLeft: "14px" }}
-      >
+      <Container maxWidth="xl" role="main" className="xs-pr-0 xs-pb-20">
         <Grid
           container
           spacing={2}
@@ -432,7 +422,7 @@ const EventList = (props) => {
                             data.map((items, index) => (
                               <Grid
                                 item
-                                xs={6}
+                                xs={12}
                                 md={6}
                                 lg={6}
                                 style={{ marginBottom: "10px" }}
@@ -451,14 +441,13 @@ const EventList = (props) => {
                             <NoResult />
                           )}
                         </Grid>
+                        <Pagination
+                          count={totalPages}
+                          page={currentPage}
+                          onChange={handlePageChange}
+                        />
                       </TabPanel>
                     </TabContext>
-
-                    <Pagination
-                      count={totalPages}
-                      page={pageNumber}
-                      onChange={handleChange}
-                    />
                   </div>
                 ) : (
                   <NoResult /> // Render NoResult component when there are no search results

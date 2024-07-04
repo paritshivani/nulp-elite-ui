@@ -99,9 +99,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path:
-        routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST +
-        routeConfig.ROUTES.CONTENTLIST_PAGE.PAGENUMBER,
+      path: routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST,
       component: ContentList,
     },
     {
@@ -152,9 +150,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path:
-        routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL +
-        routeConfig.ROUTES.VIEW_ALL_PAGE.CATEGORY,
+      path: routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL,
       component: CategoryPage,
     },
     {
@@ -179,9 +175,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path:
-        routeConfig.ROUTES.EVENTS.EVENT_DETAILS +
-        routeConfig.ROUTES.EVENTS.EVENT_ID,
+      path: routeConfig.ROUTES.EVENTS.EVENT_DETAILS,
       component: EventDetails,
     },
     {
@@ -204,6 +198,10 @@ function App() {
         const rootOrgId = data.result.response.rootOrgId;
         sessionStorage.setItem("rootOrgId", rootOrgId);
         console.log(data.result.response.framework.board);
+        localStorage.setItem(
+          "defaultFramework",
+          data.result.response.framework.id
+        );
         if (data.result.response.framework.board) {
           setCheckPref(true);
         } else {
@@ -218,30 +216,32 @@ function App() {
   }, []);
 
   return (
-    <NativeBaseProvider>
-      {/* <ChakraProvider> */}
-      {/* <React.Suspense> */}
-      {/* <I18nextProvider i18n={i18n}> */}
-      {/* <ChakraProvider> */}
-      <React.Suspense>
-        {/* {!checkPref && <UserPrefPopup />} */}
+    <main className="App-content">
+      <NativeBaseProvider>
+        {/* <ChakraProvider> */}
+        {/* <React.Suspense> */}
+        {/* <I18nextProvider i18n={i18n}> */}
+        {/* <ChakraProvider> */}
+        <React.Suspense>
+          {/* {!checkPref && <UserPrefPopup />} */}
 
-        <Router>
-          <Routes>
-            {routes.map((route, index) => (
-              <Route
-                key={index}
-                path={route.path}
-                element={<route.component />}
-              />
-            ))}
-          </Routes>
-        </Router>
-      </React.Suspense>
-      {/* </ChakraProvider> */}
-      {/* </ChakraProvider> */}
-      {/* </I18nextProvider> */}
-    </NativeBaseProvider>
+          <Router>
+            <Routes>
+              {routes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={<route.component />}
+                />
+              ))}
+            </Routes>
+          </Router>
+        </React.Suspense>
+        {/* </ChakraProvider> */}
+        {/* </ChakraProvider> */}
+        {/* </I18nextProvider> */}
+      </NativeBaseProvider>
+    </main>
   );
 }
 
