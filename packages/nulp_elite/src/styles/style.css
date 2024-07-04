@@ -569,10 +569,7 @@ button {
   .cardLabelEllips {
     width: 145px !important;
   }
-  .profile-card-view .custom-card-box {
-    margin-left: 4px;
-    width: 167px !important;
-  }
+
   .profile-card-view .cardLabelEllips {
     width: 132px !important;
   }
@@ -902,6 +899,10 @@ button {
   .react-multi-carousel-list.carousel-container.carousel-bx {
     padding: 10px 0;
   }
+  .profile-card-view .custom-card-box {
+    margin-left: 4px;
+    width: 162px !important;
+  }
 }
 @media (min-width: 769px) {
   .custom-event-container .center-box {
@@ -919,6 +920,9 @@ button {
   .MuiContainer-root.min-472 {
     padding-top: 129px !important;
   }
+  .MuiContainer-root.MuiContainer-maxWidthXl.xs-pb-75.pt-1 {
+    padding-top: 123px !important;
+  }
   .xs-p-0.xs-pb-62.MuiContainer-root {
     padding-top: 112px !important;
   }
@@ -931,6 +935,11 @@ button {
   }
   .css-u9086j {
     width: 100% !important;
+  }
+
+  .MuiContainer-root.allContentlearning,
+  .MuiContainer-root.profile.allContentProfile {
+    padding-top: 0 !important;
   }
   /* .carousel-bx.scrolled {
     width: 98% !important;
@@ -2113,6 +2122,7 @@ tspan {
 }
 .profile-tab.MuiTab-root {
   width: 51% !important;
+  font-size: 12px !important;
 }
 .MuiTabs-indicator {
   border-bottom: 4px solid #0e7a9c !important;

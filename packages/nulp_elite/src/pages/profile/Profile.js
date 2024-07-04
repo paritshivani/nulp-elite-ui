@@ -617,7 +617,7 @@ const Profile = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xl" role="main" className="xs-p-0 xs-pb-75 pt-1 ">
+      <Container maxWidth="xl" role="main" className="xs-pb-75 pt-1 ">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
