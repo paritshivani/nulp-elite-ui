@@ -769,24 +769,27 @@ const Profile = () => {
                           />
                         </>
                       ) : (
-                        <Grid item xs={6} md={6} className="chartOne">
+                        <>
                           <Box className="h6-title pl-20">
                             Certifications Received
                           </Box>
                           <Alert
                             severity="info"
-                            style={{ backgroundColor: "transparent" }}
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
                           >
                             No certificates found
                           </Alert>
-                        </Grid>
+                        </>
                       )}
                     </Grid>
 
                     <Grid item xs={12} md={6} className="chartTwo">
                       {!isCourseDataEmpty ? (
                         <>
-                          <Box className="h6-title">
+                          <Box className="h6-title  pl-20">
                             Courses more than last month
                           </Box>
                           <BarChart
@@ -814,13 +817,16 @@ const Profile = () => {
                         </>
                       ) : (
                         <>
-                          <Box className="h6-title">
+                          <Box className="h6-title  pl-20">
                             Courses more than last month
                           </Box>
 
                           <Alert
                             severity="info"
-                            style={{ backgroundColor: "transparent" }}
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
                           >
                             You are not enrolled in any course. Enroll now!
                           </Alert>
