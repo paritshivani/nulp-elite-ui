@@ -759,7 +759,7 @@ const JoinCourse = () => {
                 width: "100%",
               }}
             />
-            <Box className="p-10 contentdetail-title">
+            <Box className="p-10 contentdetail-title content-ellipsis">
               {" "}
               {userData?.result?.content?.name}
             </Box>

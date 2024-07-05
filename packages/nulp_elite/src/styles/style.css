@@ -916,6 +916,14 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .content-ellipsis {
+    -webkit-line-clamp: 1;
+    font-size: 15px !important;
+    max-height: 7px;
+    border: solid;
+    overflow: hidden;
+    width: 572px;
+  }
   .filter-bx {
     border-radius: 10px !important;
   }
