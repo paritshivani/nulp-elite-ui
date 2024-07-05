@@ -110,7 +110,14 @@ const EventList = (props) => {
   }, []);
   useEffect(() => {
     fetchAllData();
-  }, [subDomainFilter, endDateFilter, startDateFilter, searchQuery,domainName,domain]);
+  }, [
+    subDomainFilter,
+    endDateFilter,
+    startDateFilter,
+    searchQuery,
+    domainName,
+    domain,
+  ]);
   useEffect(() => {
     fetchAllData();
   }, [currentPage]);
@@ -143,14 +150,14 @@ const EventList = (props) => {
     fetchAllData();
   };
   const [value, setValue] = React.useState("1");
- let startDate = [];
-    if(startDateFilter!=null && endDateFilter!=null){
-       startDate =
+  let startDate = [];
+  if (startDateFilter != null && endDateFilter != null) {
+    startDate =
       {
         ">=": startDateFilter,
-          "<=": endDateFilter,
+        "<=": endDateFilter,
       } || [];
-    }
+  }
 
   const fetchAllData = async () => {
     let filters = {};
@@ -331,7 +338,7 @@ const EventList = (props) => {
           // <CircularProgress color="inherit" />
         )}
       </Box>
-      <Container maxWidth="xl" role="main" className="xs-pr-0 xs-pb-20">
+      <Container maxWidth="xl" role="main" className="xs-pb-20">
         <Grid
           container
           spacing={2}
@@ -366,13 +373,13 @@ const EventList = (props) => {
                           aria-label="lab API tabs example"
                         >
                           <Tab
-                            label="My Webinar"
+                            label="My Events"
                             className="tab-text"
                             icon={<RecentActorsOutlinedIcon />}
                             value="1"
                           />
                           <Tab
-                            label="All Webinar"
+                            label="All Events"
                             className="tab-text"
                             icon={<PublicOutlinedIcon />}
                             value="2"

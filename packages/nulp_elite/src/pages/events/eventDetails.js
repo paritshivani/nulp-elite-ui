@@ -454,7 +454,7 @@ const EventDetails = () => {
       </Snackbar>
       {detailData && (
         <Container
-          className=" xs-pr-0 xs-pb-20 mt-12 xss-p-0"
+          className=" xs-pb-20 mt-12 xss-p-0"
           style={{
             maxWidth: "100%",
             paddingLeft: "14px",
@@ -645,7 +645,7 @@ const EventDetails = () => {
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    This Webinar has ended, you can access th recording link
+                    This Event has ended, you can access th recording link
                   </Alert>
                 </Box>
               )}
@@ -797,7 +797,7 @@ const EventDetails = () => {
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    This Webinar has ended, you can access th recording link
+                    This Event has ended, you can access th recording link
                   </Alert>
                 </Box>
               )}

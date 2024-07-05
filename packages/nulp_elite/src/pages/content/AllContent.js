@@ -33,7 +33,9 @@ import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
 import SkeletonLoader from "components/skeletonLoader";
+import NoResult from "./noResultFound";
 const routeConfig = require("../../configs/routeConfig.json");
+
 
 const responsiveCard = {
   superLargeDesktop: {
@@ -53,6 +55,7 @@ const responsiveCard = {
     items: 2,
   },
 };
+
 const iconMapping = {
   Collection: CollectionIcon,
   Resource: ResourceIcon,
@@ -74,7 +77,7 @@ const AllContent = () => {
   const [domain, setDomain] = useState();
   const [selectedDomain, setSelectedDomain] = useState();
 
-  const [channelData, setChannelData] = React.useState(true);
+  const [channelData, setChannelData] = useState(true);
   const [expandedCategory, setExpandedCategory] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [itemsArray, setItemsArray] = useState([]);
@@ -86,18 +89,17 @@ const AllContent = () => {
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
   };
-  const handleSearch = (query) => {
-    // Implement your search logic here
 
+  const handleSearch = (query) => {
     console.log("Search query:", query);
   };
+
   const handleDomainFilter = (query, domainName) => {
-    // Implement your search logic here
     setSelectedDomain(query);
     setDomainName(domainName);
     console.log("Search query:", selectedDomain);
-    // fetchData();
   };
+
   useEffect(() => {
     fetchData();
     fetchDomains();
@@ -177,21 +179,19 @@ const AllContent = () => {
     const headers = {
       "Content-Type": "application/json",
     };
-    // console.log(data.result.content)
 
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
 
       const response = await getAllContents(url, data, headers);
       const sortedData = response?.data?.result?.content?.sort((a, b) => {
-        // Sort "Course" items first, then by primaryCategory
         if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
-          return -1; // "Course" comes before other categories
+          return -1;
         } else if (
           a.primaryCategory !== "Course" &&
           b.primaryCategory === "Course"
         ) {
-          return 1; // Other categories come after "Course"
+          return 1;
         } else {
           return a.primaryCategory.localeCompare(b.primaryCategory);
         }
@@ -201,6 +201,7 @@ const AllContent = () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
+
   const getCookieValue = (name) => {
     const cookies = document.cookie.split("; ");
     for (let i = 0; i < cookies.length; i++) {
@@ -217,7 +218,6 @@ const AllContent = () => {
     setError(null);
     const rootOrgId = sessionStorage.getItem("rootOrgId");
     const defaultFramework = localStorage.getItem("defaultFramework");
-    // Headers
     const headers = {
       "Content-Type": "application/json",
       Cookie: `connect.sid=${getCookieValue("connect.sid")}`,
@@ -257,7 +257,7 @@ const AllContent = () => {
       console.log("nulp finally---");
     }
   };
-  // Function to push data to the array
+
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
@@ -290,7 +290,6 @@ const AllContent = () => {
       navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
         state: { content: item },
       });
-      // navigate("/player");
     }
   };
 
@@ -330,18 +329,14 @@ const AllContent = () => {
             </Box>
           </Box>
         )}
-        {/* <Box className="text-heading lg-d-flex my-20">
-          You are viewing content for :
-          <Box className="text-primary">Mobility and accessibliy</Box>
-        </Box> */}
         {error && (
           <Alert severity="error" className="my-10">
             {error}
           </Alert>
         )}
-        {data &&
-          Object?.entries(
-            data?.reduce((acc, item) => {
+        {data?.length > 0 ? (
+          Object.entries(
+            data.reduce((acc, item) => {
               if (!acc[item.primaryCategory]) {
                 acc[item.primaryCategory] = [];
               }
@@ -406,7 +401,7 @@ const AllContent = () => {
                     itemClass="carousel-item-padding-40-px allContentList xs-pb-20"
                   >
                     {expandedCategory === category
-                      ? items.map((item) => (
+                      ? items?.map((item) => (
                           <Grid item xs={12} md={6} lg={2} key={item.id}>
                             <BoxCard
                               items={item}
@@ -416,7 +411,7 @@ const AllContent = () => {
                             ></BoxCard>
                           </Grid>
                         ))
-                      : items.slice(0, 4).map((item) => (
+                      : items?.slice(0, 4).map((item) => (
                           <Grid item xs={12} md={6} lg={2} key={item.id}>
                             <BoxCard
                               items={item}
@@ -429,7 +424,6 @@ const AllContent = () => {
                   </Carousel>
                 ) : (
                   <>
-                    {" "}
                     <Box className="custom-card">
                       {expandedCategory === category
                         ? renderItems(items, category)
@@ -439,7 +433,10 @@ const AllContent = () => {
                 )}
               </React.Fragment>
             );
-          })}
+          })
+        ) : (
+         <NoResult />
+        )}
       </Container>
       <FloatingChatIcon />
       <Footer />
