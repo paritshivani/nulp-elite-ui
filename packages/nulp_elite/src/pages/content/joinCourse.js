@@ -740,7 +740,7 @@ const JoinCourse = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="xs-pr-0 xs-pb-20 lg-mt-12"
+        className="xs-pr-0 xs-pb-20 lg-mt-12 lg-pr-10"
       >
         <Box className=" pos-relative xs-ml-15 lg-ml-15">
           <Box>
@@ -759,14 +759,14 @@ const JoinCourse = () => {
                 width: "100%",
               }}
             />
-            <Box className="p-10 contentdetail-title content-ellipsis">
+            {/* <Box className="p-10 contentdetail-title content-ellipsis">
               {" "}
               {userData?.result?.content?.name}
             </Box>
             <Box className="p-10 contentdetail-desc threeLineEllipsis">
               {" "}
               {userData?.result?.content?.description}
-            </Box>
+            </Box> */}
           </Box>
         </Box>
         <Grid container spacing={2} className="mt-9">
