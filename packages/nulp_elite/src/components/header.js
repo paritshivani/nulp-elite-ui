@@ -374,7 +374,17 @@ function Header({ globalSearchQuery }) {
                 />
                 {t("EVENTS")}
               </Link>
-              <Link href="" className="headerMenu" underline="none">
+              <Link
+                target="_blank"
+                href="https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups"
+                className={
+                  activePath ===
+                  `https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups`
+                    ? "Menuactive"
+                    : "headerMenu"
+                }
+                underline="none"
+              >
                 <Groups2OutlinedIcon
                   style={{
                     padding: "0px 5px 0 0",
@@ -484,6 +494,16 @@ function Header({ globalSearchQuery }) {
                     textAlign="center"
                   >
                     {t("PROFILE")}
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link
+                    target="_blank"
+                    href="https://nulp.niua.org/workspace/content/create"
+                    underline="none"
+                    textAlign="center"
+                  >
+                    {t("WORKSPACE")}
                   </Link>
                 </MenuItem>
                 <MenuItem>
@@ -724,6 +744,16 @@ function Header({ globalSearchQuery }) {
                         textAlign="center"
                       >
                         {t("PROFILE")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        target="_blank"
+                        href="https://nulp.niua.org/workspace/content/create"
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("WORKSPACE")}
                       </Link>
                     </MenuItem>
                     <MenuItem>

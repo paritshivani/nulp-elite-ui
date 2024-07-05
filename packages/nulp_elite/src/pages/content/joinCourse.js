@@ -763,7 +763,7 @@ const JoinCourse = () => {
               {" "}
               {userData?.result?.content?.name}
             </Box>
-            <Box className="p-10 contentdetail-desc">
+            <Box className="p-10 contentdetail-desc threeLineEllipsis">
               {" "}
               {userData?.result?.content?.description}
             </Box>

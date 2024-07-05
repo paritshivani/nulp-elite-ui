@@ -155,6 +155,18 @@ export default function Footer() {
               icon={<VideocamOutlinedIcon />}
             />
             <BottomNavigationAction
+              target="_blank"
+              onClick={() =>
+                navigate(
+                  "https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups"
+                )
+              }
+              className={
+                location.pathname ===
+                `https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups`
+                  ? "navigateActive"
+                  : ""
+              }
               // onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
               label={t("DISCUSSIONS")}
               // className={
