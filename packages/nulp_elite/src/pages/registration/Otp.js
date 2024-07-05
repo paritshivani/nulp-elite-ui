@@ -441,7 +441,9 @@ const Otp = () => {
             }}
           >
             {t("ALREADY_HAVE_AN_ACCOUNT")}{" "}
-            <Link href={`/all${window.location.search}`}>{t("LOGIN")}</Link>
+            <Link href={`/webapp/all${window.location.search}`}>
+              {t("LOGIN")}
+            </Link>
           </Typography>
         </Box>
       </Container>

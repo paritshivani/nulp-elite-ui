@@ -961,17 +961,17 @@ const Profile = () => {
                             /{MAX_CHARS}
                           </Typography>
                         </Box>
-                        <Typography className="h4-title">
+                        {/* <Typography className="h4-title">
                           {t("Profile image")}
-                        </Typography>
-                        <Box
+                        </Typography> */}
+                        {/* <Box
                           py={1}
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
                           }}
-                        >
-                          <Box sx={{ flex: "0 0 auto" }}>
+                        > */}
+                        {/* <Box sx={{ flex: "0 0 auto" }}>
                             {previewUrl && (
                               <img
                                 src={previewUrl}
@@ -984,8 +984,8 @@ const Profile = () => {
                                 }}
                               />
                             )}
-                          </Box>
-                          <Box
+                          </Box> */}
+                        {/* <Box
                             sx={{
                               flex: "1 1 auto",
                               display: "flex",
@@ -1034,8 +1034,8 @@ const Profile = () => {
                                 {t("upload")}
                               </Button>
                             )}
-                          </Box>
-                        </Box>
+                          </Box> */}
+                        {/* </Box> */}
                         <Box pt={4} className="d-flex jc-en">
                           <Button
                             className="custom-btn-default mr-5"
