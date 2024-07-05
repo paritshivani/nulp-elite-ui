@@ -308,6 +308,7 @@ const Otp = () => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <Container
         maxWidth="sm"
+        className="otp"
         style={{
           textAlign: "center",
           backgroundPosition: "2px 426px",

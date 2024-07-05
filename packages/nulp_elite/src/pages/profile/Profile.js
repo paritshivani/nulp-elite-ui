@@ -617,7 +617,7 @@ const Profile = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xl" role="main" className="xs-p-0 xs-pb-75 pt-1 ">
+      <Container maxWidth="xl" role="main" className="xs-pb-75 pt-1 ">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -769,24 +769,27 @@ const Profile = () => {
                           />
                         </>
                       ) : (
-                        <Grid item xs={6} md={6} className="chartOne">
+                        <>
                           <Box className="h6-title pl-20">
                             Certifications Received
                           </Box>
                           <Alert
                             severity="info"
-                            style={{ backgroundColor: "transparent" }}
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
                           >
                             No certificates found
                           </Alert>
-                        </Grid>
+                        </>
                       )}
                     </Grid>
 
                     <Grid item xs={12} md={6} className="chartTwo">
                       {!isCourseDataEmpty ? (
                         <>
-                          <Box className="h6-title">
+                          <Box className="h6-title  pl-20">
                             Courses more than last month
                           </Box>
                           <BarChart
@@ -814,13 +817,16 @@ const Profile = () => {
                         </>
                       ) : (
                         <>
-                          <Box className="h6-title">
+                          <Box className="h6-title  pl-20">
                             Courses more than last month
                           </Box>
 
                           <Alert
                             severity="info"
-                            style={{ backgroundColor: "transparent" }}
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
                           >
                             You are not enrolled in any course. Enroll now!
                           </Alert>
@@ -1134,7 +1140,7 @@ const Profile = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="xs-pl-0 pb-20">
+          <Grid item xs={12} md={8} lg={8} className="pb-20">
             {showCertificate ? (
               <Certificate />
             ) : (

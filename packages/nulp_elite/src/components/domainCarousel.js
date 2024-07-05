@@ -6,6 +6,8 @@ import "react-multi-carousel/lib/styles.css";
 import domainWithImage from "../assets/domainImgForm.json";
 import { Tooltip } from "@mui/material";
 import { MarginOutlined } from "@mui/icons-material";
+import Container from "@mui/material/Container";
+
 // import { useNavigate } from "react-router-dom";
 
 const responsive = {
@@ -188,13 +190,18 @@ export default function DomainCarousel({
         </>
       ) : (
         <>
-
-          <Box className={scrolled ? "carousel-bx scrolled" : "carousel-bx"}>
-            <Box className="text-white h5-title pl-20 pb-10">
+          <Box className="carousel-bx scrolled">
+            <Box className="text-white h5-title pl-20 pb-15">
               Select your prefered domain :
             </Box>
 
-            <Box sx={{ display: "flex" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                width: "100%",
+              }}
+            >
               {itemsArray &&
                 itemsArray?.slice(0, 10).map((domain, index) => (
                   <Box

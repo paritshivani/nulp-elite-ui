@@ -22,6 +22,7 @@ const urlConfig = require("../configs/urlConfig.json");
 const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 // const styles = {
 //   BottomNavigation: {
@@ -108,7 +109,7 @@ export default function Footer() {
                 navigate(routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST)
               }
               label={t("HOME")}
-              icon={<SearchSharpIcon />}
+              icon={<HomeOutlinedIcon />}
               className={
                 location.pathname ===
                 `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
@@ -173,6 +174,7 @@ export default function Footer() {
           background: "#065872",
           color: "#fff",
           padding: "15px 15px 13px",
+          marginTop: "auto",
         }}
       >
         {/* <Box>dfgdfgsg */}

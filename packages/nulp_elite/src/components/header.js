@@ -138,7 +138,7 @@ function Header({ globalSearchQuery }) {
   }, []);
   return (
     <>
-      <Box className={scrolled ? " scrolledTop" : ""}>
+      <Box className="scrolledTop">
         {/* Sidebar Navigation */}
         <Box
           className="d-flex jc-en lg-pr-20 xs-pr-16"
@@ -307,7 +307,11 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <HomeOutlinedIcon
-                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "20px",
+                  }}
                 />
                 {t("HOME")}
               </Link>
@@ -325,7 +329,11 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <MenuBookOutlinedIcon
-                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "19px",
+                  }}
                 />
                 {t("CONTENT")}
               </Link>
@@ -340,7 +348,11 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <ChatOutlinedIcon
-                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "17px",
+                  }}
                 />
                 {t("CONNECTIONS")}
               </Link>
@@ -354,13 +366,21 @@ function Header({ globalSearchQuery }) {
                 underline="none"
               >
                 <VideocamOutlinedIcon
-                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "23px",
+                  }}
                 />
                 {t("EVENTS")}
               </Link>
               <Link href="" className="headerMenu" underline="none">
                 <Groups2OutlinedIcon
-                  style={{ padding: "0px 5px 0 0", verticalAlign: "middle" }}
+                  style={{
+                    padding: "0px 5px 0 0",
+                    verticalAlign: "middle",
+                    fontSize: "22px",
+                  }}
                 />
                 {t("DISCUSSIONS")}
               </Link>

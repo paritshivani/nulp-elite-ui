@@ -148,9 +148,9 @@ const ContinueLearning = () => {
         <Box textAlign="center" padding="10" className="mt-30">
           <Box>
             <Grid container spacing={2}>
-              <Box className="custom-card xs-pl-17 profile-card-view w-100">
+              <Box className="custom-card profile-card-view w-100">
                 {paginatedCourses.length === 0 ? (
-                  <NoResult />
+                  <NoResult className="center-no-result " />
                 ) : (
                   paginatedCourses.map((items) => (
                     <Box className="custom-card-box" key={items.contentId}>

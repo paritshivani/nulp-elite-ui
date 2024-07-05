@@ -137,8 +137,12 @@ button {
   overflow: hidden !important;
 }
 @media (min-width: 320px) {
+  .otp .MuiInputBase-fullWidth {
+    background: #fff !important;
+    border-radius: 10px;
+  }
   .css-u9086j {
-    width: 100% !important;
+    height: 140px !important;
   }
   .addConnectChat .jss3 {
     overflow-y: auto;
@@ -273,7 +277,8 @@ button {
     flex-wrap: wrap;
   }
   .custom-card-box {
-    width: 46%;
+    /* width: 46%; */
+    width: 174px !important;
     margin-bottom: 22px !important;
   }
   .MuiAppBar-colorPrimary button.lg-hide svg {
@@ -558,6 +563,16 @@ button {
   }
 }
 @media (max-width: 768px) {
+  .MuiBottomNavigationAction-root {
+    min-width: 75px !important;
+  }
+  .cardLabelEllips {
+    width: 145px !important;
+  }
+
+  .profile-card-view .cardLabelEllips {
+    width: 132px !important;
+  }
   .profile-text-circle {
     font-size: 17px !important;
     height: 30px !important;
@@ -876,11 +891,59 @@ button {
   .ellsp {
     font-size: 12px !important;
   }
+  .event-list .MuiTabs-flexContainer {
+    display: flex;
+    justify-content: center;
+    gap: 55px;
+  }
+  .react-multi-carousel-list.carousel-container.carousel-bx {
+    padding: 10px 0;
+  }
+  .profile-card-view .custom-card-box {
+    margin-left: 4px;
+    width: 162px !important;
+  }
 }
 @media (min-width: 769px) {
-  .carousel-bx.scrolled {
-    width: 98% !important;
+  .custom-event-container .center-box {
+    transform: translate(2%, 10px);
   }
+  .MuiContainer-root {
+    padding-top: 268px !important;
+  }
+  .MuiContainer-root.xs-pr-0.xs-pb-20.lg-mt-12 {
+    padding-top: 115px !important;
+  }
+  .MuiContainer-root.xs-pr-0.xs-pb-20.mt-12.xss-p-0 {
+    padding-top: 119px !important;
+  }
+  .MuiContainer-root.min-472 {
+    padding-top: 129px !important;
+  }
+  .MuiContainer-root.MuiContainer-maxWidthXl.xs-pb-75.pt-1 {
+    padding-top: 123px !important;
+  }
+  .xs-p-0.xs-pb-62.MuiContainer-root {
+    padding-top: 112px !important;
+  }
+  /* .event-list .MuiTabs-indicator {
+    left: inherit !important;
+    width: inherit !important;
+  } */
+  .event-list .MuiTabs-flexContainer {
+    justify-content: center !important;
+  }
+  .css-u9086j {
+    width: 100% !important;
+  }
+
+  .MuiContainer-root.allContentlearning,
+  .MuiContainer-root.profile.allContentProfile {
+    padding-top: 0 !important;
+  }
+  /* .carousel-bx.scrolled {
+    width: 98% !important;
+  } */
   .scrolledTop {
     position: fixed !important;
     top: 0;
@@ -888,10 +951,10 @@ button {
     width: 100%;
     z-index: 999999 !important;
   }
-  .my-class.carousel-active-ui .cursor-pointer {
+  /* .my-class.carousel-active-ui .cursor-pointer {
     width: 104px;
     margin-bottom: -12px;
-  }
+  } */
   .Menuactive.profile-btn {
     align-items: center;
     background: #0e7a9c !important;
@@ -919,23 +982,24 @@ button {
   .allContentlearning .custom-card,
   .allContentProfile .custom-card {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
   }
   .allContentlearning .custom-card-box,
   .allContentProfile .custom-card-box {
     width: 214px !important;
   }
-  .carousel-bx .my-class {
+  /* .carousel-bx .my-class {
     margin: 0 45px !important;
-  }
+  } */
   .domainText {
     color: #484848;
     font-size: 11px;
-    text-align: center;
     margin: 0 auto;
     display: block;
     padding-left: 0 !important;
     padding-top: 3px;
+    text-align: center;
+    width: 102px;
   }
   .w-100 {
     width: 100% !important;
@@ -1100,10 +1164,10 @@ button {
     text-align: center;
     font-size: 14px !important;
   }
-  .headerMenu svg,
+  /* .headerMenu svg,
   .Menuactive svg {
     font-size: 20px !important;
-  }
+  } */
   .Menuactive {
     display: flex;
   }
@@ -1131,6 +1195,9 @@ button {
     padding-bottom: 0 !important;
   }
   .pb-10 {
+    padding-bottom: 10px !important;
+  }
+  .pb-15 {
     padding-bottom: 10px !important;
   }
   .px-10 {
@@ -1324,7 +1391,7 @@ button {
     margin-right: 18px;
   } */
   .custom-card-box {
-    width: 244px;
+    width: 244px !important;
     padding: 0 6px;
   }
 
@@ -1661,7 +1728,7 @@ Footer {
   background: #0e7a9c !important;
   border-radius: 10px !important;
   color: #fff !important;
-  padding: 6px 25px !important;
+  padding: 10px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
@@ -1672,7 +1739,7 @@ Footer {
 .custom-btn-default {
   border-radius: 10px !important;
   color: #004367 !important;
-  padding: 6px 25px !important;
+  padding: 10px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #004367 !important;
@@ -1741,8 +1808,13 @@ Footer {
 .mx-10 {
   margin: 0 10px !important;
 }
-.custom-event-container .center-box {
-  transform: translate(70%, 10px);
+
+.center-no-result {
+  transform: translate(159%, 50%);
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  display: block;
 }
 .mt-40 {
   margin: 40px 0 0 0 !important;
@@ -2050,6 +2122,7 @@ tspan {
 }
 .profile-tab.MuiTab-root {
   width: 51% !important;
+  font-size: 12px !important;
 }
 .MuiTabs-indicator {
   border-bottom: 4px solid #0e7a9c !important;
@@ -2518,7 +2591,7 @@ header .MuiContainer-maxWidthLg {
   font-size: 14px;
   text-shadow: 1px 1px 2px #666e70;
 }
-.my-class.carousel-active-ui .cursor-pointer {
+/* .my-class.carousel-active-ui .cursor-pointer {
   width: 104px;
-  margin-bottom:-12px;
-}
+  margin-bottom: -12px;
+} */
