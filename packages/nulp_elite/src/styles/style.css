@@ -89,6 +89,17 @@ button {
   text-align: left;
   max-height: 41px;
 }
+.threeLineEllipsis {
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  max-height: 53px;
+  /* border: solid; */
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  font-size: 15px !important;
+}
 
 .MuiBottomNavigation-root svg {
   width: 23px !important;
@@ -905,6 +916,20 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .content-ellipsis {
+    -webkit-line-clamp: 1;
+    font-size: 15px !important;
+    max-height: 7px;
+    border: solid;
+    overflow: hidden;
+    width: 572px;
+  }
+  .filter-bx {
+    border-radius: 10px !important;
+  }
+  .MuiContainer-root.allContent.xs-mb-75.domain-list {
+    padding-top: 0 !important;
+  }
   .custom-event-container .center-box {
     transform: translate(2%, 10px);
   }
@@ -2570,7 +2595,7 @@ header .MuiContainer-maxWidthLg {
   height: 178px !important;
   width: 100%;
   object-fit: cover;
-  filter: grayscale(20%);
+  filter: grayscale(90%);
   border-radius: 10px;
   box-shadow: 0 4px 4px 0 #00000040 !important;
 }
