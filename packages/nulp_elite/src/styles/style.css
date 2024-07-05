@@ -916,11 +916,16 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
+    padding-top: 117px !important;
+  }
+  .lg-pr-10 {
+    padding-right: 10px !important;
+  }
   .content-ellipsis {
     -webkit-line-clamp: 1;
     font-size: 15px !important;
-    max-height: 7px;
-    border: solid;
+    max-height: 12px;
     overflow: hidden;
     width: 572px;
   }
