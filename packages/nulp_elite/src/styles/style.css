@@ -288,8 +288,8 @@ button {
     flex-wrap: wrap;
   }
   .custom-card-box {
-    /* width: 46%; */
-    width: 174px !important;
+    width: 46%;
+    /* width: 174px !important; */
     margin-bottom: 22px !important;
   }
   .MuiAppBar-colorPrimary button.lg-hide svg {
@@ -926,6 +926,9 @@ button {
   }
   .filter-bx {
     border-radius: 10px !important;
+  }
+  .MuiContainer-root.container-pb.mb-20.xs-pb-75.lg-mt-12 {
+    padding-top: 0 !important;
   }
   .MuiContainer-root.allContent.xs-mb-75.domain-list {
     padding-top: 0 !important;
@@ -2547,6 +2550,10 @@ header .MuiContainer-maxWidthLg {
 }
 .chartOne .css-gzg8gv {
   height: 149px !important;
+}
+.chartOne svg,
+.chartTwo svg {
+  font-size: 16px !important;
 }
 .chartOne .MuiBarElement-root {
   height: 42px !important;
