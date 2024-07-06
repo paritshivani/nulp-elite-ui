@@ -32,7 +32,7 @@ const ContinueLearning = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(15); // Number of items per page
+  const [itemsPerPage] = useState(16); // Number of items per page
   const navigate = useNavigate();
   const location = useLocation();
   const { domain } = location.state || {};

@@ -89,6 +89,17 @@ button {
   text-align: left;
   max-height: 41px;
 }
+.threeLineEllipsis {
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  max-height: 53px;
+  /* border: solid; */
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  font-size: 15px !important;
+}
 
 .MuiBottomNavigation-root svg {
   width: 23px !important;
@@ -277,8 +288,8 @@ button {
     flex-wrap: wrap;
   }
   .custom-card-box {
-    /* width: 46%; */
-    width: 174px !important;
+    width: 46%;
+    /* width: 174px !important; */
     margin-bottom: 22px !important;
   }
   .MuiAppBar-colorPrimary button.lg-hide svg {
@@ -905,6 +916,28 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
+    padding-top: 117px !important;
+  }
+  .lg-pr-10 {
+    padding-right: 10px !important;
+  }
+  .content-ellipsis {
+    -webkit-line-clamp: 1;
+    font-size: 15px !important;
+    max-height: 12px;
+    overflow: hidden;
+    width: 572px;
+  }
+  .filter-bx {
+    border-radius: 10px !important;
+  }
+  .MuiContainer-root.container-pb.mb-20.xs-pb-75.lg-mt-12 {
+    padding-top: 0 !important;
+  }
+  .MuiContainer-root.allContent.xs-mb-75.domain-list {
+    padding-top: 0 !important;
+  }
   .custom-event-container .center-box {
     transform: translate(2%, 10px);
   }
@@ -1913,6 +1946,8 @@ button {
   color: #484848 !important;
   font-size: 16px !important;
   font-weight: 400 !important;
+  width: 100%;
+  display: block;
 }
 .h3-title {
   color: #484848 !important;
@@ -2523,6 +2558,10 @@ header .MuiContainer-maxWidthLg {
 .chartOne .css-gzg8gv {
   height: 149px !important;
 }
+.chartOne svg,
+.chartTwo svg {
+  font-size: 16px !important;
+}
 .chartOne .MuiBarElement-root {
   height: 42px !important;
 }
@@ -2570,7 +2609,7 @@ header .MuiContainer-maxWidthLg {
   height: 178px !important;
   width: 100%;
   object-fit: cover;
-  filter: grayscale(20%);
+  filter: grayscale(90%);
   border-radius: 10px;
   box-shadow: 0 4px 4px 0 #00000040 !important;
 }

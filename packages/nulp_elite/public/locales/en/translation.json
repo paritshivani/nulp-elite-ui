@@ -230,10 +230,11 @@
   "SPEAKER_DETAILS": "Speaker Details",
   "ATTEND_WEBINAR": "Attend Webinar",
   "UN_REGISTER_WEBINAR": "Un-register from Webinar",
-  "VIEW_WEBINAR_RECORDING": "View Webinar Recording",
+  "VIEW_WEBINAR_RECORDING": "View Event Recording",
   "HOME": "Home",
   "EVENTS": "Events",
   "YOU_ARE_SHOWING_CONTENTS_FOR": "Showing Results for:",
   "DISCUSSIONS": "Discussions",
-  "PLEASE_SPECIFY_REASON": "Please specify reason"
+  "PLEASE_SPECIFY_REASON": "Please specify reason",
+  "WORKSPACE": "Workspace"
 }

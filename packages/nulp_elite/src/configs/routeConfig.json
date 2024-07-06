@@ -46,13 +46,13 @@
       "CERTIFICATE_OLD": "/webapp/certificateOld"
     },
     "SIGNUP_PAGE": {
-      "SIGNUP": "/webapp/signup"
+      "SIGNUP": "/signup"
     },
     "TERMS_PAGE": {
       "TERMS": "/webapp/terms"
     },
     "OTP_PAGE": {
-      "OTP": "/webapp/otp"
+      "OTP": "/otp"
     },
     "VIEW_ALL_PAGE": {
       "VIEW_ALL": "/webapp/view-all",

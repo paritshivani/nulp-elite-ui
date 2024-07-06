@@ -21,10 +21,9 @@ import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
 import SkeletonLoader from "components/skeletonLoader";
+import NoResult from "./noResultFound";
 
 const CategoryPage = () => {
-  // const history = useHistory();
-  // const { category } = useParams();
   const [domain, setDomain] = useState([]);
   const [channelData, setChannelData] = useState(true);
   const [selectedDomain, setSelectedDomain] = useState(null);
@@ -34,7 +33,6 @@ const CategoryPage = () => {
   const navigate = useNavigate();
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [itemsArray, setItemsArray] = useState([]);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
@@ -61,7 +59,6 @@ const CategoryPage = () => {
   const handleDomainFilter = (query, domainName) => {
     setSelectedDomain(query);
     setDomainName(domainName);
-    console.log("Search query:", selectedDomain);
     fetchMoreItems(query, domainName);
   };
 
@@ -70,6 +67,7 @@ const CategoryPage = () => {
       fetchMoreItems(category, selectedDomain);
     }
   }, [selectedDomain]);
+
   useEffect(() => {
     fetchMoreItems(category, selectedDomain);
   }, [currentPage]);
@@ -126,12 +124,13 @@ const CategoryPage = () => {
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
       const response = await getAllContents(url, data, headers);
-      setData(response.data.result.content);
-      setTotalPages(Math.ceil(response?.data?.result?.count / 20));
+      setData(response.data.result.content ?? []);
+      setTotalPages(Math.ceil((response.data.result.count ?? 0) / 20));
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
+
   // Function to push data to the array
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
@@ -149,38 +148,34 @@ const CategoryPage = () => {
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
       const response = await frameworkService.getChannel(url, headers);
-      // console.log("channel---",response.data.result);
-      setChannelData(response.data.result);
+      setChannelData(response.data.result ?? {});
     } catch (error) {
-      console.log("error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}`;
-
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,
         headers
       );
-
-      response.data.result.framework.categories[0].terms.forEach((term) => {
+      const terms = response.data.result.framework.categories[0].terms ?? [];
+      terms.forEach((term) => {
         if (domainWithImage) {
           domainWithImage.result.form.data.fields.forEach((imgItem) => {
             if ((term && term.code) === (imgItem && imgItem.code)) {
-              term["image"] = imgItem.image ? imgItem.image : "";
+              term.image = imgItem.image ?? "";
               pushData(term);
               itemsArray.push(term);
             }
           });
         }
       });
-
-      setDomain(response.data.result.framework.categories[0].terms);
+      setDomain(terms);
     } catch (error) {
-      console.log("nulp--  error-", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
+
   const getCookieValue = (name) => {
     const cookies = document.cookie.split("; ");
     for (let i = 0; i < cookies.length; i++) {
@@ -192,6 +187,7 @@ const CategoryPage = () => {
     }
     return "";
   };
+
   useEffect(() => {
     if (category) {
       fetchMoreItems(category, selectedDomain);
@@ -213,13 +209,11 @@ const CategoryPage = () => {
     <>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-
       {domain.length > 0 ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
         <SkeletonLoader />
       )}
-
       <Container
         maxWidth="xl"
         role="main"
@@ -262,7 +256,9 @@ const CategoryPage = () => {
             </Link>
           </Box>
         )}
-
+        {data.length === 0 && !error && (
+          <NoResult />
+        )}
         <Box textAlign="center">
           <Box className="custom-card xs-pb-20">
             {data &&
@@ -290,11 +286,6 @@ const CategoryPage = () => {
           />
         </Box>
       </Container>
-      {/* <Pagination
-          count={totalPages}
-          page={pageNumber}
-          onChange={handleChange}
-        /> */}
       <Footer />
     </>
   );

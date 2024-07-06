@@ -127,7 +127,7 @@ const Registration = () => {
       setError(null);
 
       try {
-        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.EMAIL_EXIST}${formik.values.email}?captchaResponse=${captchaResponse}`;
+        const url = `${urlConfig.URLS.LEARNER_PREFIX}user/${urlConfig.URLS.USER.EMAIL_EXIST}/${formik.values.email}?captchaResponse=${captchaResponse}`;
 
         const response = await fetch(url, {
           method: "GET",
@@ -149,7 +149,7 @@ const Registration = () => {
           generateOtp(formik.values.email);
         }
       } catch (error) {
-        showErrorMessage(t("EMAIL_ALREADY_EXIST"));
+        showErrorMessage(t("SOMETHING WENT WRONG"));
       } finally {
         setIsLoading(false);
       }
@@ -203,7 +203,7 @@ const Registration = () => {
     };
   };
   if (goToOtp) {
-    return <Navigate to={`/otp${window.location.search}`} />;
+    return <Navigate to={`/webapp/otp${window.location.search}`} />;
   }
 
   const onChange = (value) => {
@@ -497,7 +497,8 @@ const Registration = () => {
                 marginTop: "10px",
               }}
             >
-              {t("ALREADY_HAVE_AN_ACCOUNT")} <Link href="/all">Log in</Link>
+              {t("ALREADY_HAVE_AN_ACCOUNT")}{" "}
+              <Link href="/webapp/all">Log in</Link>
             </Typography>
           </Box>
           <Box py={1}>{error && <p className="form-error">{error}</p>}</Box>
