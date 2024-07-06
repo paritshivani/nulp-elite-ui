@@ -191,7 +191,7 @@ export default function DomainCarousel({
       ) : (
         <>
           <Box className="carousel-bx scrolled">
-            <Box className="text-white h5-title pl-20 pb-15">
+            <Box className="text-white h5-title pl-20 pb-5">
               Select your prefered domain :
             </Box>
 

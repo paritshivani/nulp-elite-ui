@@ -376,12 +376,9 @@ function Header({ globalSearchQuery }) {
               </Link>
               <Link
                 target="_blank"
-                href="https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups"
+                href="/my-groups"
                 className={
-                  activePath ===
-                  `https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups`
-                    ? "Menuactive"
-                    : "headerMenu"
+                  activePath === `/my-groups` ? "Menuactive" : "headerMenu"
                 }
                 underline="none"
               >
@@ -499,7 +496,7 @@ function Header({ globalSearchQuery }) {
                 <MenuItem>
                   <Link
                     target="_blank"
-                    href="https://nulp.niua.org/workspace/content/create"
+                    href="/workspace/content/create"
                     underline="none"
                     textAlign="center"
                   >
@@ -749,7 +746,7 @@ function Header({ globalSearchQuery }) {
                     <MenuItem>
                       <Link
                         target="_blank"
-                        href="https://nulp.niua.org/workspace/content/create"
+                        href="/workspace/content/create"
                         underline="none"
                         textAlign="center"
                       >
