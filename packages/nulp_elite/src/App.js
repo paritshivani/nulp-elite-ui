@@ -197,6 +197,18 @@ function App() {
         const data = await response.json();
         const rootOrgId = data.result.response.rootOrgId;
         sessionStorage.setItem("rootOrgId", rootOrgId);
+        sessionStorage.setItem(
+          "userDomain",
+          data.result.response.framework.board
+        );
+        const rolesData = data.result.response.roles;
+        const roles = rolesData?.map((roleObject) => roleObject.role);
+
+        // Convert the roles array to a JSON string
+        const rolesJson = JSON.stringify(roles);
+
+        // Save the JSON string to sessionStorage
+        sessionStorage.setItem("roles", rolesJson);
         console.log(data.result.response.framework.board);
         localStorage.setItem(
           "defaultFramework",

@@ -55,7 +55,15 @@ function Header({ globalSearchQuery }) {
   const navigate = useNavigate();
   const _userId = util.userId();
   const [userData, setUserData] = useState(null);
-
+  const [roles, setRoles] = useState([]);
+  // Retrieve roles from sessionStorage
+  const rolesJson = sessionStorage.getItem("roles");
+  useEffect(() => {
+    if (rolesJson) {
+      const parsedRoles = JSON.parse(rolesJson);
+      setRoles(parsedRoles);
+    }
+  }, []);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -493,16 +501,20 @@ function Header({ globalSearchQuery }) {
                     {t("PROFILE")}
                   </Link>
                 </MenuItem>
-                <MenuItem>
-                  <Link
-                    target="_blank"
-                    href="/workspace/content/create"
-                    underline="none"
-                    textAlign="center"
-                  >
-                    {t("WORKSPACE")}
-                  </Link>
-                </MenuItem>
+                {/* Check if roles array is empty or contains "PUBLIC" */}
+                {(roles && roles.length === 0) ||
+                (roles.length === 1 && roles.includes("PUBLIC")) ? null : (
+                  <MenuItem>
+                    <Link
+                      target="_blank"
+                      href="/workspace/content/create"
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("WORKSPACE")}
+                    </Link>
+                  </MenuItem>
+                )}
                 <MenuItem>
                   <Link
                     href={routeConfig.ROUTES.HELP_PAGE.HELP}
@@ -743,16 +755,20 @@ function Header({ globalSearchQuery }) {
                         {t("PROFILE")}
                       </Link>
                     </MenuItem>
-                    <MenuItem>
-                      <Link
-                        target="_blank"
-                        href="/workspace/content/create"
-                        underline="none"
-                        textAlign="center"
-                      >
-                        {t("WORKSPACE")}
-                      </Link>
-                    </MenuItem>
+                    {/* Check if roles array is empty or contains "PUBLIC" */}
+                    {(roles && roles.length === 0) ||
+                    (roles.length === 1 && roles.includes("PUBLIC")) ? null : (
+                      <MenuItem>
+                        <Link
+                          target="_blank"
+                          href="/workspace/content/create"
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("WORKSPACE")}
+                        </Link>
+                      </MenuItem>
+                    )}
                     <MenuItem>
                       <Link
                         href={routeConfig.ROUTES.HELP_PAGE.HELP}

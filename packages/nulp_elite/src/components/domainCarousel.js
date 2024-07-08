@@ -47,6 +47,12 @@ export default function DomainCarousel({
   const [activeDomain, setActiveDomain] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   // const navigate = useNavigate();
+  const [userDomain, setUserDomain] = useState(null);
+
+  useEffect(() => {
+    const domain = sessionStorage.getItem("userDomain");
+    setUserDomain(domain);
+  }, []);
 
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -124,9 +130,9 @@ export default function DomainCarousel({
           <Carousel
             swipeable={true}
             draggable={true}
-            showDots={["mobile"]} // Show dots only if there are more than 4 items
+            showDots={["mobile"]}
             responsive={responsive}
-            ssr={true} // means to render carousel on server-side.
+            ssr={true}
             infinite={true}
             autoPlaySpeed={1000}
             keyBoardControl={true}
@@ -140,7 +146,11 @@ export default function DomainCarousel({
               itemsArray?.slice(0, 10).map((domain, index) => (
                 <Box
                   className={`my-class ${
-                    activeStates === index ? "carousel-active-ui" : ""
+                    activeStates === index
+                      ? "carousel-active-ui"
+                      : userDomain === domain.code
+                      ? "carousel-active-ui"
+                      : ""
                   }`}
                   onClick={(e) =>
                     handleDomainClick(domain.code, index, domain.name)
@@ -175,10 +185,7 @@ export default function DomainCarousel({
                   <Box sx={{ alignSelf: "center" }} className="cursor-pointer">
                     <Typography
                       level="title-md"
-                      style={{
-                        fontSize: "12px",
-                        textAlign: "center",
-                      }}
+                      style={{ fontSize: "12px", textAlign: "center" }}
                       className="domainText"
                     >
                       {domain.name}
@@ -191,8 +198,8 @@ export default function DomainCarousel({
       ) : (
         <>
           <Box className="carousel-bx scrolled">
-            <Box className="text-white h5-title pl-20 pb-5">
-              Select your prefered domain :
+            <Box className="text-white h5-title pl-20 pb-15">
+              Select your preferred domain:
             </Box>
 
             <Box
@@ -206,7 +213,11 @@ export default function DomainCarousel({
                 itemsArray?.slice(0, 10).map((domain, index) => (
                   <Box
                     className={`my-class ${
-                      activeStates === index ? "carousel-active-ui" : ""
+                      activeStates === index
+                        ? "carousel-active-ui"
+                        : userDomain === domain.code
+                        ? "carousel-active-ui"
+                        : ""
                     }`}
                     onClick={(e) =>
                       handleDomainClick(domain.code, index, domain.name)
@@ -219,24 +230,15 @@ export default function DomainCarousel({
                     onMouseEnter={(event) => handleMouseEnter(index)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <Box className=" cursor-pointer">
-                      <Box className=" cursor-pointer">
-                        {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
-                {(domain.image == undefined)&& <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />} */}
-                        {/* <Tooltip title={domain.description}> */}
+                    <Box className="cursor-pointer">
+                      <Box className="cursor-pointer">
                         <img
                           className="domainHover"
                           src={require(`../assets/domainImgs${domain.image}`)}
                           alt={domain.name}
                         />
-
-                        {/* </Tooltip> */}
-
-                        {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
                       </Box>
-
-                      {/* {(activeDomain === index || activeStates === index) && ( */}
-                      <span className=" cursor-pointer domainText">
+                      <span className="cursor-pointer domainText">
                         {domain.name}
                       </span>
                       {/* )} */}
