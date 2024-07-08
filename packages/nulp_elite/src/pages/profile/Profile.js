@@ -734,10 +734,14 @@ const Profile = () => {
                           </Box>
                           <BarChart
                             yAxis={[
-                              { scaleType: "band", data: ["certificate"] },
+                              {
+                                scaleType: "band",
+                                data: ["Current Month", "Prev Month"],
+                              },
                             ]}
                             series={[
                               {
+                                name: "Previous Month",
                                 data: isCertDataEmpty
                                   ? dummyData
                                   : [finalCertData.certificatesReceived],
@@ -749,6 +753,7 @@ const Profile = () => {
                                 color: "#0097b2",
                               },
                               {
+                                name: "Current Month",
                                 data: isCertDataEmpty
                                   ? dummyData
                                   : [finalCertData.courseWithCertificate],
@@ -794,7 +799,12 @@ const Profile = () => {
                             Courses more than last month
                           </Box>
                           <BarChart
-                            yAxis={[{ scaleType: "band", data: ["courses"] }]}
+                            yAxis={[
+                              {
+                                scaleType: "band",
+                                data: ["Current Month", "Prev Month"],
+                              },
+                            ]}
                             series={[
                               {
                                 data: [finalCourseData.enrolledThisMonth],
