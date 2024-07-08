@@ -384,12 +384,9 @@ function Header({ globalSearchQuery }) {
               </Link>
               <Link
                 target="_blank"
-                href="https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups"
+                href="/my-groups"
                 className={
-                  activePath ===
-                  `https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups`
-                    ? "Menuactive"
-                    : "headerMenu"
+                  activePath === `/my-groups` ? "Menuactive" : "headerMenu"
                 }
                 underline="none"
               >

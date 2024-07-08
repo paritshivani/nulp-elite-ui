@@ -338,7 +338,7 @@ const EventList = (props) => {
           // <CircularProgress color="inherit" />
         )}
       </Box>
-      <Container maxWidth="xl" role="main" className="xs-pb-20">
+      <Container maxWidth="xl" role="main" className="xs-pb-20 lg-myy-10">
         <Grid
           container
           spacing={2}
@@ -350,7 +350,12 @@ const EventList = (props) => {
             md={4}
             lg={3}
             className="sm-p-25 left-container  flter-btn w-100"
-            style={{ padding: "0", borderRight: "none", background: "#f9fafc" }}
+            style={{
+              padding: "0",
+              borderRight: "none",
+              background: "none",
+              boxShadow: "none",
+            }}
           >
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
