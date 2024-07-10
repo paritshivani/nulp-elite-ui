@@ -201,7 +201,7 @@ const CategoryPage = () => {
         `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
-      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
+      navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${contentId}`);
     }
   };
 
@@ -256,9 +256,7 @@ const CategoryPage = () => {
             </Link>
           </Box>
         )}
-        {data.length === 0 && !error && (
-          <NoResult />
-        )}
+        {data.length === 0 && !error && <NoResult />}
         <Box textAlign="center">
           <Box className="custom-card xs-pb-20">
             {data &&
