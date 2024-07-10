@@ -7,6 +7,7 @@ import domainWithImage from "../assets/domainImgForm.json";
 import { Tooltip } from "@mui/material";
 import { MarginOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
+import { useTranslation } from "react-i18next";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -35,6 +36,8 @@ export default function DomainCarousel({
   onSelectDomain,
   selectedDomainCode,
 }) {
+  const { t } = useTranslation();
+
   const dotsToShow = 4; // Number of dots to display
   const [isActive, setIsActive] = useState(false);
   const [itemsArray, setItemsArray] = useState([]);
@@ -197,56 +200,62 @@ export default function DomainCarousel({
         </>
       ) : (
         <>
-          <Box className="carousel-bx scrolled">
-            <Box className="text-white h5-title pl-20 pb-15">
-              Select your preferred domain:
-            </Box>
+          <Container
+            role="main"
+            maxWidth="xxl"
+            className="carousel-bx scrolled"
+          >
+            <Box>
+              <Box className="text-white h5-title pl-20 pb-5">
+                {t("SELECT_YOUR_PREFERRED_DOMAIN")}:
+              </Box>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                width: "100%",
-              }}
-            >
-              {itemsArray &&
-                itemsArray?.slice(0, 10).map((domain, index) => (
-                  <Box
-                    className={`my-class ${
-                      activeStates === index
-                        ? "carousel-active-ui"
-                        : userDomain === domain.code
-                        ? "carousel-active-ui"
-                        : ""
-                    }`}
-                    onClick={(e) =>
-                      handleDomainClick(domain.code, index, domain.name)
-                    }
-                    key={index}
-                    orientation="horizontal"
-                    size="sm"
-                    variant="outlined"
-                    style={{ display: "flex", margin: "0 4px" }}
-                    onMouseEnter={(event) => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <Box className="cursor-pointer">
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  width: "100%",
+                }}
+              >
+                {itemsArray &&
+                  itemsArray?.slice(0, 10).map((domain, index) => (
+                    <Box
+                      className={`my-class ${
+                        activeStates === index
+                          ? "carousel-active-ui"
+                          : userDomain === domain.code
+                          ? "carousel-active-ui"
+                          : ""
+                      }`}
+                      onClick={(e) =>
+                        handleDomainClick(domain.code, index, domain.name)
+                      }
+                      key={index}
+                      orientation="horizontal"
+                      size="sm"
+                      variant="outlined"
+                      style={{ display: "flex", margin: "0 4px" }}
+                      onMouseEnter={(event) => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
+                    >
                       <Box className="cursor-pointer">
-                        <img
-                          className="domainHover"
-                          src={require(`../assets/domainImgs${domain.image}`)}
-                          alt={domain.name}
-                        />
+                        <Box className="cursor-pointer">
+                          <img
+                            className="domainHover"
+                            src={require(`../assets/domainImgs${domain.image}`)}
+                            alt={domain.name}
+                          />
+                        </Box>
+                        <span className="cursor-pointer domainText">
+                          {domain.name}
+                        </span>
+                        {/* )} */}
                       </Box>
-                      <span className="cursor-pointer domainText">
-                        {domain.name}
-                      </span>
-                      {/* )} */}
                     </Box>
-                  </Box>
-                ))}
+                  ))}
+              </Box>
             </Box>
-          </Box>
+          </Container>
         </>
       )}
     </Box>

@@ -501,6 +501,15 @@ function Header({ globalSearchQuery }) {
                     {t("PROFILE")}
                   </Link>
                 </MenuItem>
+                <MenuItem>
+                  <Link
+                    href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                    underline="none"
+                    textAlign="center"
+                  >
+                    {t("DASHBOARD")}
+                  </Link>
+                </MenuItem>
                 {/* Check if roles array is empty or contains "PUBLIC" */}
                 {(roles && roles.length === 0) ||
                 (roles.length === 1 && roles.includes("PUBLIC")) ? null : (
@@ -700,7 +709,9 @@ function Header({ globalSearchQuery }) {
                     className={
                       activePath ===
                         `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
+                      activePath ===
+                        `${routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}`
                         ? "Menuactive"
                         : ""
                     }
@@ -753,6 +764,15 @@ function Header({ globalSearchQuery }) {
                         textAlign="center"
                       >
                         {t("PROFILE")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("DASHBOARD")}
                       </Link>
                     </MenuItem>
                     {/* Check if roles array is empty or contains "PUBLIC" */}

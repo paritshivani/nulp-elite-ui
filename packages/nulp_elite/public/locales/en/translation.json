@@ -236,5 +236,16 @@
   "YOU_ARE_SHOWING_CONTENTS_FOR": "Showing Results for:",
   "DISCUSSIONS": "Discussions",
   "PLEASE_SPECIFY_REASON": "Please specify reason",
-  "WORKSPACE": "Workspace"
+  "WORKSPACE": "Workspace",
+  "DASHBOARD": "Dashboard",
+  "EVENTS_DASHBOARD": "Events Dashboard",
+  "TOTAl_EVENTS": "Total Events",
+  "EVENTS_THIS_MONTH": "Events this Month",
+  "TOTAL_PARTICIPANTS": "Total Participants",
+  "TOTAL_CREATORS": "Total Creators",
+  "TOTAL_CERTIFIED_USERS": "Total Certified Users",
+  "TOP_TRENDING_EVENT": "Top Trending Event",
+  "SELECT_YOUR_PREFERRED_DOMAIN": "Select your preferred domain:",
+  "THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS": "This Event has ended, you can access this recording link",
+  "TOP_TRENDING_DESIGNATIONS": "Top Trending Designations"
 }
