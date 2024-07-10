@@ -617,7 +617,7 @@ const Profile = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xl" role="main" className="xs-pb-75 pt-1 lg-myy-10">
+      <Container maxWidth="xl" role="main" className="xs-pb-75 pt-1">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -630,7 +630,7 @@ const Profile = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container profile lg-mt-12"
+            className="sm-p-25 left-container profile my-20 lg-mt-12"
             style={{ background: "#fff" }}
           >
             <Box sx={{ fontSize: "18px", color: "#484848" }}>
@@ -846,6 +846,7 @@ const Profile = () => {
                             height={200}
                             options={{}}
                           />
+                          <Box className="h6-title">Certiifcates</Box>
                         </>
                       ) : (
                         <>

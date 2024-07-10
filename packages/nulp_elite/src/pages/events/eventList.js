@@ -338,7 +338,7 @@ const EventList = (props) => {
           // <CircularProgress color="inherit" />
         )}
       </Box>
-      <Container maxWidth="xl" role="main" className="xs-pb-20 lg-myy-10">
+      <Container maxWidth="xl" role="main" className="xs-pb-20">
         <Grid
           container
           spacing={2}
@@ -349,7 +349,7 @@ const EventList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container  flter-btn w-100"
+            className="sm-p-25 left-container  flter-btn w-100 my-20"
             style={{
               padding: "0",
               borderRight: "none",

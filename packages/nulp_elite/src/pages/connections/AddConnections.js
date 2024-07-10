@@ -1300,7 +1300,7 @@ const AddConnections = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="pt-0 xs-p-0 xs-pb-62 lg-pr-0 lg-myy-17"
+        className="pt-0 xs-p-0 xs-pb-62 lg-pr-0"
       >
         {error && (
           <Alert severity="error" className="my-10">
@@ -1316,7 +1316,7 @@ const AddConnections = () => {
                 xs={12}
                 md={4}
                 lg={4}
-                className="sm-p-25 left-container lg-mt-12 pr-16 xs-shadow-none"
+                className="sm-p-25 left-container my-custom lg-mt-12 pr-16 xs-shadow-none"
                 style={{ background: "#fff" }}
               >
                 <Box

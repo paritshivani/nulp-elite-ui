@@ -181,7 +181,7 @@ const Player = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="md" role="main" className="container-pb">
+      <Container maxWidth="xl" role="main" className="container-pb player">
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <Breadcrumbs
@@ -219,7 +219,7 @@ const Player = () => {
             </Link>
           </Grid>
         </Grid>
-        <Box>
+        {/* <Box>
           <Typography
             variant="h7"
             style={{
@@ -239,7 +239,6 @@ const Player = () => {
               }}
             >
               SWM
-              {/* {userData?.result?.content?.board} */}
             </Button>
             <Button
               size="small"
@@ -251,69 +250,69 @@ const Player = () => {
             >
               {" "}
               Sanitation
-              {/* {userData?.result?.content?.gradeLevel} */}
             </Button>
           </Typography>
-        </Box>
-
-        {lesson && (
-          <SunbirdPlayer
-            // {...{ width, height: height - 64 }}
-            // handleExitButton={handleExitButton}
-            {...lesson}
-            userData={{
-              firstName: "Shivani",
-              lastName: "",
-            }}
-            setTrackData={(data) => {
-              if (
-                [
-                  "assessment",
-                  "SelfAssess",
-                  "QuestionSet",
-                  "QuestionSetImage",
-                ].includes(type)
-              ) {
-                handleTrackData(data);
-              } else if (
-                ["application/vnd.sunbird.questionset"].includes(
-                  lesson?.mimeType
-                )
-              ) {
-                handleTrackData(data, "application/vnd.sunbird.questionset");
-              } else if (
-                [
-                  "application/pdf",
-                  "video/mp4",
-                  "video/webm",
-                  "video/x-youtube",
-                  "application/vnd.ekstep.h5p-archive",
-                ].includes(lesson?.mimeType)
-              ) {
-                handleTrackData(data, "pdf-video");
-              } else {
+        </Box> */}
+        <Box className="lg-mx-90">
+          {lesson && (
+            <SunbirdPlayer
+              // {...{ width, height: height - 64 }}
+              // handleExitButton={handleExitButton}
+              {...lesson}
+              userData={{
+                firstName: "Shivani",
+                lastName: "",
+              }}
+              setTrackData={(data) => {
                 if (
-                  ["application/vnd.ekstep.ecml-archive"].includes(
+                  [
+                    "assessment",
+                    "SelfAssess",
+                    "QuestionSet",
+                    "QuestionSetImage",
+                  ].includes(type)
+                ) {
+                  handleTrackData(data);
+                } else if (
+                  ["application/vnd.sunbird.questionset"].includes(
                     lesson?.mimeType
                   )
                 ) {
-                  if (Array.isArray(data)) {
-                    const score = data.reduce(
-                      (old, newData) => old + newData?.score,
-                      0
-                    );
-                    handleTrackData({ ...data, score: `${score}` }, "ecml");
-                    setTrackData(data);
-                  } else {
-                    handleTrackData({ ...data, score: `0` }, "ecml");
+                  handleTrackData(data, "application/vnd.sunbird.questionset");
+                } else if (
+                  [
+                    "application/pdf",
+                    "video/mp4",
+                    "video/webm",
+                    "video/x-youtube",
+                    "application/vnd.ekstep.h5p-archive",
+                  ].includes(lesson?.mimeType)
+                ) {
+                  handleTrackData(data, "pdf-video");
+                } else {
+                  if (
+                    ["application/vnd.ekstep.ecml-archive"].includes(
+                      lesson?.mimeType
+                    )
+                  ) {
+                    if (Array.isArray(data)) {
+                      const score = data.reduce(
+                        (old, newData) => old + newData?.score,
+                        0
+                      );
+                      handleTrackData({ ...data, score: `${score}` }, "ecml");
+                      setTrackData(data);
+                    } else {
+                      handleTrackData({ ...data, score: `0` }, "ecml");
+                    }
                   }
                 }
-              }
-            }}
-            public_url="https://devnulp.niua.org/newplayer"
-            // public_url="https://nulp.niua.org"
-          />
-        )}
+              }}
+              public_url="https://devnulp.niua.org/newplayer"
+              // public_url="https://nulp.niua.org"
+            />
+          )}
+        </Box>
       </Container>
       <FloatingChatIcon />
       <Footer />
