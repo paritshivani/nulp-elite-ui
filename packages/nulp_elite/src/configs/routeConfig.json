@@ -3,6 +3,9 @@
     "POFILE_PAGE": {
       "PROFILE": "/webapp/profile"
     },
+    "DASHBOARD_PAGE": {
+      "DASHBOARD": "/webapp/dashboard"
+    },
     "ALL_CONTENT_PAGE": {
       "ALL_CONTENT": "/webapp/all"
     },

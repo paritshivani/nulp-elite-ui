@@ -148,6 +148,13 @@ button {
   overflow: hidden !important;
 }
 @media (min-width: 320px) {
+  .dashboard-cards {
+    grid-gap: 16px !important;
+    display: grid !important;
+    gap: 16px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
   .otp .MuiInputBase-fullWidth {
     background: #fff !important;
     border-radius: 10px;
@@ -571,6 +578,36 @@ button {
   .ml-20 {
     margin-left: 20px !important;
   }
+  .dashboard-card {
+    padding: 20px 0px;
+    text-align: center;
+    border-radius: 10px;
+    color: #fff !important;
+  }
+  .dashboard-bg-one {
+    background: #ffbc01;
+  }
+  .dashboard-bg-two {
+    background: #01b1de;
+  }
+  .dashboard-bg-three {
+    background: #2e96ff;
+  }
+  .dashboard-bg-four {
+    background: #b800d8;
+  }
+  .dashboard-bg-five {
+    background: #02b2af;
+  }
+  .dashboard .MuiFormControl-root {
+    width: 230px;
+    margin-bottom: 22px;
+    padding-right: 10px;
+  }
+  .dashboard .h1-title,
+  .dashboard .h2-title {
+    color: #fff !important;
+  }
 }
 @media (max-width: 768px) {
   .MuiBottomNavigationAction-root {
@@ -915,6 +952,25 @@ button {
   }
 }
 @media (min-width: 769px) {
+  .MuiContainer-root.pt-121 {
+    padding-top: 121px !important;
+  }
+  .dashboard .fs-40 {
+    font-size: 40px !important;
+  }
+  .dashboard-cards {
+    grid-gap: 16px !important;
+    display: grid !important;
+    gap: 16px !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    margin-left: -4px !important;
+  }
+  .dashboard-card {
+    border-radius: 10px;
+    color: #fff !important;
+    padding: 28px 0;
+    text-align: center;
+  }
   .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
     padding-top: 117px !important;
   }
@@ -1288,7 +1344,7 @@ button {
   } */
   .carousel-bx {
     height: 126px;
-    padding: 4px 14px 14px 14px !important;
+    padding-top: 4px !important;
   }
 
   @keyframes move-to-right {
@@ -1551,8 +1607,9 @@ button {
 .scrolled {
   position: fixed !important;
   top: 125px;
-  width: 100%;
+  /* width: 100%; */
   z-index: 999999 !important;
+  height: 148px;
   background: #065872;
   transition: #f4fbff 0.3s ease, top 0.3s ease;
   padding-top: 15px;
@@ -2652,3 +2709,6 @@ header .MuiContainer-maxWidthLg {
   width: 104px;
   margin-bottom: -12px;
 } */
+TableBody TableCell {
+  font-weight: 600 !important;
+}

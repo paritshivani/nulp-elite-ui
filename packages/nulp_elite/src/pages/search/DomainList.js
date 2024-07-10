@@ -434,7 +434,7 @@ const DomainList = ({ globalSearchQuery }) => {
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
             <Box className="text-white h4-title">
-              Select your prefered domain :
+              {t("SELECT_YOUR_PREFERRED_DOMAIN")}:
             </Box>
 
             <Grid

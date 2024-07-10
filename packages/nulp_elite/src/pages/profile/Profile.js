@@ -767,11 +767,32 @@ const Profile = () => {
                             ]}
                             width={261}
                             height={200}
-                            options={
-                              isCertDataEmpty
-                                ? { hover: { enabled: false } }
-                                : {}
-                            }
+                            options={{
+                              xAxis: {
+                                label: {
+                                  text: "Courses",
+                                  position: "middle",
+                                },
+                                type: "category",
+                              },
+                              yAxis: {
+                                label: {
+                                  text: "Months",
+                                  position: "middle",
+                                },
+                                type: "category",
+                                data: ["Previous Month", "Current Month"],
+                              },
+                              // isCertDataEmpty
+                              // ? { hover: { enabled: false } }
+                              // : {};
+                            }}
+                            // options={
+
+                            //   isCertDataEmpty
+                            //     ? { hover: { enabled: false } }
+                            //     : {}
+                            // }
                           />
                         </>
                       ) : (

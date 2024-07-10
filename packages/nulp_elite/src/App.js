@@ -44,6 +44,7 @@ import Chat from "pages/connections/chat";
 import SampleComponent from "components/SampleComponent";
 import EventList from "pages/events/eventList";
 import EventDetails from "pages/events/eventDetails";
+import Dashboard from "pages/events/dashboard";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 
@@ -61,6 +62,11 @@ function App() {
       moduleName: "nulp_elite",
       path: routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT,
       component: AllContent,
+    },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD,
+      component: Dashboard,
     },
     {
       moduleName: "nulp_elite",
