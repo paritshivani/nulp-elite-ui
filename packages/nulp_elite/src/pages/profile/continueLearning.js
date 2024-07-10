@@ -115,7 +115,7 @@ const ContinueLearning = () => {
         `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${contentId}`
       );
     } else {
-      navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER);
+      navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${contentId}`);
     }
   };
   const handlePageChange = (event, newPage) => {
