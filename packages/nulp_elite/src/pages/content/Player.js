@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+const urlConfig = require("../../configs/urlConfig.json");
 
 // const [width, height] = useWindowSize();
 
@@ -30,9 +31,14 @@ const Player = () => {
   const [trackData, setTrackData] = React.useState();
   const { content } = location.state || {};
   const [contentData, setContentData] = useState();
+  const [toasterMessage, setToasterMessage] = useState("");
+  const [toasterOpen, setToasterOpen] = useState(false);
 
   const [lesson, setLesson] = React.useState();
-
+  const queryString = location.search;
+  const contentId = queryString.startsWith("?do_")
+    ? queryString.slice(1)
+    : null;
   const handleExitButton = () => {
     setLesson();
     setLessonId();
@@ -95,10 +101,55 @@ const Player = () => {
   };
 
   useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `/api/content/v1/read/${contentId}?fields=transcripts,ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&orgdetails=orgName,email&licenseDetails=name,description,url`,
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //       }
+    //     );
+    //     if (!response.ok) {
+    //       throw new Error("Failed to fetch course data");
+    //     }
+    //     const data = await response.json();
+    //     console.log("data-----", data.result.content);
+    //     setLesson(data.result.content);
+    //     // setCourseData(data);
+    //   } catch (error) {
+    //     console.error("Error fetching course data:", error);
+    //   }
+    // };
+
+    // const fetchData = async () => {
+    //   try {
+    //     const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COURSE.HIERARCHY}/${contentId}`;
+    //     const response = await fetch(url, {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     });
+    //     if (!response.ok) {
+    //       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    //       throw new Error(t("FAILED_TO_FETCH_DATA"));
+    //     }
+    //     const data = await response.json();
+    //     console.log("content data-------", data);
+    //     setLesson(data.result.content);
+    //     // setCreatorId(data?.result?.content?.createdBy);
+    //     // setCourseData(data);
+    //     // setUserData(data);
+    //   } catch (error) {
+    //     console.error("Error fetching course data:", error);
+    //     showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    //   }
+    // };
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/api/content/v1/read/${content.identifier}?fields=transcripts,ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&orgdetails=orgName,email&licenseDetails=name,description,url`,
+          `/api/content/v1/read/${contentId}?fields=transcripts,ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&orgdetails=orgName,email&licenseDetails=name,description,url`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -118,6 +169,13 @@ const Player = () => {
     };
     fetchData();
   }, []);
+  const showErrorMessage = (msg) => {
+    setToasterMessage(msg);
+    setTimeout(() => {
+      setToasterMessage("");
+    }, 2000);
+    setToasterOpen(true);
+  };
 
   // Now contentId contains the value from the URL parameter
   return (
@@ -252,7 +310,7 @@ const Player = () => {
                 }
               }
             }}
-            public_url="http://127.0.0.1:8080"
+            public_url="https://devnulp.niua.org/newplayer"
             // public_url="https://nulp.niua.org"
           />
         )}
