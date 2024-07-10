@@ -837,14 +837,7 @@ const JoinCourse = () => {
               courseData?.result?.content?.gradeLevel ||
               courseData?.result?.content?.se_gradeLevels) && (
               <Box>
-                <Typography
-                  variant="h7"
-                  style={{
-                    margin: "12px 0 12px 0",
-                    display: "block",
-                    fontSize: "13px",
-                  }}
-                >
+                <Typography className="h5-title">
                   {t("CONTENT_TAGS")}:
                   {courseData?.result?.content?.board &&
                     courseData.result.content.board.map((item, index) => (
@@ -854,7 +847,7 @@ const JoinCourse = () => {
                         style={{
                           color: "#424242",
                           fontSize: "12px",
-                          margin: "0 10px",
+                          margin: "0 5px 8px 5px",
                         }}
                         className="bg-blueShade3"
                       >

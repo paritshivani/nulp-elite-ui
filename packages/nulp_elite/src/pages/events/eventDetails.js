@@ -645,7 +645,7 @@ const EventDetails = () => {
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    This Event has ended, you can access th recording link
+                    {t("THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS")}
                   </Alert>
                 </Box>
               )}
@@ -797,7 +797,7 @@ const EventDetails = () => {
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    This Event has ended, you can access th recording link
+                    {t("THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS")}
                   </Alert>
                 </Box>
               )}
