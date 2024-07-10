@@ -617,7 +617,7 @@ const Profile = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container maxWidth="xl" role="main" className="xs-pb-75 pt-1 ">
+      <Container maxWidth="xl" role="main" className="xs-pb-75 pt-1 lg-myy-10">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -631,6 +631,7 @@ const Profile = () => {
             md={4}
             lg={4}
             className="sm-p-25 left-container profile lg-mt-12"
+            style={{ background: "#fff" }}
           >
             <Box sx={{ fontSize: "18px", color: "#484848" }}>
               {t("MY_PROFILE")}
@@ -733,10 +734,14 @@ const Profile = () => {
                           </Box>
                           <BarChart
                             yAxis={[
-                              { scaleType: "band", data: ["certificate"] },
+                              {
+                                scaleType: "band",
+                                data: ["Current Month", "Prev Month"],
+                              },
                             ]}
                             series={[
                               {
+                                name: "Previous Month",
                                 data: isCertDataEmpty
                                   ? dummyData
                                   : [finalCertData.certificatesReceived],
@@ -745,9 +750,10 @@ const Profile = () => {
                                 label: isCertDataEmpty
                                   ? "Dummy data"
                                   : "Certificate received",
-                                color: "#0e7a9c",
+                                color: "#0097b2",
                               },
                               {
+                                name: "Current Month",
                                 data: isCertDataEmpty
                                   ? dummyData
                                   : [finalCertData.courseWithCertificate],
@@ -756,7 +762,7 @@ const Profile = () => {
                                 label: isCertDataEmpty
                                   ? "Dummy data"
                                   : "No. of courses with certificate",
-                                color: "#065872",
+                                color: "#ffce6d",
                               },
                             ]}
                             width={261}
@@ -793,20 +799,25 @@ const Profile = () => {
                             Courses more than last month
                           </Box>
                           <BarChart
-                            yAxis={[{ scaleType: "band", data: ["courses"] }]}
+                            yAxis={[
+                              {
+                                scaleType: "band",
+                                data: ["Current Month", "Prev Month"],
+                              },
+                            ]}
                             series={[
                               {
                                 data: [finalCourseData.enrolledThisMonth],
                                 stack: "B",
                                 label: "Enrolled courses current month",
-                                color: "#0e7a9c",
+                                color: "#0097b2",
                                 layout: "horizontal",
                               },
                               {
                                 data: [finalCourseData.enrolledLastMonth],
                                 stack: "A",
                                 label: "Enrolled courses prev month",
-                                color: "#065872",
+                                color: "#ffce6d",
                                 layout: "horizontal",
                               },
                             ]}

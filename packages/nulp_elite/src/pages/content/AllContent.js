@@ -36,7 +36,6 @@ import SkeletonLoader from "components/skeletonLoader";
 import NoResult from "./noResultFound";
 const routeConfig = require("../../configs/routeConfig.json");
 
-
 const responsiveCard = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -101,6 +100,11 @@ const AllContent = () => {
   };
 
   useEffect(() => {
+    const userDomain = sessionStorage.getItem("userDomain");
+    if (userDomain) {
+      setSelectedDomain(userDomain);
+      setDomainName(userDomain);
+    }
     fetchData();
     fetchDomains();
   }, []);
@@ -435,7 +439,7 @@ const AllContent = () => {
             );
           })
         ) : (
-         <NoResult />
+          <NoResult />
         )}
       </Container>
       <FloatingChatIcon />

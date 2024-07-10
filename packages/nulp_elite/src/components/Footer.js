@@ -156,16 +156,9 @@ export default function Footer() {
             />
             <BottomNavigationAction
               target="_blank"
-              onClick={() =>
-                navigate(
-                  "https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups"
-                )
-              }
+              onClick={() => navigate("/my-groups")}
               className={
-                location.pathname ===
-                `https://nulp.niua.org/my-groups?board=Accounts&&gradeLevel=Program&id=nulp&selectedTab=myGroups`
-                  ? "navigateActive"
-                  : ""
+                location.pathname === `/my-groups` ? "navigateActive" : ""
               }
               // onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
               label={t("DISCUSSIONS")}

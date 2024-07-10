@@ -225,7 +225,12 @@ const Certificate = () => {
             style={{ padding: "20px", textAlign: "left" }}
             className="xs-cert-bx"
           >
-            <Grid container spacing={2} style={{ textAlign: "left" }}>
+            <Grid
+              container
+              spacing={2}
+              className="certificate"
+              style={{ textAlign: "left" }}
+            >
               {(!certData || certData.result.response.content.length === 0) &&
               otherCertData.length === 0 ? (
                 <NoResult />
