@@ -44,6 +44,8 @@ const Dashboard = () => {
     totalCreators: 0,
     totalCertifiedUsers: 0,
   });
+  const [topEvent, setTopEvent] = useState([]);
+  const [topDesignation, setTopDesignation] = useState([]);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -136,9 +138,38 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
+    const topTrendingEvents = async () => {
+      try {
+        const params = new URLSearchParams({
+          user: true,
+          designation: true,
+        });
+        const url = `${
+          urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
+        }?${params.toString()}`;
+        const response = await fetch(url, {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        let responseData = await response.json();
+        console.log(responseData?.result);
+        setTopEvent(responseData?.result?.topEvent);
+        setTopDesignation(responseData?.result?.topDesignation);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchOptions();
     eventCounts();
-  }, [currentPage, searchQuery, certificateFilter]);
+    topTrendingEvents();
+  }, [currentPage, searchQuery, certificateFilter, visibilityFilter]);
 
   const handlePageChange = (event, newValue) => {
     setCurrentPage(newValue);
@@ -160,6 +191,19 @@ const Dashboard = () => {
   const handleVisibilityFilterChange = (event) => {
     setVisibilityFilter(event.target.value);
   };
+  const xAxisDataa = topEvent.map((event) => event.event_name);
+  const seriesDataa = [
+    { data: topEvent.map((event) => parseInt(event.user_count)) },
+  ];
+  // Map topDesignation data to fit the format expected by LineChart component
+  const xAxisData = topDesignation.map((designation) => designation.event_name);
+  const seriesData = [
+    {
+      data: topDesignation.map((designation) =>
+        parseFloat(designation.user_count)
+      ),
+    },
+  ];
 
   return (
     <div>
@@ -213,22 +257,10 @@ const Dashboard = () => {
               {t("TOP_TRENDING_EVENT")}
             </Box>
             <BarChart
-              xAxis={[
-                {
-                  scaleType: "band",
-                  data: [
-                    "Event A",
-                    "Event B",
-                    "Event C",
-                    "Event D",
-                    "Event E",
-                    "Event F",
-                  ],
-                },
-              ]}
-              series={[{ data: [4, 1, 4, 3, 4, 1] }]}
+              xAxis={[{ scaleType: "band", data: xAxisDataa }]}
+              series={seriesDataa}
               axisLeft={{
-                title: "rainfall (mm)",
+                title: "Participants",
                 titleProps: { fill: "#000", fontSize: 14, fontWeight: "bold" },
               }}
               height={300}
@@ -240,12 +272,8 @@ const Dashboard = () => {
               {t("TOP_TRENDING_DESIGNATIONS")}
             </Box>
             <LineChart
-              xAxis={[{ data: [1, 4, 6, 3, 4, 7] }]}
-              series={[
-                {
-                  data: [2, 5.5, 2, 8.5, 1.5, 5],
-                },
-              ]}
+              xAxis={[{ data: [1, 4, 6, 8, 10, 12] }]}
+              series={seriesData}
               height={300}
             />
           </Grid>
@@ -308,10 +336,10 @@ const Dashboard = () => {
                 id="demo-simple-select"
                 value={visibilityFilter}
                 onChange={handleVisibilityFilterChange}
-                label="Age"
+                label="Public/ Invite Only"
               >
-                <MenuItem value={10}>Public</MenuItem>
-                <MenuItem value={20}>Private</MenuItem>
+                <MenuItem value="Public">Public</MenuItem>
+                <MenuItem value="Private">Invite Only</MenuItem>
               </Select>
             </FormControl>
           </Grid>
