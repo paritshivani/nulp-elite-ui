@@ -416,8 +416,10 @@
       "GET_BLOCK_USER_LIST": "/directConnect/get-block-user-list"
     },
     "EVENT": {
-      "READ": "event/v4/read",
-      "SEARCH": "action/composite/v3/search"
+      "READ": "/event/v4/read",
+      "SEARCH": "/action/composite/v3/search",
+      "REGISTER":"/event/registration"
     }
+   
   }
 }

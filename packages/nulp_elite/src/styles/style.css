@@ -148,11 +148,24 @@ button {
   overflow: hidden !important;
 }
 @media (min-width: 320px) {
+  .content-list.eventTab {
+    background: none !important;
+  }
+  .search-event .MuiFormControl-fullWidth {
+    margin: 0 !important;
+  }
+  .search-event .MuiOutlinedInput-root {
+    background: #fff !important;
+  }
+  .player iframe {
+    height: 100vh !important;
+  }
   .dashboard-cards {
     grid-gap: 16px !important;
     display: grid !important;
     gap: 16px !important;
     grid-template-columns: repeat(2, 1fr) !important;
+    padding-left: 10px;
   }
 
   .otp .MuiInputBase-fullWidth {
@@ -583,6 +596,7 @@ button {
     text-align: center;
     border-radius: 10px;
     color: #fff !important;
+    background: #ffce6d;
   }
   .dashboard-bg-one {
     background: #ffbc01;
@@ -600,16 +614,19 @@ button {
     background: #02b2af;
   }
   .dashboard .MuiFormControl-root {
-    width: 230px;
+    width: 100%;
     margin-bottom: 22px;
     padding-right: 10px;
   }
-  .dashboard .h1-title,
+  /* .dashboard .h1-title,
   .dashboard .h2-title {
     color: #fff !important;
-  }
+  } */
 }
 @media (max-width: 768px) {
+  .dashboard {
+    margin-bottom: 55px !important;
+  }
   .MuiBottomNavigationAction-root {
     min-width: 75px !important;
   }
@@ -947,12 +964,24 @@ button {
     padding: 10px 0;
   }
   .profile-card-view .custom-card-box {
-    margin-left: 4px;
-    width: 162px !important;
+    margin-left: 9px;
+    /* width: 162px !important; */
   }
 }
 @media (min-width: 769px) {
-  .MuiContainer-root.pt-121 {
+  .MuiContainer-root.MuiContainer-maxWidthXl.carousel {
+    padding-top: 0 !important;
+  }
+  .lg-mx-90 {
+    margin: 0 140px !important;
+  }
+  .dashboard .MuiFormControl-root {
+    width: 230px;
+    margin-bottom: 22px;
+    padding-right: 10px;
+  }
+  .MuiContainer-root.pt-121,
+  .container-pb.player {
     padding-top: 121px !important;
   }
   .dashboard .fs-40 {
@@ -1027,9 +1056,9 @@ button {
   .event-list .MuiTabs-flexContainer {
     justify-content: center !important;
   }
-  .css-u9086j {
+  /* .css-u9086j {
     width: 100% !important;
-  }
+  } */
 
   .MuiContainer-root.allContentlearning,
   .MuiContainer-root.profile.allContentProfile {
@@ -1091,12 +1120,13 @@ button {
     margin: 0 auto;
     display: block;
     padding-left: 0 !important;
-    padding-top: 3px;
+    padding-top: 8px;
     text-align: center;
     width: 129px;
   }
   .carousel-active-ui {
     padding: 8px 0 !important;
+    height: 92px;
   }
   .w-100 {
     width: 100% !important;
@@ -1607,12 +1637,15 @@ button {
 .scrolled {
   position: fixed !important;
   top: 125px;
-  /* width: 100%; */
+  width: 100%;
   z-index: 999999 !important;
-  height: 148px;
+  height: 144px;
   background: #065872;
   transition: #f4fbff 0.3s ease, top 0.3s ease;
   padding-top: 15px;
+}
+.left-container.flter-btn {
+  background: none !important;
 }
 .preference .MuiSelect-multiple {
   display: flex !important;
@@ -1629,6 +1662,13 @@ button {
 }
 .mb-30 {
   margin-bottom: 30px !important;
+}
+.my-custom {
+  margin: 35px 0 20px 0 !important;
+}
+.addConnectChat {
+  margin-bottom: 20px !important;
+  border-radius: 10px !important;
 }
 .mb-15 {
   margin-bottom: 15px !important;
@@ -2225,7 +2265,8 @@ tspan {
   padding: 12px 0px !important;
 }
 .addConnection .MuiTab-root {
-  width: 35% !important;
+  width: 32% !important;
+  font-size: 11px !important;
 }
 .profile-tab.MuiTab-root {
   width: 51% !important;
@@ -2636,6 +2677,7 @@ header .MuiContainer-maxWidthLg {
 .chartOne svg,
 .chartTwo svg {
   font-size: 16px !important;
+  overflow: inherit !important;
 }
 .chartOne .MuiBarElement-root {
   height: 42px !important;
@@ -2657,6 +2699,7 @@ header .MuiContainer-maxWidthLg {
 
 .chartTwo .MuiBarElement-series-auto-generated-id-1 {
   transform: translate3d(49.6px, 105px, 0px) !important;
+  height: 42px !important;
 }
 .chartTwo .MuiChartsLegend-row {
   transform: translate(25px, 250px) !important;
@@ -2684,7 +2727,7 @@ header .MuiContainer-maxWidthLg {
   height: 178px !important;
   width: 100%;
   object-fit: cover;
-  filter: grayscale(90%);
+  /* filter: grayscale(90%); */
   border-radius: 10px;
   box-shadow: 0 4px 4px 0 #00000040 !important;
 }
@@ -2709,6 +2752,6 @@ header .MuiContainer-maxWidthLg {
   width: 104px;
   margin-bottom: -12px;
 } */
-TableBody TableCell {
+thead th {
   font-weight: 600 !important;
 }

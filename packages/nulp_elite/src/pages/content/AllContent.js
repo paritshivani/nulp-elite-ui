@@ -100,11 +100,11 @@ const AllContent = () => {
   };
 
   useEffect(() => {
-    const userDomain = sessionStorage.getItem("userDomain");
-    if (userDomain) {
-      setSelectedDomain(userDomain);
-      setDomainName(userDomain);
-    }
+    // const userDomain = sessionStorage.getItem("userDomain");
+    // if (userDomain) {
+    //   setSelectedDomain(userDomain);
+    //   setDomainName(userDomain);
+    // }
     fetchData();
     fetchDomains();
   }, []);

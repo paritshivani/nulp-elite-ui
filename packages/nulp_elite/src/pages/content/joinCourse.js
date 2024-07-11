@@ -739,7 +739,7 @@ const JoinCourse = () => {
       </Modal>
 
       <Container
-        maxWidth="xl"
+        maxWidth="xxl"
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12 lg-pr-10"
       >
@@ -776,7 +776,7 @@ const JoinCourse = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container mt-9 xs-px-0 xs-pl-15"
+            className="sm-p-25 left-container mt-9 xs-px-0 xs-pl-15 mb-20"
           >
             {/* <Breadcrumbs
             aria-label="breadcrumb"
@@ -838,7 +838,7 @@ const JoinCourse = () => {
               courseData?.result?.content?.gradeLevel ||
               courseData?.result?.content?.se_gradeLevels) && (
               <Box>
-                <Typography className="h5-title">
+                <Typography className="h7-title">
                   {t("CONTENT_TAGS")}:
                   {courseData?.result?.content?.board &&
                     courseData.result.content.board.map((item, index) => (
@@ -863,7 +863,7 @@ const JoinCourse = () => {
                         style={{
                           color: "#424242",
                           fontSize: "12px",
-                          margin: "0 10px",
+                          margin: "0px 10px 10px 10px",
                         }}
                         className="bg-blueShade3"
                       >
@@ -1116,7 +1116,7 @@ const JoinCourse = () => {
                 </Modal>
               )}
             </div>
-            <Box className="xs-hide">
+            <Box className="xs-hide mb-10">
               <FacebookShareButton url={shareUrl} className="pr-5">
                 <FacebookIcon size={32} round={true} />
               </FacebookShareButton>
@@ -1326,7 +1326,13 @@ const JoinCourse = () => {
               >
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
-              <AccordionDetails style={{ background: "#fff" }}>
+              <AccordionDetails
+                style={{
+                  background: "#fff",
+                  padding: "5px 10px",
+                  borderRadius: "10px",
+                }}
+              >
                 {batchDetail && (
                   <ul>
                     <li className="h6-title">
@@ -1359,7 +1365,13 @@ const JoinCourse = () => {
               >
                 {t("OTHER_DETAILS")}
               </AccordionSummary>
-              <AccordionDetails style={{ background: "#fff" }}>
+              <AccordionDetails
+                style={{
+                  background: "#fff",
+                  padding: "5px 10px",
+                  borderRadius: "10px",
+                }}
+              >
                 <Typography className="h6-title">
                   {t("CREATED_ON")}:{" "}
                   {courseData &&
