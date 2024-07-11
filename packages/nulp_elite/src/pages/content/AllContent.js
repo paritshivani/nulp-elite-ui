@@ -291,12 +291,7 @@ const AllContent = () => {
         `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${item.identifier}`
       );
     } else {
-      navigate(
-        `${routeConfig.routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${item.identifier}`
-      );
-      //   navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
-      //   state: { content: item },
-      // });
+      navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${item.identifier}`);
     }
   };
 
