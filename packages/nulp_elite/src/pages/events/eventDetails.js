@@ -586,6 +586,13 @@ const EventDetails = () => {
 
               {canEnroll && !isEnrolled && (
                 <div>
+                    <Box
+                    className="h5-title mb-20 xs-hide "
+                    style={{ fontWeight: "400" }}
+                  >
+                    Registration will be ending on:{" "}
+                    {formatDate(detailData.registrationEndDate)}
+                  </Box>
                   {" "}
                   <Box className="xs-hide">
                     <Button
@@ -597,8 +604,8 @@ const EventDetails = () => {
                         padding: "10px 35px",
                         fontWeight: "500",
                         fontSize: "12px",
-                        border: "solid 1px #1faf38",
-                        background: "#1faf38",
+                        border: "solid 1px #0e7a9c",
+                        background: "#0e7a9c",
                         marginTop: "10px",
                       }}
                       onPress={handleOpenConsentModal}
@@ -606,13 +613,7 @@ const EventDetails = () => {
                       {t("REGISTER_WEBINAR")}
                     </Button>
                   </Box>
-                  <Box
-                    className="h5-title mb-20 xs-hide "
-                    style={{ fontWeight: "400" }}
-                  >
-                    Registration will be ending on:{" "}
-                    {formatDate(detailData.registrationEndDate)}
-                  </Box>
+                
                 </div>
               )}
               {canJoin && isEnrolled && (
@@ -742,6 +743,13 @@ const EventDetails = () => {
               {canEnroll && !isEnrolled && (
                 <div>
                   {" "}
+                  <Box
+                    className="h5-title mb-20 "
+                    style={{ fontWeight: "400" }}
+                  >
+                    Registration will be ending on:{" "}
+                    {formatDate(detailData.registrationEndDate)}
+                  </Box>
                   <Box className="lg-hide">
                     <Button
                       // onClick={handleOpenConsentModal}
@@ -753,8 +761,8 @@ const EventDetails = () => {
                         padding: "10px 35px",
                         fontWeight: "500",
                         fontSize: "12px",
-                        border: "solid 1px #1faf38",
-                        background: "#1faf38",
+                        border: "solid 1px #0e7a9c",
+                        background: "#0e7a9c",
                         marginTop: "10px",
                       }}
                       onPress={handleOpenConsentModal}
@@ -763,13 +771,7 @@ const EventDetails = () => {
                       {t("REGISTER_WEBINAR")}
                     </Button>
                   </Box>
-                  <Box
-                    className="h5-title mb-20 "
-                    style={{ fontWeight: "400" }}
-                  >
-                    Registration will be ending on:{" "}
-                    {formatDate(detailData.registrationEndDate)}
-                  </Box>
+                 
                 </div>
               )}
               {canJoin && isEnrolled && (

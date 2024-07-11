@@ -345,7 +345,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
           {renderedPage === "eventList" && (
             <FormControl className="mt-9">
               <InputLabel htmlFor="outlined-adornment-password">
-                Search for a webinar
+                Search for a event
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-search"
