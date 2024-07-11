@@ -115,7 +115,8 @@ const Dashboard = () => {
       };
 
       try {
-        const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
+        // const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
+        const url = `https://devnulp.niua.org/event/list`;
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -154,7 +155,8 @@ const Dashboard = () => {
       };
 
       try {
-        const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
+        // const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
+        const url = `https://devnulp.niua.org/event/list`;
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -199,7 +201,9 @@ const Dashboard = () => {
       };
 
       try {
-        const url = `${urlConfig.URLS.EVENT.GET_COUNT}`;
+        // const url = `${urlConfig.URLS.EVENT.GET_COUNT}`;
+        const url = `https://devnulp.niua.org/event/event_count`;
+
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -230,9 +234,11 @@ const Dashboard = () => {
           params.append("toDate", dayjs(endDateFilter).format("YYYY-MM-DD"));
         }
 
-        const url = `${
-          urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
-        }?${params.toString()}`;
+        // const url = `${
+        //   urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
+        // }?${params.toString()}`;
+        const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
+
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -266,9 +272,10 @@ const Dashboard = () => {
           );
         }
 
-        const url = `${
-          urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
-        }?${params.toString()}`;
+        // const url = `${
+        //   urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
+        // }?${params.toString()}`;
+        const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
