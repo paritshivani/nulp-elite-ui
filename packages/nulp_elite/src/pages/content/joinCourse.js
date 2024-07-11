@@ -743,7 +743,7 @@ const JoinCourse = () => {
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12 lg-pr-10"
       >
-        <Box className=" pos-relative xs-ml-15 lg-ml-15">
+        <Box className=" pos-relative xs-ml-15 lg-ml-15 pt-10">
           <Box>
             <img
               src={
@@ -838,8 +838,9 @@ const JoinCourse = () => {
               courseData?.result?.content?.gradeLevel ||
               courseData?.result?.content?.se_gradeLevels) && (
               <Box>
-                <Typography className="h7-title">
-                  {t("CONTENT_TAGS")}:
+                <Typography className="h6-title" style={{display:"inline-block"}}>
+                  {t("CONTENT_TAGS")}:                </Typography>
+
                   {courseData?.result?.content?.board &&
                     courseData.result.content.board.map((item, index) => (
                       <Button
@@ -847,8 +848,8 @@ const JoinCourse = () => {
                         size="small"
                         style={{
                           color: "#424242",
-                          fontSize: "12px",
-                          margin: "0 5px 8px 5px",
+                          fontSize: "10px",
+                          margin: "0 10px",
                         }}
                         className="bg-blueShade3"
                       >
@@ -862,8 +863,8 @@ const JoinCourse = () => {
                         size="small"
                         style={{
                           color: "#424242",
-                          fontSize: "12px",
-                          margin: "0px 10px 10px 10px",
+                          fontSize: "10px",
+                          margin: "0px 10px",
                         }}
                         className="bg-blueShade3"
                       >
@@ -902,7 +903,6 @@ const JoinCourse = () => {
                         </Button>
                       )
                     )}
-                </Typography>
               </Box>
             )}
 
@@ -994,7 +994,9 @@ const JoinCourse = () => {
               >
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
-              <AccordionDetails style={{ background: "#fff" }}>
+              <AccordionDetails style={{   background: "#fff",
+                  margin: "5px 10px",
+                  borderRadius: "10px", }}>
                 {batchDetail && (
                   <ul>
                     <li className="h6-title">

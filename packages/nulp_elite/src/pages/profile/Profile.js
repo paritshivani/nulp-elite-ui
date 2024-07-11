@@ -631,7 +631,7 @@ const Profile = () => {
             md={4}
             lg={4}
             className="sm-p-25 left-container profile my-20 lg-mt-12"
-            style={{ background: "#fff" }}
+            style={{ background: "#fff" ,height:"738px"}}
           >
             <Box sx={{ fontSize: "18px", color: "#484848" }}>
               {t("MY_PROFILE")}
