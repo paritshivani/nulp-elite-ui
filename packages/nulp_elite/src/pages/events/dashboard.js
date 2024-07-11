@@ -166,42 +166,40 @@ const Dashboard = () => {
       <Header />
 
       <Container
-        className="xs-pb-20 mt-12 dashboard mt-32 pt-121"
-        style={{
-          maxWidth: "100%",
-          paddingLeft: "14px",
-          paddingRight: "14px",
-          marginBottom: "20px",
-        }}
+        maxWidth="xl"
+        role="main"
+        className=" xs-pb-20 mt-12  dashboard mt-32 pt-121"
       >
-        <Box className="mb-20 h3-title">
-          <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
+        <Box className="mb-30 h3-title">
+          <DashboardOutlinedIcon
+            style={{ paddingRight: "10px", marginBottom: "-4px" }}
+          />
           {t("EVENTS_DASHBOARD")}
         </Box>
         <Grid container spacing={2} className="dashboard-cards">
-          <Box className="dashboard-card dashboard-bg-one">
+          <Box className="dashboard-card">
             <Box className="h2-title">{t("TOTAl_EVENTS")}</Box>
             <Box className="h1-title fs-40">{eventCount.totalEvent}</Box>
           </Box>
 
-          <Box className="dashboard-card dashboard-bg-four">
+          <Box className="dashboard-card">
             <Box className="h2-title">{t("EVENTS_THIS_MONTH")}</Box>
             <Box className="h1-title fs-40">
               {eventCount.totalEventInThisMonth}
             </Box>
           </Box>
 
-          <Box className="dashboard-card dashboard-bg-three">
+          <Box className="dashboard-card">
             <Box className="h2-title">{t("TOTAL_PARTICIPANTS")}</Box>
             <Box className="h1-title fs-40">{eventCount.totalParticipants}</Box>
           </Box>
 
-          <Box className="dashboard-card dashboard-bg-two">
+          <Box className="dashboard-card">
             <Box className="h2-title">{t("TOTAL_CREATORS")}</Box>
             <Box className="h1-title fs-40">{eventCount.totalCreators}</Box>
           </Box>
 
-          <Box className="dashboard-card dashboard-bg-five">
+          <Box className="dashboard-card">
             <Box className="h2-title">{t("TOTAL_CERTIFIED_USERS")}</Box>
             <Box className="h1-title fs-40">
               {eventCount.totalCertifiedUsers}
@@ -209,16 +207,26 @@ const Dashboard = () => {
           </Box>
         </Grid>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={6}>
             <Box className="mb-10 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_EVENT")}
             </Box>
             <BarChart
               xAxis={[
-                { scaleType: "band", data: ["Event A", "Event B", "Event C"] },
+                {
+                  scaleType: "band",
+                  data: [
+                    "Event A",
+                    "Event B",
+                    "Event C",
+                    "Event D",
+                    "Event E",
+                    "Event F",
+                  ],
+                },
               ]}
-              series={[{ data: [4, 1, 4] }]}
+              series={[{ data: [4, 1, 4, 3, 4, 1] }]}
               axisLeft={{
                 title: "rainfall (mm)",
                 titleProps: { fill: "#000", fontSize: 14, fontWeight: "bold" },
@@ -226,13 +234,13 @@ const Dashboard = () => {
               height={300}
             />
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={6}>
             <Box className="mb-10 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_DESIGNATIONS")}
             </Box>
             <LineChart
-              xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+              xAxis={[{ data: [1, 4, 6, 3, 4, 7] }]}
               series={[
                 {
                   data: [2, 5.5, 2, 8.5, 1.5, 5],
@@ -335,7 +343,7 @@ const Dashboard = () => {
             />
           </Grid>
         </Grid>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} className="lg-mb-20">
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead sx={{ background: "#f4efe3" }}>
               <TableRow>

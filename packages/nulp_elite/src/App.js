@@ -234,32 +234,30 @@ function App() {
   }, []);
 
   return (
-    <main className="App-content">
-      <NativeBaseProvider>
-        {/* <ChakraProvider> */}
-        {/* <React.Suspense> */}
-        {/* <I18nextProvider i18n={i18n}> */}
-        {/* <ChakraProvider> */}
-        <React.Suspense>
-          {/* {!checkPref && <UserPrefPopup />} */}
+    <NativeBaseProvider>
+      {/* <ChakraProvider> */}
+      {/* <React.Suspense> */}
+      {/* <I18nextProvider i18n={i18n}> */}
+      {/* <ChakraProvider> */}
+      <React.Suspense>
+        {/* {!checkPref && <UserPrefPopup />} */}
 
-          <Router>
-            <Routes>
-              {routes.map((route, index) => (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={<route.component />}
-                />
-              ))}
-            </Routes>
-          </Router>
-        </React.Suspense>
-        {/* </ChakraProvider> */}
-        {/* </ChakraProvider> */}
-        {/* </I18nextProvider> */}
-      </NativeBaseProvider>
-    </main>
+        <Router>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={<route.component />}
+              />
+            ))}
+          </Routes>
+        </Router>
+      </React.Suspense>
+      {/* </ChakraProvider> */}
+      {/* </ChakraProvider> */}
+      {/* </I18nextProvider> */}
+    </NativeBaseProvider>
   );
 }
 

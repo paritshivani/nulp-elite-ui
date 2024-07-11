@@ -304,10 +304,8 @@ const JoinCourse = () => {
     });
   };
 
-  const handleLinkClick = () => {
-    navigate(routeConfig.ROUTES.PLAYER_PAGE.PLAYER, {
-      state: { content: courseData.result.content },
-    });
+  const handleLinkClick = (id) => {
+    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`);
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -371,7 +369,7 @@ const JoinCourse = () => {
         return (
           <Box>
             <Button
-              onClick={handleLinkClick}
+              // onClick={handleLinkClick}
               className="custom-btn-primary  mr-5"
             >
               {t("START_LEARNING")}
@@ -413,7 +411,10 @@ const JoinCourse = () => {
         );
       } else {
         return (
-          <Button onClick={handleLinkClick} className="custom-btn-primary">
+          <Button
+            // onClick={handleLinkClick}
+            className="custom-btn-primary"
+          >
             {t("START_LEARNING")}
           </Button>
         );
@@ -738,7 +739,7 @@ const JoinCourse = () => {
       </Modal>
 
       <Container
-        maxWidth="xl"
+        maxWidth="xxl"
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12 lg-pr-10"
       >
@@ -1232,9 +1233,11 @@ const JoinCourse = () => {
                         <Link
                           href="#"
                           underline="none"
-                          key={faqIndexname.id}
+                          key={faqIndexname.identifier}
                           style={{ verticalAlign: "super" }}
-                          onClick={handleLinkClick}
+                          onClick={() =>
+                            handleLinkClick(faqIndexname.identifier)
+                          }
                           className="h6-title"
                         >
                           {faqIndexname.name}
