@@ -31,6 +31,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 const urlConfig = require("../../configs/urlConfig.json");
 import { Checkbox, ListItemText, Chip } from "@material-ui/core";
+import { saveAs } from "file-saver";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -62,6 +63,9 @@ const Dashboard = () => {
   const [selectedDomain, setSelectedDomain] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
   const [creator, setCreatorList] = useState([]);
+  const [data, setData] = useState(null);
+  const [currentEventId, setCurrentEventId] = useState(null);
+
   const handleDomainChange = (event) => {
     setSelectedDomain(event.target.value);
   };
@@ -86,6 +90,63 @@ const Dashboard = () => {
   const handleDesignationEndDateChange = (date) => {
     setEndDateDesignationFilter(date);
   };
+  const convertArrayToCSV = (array) => {
+    const keys = Object?.keys(array[0]);
+    const csvContent = [
+      keys?.join(","), // header row
+      ...array?.map((row) => keys?.map((key) => row[key])?.join(",")),
+    ]?.join("\n");
+
+    return csvContent;
+  };
+
+  const downloadCSV = (event) => {
+    const csvContent = convertArrayToCSV(data);
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const fileName = `${event}.csv`;
+
+    saveAs(blob, fileName);
+  };
+
+  const eventReports = async (event_id) => {
+    try {
+      const params = new URLSearchParams({ event_id: event_id });
+      // const url = `${urlConfig.URLS.EVENT.REPORT}?${params.toString()}`;
+      const url = `https://devnulp.niua.org/event/reports?${params.toString()}`;
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const responseData = await response.json();
+      setData(responseData?.result);
+      setCurrentEventId(event_id); // Set the current event ID for which data is fetched
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (data && currentEventId) {
+      downloadCSV(currentEventId);
+      setData(null); // Reset data after download
+      setCurrentEventId(null); // Reset current event ID after download
+    }
+  }, [data, currentEventId]);
+
+  const handleDownloadClick = (event_id) => {
+    eventReports(event_id);
+  };
+
   useEffect(() => {
     const fetchOptions = async () => {
       const requestBody = {
@@ -294,6 +355,7 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
+
     const fetchDomain = async () => {
       const defaultFramework =
         localStorage.getItem("defaultFramework") || "nulp";
@@ -680,7 +742,11 @@ const Dashboard = () => {
                   <TableCell align="center">{event.IssueCerificate}</TableCell>
                   <TableCell align="center">{event.EventOrganisedby}</TableCell>
                   <TableCell align="center">
-                    <FileDownloadOutlinedIcon className="text-primary" />
+                    <FileDownloadOutlinedIcon
+                      onClick={() => handleDownloadClick(event.identifier)}
+                      className="text-primary"
+                      style={{ cursor: "pointer" }}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
