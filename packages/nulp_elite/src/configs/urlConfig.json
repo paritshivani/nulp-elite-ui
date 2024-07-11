@@ -417,7 +417,9 @@
     },
     "EVENT": {
       "READ": "event/v4/read",
-      "SEARCH": "action/composite/v3/search"
+      "SEARCH": "action/composite/v3/search",
+      "GET_LIST": "/event/list",
+      "GET_COUNT": "/event/event_count"
     }
   }
 }
