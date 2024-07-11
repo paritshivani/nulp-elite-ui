@@ -26,10 +26,11 @@ import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import { Pagination, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-
+import dayjs from "dayjs";
 const urlConfig = require("../../configs/urlConfig.json");
+import { Checkbox, ListItemText, Chip } from "@material-ui/core";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -50,7 +51,41 @@ const Dashboard = () => {
   });
   const [topEvent, setTopEvent] = useState([]);
   const [topDesignation, setTopDesignation] = useState([]);
+  const [startDateFilter, setStartDateFilter] = useState(null);
+  const [endDateFilter, setEndDateFilter] = useState(null);
+  const [startDateDesignationFilter, setStartDateDesignationFilter] =
+    useState(null);
+  const [endDateDesignationFilter, setEndDateDesignationFilter] =
+    useState(null);
+  const [domainList, setDomainList] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
+  const [selectedDomain, setSelectedDomain] = useState([]);
+  const [selectedSubDomain, setSelectedSubDomain] = useState([]);
+  const [creator, setCreatorList] = useState([]);
+  const handleDomainChange = (event) => {
+    setSelectedDomain(event.target.value);
+  };
+  const [selectedUser, setSelectedUser] = useState("");
+  const handleUserChange = (event) => {
+    setSelectedUser(event.target.value);
+  };
+  const handleSubDomainChange = (event) => {
+    setSelectedSubDomain(event.target.value);
+  };
+  const handleStartDateChange = (date) => {
+    setStartDateFilter(date);
+  };
 
+  const handleEndDateChange = (date) => {
+    setEndDateFilter(date);
+  };
+  const handleDesignationStartDateChange = (date) => {
+    setStartDateDesignationFilter(date);
+  };
+
+  const handleDesignationEndDateChange = (date) => {
+    setEndDateDesignationFilter(date);
+  };
   useEffect(() => {
     const fetchOptions = async () => {
       const requestBody = {
@@ -65,6 +100,9 @@ const Dashboard = () => {
             },
             IssueCerificate: certificateFilter ? certificateFilter : undefined,
             eventVisibility: visibilityFilter ? visibilityFilter : undefined,
+            board: selectedDomain ? selectedDomain : undefined,
+            gradeLevel: selectedSubDomain ? selectedSubDomain : undefined,
+            owner: selectedUser ? selectedUser : undefined,
           },
           query: searchQuery,
           sort_by: {
@@ -97,6 +135,45 @@ const Dashboard = () => {
 
         setEvents(responseData?.result?.result?.Event || []);
         setPage(responseData?.result?.result?.Event?.length);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    const eventList = async () => {
+      const requestBody = {
+        request: {
+          filters: {
+            objectType: ["Event"],
+          },
+          sort_by: {
+            lastPublishedOn: "desc",
+            startDate: "desc",
+          },
+          offset: 0,
+        },
+      };
+
+      try {
+        const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        let responseData = await response.json();
+        console.log(responseData?.result?.result?.Event);
+        const eventArray = responseData?.result?.result?.Event;
+        const userIds = eventArray?.map((event) => event.owner);
+        if (userIds) {
+          getCreatorList(userIds);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -144,15 +221,20 @@ const Dashboard = () => {
     };
     const topTrendingEvents = async () => {
       try {
-        const params = new URLSearchParams({
-          user: true,
-          designation: true,
-        });
+        const params = new URLSearchParams({ user: true, designation: true });
+        if (startDateFilter && endDateFilter) {
+          params.append(
+            "fromDate",
+            dayjs(startDateFilter).format("YYYY-MM-DD")
+          );
+          params.append("toDate", dayjs(endDateFilter).format("YYYY-MM-DD"));
+        }
+
         const url = `${
           urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
         }?${params.toString()}`;
         const response = await fetch(url, {
-          method: "get",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -162,18 +244,130 @@ const Dashboard = () => {
           throw new Error("Failed to fetch data");
         }
 
-        let responseData = await response.json();
+        const responseData = await response.json();
         console.log(responseData?.result);
         setTopEvent(responseData?.result?.topEvent);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    const topTrendingDesignation = async () => {
+      try {
+        const params = new URLSearchParams({ user: true, designation: true });
+
+        if (startDateDesignationFilter && endDateDesignationFilter) {
+          params.append(
+            "fromDate",
+            dayjs(startDateDesignationFilter).format("YYYY-MM-DD")
+          );
+          params.append(
+            "toDate",
+            dayjs(endDateDesignationFilter).format("YYYY-MM-DD")
+          );
+        }
+
+        const url = `${
+          urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
+        }?${params.toString()}`;
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const responseData = await response.json();
+        console.log(responseData?.result);
         setTopDesignation(responseData?.result?.topDesignation);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+    const fetchDomain = async () => {
+      const defaultFramework =
+        localStorage.getItem("defaultFramework") || "nulp";
+      try {
+        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
+
+        const response = await fetch(url);
+
+        if (response.ok) {
+          const responseData = await response.json();
+          if (
+            responseData.result &&
+            responseData.result.framework &&
+            responseData.result.framework.categories &&
+            responseData.result.framework.categories.length > 0 &&
+            responseData.result.framework.categories[0].terms
+          ) {
+            const domainList =
+              responseData?.result?.framework?.categories[0].terms;
+            setDomainList(domainList || []);
+            setSubCategory(
+              responseData?.result?.framework?.categories[1]?.terms || []
+            );
+          }
+        } else {
+          throw new Error(t("FAILED_TO_FETCH_DATA"));
+        }
+      } catch (error) {
+        console.log("Error fetching domain data:", error);
+      }
+    };
+    const getCreatorList = async (userIds) => {
+      const requestBody = {
+        request: {
+          filters: {
+            status: "1",
+            userId: userIds,
+          },
+        },
+      };
+
+      try {
+        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.ADMIN.USER_SEARCH}`;
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+          throw new Error(t("FAILED_TO_FETCH_DATA"));
+        }
+
+        const responseData = await response.json();
+        const content = responseData?.result;
+        setCreatorList(content.response.content);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchDomain();
     fetchOptions();
+    eventList();
     eventCounts();
     topTrendingEvents();
-  }, [currentPage, searchQuery, certificateFilter, visibilityFilter]);
+    topTrendingDesignation();
+  }, [
+    currentPage,
+    searchQuery,
+    certificateFilter,
+    visibilityFilter,
+    startDateFilter,
+    endDateFilter,
+    startDateDesignationFilter,
+    endDateDesignationFilter,
+    selectedDomain,
+    selectedSubDomain,
+    selectedUser,
+  ]);
 
   const handlePageChange = (event, newValue) => {
     setCurrentPage(newValue);
@@ -195,15 +389,16 @@ const Dashboard = () => {
   const handleVisibilityFilterChange = (event) => {
     setVisibilityFilter(event.target.value);
   };
-  const xAxisDataa = topEvent.map((event) => event.event_name);
+  const xAxisDataa = topEvent?.map((event) => event.event_name);
   const seriesDataa = [
-    { data: topEvent.map((event) => parseInt(event.user_count)) },
+    { data: topEvent?.map((event) => parseInt(event.user_count)) },
   ];
-  // Map topDesignation data to fit the format expected by LineChart component
-  const xAxisData = topDesignation.map((designation) => designation.event_name);
+  const xAxisData = topDesignation?.map(
+    (designation) => designation.event_name
+  );
   const seriesData = [
     {
-      data: topDesignation.map((designation) =>
+      data: topDesignation?.map((designation) =>
         parseFloat(designation.user_count)
       ),
     },
@@ -263,16 +458,22 @@ const Dashboard = () => {
             <Box className="d-flex">
               <Box>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="Select Date from" />
-                  </DemoContainer>
+                  <MuiDatePicker
+                    label="Select Date from"
+                    value={startDateFilter}
+                    onChange={handleStartDateChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Box>
               <Box>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="Select Date To" />
-                  </DemoContainer>
+                  <MuiDatePicker
+                    label="Select Date To"
+                    value={endDateFilter}
+                    onChange={handleEndDateChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Box>
             </Box>
@@ -295,16 +496,22 @@ const Dashboard = () => {
             <Box className="d-flex">
               <Box>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="Select Date from" />
-                  </DemoContainer>
+                  <MuiDatePicker
+                    label="Select Date from"
+                    value={startDateDesignationFilter}
+                    onChange={handleDesignationStartDateChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Box>
               <Box>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="Select Date To" />
-                  </DemoContainer>
+                  <MuiDatePicker
+                    label="Select Date To"
+                    value={endDateDesignationFilter}
+                    onChange={handleDesignationEndDateChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
                 </LocalizationProvider>
               </Box>
             </Box>
@@ -322,12 +529,15 @@ const Dashboard = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value=""
-                label="Age"
+                value={selectedUser}
+                onChange={handleUserChange}
+                label="Created By"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {creator?.map((user, index) => (
+                  <MenuItem key={index} value={user.userId}>
+                    {user.firstName + " " + (user.lastName || "")}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -337,29 +547,50 @@ const Dashboard = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value=""
-                label="Age"
+                value={selectedDomain}
+                onChange={handleDomainChange}
+                label="Category"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {domainList?.map((domain, index) => (
+                  <MenuItem key={index} value={domain.code}>
+                    {domain.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={6} md={2}>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">
+            <FormControl fullWidth>
+              <InputLabel id="sub-category-select-label">
                 Sub-Category
               </InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value=""
-                label="Age"
+                labelId="sub-category-select-label"
+                id="sub-category-select"
+                multiple
+                value={selectedSubDomain}
+                onChange={handleSubDomainChange}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected?.map((value) => (
+                      <Chip
+                        key={value}
+                        label={
+                          subCategory.find((item) => item.code === value)?.name
+                        }
+                      />
+                    ))}
+                  </Box>
+                )}
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {subCategory?.map((domain) => (
+                  <MenuItem key={domain.code} value={domain.code}>
+                    <Checkbox
+                      checked={selectedSubDomain.includes(domain.code)}
+                    />
+                    <ListItemText primary={domain.name} />
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
