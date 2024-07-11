@@ -68,6 +68,10 @@ const SelectPreference = ({ isOpen, onClose }) => {
   };
 
   useEffect(() => {
+    getUserData();
+  }, []);
+
+  useEffect(() => {
     const fetchUserDataAndSetCustodianOrgData = async () => {
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.SYSTEM_SETTING.CUSTODIAN_ORG}`;
@@ -132,12 +136,6 @@ const SelectPreference = ({ isOpen, onClose }) => {
     setSelectedLanguages(event.target.value);
   };
 
-  useEffect(() => {
-    if (frameworkData) {
-      getUserData();
-    }
-  }, [frameworkData]);
-
   const getFramework = async (defaultFramework) => {
     setIsLoading(true);
     setError(null);
@@ -180,7 +178,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
     setError(null);
 
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -194,6 +192,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
+      console.log("user response----", responseData);
       if (_.isEmpty(responseData?.result?.response.framework)) {
         setIsEmptyPreference(true);
       } else {
