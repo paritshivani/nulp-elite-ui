@@ -209,7 +209,7 @@ export default function DomainCarousel({
             >
               <Box>
                 <Box className="text-white h5-title pl-20 pb-5">
-                  {t("SELECT_YOUR_PREFERRED_DOMAIN")}:
+                  {t("SELECT_YOUR_PREFERRED_DOMAIN")}
                 </Box>
 
                 <Box
