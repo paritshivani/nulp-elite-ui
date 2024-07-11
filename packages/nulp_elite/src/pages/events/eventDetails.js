@@ -23,7 +23,9 @@ import ToasterCommon from "../ToasterCommon";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
-
+import TextField from "@mui/material/TextField";
+import { FormControl,InputLabel,Select,MenuItem } from "@mui/material";
+const consenttext = require("../../configs/consent.json")
 const urlConfig = require("../../configs/urlConfig.json");
 
 import {
@@ -62,6 +64,16 @@ const EventDetails = () => {
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
   const [isRegStart, setIsRegStart] = useState();
   const [regEnd, setRegEnd] = useState();
+    const [isConsentModalOpen, setIsConsentModalOpen] = useState(false);
+     const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    designation: "",
+    organisation: "",
+  });
+  const [consent ,setConsent]=useState(consenttext)
+    const [emailError, setEmailError] = useState(false);
+
   const { t } = useTranslation();
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -79,6 +91,33 @@ const EventDetails = () => {
     const dateObject = new Date(unixTimestamp);
     const options = { day: "2-digit", month: "long", year: "numeric" };
     return dateObject.toLocaleDateString("en-GB", options);
+  };
+
+   const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleSubmit = () => {
+    if (!validateEmail(formData.email)) {
+      setEmailError(true);
+      return;
+    }
+
+    enrollEvent();
+    handleCloseConsentModal();
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (name === "email") {
+      setEmailError(false);
+    }
   };
 
   useEffect(() => {
@@ -201,6 +240,7 @@ const EventDetails = () => {
           }
         });
       }
+      console.log(isEnrolled);
     } catch (error) {
       console.error("Error while fetching courses:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -250,6 +290,7 @@ const EventDetails = () => {
   };
 
   const enrollEvent = async () => {
+
     console.log("here----");
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.ENROLL_USER_COURSE}`;
@@ -264,6 +305,10 @@ const EventDetails = () => {
       if (response.status === 200) {
         setIsEnrolled(true);
         setShowEnrollmentSnackbar(true);
+            registerEvent(formData, detailData);
+
+
+
       } else {
         console.log("err-----", response);
       }
@@ -432,6 +477,49 @@ const EventDetails = () => {
     const url = detailData.onlineProviderData.meetingLink; // Replace with your URL
     window.open(url, "_blank", "noopener,noreferrer");
   };
+
+   
+
+  const handleOpenConsentModal = async () => {
+    try {
+       // Wait for the user to join the course
+      setIsConsentModalOpen(true); // Open the consent form after joining the course
+    } catch (error) {
+      console.error("Error:------------", error);
+    }
+  };
+
+  // Function to close the consent form modal
+  const handleCloseConsentModal = () => {
+    setIsConsentModalOpen(false);
+  };
+
+ const registerEvent = async (formData) => {
+  const url = `${urlConfig.URLS.EVENT.REGISTER}`;
+    console.log("------------------url",url);
+  console.log("------------------urlConfig.URLS.EVENT",urlConfig.URLS.EVENT);
+  console.log("------------------urlConfig.URLS.EVENT.REGISTER",urlConfig.URLS.EVENT.REGISTER);
+
+  const RequestBody = {
+    event_id: detailData.identifier,
+    name: formData.name,
+    user_id: _userId,
+    email: formData.email,
+    designation: formData.designation,
+    organisation: formData.organisation,
+    // certificate: formData.certificate,
+    user_consent: "true",
+    consentForm: consent?.consent
+  };
+
+  try {
+    const response = await axios.post(url, RequestBody);
+    // Handle the response if needed
+    console.log("%%%%%%%%%%",response);
+  } catch (error) {
+    // Handle the error if needed
+  }
+};
   return (
     <div>
       <Header />
@@ -565,7 +653,8 @@ const EventDetails = () => {
                   {" "}
                   <Box className="xs-hide">
                     <Button
-                      onPress={enrollEvent}
+                      
+                      
                       type="button"
                       className="custom-btn-success"
                       style={{
@@ -578,6 +667,7 @@ const EventDetails = () => {
                         background: "#1faf38",
                         marginTop: "10px",
                       }}
+                      onPress={handleOpenConsentModal}
                     >
                       {t("REGISTER_WEBINAR")}
                     </Button>
@@ -720,6 +810,7 @@ const EventDetails = () => {
                   {" "}
                   <Box className="lg-hide">
                     <Button
+                    // onClick={handleOpenConsentModal}
                       type="button"
                       className="custom-btn-success mb-20"
                       style={{
@@ -732,7 +823,8 @@ const EventDetails = () => {
                         background: "#1faf38",
                         marginTop: "10px",
                       }}
-                      onPress={() => enrollEvent}
+                       onPress={handleOpenConsentModal}
+                      // onClick={handleOpenConsentModal}
                     >
                       {t("REGISTER_WEBINAR")}
                     </Button>
@@ -921,6 +1013,116 @@ const EventDetails = () => {
         </Container>
       )}
       <FloatingChatIcon />
+     <Modal open={isConsentModalOpen} onClose={handleCloseConsentModal}>
+  <Box
+    sx={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 1000,
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
+    }}
+  >
+    <Typography variant="h6" component="h2">
+      {t("Registration Form")}
+    </Typography>
+
+
+    {detailData && (
+      <Typography gutterBottom className="mt-10 h1-title mb-20 xs-pl-15">
+        Event Name: {detailData.name}
+      </Typography>
+    )}
+
+    <TextField
+      fullWidth
+      label="Name"
+      variant="outlined"
+      margin="normal"
+      name="name"
+      value={formData.name}
+      onChange={handleChange}
+    />
+      <TextField
+          fullWidth
+          label="Email"
+          variant="outlined"
+          margin="normal"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          error={emailError}
+          helperText={emailError ? "Invalid email format" : ""}
+        />
+
+    <FormControl fullWidth margin="normal">
+      <InputLabel>Designation</InputLabel>
+      <Select
+        name="designation"
+        value={formData.designation}
+        onChange={handleChange}
+        label="Designation"
+      >
+        <MenuItem value="Commissioner">Commissioner</MenuItem>
+        <MenuItem value="Dep.Commissioner">Dep.Commissioner</MenuItem>
+        <MenuItem value="Engineer">Engineer</MenuItem>
+        <MenuItem value="Manager">Manager</MenuItem>
+      </Select>
+    </FormControl>
+
+    <TextField
+      fullWidth
+      label="Organisation"
+      variant="outlined"
+      margin="normal"
+      name="organisation"
+      value={formData.organisation}
+      onChange={handleChange}
+    />
+
+    <Typography variant="body1" sx={{ mt: 2 }}>
+      We value your privacy and are committed to protecting your personal
+      data. Please read the following information carefully and provide
+      your consent.
+      <strong>Purpose of Collection:</strong> We are collecting your email
+      ID for the following purposes:
+      Sending details about the event. Your email ID will be used solely
+      for the purposes stated above and will not be shared with third
+      parties without your explicit consent.
+      You have the right to withdraw your consent at any time. To withdraw
+      your consent, please contact us at nulp@nulp.niua.org. The process for
+      withdrawing consent is as simple as providing it.
+      Your email ID will be retained for as long as necessary to fulfill
+      the purposes for which it was collected or as required by law.
+      By providing your email ID and ticking the box below, you consent to
+      the collection and use of your email ID for the purposes stated
+      above.
+    </Typography>
+
+    <Box sx={{ mt: 2 }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onPress={handleSubmit}
+      >
+        {t("AGREE")}
+      </Button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        onPress={handleCloseConsentModal}
+        sx={{ ml: 2 }}
+      >
+        {t("DISAGREE")}
+      </Button>
+    </Box>
+  </Box>
+</Modal>
+
       <Footer />
     </div>
   );

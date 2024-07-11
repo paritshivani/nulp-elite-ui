@@ -24,6 +24,10 @@ import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import { Pagination, TextField } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
 const urlConfig = require("../../configs/urlConfig.json");
 
@@ -256,6 +260,23 @@ const Dashboard = () => {
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_EVENT")}
             </Box>
+            <Box className="d-flex">
+              <Box>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker label="Select Date from" />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
+              <Box>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker label="Select Date To" />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
+            </Box>
+
             <BarChart
               xAxis={[{ scaleType: "band", data: xAxisDataa }]}
               series={seriesDataa}
@@ -270,6 +291,22 @@ const Dashboard = () => {
             <Box className="mb-10 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_DESIGNATIONS")}
+            </Box>
+            <Box className="d-flex">
+              <Box>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker label="Select Date from" />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
+              <Box>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker label="Select Date To" />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
             </Box>
             <LineChart
               xAxis={[{ data: [1, 4, 6, 8, 10, 12] }]}
@@ -360,7 +397,7 @@ const Dashboard = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid item xs={6} md={2} className="search-event">
             <TextField
               label="Search By Event Name"
               id="outlined-basic"
