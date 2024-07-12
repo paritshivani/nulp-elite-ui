@@ -421,7 +421,8 @@
       "GET_LIST": "/event/list",
       "GET_COUNT": "/event/event_count",
       "TOP_TRENDING_EVENT": "/event/get_top_trending",
-      "REGISTER": "/event/registration"
+      "REGISTER": "/event/registration",
+      "REPORT": "/event/reports"
     }
   }
 }
