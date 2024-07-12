@@ -105,7 +105,7 @@ const Dashboard = () => {
     const blob = new Blob([csvContent], {
       type: "text/csv;charset=utf-8;",
     });
-    const fileName = `${event}.csv`;
+    const fileName = `${data[0]?.eventName}.csv` || `${event}.csv`;
 
     saveAs(blob, fileName);
   };
