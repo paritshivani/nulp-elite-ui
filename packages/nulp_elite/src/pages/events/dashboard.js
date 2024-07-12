@@ -32,6 +32,7 @@ import dayjs from "dayjs";
 const urlConfig = require("../../configs/urlConfig.json");
 import { Checkbox, ListItemText, Chip } from "@material-ui/core";
 import { saveAs } from "file-saver";
+import * as util from "../../services/utilService";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -65,6 +66,8 @@ const Dashboard = () => {
   const [creator, setCreatorList] = useState([]);
   const [data, setData] = useState(null);
   const [currentEventId, setCurrentEventId] = useState(null);
+  const _userId = util.userId();
+  const [userData, setUserData] = useState(null);
 
   const handleDomainChange = (event) => {
     setSelectedDomain(event.target.value);
@@ -417,12 +420,31 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
+    const fetchData = async () => {
+      try {
+        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
+
+        const header = "application/json";
+        const response = await fetch(url, {
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+        });
+        const data = await response.json();
+        setUserData(data);
+        const rootOrgId = data.result.response.rootOrgId;
+        sessionStorage.setItem("rootOrgId", rootOrgId);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
     fetchDomain();
     fetchOptions();
     eventList();
     eventCounts();
     topTrendingEvents();
     topTrendingDesignation();
+    fetchData();
   }, [
     currentPage,
     searchQuery,
@@ -435,6 +457,7 @@ const Dashboard = () => {
     selectedDomain,
     selectedSubDomain,
     selectedUser,
+    _userId,
   ]);
 
   const handlePageChange = (event, newValue) => {
@@ -471,6 +494,14 @@ const Dashboard = () => {
       ),
     },
   ];
+  const roleNames =
+    userData?.result?.response?.roles.map((role) => role.role) || [];
+  // Check for admin roles
+  const isAdmin =
+    roleNames.includes("SYSTEM_ADMINISTRATION") ||
+    roleNames.includes("ORG_ADMIN");
+  // Check for content creator role
+  const isContentCreator = roleNames.includes("CONTENT_CREATOR");
 
   return (
     <div>
@@ -504,12 +535,17 @@ const Dashboard = () => {
             <Box className="h2-title">{t("TOTAL_PARTICIPANTS")}</Box>
             <Box className="h1-title fs-40">{eventCount.totalParticipants}</Box>
           </Box>
-
-          <Box className="dashboard-card">
-            <Box className="h2-title">{t("TOTAL_CREATORS")}</Box>
-            <Box className="h1-title fs-40">{eventCount.totalCreators}</Box>
-          </Box>
-
+          {isAdmin ? (
+            <Box className="dashboard-card">
+              <Box className="h2-title">{t("TOTAL_CREATORS")}</Box>
+              <Box className="h1-title fs-40">{eventCount.totalCreators}</Box>
+            </Box>
+          ) : isContentCreator ? (
+            <Box className="dashboard-card">
+              <Box className="h2-title">{t("UPCOMING_EVENTS")}</Box>
+              <Box className="h1-title fs-40">{eventCount.upComingEvent}</Box>
+            </Box>
+          ) : null}
           <Box className="dashboard-card">
             <Box className="h2-title">{t("TOTAL_CERTIFIED_USERS")}</Box>
             <Box className="h1-title fs-40">
@@ -591,24 +627,28 @@ const Dashboard = () => {
           </Grid>
         </Grid>
         <Grid container spacing={2} className="mt-32">
-          <Grid item xs={6} md={2}>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Created By</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedUser}
-                onChange={handleUserChange}
-                label="Created By"
-              >
-                {creator?.map((user, index) => (
-                  <MenuItem key={index} value={user.userId}>
-                    {user.firstName + " " + (user.lastName || "")}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
+          {isAdmin ? (
+            <Grid item xs={6} md={2}>
+              <FormControl>
+                <InputLabel id="demo-simple-select-label">
+                  {t("Created By")}
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectedUser}
+                  onChange={handleUserChange}
+                  label={t("Created By")}
+                >
+                  {creator?.map((user, index) => (
+                    <MenuItem key={index} value={user.userId}>
+                      {user.firstName + " " + (user.lastName || "")}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          ) : null}
           <Grid item xs={6} md={2}>
             <FormControl>
               <InputLabel id="demo-simple-select-label">Category</InputLabel>
