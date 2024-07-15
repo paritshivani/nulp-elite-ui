@@ -712,12 +712,12 @@ const Dashboard = () => {
             <TableHead sx={{ background: "#f4efe3" }}>
               <TableRow>
                 <TableCell>S.No.</TableCell>
-                <TableCell align="center">Event Name</TableCell>
-                <TableCell align="center">Event Date</TableCell>
-                <TableCell align="center">No. of Participants</TableCell>
-                <TableCell align="center">Certificate Attached</TableCell>
-                <TableCell align="center">Creator</TableCell>
-                <TableCell align="center">Download Report</TableCell>
+                <TableCell align="left">Event Name</TableCell>
+                <TableCell align="left">Event Date</TableCell>
+                <TableCell align="left">No. of Participants</TableCell>
+                <TableCell align="left">Certificate Attached</TableCell>
+                <TableCell align="left">Creator</TableCell>
+                <TableCell align="left">Download Report</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -731,16 +731,16 @@ const Dashboard = () => {
                   <TableCell component="th" scope="row">
                     {index + 1}
                   </TableCell>
-                  <TableCell align="center">{event.name}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">{event.name}</TableCell>
+                  <TableCell align="left">
                     {new Date(event.startDate).toLocaleDateString()}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     {event.totalParticipants}
                   </TableCell>
-                  <TableCell align="center">{event.IssueCerificate}</TableCell>
-                  <TableCell align="center">{event.EventOrganisedby}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">{event.IssueCerificate}</TableCell>
+                  <TableCell align="left">{event.EventOrganisedby}</TableCell>
+                  <TableCell align="left">
                     <FileDownloadOutlinedIcon
                       onClick={() => handleDownloadClick(event.identifier)}
                       className="text-primary"
