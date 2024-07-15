@@ -65,7 +65,7 @@ const EventDetails = () => {
   const [isRecorded, setIsRecorded] = useState();
   const [eventEnded, setEventEnded] = useState();
 
-  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState();
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
   const [isRegStart, setIsRegStart] = useState();
   const [regEnd, setRegEnd] = useState();
@@ -692,7 +692,9 @@ const EventDetails = () => {
                 <Box className="d-flex xs-hide">
                   <Button
                     type="button"
-                    onClick={managePublicPrivateEvent("join")}
+                    onClick={() => {
+                      managePublicPrivateEvent("join");
+                    }}
                     // onClick={attendWebinar}
                     style={{
                       borderRadius: "10px",
