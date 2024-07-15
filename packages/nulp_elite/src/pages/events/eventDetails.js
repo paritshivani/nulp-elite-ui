@@ -403,12 +403,8 @@ const EventDetails = () => {
     //   setCanJoin(false);
     // }
 
-    const startDateTimeNew = new Date(
-      "Sat Jul 13 2024 16:50:10 GMT+0530"
-    ).getTime();
-    const endDateTimeNew = new Date(
-      "Sat Jul 13 2024 17:50:10 GMT+0530"
-    ).getTime(); // Assuming you have endDateTime
+    const startDateTimeNew = startDateTime.getTime();
+    const endDateTimeNew = endDateTime.getTime(); // Assuming you have endDateTime
     const todayDateNew = new Date().getTime();
 
     const tenMinutesBeforeStart = startDateTimeNew - 10 * 60 * 1000;
