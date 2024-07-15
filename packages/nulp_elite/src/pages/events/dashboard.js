@@ -553,7 +553,7 @@ const Dashboard = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className="custom-date">
           <Grid item xs={12} md={6}>
             <Box className="mb-10 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
@@ -591,6 +591,7 @@ const Dashboard = () => {
               }}
               height={300}
             />
+            <Box sx={{textAlign:"center"}}>Events</Box>
           </Grid>
           <Grid item xs={12} md={6}>
             <Box className="mb-10 h3-title mt-32">
@@ -624,9 +625,11 @@ const Dashboard = () => {
               series={seriesData}
               height={300}
             />
+            <Box sx={{textAlign:"center"}}>Designation</Box>
+
           </Grid>
         </Grid>
-        <Grid container spacing={2} className="mt-32">
+        <Grid container spacing={2} className="mt-32" style={{justifyContent:"space-between"}}>
           {isAdmin ? (
             <Grid item xs={6} md={2}>
               <FormControl>
