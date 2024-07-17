@@ -970,7 +970,7 @@ button {
     width: 48% !important;
     /* width: 162px !important; */
   }
-  .profile.allContentProfile.profile-card{
+  .profile.allContentProfile.profile-card {
     padding: 0 !important;
   }
 }
@@ -1000,7 +1000,7 @@ button {
     grid-template-columns: repeat(5, 1fr) !important;
     margin-left: -4px !important;
   }
-  .custom-date .MuiFormControl-root.MuiTextField-root{
+  .custom-date .MuiFormControl-root.MuiTextField-root {
     width: 95% !important;
   }
   .dashboard-card {
@@ -1550,6 +1550,32 @@ button {
     padding: 0px;
     box-shadow: 0px 4px 4px 0px #00000040;
     background: #f9fafc;
+  }
+  .MuiContainer-root.createForm {
+    padding-top: 134px !important;
+  }
+  .MuiContainer-root.votingList {
+    padding-top: 88px !important;
+  }
+  .custom-alert {
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 30%;
+  }
+  .voting-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .voting-textfield {
+    margin-top: -6px;
+    width: 84%;
+  }
+  .voting-btn {
+    margin-top: 12px;
+    margin-left: 10px;
+    width: 10%;
   }
 }
 @media (min-width: 769px) and (max-width: 1366px) {
@@ -2501,7 +2527,7 @@ custom-chip {
   margin-top: 25px;
   border-radius: 10px;
 }
-.jss1.jss3.MuiTabs-indicator{
+.jss1.jss3.MuiTabs-indicator {
   padding: 0 !important;
 }
 .addConnectChat .jss2 {
@@ -2767,4 +2793,31 @@ header .MuiContainer-maxWidthLg {
 } */
 thead th {
   font-weight: 600 !important;
+}
+.yLabel {
+  position: absolute;
+  top: 593px;
+  transform: rotate(269deg);
+  left: -20px;
+  color: #484848;
+  font-size: 12px;
+}
+.css-1x8hjr2,
+.css-1x8hjr2 svg {
+  overflow: inherit !important;
+}
+.brYlabel {
+  position: absolute;
+  top: 593px;
+  transform: rotate(269deg);
+  left: -28px !important;
+  color: #484848;
+  font-size: 12px;
+}
+.createForm {
+  margin-bottom: 30px !important;
+}
+.createForm .MuiInputBase-formControl {
+  background: #fff !important;
+  width: 100% !important;
 }

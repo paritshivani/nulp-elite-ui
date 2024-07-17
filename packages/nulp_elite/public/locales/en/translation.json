@@ -226,7 +226,7 @@
   "WEBINAR": "Events",
   "ALL_WEBINARS": "All Events",
   "WEBINAR_DETAILS": "Event Details",
-  "REGISTER_WEBINAR": "Register Event",
+  "REGISTER_WEBINAR": "Register For Event",
   "SPEAKER_DETAILS": "Speaker Details",
   "ATTEND_WEBINAR": "Attend Event",
   "UN_REGISTER_WEBINAR": "Un-register from Event",
@@ -248,5 +248,7 @@
   "SELECT_YOUR_PREFERRED_DOMAIN": "Select your preferred domain:",
   "THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS": "This Event has ended, you can access this recording link",
   "TOP_TRENDING_DESIGNATIONS": "Top Trending Designations",
-  "UPCOMING_EVENTS": "Upcoming Events"
+  "UPCOMING_EVENTS": "Upcoming Events",
+  "VOTING_LIST": "Voting List",
+  "CREATE_FORM": "Create Form"
 }
