@@ -124,6 +124,36 @@ const VotingDetails = () => {
               className="eventCardImg"
               alt="App Icon"
             />
+            <Box className="lg-hide">
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="No"
+                  />
+                  <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Maybe"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <Box>
+                <Button type="button" className="custom-btn-primary">
+                  {t("SUBMIT_VOTE")}
+                </Button>
+              </Box>
+            </Box>
           </Grid>
           <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
             <Typography gutterBottom className="mt-10  h1-title mb-20 xs-pl-15">
@@ -138,32 +168,38 @@ const VotingDetails = () => {
 
             <Box className="pr-5">
               Live until
-              <TodayOutlinedIcon className="h3-custom-title pr-5" />
+              <TodayOutlinedIcon className="h3-custom-title pl-10 mt-10" />
               {data.start_date}
             </Box>
-            <FormControl>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Yes"
-                />
-                <FormControlLabel value="male" control={<Radio />} label="No" />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Maybe"
-                />
-              </RadioGroup>
-            </FormControl>
-            <Box>
-              <Button type="button" className="custom-btn-primary">
-                {t("SUBMIT_VOTE")}
-              </Button>
+            <Box className="xs-hide">
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="No"
+                  />
+                  <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Maybe"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <Box>
+                <Button type="button" className="custom-btn-primary">
+                  {t("SUBMIT_VOTE")}
+                </Button>
+              </Box>
             </Box>
           </Grid>
 

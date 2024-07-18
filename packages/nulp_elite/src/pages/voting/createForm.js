@@ -85,7 +85,7 @@ const createForm = () => {
         style={{ paddingTop: "0" }}
       >
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-20">Create Polls</Box>
+          <Box className="h3-custom-title pl-20 xs-pt-15">Create Polls</Box>
 
           <Alert severity="info" className="custom-alert">
             Poll will be published Based on Start Date
