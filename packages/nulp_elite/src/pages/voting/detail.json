@@ -1,0 +1,52 @@
+{
+  "id": "api.content.read",
+  "ver": "4.0",
+  "ts": "2024-06-14T04:57:42ZZ",
+  "params": {
+    "resmsgid": "ad8d3133-fa39-4c0b-a44e-391b3846ef6c",
+    "msgid": null,
+    "err": null,
+    "status": "successful",
+    "errmsg": null
+  },
+  "responseCode": "OK",
+  "result": {
+    "event": {
+      "venue": {},
+      "code": "111",
+      "registrationStartDate": "2024-06-13",
+      "endDate": "2024-06-20",
+      "description": "we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in",
+      "createdOn": "2024-06-13T04:57:43.575+0000",
+      "objectType": "Event",
+      "gradeLevel": ["Knowledge", "Mission"],
+      "appIcon": "https://nulpstorage1.blob.core.windows.net/contents/content/do_113819103509577728115/artifact/do_113819103509577728115_1686902285712_co-treatment.png",
+      "registrationEndDate": "2024-06-15",
+      "lastUpdatedOn": "2024-06-13T04:57:43.772+0000",
+      "startTime": "10:30:10+05:30",
+      "contentType": "Event",
+      "trackable": {
+        "enabled": "Yes",
+        "autoBatch": "Yes"
+      },
+      "onlineProviderData": {},
+      "owner": "8f424e19-962e-4372-acce-65b3c8711827",
+      "identifier": "do_1140759422039736321300",
+      "lastStatusChangedOn": "2024-06-13T04:57:43.575+0000",
+      "audience": ["Student"],
+      "visibility": "Default",
+      "consumerId": "52aa1fe8-3cb9-4f40-83a5-c3718c9edd8e",
+      "eventType": "Online",
+      "languageCode": [],
+      "version": 2,
+      "versionKey": "1718254663772",
+      "leafNodesCount": 1,
+      "eventVisibility": "Public",
+      "name": "Demo event",
+      "endTime": "12:29:10+05:30",
+      "board": "Accounts",
+      "startDate": "2024-06-13",
+      "status": "Live"
+    }
+  }
+}

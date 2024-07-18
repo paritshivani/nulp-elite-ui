@@ -631,8 +631,9 @@ const Profile = () => {
             md={4}
             lg={4}
             className="sm-p-25 left-container profile my-20 lg-mt-12"
-            style={{ background: "#fff" ,height:"738px"}}
+            style={{background:"transparent",boxShadow:"none"}}
           >
+            <Box style={{ background: "#fff",padding:"20px",borderRadius:"10px"}}>
             <Box sx={{ fontSize: "18px", color: "#484848" }}>
               {t("MY_PROFILE")}
             </Box>
@@ -1171,6 +1172,7 @@ const Profile = () => {
                   </Button>
                 </Box>
               </Box>
+            </Box>
             </Box>
           </Grid>
           <Grid item xs={12} md={8} lg={8} className="pb-20">

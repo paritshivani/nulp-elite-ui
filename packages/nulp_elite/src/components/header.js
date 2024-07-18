@@ -532,6 +532,7 @@ function Header({ globalSearchQuery }) {
                     </Link>
                   </MenuItem>
                 )}
+
                 <MenuItem>
                   <Link
                     href={routeConfig.ROUTES.HELP_PAGE.HELP}
@@ -544,6 +545,24 @@ function Header({ globalSearchQuery }) {
                 <MenuItem>
                   <Link href="/logoff" underline="none" textAlign="center">
                     {t("LOGOUT")}
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link
+                    href={routeConfig.ROUTES.VOTING.VOTING_FORM}
+                    underline="none"
+                    textAlign="center"
+                  >
+                    {t("CREATE_FORM")}
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link
+                    href={routeConfig.ROUTES.VOTING.VOTING_LIST}
+                    underline="none"
+                    textAlign="center"
+                  >
+                    {t("VOTING_LIST")}
                   </Link>
                 </MenuItem>
               </Menu>
@@ -838,6 +857,24 @@ function Header({ globalSearchQuery }) {
                     <MenuItem>
                       <Link href="/logoff" underline="none" textAlign="center">
                         {t("LOGOUT")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.VOTING.VOTING_FORM}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("CREATE_FORM")}
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.VOTING.VOTING_LIST}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("VOTING_LIST")}
                       </Link>
                     </MenuItem>
                   </Menu>
