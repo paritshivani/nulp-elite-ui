@@ -458,6 +458,13 @@ button {
   .sendMessag button:hover {
     background: #fff !important;
   }
+  .profile .cardLabelEllips {
+    width: 94px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block !important;
+  }
   .cardLabelEllips {
     width: 175px;
     white-space: nowrap;
@@ -625,6 +632,20 @@ button {
   } */
 }
 @media (max-width: 768px) {
+  .cardBox {
+    height: 276px;
+  }
+  .img-text-circle {
+    align-items: center;
+    background-color: #007b9d;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    font-size: 31px;
+    font-weight: 500;
+    justify-content: center;
+    width: 53px;
+  }
   .dashboard {
     margin-bottom: 55px !important;
   }
@@ -650,6 +671,10 @@ button {
   .xs-py-3 {
     padding-top: 3px !important;
     padding-bottom: 3px !important;
+  }
+  .xs-py-10 {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
   .allContentlearning .custom-card {
     justify-content: inherit !important;
@@ -975,6 +1000,9 @@ button {
   }
 }
 @media (min-width: 769px) {
+  SkeletonLoader {
+    margin-top: 350px !important;
+  }
   .MuiContainer-root.MuiContainer-maxWidthXl.carousel {
     padding-top: 0 !important;
   }
@@ -1129,14 +1157,14 @@ button {
     margin: 0 auto;
     display: block;
     padding-left: 0 !important;
-    padding-top: 8px;
+    /* padding-top: 8px; */
     text-align: center;
     width: 129px;
   }
-  .carousel-active-ui {
+  /* .carousel-active-ui {
     padding: 8px 0 !important;
     height: 92px;
-  }
+  } */
   .w-100 {
     width: 100% !important;
   }
@@ -1679,10 +1707,9 @@ button {
 
 .scrolled {
   position: fixed !important;
-  top: 125px;
+  top: 117px;
   width: 100%;
   z-index: 999999 !important;
-  height: 144px;
   background: #065872;
   transition: #f4fbff 0.3s ease, top 0.3s ease;
   padding-top: 15px;
@@ -1887,7 +1914,7 @@ Footer {
 } */
 .bg-white {
   background: #fff !important;
-  padding: 20px 20px 20px 5px;
+  /* padding: 20px 20px 20px 5px; */
   list-style-type: none;
   border: 1px solid #d3d3d3;
 }
@@ -2224,7 +2251,7 @@ button {
   z-index: 99999;
   top: 40px;
   width: 100%;
-  height: 44px;
+  /* height: 44px; */
   transition: top 0.3s ease;
 }
 tspan {
@@ -2464,8 +2491,8 @@ custom-chip {
   font-size: 12px !important;
 }
 .certificate .MuiCard-root {
-  background: #ffe8a975;
-  border: solid 1px #ffe8a975;
+  background: #ffe8a975 !important;
+  border: solid 1px #ffe8a975 !important;
 }
 
 .fs-14 {
@@ -2653,6 +2680,9 @@ custom-chip {
 }
 .profile-btn.Menuactive {
   display: flex !important;
+}
+header .Menuactive:hover {
+  background: transparent !important;
 }
 .Menuactive:hover {
   background: #0e7a9c !important;
