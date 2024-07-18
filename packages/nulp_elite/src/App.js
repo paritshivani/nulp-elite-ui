@@ -47,6 +47,7 @@ import EventDetails from "pages/events/eventDetails";
 import Dashboard from "pages/events/dashboard";
 import VotingList from "pages/voting/votingList";
 import createForm from "pages/voting/createForm";
+import VotingDetails from "pages/voting/votingDetails";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 
@@ -201,8 +202,13 @@ function App() {
       path: routeConfig.ROUTES.VOTING.VOTING_FORM,
       component: createForm,
     },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.VOTING.VOTING_DETAILS,
+      component: VotingDetails,
+    },
   ];
-  createForm
+  createForm;
   initializeI18n(
     ["translation"],
     `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`

@@ -7,12 +7,24 @@ import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
+import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  LinkedinIcon,
+  TwitterIcon,
+} from "react-share";
+
 const processString = (str) => {
   return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 };
 export default function VotingCard({ items }) {
   // const [imgUrl, setImgUrl] = useState();
   const { t } = useTranslation();
+  const shareUrl = window.location.href; // Current page URL
 
   const unixTimestampToHumanDate = (unixTimestamp) => {
     const dateObject = new Date(unixTimestamp);
@@ -77,15 +89,37 @@ export default function VotingCard({ items }) {
           />
         </Box>
       </CardContent>
-      <Box>
-        <Button type="button" className="custom-btn-default ml-20 lg-mt-20">
-          View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
-        </Button>
-      </Box>
-      <Box>
-        <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
-          Vote Now <ArrowForwardIosOutlinedIcon className="fs-12" />
-        </Button>
+      <Box className="voting-text lg-mt-30">
+        <Box>
+          <Box>
+            <Button type="button" className="custom-btn-default ml-20 lg-mt-20">
+              View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
+            </Button>
+          </Box>
+          <Box>
+            <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
+              Vote Now <ArrowForwardIosOutlinedIcon className="fs-12" />
+            </Button>
+          </Box>
+        </Box>
+        <Box className="xs-hide">
+          <FacebookShareButton url={shareUrl} className="pr-5">
+            <FacebookIcon size={32} round={true} />
+          </FacebookShareButton>
+          <WhatsappShareButton url={shareUrl} className="pr-5">
+            <WhatsappIcon size={32} round={true} />
+          </WhatsappShareButton>
+          <LinkedinShareButton url={shareUrl} className="pr-5">
+            <LinkedinIcon size={32} round={true} />
+          </LinkedinShareButton>
+          <TwitterShareButton url={shareUrl} className="pr-5">
+            <img
+              src={require("../assets/twitter.png")}
+              alt="Twitter"
+              style={{ width: 32, height: 32 }}
+            />
+          </TwitterShareButton>
+        </Box>
       </Box>
     </Card>
   );

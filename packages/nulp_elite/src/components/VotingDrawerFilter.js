@@ -3,11 +3,8 @@ import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import TextField from "@mui/material/TextField";
+
 import Checkbox from "@mui/material/Checkbox";
-import Autocomplete from "@mui/material/Autocomplete";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -22,11 +19,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ToasterCommon from "../pages/ToasterCommon";
 import dayjs from "dayjs";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import FormGroup from "@mui/material/FormGroup";
+
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useTranslation } from "react-i18next";
-
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormLabel from "@mui/material/FormLabel";
 // const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
 const VotingDrawerFilter = ({}) => {
   const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
@@ -175,79 +173,70 @@ const VotingDrawerFilter = ({}) => {
         </Button>
       </Box>
 
-      <div>
+      <FormControl
+        sx={{ m: 1, width: "25ch" }}
+        variant="outlined"
+        className="w-100"
+      >
+        <InputLabel htmlFor="outlined-adornment-password">
+          Search for a poll
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type="text"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton aria-label="toggle password visibility">
+                <SearchOutlinedIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Search Sub-domain"
+        />
+      </FormControl>
+      <Box className="filter-text mt-15">Select Date Range</Box>
+      <Box className="mt-9 dateRange">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker"]}>
+            <DatePicker label="Select Date To" />
+          </DemoContainer>
+        </LocalizationProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker"]}>
+            <DatePicker label="Select Date To" />
+          </DemoContainer>
+        </LocalizationProvider>
+      </Box>
+      <Box>
         <FormControl>
-          <InputLabel htmlFor="outlined-adornment-password">
-            Search for a Poll
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type="text"
-            onChange={handleInputChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleSearch}
-                >
-                  <SearchOutlinedIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Search Sub-domain"
-          />
+          <FormLabel
+            id="demo-row-radio-buttons-group-label"
+            className="filter-text mt-15"
+          >
+            Poll Status
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel
+              control={<Checkbox defaultChecked />}
+              label="Live"
+            />
+            <FormControlLabel control={<Checkbox />} label="Closed" />
+          </RadioGroup>
         </FormControl>
-        <Box className="filter-text mt-15">Select Date Range</Box>
-        <Box className="mt-9 dateRange">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DateTimePicker label="Select Date To" />
-            </DemoContainer>
-          </LocalizationProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DateTimePicker label="Select Date To" />
-            </DemoContainer>
-          </LocalizationProvider>
-        </Box>
-        <Box>
-          <FormControl>
-            <FormLabel id="demo-row-radio-buttons-group-label">
-              Poll Status
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={selectedValue}
-              onChange={handleRadioChange}
-            >
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="Live"
-              />
-              <FormControlLabel
-                required
-                control={<Checkbox />}
-                label="Closed"
-              />
-            </RadioGroup>
-          </FormControl>
-        </Box>
-      </div>
+      </Box>
     </Box>
   );
 
   return (
     <>
-      <Box
-        className="header-bg-blue p-20 filter-bx w-100"
-        sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-        role="presentation"
-        onClick={toggleDrawer(anchor, false)}
-        onKeyDown={toggleDrawer(anchor, false)}
-      >
-        <Box className="d-flex jc-bw">
+      {toasterMessage && <ToasterCommon response={toasterMessage} />}
+
+      <Box className="header-bg-blue p-15 filter-bx xs-hide">
+        <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
           <Box className="filter-title">Filter By:</Box>
           <Button
             type="button"
@@ -258,66 +247,52 @@ const VotingDrawerFilter = ({}) => {
           </Button>
         </Box>
 
-        <div>
+        <FormControl>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Search for a Poll
+          </InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type="text"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton aria-label="toggle password visibility">
+                  {<SearchOutlinedIcon />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Search Sub-domain"
+          />
+        </FormControl>
+        <Box className="filter-text mt-15">Select Date Range</Box>
+        <Box className="mt-9 dateRange">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DatePicker"]}>
+              <DatePicker label="Select Date To" />
+            </DemoContainer>
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DatePicker"]}>
+              <DatePicker label="Select Date To" />
+            </DemoContainer>
+          </LocalizationProvider>
+        </Box>
+        <Box>
           <FormControl>
-            <InputLabel htmlFor="outlined-adornment-password">
-              Search for a Poll
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type="text"
-              onChange={handleInputChange}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleSearch}
-                  >
-                    <SearchOutlinedIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Search Sub-domain"
-            />
+            <Box className="filter-text mt-15">Poll Status</Box>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="Live"
+              />
+              <FormControlLabel control={<Checkbox />} label="Closed" />
+            </RadioGroup>
           </FormControl>
-          <Box className="filter-text mt-15">Select Date Range</Box>
-          <Box className="mt-9 dateRange">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DateTimePicker label="Select Date To" />
-              </DemoContainer>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DateTimePicker label="Select Date To" />
-              </DemoContainer>
-            </LocalizationProvider>
-          </Box>
-          <Box>
-            <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">
-                Poll Status
-              </FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                value={selectedValue}
-                onChange={handleRadioChange}
-              >
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Live"
-                />
-                <FormControlLabel
-                  required
-                  control={<Checkbox />}
-                  label="Closed"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-        </div>
+        </Box>
       </Box>
     </>
   );

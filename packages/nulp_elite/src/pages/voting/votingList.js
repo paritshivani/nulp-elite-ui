@@ -65,7 +65,7 @@ const VotingList = (props) => {
         <Grid
           container
           spacing={2}
-          className="pt-8 mt-2 custom-event-container"
+          className="pt-8 mt-2 custom-event-container min-472"
           style={{ paddingTop: "0" }}
         >
           <Grid

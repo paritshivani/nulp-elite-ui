@@ -250,5 +250,7 @@
   "TOP_TRENDING_DESIGNATIONS": "Top Trending Designations",
   "UPCOMING_EVENTS": "Upcoming Events",
   "VOTING_LIST": "Voting List",
-  "CREATE_FORM": "Create Form"
+  "CREATE_FORM": "Create Form",
+  "LIVE_POLLS": "Live Polls",
+  "SUBMIT_VOTE": "Submit Vote"
 }
