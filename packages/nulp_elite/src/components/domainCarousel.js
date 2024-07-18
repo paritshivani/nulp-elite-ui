@@ -208,7 +208,7 @@ export default function DomainCarousel({
               style={{ paddingTop: "0" }}
             >
               <Box>
-                <Box className="text-white h5-title pl-20 pb-5">
+                <Box className="text-white h5-title pl-20">
                   {t("SELECT_YOUR_PREFERRED_DOMAIN")}
                 </Box>
 
