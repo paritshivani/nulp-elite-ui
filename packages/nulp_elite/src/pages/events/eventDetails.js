@@ -66,7 +66,7 @@ const EventDetails = () => {
   const [eventEnded, setEventEnded] = useState();
   const [userData, setUserData] = useState(null);
 
-  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState();
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
   const [isRegStart, setIsRegStart] = useState();
   const [regEnd, setRegEnd] = useState();
@@ -415,12 +415,8 @@ fetchUserData();
     //   setCanJoin(false);
     // }
 
-    const startDateTimeNew = new Date(
-      "Sat Jul 13 2024 16:50:10 GMT+0530"
-    ).getTime();
-    const endDateTimeNew = new Date(
-      "Sat Jul 13 2024 17:50:10 GMT+0530"
-    ).getTime(); // Assuming you have endDateTime
+    const startDateTimeNew = startDateTime.getTime();
+    const endDateTimeNew = endDateTime.getTime(); // Assuming you have endDateTime
     const todayDateNew = new Date().getTime();
 
     const tenMinutesBeforeStart = startDateTimeNew - 10 * 60 * 1000;
@@ -704,7 +700,9 @@ fetchUserData();
                 <Box className="d-flex xs-hide">
                   <Button
                     type="button"
-                    onClick={managePublicPrivateEvent("join")}
+                    onClick={() => {
+                      managePublicPrivateEvent("join");
+                    }}
                     // onClick={attendWebinar}
                     style={{
                       borderRadius: "10px",
@@ -759,7 +757,7 @@ fetchUserData();
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    The event has ended. registration is no longer available
+                    The event has ended. Registration is no longer available
                   </Alert>
                 </Box>
               )}
@@ -938,7 +936,7 @@ fetchUserData();
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    The event has ended. registration is no longer available
+                    The event has ended. Registration is no longer available
                   </Alert>
                 </Box>
               )}

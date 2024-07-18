@@ -1679,7 +1679,7 @@ const AddConnections = () => {
                                     primary={
                                       <span
                                         style={{
-                                          fontSize: "14px",
+                                          fontSize: "1rem",
                                           color: "#000",
                                         }}
                                       >

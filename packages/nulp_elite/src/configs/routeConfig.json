@@ -74,6 +74,11 @@
       "EVENT_LIST": "/webapp/allevents",
       "EVENT_DETAILS": "/webapp/eventDetails",
       "EVENT_ID": "/:eventId"
+    },
+    "VOTING": {
+      "VOTING_LIST": "/webapp/votingList",
+      "VOTING_DETAILS": "/webapp/votingDetails",
+      "VOTING_FORM": "/webapp/createform"
     }
   }
 }

@@ -1,0 +1,50 @@
+[
+            {
+                "id": 9,
+                "poll_id": "do_172119693723032750",
+                "title": "Will this poll get maximum response?update",
+                "description": "This is testing poll",
+                "poll_options": [
+                    "Yes",
+                    "No",
+                    "May be"
+                ],
+                "poll_type": "Polls",
+                "visibility": "private",
+                "start_date": "2024-07-16T12:21:09.754Z",
+                "end_date": "2024-07-17T12:21:09.754Z",
+                "status": "Draft",
+                "organization": "0130701891041689600",
+                "image": null,
+                "is_live_poll_result": true,
+                "created_by": "929a2476-f232-47af-8e65-87229d1d4952",
+                "updated_by": "929a2476-f232-47af-8e65-87229d1d4952",
+                "created_at": "2024-07-17T06:15:37.234Z",
+                "updated_at": "2024-07-17T06:16:58.320Z"
+            },
+             {
+                "id": 10,
+                "poll_id": "do_172119693723032751",
+                "title": "Will this poll get maximum response?",
+                "description": "This is testing poll",
+                "poll_options": [
+                    "Yes",
+                    "No",
+                    "May be"
+                ],
+                "poll_type": "Polls",
+                "visibility": "private",
+                "start_date": "2024-07-16T12:21:09.754Z",
+                "end_date": "2024-07-17T12:21:09.754Z",
+                "status": "Draft",
+                "organization": "0130701891041689600",
+                "image": null,
+                "is_live_poll_result": true,
+                "created_by": "929a2476-f232-47af-8e65-87229d1d4952",
+                "updated_by": "929a2476-f232-47af-8e65-87229d1d4952",
+                "created_at": "2024-07-17T06:15:37.234Z",
+                "updated_at": "2024-07-17T06:16:58.320Z"
+            }
+        ]
+    
+    
