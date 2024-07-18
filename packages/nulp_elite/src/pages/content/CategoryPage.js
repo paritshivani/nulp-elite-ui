@@ -38,6 +38,8 @@ const CategoryPage = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState("");
   const routeConfig = require("../../configs/routeConfig.json");
+    const [orgId, setOrgId] = useState();
+
   const location = useLocation();
   const queryString = location.search;
   const category = queryString.startsWith("?")
@@ -135,6 +137,19 @@ const CategoryPage = () => {
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
+   const fetchUserData = async () => {
+      try {
+        const uservData = await util.userData();
+        setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    useEffect(() => {
+  if (orgId) {
+    fetchDomains();
+  }
+}, [orgId]);
 
   const fetchDomains = async () => {
     setError(null);
@@ -146,7 +161,7 @@ const CategoryPage = () => {
       Cookie: `connect.sid=${getCookieValue("connect.sid")}`,
     };
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url, headers);
       setChannelData(response.data.result ?? {});
     } catch (error) {
@@ -192,7 +207,7 @@ const CategoryPage = () => {
     if (category) {
       fetchMoreItems(category, selectedDomain);
     }
-    fetchDomains();
+    fetchUserData();
   }, [category]);
 
   const handleCardClick = (contentId, courseType) => {

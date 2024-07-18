@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import ToasterCommon from "../pages/ToasterCommon";
 import dayjs from "dayjs";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import * as util from "../services/utilService";
 
 const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
@@ -39,9 +40,11 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
+  const [orgId, setOrgId]=useState();
 
   useEffect(() => {
-    fetchDataFramework();
+    fetchUserData();
+    
   }, []);
 
   useEffect(() => {
@@ -86,12 +89,28 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
     setToasterOpen(true);
   };
 
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+    console.log("$$$$$$$$$$$$$444",uservData);
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId) {
+    fetchDataFramework();
+  }
+}, [orgId]);
+
   const fetchDataFramework = async () => {
     const rootOrgId = sessionStorage.getItem("rootOrgId");
     const defaultFramework = localStorage.getItem("defaultFramework");
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));

@@ -124,6 +124,8 @@ const Profile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [orgId, setOrgId]=useState();
+
   // for bar charts
   const defaultCertData = {
     certificatesReceived: 0,
@@ -347,13 +349,17 @@ const Profile = () => {
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
       }
     };
-
+fetchUserData();
     fetchData();
     fetchCertificateCount();
     fetchCourseCount();
     fetchUserInfo();
-    fetchUserDataAndSetCustodianOrgData();
   }, []);
+  useEffect(() => {
+  if (orgId) {
+    fetchUserDataAndSetCustodianOrgData();
+  }
+}, [orgId]);
 
   const fetchUserDataAndSetCustodianOrgData = async () => {
     try {
@@ -366,14 +372,14 @@ const Profile = () => {
       const custodianOrgId = data?.result?.response?.value;
       const rootOrgId = sessionStorage.getItem("rootOrgId");
 
-      if (custodianOrgId === rootOrgId) {
+      if (custodianOrgId === orgId) {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
         const response = await fetch(url);
         const data = await response.json();
         const defaultFramework = data?.result?.channel?.defaultFramework;
         localStorage.setItem("defaultFramework", defaultFramework);
       } else {
-        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
         const response = await fetch(url);
         const data = await response.json();
         const defaultFramework = data?.result?.channel?.defaultFramework;
@@ -476,6 +482,18 @@ const Profile = () => {
     window.location.reload();
     setIsFormDirty(false);
   };
+   const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+    console.log("$$$$$$$$$$$$$444",uservData.data?.result?.response?.rootOrgId);
+    const org= uservData.data?.result?.response?.rootOrgId;
+setOrgId(org);
+console.log(orgId,"11111111111111111111111111111111111");
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
 
   const fetchData = async () => {
     try {
