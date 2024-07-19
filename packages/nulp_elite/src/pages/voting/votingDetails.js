@@ -100,7 +100,7 @@ const VotingDetails = () => {
             style={{ maxHeight: "inherit" }}
             onClick={handleGoBack}
             color="#004367"
-            href="/webapp/allevents"
+            href="/webapp/votingList"
           >
             {t("LIVE_POLLS")}
           </Link>
