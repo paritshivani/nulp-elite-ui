@@ -528,11 +528,13 @@ const ContentList = (props) => {
                       <div className="blankCard"></div>
                     </Box>
                     {/* </Grid> */}
-                    <Pagination
-                      count={totalPages}
-                      page={pageNumber}
-                      onChange={handleChange}
-                    />
+                    <Box className="mb-10">
+                      <Pagination
+                        count={totalPages}
+                        page={pageNumber}
+                        onChange={handleChange}
+                      />
+                    </Box>
                   </div>
                 ) : (
                   <NoResult /> // Render NoResult component when there are no search results

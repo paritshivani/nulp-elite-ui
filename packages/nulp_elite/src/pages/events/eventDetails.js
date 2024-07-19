@@ -536,15 +536,14 @@ const EventDetails = () => {
           className=" xs-pb-20 mt-12 xss-p-0"
           style={{
             maxWidth: "100%",
-            paddingLeft: "14px",
-            paddingRight: "14px",
+
             marginBottom: "20px",
           }}
         >
           <Breadcrumbs
             aria-label="breadcrumb"
             className="h6-title mt-15 pl-28 xss-pb-0"
-            style={{ padding: "0 0 20px 20px" }}
+            style={{ padding: "0 0 10px 0px" }}
           >
             <Link
               underline="hover"
@@ -701,6 +700,7 @@ const EventDetails = () => {
                       border: "solid 1px #1976d2",
                       background: "#1976d2",
                       marginTop: "10px",
+                      marginRight: "10px",
                     }}
                     className="custom-btn-primary mr-20"
                     disabled={!canJoin} // Disable the button when canEnroll is true
@@ -883,6 +883,7 @@ const EventDetails = () => {
                       border: "solid 1px #1976d2",
                       background: "#1976d2",
                       marginTop: "10px",
+                      marginRight: "10px",
                     }}
                     className="custom-btn-primary mr-20"
                     disabled={!canJoin} // Disable the button when canEnroll is true

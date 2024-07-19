@@ -505,7 +505,6 @@ const DomainList = ({ globalSearchQuery }) => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              paddingTop: "25px",
             }}
           >
             <Box>
@@ -608,7 +607,6 @@ const DomainList = ({ globalSearchQuery }) => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              paddingTop: "25px",
             }}
           >
             <Box>

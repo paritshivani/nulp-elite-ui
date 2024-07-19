@@ -630,8 +630,8 @@ const Profile = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container profile my-20 lg-mt-12"
-            style={{ background: "transparent", boxShadow: "none !important" }}
+            className="sm-p-25 left-container profile mb-20 lg-mt-12 bx-none b-none"
+            style={{ background: "transparent", boxShadow: "none" }}
           >
             <Box
               style={{
@@ -867,6 +867,7 @@ const Profile = () => {
                                 backgroundColor: "transparent",
                                 color: "#0e7a9c",
                                 width: "100%",
+                                paddingRight: "20px",
                               }}
                             >
                               You are not enrolled in any course. Enroll now!
