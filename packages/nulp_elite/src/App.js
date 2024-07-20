@@ -219,7 +219,6 @@ function App() {
      const fetchUserData = async () => {
   try {
    const uservData = await util.userData();
-    console.log("$$$$$$$$$$$$$444",uservData);
 setOrgId(uservData?.data?.result?.response?.rootOrgId);
     fetchDataFramework();
 
@@ -246,7 +245,6 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
         // Save the JSON string to sessionStorage
         sessionStorage.setItem("roles", rolesJson);
-        console.log(data.result.response.framework.board);
         localStorage.setItem(
           "defaultFramework",
           data.result.response.framework.id
@@ -254,7 +252,6 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
         if (data.result.response.framework.board) {
           setCheckPref(true);
         } else {
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
           setCheckPref(false);
         }
       } catch (error) {

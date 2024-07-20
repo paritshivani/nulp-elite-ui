@@ -225,7 +225,6 @@ const AllContent = () => {
   const fetchUserData = async () => {
   try {
    const uservData = await util.userData();
-    console.log("$$$$$$$$$$$$$444",uservData);
 setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
   } catch (error) {

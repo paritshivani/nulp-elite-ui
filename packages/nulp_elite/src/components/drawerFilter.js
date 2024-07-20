@@ -93,7 +93,6 @@ const DrawerFilter = ({ renderedPage }) => {
   const fetchUserData = async () => {
   try {
    const uservData = await util.userData();
-    console.log("$$$$$$$$$$$$$444",uservData);
 setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
   } catch (error) {
@@ -158,11 +157,9 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       setEventSearch(item);
     } else if (filterType === "startDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
-      console.log("Selected Start Date:", formattedDate);
       setStartDate(formattedDate);
     } else if (filterType === "endDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
-      console.log("Selected End Date:", formattedDate);
       setEndDate(formattedDate);
     }
   };
