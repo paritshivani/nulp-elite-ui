@@ -485,10 +485,8 @@ fetchUserData();
    const fetchUserData = async () => {
   try {
    const uservData = await util.userData();
-    console.log("$$$$$$$$$$$$$444",uservData.data?.result?.response?.rootOrgId);
     const org= uservData.data?.result?.response?.rootOrgId;
 setOrgId(org);
-console.log(orgId,"11111111111111111111111111111111111");
 
   } catch (error) {
     console.error("Error fetching user data:", error);

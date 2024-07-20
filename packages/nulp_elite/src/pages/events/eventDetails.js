@@ -130,7 +130,6 @@ const EventDetails = () => {
  const fetchUserData = async () => {
   try {
    const uservData = await util.userData();
-    console.log("$$$$$$$$$$$$$444",uservData?.data?.result?.response?.rootOrgId);
   } catch (error) {
     console.error("Error fetching user data:", error);
   }
@@ -139,7 +138,6 @@ const EventDetails = () => {
   useEffect(() => {
 fetchUserData();
     const fetchData = async () => {
-      console.log("%%%%%%%%%%%%%%%%%%%%%%%%5",util.userData);
       try {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.EVENT.READ}/${eventId}`;
         const response = await fetch(url, {
