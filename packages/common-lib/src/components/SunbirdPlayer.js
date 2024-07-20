@@ -27,7 +27,8 @@ const SunbirdPlayer = ({
         'application/vnd.ekstep.html-archive',
         'application/vnd.ekstep.content-collection',
         'application/vnd.ekstep.h5p-archive',
-        'video/x-youtube'
+        'video/x-youtube',
+        'application/epub'
       ].includes(mimeType)
     ) {
       setUrl(`/content-player`)
@@ -168,7 +169,7 @@ const SunbirdPlayer = ({
           width='100%'
           name={JSON.stringify({
             ...props,
-            questionListUrl: 'https://sunbirdsaas.com/api/question/v1/list'
+            questionListUrl: 'https://devnulp.niua.org/api/question/v1/list'
             // questionListUrl: `${process.env.REACT_APP_API_URL}/course/questionset`
           })}
           src={`${public_url ? public_url : process.env.PUBLIC_URL}${url}`}

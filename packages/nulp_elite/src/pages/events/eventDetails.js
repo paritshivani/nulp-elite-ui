@@ -78,7 +78,7 @@ const EventDetails = () => {
   });
   const [consent, setConsent] = useState(consenttext);
   const [emailError, setEmailError] = useState(false);
-  console.log("isEnrolled origin-----", isEnrolled);
+  console.log("check origin-----", isEnrolled);
 
   const { t } = useTranslation();
   const showErrorMessage = (msg) => {
@@ -164,9 +164,12 @@ const EventDetails = () => {
 
     fetchData();
     fetchBatchData();
+  }, [eventId]);
+
+  useEffect(() => {
     getUserData(_userId, "loggedIn");
-    checkEnrolledCourse();
-  }, []);
+    // checkEnrolledCourse();
+  }, [_userId, eventId]);
 
   const fetchBatchData = async () => {
     try {
@@ -225,14 +228,15 @@ const EventDetails = () => {
       setUserCourseData(data.result.courses);
       if (data.result.courses.length > 0) {
         data.result.courses.map((event) => {
-          console.log("isEnrolled enrollment list API 1-----", isEnrolled);
+          console.log("check enrollment list API 1-----", event);
 
-          if (event?.identifier === detailData?.identifier) {
+          if (event.identifier === eventId) {
+            alert("list match");
             setIsEnrolled(true);
           }
         });
       }
-      console.log("isEnrolled enrollment list API 2-----", isEnrolled);
+      console.log("check enrollment list API 2-----", isEnrolled);
     } catch (error) {
       console.error("Error while fetching courses:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -294,7 +298,7 @@ const EventDetails = () => {
       const response = await axios.post(url, requestBody);
       if (response.status === 200) {
         setIsEnrolled(true);
-        console.log("isEnrolled enrol API-----", isEnrolled);
+        console.log("check enrol API-----", isEnrolled);
 
         setShowEnrollmentSnackbar(true);
         registerEvent(formData, detailData);
@@ -499,7 +503,7 @@ const EventDetails = () => {
       const response = await axios.post(url, requestBody);
       if (response.status === 200) {
         setIsEnrolled(false);
-        console.log("isEnrolled unenrol API-----", isEnrolled);
+        console.log("check unenrol API-----", isEnrolled);
 
         setShowEnrollmentSnackbar(true);
         registerEvent(formData, detailData);
