@@ -35,6 +35,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Skeleton from "@mui/material/Skeleton";
 import SkeletonLoader from "components/skeletonLoader";
 import FloatingChatIcon from "components/FloatingChatIcon";
+import * as util from "../../services/utilService"
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -95,7 +96,9 @@ const DomainList = ({ globalSearchQuery }) => {
   const [domain, setDomain] = useState();
   const [popularCourses, setPopularCourses] = useState([]);
   const [recentlyAddedCourses, setRecentlyAddedCourses] = useState([]);
-    const [orgId, setOrgId]=useState();
+  const [orgId, setOrgId]=useState();
+  const [framework, setFramework]=useState();
+
 
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
@@ -122,17 +125,19 @@ const DomainList = ({ globalSearchQuery }) => {
    const fetchUserData = async () => {
       try {
         const uservData = await util.userData();
+        console.log("-------------",uservData?.data?.result?.response?.framework?.id[0]);
         setOrgId(uservData?.data?.result?.response?.rootOrgId);
+        setFramework(uservData?.data?.result?.response?.framework?.id[0])
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
+      };
+
        useEffect(() => {
-  if (orgId) {
+  if (orgId && framework ) {
     fetchDataFramework();
   }
-}, [orgId]);
-
-    };
+}, [orgId,framework]);
 
   const fetchDataFramework = async () => {
     setIsLoading(true);
@@ -152,13 +157,18 @@ const DomainList = ({ globalSearchQuery }) => {
       setIsLoading(false);
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
       );
+const categories=response?.data?.result?.framework?.categories;
+      const selectedIndex = categories.findIndex(
+      (category) => category.code === "board"
+    );
+    console.log("---------",selectedIndex);
 
-      response?.data?.result?.framework?.categories[0].terms.map((term) => {
+      response?.data?.result?.framework?.categories[selectedIndex].terms.map((term) => {
         setCategory(term);
         if (domainWithImage) {
           domainWithImage.result.form.data.fields.map((imgItem) => {
@@ -170,7 +180,7 @@ const DomainList = ({ globalSearchQuery }) => {
           });
         }
       });
-      setDomain(response?.data?.result?.framework?.categories[0].terms);
+      setDomain(response?.data?.result?.framework?.categories[selectedIndex].terms);
       setData(itemsArray);
     } catch (error) {
       console.log("nulp--  error-", error);

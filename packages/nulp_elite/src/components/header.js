@@ -205,6 +205,11 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
               >
                 <MenuItem value="en">{t("ENGLISH")}</MenuItem>
                 <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                 <MenuItem value="ma">{t("MARATHI")}</MenuItem>
+                 <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
+                 <MenuItem value="ta">{t("TAMIL")}</MenuItem>
+                 <MenuItem value="be">{t("BENGALI")}</MenuItem>
+                 <MenuItem value="mal">{t("MALYALAM")}</MenuItem>
               </Select>
             </FormControl>
           </Box>
