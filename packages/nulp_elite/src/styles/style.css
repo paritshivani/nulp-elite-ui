@@ -307,7 +307,7 @@ button {
     flex-wrap: wrap;
   }
   .custom-card-box {
-    width: 46%;
+    width: 48%;
     /* width: 174px !important; */
     margin-bottom: 22px !important;
   }
@@ -698,6 +698,9 @@ button {
   .xs-py-10 {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
+  }
+  .allContentlearning {
+    padding-right: 0 !important;
   }
   .allContentlearning .custom-card {
     justify-content: inherit !important;
