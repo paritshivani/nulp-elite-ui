@@ -955,9 +955,9 @@ button {
     padding-bottom: 75px !important;
   }
   /* .xs-shadow-none .scroll, */
-  .xs-shadow-none .scroll-45 {
+  /* .xs-shadow-none .scroll-45 {
     height: 100vh !important;
-  }
+  } */
   .xs-pb-62 {
     padding-bottom: 62px !important;
   }
@@ -1021,11 +1021,19 @@ button {
   .profile.allContentProfile.profile-card {
     padding: 0 !important;
   }
-  .my-custom {
-    margin: 13px 0 20px !important;
-  }
+
   .custom-card {
     justify-content: space-between;
+  }
+  .MuiGrid-container.custom-container {
+    margin-left: 10px !important;
+    width: 95%;
+  }
+  .custom-container .custom-btn-danger {
+    padding: 10px 10px !important;
+  }
+  .mb-38 {
+    margin-bottom: 38px !important;
   }
 }
 @media (min-width: 769px) {
@@ -1787,7 +1795,7 @@ button {
   margin-bottom: 30px !important;
 }
 .my-custom {
-  margin: 35px 0 20px 0 !important;
+  margin: 16px 0 20px 0 !important;
 }
 .addConnectChat {
   margin-bottom: 20px !important;
@@ -2022,7 +2030,7 @@ Footer {
 .custom-btn-danger {
   border-radius: 10px !important;
   color: #fff !important;
-  padding: 10px 25px !important;
+  padding: 10px 19px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #e02f1d !important;

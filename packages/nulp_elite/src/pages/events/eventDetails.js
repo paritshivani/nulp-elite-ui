@@ -533,11 +533,9 @@ const EventDetails = () => {
       </Snackbar>
       {detailData && (
         <Container
-          className=" xs-pb-20 mt-12 xss-p-0"
+          className=" xs-pb-20 mt-12 mb-38"
           style={{
             maxWidth: "100%",
-
-            marginBottom: "20px",
           }}
         >
           <Breadcrumbs
@@ -566,7 +564,7 @@ const EventDetails = () => {
           <Grid
             container
             spacing={2}
-            className="bg-whitee custom-event-container mb-20"
+            className="bg-whitee custom-event-container mb-20 custom-container mb-38"
           >
             <Grid item xs={3} md={6} lg={2}>
               {/* <img
