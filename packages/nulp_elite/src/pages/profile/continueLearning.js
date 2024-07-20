@@ -74,9 +74,7 @@ const ContinueLearning = () => {
     const fetchUserData = async () => {
   try {
    const uservData = await util.userData();
-    console.log("$$$$$$$$$$$$$444",uservData);
-        console.log("$$$$$$$$$$$$$444",uservData?.data?.result?.response?.framework?.id[0]);
-
+    
 setOrgId(uservData?.data?.result?.response?.rootOrgId);
 setFramework(uservData?.data?.result?.response?.framework?.id[0])
 
