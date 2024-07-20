@@ -246,8 +246,6 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
         // Save the JSON string to sessionStorage
         sessionStorage.setItem("roles", rolesJson);
-        console.log(data.result.response.framework.board);
-        console.log("2345678",data.result.response.framework.id[0]);
 
         localStorage.setItem(
           "defaultFramework",
