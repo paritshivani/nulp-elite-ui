@@ -62,6 +62,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [orgId, setOrgId] = useState();
+  const [framworkname,setframworkname]=useState(false)
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -75,17 +76,17 @@ const SelectPreference = ({ isOpen, onClose }) => {
     getUserData();
   }, []);
   useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const uservData = await util.userData();
-      setOrgId(uservData?.data?.result?.response?.rootOrgId);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+    const fetchUserData = async () => {
+      try {
+        const uservData = await util.userData();
+        setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
-  fetchUserData();
-}, []);
+    fetchUserData();
+  }, []);
  
 
   useEffect(() => {
@@ -123,9 +124,9 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
     };
 
-if (orgId) {
-    fetchUserDataAndSetCustodianOrgData();
-  }
+    if (orgId) {
+      fetchUserDataAndSetCustodianOrgData();
+    }
   }, [orgId]);
 
   useEffect(() => {
@@ -223,6 +224,9 @@ if (orgId) {
       }
 
       const responseData = await response.json();
+      if(responseData?.result?.response.framework?.id[0]==="nulp"){
+        setframworkname(true)
+      }
       if (_.isEmpty(responseData?.result?.response.framework)) {
         setIsEmptyPreference(true);
       } else {
@@ -267,7 +271,7 @@ if (orgId) {
           medium: selectedLanguages,
           gradeLevel: selectedSubCategory,
           subject: [selectedTopic],
-          id: defaultFramework,
+          id: "nulp-domain",
         },
         userId: _userId,
       },
@@ -298,7 +302,7 @@ if (orgId) {
 
   const handleSavePreferences = () => {
     updateUserData();
-    handleClose();
+    onClose();
   };
 
   const handleClose = () => {
@@ -341,7 +345,7 @@ if (orgId) {
   return (
     <Dialog
       open={isOpen}
-      onClose={handleClose}
+      // onClose={handleClose}
       maxWidth="sm"
       fullWidth
       disableBackdropClick
@@ -349,6 +353,11 @@ if (orgId) {
     >
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <DialogTitle>{t("Select Preferences")}</DialogTitle>
+      {framworkname && (
+          <DialogTitle onClick={handleClose}>
+            {t("We have made some changes in framework Please select your preferance")}
+          </DialogTitle>
+        )}
       <DialogContent>
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth sx={{ marginBottom: 2 }}>

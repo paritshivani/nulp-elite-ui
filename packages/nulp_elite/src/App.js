@@ -48,6 +48,7 @@ import Dashboard from "pages/events/dashboard";
 import VotingList from "pages/voting/votingList";
 import createForm from "pages/voting/createForm";
 import VotingDetails from "pages/voting/votingDetails";
+import { truncate } from "lodash";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 
@@ -245,14 +246,21 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
         // Save the JSON string to sessionStorage
         sessionStorage.setItem("roles", rolesJson);
+
         localStorage.setItem(
           "defaultFramework",
           data.result.response.framework.id
         );
-        if (data.result.response.framework.board) {
-          setCheckPref(true);
-        } else {
+        if (data.result.response.framework.id) {
+          // setCheckPref(true);
+           if(data.result.response.framework.id[0]==="nulp"){
           setCheckPref(false);
+
+        } else {
+          setCheckPref(true);
+        }
+        }else{
+          setCheckPref(false)
         }
       } catch (error) {
         console.error("Error fetching user data:", error);

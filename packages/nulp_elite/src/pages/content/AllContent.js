@@ -87,6 +87,7 @@ const AllContent = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState();
   const [orgId, setOrgId]=useState();
+  const [framework, setFramework]=useState();
 
 
   const handleResize = () => {
@@ -225,7 +226,10 @@ const AllContent = () => {
   const fetchUserData = async () => {
   try {
    const uservData = await util.userData();
+    
+
 setOrgId(uservData?.data?.result?.response?.rootOrgId);
+setFramework(uservData?.data?.result?.response?.framework?.id[0])
 
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -235,7 +239,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
   if (orgId) {
     fetchDomains();
   }
-}, [orgId]);
+}, [orgId,framework]);
 
   const fetchDomains = async () => {
     setError(null);
@@ -254,14 +258,18 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,
         headers
       );
+      const categories=response?.data?.result?.framework?.categories;
+      const selectedIndex = categories.findIndex(
+      (category) => category.code === "board"
+    );
 
-      response.data.result.framework.categories[0].terms?.map((term) => {
+      response.data.result.framework.categories[selectedIndex].terms?.map((term) => {
         if (domainWithImage) {
           domainWithImage.result.form.data.fields.map((imgItem) => {
             if ((term && term.code) === (imgItem && imgItem.code)) {
@@ -272,7 +280,8 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
           });
         }
       });
-      setDomain(response.data.result.framework.categories[0].terms);
+      setDomain(response.data.result.framework.categories[selectedIndex].terms);
+      console.log("---------------------------",response.data.result.framework.categories[3].terms);
     } catch (error) {
       console.log("nulp--  error-", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
