@@ -35,6 +35,8 @@ import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
 import SkeletonLoader from "components/skeletonLoader";
 import NoResult from "./noResultFound";
 const routeConfig = require("../../configs/routeConfig.json");
+import * as util from "../../services/utilService";
+
 
 const responsiveCard = {
   superLargeDesktop: {
@@ -84,6 +86,8 @@ const AllContent = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState();
+  const [orgId, setOrgId]=useState();
+
 
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -105,8 +109,8 @@ const AllContent = () => {
     //   setSelectedDomain(userDomain);
     //   setDomainName(userDomain);
     // }
+    fetchUserData();
     fetchData();
-    fetchDomains();
   }, []);
 
   useEffect(() => {
@@ -218,6 +222,21 @@ const AllContent = () => {
     return "";
   };
 
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId) {
+    fetchDomains();
+  }
+}, [orgId]);
+
   const fetchDomains = async () => {
     setError(null);
     const rootOrgId = sessionStorage.getItem("rootOrgId");
@@ -227,7 +246,7 @@ const AllContent = () => {
       Cookie: `connect.sid=${getCookieValue("connect.sid")}`,
     };
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url, headers);
       setChannelData(response.data.result);
     } catch (error) {

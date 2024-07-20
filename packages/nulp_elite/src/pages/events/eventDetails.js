@@ -64,6 +64,7 @@ const EventDetails = () => {
 
   const [isRecorded, setIsRecorded] = useState();
   const [eventEnded, setEventEnded] = useState();
+  const [userData, setUserData] = useState(null);
 
   const [isEnrolled, setIsEnrolled] = useState();
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
@@ -126,7 +127,16 @@ const EventDetails = () => {
     }
   };
 
+ const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
   useEffect(() => {
+fetchUserData();
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.EVENT.READ}/${eventId}`;

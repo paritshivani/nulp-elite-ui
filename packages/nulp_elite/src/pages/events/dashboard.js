@@ -68,6 +68,8 @@ const Dashboard = () => {
   const [currentEventId, setCurrentEventId] = useState(null);
   const _userId = util.userId();
   const [userData, setUserData] = useState(null);
+    const [orgId, setOrgId]=useState();
+
 
   const handleDomainChange = (event) => {
     setSelectedDomain(event.target.value);
@@ -458,6 +460,16 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
+     const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+    fetchDataFramework();
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;

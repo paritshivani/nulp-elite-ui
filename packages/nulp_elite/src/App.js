@@ -60,6 +60,8 @@ function App() {
   const [sortArray, setSortArray] = React.useState([]);
   const [checkPref, setCheckPref] = React.useState(false);
   const _userId = util.userId();
+    const [orgId, setOrgId]=useState();
+
   const routes = [
     {
       moduleName: "nulp_elite",
@@ -214,6 +216,16 @@ function App() {
     `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
   );
   useEffect(() => {
+     const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+    fetchDataFramework();
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}`;
@@ -233,7 +245,6 @@ function App() {
 
         // Save the JSON string to sessionStorage
         sessionStorage.setItem("roles", rolesJson);
-        console.log(data.result.response.framework.board);
         localStorage.setItem(
           "defaultFramework",
           data.result.response.framework.id
@@ -258,7 +269,7 @@ function App() {
       {/* <I18nextProvider i18n={i18n}> */}
       {/* <ChakraProvider> */}
       <React.Suspense>
-        {/* {!checkPref && <UserPrefPopup />} */}
+         {!checkPref && <SelectPreference isOpen={!checkPref} onClose={() => setCheckPref(true)} />} 
 
         <Router>
           <Routes>

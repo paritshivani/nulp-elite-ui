@@ -95,6 +95,8 @@ const DomainList = ({ globalSearchQuery }) => {
   const [domain, setDomain] = useState();
   const [popularCourses, setPopularCourses] = useState([]);
   const [recentlyAddedCourses, setRecentlyAddedCourses] = useState([]);
+    const [orgId, setOrgId]=useState();
+
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
 
@@ -107,7 +109,7 @@ const DomainList = ({ globalSearchQuery }) => {
   };
 
   useEffect(() => {
-    fetchDataFramework();
+    fetchUserData();
     getRecentlyAddedCourses();
     getPopularCourses();
     // console.log("domainWithImage--",domainWithImage)
@@ -117,6 +119,20 @@ const DomainList = ({ globalSearchQuery }) => {
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
+   const fetchUserData = async () => {
+      try {
+        const uservData = await util.userData();
+        setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+       useEffect(() => {
+  if (orgId) {
+    fetchDataFramework();
+  }
+}, [orgId]);
+
+    };
 
   const fetchDataFramework = async () => {
     setIsLoading(true);
@@ -125,7 +141,7 @@ const DomainList = ({ globalSearchQuery }) => {
     const defaultFramework = localStorage.getItem("defaultFramework");
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url);
       // console.log("channel---",response.data.result);
       setChannelData(response.data.result);

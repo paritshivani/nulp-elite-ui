@@ -26,6 +26,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useTranslation } from "react-i18next";
+import * as util from "../services/utilService";
+
 
 // const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
 const DrawerFilter = ({ renderedPage }) => {
@@ -40,9 +42,11 @@ const DrawerFilter = ({ renderedPage }) => {
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
+  const [orgId, setOrgId]=useState();
 
   useEffect(() => {
-    fetchDataFramework();
+    fetchUserData();
+    
   }, []);
 
   useEffect(() => {
@@ -86,12 +90,27 @@ const DrawerFilter = ({ renderedPage }) => {
     setToasterOpen(true);
   };
 
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId) {
+    fetchDataFramework();
+  }
+}, [orgId]);
+
   const fetchDataFramework = async () => {
     const rootOrgId = sessionStorage.getItem("rootOrgId");
     const defaultFramework = localStorage.getItem("defaultFramework");
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -138,11 +157,9 @@ const DrawerFilter = ({ renderedPage }) => {
       setEventSearch(item);
     } else if (filterType === "startDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
-      console.log("Selected Start Date:", formattedDate);
       setStartDate(formattedDate);
     } else if (filterType === "endDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
-      console.log("Selected End Date:", formattedDate);
       setEndDate(formattedDate);
     }
   };
