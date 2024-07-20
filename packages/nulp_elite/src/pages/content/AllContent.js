@@ -378,7 +378,7 @@ const AllContent = () => {
                     {items?.length > 4 && (
                       <Link
                         to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}?${category}`}
-                        className="viewAll mr-30"
+                        className="viewAll mr-22"
                       >
                         {t("VIEW_ALL")}
                       </Link>

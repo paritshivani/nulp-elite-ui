@@ -150,106 +150,111 @@ function Header({ globalSearchQuery }) {
     <>
       <Box className="scrolledTop">
         {/* Sidebar Navigation */}
-        <Box
-          className="d-flex jc-en lg-pr-20 xs-pr-16"
-          sx={{ background: "#484848" }}
+        <Container
+          maxWidth="xl"
+          role="main"
+          className="allContent xs-pb-20 pb-30 domain-list"
         >
-          <Box className="d-flex alignItems-center xs-hide">
-            <Link href="#" underline="none" className="font-sizer">
-              {" "}
-              +A
-            </Link>{" "}
-            <Link href="#" underline="none" className="font-sizer">
-              A -{" "}
-            </Link>
-            <Link href="#" underline="none" className="font-sizer">
-              A
-            </Link>{" "}
-          </Box>
-          <Box sx={{ minWidth: 102, paddingLeft: "0" }}>
-            <FormControl
-              fullWidth
-              size="small"
-              className="translate xs-h-28"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "end",
-              }}
-            >
-              <GTranslateIcon />
-              <Select
-                labelId="language-select-label"
-                id="language-select"
-                className="language"
-                style={{ border: "none" }}
-                label={t("LANGUAGE")}
-                value={language}
-                startIcon={<LanguageIcon />}
-                onChange={handleChangeLanguage}
-                inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-              >
-                <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                <MenuItem value="hi">{t("HINDI")}</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </Box>
-        <Box className="xs-hide d-flex pos-fixed  bg-white">
-          <Box className="d-flex alignItems-center w-100">
-            <Link
-              href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-              className="pl-0 py-15 d-flex xs-py-3"
-            >
-              <img
-                src={require("../assets/logo.png")}
-                style={{ maxWidth: "100%" }}
-                className="logo"
-              />
-            </Link>
-
-            <Box
-              className="xs-hide d-flex explore explore-text"
-              style={{
-                alignItems: "center",
-                paddingLeft: "8px",
-                marginLeft: "10px",
-              }}
-            >
-              <Box className="h5-title px-10">{t("EXPLORE")}</Box>
-              <TextField
-                placeholder={t("What do you want to learn today?  ")}
-                variant="outlined"
-                size="small"
-                style={{ fontSize: "12px" }}
+          <Box
+            className="d-flex jc-en lg-pr-20 xs-pr-16"
+            sx={{ background: "#484848" }}
+          >
+            <Box className="d-flex alignItems-center xs-hide">
+              <Link href="#" underline="none" className="font-sizer">
+                {" "}
+                +A
+              </Link>{" "}
+              <Link href="#" underline="none" className="font-sizer">
+                A -{" "}
+              </Link>
+              <Link href="#" underline="none" className="font-sizer">
+                A
+              </Link>{" "}
+            </Box>
+            <Box sx={{ minWidth: 102, paddingLeft: "0" }}>
+              <FormControl
                 fullWidth
-                value={searchQuery}
-                onChange={handleInputChange}
-                onKeyPress={handleKeyPress}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton
-                      type="submit"
-                      aria-label="search"
-                      onClick={onGlobalSearch}
-                    >
-                      <SearchIcon />
-                    </IconButton>
-                  ),
+                size="small"
+                className="translate xs-h-28"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "end",
                 }}
-              />
+              >
+                <GTranslateIcon />
+                <Select
+                  labelId="language-select-label"
+                  id="language-select"
+                  className="language"
+                  style={{ border: "none" }}
+                  label={t("LANGUAGE")}
+                  value={language}
+                  startIcon={<LanguageIcon />}
+                  onChange={handleChangeLanguage}
+                  inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                >
+                  <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                  <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
           </Box>
-          <Box
-            style={{
-              display: "flex",
-              alignItems: "space-between",
-              paddingRight: "14px",
-            }}
-          >
-            {/* Navigation Links */}
-            {/* <Box style={{ padding: "10px" }}>
+          <Box className="xs-hide d-flex pos-fixed  bg-white">
+            <Box className="d-flex alignItems-center w-100">
+              <Link
+                href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
+                className="pl-0 py-15 d-flex xs-py-3"
+              >
+                <img
+                  src={require("../assets/logo.png")}
+                  style={{ maxWidth: "100%" }}
+                  className="logo"
+                />
+              </Link>
+
+              <Box
+                className="xs-hide d-flex explore explore-text"
+                style={{
+                  alignItems: "center",
+                  paddingLeft: "8px",
+                  marginLeft: "10px",
+                }}
+              >
+                <Box className="h5-title px-10">{t("EXPLORE")}</Box>
+                <TextField
+                  placeholder={t("What do you want to learn today?  ")}
+                  variant="outlined"
+                  size="small"
+                  style={{ fontSize: "12px" }}
+                  fullWidth
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        type="submit"
+                        aria-label="search"
+                        onClick={onGlobalSearch}
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                    ),
+                  }}
+                />
+              </Box>
+            </Box>
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "space-between",
+                paddingRight: "14px",
+              }}
+            >
+              {/* Navigation Links */}
+              {/* <Box style={{ padding: "10px" }}>
             <DevicesIcon
               style={{
                 padding: "0 10px",
@@ -272,7 +277,7 @@ function Header({ globalSearchQuery }) {
             </Link>
           </Box> */}
 
-            {/* <Box
+              {/* <Box
             style={{
               padding: "0 10px",
               color: "#424242",
@@ -289,131 +294,200 @@ function Header({ globalSearchQuery }) {
               {t("SCREEN_READER")}{" "}
             </Link>
           </Box> */}
-            {/* Language Select */}
+              {/* Language Select */}
 
-            <Box
-              className="xs-hide"
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                marginLeft: "20px",
-              }}
-            >
-              <Link
-                href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
-                className={
-                  activePath ===
-                  `${
-                    routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+              <Box
+                className="xs-hide"
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  marginLeft: "20px",
+                }}
+              >
+                <Link
+                  href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
+                  className={
+                    activePath ===
+                    `${
+                      routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                      activePath.startsWith(
+                        routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
+                      )
+                    }`
+                      ? "Menuactive"
+                      : "headerMenu"
+                  }
+                  underline="none"
+                >
+                  <HomeOutlinedIcon
+                    style={{
+                      padding: "0px 5px 0 0",
+                      verticalAlign: "middle",
+                      fontSize: "20px",
+                    }}
+                  />
+                  {t("HOME")}
+                </Link>
+                <Link
+                  href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
+                  className={
+                    activePath ===
+                      routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
                     activePath.startsWith(
-                      routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
+                      routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL
                     )
-                  }`
-                    ? "Menuactive"
-                    : "headerMenu"
-                }
-                underline="none"
-              >
-                <HomeOutlinedIcon
-                  style={{
-                    padding: "0px 5px 0 0",
-                    verticalAlign: "middle",
-                    fontSize: "20px",
-                  }}
-                />
-                {t("HOME")}
-              </Link>
-              <Link
-                href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
-                className={
-                  activePath ===
-                    routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
-                  activePath.startsWith(
-                    routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL
-                  )
-                    ? "Menuactive"
-                    : "headerMenu"
-                }
-                underline="none"
-              >
-                <MenuBookOutlinedIcon
-                  style={{
-                    padding: "0px 5px 0 0",
-                    verticalAlign: "middle",
-                    fontSize: "19px",
-                  }}
-                />
-                {t("CONTENT")}
-              </Link>
-              <Link
-                href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
-                className={
-                  activePath ===
-                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
-                    ? "Menuactive"
-                    : "headerMenu"
-                }
-                underline="none"
-              >
-                <ChatOutlinedIcon
-                  style={{
-                    padding: "0px 5px 0 0",
-                    verticalAlign: "middle",
-                    fontSize: "17px",
-                  }}
-                />
-                {t("CONNECTIONS")}
-              </Link>
-              <Link
-                href={routeConfig.ROUTES.EVENTS.EVENT_LIST}
-                className={
-                  activePath === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
-                    ? "Menuactive"
-                    : "headerMenu"
-                }
-                underline="none"
-              >
-                <VideocamOutlinedIcon
-                  style={{
-                    padding: "0px 5px 0 0",
-                    verticalAlign: "middle",
-                    fontSize: "23px",
-                  }}
-                />
-                {t("EVENTS")}
-              </Link>
-              <Link
-                target="_blank"
-                href="/my-groups"
-                className={
-                  activePath === `/my-groups` ? "Menuactive" : "headerMenu"
-                }
-                underline="none"
-              >
-                <Groups2OutlinedIcon
-                  style={{
-                    padding: "0px 5px 0 0",
-                    verticalAlign: "middle",
-                    fontSize: "22px",
-                  }}
-                />
-                {t("DISCUSSIONS")}
-              </Link>
-              <Box className="notification-circle xs-hide">
-                {/* <NotificationsNoneOutlinedIcon />
+                      ? "Menuactive"
+                      : "headerMenu"
+                  }
+                  underline="none"
+                >
+                  <MenuBookOutlinedIcon
+                    style={{
+                      padding: "0px 5px 0 0",
+                      verticalAlign: "middle",
+                      fontSize: "19px",
+                    }}
+                  />
+                  {t("CONTENT")}
+                </Link>
+                <Link
+                  href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
+                  className={
+                    activePath ===
+                    `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                      ? "Menuactive"
+                      : "headerMenu"
+                  }
+                  underline="none"
+                >
+                  <ChatOutlinedIcon
+                    style={{
+                      padding: "0px 5px 0 0",
+                      verticalAlign: "middle",
+                      fontSize: "17px",
+                    }}
+                  />
+                  {t("CONNECTIONS")}
+                </Link>
+                <Link
+                  href={routeConfig.ROUTES.EVENTS.EVENT_LIST}
+                  className={
+                    activePath === `${routeConfig.ROUTES.EVENTS.EVENT_LIST}`
+                      ? "Menuactive"
+                      : "headerMenu"
+                  }
+                  underline="none"
+                >
+                  <VideocamOutlinedIcon
+                    style={{
+                      padding: "0px 5px 0 0",
+                      verticalAlign: "middle",
+                      fontSize: "23px",
+                    }}
+                  />
+                  {t("EVENTS")}
+                </Link>
+                <Link
+                  target="_blank"
+                  href="/my-groups"
+                  className={
+                    activePath === `/my-groups` ? "Menuactive" : "headerMenu"
+                  }
+                  underline="none"
+                >
+                  <Groups2OutlinedIcon
+                    style={{
+                      padding: "0px 5px 0 0",
+                      verticalAlign: "middle",
+                      fontSize: "22px",
+                    }}
+                  />
+                  {t("DISCUSSIONS")}
+                </Link>
+                <Box className="notification-circle xs-hide">
+                  {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
 
-                <Tooltip>
-                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
-                    <NotificationsNoneOutlinedIcon />
+                  <Tooltip>
+                    <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                      <NotificationsNoneOutlinedIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElNotify}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElNotify)}
+                    onClose={handleCloseNotifyMenu}
+                  >
+                    <MenuItem>
+                      <Link underline="none" textAlign="center">
+                        Text 1
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link underline="none" textAlign="center">
+                        Text 2
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link underline="none" textAlign="center">
+                        Text 3
+                      </Link>
+                    </MenuItem>
+                  </Menu>
+                </Box>
+
+                {/* User Profile */}
+                <Tooltip
+                  className={
+                    activePath ===
+                      `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
+                    activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                      ? "Menuactive"
+                      : ""
+                  }
+                >
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0 }}
+                    className="profile-btn"
+                  >
+                    {userData && (
+                      <>
+                        <div className="profile-text-circle">
+                          {userData?.result?.response?.firstName[0]}
+                        </div>
+                        <div
+                          className="ellsp"
+                          style={{
+                            maxWidth: "50px",
+                            textAlign: "left",
+                            paddingTop: "0",
+                          }}
+                        >
+                          {userData?.result?.response?.firstName}
+                        </div>
+                      </>
+                    )}
+                    <ExpandMoreIcon />
                   </IconButton>
                 </Tooltip>
                 <Menu
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
-                  anchorEl={anchorElNotify}
+                  anchorEl={anchorElUser}
                   anchorOrigin={{
                     vertical: "top",
                     horizontal: "right",
@@ -423,153 +497,85 @@ function Header({ globalSearchQuery }) {
                     vertical: "top",
                     horizontal: "right",
                   }}
-                  open={Boolean(anchorElNotify)}
-                  onClose={handleCloseNotifyMenu}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
                 >
                   <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 1
+                    <Link
+                      href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("PROFILE")}
+                    </Link>
+                  </MenuItem>
+                  {roleNames.some((role) =>
+                    ["CONTENT_CREATOR"].includes(role)
+                  ) && (
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("DASHBOARD")}
+                      </Link>
+                    </MenuItem>
+                  )}
+
+                  {/* Check if roles array is empty or contains "PUBLIC" */}
+                  {(roleNames && roleNames.length === 0) ||
+                  (roleNames.length === 1 &&
+                    roleNames.includes("PUBLIC")) ? null : (
+                    <MenuItem>
+                      <Link
+                        target="_blank"
+                        href="/workspace/content/create"
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("WORKSPACE")}
+                      </Link>
+                    </MenuItem>
+                  )}
+
+                  <MenuItem>
+                    <Link
+                      href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("HELP")}
                     </Link>
                   </MenuItem>
                   <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 2
+                    <Link href="/logoff" underline="none" textAlign="center">
+                      {t("LOGOUT")}
                     </Link>
                   </MenuItem>
                   <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 3
+                    <Link
+                      href={routeConfig.ROUTES.VOTING.VOTING_FORM}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("CREATE_FORM")}
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      href={routeConfig.ROUTES.VOTING.VOTING_LIST}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("VOTING_LIST")}
                     </Link>
                   </MenuItem>
                 </Menu>
               </Box>
-
-              {/* User Profile */}
-              <Tooltip
-                className={
-                  activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                  activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
-                    ? "Menuactive"
-                    : ""
-                }
-              >
-                <IconButton
-                  onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
-                  className="profile-btn"
-                >
-                  {userData && (
-                    <>
-                      <div className="profile-text-circle">
-                        {userData?.result?.response?.firstName[0]}
-                      </div>
-                      <div
-                        className="ellsp"
-                        style={{
-                          maxWidth: "50px",
-                          textAlign: "left",
-                          paddingTop: "0",
-                        }}
-                      >
-                        {userData?.result?.response?.firstName}
-                      </div>
-                    </>
-                  )}
-                  <ExpandMoreIcon />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem>
-                  <Link
-                    href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
-                    underline="none"
-                    textAlign="center"
-                  >
-                    {t("PROFILE")}
-                  </Link>
-                </MenuItem>
-                {roleNames.some((role) =>
-                  ["CONTENT_CREATOR"].includes(role)
-                ) && (
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("DASHBOARD")}
-                    </Link>
-                  </MenuItem>
-                )}
-
-                {/* Check if roles array is empty or contains "PUBLIC" */}
-                {(roleNames && roleNames.length === 0) ||
-                (roleNames.length === 1 &&
-                  roleNames.includes("PUBLIC")) ? null : (
-                  <MenuItem>
-                    <Link
-                      target="_blank"
-                      href="/workspace/content/create"
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("WORKSPACE")}
-                    </Link>
-                  </MenuItem>
-                )}
-
-                <MenuItem>
-                  <Link
-                    href={routeConfig.ROUTES.HELP_PAGE.HELP}
-                    underline="none"
-                    textAlign="center"
-                  >
-                    {t("HELP")}
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link href="/logoff" underline="none" textAlign="center">
-                    {t("LOGOUT")}
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link
-                    href={routeConfig.ROUTES.VOTING.VOTING_FORM}
-                    underline="none"
-                    textAlign="center"
-                  >
-                    {t("CREATE_FORM")}
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link
-                    href={routeConfig.ROUTES.VOTING.VOTING_LIST}
-                    underline="none"
-                    textAlign="center"
-                  >
-                    {t("VOTING_LIST")}
-                  </Link>
-                </MenuItem>
-              </Menu>
             </Box>
           </Box>
-        </Box>
-
+        </Container>
         {/* Top Navigation Bar */}
         <AppBar className=" bg-inherit pos-inherit mt-65">
           <Container className="p-0">

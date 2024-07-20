@@ -949,7 +949,7 @@ button {
   }
 
   .xs-pb-20 {
-    padding-bottom: 45px !important;
+    padding-bottom: 61px !important;
   }
   .xs-pb-80 {
     padding-bottom: 80px !important;
@@ -1029,8 +1029,8 @@ button {
     justify-content: space-between;
   }
   .MuiGrid-container.custom-container {
-    margin-left: 10px !important;
-    width: 95%;
+    margin-left: 1px !important;
+    width: 99%;
   }
   .custom-container .custom-btn-danger {
     padding: 10px 10px !important;
@@ -1038,8 +1038,20 @@ button {
   .mb-38 {
     margin-bottom: 38px !important;
   }
+  .xs-pb-20.mt-12 .oneLineEllipsis {
+    height: 20px !important;
+  }
+  .my-custom {
+    margin: 16px 0 20px 0 !important;
+  }
 }
 @media (min-width: 769px) {
+  .my-custom {
+    margin: 33px 0 20px 0 !important;
+  }
+  .MuiContainer-root.xs-pb-20.mt-12 {
+    padding-top: 119px !important;
+  }
   .m-0 {
     margin: 0 !important;
   }
@@ -1245,6 +1257,12 @@ button {
   }
   .mr-13 {
     margin-right: 13px !important;
+  }
+  .mr-17 {
+    margin-right: 17px !important;
+  }
+  .mr-22 {
+    margin-right: 22px !important;
   }
   .mr-30 {
     margin-right: 30px !important;
@@ -1797,9 +1815,7 @@ button {
 .mb-30 {
   margin-bottom: 30px !important;
 }
-.my-custom {
-  margin: 16px 0 20px 0 !important;
-}
+
 .addConnectChat {
   margin-bottom: 20px !important;
   border-radius: 10px !important;
@@ -2554,9 +2570,9 @@ custom-chip {
 .fs-12 {
   font-size: 12px !important;
 }
-
-.fs-14 {
-  font-size: 14px !important;
+.certificate .MuiCard-root {
+  background: #ffe8a975 !important;
+  border: solid 1px #ffe8a975 !important;
 }
 
 .tab-text {

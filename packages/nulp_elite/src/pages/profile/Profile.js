@@ -648,7 +648,7 @@ const Profile = () => {
                 textAlign="center"
                 padding="10"
                 sx={{ marginTop: "22px" }}
-                className="xs-pr-16 mb-10"
+                className="mb-10"
               >
                 <Box className="grey-bx">
                   <Box

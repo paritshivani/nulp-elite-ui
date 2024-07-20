@@ -251,7 +251,7 @@ const CategoryPage = () => {
             style={{ alignItems: "center" }}
           >
             <p className="h3-title">{category}</p>
-            <Link onClick={handleGoBack} className="viewAll mr-30">
+            <Link onClick={handleGoBack} className="viewAll mr-17">
               {t("BACK")}
             </Link>
           </Box>
