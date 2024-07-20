@@ -646,8 +646,8 @@ setOrgId(org);
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container profile my-20 lg-mt-12"
-            style={{ background: "transparent", boxShadow: "none !important" }}
+            className="sm-p-25 left-container profile mb-20 lg-mt-12 bx-none b-none"
+            style={{ background: "transparent", boxShadow: "none" }}
           >
             <Box
               style={{
@@ -664,7 +664,7 @@ setOrgId(org);
                 textAlign="center"
                 padding="10"
                 sx={{ marginTop: "22px" }}
-                className="xs-pr-16 mb-10"
+                className="mb-10"
               >
                 <Box className="grey-bx">
                   <Box
@@ -883,6 +883,7 @@ setOrgId(org);
                                 backgroundColor: "transparent",
                                 color: "#0e7a9c",
                                 width: "100%",
+                                paddingRight: "20px",
                               }}
                             >
                               You are not enrolled in any course. Enroll now!

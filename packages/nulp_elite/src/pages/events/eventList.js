@@ -349,7 +349,7 @@ const EventList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container  flter-btn w-100 my-20"
+            className="sm-p-25 left-container  flter-btn w-100"
             style={{
               padding: "0",
               borderRight: "none",

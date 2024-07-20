@@ -162,6 +162,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
     <>
       <Box className="scrolledTop">
         {/* Sidebar Navigation */}
+
         <Box
           className="d-flex jc-en lg-pr-20 xs-pr-16"
           sx={{ background: "#484848" }}
@@ -581,7 +582,6 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
             </Box>
           </Box>
         </Box>
-
         {/* Top Navigation Bar */}
         <AppBar className=" bg-inherit pos-inherit mt-65">
           <Container className="p-0">

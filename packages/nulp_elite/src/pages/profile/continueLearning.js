@@ -138,7 +138,7 @@ const ContinueLearning = () => {
             {error}
           </Alert>
         )}
-        <Box style={{ margin: "20px 0 20px -9px" }}>
+        <Box style={{ margin: "20px 0 20px -12px" }}>
           <Filter
             options={gradeLevels}
             label="Filter by Sub-Domain"

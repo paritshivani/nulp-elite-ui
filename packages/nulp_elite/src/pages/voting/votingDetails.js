@@ -14,7 +14,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -149,7 +149,7 @@ const VotingDetails = () => {
               <TodayOutlinedIcon className="h3-custom-title pl-10 mt-10" />
               {data.start_date}
             </Box>
-            <Box className="xs-hide">
+            <Box>
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -205,7 +205,7 @@ const VotingDetails = () => {
                 26 July 2024
               </Box>
             </Box>
-            <Box className="d-flex alignItems-center my-10">
+            <Box className="d-flex alignItems-center my-20">
               <Box className="h3-custom-title">Your Vote</Box>
               <Box className="h3-custom-title pl-10">
                 <VerifiedIcon
@@ -232,7 +232,7 @@ const VotingDetails = () => {
                     background: "#7995FF",
                     color: "#7995FF",
                     width: "100%",
-                    marginLeft: "10px",
+                    marginLeft: "30px",
                   }}
                 />
               </Box>
@@ -245,7 +245,7 @@ const VotingDetails = () => {
                     background: "#7995FF",
                     color: "#7995FF",
                     width: "100%",
-                    marginLeft: "10px",
+                    marginLeft: "38px",
                   }}
                 />
               </Box>
@@ -263,8 +263,14 @@ const VotingDetails = () => {
                 />
               </Box>
             </Stack>
+            <Box>
+              <Button type="button" className="custom-btn-primary">
+                <ShareOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
+                {t("SHARE_RESULTS")}
+              </Button>
+            </Box>
           </Grid>
-          <Box className="lg-hide">
+          {/* <Box className="lg-hide">
             <FormControl>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
@@ -289,7 +295,7 @@ const VotingDetails = () => {
                 {t("SUBMIT_VOTE")}
               </Button>
             </Box>
-          </Box>
+          </Box> */}
           <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
             <Box className="xs-hide">
               <FacebookShareButton url={shareUrl} className="pr-5">
