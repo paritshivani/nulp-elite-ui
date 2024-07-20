@@ -749,7 +749,7 @@ const EventDetails = () => {
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    The event has ended. registration is no longer available
+                    The event has ended. Registration is no longer available
                   </Alert>
                 </Box>
               )}
@@ -928,7 +928,7 @@ const EventDetails = () => {
                   style={{ fontWeight: "400" }}
                 >
                   <Alert severity="error">
-                    The event has ended. registration is no longer available
+                    The event has ended. Registration is no longer available
                   </Alert>
                 </Box>
               )}

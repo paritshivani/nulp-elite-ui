@@ -12,8 +12,6 @@ import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 const urlConfig = require("../configs/urlConfig.json");
@@ -22,12 +20,15 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useTranslation } from "react-i18next";
 import ToasterCommon from "../pages/ToasterCommon";
 import dayjs from "dayjs";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { useTranslation } from "react-i18next";
 
-const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
+// const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
+const DrawerFilter = ({ renderedPage }) => {
   const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
   const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
@@ -45,14 +46,13 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   }, []);
 
   useEffect(() => {
-    SelectedFilters({
-      startDate: selectedStartDate,
-      endDate: selectedEndDate,
-      eventSearch: eventSearch,
-      contentFilter: selectedContentType,
-      subDomainFilter: selectedSubDomain,
-     
-    });
+    // SelectedFilters({
+    //   startDate: selectedStartDate,
+    //   endDate: selectedEndDate,
+    //   eventSearch: eventSearch,
+    //   contentFilter: selectedContentType,
+    //   subDomainFilter: selectedSubDomain,
+    // });
   }, [
     selectedContentType,
     selectedSubDomain,
@@ -111,15 +111,12 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
   };
 
   const handleInputChange = (event) => {
-   
     setEventSearch(event.target.value);
-    
   };
 
   const handleSearch = (event) => {
-   setEventSearch(event.target.value);
-      setEventSearch(searchTerm);
-    
+    setEventSearch(event.target.value);
+    setEventSearch(searchTerm);
   };
 
   const handleCheckboxChange = (event, item, filterType) => {
@@ -192,7 +189,7 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                   aria-label="toggle password visibility"
                   onClick={handleSearch}
                 >
-                  <SearchOutlinedIcon  />
+                  <SearchOutlinedIcon />
                 </IconButton>
               </InputAdornment>
             }
@@ -231,6 +228,68 @@ const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
                 />
               </DemoContainer>
             </LocalizationProvider>
+          </Box>
+        </div>
+      )}
+      {renderedPage === "votingList" && (
+        <div>
+          <FormControl>
+            <InputLabel htmlFor="outlined-adornment-password">
+              Search for a Poll
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type="text"
+              onChange={handleInputChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleSearch}
+                  >
+                    <SearchOutlinedIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Search Sub-domain"
+            />
+          </FormControl>
+          <Box className="filter-text mt-15">Select Date Range</Box>
+          <Box className="mt-9 dateRange">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DateTimePicker label="Select Date To" />
+              </DemoContainer>
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DateTimePicker label="Select Date To" />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Box>
+          <Box>
+            <FormControl>
+              <FormLabel id="demo-row-radio-buttons-group-label">
+                Poll Status
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={selectedValue}
+                onChange={handleRadioChange}
+              >
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  label="Live"
+                />
+                <FormControlLabel
+                  required
+                  control={<Checkbox />}
+                  label="Closed"
+                />
+              </RadioGroup>
+            </FormControl>
           </Box>
         </div>
       )}

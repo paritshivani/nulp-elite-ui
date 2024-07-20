@@ -423,6 +423,10 @@
       "TOP_TRENDING_EVENT": "/event/get_top_trending",
       "REGISTER": "/event/registration",
       "REPORT": "/event/reports"
+    },
+    "POLL": {
+      "CREATE": "/polls/create",
+      "LIST": "/polls/list"
     }
   }
 }

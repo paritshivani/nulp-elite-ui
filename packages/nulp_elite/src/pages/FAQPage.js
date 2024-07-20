@@ -67,6 +67,7 @@ const FAQPage = () => {
               </Box>
               {faqData.map((category, index) => (
                 <li
+                  style={{ cursor: "pointer" }}
                   key={index}
                   onClick={() => setSelectedCategory(category.name)}
                   className={
