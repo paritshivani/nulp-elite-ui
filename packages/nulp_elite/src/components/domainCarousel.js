@@ -8,9 +8,17 @@ import { Tooltip } from "@mui/material";
 import { MarginOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import { useTranslation } from "react-i18next";
+import SkeletonLoader from "components/skeletonLoader";
 
 // import { useNavigate } from "react-router-dom";
-
+const styles = {
+  box: {
+    width: "200px",
+    height: "200px",
+    backgroundColor: "lightblue",
+    marginTop: "20px",
+  },
+};
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -37,6 +45,7 @@ export default function DomainCarousel({
   selectedDomainCode,
 }) {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(true); // Initial loading state
 
   const dotsToShow = 4; // Number of dots to display
   const [isActive, setIsActive] = useState(false);
@@ -51,6 +60,20 @@ export default function DomainCarousel({
   const [scrolled, setScrolled] = useState(false);
   // const navigate = useNavigate();
   const [userDomain, setUserDomain] = useState(null);
+
+  const [isBoxVisible, setIsBoxVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsBoxVisible(true);
+  };
+  useEffect(() => {
+    // Simulate loading completion after a delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Adjust the delay as needed
+
+    return () => clearTimeout(timer); // Cleanup the timer on unmount
+  }, []);
 
   useEffect(() => {
     const domain = sessionStorage.getItem("userDomain");
@@ -127,16 +150,16 @@ export default function DomainCarousel({
   };
 
   return (
-    <Box style={{ position: "relative" }} className="bg-darkblue">
+    <>
       {isMobile ? (
-        <>
+        <Box style={{ position: "relative" }} className="bg-darkblue">
           <Carousel
             swipeable={true}
             draggable={true}
             showDots={["mobile"]}
             responsive={responsive}
             ssr={true}
-            infinite={true}
+            infinite={false}
             autoPlaySpeed={1000}
             keyBoardControl={true}
             customTransition="all .5"
@@ -197,70 +220,90 @@ export default function DomainCarousel({
                 </Box>
               ))}
           </Carousel>
-        </>
+        </Box>
       ) : (
         <>
-          <Box className="carousel-bx scrolled">
-            <Container
-              role="main"
-              maxWidth="xl"
-              className="carousel"
-              style={{ paddingTop: "0" }}
-            >
+          {isLoading && (
+            <>
               <Box>
-                <Box className="text-white h5-title pl-20">
-                  {t("SELECT_YOUR_PREFERRED_DOMAIN")}
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    width: "100%",
-                  }}
-                >
-                  {itemsArray &&
-                    itemsArray?.slice(0, 10).map((domain, index) => (
-                      <Box
-                        className={`my-class ${
-                          activeStates === index
-                            ? "carousel-active-ui"
-                            : userDomain === domain.code
-                            ? "carousel-active-ui"
-                            : ""
-                        }`}
-                        onClick={(e) =>
-                          handleDomainClick(domain.code, index, domain.name)
-                        }
-                        key={index}
-                        orientation="horizontal"
-                        size="sm"
-                        variant="outlined"
-                        style={{ display: "flex", margin: "0 4px" }}
-                        onMouseEnter={(event) => handleMouseEnter(index)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <Box className="cursor-pointer">
-                          <Box className="cursor-pointer">
-                            <img
-                              className="domainHover"
-                              src={require(`../assets/domainImgs${domain.image}`)}
-                              alt={domain.name}
-                            />
-                          </Box>
-                          <span className="cursor-pointer domainText">
-                            {domain.name}
-                          </span>
-                          {/* )} */}
-                        </Box>
-                      </Box>
-                    ))}
-                </Box>
+                <SkeletonLoader />
               </Box>
-            </Container>
-          </Box>
+            </>
+          )}
+
+          {!isLoading && !isBoxVisible && (
+            <Box className="domain-box">
+              <button onClick={handleClick} className="domain-btn">
+                Show Domain Carousel
+              </button>
+            </Box>
+          )}
+
+          {isBoxVisible && (
+            <Box style={{ position: "relative" }} className="bg-darkblue">
+              <Box className="carousel-bx">
+                <Container
+                  role="main"
+                  maxWidth="xl"
+                  className="carousel"
+                  style={{ paddingTop: "0" }}
+                >
+                  <Box>
+                    <Box className="text-white h5-title pl-20">
+                      {t("SELECT_YOUR_PREFERRED_DOMAIN")}
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        width: "100%",
+                      }}
+                    >
+                      {itemsArray &&
+                        itemsArray?.slice(0, 10).map((domain, index) => (
+                          <Box
+                            className={`my-class ${
+                              activeStates === index
+                                ? "carousel-active-ui"
+                                : userDomain === domain.code
+                                ? "carousel-active-ui"
+                                : ""
+                            }`}
+                            onClick={(e) =>
+                              handleDomainClick(domain.code, index, domain.name)
+                            }
+                            key={index}
+                            orientation="horizontal"
+                            size="sm"
+                            variant="outlined"
+                            style={{ display: "flex", margin: "0 4px" }}
+                            onMouseEnter={(event) => handleMouseEnter(index)}
+                            onMouseLeave={handleMouseLeave}
+                          >
+                            <Box className="cursor-pointer">
+                              <Box className="cursor-pointer">
+                                <img
+                                  className="domainHover"
+                                  src={require(`../assets/domainImgs${domain.image}`)}
+                                  alt={domain.name}
+                                />
+                              </Box>
+                              <span className="cursor-pointer domainText">
+                                {domain.name}
+                              </span>
+                              {/* )} */}
+                            </Box>
+                          </Box>
+                        ))}
+                    </Box>
+                  </Box>
+                </Container>
+              </Box>
+            </Box>
+          )}
         </>
       )}
-    </Box>
+    </>
   );
 }
