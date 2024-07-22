@@ -630,9 +630,10 @@ button {
   .dashboard .h2-title {
     color: #fff !important;
   } */
-  .custom-card {
+  /* .custom-card {
     justify-content: space-between !important;
-  }
+  } */
+
   .flter-btn .MuiButton-textPrimary {
     background: #fff;
   }
@@ -1129,9 +1130,9 @@ button {
   .custom-event-container .center-box {
     transform: translate(2%, 10px);
   }
-  .MuiContainer-root {
+  /* .MuiContainer-root {
     padding-top: 268px !important;
-  }
+  } */
   .MuiContainer-root.xs-pr-0.xs-pb-20.lg-mt-12 {
     padding-top: 115px !important;
   }
@@ -1199,6 +1200,12 @@ button {
   }
   .domainHover {
     height: 48px;
+  }
+  .custom-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 266px);
+    justify-content: space-between;
+    grid-gap: 20px;
   }
   .allContentlearning .custom-card,
   .allContentProfile .custom-card {
@@ -1684,6 +1691,27 @@ button {
   } */
   .MuiContainer-root.pt-108 {
     padding-top: 108px !important;
+  }
+  .domain-box {
+    text-align: center;
+    margin: 0 auto;
+    background: none !important;
+  }
+  SkeletonLoader {
+    margin-top: 117px !important;
+  }
+  .domain-btn {
+    margin-top: 117px;
+    background: #fff !important;
+    /* border: 1px solid #004367 !important; */
+    border-radius: 10px !important;
+    color: #004367 !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    padding: 10px 25px !important;
+    box-shadow: 0 4px 4px 0 #00000040 !important;
+    border: none;
+    cursor: pointer;
   }
 }
 /* @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
