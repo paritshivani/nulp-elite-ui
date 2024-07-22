@@ -966,7 +966,10 @@ button {
     padding-bottom: 62px !important;
   }
   .xs-pt-15 {
-    padding-top: 15px;
+    padding-top: 15px !important;
+  }
+  .xs-mt-15 {
+    margin-top: 15px !important;
   }
   .xs-cert-bx {
     text-align: left;
@@ -1045,8 +1048,17 @@ button {
   .my-custom {
     margin: 16px 0 20px 0 !important;
   }
+  .certificate {
+    margin-top: 10px !important;
+  }
+  .custom-pb-20 {
+    padding: 0 20px 20px 20px !important;
+  }
 }
 @media (min-width: 769px) {
+  .custom-pb-20 {
+    padding: 20px 20px 20px 20px !important;
+  }
   /* .preference .MuiSelect-multiple {
     display: flex !important;
     align-items: center !important;
