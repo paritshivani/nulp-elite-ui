@@ -160,11 +160,8 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
   }, []);
   const roleNames =
     userData?.result?.response?.roles.map((role) => role.role) || [];
-    console.log(userData,'userData')
   return (
     <>
-    <Grid container spacing={2}>
-      <Box className="scrolledTop">
         {/* Sidebar Navigation */}
 
         {/* <Box
@@ -185,7 +182,11 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
           </Box>
        
         </Box> */}
-        <Box className="xs-hide d-flex pos-fixed  bg-white">
+        <Box className={
+            scrolled
+              ? "pos-fixed xs-hide d-flex bg-white"
+              : " xs-hide d-flex  bg-white"
+          }>
           <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
@@ -396,7 +397,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 </Tooltip>
                
               </Link>
-              <Box sx={{ minWidth: 102, paddingLeft: "0" }}>
+              <Box sx={{ minWidth: 102, padding: '0px 10px 0px 10px' }}>
             <FormControl
               fullWidth
               size="small"
@@ -413,7 +414,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 labelId="language-select-label"
                 id="language-select"
                 className="language"
-                style={{ border: "none" }}
+                style={{ border: "none",color:'#4f4f4f' }}
                 label={t("LANGUAGE")}
                 value={language}
                 startIcon={<LanguageIcon />}
@@ -599,7 +600,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
           </Box>
         </Box>
         {/* Top Navigation Bar */}
-        <AppBar className=" bg-inherit pos-inherit mt-65">
+        <AppBar className="bg-inherit pos-inherit">
           <Container className="p-0">
             <Box className="d-flex">
               <Toolbar
@@ -1101,8 +1102,6 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
           </Box> */}
           </Container>
         </AppBar>
-      </Box>
-      </Grid>
     </>
   );
 }
