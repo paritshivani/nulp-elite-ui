@@ -994,8 +994,8 @@ button {
     width: 100%;
   }
   .translate svg {
-    font-size: 13px !important;
-    color: #fff;
+    font-size: 25px !important;
+    /* color: #fff; */
   }
   .translate .MuiSelect-select {
     padding-left: 6px !important;
@@ -1236,9 +1236,9 @@ button {
   .w-100 {
     width: 100% !important;
   }
-  .translate svg {
+  /* .translate svg {
     color: #fff !important;
-  }
+  } */
   .explore-text {
     width: 100% !important;
   }
@@ -1629,8 +1629,8 @@ button {
     padding-right: 20px !important;
   }
   .language .MuiSelect-select {
-    font-size: 12px !important;
-    color: #fff !important;
+    font-size: 25px !important;
+    /* color: #fff !important; */
     padding-right: 27px;
     padding-left: 7px;
   }
@@ -2380,7 +2380,7 @@ tspan {
 }
 
 .scrolledTop .pos-fixed {
-  top: 39px !important;
+  top: 0px !important;
 }
 
 .language svg {
