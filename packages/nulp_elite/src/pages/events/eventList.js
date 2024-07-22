@@ -403,13 +403,13 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
                           aria-label="lab API tabs example"
                         >
                           <Tab
-                            label="My Events"
+                            label={t("MY_EVENTS")}
                             className="tab-text"
                             icon={<RecentActorsOutlinedIcon />}
                             value="1"
                           />
                           <Tab
-                            label="All Events"
+                            label={t("ALL_EVENTS")}
                             className="tab-text"
                             icon={<PublicOutlinedIcon />}
                             value="2"

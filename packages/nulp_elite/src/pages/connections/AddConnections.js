@@ -1361,7 +1361,7 @@ const AddConnections = () => {
                           aria-label="lab API tabs example"
                         >
                           <Tab
-                            label="My Connections"
+                            label={t("MY_CONNECTION")}
                             value="1"
                             style={{ fontSize: "12px", color: "#484848" }}
                             onClick={() => {
@@ -1371,7 +1371,7 @@ const AddConnections = () => {
                             }}
                           />
                           <Tab
-                            label={`Connection Requests (${
+                            label={`${t("CONNECTION_REQUEST")} (${
                               invitationReceiverByUser?.length || 0
                             })`}
                             value="2"
@@ -1382,7 +1382,7 @@ const AddConnections = () => {
                             }}
                           />
                           <Tab
-                            label="Blocked Users"
+                            label={t("BLOCKED_USERS")}
                             value="3"
                             style={{ fontSize: "12px", color: "#484848" }}
                             onClick={() => {

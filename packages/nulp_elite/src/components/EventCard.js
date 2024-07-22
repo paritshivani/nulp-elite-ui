@@ -206,7 +206,7 @@ export default function EventCard({ items, index, onClick }) {
       </CardContent>
       <Box>
         <Button type="button" className="custom-btn-default ml-20 lg-mt-20">
-          View Details <ArrowForwardIosOutlinedIcon className="fs-12" />
+          {t("VIEW DETAILS")} <ArrowForwardIosOutlinedIcon className="fs-12" />
         </Button>
       </Box>
       {/* {(items.board ||

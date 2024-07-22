@@ -747,7 +747,7 @@ setOrgId(org);
                       {!isCertDataEmpty ? (
                         <>
                           <Box className="h6-title pl-20">
-                            Certifications Received
+                             {t("CERTIFICATIONS RECEIVED")}
                           </Box>
                           <BarChart
                             yAxis={[
@@ -815,7 +815,7 @@ setOrgId(org);
                       ) : (
                         <>
                           <Box className="h6-title pl-20">
-                            Certifications Received
+                            {t("CERTIFICATIONS RECEIVED")}
                           </Box>
                           <Alert
                             severity="info"
@@ -834,7 +834,7 @@ setOrgId(org);
                       {!isCourseDataEmpty ? (
                         <>
                           <Box className="h6-title  pl-20">
-                            Courses more than last month
+                            {t("COURSES MORE THAN LAST MONTH")}
                           </Box>
                           <BarChart
                             yAxis={[
@@ -868,7 +868,7 @@ setOrgId(org);
                       ) : (
                         <>
                           <Box className="h6-title  pl-20">
-                            Courses more than last month
+                            {t("COURSES MORE THAN LAST MONTH")}
                           </Box>
 
                           <Alert
@@ -1123,7 +1123,7 @@ setOrgId(org);
                 }}
               >
                 <ReceiptLongIcon className="pr-5" />
-                {t("Download Certificates")}
+                {t("DOWNLOAD CERTIFICATES")}
               </Button>
 
               <Modal
@@ -1203,13 +1203,13 @@ setOrgId(org);
                       aria-label="lab API tabs example"
                     >
                       <Tab
-                        label="Continue learning"
+                        label={t("CONTINUE LEARNING")}
                         className="tab-text profile-tab"
                         icon={<DomainVerificationOutlinedIcon />}
                         value="1"
                       />
                       <Tab
-                        label="Learning History"
+                        label={t("LEARNING HISTORY")}
                         className="tab-text profile-tab"
                         icon={<WatchLaterOutlinedIcon />}
                         value="2"
