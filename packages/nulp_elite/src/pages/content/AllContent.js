@@ -392,7 +392,7 @@ const AllContent = () => {
                     showDots="3"
                     responsive={responsiveCard}
                     ssr={true}
-                    infinite={true}
+                    infinite={false}
                     autoPlaySpeed={1000}
                     keyBoardControl={true}
                     customTransition="all .5"

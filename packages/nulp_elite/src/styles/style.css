@@ -577,7 +577,7 @@ button {
     left: 3px !important;
   }
   .chatIcon {
-    bottom: 114px;
+    bottom: 159px;
     width: 175px;
     height: 46px;
     background: #484848;
@@ -1047,12 +1047,16 @@ button {
   }
 }
 @media (min-width: 769px) {
+  /* .preference .MuiSelect-multiple {
+    display: flex !important;
+    align-items: center !important;
+  } */
   .my-custom {
     margin: 33px 0 20px 0 !important;
   }
-  .MuiContainer-root.xs-pb-20.mt-12 {
+  /* .MuiContainer-root.xs-pb-20.mt-12 {
     padding-top: 119px !important;
-  }
+  } */
   .m-0 {
     margin: 0 !important;
   }
@@ -1066,9 +1070,9 @@ button {
   /* SkeletonLoader {
     margin-top: 450px !important;
   } */
-  .MuiContainer-root.MuiContainer-maxWidthXl.carousel {
+  /* .MuiContainer-root.MuiContainer-maxWidthXl.carousel {
     padding-top: 0 !important;
-  }
+  } */
   .lg-mx-90 {
     margin: 0 140px !important;
   }
@@ -1077,10 +1081,10 @@ button {
     margin-bottom: 22px;
     padding-right: 10px;
   }
-  .MuiContainer-root.pt-121,
+  /* .MuiContainer-root.pt-121,
   .container-pb.player {
     padding-top: 121px !important;
-  }
+  } */
   .dashboard .fs-40 {
     font-size: 40px !important;
   }
@@ -1099,9 +1103,9 @@ button {
     padding: 28px 0;
     text-align: center;
   }
-  .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
+  /* .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
     padding-top: 117px !important;
-  }
+  } */
   .lg-pr-10 {
     padding-right: 10px !important;
   }
@@ -1121,19 +1125,19 @@ button {
     box-shadow: 0px 4px 4px 0px #00000040 !important;
     background: "#f9fafc";
   }
-  .MuiContainer-root.container-pb.mb-20.xs-pb-75.lg-mt-12 {
+  /* .MuiContainer-root.container-pb.mb-20.xs-pb-75.lg-mt-12 {
     padding-top: 0 !important;
   }
   .MuiContainer-root.allContent.xs-mb-75.domain-list {
     padding-top: 0 !important;
-  }
+  } */
   .custom-event-container .center-box {
     transform: translate(2%, 10px);
   }
   /* .MuiContainer-root {
-    padding-top: 268px !important;
+    margin-top: 18px !important;
   } */
-  .MuiContainer-root.xs-pr-0.xs-pb-20.lg-mt-12 {
+  /* .MuiContainer-root.xs-pr-0.xs-pb-20.lg-mt-12 {
     padding-top: 115px !important;
   }
   .MuiContainer-root.xs-pr-0.xs-pb-20.mt-12.xss-p-0 {
@@ -1147,7 +1151,7 @@ button {
   }
   .xs-p-0.xs-pb-62.MuiContainer-root {
     padding-top: 112px !important;
-  }
+  } */
   /* .event-list .MuiTabs-indicator {
     left: inherit !important;
     width: inherit !important;
@@ -1159,10 +1163,10 @@ button {
     width: 100% !important;
   } */
 
-  .MuiContainer-root.allContentlearning,
+  /* .MuiContainer-root.allContentlearning,
   .MuiContainer-root.profile.allContentProfile {
     padding-top: 0 !important;
-  }
+  } */
   /* .carousel-bx.scrolled {
     width: 98% !important;
   } */
@@ -1383,6 +1387,9 @@ button {
   }
   .lg-event-margin {
     margin: 48px 19px 35px 23px;
+  }
+  header {
+    transition: background 0.3s;
   }
   .header-bg.xs-hide.py-15 {
     justify-content: space-between !important;
@@ -1655,12 +1662,12 @@ button {
     box-shadow: 0px 4px 4px 0px #00000040;
     background: #f9fafc;
   }
-  .MuiContainer-root.createForm {
+  /* .MuiContainer-root.createForm {
     padding-top: 134px !important;
   }
   .MuiContainer-root.votingList {
     padding-top: 88px !important;
-  }
+  } */
   .custom-alert {
     margin-top: 10px;
     border-radius: 10px;
@@ -1689,9 +1696,9 @@ button {
   /* .addConnectChat {
     margin-top: 29px !important;
   } */
-  .MuiContainer-root.pt-108 {
+  /* .MuiContainer-root.pt-108 {
     padding-top: 108px !important;
-  }
+  } */
   .domain-box {
     text-align: center;
     margin: 0 auto;
@@ -1701,7 +1708,6 @@ button {
     margin-top: 117px !important;
   }
   .domain-btn {
-    margin-top: 117px;
     background: #fff !important;
     /* border: 1px solid #004367 !important; */
     border-radius: 10px !important;
@@ -1712,6 +1718,11 @@ button {
     box-shadow: 0 4px 4px 0 #00000040 !important;
     border: none;
     cursor: pointer;
+  }
+  .pos-fixed,
+  .scrolledTop,
+  .carousel-bx {
+    transition: top 0.2s ease-in-out;
   }
 }
 /* @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -1827,10 +1838,7 @@ button {
 .left-container.flter-btn {
   background: none !important;
 }
-.preference .MuiSelect-multiple {
-  display: flex !important;
-  align-items: center !important;
-}
+
 .preference .css-1tsvksn {
   flex: inherit !important;
 }

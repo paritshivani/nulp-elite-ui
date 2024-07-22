@@ -148,7 +148,7 @@ function Header({ globalSearchQuery }) {
     userData?.result?.response?.roles.map((role) => role.role) || [];
   return (
     <>
-      <Box className="scrolledTop">
+      <Box className={scrolled ? " scrolledTop" : " "}>
         {/* Sidebar Navigation */}
 
         <Box
@@ -197,7 +197,13 @@ function Header({ globalSearchQuery }) {
             </FormControl>
           </Box>
         </Box>
-        <Box className="xs-hide d-flex pos-fixed  bg-white">
+        <Box
+          className={
+            scrolled
+              ? " pos-fixed xs-hide d-flex bg-white"
+              : " xs-hide d-flex  bg-white"
+          }
+        >
           <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
@@ -571,7 +577,7 @@ function Header({ globalSearchQuery }) {
           </Box>
         </Box>
         {/* Top Navigation Bar */}
-        <AppBar className=" bg-inherit pos-inherit mt-65">
+        <AppBar className=" bg-inherit pos-inherit">
           <Container className="p-0">
             <Box className="d-flex">
               <Toolbar

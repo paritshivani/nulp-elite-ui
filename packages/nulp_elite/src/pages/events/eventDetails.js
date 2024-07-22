@@ -533,7 +533,7 @@ const EventDetails = () => {
       </Snackbar>
       {detailData && (
         <Container
-          className=" xs-pb-20 mt-12 mb-38"
+          className=" xs-pb-20 mt-12 mb-38 min-472"
           style={{
             maxWidth: "100%",
           }}
