@@ -1490,8 +1490,9 @@ button {
     transition-timing-function: ease;
   } */
   .carousel-bx {
-    height: 126px;
-    padding-top: 4px !important;
+    /* height: 126px; */
+    padding-top: 6px !important;
+    padding-bottom: 8px !important;
   }
 
   @keyframes move-to-right {
