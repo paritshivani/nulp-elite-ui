@@ -229,7 +229,7 @@
   "REGISTER_WEBINAR": "Register For Event",
   "SPEAKER_DETAILS": "Speaker Details",
   "ATTEND_WEBINAR": "Attend Event",
-  "UN_REGISTER_WEBINAR": "Un-register from Event",
+  "UN_REGISTER_WEBINAR": "Unregister",
   "VIEW_WEBINAR_RECORDING": "View Event Recording",
   "HOME": "Home",
   "EVENTS": "Events",
@@ -252,5 +252,6 @@
   "VOTING_LIST": "Voting List",
   "CREATE_FORM": "Create Form",
   "LIVE_POLLS": "Live Polls",
-  "SUBMIT_VOTE": "Submit Vote"
+  "SUBMIT_VOTE": "Submit Vote",
+  "SHARE_RESULTS": "Share Results"
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   FormControl,
   InputLabel,
@@ -9,7 +8,12 @@ import {
   Checkbox,
   ListItemText,
   Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
+import { makeStyles } from "@material-ui/core/styles";
 import * as util from "../services/utilService";
 import { useTranslation } from "react-i18next";
 const urlConfig = require("../configs/urlConfig.json");
@@ -38,7 +42,6 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
-  const [open, setOpen] = React.useState(false);
   const classes = useStyles();
   const _userId = util.userId();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState([]);
@@ -58,6 +61,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const [preLanguages, setPreLanguages] = useState([]);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
+  const [orgId, setOrgId] = useState();
+  const [framworkname,setframworkname]=useState(false)
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -70,6 +75,19 @@ const SelectPreference = ({ isOpen, onClose }) => {
   useEffect(() => {
     getUserData();
   }, []);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const uservData = await util.userData();
+        setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+ 
 
   useEffect(() => {
     const fetchUserDataAndSetCustodianOrgData = async () => {
@@ -80,13 +98,11 @@ const SelectPreference = ({ isOpen, onClose }) => {
           throw new Error("Failed to fetch custodian organization ID");
         }
         const data = await response.json();
-        console.log("Raw API response:", data);
         const custodianOrgId = data?.result?.response?.value;
         setCustodianOrgId(custodianOrgId);
-        // setUserRootOrgId(localStorage.getItem("userRootOrgId"));
         const rootOrgId = sessionStorage.getItem("rootOrgId");
         if (custodianOrgId) {
-          if (custodianOrgId === rootOrgId) {
+          if (custodianOrgId === orgId) {
             const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
             const response = await fetch(url);
             const data = await response.json();
@@ -94,7 +110,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
             setDefaultFramework(defaultFramework);
             localStorage.setItem("defaultFramework", defaultFramework);
           } else {
-            const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+            const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
             const response = await fetch(url);
             const data = await response.json();
             const defaultFramework = data?.result?.channel?.defaultFramework;
@@ -108,8 +124,10 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
     };
 
-    fetchUserDataAndSetCustodianOrgData();
-  }, []);
+    if (orgId) {
+      fetchUserDataAndSetCustodianOrgData();
+    }
+  }, [orgId]);
 
   useEffect(() => {
     const defaultFrameworkFromLocal = localStorage.getItem("defaultFramework");
@@ -120,11 +138,25 @@ const SelectPreference = ({ isOpen, onClose }) => {
   }, [defaultFramework]);
 
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+    const selectedBoard = event.target.value;
+    setSelectedCategory(selectedBoard);
+    const selectedIndex = categories.findIndex(
+      (category) => category.name === selectedBoard
+    );
+    if (selectedIndex !== -1) {
+      setSubCategories(categories[selectedIndex]?.associations || []);
+    } else {
+      setSubCategories([]);
+    }
+
     setSelectedSubCategory([]);
   };
 
   const handleSubCategoryChange = (event) => {
+    if (!selectedCategory) {
+      showErrorMessage(t("Please select a category first"));
+      return;
+    }
     setSelectedSubCategory(event.target.value);
   };
 
@@ -141,7 +173,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
     setError(null);
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp-domain`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -156,15 +188,15 @@ const SelectPreference = ({ isOpen, onClose }) => {
 
       const data = await response.json();
       setFrameworkData(data?.result?.framework?.categories);
-      setCategories(data?.result?.framework?.categories[0]?.terms);
+      setCategories(data?.result?.framework?.categories[3]?.terms);
       setSubCategories(data?.result?.framework?.categories[1]?.terms);
-      setTopics(data?.result?.framework?.categories[2]?.terms);
-      setLanguages(data?.result?.framework?.categories[3]?.terms);
+      setTopics(data?.result?.framework?.categories[0]?.terms);
+      setLanguages(data?.result?.framework?.categories[2]?.terms);
 
-      setDomain(data?.result?.framework?.categories[0]?.name);
+      setDomain(data?.result?.framework?.categories[3]?.name);
       setSubDomain(data?.result?.framework?.categories[1]?.name);
-      setTopic(data?.result?.framework?.categories[2]?.name);
-      setLanguage(data?.result?.framework?.categories[3]?.name);
+      setTopic(data?.result?.framework?.categories[0]?.name);
+      setLanguage(data?.result?.framework?.categories[2]?.name);
     } catch (error) {
       console.error("Error fetching data:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -192,7 +224,9 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
-      console.log("user response----", responseData);
+      if(responseData?.result?.response.framework?.id[0]==="nulp"){
+        setframworkname(true)
+      }
       if (_.isEmpty(responseData?.result?.response.framework)) {
         setIsEmptyPreference(true);
       } else {
@@ -217,7 +251,6 @@ const SelectPreference = ({ isOpen, onClose }) => {
           responseData?.result?.response?.framework?.gradeLevel
         );
       }
-      console.log("getUserData", responseData);
     } catch (error) {
       console.error("Error fetching data:", error);
       showErrorMessage("Failed to fetch data. Please try again.");
@@ -238,7 +271,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
           medium: selectedLanguages,
           gradeLevel: selectedSubCategory,
           subject: [selectedTopic],
-          id: defaultFramework,
+          id: "nulp-domain",
         },
         userId: _userId,
       },
@@ -260,7 +293,6 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
-      console.log("responseData", responseData);
     } catch (error) {
       showErrorMessage("Failed to fetch data. Please try again.");
     } finally {
@@ -270,7 +302,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
 
   const handleSavePreferences = () => {
     updateUserData();
-    handleClose();
+    onClose();
   };
 
   const handleClose = () => {
@@ -311,26 +343,40 @@ const SelectPreference = ({ isOpen, onClose }) => {
   ]);
 
   return (
-    <div>
+    <Dialog
+      open={isOpen}
+      // onClose={handleClose}
+      maxWidth="sm"
+      fullWidth
+      disableBackdropClick
+      disableEscapeKeyDown
+    >
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Box sx={{ minWidth: 120 }} className="preference">
-        <FormControl fullWidth sx={{ marginBottom: 2 }}>
-          <InputLabel id="category-label" className="year-select">
-            {domain}
-          </InputLabel>
-          <Select
-            labelId="category-label"
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-          >
-            {categories?.map((category) => (
-              <MenuItem key={category?.id} value={category?.name}>
-                {category?.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
+      <DialogTitle>{t("Select Preferences")}</DialogTitle>
+      {framworkname && (
+          <DialogTitle onClick={handleClose}>
+            {t("We have made some changes in framework Please select your preferance")}
+          </DialogTitle>
+        )}
+      <DialogContent>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth sx={{ marginBottom: 2 }}>
+            <InputLabel id="category-label" className="year-select">
+              {domain}
+            </InputLabel>
+            <Select
+              labelId="category-label"
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+            >
+              {categories?.map((category) => (
+                <MenuItem key={category?.id} value={category?.name}>
+                  {category?.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth sx={{ marginBottom: 2 }}>
             <InputLabel id="sub-category-label" className="year-select">
@@ -342,6 +388,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
               multiple
               value={selectedSubCategory}
               onChange={handleSubCategoryChange}
+              disabled={!selectedCategory}
             >
               {subCategories?.map((subCategory) => (
                 <MenuItem key={subCategory?.id} value={subCategory?.name}>
@@ -393,22 +440,22 @@ const SelectPreference = ({ isOpen, onClose }) => {
             ))}
           </Select>
         </FormControl>
-      </Box>
-      <Box className="d-flex jc-en">
+      </DialogContent>
+      <DialogActions>
         {!isEmptyPreference && (
-          <Button className="custom-btn-default lg-mr-20" onClick={handleClose}>
+          <Button onClick={handleClose} color="secondary">
             {t("CANCEL")}
           </Button>
         )}
         <Button
-          className="custom-btn-primary my-10 "
           onClick={handleSavePreferences}
+          color="primary"
           disabled={isDisabled}
         >
           {t("SUBMIT")}
         </Button>
-      </Box>
-    </div>
+      </DialogActions>
+    </Dialog>
   );
 };
 

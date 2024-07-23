@@ -56,6 +56,8 @@ function Header({ globalSearchQuery }) {
   const _userId = util.userId();
   const [userData, setUserData] = useState(null);
   const [roles, setRoles] = useState([]);
+    const [orgId, setOrgId]=useState();
+
   // Retrieve roles from sessionStorage
   const rolesJson = sessionStorage.getItem("roles");
   useEffect(() => {
@@ -106,6 +108,16 @@ function Header({ globalSearchQuery }) {
       onGlobalSearch();
     }
   };
+   const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+    fetchDataFramework();
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
   const fetchData = async () => {
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
@@ -148,8 +160,9 @@ function Header({ globalSearchQuery }) {
     userData?.result?.response?.roles.map((role) => role.role) || [];
   return (
     <>
-      <Box className="scrolledTop">
+      <Box className={scrolled ? " scrolledTop" : " "}>
         {/* Sidebar Navigation */}
+
         <Box
           className="d-flex jc-en lg-pr-20 xs-pr-16"
           sx={{ background: "#484848" }}
@@ -192,11 +205,22 @@ function Header({ globalSearchQuery }) {
               >
                 <MenuItem value="en">{t("ENGLISH")}</MenuItem>
                 <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                 <MenuItem value="ma">{t("MARATHI")}</MenuItem>
+                 <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
+                 <MenuItem value="ta">{t("TAMIL")}</MenuItem>
+                 <MenuItem value="be">{t("BENGALI")}</MenuItem>
+                 <MenuItem value="mal">{t("MALYALAM")}</MenuItem>
               </Select>
             </FormControl>
           </Box>
         </Box>
-        <Box className="xs-hide d-flex pos-fixed  bg-white">
+        <Box
+          className={
+            scrolled
+              ? " pos-fixed xs-hide d-flex bg-white"
+              : " xs-hide d-flex  bg-white"
+          }
+        >
           <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
@@ -569,9 +593,8 @@ function Header({ globalSearchQuery }) {
             </Box>
           </Box>
         </Box>
-
         {/* Top Navigation Bar */}
-        <AppBar className=" bg-inherit pos-inherit mt-65">
+        <AppBar className=" bg-inherit pos-inherit">
           <Container className="p-0">
             <Box className="d-flex">
               <Toolbar

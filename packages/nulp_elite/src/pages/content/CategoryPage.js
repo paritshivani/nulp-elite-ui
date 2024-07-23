@@ -14,7 +14,7 @@ import Alert from "@mui/material/Alert";
 import domainWithImage from "../../assets/domainImgForm.json";
 import DomainCarousel from "components/domainCarousel";
 import * as frameworkService from "../../services/frameworkService";
-
+import * as util from "../../services/utilService"
 import SearchBox from "components/search";
 import { t } from "i18next";
 import appConfig from "../../configs/appConfig.json";
@@ -38,6 +38,10 @@ const CategoryPage = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState("");
   const routeConfig = require("../../configs/routeConfig.json");
+  const [orgId, setOrgId] = useState();
+  const [framework, setFramework]=useState();
+
+
   const location = useLocation();
   const queryString = location.search;
   const category = queryString.startsWith("?")
@@ -135,6 +139,21 @@ const CategoryPage = () => {
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
+   const fetchUserData = async () => {
+      try {
+        const uservData = await util.userData();
+        setOrgId(uservData?.data?.result?.response?.rootOrgId);
+        setFramework(uservData?.data?.result?.response?.framework?.id[0])
+
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    useEffect(() => {
+  if (orgId || framework) {
+    fetchDomains();
+  }
+}, [orgId,framework]);
 
   const fetchDomains = async () => {
     setError(null);
@@ -146,19 +165,23 @@ const CategoryPage = () => {
       Cookie: `connect.sid=${getCookieValue("connect.sid")}`,
     };
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url, headers);
       setChannelData(response.data.result ?? {});
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}`;
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,
         headers
       );
-      const terms = response.data.result.framework.categories[0].terms ?? [];
+      const categories=response?.data?.result?.framework?.categories;
+      const selectedIndex = categories.findIndex(
+      (category) => category.code === "board"
+    );
+      const terms = response.data.result.framework.categories[selectedIndex].terms ?? [];
       terms.forEach((term) => {
         if (domainWithImage) {
           domainWithImage.result.form.data.fields.forEach((imgItem) => {
@@ -192,7 +215,7 @@ const CategoryPage = () => {
     if (category) {
       fetchMoreItems(category, selectedDomain);
     }
-    fetchDomains();
+    fetchUserData();
   }, [category]);
 
   const handleCardClick = (contentId, courseType) => {
@@ -251,7 +274,7 @@ const CategoryPage = () => {
             style={{ alignItems: "center" }}
           >
             <p className="h3-title">{category}</p>
-            <Link onClick={handleGoBack} className="viewAll mr-30">
+            <Link onClick={handleGoBack} className="viewAll mr-17">
               {t("BACK")}
             </Link>
           </Box>

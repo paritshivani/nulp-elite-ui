@@ -25,6 +25,78 @@
             "image": "/admin.png"
           },
           {
+            "identifier": "nulp-domain_board_environmentandclimate",
+            "code": "environmentandclimate",
+            "name": "Environment and Climate",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier": "nulp-domain_board_solidwastemanagement",
+            "code":  "solidwastemanagement",
+            "name": "Solid Waste Management",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier": "nulp-domain_board_wash",
+            "code": "wash",
+            "name": "WASH - Water, Sanitation and Hygiene",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier": "nulp-domain_board_miscellaneousothers",
+            "code": "miscellaneousothers",
+            "name": "Miscellaneous/ Others",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier": "nulp-domain_board_governanceandurbanmanagement",
+            "code": "governanceandurbanmanagement",
+            "name": "Governance and Urban Management",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier": "nulp-domain_board_municipalfinance",
+            "code": "municipalfinance",
+            "name": "Municipal Finance",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier": "nulp-domain_board_socialaspects",
+            "code": "socialaspects",
+            "name": "Social Aspects",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier":"nulp-domain_board_transportandmobility",
+            "code": "transportandmobility",
+            "name": "Transport and Mobility",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
+            "identifier": "nulp-domain_board_urbanplanningandhousing",
+            "code": "urbanplanningandhousing",
+            "name": "Urban Planning and Housing",
+            "index": 1,
+            "status": "Live",
+            "image": "/admin.png"
+          },
+          {
             "identifier": "nulp_board_finance",
             "code": "finance",
             "name": "Municipal Finance",

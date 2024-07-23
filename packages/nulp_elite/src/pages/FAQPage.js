@@ -47,7 +47,7 @@ const FAQPage = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="min-472">
+      <Container maxWidth="xl" role="main" className="min-600 pb-30">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -58,7 +58,10 @@ const FAQPage = () => {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={3}>
-            <ul className="bg-white h6-title" style={{ borderRadius: "5px" }}>
+            <ul
+              className="bg-white h6-title"
+              style={{ borderRadius: "5px", padding: "14px" }}
+            >
               <Box
                 sx={{ fontSize: "18px", color: "#484848" }}
                 className="h5-title"

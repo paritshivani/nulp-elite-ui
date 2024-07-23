@@ -35,6 +35,8 @@ import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
 import SkeletonLoader from "components/skeletonLoader";
 import NoResult from "./noResultFound";
 const routeConfig = require("../../configs/routeConfig.json");
+import * as util from "../../services/utilService";
+
 
 const responsiveCard = {
   superLargeDesktop: {
@@ -84,6 +86,9 @@ const AllContent = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState();
+  const [orgId, setOrgId]=useState();
+  const [framework, setFramework]=useState();
+
 
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -105,8 +110,8 @@ const AllContent = () => {
     //   setSelectedDomain(userDomain);
     //   setDomainName(userDomain);
     // }
+    fetchUserData();
     fetchData();
-    fetchDomains();
   }, []);
 
   useEffect(() => {
@@ -218,6 +223,24 @@ const AllContent = () => {
     return "";
   };
 
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+    
+
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+setFramework(uservData?.data?.result?.response?.framework?.id[0])
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId) {
+    fetchDomains();
+  }
+}, [orgId,framework]);
+
   const fetchDomains = async () => {
     setError(null);
     const rootOrgId = sessionStorage.getItem("rootOrgId");
@@ -227,7 +250,7 @@ const AllContent = () => {
       Cookie: `connect.sid=${getCookieValue("connect.sid")}`,
     };
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url, headers);
       setChannelData(response.data.result);
     } catch (error) {
@@ -235,14 +258,18 @@ const AllContent = () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
 
       const response = await frameworkService.getSelectedFrameworkCategories(
         url,
         headers
       );
+      const categories=response?.data?.result?.framework?.categories;
+      const selectedIndex = categories.findIndex(
+      (category) => category.code === "board"
+    );
 
-      response.data.result.framework.categories[0].terms?.map((term) => {
+      response.data.result.framework.categories[selectedIndex].terms?.map((term) => {
         if (domainWithImage) {
           domainWithImage.result.form.data.fields.map((imgItem) => {
             if ((term && term.code) === (imgItem && imgItem.code)) {
@@ -253,7 +280,8 @@ const AllContent = () => {
           });
         }
       });
-      setDomain(response.data.result.framework.categories[0].terms);
+      setDomain(response.data.result.framework.categories[selectedIndex].terms);
+      console.log("---------------------------",response.data.result.framework.categories[3].terms);
     } catch (error) {
       console.log("nulp--  error-", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -351,7 +379,7 @@ const AllContent = () => {
             return (
               <React.Fragment key={category}>
                 <Box
-                  className="d-flex  mt-20"
+                  className="d-flex"
                   style={{
                     justifyContent: "space-between",
                     alignItems: "center",
@@ -360,7 +388,7 @@ const AllContent = () => {
                   <Box
                     style={{
                       display: "inline-block",
-                      margin: "25px 0px 20px",
+                      margin: "15px 0px 20px",
                     }}
                     className="h4-title "
                   >
@@ -378,7 +406,7 @@ const AllContent = () => {
                     {items?.length > 4 && (
                       <Link
                         to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}?${category}`}
-                        className="viewAll mr-30"
+                        className="viewAll mr-22"
                       >
                         {t("VIEW_ALL")}
                       </Link>
@@ -392,7 +420,7 @@ const AllContent = () => {
                     showDots="3"
                     responsive={responsiveCard}
                     ssr={true}
-                    infinite={true}
+                    infinite={false}
                     autoPlaySpeed={1000}
                     keyBoardControl={true}
                     customTransition="all .5"

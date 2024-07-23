@@ -131,7 +131,7 @@ const createForm = () => {
         style={{ paddingTop: "0" }}
       >
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-20 xs-py-10">Create Polls</Box>
+          <Box className="h3-custom-title  pl-5 xs-py-10">Create Polls</Box>
 
           <Alert severity="info" className="custom-alert">
             Poll will be published Based on Start Date
@@ -144,7 +144,7 @@ const createForm = () => {
           className="pt-8 mt-2 custom-event-container"
           style={{ paddingTop: "0" }}
         >
-          <Grid item xs={12} md={4} lg={8}>
+          <Grid item xs={12} md={4} lg={8} className="lg-pl-0">
             <TextField
               id="title"
               required

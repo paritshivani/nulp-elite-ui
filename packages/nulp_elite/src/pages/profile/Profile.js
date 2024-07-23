@@ -124,6 +124,8 @@ const Profile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [orgId, setOrgId]=useState();
+
   // for bar charts
   const defaultCertData = {
     certificatesReceived: 0,
@@ -347,13 +349,17 @@ const Profile = () => {
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
       }
     };
-
+fetchUserData();
     fetchData();
     fetchCertificateCount();
     fetchCourseCount();
     fetchUserInfo();
-    fetchUserDataAndSetCustodianOrgData();
   }, []);
+  useEffect(() => {
+  if (orgId) {
+    fetchUserDataAndSetCustodianOrgData();
+  }
+}, [orgId]);
 
   const fetchUserDataAndSetCustodianOrgData = async () => {
     try {
@@ -366,14 +372,14 @@ const Profile = () => {
       const custodianOrgId = data?.result?.response?.value;
       const rootOrgId = sessionStorage.getItem("rootOrgId");
 
-      if (custodianOrgId === rootOrgId) {
+      if (custodianOrgId === orgId) {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
         const response = await fetch(url);
         const data = await response.json();
         const defaultFramework = data?.result?.channel?.defaultFramework;
         localStorage.setItem("defaultFramework", defaultFramework);
       } else {
-        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
         const response = await fetch(url);
         const data = await response.json();
         const defaultFramework = data?.result?.channel?.defaultFramework;
@@ -476,6 +482,16 @@ const Profile = () => {
     window.location.reload();
     setIsFormDirty(false);
   };
+   const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+    const org= uservData.data?.result?.response?.rootOrgId;
+setOrgId(org);
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
 
   const fetchData = async () => {
     try {
@@ -630,8 +646,8 @@ const Profile = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container profile my-20 lg-mt-12"
-            style={{ background: "transparent", boxShadow: "none !important" }}
+            className="sm-p-25 left-container profile mb-20 lg-mt-12 bx-none b-none"
+            style={{ background: "transparent", boxShadow: "none" }}
           >
             <Box
               style={{
@@ -648,7 +664,7 @@ const Profile = () => {
                 textAlign="center"
                 padding="10"
                 sx={{ marginTop: "22px" }}
-                className="xs-pr-16 mb-10"
+                className="mb-10"
               >
                 <Box className="grey-bx">
                   <Box
@@ -867,6 +883,7 @@ const Profile = () => {
                                 backgroundColor: "transparent",
                                 color: "#0e7a9c",
                                 width: "100%",
+                                paddingRight: "20px",
                               }}
                             >
                               You are not enrolled in any course. Enroll now!
