@@ -94,6 +94,8 @@ const EventList = (props) => {
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
   const [valueTab, setValueTab] = React.useState("2");
+  const [orgId, setOrgId]=useState();
+  const [framework, setFramework]=useState();
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -106,7 +108,7 @@ const EventList = (props) => {
   useEffect(() => {
     fetchAllData();
     fetchMyEvents();
-    Fetchdomain();
+    fetchUserData();
   }, []);
   useEffect(() => {
     fetchAllData();
@@ -275,10 +277,29 @@ const EventList = (props) => {
       setIsLoading(false);
     }
   };
+
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+    
+
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+setFramework(uservData?.data?.result?.response?.framework?.id[0])
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId || framework) {
+    Fetchdomain();
+  }
+}, [orgId,framework]);
+
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework") || "nulp";
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?orgdetails=${urlConfig.params.framework}`;
 
       const response = await fetch(url);
 
@@ -296,8 +317,12 @@ const EventList = (props) => {
               value: term.code,
               label: term.name,
             }));
+             const categories=responseData?.result?.framework?.categories;
+      const selectedIndex = categories.findIndex(
+      (category) => category.code === "board"
+    );
           setCategory(domainOptions);
-          responseData.result.framework.categories[0].terms?.map((term) => {
+          responseData.result.framework.categories[selectedIndex].terms?.map((term) => {
             setCategory(term);
             if (domainWithImage) {
               domainWithImage.result.form.data.fields.map((imgItem) => {
@@ -308,7 +333,7 @@ const EventList = (props) => {
             }
           });
           const domainList =
-            responseData?.result?.framework?.categories[0].terms;
+            responseData?.result?.framework?.categories[selectedIndex].terms;
           setDomainList(domainList);
         }
       } else {

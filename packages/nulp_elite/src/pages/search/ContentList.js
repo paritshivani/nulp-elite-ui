@@ -33,6 +33,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import SkeletonLoader from "components/skeletonLoader";
+import * as util from "../../services/utilService"
 
 const responsive = {
   superLargeDesktop: {
@@ -86,6 +87,8 @@ const ContentList = (props) => {
   const [contentTypeFilter, setContentTypeFilter] = useState([]);
   const [subDomainFilter, setSubDomainFilter] = useState([]);
   const [contentCount, setContentCount] = useState(0);
+   const [orgId, setOrgId]=useState();
+  const [framework, setFramework]=useState();
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -97,8 +100,7 @@ const ContentList = (props) => {
 
   useEffect(() => {
     fetchData();
-    fetchGradeLevels();
-    Fetchdomain();
+    fetchUserData();
     const random = getRandomValue();
   }, [filters, search, currentPage, domainfilter]);
 
@@ -237,7 +239,7 @@ const ContentList = (props) => {
   const fetchGradeLevels = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
       const response = await fetch(url);
       const data = await response.json();
       if (
@@ -262,13 +264,31 @@ const ContentList = (props) => {
     }
   };
 
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+  
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+setFramework(uservData?.data?.result?.response?.framework?.id[0])
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId) {
+    Fetchdomain();
+    fetchGradeLevels();
+  }
+}, [orgId,framework]);
+
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?orgdetails=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?orgdetails=${urlConfig.params.framework}`;
 
       const response = await fetch(url);
-
+      
       if (response.ok) {
         const responseData = await response.json();
         if (
@@ -283,8 +303,13 @@ const ContentList = (props) => {
               value: term.code,
               label: term.name,
             }));
+             const categories=responseData.result.framework.categories;
+      const selectedIndex = categories.findIndex(
+      (category) => category.code === "board"
+    );
+            
           setCategory(domainOptions);
-          responseData.result.framework.categories[0].terms?.map((term) => {
+          responseData.result.framework.categories[selectedIndex].terms?.map((term) => {
             setCategory(term);
             if (domainWithImage) {
               domainWithImage.result.form.data.fields.map((imgItem) => {
@@ -295,7 +320,7 @@ const ContentList = (props) => {
             }
           });
           const domainList =
-            responseData?.result?.framework?.categories[0].terms;
+            responseData?.result?.framework?.categories[selectedIndex].terms;
           setDomainList(domainList);
         }
       } else {

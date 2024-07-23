@@ -109,7 +109,7 @@ export default function DomainCarousel({
         });
       }
     });
-    const croppedArray = itemsArray?.slice(0, 10);
+    const croppedArray = itemsArray
     setData(croppedArray);
   }, []);
 
