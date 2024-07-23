@@ -238,7 +238,11 @@ export default function DomainCarousel({
               <button onClick={handleClick} className="domain-btn">
                 {t("SELECT_YOUR_PREFERRED_DOMAIN")}
                 <KeyboardArrowDownIcon
-                  style={{ color: "#484848", fontSize: "33px" }}
+                  style={{
+                    color: "#484848",
+                    fontSize: "24px",
+                    verticalAlign: "middle",
+                  }}
                 />
               </button>
             </Box>
