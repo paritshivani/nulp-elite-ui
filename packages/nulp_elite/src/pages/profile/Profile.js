@@ -1126,7 +1126,7 @@ setOrgId(org);
                 {t("DOWNLOAD CERTIFICATES")}
               </Button>
 
-              <Modal
+              {/* <Modal
                 // open={open}
                 // onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -1155,7 +1155,8 @@ setOrgId(org);
                   </Typography>
                   <SelectPreference onClose={handleCloseModal} />
                 </Box>
-              </Modal>
+              </Modal> */}
+              <SelectPreference onClose={handleCloseModal} isOpen={openModal} />
 
               <Box className="grey-bx p-10 py-15">
                 <Box className="h4-title d-flex pt-10 alignItems-center">
