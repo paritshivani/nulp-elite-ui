@@ -1504,7 +1504,7 @@ button {
   .carousel-bx {
     /* height: 126px; */
     padding-top: 6px !important;
-    padding-bottom: 8px !important;
+    padding-bottom: 0 !important;
   }
 
   @keyframes move-to-right {
