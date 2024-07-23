@@ -20,6 +20,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import FloatingChatIcon from "components/FloatingChatIcon";
+const urlConfig = require("../../configs/urlConfig.json");
 
 const VotingList = () => {
   const [toasterOpen, setToasterOpen] = useState(false);

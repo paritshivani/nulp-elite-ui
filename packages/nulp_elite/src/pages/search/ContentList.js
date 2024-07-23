@@ -33,7 +33,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import SkeletonLoader from "components/skeletonLoader";
-import * as util from "../../services/utilService"
+import * as util from "../../services/utilService";
 
 const responsive = {
   superLargeDesktop: {
@@ -87,8 +87,9 @@ const ContentList = (props) => {
   const [contentTypeFilter, setContentTypeFilter] = useState([]);
   const [subDomainFilter, setSubDomainFilter] = useState([]);
   const [contentCount, setContentCount] = useState(0);
-   const [orgId, setOrgId]=useState();
-  const [framework, setFramework]=useState();
+  const [orgId, setOrgId] = useState();
+  const [framework, setFramework] = useState();
+  const [headerSearch, setHeaderSearch] = useState("");
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -117,7 +118,17 @@ const ContentList = (props) => {
 
   useEffect(() => {
     fetchData();
+    setHeaderSearch(globalSearchQuery);
+    if (headerSearch) {
+      setSearchQuery(headerSearch || "");
+    }
   }, [globalSearchQuery]);
+
+  useEffect(() => {
+    if (headerSearch) {
+      setSearchQuery(headerSearch || "");
+    }
+  }, [headerSearch]);
 
   useEffect(() => {
     if (
@@ -265,22 +276,21 @@ const ContentList = (props) => {
   };
 
   const fetchUserData = async () => {
-  try {
-   const uservData = await util.userData();
-  
-setOrgId(uservData?.data?.result?.response?.rootOrgId);
-setFramework(uservData?.data?.result?.response?.framework?.id[0])
+    try {
+      const uservData = await util.userData();
 
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
- useEffect(() => {
-  if (orgId) {
-    Fetchdomain();
-    fetchGradeLevels();
-  }
-}, [orgId,framework]);
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if (orgId) {
+      Fetchdomain();
+      fetchGradeLevels();
+    }
+  }, [orgId, framework]);
 
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
@@ -288,7 +298,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?orgdetails=${urlConfig.params.framework}`;
 
       const response = await fetch(url);
-      
+
       if (response.ok) {
         const responseData = await response.json();
         if (
@@ -303,22 +313,24 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
               value: term.code,
               label: term.name,
             }));
-             const categories=responseData.result.framework.categories;
-      const selectedIndex = categories.findIndex(
-      (category) => category.code === "board"
-    );
-            
+          const categories = responseData.result.framework.categories;
+          const selectedIndex = categories.findIndex(
+            (category) => category.code === "board"
+          );
+
           setCategory(domainOptions);
-          responseData.result.framework.categories[selectedIndex].terms?.map((term) => {
-            setCategory(term);
-            if (domainWithImage) {
-              domainWithImage.result.form.data.fields.map((imgItem) => {
-                if ((term && term.code) === (imgItem && imgItem.code)) {
-                  term["image"] = imgItem.image ? imgItem.image : "";
-                }
-              });
+          responseData.result.framework.categories[selectedIndex].terms?.map(
+            (term) => {
+              setCategory(term);
+              if (domainWithImage) {
+                domainWithImage.result.form.data.fields.map((imgItem) => {
+                  if ((term && term.code) === (imgItem && imgItem.code)) {
+                    term["image"] = imgItem.image ? imgItem.image : "";
+                  }
+                });
+              }
             }
-          });
+          );
           const domainList =
             responseData?.result?.framework?.categories[selectedIndex].terms;
           setDomainList(domainList);
