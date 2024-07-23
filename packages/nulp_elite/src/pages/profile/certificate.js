@@ -222,8 +222,11 @@ const Certificate = () => {
             </Link>
           </Box>
           <Card
-            style={{ padding: "20px", textAlign: "left" }}
-            className="xs-cert-bx"
+            className="xs-mt-15 pb-20 custom-pb-20"
+            style={{
+              textAlign: "left",
+              borderRadius: "10px",
+            }}
           >
             <Grid
               container

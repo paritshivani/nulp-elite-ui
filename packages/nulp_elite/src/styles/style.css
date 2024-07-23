@@ -914,7 +914,10 @@ button {
     padding-bottom: 62px !important;
   }
   .xs-pt-15 {
-    padding-top: 15px;
+    padding-top: 15px !important;
+  }
+  .xs-mt-15 {
+    margin-top: 15px !important;
   }
   .xs-cert-bx {
     text-align: left;
@@ -973,9 +976,61 @@ button {
   .profile.allContentProfile.profile-card {
     padding: 0 !important;
   }
+
+  .custom-card {
+    justify-content: space-between;
+  }
+  .MuiGrid-container.custom-container {
+    margin-left: 1px !important;
+    width: 99%;
+  }
+  .custom-container .custom-btn-danger {
+    padding: 10px 10px !important;
+  }
+  .mb-38 {
+    margin-bottom: 38px !important;
+  }
+  .xs-pb-20.mt-12 .oneLineEllipsis {
+    height: 20px !important;
+  }
+  .my-custom {
+    margin: 16px 0 20px 0 !important;
+  }
+  .certificate {
+    margin-top: 10px !important;
+  }
+  .custom-pb-20 {
+    padding: 0 20px 20px 20px !important;
+  }
 }
 @media (min-width: 769px) {
-  .MuiContainer-root.MuiContainer-maxWidthXl.carousel {
+  .custom-pb-20 {
+    padding: 20px 20px 20px 20px !important;
+  }
+  /* .preference .MuiSelect-multiple {
+    display: flex !important;
+    align-items: center !important;
+  } */
+  .my-custom {
+    margin: 33px 0 20px 0 !important;
+  }
+  /* .MuiContainer-root.xs-pb-20.mt-12 {
+    padding-top: 119px !important;
+  } */
+  .m-0 {
+    margin: 0 !important;
+  }
+  .profile .MuiAlert-message {
+    width: 60% !important;
+  }
+  .certificate .MuiCard-root {
+    background: #ffe8a975 !important;
+    border: solid 1px #ffe8a975 !important;
+  }
+  /* SkeletonLoader {
+    margin-top: 450px !important;
+  } */
+  /* .MuiContainer-root.MuiContainer-maxWidthXl.carousel {
     padding-top: 0 !important;
   }
   .lg-mx-90 {
@@ -983,9 +1038,9 @@ button {
   }
   .dashboard .MuiFormControl-root {
     /* width: 230px; */
-    margin-bottom: 22px;
+  /* margin-bottom: 22px;
     padding-right: 10px;
-  }
+  } */
   .MuiContainer-root.pt-121,
   .container-pb.player {
     padding-top: 121px !important;
@@ -1009,9 +1064,9 @@ button {
     padding: 28px 0;
     text-align: center;
   }
-  .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
+  /* .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
     padding-top: 117px !important;
-  }
+  } */
   .lg-pr-10 {
     padding-right: 10px !important;
   }
@@ -1031,16 +1086,16 @@ button {
     box-shadow: 0px 4px 4px 0px #00000040 !important;
     background: "#f9fafc";
   }
-  .MuiContainer-root.container-pb.mb-20.xs-pb-75.lg-mt-12 {
+  /* .MuiContainer-root.container-pb.mb-20.xs-pb-75.lg-mt-12 {
     padding-top: 0 !important;
   }
   .MuiContainer-root.allContent.xs-mb-75.domain-list {
     padding-top: 0 !important;
-  }
+  } */
   .custom-event-container .center-box {
     transform: translate(2%, 10px);
   }
-  .MuiContainer-root {
+  /* .MuiContainer-root {
     padding-top: 268px !important;
   }
   .MuiContainer-root.xs-pr-0.xs-pb-20.lg-mt-12 {
@@ -1054,7 +1109,7 @@ button {
   }
   .MuiContainer-root.MuiContainer-maxWidthXl.xs-pb-75.pt-1 {
     padding-top: 123px !important;
-  }
+  } */
   .xs-p-0.xs-pb-62.MuiContainer-root {
     padding-top: 112px !important;
   }
@@ -1382,8 +1437,9 @@ button {
     transition-timing-function: ease;
   } */
   .carousel-bx {
-    height: 126px;
-    padding-top: 4px !important;
+    /* height: 126px; */
+    padding-top: 6px !important;
+    padding-bottom: 0 !important;
   }
 
   @keyframes move-to-right {
@@ -1584,6 +1640,31 @@ button {
     margin-top: 65px;
     margin-left: 10px;
     width: 10%;
+  }
+  .domain-box {
+    text-align: center;
+    margin: 0 auto;
+    background: none !important;
+  }
+  SkeletonLoader {
+    margin-top: 117px !important;
+  }
+  .domain-btn {
+    background: #fff !important;
+    /* border: 1px solid #004367 !important; */
+    border-radius: 10px !important;
+    color: #004367 !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    padding: 10px 25px !important;
+    box-shadow: 0 4px 4px 0 #00000040 !important;
+    border: none;
+    cursor: pointer;
+  }
+  .pos-fixed,
+  .scrolledTop,
+  .carousel-bx {
+    transition: top 0.2s ease-in-out;
   }
 }
 @media (min-width: 769px) and (max-width: 1366px) {
@@ -1887,7 +1968,7 @@ Footer {
 } */
 .bg-white {
   background: #fff !important;
-  padding: 20px 20px 20px 5px;
+  padding: 3px 8px;
   list-style-type: none;
   border: 1px solid #d3d3d3;
 }
@@ -2222,8 +2303,8 @@ button {
 .pos-fixed {
   position: fixed;
   z-index: 99999;
-  width: 100%;
-  height: 44px;
+  width: 99%;
+  /* height: 44px; */
   transition: top 0.3s ease;
 }
 tspan {
@@ -2238,10 +2319,10 @@ tspan {
   height: 10px !important;
 } */
 
-.pos-fixed .MuiInputBase-input {
+/* .pos-fixed .MuiInputBase-input {
   font-size: 12px !important;
   padding-right: 23px !important;
-}
+} */
 
 .scrolledTop .pos-fixed {
   top: 0px !important;
