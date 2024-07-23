@@ -278,15 +278,12 @@ const ContentList = (props) => {
   const fetchUserData = async () => {
     try {
       const uservData = await util.userData();
-
-      setOrgId(uservData?.data?.result?.response?.rootOrgId);
-      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
   useEffect(() => {
-    if (orgId) {
+    if (orgId && framework) {
       Fetchdomain();
       fetchGradeLevels();
     }

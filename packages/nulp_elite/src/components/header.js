@@ -36,12 +36,14 @@ const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
+import Grid from '@mui/material/Grid';
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState("en");
+const [language, setLanguage] = useState(localStorage.getItem("lang") ? localStorage.getItem("lang") : "en");
 
   const handleChangeLanguage = (event) => {
+    localStorage.setItem("lang", event.target.value);
     const selectedLanguage = event.target.value;
     setLanguage(selectedLanguage);
     changeLanguage(selectedLanguage);
@@ -160,10 +162,9 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
     userData?.result?.response?.roles.map((role) => role.role) || [];
   return (
     <>
-      <Box className={scrolled ? " scrolledTop" : " "}>
         {/* Sidebar Navigation */}
 
-        <Box
+        {/* <Box
           className="d-flex jc-en lg-pr-20 xs-pr-16"
           sx={{ background: "#484848" }}
         >
@@ -179,48 +180,13 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
               A
             </Link>{" "}
           </Box>
-          <Box sx={{ minWidth: 102, paddingLeft: "0" }}>
-            <FormControl
-              fullWidth
-              size="small"
-              className="translate xs-h-28"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "end",
-              }}
-            >
-              <GTranslateIcon />
-              <Select
-                labelId="language-select-label"
-                id="language-select"
-                className="language"
-                style={{ border: "none" }}
-                label={t("LANGUAGE")}
-                value={language}
-                startIcon={<LanguageIcon />}
-                onChange={handleChangeLanguage}
-                inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-              >
-                <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                 <MenuItem value="ma">{t("MARATHI")}</MenuItem>
-                 <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
-                 <MenuItem value="ta">{t("TAMIL")}</MenuItem>
-                 <MenuItem value="be">{t("BENGALI")}</MenuItem>
-                 <MenuItem value="mal">{t("MALYALAM")}</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </Box>
-        <Box
-          className={
+       
+        </Box> */}
+        <Box className={
             scrolled
-              ? " pos-fixed xs-hide d-flex bg-white"
+              ? "pos-fixed xs-hide d-flex bg-white"
               : " xs-hide d-flex  bg-white"
-          }
-        >
+          }>
           <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
@@ -242,11 +208,12 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
               }}
             >
               <Box className="h5-title px-10">{t("EXPLORE")}</Box>
+              <Box style={{ width:'75%'}}>
               <TextField
                 placeholder={t("What do you want to learn today?  ")}
                 variant="outlined"
                 size="small"
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "12px"}}
                 fullWidth
                 value={searchQuery}
                 onChange={handleInputChange}
@@ -263,6 +230,8 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                   ),
                 }}
               />
+              </Box>
+             
             </Box>
           </Box>
           <Box
@@ -340,14 +309,15 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 }
                 underline="none"
               >
+              <Tooltip title={t("HOME")} placement="bottom" arrow>
                 <HomeOutlinedIcon
                   style={{
-                    padding: "0px 5px 0 0",
                     verticalAlign: "middle",
-                    fontSize: "20px",
+                    fontSize:'30px'
                   }}
                 />
-                {t("HOME")}
+                {/* {t("HOME")} */}
+                </Tooltip>
               </Link>
               <Link
                 href={routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}
@@ -362,14 +332,14 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 }
                 underline="none"
               >
+                <Tooltip title={t("CONTENT")} placement="bottom" arrow>
                 <MenuBookOutlinedIcon
                   style={{
-                    padding: "0px 5px 0 0",
                     verticalAlign: "middle",
-                    fontSize: "19px",
+                    fontSize:'30px'
                   }}
                 />
-                {t("CONTENT")}
+                </Tooltip>
               </Link>
               <Link
                 href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
@@ -381,14 +351,15 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 }
                 underline="none"
               >
+                <Tooltip title={t("CONNECTIONS")} placement="bottom" arrow>
                 <ChatOutlinedIcon
                   style={{
-                    padding: "0px 5px 0 0",
                     verticalAlign: "middle",
-                    fontSize: "17px",
+                    fontSize:'30x',
+                    marginTop: '7px'
                   }}
                 />
-                {t("CONNECTIONS")}
+                </Tooltip>
               </Link>
               <Link
                 href={routeConfig.ROUTES.EVENTS.EVENT_LIST}
@@ -399,14 +370,15 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 }
                 underline="none"
               >
+                 <Tooltip title={t("EVENTS")} placement="bottom" arrow>
                 <VideocamOutlinedIcon
                   style={{
-                    padding: "0px 5px 0 0",
                     verticalAlign: "middle",
-                    fontSize: "23px",
+                    fontSize:'30px'
                   }}
                 />
-                {t("EVENTS")}
+                </Tooltip>
+                
               </Link>
               <Link
                 target="_blank"
@@ -416,15 +388,50 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 }
                 underline="none"
               >
+                 <Tooltip title={t("DISCUSSIONS")} placement="bottom" arrow>
                 <Groups2OutlinedIcon
                   style={{
-                    padding: "0px 5px 0 0",
                     verticalAlign: "middle",
-                    fontSize: "22px",
+                    fontSize:'30px'
                   }}
                 />
-                {t("DISCUSSIONS")}
+                </Tooltip>
+               
               </Link>
+              <Box sx={{ minWidth: 102, padding: '0px 10px 0px 10px' }}>
+            <FormControl
+              fullWidth
+              size="small"
+              className="translate xs-h-28"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "end",
+              }}
+            >
+              <GTranslateIcon />
+              <Select
+                labelId="language-select-label"
+                id="language-select"
+                className="language"
+                style={{ border: "none",color:'#4f4f4f' }}
+                label={t("LANGUAGE")}
+                value={language}
+                startIcon={<LanguageIcon />}
+                onChange={handleChangeLanguage}
+                inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+              >
+                <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                 <MenuItem value="ma">{t("MARATHI")}</MenuItem>
+                 <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
+                 <MenuItem value="ta">{t("TAMIL")}</MenuItem>
+                 <MenuItem value="be">{t("BENGALI")}</MenuItem>
+                 <MenuItem value="mal">{t("MALYALAM")}</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
               <Box className="notification-circle xs-hide">
                 {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
@@ -487,7 +494,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                       <div className="profile-text-circle">
                         {userData?.result?.response?.firstName[0]}
                       </div>
-                      <div
+                      {/* <div
                         className="ellsp"
                         style={{
                           maxWidth: "50px",
@@ -495,8 +502,8 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                           paddingTop: "0",
                         }}
                       >
-                        {userData?.result?.response?.firstName}
-                      </div>
+                        {userData?.result?.response?.firstName} 
+                      </div> */}
                     </>
                   )}
                   <ExpandMoreIcon />
@@ -593,8 +600,9 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
             </Box>
           </Box>
         </Box>
+
         {/* Top Navigation Bar */}
-        <AppBar className=" bg-inherit pos-inherit">
+        <AppBar className="bg-inherit pos-inherit">
           <Container className="p-0">
             <Box className="d-flex">
               <Toolbar
@@ -1096,7 +1104,6 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
           </Box> */}
           </Container>
         </AppBar>
-      </Box>
     </>
   );
 }

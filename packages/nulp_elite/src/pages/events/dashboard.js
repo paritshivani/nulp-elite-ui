@@ -840,7 +840,7 @@ const Dashboard = () => {
                 <TableCell align="left">Event Date</TableCell>
                 <TableCell align="left">No. of Participants</TableCell>
                 <TableCell align="left">Certificate Attached</TableCell>
-                <TableCell align="left">Creator</TableCell>
+                <TableCell align="left">Organisation</TableCell>
                 <TableCell align="left">Download Report</TableCell>
               </TableRow>
             </TableHead>
@@ -852,17 +852,19 @@ const Dashboard = () => {
                     "&:last-child td, &:last-child th": { border: 0 },
                   }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell align="center" component="th" scope="row">
                     {index + 1}
                   </TableCell>
                   <TableCell align="left">{event.name}</TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">
                     {new Date(event.startDate).toLocaleDateString()}
                   </TableCell>
-                  <TableCell align="left">{event.totalParticipants}</TableCell>
-                  <TableCell align="left">{event.IssueCerificate}</TableCell>
-                  <TableCell align="left">{event.EventOrganisedby}</TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">
+                    {event.totalParticipants}
+                  </TableCell>
+                  <TableCell align="center">{event.IssueCerificate}</TableCell>
+                  <TableCell align="center">{event.EventOrganisedby}</TableCell>
+                  <TableCell align="center">
                     <FileDownloadOutlinedIcon
                       onClick={() => handleDownloadClick(event.identifier)}
                       className="text-primary"

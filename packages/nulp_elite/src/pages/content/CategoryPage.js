@@ -150,7 +150,7 @@ const CategoryPage = () => {
       }
     };
     useEffect(() => {
-  if (orgId || framework) {
+  if (orgId && framework) {
     fetchDomains();
   }
 }, [orgId,framework]);
@@ -274,7 +274,7 @@ const CategoryPage = () => {
             style={{ alignItems: "center" }}
           >
             <p className="h3-title">{category}</p>
-            <Link onClick={handleGoBack} className="viewAll mr-17">
+            <Link onClick={handleGoBack} className="viewAll mr-30">
               {t("BACK")}
             </Link>
           </Box>
