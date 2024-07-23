@@ -14,16 +14,14 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 
 import ToasterCommon from "../ToasterCommon";
-import LinearProgress from "@mui/material/LinearProgress";
-import { styled } from "@mui/system";
-import VerifiedIcon from "@mui/icons-material/Verified";
+
 const data = require("./polls-detail.json");
 
 import {
@@ -36,9 +34,9 @@ import {
   LinkedinIcon,
   TwitterIcon,
 } from "react-share";
+import AddConnections from "pages/connections/AddConnections";
 // import { Button } from "native-base";
-import Stack from "@mui/material/Stack";
-
+import { maxWidth } from "@shiksha/common-lib";
 const VotingDetails = () => {
   // const { eventId } = useParams();
   const shareUrl = window.location.href; // Current page URL
@@ -77,6 +75,7 @@ const VotingDetails = () => {
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
   };
+
   return (
     <div>
       <Header />
@@ -101,7 +100,7 @@ const VotingDetails = () => {
             style={{ maxHeight: "inherit" }}
             onClick={handleGoBack}
             color="#004367"
-            href="/webapp/votingList"
+            href="/webapp/allevents"
           >
             {t("LIVE_POLLS")}
           </Link>
@@ -125,31 +124,7 @@ const VotingDetails = () => {
               className="eventCardImg"
               alt="App Icon"
             />
-          </Grid>
-          <Grid
-            item
-            xs={9}
-            md={6}
-            lg={6}
-            className="lg-pl-60 xs-pl-30"
-            style={{ display: "none" }}
-          >
-            <Typography gutterBottom className="mt-10  h1-title mb-20 xs-pl-15">
-              {data.title}
-            </Typography>
-            <Box
-              className="h5-title mb-20 xs-hide"
-              style={{ fontWeight: "400" }}
-            >
-              #CheerforBhaarat Paris Olympics Survey
-            </Box>
-
-            <Box className="pr-5">
-              Live until
-              <TodayOutlinedIcon className="h3-custom-title pl-10 mt-10" />
-              {data.start_date}
-            </Box>
-            <Box>
+            <Box className="lg-hide">
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -192,110 +167,42 @@ const VotingDetails = () => {
             </Box>
 
             <Box className="pr-5">
-              <Box className="h3-custom-title">
-                Voting Ended On
-                <TodayOutlinedIcon
-                  style={{
-                    paddingLeft: "50px",
-                    fontSize: "16px",
-                    verticalAlign: "middle",
-                  }}
-                  className="h3-custom-title pl-10 mt-10"
-                />
-                26 July 2024
-              </Box>
+              Live until
+              <TodayOutlinedIcon className="h3-custom-title pl-10 mt-10" />
+              {data.start_date}
             </Box>
-            <Box className="d-flex alignItems-center my-20">
-              <Box className="h3-custom-title">Your Vote</Box>
-              <Box className="h3-custom-title pl-10">
-                <VerifiedIcon
-                  style={{
-                    color: "#7995FF",
-                    paddingLeft: "50px",
-                    fontSize: "16px",
-                    verticalAlign: "middle",
-                  }}
-                />
-                Yes
+            <Box className="xs-hide">
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="No"
+                  />
+                  <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Maybe"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <Box>
+                <Button type="button" className="custom-btn-primary">
+                  {t("SUBMIT_VOTE")}
+                </Button>
               </Box>
-            </Box>
-            <Stack
-              sx={{ width: "100%", color: "grey.500", marginTop: "20px" }}
-              spacing={2}
-            >
-              <Box className="h3-custom-title d-flex alignItems-center">
-                <Box>Yes</Box>
-                <LinearProgress
-                  style={{
-                    height: "10px",
-                    borderRadius: "10px",
-                    background: "#7995FF",
-                    color: "#7995FF",
-                    width: "100%",
-                    marginLeft: "30px",
-                  }}
-                />
-              </Box>
-              <Box className="h3-custom-title d-flex alignItems-center">
-                No
-                <LinearProgress
-                  style={{
-                    height: "10px",
-                    borderRadius: "10px",
-                    background: "#7995FF",
-                    color: "#7995FF",
-                    width: "100%",
-                    marginLeft: "38px",
-                  }}
-                />
-              </Box>
-              <Box className="h3-custom-title d-flex alignItems-center">
-                Maybe
-                <LinearProgress
-                  style={{
-                    height: "10px",
-                    borderRadius: "10px",
-                    background: "#7995FF",
-                    color: "#7995FF",
-                    width: "100%",
-                    marginLeft: "10px",
-                  }}
-                />
-              </Box>
-            </Stack>
-            <Box>
-              <Button type="button" className="custom-btn-primary">
-                <ShareOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
-                {t("SHARE_RESULTS")}
-              </Button>
             </Box>
           </Grid>
-          {/* <Box className="lg-hide">
-            <FormControl>
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Yes"
-                />
-                <FormControlLabel value="male" control={<Radio />} label="No" />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Maybe"
-                />
-              </RadioGroup>
-            </FormControl>
-            <Box>
-              <Button type="button" className="custom-btn-primary">
-                {t("SUBMIT_VOTE")}
-              </Button>
-            </Box>
-          </Box> */}
+
           <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
             <Box className="xs-hide">
               <FacebookShareButton url={shareUrl} className="pr-5">

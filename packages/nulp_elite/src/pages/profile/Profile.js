@@ -646,401 +646,388 @@ setOrgId(org);
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container profile mb-20 lg-mt-12 bx-none b-none"
-            style={{ background: "transparent", boxShadow: "none" }}
+            className="sm-p-25 left-container profile my-20 lg-mt-12"
+            style={{background:"transparent",boxShadow:"none"}}
           >
-            <Box
-              style={{
-                background: "#fff",
-                padding: "20px",
-                borderRadius: "10px",
-              }}
-            >
-              <Box sx={{ fontSize: "18px", color: "#484848" }}>
-                {t("MY_PROFILE")}
-              </Box>
+            <Box style={{ background: "#fff",padding:"20px",borderRadius:"10px"}}>
+            <Box sx={{ fontSize: "18px", color: "#484848" }}>
+              {t("MY_PROFILE")}
+            </Box>
 
-              <Box
-                textAlign="center"
-                padding="10"
-                sx={{ marginTop: "22px" }}
-                className="mb-10"
-              >
-                <Box className="grey-bx">
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      padding: "20px 10px 0",
-                    }}
-                  >
+            <Box
+              textAlign="center"
+              padding="10"
+              sx={{ marginTop: "22px" }}
+              className="xs-pr-16 mb-10"
+            >
+              <Box className="grey-bx">
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    padding: "20px 10px 0",
+                  }}
+                >
+                  {userData && (
+                    <>
+                      <div className="img-text-circle">
+                        {userData?.result?.response?.firstName[0]}
+                      </div>
+                    </>
+                  )}
+                  <CardContent className="profile-cardContent">
                     {userData && (
                       <>
-                        <div className="img-text-circle">
-                          {userData?.result?.response?.firstName[0]}
-                        </div>
-                      </>
-                    )}
-                    <CardContent className="profile-cardContent">
-                      {userData && (
-                        <>
-                          <Box className="d-flex jc-bw mb-10 alignItems-center">
-                            <Box>
-                              <Typography className="h4-title">
-                                {userData?.result?.response?.firstName}{" "}
-                                {userData?.result?.response?.lastName}
-                              </Typography>
-                              <Typography className="h6-title d-flex">
+                        <Box className="d-flex jc-bw mb-10 alignItems-center">
+                          <Box>
+                            <Typography className="h4-title">
+                              {userData?.result?.response?.firstName}{" "}
+                              {userData?.result?.response?.lastName}
+                            </Typography>
+                            <Typography className="h6-title d-flex">
+                              {userInfo?.length &&
+                                userInfo?.[0]?.designation && (
+                                  <>{userInfo[0].designation} </>
+                                )}
+                              <Box className="cardLabelEllips">
                                 {userInfo?.length &&
-                                  userInfo?.[0]?.designation && (
-                                    <>{userInfo[0].designation} </>
-                                  )}
-                                <Box className="cardLabelEllips">
-                                  {userInfo?.length &&
-                                    userInfo?.[0]?.designation &&
-                                    "   | "}{" "}
-                                  ID: {userData?.result?.response?.userName}{" "}
-                                  {
-                                    userData?.result?.response?.organisations
-                                      ?.orgName
-                                  }
-                                </Box>
-                              </Typography>
-                            </Box>
-
-                            <ModeEditIcon
-                              className="cursor-pointer"
-                              onClick={handleOpenEditDialog}
-                            />
-                          </Box>
-                        </>
-                      )}
-                    </CardContent>
-                  </Box>
-                  {userData && userInfo?.length > 0 && (
-                    <Typography
-                      variant="subtitle1"
-                      color="text.secondary"
-                      component="div"
-                      style={{ fontSize: "12px", padding: "0 20px" }}
-                    >
-                      {userInfo?.length ? userInfo[0]?.bio : ""}
-                    </Typography>
-                  )}
-
-                  <Box className="mb-15 mt-20">
-                    <Box
-                      className="d-flex jc-bw"
-                      sx={{
-                        flexDirection: "row",
-                        padding: "0 0 12px 15px",
-                      }}
-                    >
-                      <Box
-                        style={{
-                          alignItems: "center",
-                        }}
-                        className="h4-title d-flex fw-400 my-15"
-                      >
-                        <EmojiEventsOutlinedIcon
-                          style={{ paddingRight: "10px" }}
-                        />{" "}
-                        {t("PERFORMANCE")}
-                      </Box>
-                    </Box>
-                    <Grid container spacing={2}>
-                      <Grid item xs={6} md={6} className="chartOne">
-                        {!isCertDataEmpty ? (
-                          <>
-                            <Box className="h6-title pl-20">
-                              Certifications Received
-                            </Box>
-                            <BarChart
-                              yAxis={[
+                                  userInfo?.[0]?.designation &&
+                                  "   | "}{" "}
+                                ID: {userData?.result?.response?.userName}{" "}
                                 {
-                                  scaleType: "band",
-                                  data: ["Current Month", "Prev Month"],
-                                },
-                              ]}
-                              series={[
-                                {
-                                  name: "Previous Month",
-                                  data: isCertDataEmpty
-                                    ? dummyData
-                                    : [finalCertData.certificatesReceived],
-                                  stack: "A",
-                                  layout: "horizontal",
-                                  label: isCertDataEmpty
-                                    ? "Dummy data"
-                                    : "Certificate received",
-                                  color: "#0097b2",
-                                },
-                                {
-                                  name: "Current Month",
-                                  data: isCertDataEmpty
-                                    ? dummyData
-                                    : [finalCertData.courseWithCertificate],
-                                  stack: "B",
-                                  layout: "horizontal",
-                                  label: isCertDataEmpty
-                                    ? "Dummy data"
-                                    : "No. of courses with certificate",
-                                  color: "#ffce6d",
-                                },
-                              ]}
-                              width={261}
-                              height={200}
-                              options={{
-                                xAxis: {
-                                  label: {
-                                    text: "Courses",
-                                    position: "middle",
-                                  },
-                                  type: "category",
-                                },
-                                yAxis: {
-                                  label: {
-                                    text: "Months",
-                                    position: "middle",
-                                  },
-                                  type: "category",
-                                  data: ["Previous Month", "Current Month"],
-                                },
-                                // isCertDataEmpty
-                                // ? { hover: { enabled: false } }
-                                // : {};
-                              }}
-                              // options={
-
-                              //   isCertDataEmpty
-                              //     ? { hover: { enabled: false } }
-                              //     : {}
-                              // }
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <Box className="h6-title pl-20">
-                              Certifications Received
-                            </Box>
-                            <Alert
-                              severity="info"
-                              style={{
-                                backgroundColor: "transparent",
-                                color: "#0e7a9c",
-                                width: "100%",
-                              }}
-                            >
-                              No certificates found
-                            </Alert>
-                          </>
-                        )}
-                      </Grid>
-
-                      <Grid item xs={12} md={6} className="chartTwo">
-                        {!isCourseDataEmpty ? (
-                          <>
-                            <Box className="h6-title  pl-20">
-                              Courses more than last month
-                            </Box>
-                            <BarChart
-                              yAxis={[
-                                {
-                                  scaleType: "band",
-                                  data: ["Current Month", "Prev Month"],
-                                },
-                              ]}
-                              series={[
-                                {
-                                  data: [finalCourseData.enrolledThisMonth],
-                                  stack: "B",
-                                  label: "Enrolled courses current month",
-                                  color: "#0097b2",
-                                  layout: "horizontal",
-                                },
-                                {
-                                  data: [finalCourseData.enrolledLastMonth],
-                                  stack: "A",
-                                  label: "Enrolled courses prev month",
-                                  color: "#ffce6d",
-                                  layout: "horizontal",
-                                },
-                              ]}
-                              width={261}
-                              height={200}
-                              options={{}}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <Box className="h6-title  pl-20">
-                              Courses more than last month
-                            </Box>
-
-                            <Alert
-                              severity="info"
-                              style={{
-                                backgroundColor: "transparent",
-                                color: "#0e7a9c",
-                                width: "100%",
-                                paddingRight: "20px",
-                              }}
-                            >
-                              You are not enrolled in any course. Enroll now!
-                            </Alert>
-                          </>
-                        )}
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-                  {isEditing && (
-                    <Modal
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                      className="xs-w-300"
-                      open={isEditing}
-                      onClose={handleCloseEditDialog}
-                    >
-                      <Box sx={style}>
-                        <Typography
-                          id="modal-modal-title"
-                          className="h3-title"
-                          style={{ marginBottom: "20px" }}
-                        >
-                          {t("EDIT_PROFILE")}
-                        </Typography>
-                        <form onSubmit={handleFormSubmit}>
-                          <Box py={1}>
-                            <CssTextField
-                              id="firstName"
-                              name="firstName"
-                              label={<span>First Name</span>}
-                              variant="outlined"
-                              size="small"
-                              value={editedUserInfo.firstName}
-                              onChange={(e) =>
-                                setEditedUserInfo({
-                                  ...editedUserInfo,
-                                  firstName: e.target.value,
-                                })
-                              }
-                            />
-                          </Box>
-                          <Box py={1}>
-                            <CssTextField
-                              id="lastName"
-                              name="lastName"
-                              label={<span>Last Name</span>}
-                              variant="outlined"
-                              size="small"
-                              value={editedUserInfo.lastName}
-                              onChange={(e) =>
-                                setEditedUserInfo({
-                                  ...editedUserInfo,
-                                  lastName: e.target.value,
-                                })
-                              }
-                            />
-                          </Box>
-
-                          <Box py={1}>
-                            <FormControl
-                              fullWidth
-                              style={{ marginTop: "10px" }}
-                            >
-                              <InputLabel
-                                id="designation-label"
-                                className="year-select"
-                              >
-                                {" "}
-                                {t("DESIGNATION")}{" "}
-                              </InputLabel>
-                              <Select
-                                labelId="designation-label"
-                                id="designation"
-                                value={editedUserInfo.designation}
-                                onChange={(e) =>
-                                  setEditedUserInfo({
-                                    ...editedUserInfo,
-                                    designation: e.target.value,
-                                  })
+                                  userData?.result?.response?.organisations
+                                    ?.orgName
                                 }
-                              >
-                                {designationsList.map((desig, index) => (
-                                  <MenuItem key={index} value={desig}>
-                                    {desig}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Box>
-                          {editedUserInfo.designation === "Other" && (
-                            <Box py={1}>
-                              <CssTextField
-                                id="otherDesignation"
-                                name="otherDesignation"
-                                label={
-                                  <span>
-                                    {t("OTHER_DESIGNATION")}{" "}
-                                    <span className="required">*</span>
-                                  </span>
-                                }
-                                variant="outlined"
-                                size="small"
-                                value={editedUserInfo.otherDesignation}
-                                onChange={(e) =>
-                                  setEditedUserInfo({
-                                    ...editedUserInfo,
-                                    otherDesignation: e.target.value,
-                                  })
-                                }
-                              />
-                            </Box>
-                          )}
-                          <Box py={2}>
-                            <TextField
-                              id="bio"
-                              name="bio"
-                              label={<span>{t("BIO")}</span>}
-                              multiline
-                              rows={3}
-                              variant="outlined"
-                              fullWidth
-                              value={editedUserInfo.bio}
-                              onChange={(e) =>
-                                setEditedUserInfo({
-                                  ...editedUserInfo,
-                                  bio: e.target.value,
-                                })
-                              }
-                              inputProps={{ maxLength: MAX_CHARS }}
-                            />
-                            <Typography
-                              variant="caption"
-                              color={
-                                editedUserInfo.bio?.length > MAX_CHARS
-                                  ? "error"
-                                  : "textSecondary"
-                              }
-                            >
-                              {editedUserInfo.bio
-                                ? editedUserInfo.bio.length
-                                : 0}
-                              /{MAX_CHARS}
+                              </Box>
                             </Typography>
                           </Box>
-                          {/* <Typography className="h4-title">
+
+                          <ModeEditIcon
+                            className="cursor-pointer"
+                            onClick={handleOpenEditDialog}
+                          />
+                        </Box>
+                      </>
+                    )}
+                  </CardContent>
+                </Box>
+                {userData && userInfo?.length > 0 && (
+                  <Typography
+                    variant="subtitle1"
+                    color="text.secondary"
+                    component="div"
+                    style={{ fontSize: "12px", padding: "0 20px" }}
+                  >
+                    {userInfo?.length ? userInfo[0]?.bio : ""}
+                  </Typography>
+                )}
+
+                <Box className="mb-15 mt-20">
+                  <Box
+                    className="d-flex jc-bw"
+                    sx={{
+                      flexDirection: "row",
+                      padding: "0 0 12px 15px",
+                    }}
+                  >
+                    <Box
+                      style={{
+                        alignItems: "center",
+                      }}
+                      className="h4-title d-flex fw-400 my-15"
+                    >
+                      <EmojiEventsOutlinedIcon
+                        style={{ paddingRight: "10px" }}
+                      />{" "}
+                      {t("PERFORMANCE")}
+                    </Box>
+                  </Box>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6} md={6} className="chartOne">
+                      {!isCertDataEmpty ? (
+                        <>
+                          <Box className="h6-title pl-20">
+                             {t("CERTIFICATIONS RECEIVED")}
+                          </Box>
+                          <BarChart
+                            yAxis={[
+                              {
+                                scaleType: "band",
+                                data: ["Current Month", "Prev Month"],
+                              },
+                            ]}
+                            series={[
+                              {
+                                name: "Previous Month",
+                                data: isCertDataEmpty
+                                  ? dummyData
+                                  : [finalCertData.certificatesReceived],
+                                stack: "A",
+                                layout: "horizontal",
+                                label: isCertDataEmpty
+                                  ? "Dummy data"
+                                  : "Certificate received",
+                                color: "#0097b2",
+                              },
+                              {
+                                name: "Current Month",
+                                data: isCertDataEmpty
+                                  ? dummyData
+                                  : [finalCertData.courseWithCertificate],
+                                stack: "B",
+                                layout: "horizontal",
+                                label: isCertDataEmpty
+                                  ? "Dummy data"
+                                  : "No. of courses with certificate",
+                                color: "#ffce6d",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
+                            options={{
+                              xAxis: {
+                                label: {
+                                  text: "Courses",
+                                  position: "middle",
+                                },
+                                type: "category",
+                              },
+                              yAxis: {
+                                label: {
+                                  text: "Months",
+                                  position: "middle",
+                                },
+                                type: "category",
+                                data: ["Previous Month", "Current Month"],
+                              },
+                              // isCertDataEmpty
+                              // ? { hover: { enabled: false } }
+                              // : {};
+                            }}
+                            // options={
+
+                            //   isCertDataEmpty
+                            //     ? { hover: { enabled: false } }
+                            //     : {}
+                            // }
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <Box className="h6-title pl-20">
+                            {t("CERTIFICATIONS RECEIVED")}
+                          </Box>
+                          <Alert
+                            severity="info"
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
+                          >
+                            No certificates found
+                          </Alert>
+                        </>
+                      )}
+                    </Grid>
+
+                    <Grid item xs={12} md={6} className="chartTwo">
+                      {!isCourseDataEmpty ? (
+                        <>
+                          <Box className="h6-title  pl-20">
+                            {t("COURSES MORE THAN LAST MONTH")}
+                          </Box>
+                          <BarChart
+                            yAxis={[
+                              {
+                                scaleType: "band",
+                                data: ["Current Month", "Prev Month"],
+                              },
+                            ]}
+                            series={[
+                              {
+                                data: [finalCourseData.enrolledThisMonth],
+                                stack: "B",
+                                label: "Enrolled courses current month",
+                                color: "#0097b2",
+                                layout: "horizontal",
+                              },
+                              {
+                                data: [finalCourseData.enrolledLastMonth],
+                                stack: "A",
+                                label: "Enrolled courses prev month",
+                                color: "#ffce6d",
+                                layout: "horizontal",
+                              },
+                            ]}
+                            width={261}
+                            height={200}
+                            options={{}}
+                          />
+                          <Box className="h6-title">Certiifcates</Box>
+                        </>
+                      ) : (
+                        <>
+                          <Box className="h6-title  pl-20">
+                            {t("COURSES MORE THAN LAST MONTH")}
+                          </Box>
+
+                          <Alert
+                            severity="info"
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "#0e7a9c",
+                            }}
+                          >
+                            You are not enrolled in any course. Enroll now!
+                          </Alert>
+                        </>
+                      )}
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                {isEditing && (
+                  <Modal
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    className="xs-w-300"
+                    open={isEditing}
+                    onClose={handleCloseEditDialog}
+                  >
+                    <Box sx={style}>
+                      <Typography
+                        id="modal-modal-title"
+                        className="h3-title"
+                        style={{ marginBottom: "20px" }}
+                      >
+                        {t("EDIT_PROFILE")}
+                      </Typography>
+                      <form onSubmit={handleFormSubmit}>
+                        <Box py={1}>
+                          <CssTextField
+                            id="firstName"
+                            name="firstName"
+                            label={<span>First Name</span>}
+                            variant="outlined"
+                            size="small"
+                            value={editedUserInfo.firstName}
+                            onChange={(e) =>
+                              setEditedUserInfo({
+                                ...editedUserInfo,
+                                firstName: e.target.value,
+                              })
+                            }
+                          />
+                        </Box>
+                        <Box py={1}>
+                          <CssTextField
+                            id="lastName"
+                            name="lastName"
+                            label={<span>Last Name</span>}
+                            variant="outlined"
+                            size="small"
+                            value={editedUserInfo.lastName}
+                            onChange={(e) =>
+                              setEditedUserInfo({
+                                ...editedUserInfo,
+                                lastName: e.target.value,
+                              })
+                            }
+                          />
+                        </Box>
+
+                        <Box py={1}>
+                          <FormControl fullWidth style={{ marginTop: "10px" }}>
+                            <InputLabel
+                              id="designation-label"
+                              className="year-select"
+                            >
+                              {" "}
+                              {t("DESIGNATION")}{" "}
+                            </InputLabel>
+                            <Select
+                              labelId="designation-label"
+                              id="designation"
+                              value={editedUserInfo.designation}
+                              onChange={(e) =>
+                                setEditedUserInfo({
+                                  ...editedUserInfo,
+                                  designation: e.target.value,
+                                })
+                              }
+                            >
+                              {designationsList.map((desig, index) => (
+                                <MenuItem key={index} value={desig}>
+                                  {desig}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Box>
+                        {editedUserInfo.designation === "Other" && (
+                          <Box py={1}>
+                            <CssTextField
+                              id="otherDesignation"
+                              name="otherDesignation"
+                              label={
+                                <span>
+                                  {t("OTHER_DESIGNATION")}{" "}
+                                  <span className="required">*</span>
+                                </span>
+                              }
+                              variant="outlined"
+                              size="small"
+                              value={editedUserInfo.otherDesignation}
+                              onChange={(e) =>
+                                setEditedUserInfo({
+                                  ...editedUserInfo,
+                                  otherDesignation: e.target.value,
+                                })
+                              }
+                            />
+                          </Box>
+                        )}
+                        <Box py={2}>
+                          <TextField
+                            id="bio"
+                            name="bio"
+                            label={<span>{t("BIO")}</span>}
+                            multiline
+                            rows={3}
+                            variant="outlined"
+                            fullWidth
+                            value={editedUserInfo.bio}
+                            onChange={(e) =>
+                              setEditedUserInfo({
+                                ...editedUserInfo,
+                                bio: e.target.value,
+                              })
+                            }
+                            inputProps={{ maxLength: MAX_CHARS }}
+                          />
+                          <Typography
+                            variant="caption"
+                            color={
+                              editedUserInfo.bio?.length > MAX_CHARS
+                                ? "error"
+                                : "textSecondary"
+                            }
+                          >
+                            {editedUserInfo.bio ? editedUserInfo.bio.length : 0}
+                            /{MAX_CHARS}
+                          </Typography>
+                        </Box>
+                        {/* <Typography className="h4-title">
                           {t("Profile image")}
                         </Typography> */}
-                          {/* <Box
+                        {/* <Box
                           py={1}
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
                           }}
                         > */}
-                          {/* <Box sx={{ flex: "0 0 auto" }}>
+                        {/* <Box sx={{ flex: "0 0 auto" }}>
                             {previewUrl && (
                               <img
                                 src={previewUrl}
@@ -1054,7 +1041,7 @@ setOrgId(org);
                               />
                             )}
                           </Box> */}
-                          {/* <Box
+                        {/* <Box
                             sx={{
                               flex: "1 1 auto",
                               display: "flex",
@@ -1104,107 +1091,104 @@ setOrgId(org);
                               </Button>
                             )}
                           </Box> */}
-                          {/* </Box> */}
-                          <Box pt={4} className="d-flex jc-en">
-                            <Button
-                              className="custom-btn-default mr-5"
-                              onClick={handleCloseEditDialog}
-                            >
-                              {t("CANCEL")}
-                            </Button>
-                            <Button
-                              className="custom-btn-primary "
-                              type="submit"
-                            >
-                              {t("SAVE")}
-                            </Button>
-                          </Box>
-                        </form>
-                      </Box>
-                    </Modal>
-                  )}
+                        {/* </Box> */}
+                        <Box pt={4} className="d-flex jc-en">
+                          <Button
+                            className="custom-btn-default mr-5"
+                            onClick={handleCloseEditDialog}
+                          >
+                            {t("CANCEL")}
+                          </Button>
+                          <Button className="custom-btn-primary " type="submit">
+                            {t("SAVE")}
+                          </Button>
+                        </Box>
+                      </form>
+                    </Box>
+                  </Modal>
+                )}
+              </Box>
+              <Button
+                type="button"
+                className="my-30"
+                onClick={handleCertificateButtonClick}
+                disabled={isButtonDisabled}
+                style={{
+                  backgroundColor: isButtonDisabled ? "gray" : "#0E7A9C",
+                  borderRadius: "10px",
+                  color: "#fff",
+                  padding: "10px 25px",
+                  fontWeight: " 500",
+                  fontSize: "12px",
+                }}
+              >
+                <ReceiptLongIcon className="pr-5" />
+                {t("DOWNLOAD CERTIFICATES")}
+              </Button>
+
+              <Modal
+                // open={open}
+                // onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                isableEscapeKeyDown={!isEmptyPreference}
+                open={openModal}
+                className="xs-w-300"
+                onClose={(event, reason) => {
+                  if (
+                    reason === "backdropClick" ||
+                    reason === "escapeKeyDown"
+                  ) {
+                    setOpenModal(true);
+                  } else {
+                    handleCloseModal();
+                  }
+                }}
+              >
+                <Box sx={style}>
+                  <Typography
+                    id="modal-modal-title"
+                    className="h3-title"
+                    style={{ marginBottom: "20px" }}
+                  >
+                    {t("SELECT_PREFERENCE")}
+                  </Typography>
+                  <SelectPreference onClose={handleCloseModal} />
                 </Box>
-                <Button
-                  type="button"
-                  className="my-30"
-                  onClick={handleCertificateButtonClick}
-                  disabled={isButtonDisabled}
-                  style={{
-                    backgroundColor: isButtonDisabled ? "gray" : "#0E7A9C",
-                    borderRadius: "10px",
-                    color: "#fff",
-                    padding: "10px 25px",
-                    fontWeight: " 500",
-                    fontSize: "12px",
-                  }}
-                >
-                  <ReceiptLongIcon className="pr-5" />
-                  {t("Download Certificates")}
-                </Button>
+              </Modal>
 
-                <Modal
-                  // open={open}
-                  // onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                  isableEscapeKeyDown={!isEmptyPreference}
-                  open={openModal}
-                  className="xs-w-300"
-                  onClose={(event, reason) => {
-                    if (
-                      reason === "backdropClick" ||
-                      reason === "escapeKeyDown"
-                    ) {
-                      setOpenModal(true);
-                    } else {
-                      handleCloseModal();
-                    }
-                  }}
-                >
-                  <Box sx={style}>
-                    <Typography
-                      id="modal-modal-title"
-                      className="h3-title"
-                      style={{ marginBottom: "20px" }}
-                    >
-                      {t("SELECT_PREFERENCE")}
-                    </Typography>
-                    <SelectPreference onClose={handleCloseModal} />
+              <Box className="grey-bx p-10 py-15">
+                <Box className="h4-title d-flex pt-10 alignItems-center">
+                  <SettingsOutlinedIcon className="pr-5 fw-400" />
+                  <Box>{t("USER_PREFERENCES")}</Box>
+                </Box>
+                <Box className="mb-20">
+                  <Box className="h5-title mt-15 mb-10">
+                    <span className="fw-400"> {t("DOMAIN")} </span> :{" "}
+                    <span className="fw-600">{domain}</span>
                   </Box>
-                </Modal>
-
-                <Box className="grey-bx p-10 py-15">
-                  <Box className="h4-title d-flex pt-10 alignItems-center">
-                    <SettingsOutlinedIcon className="pr-5 fw-400" />
-                    <Box>{t("USER_PREFERENCES")}</Box>
+                  <Box className="h5-title">
+                    <span className="fw-400"> {t("SUB_DOMAIN")} </span>:{" "}
+                    <span className="fw-600">
+                      {subDomain
+                        ? subDomain?.length > 1
+                          ? subDomain?.join(", ")
+                          : subDomain[0]
+                        : ""}
+                    </span>
                   </Box>
-                  <Box className="mb-20">
-                    <Box className="h5-title mt-15 mb-10">
-                      <span className="fw-400"> {t("DOMAIN")} </span> :{" "}
-                      <span className="fw-600">{domain}</span>
-                    </Box>
-                    <Box className="h5-title">
-                      <span className="fw-400"> {t("SUB_DOMAIN")} </span>:{" "}
-                      <span className="fw-600">
-                        {subDomain
-                          ? subDomain?.length > 1
-                            ? subDomain?.join(", ")
-                            : subDomain[0]
-                          : ""}
-                      </span>
-                    </Box>
-                  </Box>
-                  <Box className="text-center">
-                    <Button
-                      type="button"
-                      className="custom-btn-primary my-10"
-                      onClick={handleOpenModal}
-                    >
-                      {t("CHANGE_PREFERENCES")}
-                    </Button>
-                  </Box>
+                </Box>
+                <Box className="text-center">
+                  <Button
+                    type="button"
+                    className="custom-btn-primary my-10"
+                    onClick={handleOpenModal}
+                  >
+                    {t("CHANGE_PREFERENCES")}
+                  </Button>
                 </Box>
               </Box>
+            </Box>
             </Box>
           </Grid>
           <Grid item xs={12} md={8} lg={8} className="pb-20">
@@ -1219,13 +1203,13 @@ setOrgId(org);
                       aria-label="lab API tabs example"
                     >
                       <Tab
-                        label="Continue learning"
+                        label={t("CONTINUE LEARNING")}
                         className="tab-text profile-tab"
                         icon={<DomainVerificationOutlinedIcon />}
                         value="1"
                       />
                       <Tab
-                        label="Learning History"
+                        label={t("LEARNING HISTORY")}
                         className="tab-text profile-tab"
                         icon={<WatchLaterOutlinedIcon />}
                         value="2"

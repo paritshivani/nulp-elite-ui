@@ -1297,531 +1297,535 @@ const AddConnections = () => {
     <Box>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Container maxWidth="xl" role="main" className="pt-0 xs-pb-62 pt-108">
+      <Container
+        maxWidth="xl"
+        role="main"
+        className="pt-0 xs-p-0 xs-pb-62 lg-pr-0"
+      >
         {error && (
           <Alert severity="error" className="my-10">
             {error}
           </Alert>
         )}
 
-        {/* <Box textAlign="center" padding="10">
-          <Box> */}
-        <Grid
-          container
-          spacing={2}
-          className="pt-8"
-          style={{ paddingLeft: "16px" }}
-        >
-          <Grid
-            item
-            xs={12}
-            md={4}
-            lg={4}
-            className="sm-p-25 left-container my-custom pr-16 xs-shadow-none"
-            style={{ background: "#fff" }}
-          >
-            <Box
-              className="d-flex my-15"
-              style={{
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Box className="h4-title">{t("CONNECTION")}</Box>
-              {!showTableTwo ? (
-                <Button
-                  type="button"
-                  className="custom-btn-default xs-mr-10"
-                  onClick={() => {
-                    setCurrentPage(1);
-                    handleSearch();
-                    handleButtonClick();
+        <Box textAlign="center" padding="10">
+          <Box>
+            <Grid container spacing={2} className="pt-8 xs-p-0">
+              <Grid
+                item
+                xs={12}
+                md={4}
+                lg={4}
+                className="sm-p-25 left-container my-custom lg-mt-12 pr-16 xs-shadow-none"
+                style={{ background: "#fff" }}
+              >
+                <Box
+                  className="d-flex my-15"
+                  style={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {t("ADD_NEW")}
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  className="viewAll xs-mr-10"
-                  onClick={handleBackClick}
-                >
-                  {t("BACK")}
-                </Button>
-              )}
-            </Box>
-            <TabContext value={value} className="addConnection">
-              {!showTableTwo ? (
-                <>
-                  <Box
-                    sx={{ borderBottom: 1, borderColor: "divider" }}
-                    className="addConnection"
-                  >
-                    <TabList
-                      onChange={handleChange}
-                      aria-label="lab API tabs example"
-                    >
-                      <Tab
-                        label="My Connections"
-                        value="1"
-                        style={{ fontSize: "12px", color: "#484848" }}
-                        onClick={() => {
-                          handleTabClick("Tab1");
-                          setCurrentPage(1);
-                          onMyConnection();
-                        }}
-                      />
-                      <Tab
-                        label={`Connection Requests (${
-                          invitationReceiverByUser?.length || 0
-                        })`}
-                        value="2"
-                        style={{ fontSize: "12px", color: "#484848" }}
-                        onClick={() => {
-                          setOpen(false);
-                          handleTabClick("Tab2");
-                        }}
-                      />
-                      <Tab
-                        label="Blocked Users"
-                        value="3"
-                        style={{ fontSize: "12px", color: "#484848" }}
-                        onClick={() => {
-                          fetchBlockUserList();
-                        }}
-                      />
-                    </TabList>
-                  </Box>
-
-                  <TabPanel value="1" style={{ padding: "0" }}>
-                    <Box className="scroll-45">
-                      {invitationReceiverByUser &&
-                        invitationReceiverByUser.length === 0 &&
-                        invitationAcceptedUsers &&
-                        invitationAcceptedUsers.length === 0 &&
-                        invitationNotAcceptedUsers &&
-                        invitationNotAcceptedUsers.length === 0 && (
-                          <Box>
-                            <p>{t("NO_USERS_FOUND")}</p>
-                          </Box>
-                        )}
-
-                      {invitationAcceptedUsers &&
-                        invitationAcceptedUsers.map((item) => (
-                          <List
-                            sx={{}}
-                            style={{ color: "green", cursor: "pointer" }}
-                            className="connection-tab"
-                            key={item.userId}
-                          >
-                            <ListItem
-                              onClick={() => {
-                                showMessages(item.userId);
-                              }}
-                              style={{
-                                fontWeight:
-                                  item.userId === selectedUserId
-                                    ? "bold"
-                                    : "normal",
-                                color:
-                                  item.userId === selectedUserId
-                                    ? "black"
-                                    : "inherit",
-                                backgroundColor:
-                                  item.userId === selectedUserId
-                                    ? "#f4fbff"
-                                    : "inherit",
-                              }}
-                            >
-                              <ListItemText
-                                primary={
-                                  <>
-                                    <span
-                                      style={{
-                                        color:
-                                          item.userId === selectedUserId
-                                            ? "black"
-                                            : item.isRead === false
-                                            ? "black"
-                                            : "black",
-                                        fontWeight:
-                                          item.userId === selectedUserId
-                                            ? "bold"
-                                            : item.isRead === false
-                                            ? "bold"
-                                            : "normal",
-                                      }}
-                                    >
-                                      {`${item.firstName} ${
-                                        item.lastName ? item.lastName : " "
-                                      }`}
-                                    </span>
-                                    <span className="h6-title ">{` |  ${item.designation}`}</span>
-                                  </>
-                                }
-                                secondary={
-                                  <span className="h6-title ">
-                                    {item.latestChat}
-                                  </span>
-                                }
-                                onClick={() =>
-                                  handleAcceptedChatOpen(
-                                    item.userId,
-                                    `${item.firstName}${
-                                      item.lastName ? ` ${item.lastName}` : ""
-                                    }`,
-                                    item.designation
-                                  )
-                                }
-                              />
-                            </ListItem>
-                            <Divider />
-                          </List>
-                        ))}
-
-                      {invitationNotAcceptedUsers &&
-                        invitationNotAcceptedUsers?.map((item) => (
-                          <List
-                            sx={{}}
-                            style={{ fontSize: "14px", cursor: "pointer" }}
-                            onClick={() => userClick(item)}
-                            className="connection-tab"
-                          >
-                            <ListItem>
-                              <ListItemText
-                                primary={`${item.firstName} ${
-                                  item.lastName ? item.lastName : ""
-                                } | ${item.designation}`}
-                              />
-                            </ListItem>
-                            <Box className="left-bx">
-                              <custom-chip>{t("REQUEST_SENT")}</custom-chip>
-                            </Box>
-                            <Divider />
-                          </List>
-                        ))}
-                      <div>
-                        {showChatModal && (
-                          <Modal
-                            open={showChatModal}
-                            onClose={handleCloseModal}
-                            aria-labelledby="modal-title"
-                            aria-describedby="modal-desc"
-                            className="invite-popup"
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              pt: "10vh",
-                              p: "0",
-                            }}
-                          >
-                            <ModalContent sx={{ width: "80%" }}>
-                              <div style={{ textAlign: "center" }}>
-                                <h2 className="h5-title">
-                                  {t("INVITATION_NOT_ACCEPTED")}
-                                </h2>
-                                <Button
-                                  onClick={(e) => {
-                                    setShowChatModal(false);
-                                  }}
-                                  className="custom-btn-default mb-10"
-                                >
-                                  {t("CLOSE")}
-                                </Button>
-                              </div>
-                            </ModalContent>
-                          </Modal>
-                        )}
-                      </div>
-                    </Box>
-                  </TabPanel>
-                  <TabPanel value="2">
-                    <Box className="scroll">
-                      {invitationReceiverByUser &&
-                        invitationReceiverByUser.map((item) => (
-                          <List
-                            key={item.userId}
-                            style={{ color: "gray", cursor: "pointer" }}
-                          >
-                            <ListItem className="connection-tab">
-                              <ListItemText
-                                style={{ color: "#000" }}
-                                primary={`${item.firstName}${
-                                  item.lastName ? ` ${item.lastName}` : ""
-                                } | ${item.designation}`}
-                                secondary={
-                                  item.messageRequest.length > 20 ? (
-                                    <div
-                                      style={{
-                                        border: "1px solid #ddd",
-                                        padding: "3px 10px",
-                                        borderRadius: "5px",
-                                        color: "#00000080",
-                                        fontSize: "12px",
-                                        marginTop: "10px",
-                                      }}
-                                    >
-                                      {expandedMessageId === item.userId
-                                        ? item.messageRequest
-                                        : `${item.messageRequest.substring(
-                                            0,
-                                            20
-                                          )}`}
-                                      <span
-                                        style={{
-                                          color: "#0E7A9C",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() =>
-                                          handleShowFullMessage(item.userId)
-                                        }
-                                      >
-                                        {expandedMessageId === item.userId
-                                          ? "read less"
-                                          : "read more"}
-                                      </span>
-                                    </div>
-                                  ) : (
-                                    item.messageRequest
-                                  )
-                                }
-                              />
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                  marginTop: "10px",
-                                }}
-                              >
-                                <Link
-                                  href="#"
-                                  underline="none"
-                                  color="#004367"
-                                  onClick={() => acceptChat(item.userId)}
-                                  style={{ marginLeft: "10px" }}
-                                >
-                                  <CheckCircleOutlineIcon
-                                    style={{
-                                      fontSize: "22px",
-                                      color: "#484848",
-                                    }}
-                                  />
-                                </Link>
-                                <span style={{ margin: "0 5px" }}></span>
-                                <Link
-                                  href="#"
-                                  underline="none"
-                                  color="#7d7a7a"
-                                  onClick={() => handleRejectClick(item.userId)}
-                                >
-                                  <CancelOutlinedIcon
-                                    style={{
-                                      fontSize: "22px",
-                                      color: "#484848",
-                                    }}
-                                  />
-                                </Link>
-
-                                <Dialog open={open} onClose={handleClose}>
-                                  <DialogContent>
-                                    <DialogContentText>
-                                      {t(
-                                        "ARE_YOU_SURE_YOU_WANT_TO_REJECT_THIS_REQUEST"
-                                      )}
-                                    </DialogContentText>
-                                  </DialogContent>
-                                  <DialogActions>
-                                    <Button
-                                      type="button"
-                                      className="custom-btn-default"
-                                      onClick={handleClose}
-                                    >
-                                      {t("CANCEL")}
-                                    </Button>
-                                    <Button
-                                      onClick={handleConfirmReject}
-                                      type="button"
-                                      className="custom-btn-primary"
-                                      autoFocus
-                                    >
-                                      {t("OK")}
-                                    </Button>
-                                  </DialogActions>
-                                </Dialog>
-                              </div>
-                            </ListItem>
-                            <Divider />
-                          </List>
-                        ))}
-                    </Box>
-                  </TabPanel>
-                  <TabPanel value="3">
-                    <Box className="scroll">
-                      {blockedUserList &&
-                        blockedUserList.length > 0 &&
-                        blockedUserList.map((item) => (
-                          <List
-                            sx={{}}
-                            style={{ color: "green", cursor: "pointer" }}
-                            className="connection-tab"
-                            key={item.userId}
-                          >
-                            <ListItem
-                              style={{
-                                fontWeight: "normal",
-                                color: "inherit",
-                              }}
-                            >
-                              <ListItemText
-                                primary={
-                                  <span
-                                    style={{
-                                      fontSize: "1rem",
-                                      color: "#000",
-                                    }}
-                                  >
-                                    {`${item.firstName} ${
-                                      item.lastName ? item.lastName : " "
-                                    } |  ${item.designation}`}
-                                  </span>
-                                }
-                              />
-                              <Link
-                                underline="none"
-                                color="primary"
-                                onClick={() =>
-                                  handleUnblockedClick(item.userId)
-                                }
-                                style={{
-                                  fontSize: "12px",
-                                  color: "#0E7A9C",
-                                  fontWeight: "600",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                {t("UNBLOCK")}
-                              </Link>
-                              <Dialog
-                                open={openBlock === item.userId}
-                                onClose={handleClose}
-                              >
-                                <DialogContent>
-                                  <DialogContentText>
-                                    Are you sure you want to unblock this user?
-                                  </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                  <Button
-                                    type="button"
-                                    className="custom-btn-default"
-                                    onClick={handleUnblockClose}
-                                  >
-                                    {t("CANCEL")}
-                                  </Button>
-                                  <Button
-                                    onClick={() =>
-                                      unBlockedUserChat(item.userId)
-                                    }
-                                    type="button"
-                                    className="custom-btn-primary"
-                                    autoFocus
-                                  >
-                                    {t("OK")}
-                                  </Button>
-                                </DialogActions>
-                              </Dialog>
-                            </ListItem>
-                            <Divider />
-                          </List>
-                        ))}
-                    </Box>
-                  </TabPanel>
-                </>
-              ) : (
-                <Box>
-                  <Box
-                    display="flex"
-                    my={3}
-                    justifyContent="center"
-                    style={{ borderBottom: "solid 1px #ddd" }}
-                  >
-                    <Box className="h5-title xs-text-left">
-                      {t("ADD_NEW_CONNECTION")}
-                    </Box>
-                  </Box>
-                  <Autocomplete
-                    id="autocomplete-input"
-                    open={autocompleteOpen}
-                    onClose={() => {
-                      setAutocompleteOpen(false);
-                    }}
-                    icon={<CheckCircleOutlineIcon />}
-                    options={options}
-                    noOptionsText={t("NO_USERS_FOUND")}
-                    getOptionLabel={getOptionLabel} // Adjust this based on your API response structure
-                    getOptionKey={(option) => option.userId}
-                    onChange={handleOnSelectSearchedUser}
-                    inputValue={inputValue}
-                    onInputChange={handleInputChange}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Search for a User"
-                        className="searchUser"
-                        variant="outlined"
-                      />
-                    )}
-                  />
-                  <div>
-                    <Popover
-                      id={id}
-                      open={openPopover}
-                      anchorEl={anchorEl}
-                      onClose={handlePopoverClose}
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
+                  <Box className="h4-title">{t("CONNECTION")}</Box>
+                  {!showTableTwo ? (
+                    <Button
+                      type="button"
+                      className="custom-btn-default xs-mr-10"
+                      onClick={() => {
+                        setCurrentPage(1);
+                        handleSearch();
+                        handleButtonClick();
                       }}
                     >
-                      <Typography sx={{ p: 2 }}>
-                        {userQuerySearchData &&
-                          userQuerySearchData?.length > 0 &&
-                          userQuerySearchData?.map((item) => (
-                            <List
-                              sx={{}}
-                              style={{ color: "gray", cursor: "pointer" }}
-                            >
-                              <ListItem>
-                                <ListItemText
-                                  primary={`${item.firstName}${
-                                    item.lastName ? ` ${item.lastName}` : ""
-                                  }`}
-                                  secondary={`${item.designation}`}
-                                  onClick={() =>
-                                    onClickSearchedUser(item.userId)
-                                  }
-                                />
-                              </ListItem>
-                              <Divider />
-                            </List>
-                          ))}
-                        {(!userQuerySearchData ||
-                          userQuerySearchData.length === 0) && (
-                          <Box>
-                            <p>{t("NO_USERS_FOUND")}</p>
-                          </Box>
+                      {t("ADD_NEW")}
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      className="viewAll xs-mr-10"
+                      onClick={handleBackClick}
+                    >
+                      {t("BACK")}
+                    </Button>
+                  )}
+                </Box>
+                <TabContext value={value} className="addConnection">
+                  {!showTableTwo ? (
+                    <>
+                      <Box
+                        sx={{ borderBottom: 1, borderColor: "divider" }}
+                        className="addConnection"
+                      >
+                        <TabList
+                          onChange={handleChange}
+                          aria-label="lab API tabs example"
+                        >
+                          <Tab
+                            label={t("MY_CONNECTION")}
+                            value="1"
+                            style={{ fontSize: "12px", color: "#484848" }}
+                            onClick={() => {
+                              handleTabClick("Tab1");
+                              setCurrentPage(1);
+                              onMyConnection();
+                            }}
+                          />
+                          <Tab
+                            label={`${t("CONNECTION_REQUEST")} (${
+                              invitationReceiverByUser?.length || 0
+                            })`}
+                            value="2"
+                            style={{ fontSize: "12px", color: "#484848" }}
+                            onClick={() => {
+                              setOpen(false);
+                              handleTabClick("Tab2");
+                            }}
+                          />
+                          <Tab
+                            label={t("BLOCKED_USERS")}
+                            value="3"
+                            style={{ fontSize: "12px", color: "#484848" }}
+                            onClick={() => {
+                              fetchBlockUserList();
+                            }}
+                          />
+                        </TabList>
+                      </Box>
+
+                      <TabPanel value="1" style={{ padding: "0" }}>
+                        <Box className="scroll-45">
+                          {invitationReceiverByUser &&
+                            invitationReceiverByUser.length === 0 &&
+                            invitationAcceptedUsers &&
+                            invitationAcceptedUsers.length === 0 &&
+                            invitationNotAcceptedUsers &&
+                            invitationNotAcceptedUsers.length === 0 && (
+                              <Box>
+                                <p>{t("NO_USERS_FOUND")}</p>
+                              </Box>
+                            )}
+
+                          {invitationAcceptedUsers &&
+                            invitationAcceptedUsers.map((item) => (
+                              <List
+                                sx={{}}
+                                style={{ color: "green", cursor: "pointer" }}
+                                className="connection-tab"
+                                key={item.userId}
+                              >
+                                <ListItem
+                                  onClick={() => {
+                                    showMessages(item.userId);
+                                  }}
+                                  style={{
+                                    fontWeight:
+                                      item.userId === selectedUserId
+                                        ? "bold"
+                                        : "normal",
+                                    color:
+                                      item.userId === selectedUserId
+                                        ? "black"
+                                        : "inherit",
+                                    backgroundColor:
+                                      item.userId === selectedUserId
+                                        ? "#f4fbff"
+                                        : "inherit",
+                                  }}
+                                >
+                                  <ListItemText
+                                    primary={
+                                      <>
+                                        <span
+                                          style={{
+                                            color:
+                                              item.userId === selectedUserId
+                                                ? "black"
+                                                : item.isRead === false
+                                                ? "black"
+                                                : "black",
+                                            fontWeight:
+                                              item.userId === selectedUserId
+                                                ? "bold"
+                                                : item.isRead === false
+                                                ? "bold"
+                                                : "normal",
+                                          }}
+                                        >
+                                          {`${item.firstName} ${
+                                            item.lastName ? item.lastName : " "
+                                          }`}
+                                        </span>
+                                        <span className="h6-title ">{` |  ${item.designation}`}</span>
+                                      </>
+                                    }
+                                    secondary={
+                                      <span className="h6-title ">
+                                        {item.latestChat}
+                                      </span>
+                                    }
+                                    onClick={() =>
+                                      handleAcceptedChatOpen(
+                                        item.userId,
+                                        `${item.firstName}${
+                                          item.lastName
+                                            ? ` ${item.lastName}`
+                                            : ""
+                                        }`,
+                                        item.designation
+                                      )
+                                    }
+                                  />
+                                </ListItem>
+                                <Divider />
+                              </List>
+                            ))}
+
+                          {invitationNotAcceptedUsers &&
+                            invitationNotAcceptedUsers?.map((item) => (
+                              <List
+                                sx={{}}
+                                style={{ fontSize: "14px", cursor: "pointer" }}
+                                onClick={() => userClick(item)}
+                                className="connection-tab"
+                              >
+                                <ListItem>
+                                  <ListItemText
+                                    primary={`${item.firstName} ${
+                                      item.lastName ? item.lastName : ""
+                                    } | ${item.designation}`}
+                                  />
+                                </ListItem>
+                                <Box className="left-bx">
+                                  <custom-chip>{t("REQUEST_SENT")}</custom-chip>
+                                </Box>
+                                <Divider />
+                              </List>
+                            ))}
+                          <div>
+                            {showChatModal && (
+                              <Modal
+                                open={showChatModal}
+                                onClose={handleCloseModal}
+                                aria-labelledby="modal-title"
+                                aria-describedby="modal-desc"
+                                className="invite-popup"
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  pt: "10vh",
+                                  p: "0",
+                                }}
+                              >
+                                <ModalContent sx={{ width: "80%" }}>
+                                  <div style={{ textAlign: "center" }}>
+                                    <h2 className="h5-title">
+                                      {t("INVITATION_NOT_ACCEPTED")}
+                                    </h2>
+                                    <Button
+                                      onClick={(e) => {
+                                        setShowChatModal(false);
+                                      }}
+                                      className="custom-btn-default mb-10"
+                                    >
+                                      {t("CLOSE")}
+                                    </Button>
+                                  </div>
+                                </ModalContent>
+                              </Modal>
+                            )}
+                          </div>
+                        </Box>
+                      </TabPanel>
+                      <TabPanel value="2">
+                        <Box className="scroll">
+                          {invitationReceiverByUser &&
+                            invitationReceiverByUser.map((item) => (
+                              <List
+                                key={item.userId}
+                                style={{ color: "gray", cursor: "pointer" }}
+                              >
+                                <ListItem className="connection-tab">
+                                  <ListItemText
+                                    style={{ color: "#000" }}
+                                    primary={`${item.firstName}${
+                                      item.lastName ? ` ${item.lastName}` : ""
+                                    } | ${item.designation}`}
+                                    secondary={
+                                      item.messageRequest.length > 20 ? (
+                                        <div
+                                          style={{
+                                            border: "1px solid #ddd",
+                                            padding: "3px 10px",
+                                            borderRadius: "5px",
+                                            color: "#00000080",
+                                            fontSize: "12px",
+                                            marginTop: "10px",
+                                          }}
+                                        >
+                                          {expandedMessageId === item.userId
+                                            ? item.messageRequest
+                                            : `${item.messageRequest.substring(
+                                                0,
+                                                20
+                                              )}`}
+                                          <span
+                                            style={{
+                                              color: "#0E7A9C",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() =>
+                                              handleShowFullMessage(item.userId)
+                                            }
+                                          >
+                                            {expandedMessageId === item.userId
+                                              ? "read less"
+                                              : "read more"}
+                                          </span>
+                                        </div>
+                                      ) : (
+                                        item.messageRequest
+                                      )
+                                    }
+                                  />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                      marginTop: "10px",
+                                    }}
+                                  >
+                                    <Link
+                                      href="#"
+                                      underline="none"
+                                      color="#004367"
+                                      onClick={() => acceptChat(item.userId)}
+                                      style={{ marginLeft: "10px" }}
+                                    >
+                                      <CheckCircleOutlineIcon
+                                        style={{
+                                          fontSize: "22px",
+                                          color: "#484848",
+                                        }}
+                                      />
+                                    </Link>
+                                    <span style={{ margin: "0 5px" }}></span>
+                                    <Link
+                                      href="#"
+                                      underline="none"
+                                      color="#7d7a7a"
+                                      onClick={() =>
+                                        handleRejectClick(item.userId)
+                                      }
+                                    >
+                                      <CancelOutlinedIcon
+                                        style={{
+                                          fontSize: "22px",
+                                          color: "#484848",
+                                        }}
+                                      />
+                                    </Link>
+
+                                    <Dialog open={open} onClose={handleClose}>
+                                      <DialogContent>
+                                        <DialogContentText>
+                                          {t(
+                                            "ARE_YOU_SURE_YOU_WANT_TO_REJECT_THIS_REQUEST"
+                                          )}
+                                        </DialogContentText>
+                                      </DialogContent>
+                                      <DialogActions>
+                                        <Button
+                                          type="button"
+                                          className="custom-btn-default"
+                                          onClick={handleClose}
+                                        >
+                                          {t("CANCEL")}
+                                        </Button>
+                                        <Button
+                                          onClick={handleConfirmReject}
+                                          type="button"
+                                          className="custom-btn-primary"
+                                          autoFocus
+                                        >
+                                          {t("OK")}
+                                        </Button>
+                                      </DialogActions>
+                                    </Dialog>
+                                  </div>
+                                </ListItem>
+                                <Divider />
+                              </List>
+                            ))}
+                        </Box>
+                      </TabPanel>
+                      <TabPanel value="3">
+                        <Box className="scroll">
+                          {blockedUserList &&
+                            blockedUserList.length > 0 &&
+                            blockedUserList.map((item) => (
+                              <List
+                                sx={{}}
+                                style={{ color: "green", cursor: "pointer" }}
+                                className="connection-tab"
+                                key={item.userId}
+                              >
+                                <ListItem
+                                  style={{
+                                    fontWeight: "normal",
+                                    color: "inherit",
+                                  }}
+                                >
+                                  <ListItemText
+                                    primary={
+                                      <span
+                                        style={{
+                                          fontSize: "1rem",
+                                          color: "#000",
+                                        }}
+                                      >
+                                        {`${item.firstName} ${
+                                          item.lastName ? item.lastName : " "
+                                        } |  ${item.designation}`}
+                                      </span>
+                                    }
+                                  />
+                                  <Link
+                                    underline="none"
+                                    color="primary"
+                                    onClick={() =>
+                                      handleUnblockedClick(item.userId)
+                                    }
+                                    style={{
+                                      fontSize: "12px",
+                                      color: "#0E7A9C",
+                                      fontWeight: "600",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    {t("UNBLOCK")}
+                                  </Link>
+                                  <Dialog
+                                    open={openBlock === item.userId}
+                                    onClose={handleClose}
+                                  >
+                                    <DialogContent>
+                                      <DialogContentText>
+                                        Are you sure you want to unblock this
+                                        user?
+                                      </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                      <Button
+                                        type="button"
+                                        className="custom-btn-default"
+                                        onClick={handleUnblockClose}
+                                      >
+                                        {t("CANCEL")}
+                                      </Button>
+                                      <Button
+                                        onClick={() =>
+                                          unBlockedUserChat(item.userId)
+                                        }
+                                        type="button"
+                                        className="custom-btn-primary"
+                                        autoFocus
+                                      >
+                                        {t("OK")}
+                                      </Button>
+                                    </DialogActions>
+                                  </Dialog>
+                                </ListItem>
+                                <Divider />
+                              </List>
+                            ))}
+                        </Box>
+                      </TabPanel>
+                    </>
+                  ) : (
+                    <Box>
+                      <Box
+                        display="flex"
+                        my={3}
+                        justifyContent="center"
+                        style={{ borderBottom: "solid 1px #ddd" }}
+                      >
+                        <Box className="h5-title xs-text-left">
+                          {t("ADD_NEW_CONNECTION")}
+                        </Box>
+                      </Box>
+                      <Autocomplete
+                        id="autocomplete-input"
+                        open={autocompleteOpen}
+                        onClose={() => {
+                          setAutocompleteOpen(false);
+                        }}
+                        icon={<CheckCircleOutlineIcon />}
+                        options={options}
+                        noOptionsText={t("NO_USERS_FOUND")}
+                        getOptionLabel={getOptionLabel} // Adjust this based on your API response structure
+                        getOptionKey={(option) => option.userId}
+                        onChange={handleOnSelectSearchedUser}
+                        inputValue={inputValue}
+                        onInputChange={handleInputChange}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Search for a User"
+                            className="searchUser"
+                            variant="outlined"
+                          />
                         )}
-                      </Typography>
-                    </Popover>
-                  </div>
-                  <Box
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                    className="filter-domain my-20 connection-tab"
-                  >
-                    {/* {userFilter && (
+                      />
+                      <div>
+                        <Popover
+                          id={id}
+                          open={openPopover}
+                          anchorEl={anchorEl}
+                          onClose={handlePopoverClose}
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                          }}
+                        >
+                          <Typography sx={{ p: 2 }}>
+                            {userQuerySearchData &&
+                              userQuerySearchData?.length > 0 &&
+                              userQuerySearchData?.map((item) => (
+                                <List
+                                  sx={{}}
+                                  style={{ color: "gray", cursor: "pointer" }}
+                                >
+                                  <ListItem>
+                                    <ListItemText
+                                      primary={`${item.firstName}${
+                                        item.lastName ? ` ${item.lastName}` : ""
+                                      }`}
+                                      secondary={`${item.designation}`}
+                                      onClick={() =>
+                                        onClickSearchedUser(item.userId)
+                                      }
+                                    />
+                                  </ListItem>
+                                  <Divider />
+                                </List>
+                              ))}
+                            {(!userQuerySearchData ||
+                              userQuerySearchData.length === 0) && (
+                              <Box>
+                                <p>{t("NO_USERS_FOUND")}</p>
+                              </Box>
+                            )}
+                          </Typography>
+                        </Popover>
+                      </div>
+                      <Box
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                        className="filter-domain my-20 connection-tab"
+                      >
+                        {/* {userFilter && (
                           <Filter
                             options={userFilter.map((user) => user.firstName)}
                             label="Filter by Name"
@@ -1830,85 +1834,89 @@ const AddConnections = () => {
                           />
                         )} */}
 
-                    <Filter
-                      options={designationsList}
-                      label="Filter by Designation"
-                      onChange={handleDesignationFilter}
-                      // isMulti={false}
-                      className="w-30"
-                    />
-                  </Box>
-                  <Box className="scroll">
-                    {userSearchData &&
-                      userSearchData?.map((item) => (
-                        <List
-                          key={item.id} // Add key prop to each List element
-                          sx={{ fontSize: "14px" }}
-                          onClick={() => handleUserClick(item)}
-                        >
-                          <ListItem>
-                            <ListItemText
-                              className="inviteText"
-                              primary={`${item.firstName}${
-                                item.lastName ? ` ${item.lastName}` : ""
-                              }`}
-                              secondary={`${item.designation}`}
-                            />
-                            {item.id !== loggedInUserId && ( // Conditionally render the link
-                              <Link
-                                className="invite-text"
-                                color="primary"
-                                // onClick={handleOpen}
-                                onClick={() => {
-                                  showMessages(item.userId);
-                                }}
-                              >
-                                {t("INVITE")}
-                              </Link>
-                            )}
-                          </ListItem>
-                          <Divider />
-                        </List>
-                      ))}
-                  </Box>
-                  <Pagination
-                    count={totalPages}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                  />
-                </Box>
-              )}
-            </TabContext>
-          </Grid>
+                        <Filter
+                          options={designationsList}
+                          label="Filter by Designation"
+                          onChange={handleDesignationFilter}
+                          // isMulti={false}
+                          className="w-30"
+                        />
+                      </Box>
+                      <Box className="scroll">
+                        {userSearchData &&
+                          userSearchData?.map((item) => (
+                            <List
+                              key={item.id} // Add key prop to each List element
+                              sx={{ fontSize: "14px" }}
+                              onClick={() => handleUserClick(item)}
+                            >
+                              <ListItem>
+                                <ListItemText
+                                  className="inviteText"
+                                  primary={`${item.firstName}${
+                                    item.lastName ? ` ${item.lastName}` : ""
+                                  }`}
+                                  secondary={`${item.designation}`}
+                                />
+                                {item.id !== loggedInUserId && ( // Conditionally render the link
+                                  <Link
+                                    className="invite-text"
+                                    color="primary"
+                                    // onClick={handleOpen}
+                                    onClick={() => {
+                                      showMessages(item.userId);
+                                    }}
+                                  >
+                                    {t("INVITE")}
+                                  </Link>
+                                )}
+                              </ListItem>
+                              <Divider />
+                            </List>
+                          ))}
+                      </Box>
+                      <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                      />
+                    </Box>
+                  )}
+                </TabContext>
+              </Grid>
 
-          <Grid
-            item
-            xs={12}
-            md={8}
-            lg={8}
-            className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0"
-          >
-            {!isMobile && (
-              <Box className="text-center">
-                {!selectedChatUser ? (
-                  <Box className="center-container">
-                    <img src={require(`../../assets/chat.png`)} />
-                    <Box className="demo-chat">{t("START_A_CONVERSATION")}</Box>
-                    <Box className="demo-text">{t("CLICK_ON_ANY_CONTACT")}</Box>
+              <Grid
+                item
+                xs={12}
+                md={8}
+                lg={8}
+                className="pt-8 lg-mt-5 xs-hide addConnectChat pl-0"
+              >
+                {!isMobile && (
+                  <Box className="text-center">
+                    {!selectedChatUser ? (
+                      <Box className="center-container">
+                        <img src={require(`../../assets/chat.png`)} />
+                        <Box className="demo-chat">
+                          {t("START_A_CONVERSATION")}
+                        </Box>
+                        <Box className="demo-text">
+                          {t("CLICK_ON_ANY_CONTACT")}
+                        </Box>
+                      </Box>
+                    ) : (
+                      <Chat
+                        key={selectedUser.userId}
+                        senderUserId={selectedChatUser.senderUserId}
+                        receiverUserId={selectedChatUser.receiverUserId}
+                      />
+                    )}
                   </Box>
-                ) : (
-                  <Chat
-                    key={selectedUser.userId}
-                    senderUserId={selectedChatUser.senderUserId}
-                    receiverUserId={selectedChatUser.receiverUserId}
-                  />
                 )}
-              </Box>
-            )}
-          </Grid>
-        </Grid>
-        {/* </Box>
-        </Box> */}
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
       </Container>
       <FloatingChatIcon />
       <Footer />

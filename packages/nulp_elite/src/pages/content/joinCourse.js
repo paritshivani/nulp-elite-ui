@@ -741,9 +741,9 @@ const JoinCourse = () => {
       <Container
         maxWidth="xxl"
         role="main"
-        className="xs-pr-0 xs-pb-20 lg-mt-12"
+        className="xs-pr-0 xs-pb-20 lg-mt-12 lg-pr-10"
       >
-        <Box className=" pos-relative xs-ml-15 pt-10">
+        <Box className=" pos-relative xs-ml-15 lg-ml-15 pt-10">
           <Box>
             <img
               src={
@@ -770,7 +770,7 @@ const JoinCourse = () => {
             </Box> */}
           </Box>
         </Box>
-        <Grid container spacing={2} className="mt-9 m-0">
+        <Grid container spacing={2} className="mt-9">
           <Grid
             item
             xs={12}
@@ -838,63 +838,13 @@ const JoinCourse = () => {
               courseData?.result?.content?.gradeLevel ||
               courseData?.result?.content?.se_gradeLevels) && (
               <Box>
-                <Typography
-                  className="h6-title"
-                  style={{ display: "inline-block" }}
-                >
-                  {t("CONTENT_TAGS")}:{" "}
-                </Typography>
+                <Typography className="h6-title" style={{display:"inline-block"}}>
+                  {t("CONTENT_TAGS")}:                </Typography>
 
-                {courseData?.result?.content?.board &&
-                  courseData.result.content.board.map((item, index) => (
-                    <Button
-                      key={`board-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {courseData?.result?.content?.se_boards &&
-                  courseData.result.content.se_boards.map((item, index) => (
-                    <Button
-                      key={`se_boards-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {courseData?.result?.content?.gradeLevel &&
-                  courseData.result.content.gradeLevel.map((item, index) => (
-                    <Button
-                      key={`gradeLevel-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {courseData?.result?.content?.se_gradeLevels &&
-                  courseData.result.content.se_gradeLevels.map(
-                    (item, index) => (
+                  {courseData?.result?.content?.board &&
+                    courseData.result.content.board.map((item, index) => (
                       <Button
-                        key={`se_gradeLevels-${index}`}
+                        key={`board-${index}`}
                         size="small"
                         style={{
                           color: "#424242",
@@ -905,8 +855,54 @@ const JoinCourse = () => {
                       >
                         {item}
                       </Button>
-                    )
-                  )}
+                    ))}
+                  {courseData?.result?.content?.se_boards &&
+                    courseData.result.content.se_boards.map((item, index) => (
+                      <Button
+                        key={`se_boards-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.gradeLevel &&
+                    courseData.result.content.gradeLevel.map((item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {courseData?.result?.content?.se_gradeLevels &&
+                    courseData.result.content.se_gradeLevels.map(
+                      (item, index) => (
+                        <Button
+                          key={`se_gradeLevels-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px 3px 6px",
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      )
+                    )}
               </Box>
             )}
 
@@ -998,13 +994,9 @@ const JoinCourse = () => {
               >
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
-              <AccordionDetails
-                style={{
-                  background: "#fff",
+              <AccordionDetails style={{   background: "#fff",
                   margin: "5px 10px",
-                  borderRadius: "10px",
-                }}
-              >
+                  borderRadius: "10px", }}>
                 {batchDetail && (
                   <ul>
                     <li className="h6-title">
@@ -1145,7 +1137,7 @@ const JoinCourse = () => {
               </TwitterShareButton>
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="mb-20 xs-pr-16 lg-pr-20">
+          <Grid item xs={12} md={8} lg={8} className="mb-20 xs-pr-16">
             <Box style={{ textAlign: "right" }} className="xs-hide">
               {" "}
               {renderActionButton()}
