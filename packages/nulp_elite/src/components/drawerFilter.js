@@ -182,19 +182,19 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <Box className="d-flex jc-bw">
-        <Box className="filter-title">Filter By:</Box>
+        <Box className="filter-title">{t("FILTER_BY")} : </Box>
         <Button
           type="button"
           className="viewAll mb-20"
           onClick={handleClearAll}
         >
-          Clear all
+          {t("CLEAR_ALL")}
         </Button>
       </Box>
       {renderedPage === "eventList" && (
         <FormControl>
           <InputLabel htmlFor="outlined-adornment-password">
-            Search for a webinar
+            {t("SEARCH_FOR_A_EVENT")}
           </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
@@ -217,12 +217,12 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
       {renderedPage === "eventList" && (
         <div>
-          <Box className="filter-text mt-15">Select Date Range</Box>
+          <Box className="filter-text mt-15">{t("SELECT_DATE_RANGE")}</Box>
           <Box className="mt-9 dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
-                  label="Select Date From"
+                  label={t("SELECT_DATE_FROM")}
                   className="mt-9"
                   value={selectedStartDate ? dayjs(selectedStartDate) : null}
                   onChange={(newValue) =>
@@ -235,7 +235,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
-                  label="Select Date To"
+                  label={t("SELECT_DATE_TO")}
                   className="mt-9"
                   value={selectedEndDate ? dayjs(selectedEndDate) : null}
                   onChange={(newValue) =>
@@ -252,7 +252,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
         <div>
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-password">
-              Search for a Poll
+              {t("SEARCH_FOR_A_POLL")}
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
@@ -271,16 +271,16 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
               label="Search Sub-domain"
             />
           </FormControl>
-          <Box className="filter-text mt-15">Select Date Range</Box>
+          <Box className="filter-text mt-15">{t("SELECT_DATE_RANGE")}</Box>
           <Box className="mt-9 dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DateTimePicker label="Select Date To" />
+                <DateTimePicker label={t("SELECT_DATE_FROM")} />
               </DemoContainer>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DateTimePicker label="Select Date To" />
+                <DateTimePicker label={t("SELECT_DATE_TO")} />
               </DemoContainer>
             </LocalizationProvider>
           </Box>
@@ -313,7 +313,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
       {renderedPage === "contentlist" && (
         <div>
-          <Box className="filter-text mt-15">Content Type</Box>
+          <Box className="filter-text mt-15">{t("CONTENT_TYPE")}e</Box>
           <List>
             {contentTypeList.map((contentType) => (
               <ListItem className="filter-ul-text" key={contentType}>
@@ -334,14 +334,14 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
         </div>
       )}
 
-      <Box className="filter-text mt-15">Sub-domains</Box>
+      <Box className="filter-text mt-15">{t("SUB_DOMAIN")}</Box>
       <FormControl
         sx={{ m: 1, width: "25ch" }}
         variant="outlined"
         className="w-100"
       >
         <InputLabel htmlFor="outlined-adornment-password">
-          Search Sub-domain
+          {t("SEARCH_SUB_DOMAIN")}
         </InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
@@ -353,7 +353,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
               </IconButton>
             </InputAdornment>
           }
-          label="Search Sub-domain"
+          label={t("SEARCH_SUB_DOMAIN")}
         />
       </FormControl>
       <List>
@@ -409,19 +409,19 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       ) : (
         <Box className="header-bg-blue p-15 filter-bx">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
-            <Box className="filter-title">Filter By:</Box>
+            <Box className="filter-title">{t("FILTER_BY")} :</Box>
             <Button
               type="button"
               className="viewAll mb-20"
               onClick={handleClearAll}
             >
-              Clear all
+             {t("CLEAR_ALL")}
             </Button>
           </Box>
           {renderedPage === "eventList" && (
             <FormControl className="mt-9">
               <InputLabel htmlFor="outlined-adornment-password">
-                Search for a event
+                {t("SEARCH_FOR_A_EVENT")}
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-search"
@@ -446,13 +446,13 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
           )}
           {renderedPage == "eventList" && (
             <div>
-              <Box className="filter-text mt-15">Select Date Range</Box>
+              <Box className="filter-text mt-15">{t("SELECT_DATE_RANGE")}</Box>
 
               <Box className="mt-9 dateRange">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
-                      label="Select Date From"
+                      label={t("SELECT_DATE_FROM")}
                       className="mt-9"
                       value={
                         selectedStartDate ? dayjs(selectedStartDate) : null
@@ -467,7 +467,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
-                      label="Select Date To"
+                      label={t("SELECT_DATE_TO")}
                       className="mt-9"
                       value={selectedEndDate ? dayjs(selectedEndDate) : null}
                       onChange={(newValue) =>
@@ -483,7 +483,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
 
           {renderedPage == "contentlist" && (
             <div>
-              <Box className="filter-text mt-15">Content Type</Box>
+              <Box className="filter-text mt-15">{t("CONTENT_TYPE")}</Box>
               <List>
                 {contentTypeList &&
                   contentTypeList.map((contentType) => (
@@ -508,10 +508,10 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
               </List>
             </div>
           )}
-          <Box className="filter-text lg-mt-12 mb-20">Sub-domains</Box>
+          <Box className="filter-text lg-mt-12 mb-20">{t("SUB_DOMAIN")}</Box>
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-password">
-              Search Sub-domain
+              {t("SEARCH_SUB_DOMAIN")}
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
@@ -523,7 +523,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                   </IconButton>
                 </InputAdornment>
               }
-              label="Search Sub-domain"
+              label={t("SEARCH_SUB_DOMAIN")}
             />
           </FormControl>
           {/* <Autocomplete

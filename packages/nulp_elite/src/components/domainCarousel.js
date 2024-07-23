@@ -161,7 +161,7 @@ export default function DomainCarousel({
             showDots={["mobile"]}
             responsive={responsive}
             ssr={true}
-            infinite={false}
+            infinite={true}
             autoPlaySpeed={1000}
             keyBoardControl={true}
             customTransition="all .5"

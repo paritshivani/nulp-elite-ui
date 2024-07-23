@@ -531,6 +531,7 @@ const categories=response?.data?.result?.framework?.categories;
             style={{
               display: "flex",
               justifyContent: "space-between",
+              paddingTop: "25px",
             }}
           >
             <Box>
@@ -633,6 +634,7 @@ const categories=response?.data?.result?.framework?.categories;
             style={{
               display: "flex",
               justifyContent: "space-between",
+              paddingTop: "25px",
             }}
           >
             <Box>

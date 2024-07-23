@@ -39,9 +39,10 @@ import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState("en");
+const [language, setLanguage] = useState(localStorage.getItem("lang") ? localStorage.getItem("lang") : "en");
 
   const handleChangeLanguage = (event) => {
+    localStorage.setItem("lang", event.target.value);
     const selectedLanguage = event.target.value;
     setLanguage(selectedLanguage);
     changeLanguage(selectedLanguage);
@@ -160,9 +161,8 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
     userData?.result?.response?.roles.map((role) => role.role) || [];
   return (
     <>
-      <Box className={scrolled ? " scrolledTop" : " "}>
+      <Box className="scrolledTop">
         {/* Sidebar Navigation */}
-
         <Box
           className="d-flex jc-en lg-pr-20 xs-pr-16"
           sx={{ background: "#484848" }}
@@ -214,13 +214,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
             </FormControl>
           </Box>
         </Box>
-        <Box
-          className={
-            scrolled
-              ? " pos-fixed xs-hide d-flex bg-white"
-              : " xs-hide d-flex  bg-white"
-          }
-        >
+        <Box className="xs-hide d-flex pos-fixed  bg-white">
           <Box className="d-flex alignItems-center w-100">
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
@@ -593,8 +587,9 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
             </Box>
           </Box>
         </Box>
+
         {/* Top Navigation Bar */}
-        <AppBar className=" bg-inherit pos-inherit">
+        <AppBar className=" bg-inherit pos-inherit mt-65">
           <Container className="p-0">
             <Box className="d-flex">
               <Toolbar

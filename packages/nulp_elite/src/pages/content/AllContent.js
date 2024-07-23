@@ -379,7 +379,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
             return (
               <React.Fragment key={category}>
                 <Box
-                  className="d-flex"
+                  className="d-flex  mt-20"
                   style={{
                     justifyContent: "space-between",
                     alignItems: "center",
@@ -388,7 +388,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
                   <Box
                     style={{
                       display: "inline-block",
-                      margin: "15px 0px 20px",
+                      margin: "25px 0px 20px",
                     }}
                     className="h4-title "
                   >
@@ -406,7 +406,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
                     {items?.length > 4 && (
                       <Link
                         to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}?${category}`}
-                        className="viewAll mr-22"
+                        className="viewAll mr-30"
                       >
                         {t("VIEW_ALL")}
                       </Link>
@@ -420,7 +420,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
                     showDots="3"
                     responsive={responsiveCard}
                     ssr={true}
-                    infinite={false}
+                    infinite={true}
                     autoPlaySpeed={1000}
                     keyBoardControl={true}
                     customTransition="all .5"
