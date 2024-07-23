@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
+
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import Header from "components/header";
@@ -26,31 +27,22 @@ import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+
 import MenuItem from "@mui/material/MenuItem";
+
 import FloatingChatIcon from "components/FloatingChatIcon";
 import { BorderRight } from "@mui/icons-material";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
-  const navigate = useNavigate();
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [pollType, setPollType] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [visibility, setVisibility] = useState("public");
-  const [organisationName, setOrganisationName] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [fields, setFields] = useState([{ id: 1, value: "" }]);
-  const urlConfig = require("../../configs/urlConfig.json");
 
   const [globalSearchQuery, setGlobalSearchQuery] = useState(
     location.state?.globalSearchQuery || undefined
   );
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
+
+  const [fields, setFields] = useState([{ id: 1, value: "" }]);
 
   const handleInputChange = (id, event) => {
     const newFields = fields.map((field) => {
@@ -72,53 +64,15 @@ const createForm = () => {
   };
 
   const [selectedValue, setSelectedValue] = useState("public");
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handleRadioChange = (event) => {
-    setVisibility(event.target.value);
+    setSelectedValue(event.target.value);
   };
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
-  const handleSubmit = async () => {
-    const pollOptions = fields.map((field) => field.value);
-
-    const data = {
-      title,
-      description,
-      visibility,
-      poll_options: pollOptions,
-      poll_type: pollType,
-      status: "Live",
-      start_date: startDate,
-      end_date: endDate,
-      user_list: userList,
-    };
-
-    try {
-      const response = await fetch(`${urlConfig.URLS.POLL.CREATE}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        setToasterMessage("Poll created successfully!");
-        setToasterOpen(true);
-        navigate("/webapp/votingList"); // Redirect to success page
-      } else {
-        throw new Error("Failed to create poll");
-      }
-    } catch (error) {
-      setToasterMessage(error.message);
-      setToasterOpen(true);
-    }
-  };
-
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -131,7 +85,7 @@ const createForm = () => {
         style={{ paddingTop: "0" }}
       >
         <Box className="voting-text1">
-          <Box className="h3-custom-title  pl-5 xs-py-10">Create Polls</Box>
+          <Box className="h3-custom-title pl-20 xs-pt-15">Create Polls</Box>
 
           <Alert severity="info" className="custom-alert">
             Poll will be published Based on Start Date
@@ -144,15 +98,13 @@ const createForm = () => {
           className="pt-8 mt-2 custom-event-container"
           style={{ paddingTop: "0" }}
         >
-          <Grid item xs={12} md={4} lg={8} className="lg-pl-0">
+          <Grid item xs={12} md={4} lg={8}>
             <TextField
               id="title"
               required
               label="Title"
               variant="outlined"
               className="mb-20"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
             />
             <TextField
               id="description"
@@ -161,8 +113,6 @@ const createForm = () => {
               rows={4}
               required
               className="mb-20"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
             />
             <TextField
               id="poll_type"
@@ -170,40 +120,32 @@ const createForm = () => {
               className="mb-20"
               multiline
               maxRows={4}
-              value={pollType}
-              onChange={(e) => setPollType(e.target.value)}
             />
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  label="Start Date"
-                  required
-                  value={startDate}
-                  onChange={(newValue) => setStartDate(newValue)}
-                />
+                <DemoContainer components={["DateTimePicker"]}>
+                  <DateTimePicker label="Start Date" required />
+                </DemoContainer>
               </LocalizationProvider>
             </Box>
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  label="End Date"
-                  required
-                  value={endDate}
-                  onChange={(newValue) => setEndDate(newValue)}
-                />
+                <DemoContainer components={["DateTimePicker"]}>
+                  <DateTimePicker label="End Date" required />
+                </DemoContainer>
               </LocalizationProvider>
             </Box>
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
             <FormControl style={{ width: "100%" }}>
               <FormLabel id="demo-row-radio-buttons-group-label">
-                Visibility<span style={{ color: "#000" }}>*</span>
+                Visiblity<span style={{ color: "#000" }}>*</span>
               </FormLabel>
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                value={visibility}
+                value={selectedValue}
                 onChange={handleRadioChange}
                 className="mb-20"
               >
@@ -219,7 +161,7 @@ const createForm = () => {
                 />
               </RadioGroup>
 
-              {visibility === "invite" && (
+              {selectedValue === "invite" && (
                 <Box
                   style={{
                     background: "#f4d88b",
@@ -232,8 +174,6 @@ const createForm = () => {
                       label="Organisation Name"
                       variant="outlined"
                       required
-                      value={organisationName}
-                      onChange={(e) => setOrganisationName(e.target.value)}
                     />
                     <RadioGroup
                       row
@@ -256,15 +196,22 @@ const createForm = () => {
                     </RadioGroup>
 
                     {selectedOption === "option2" && (
+                      // <Select
+                      //   labelId="demo-multiple-checkbox-label"
+                      //   id="demo-multiple-checkbox"
+                      //   multiple
+                      // >
+                      //   <MenuItem value="option1">User</MenuItem>
+                      //   <MenuItem value="option2">User</MenuItem>
+                      // </Select>
                       <Select
-                        labelId="demo-multiple-checkbox-label"
-                        id="demo-multiple-checkbox"
-                        multiple
-                        value={userList}
-                        onChange={(e) => setUserList(e.target.value)}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={selectedOption}
+                        onChange={handleSelectChange}
                       >
-                        <MenuItem value="user1">User 1</MenuItem>
-                        <MenuItem value="user2">User 2</MenuItem>
+                        <MenuItem value="option1">User</MenuItem>
+                        <MenuItem value="option2">User</MenuItem>
                       </Select>
                     )}
                   </div>
@@ -279,7 +226,7 @@ const createForm = () => {
                 {fields.map((field, index) => (
                   <Box key={field.id} display="flex" alignItems="center">
                     <TextField
-                      label={`Option ${field.id}`}
+                      label={`Options ${field.id}`}
                       value={field.value}
                       onChange={(e) => handleInputChange(field.id, e)}
                       multiline
@@ -333,7 +280,6 @@ const createForm = () => {
             type="button"
             className="custom-btn-primary"
             style={{ width: "10%" }}
-            onClick={handleSubmit}
           >
             Submit
           </Button>

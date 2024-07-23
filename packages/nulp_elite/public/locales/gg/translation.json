@@ -242,5 +242,26 @@
   "COURSE_MATERIALS": "કોર્સ સામગ્રી",
   "NATIONAL_SILVER_PLAN": "રાષ્ટ્રીય રજત યોજના",
   "UPCOMING_EVENTS_DASHBOARD": "આગામી ઇવેન્ટ્સ ડેશબોર્ડ",
-  "RECOMMENDED_COURSES": "શિફારસ કરેલા કોર્સ"
+  "RECOMMENDED_COURSES": "શિફારસ કરેલા કોર્સ",
+  "COURSES MORE THAN LAST MONTH" : "ગત મહિને કરતા વધુ કોર્સ",
+  "CERTIFICATIONS RECEIVED" : "પ્રમાણપત્રો પ્રાપ્ત થયા",
+  "DOWNLOAD CERTIFICATES" : "પ્રમાણપત્રો ડાઉનલોડ કરો",
+  "CONTINUE LEARNING" : "શીખવાનું ચાલુ રાખો",
+"LEARNING HISTORY" : "શીખવાનો ઈતિહાસ",
+"MY_EVENTS": "મારા ઇવેન્ટ્સ",
+  "ALL_EVENTS": "તમામ ઇવેન્ટ્સ",
+  "VIEW_DETAILS": "વિગતો જુઓ",
+  "FILTER_BY": "ફિલ્ટર કરો",
+  "CLEAR_ALL": "બધા સાફ કરો",
+  "SEARCH_FOR_A_EVENT": "એક ઇવેન્ટ શોધો",
+  "SELECT_DATE_RANGE": "તારીખની શ્રેણી પસંદ કરો",
+  "SEARCH_FOR_A_POLL": "એક પૉલ શોધો",
+  "SELECT_DATE_FROM": "તારીખ પસંદ કરો (થી)",
+  "SELECT_DATE_TO": "તારીખ પસંદ કરો (સુધી)",
+  "SEARCH_SUB_DOMAIN": "ઉપ-ડોમેન શોધો",
+  "CONTENT_TYPE": "સામગ્રી પ્રકાર",
+   "MY_CONNECTION": "મારા કનેક્શન્સ",
+  "CONNECTION_REQUEST": "કનેક્શન વિનંતીઓ",
+  "BLOCKED_USERS": "અબ્લોક કરેલા યૂઝર્સ"
+
 }

@@ -40,9 +40,10 @@ import Grid from '@mui/material/Grid';
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState("en");
+const [language, setLanguage] = useState(localStorage.getItem("lang") ? localStorage.getItem("lang") : "en");
 
   const handleChangeLanguage = (event) => {
+    localStorage.setItem("lang", event.target.value);
     const selectedLanguage = event.target.value;
     setLanguage(selectedLanguage);
     changeLanguage(selectedLanguage);
@@ -599,6 +600,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
             </Box>
           </Box>
         </Box>
+
         {/* Top Navigation Bar */}
         <AppBar className="bg-inherit pos-inherit">
           <Container className="p-0">
