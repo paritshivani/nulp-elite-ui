@@ -88,9 +88,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
     fetchUserData();
   }, []);
  
-
-  useEffect(() => {
-    const fetchUserDataAndSetCustodianOrgData = async () => {
+ const fetchUserDataAndSetCustodianOrgData = async () => {
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.SYSTEM_SETTING.CUSTODIAN_ORG}`;
         const response = await fetch(url);
@@ -123,7 +121,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         setToasterOpen(true);
       }
     };
-
+  useEffect(() => {
     if (orgId) {
       fetchUserDataAndSetCustodianOrgData();
     }
