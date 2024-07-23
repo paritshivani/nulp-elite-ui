@@ -1401,7 +1401,7 @@ button {
     color: #484848 !important;
     display: flex;
     justify-content: flex-start;
-    padding: 6px 15px;
+    padding: 6px 20px;
     text-align: center;
     font-size: 14px !important;
   }

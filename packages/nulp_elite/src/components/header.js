@@ -36,7 +36,6 @@ const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
-import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import Grid from '@mui/material/Grid';
 
 function Header({ globalSearchQuery }) {
@@ -313,7 +312,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 <HomeOutlinedIcon
                   style={{
                     verticalAlign: "middle",
-                    fontSize: "30px",
+                    fontSize:'30px'
                   }}
                 />
                 {/* {t("HOME")} */}
@@ -336,7 +335,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 <MenuBookOutlinedIcon
                   style={{
                     verticalAlign: "middle",
-                    fontSize: "30px",
+                    fontSize:'30px'
                   }}
                 />
                 </Tooltip>
@@ -352,10 +351,11 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 underline="none"
               >
                 <Tooltip title={t("CONNECTIONS")} placement="bottom" arrow>
-                <QuestionAnswerOutlinedIcon
+                <ChatOutlinedIcon
                   style={{
                     verticalAlign: "middle",
-                    fontSize: "30px",
+                    fontSize:'30x',
+                    marginTop: '7px'
                   }}
                 />
                 </Tooltip>
@@ -373,7 +373,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 <VideocamOutlinedIcon
                   style={{
                     verticalAlign: "middle",
-                    fontSize: "30px",
+                    fontSize:'30px'
                   }}
                 />
                 </Tooltip>
@@ -391,7 +391,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                 <Groups2OutlinedIcon
                   style={{
                     verticalAlign: "middle",
-                    fontSize: "30px",
+                    fontSize:'30px'
                   }}
                 />
                 </Tooltip>
