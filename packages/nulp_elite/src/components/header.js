@@ -39,9 +39,10 @@ import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
-  const [language, setLanguage] = useState("en");
+const [language, setLanguage] = useState(localStorage.getItem("lang") ? localStorage.getItem("lang") : "en");
 
   const handleChangeLanguage = (event) => {
+    localStorage.setItem("lang", event.target.value);
     const selectedLanguage = event.target.value;
     setLanguage(selectedLanguage);
     changeLanguage(selectedLanguage);
