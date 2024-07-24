@@ -30,7 +30,7 @@ import * as util from "../services/utilService";
 
 
 // const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
-const DrawerFilter = ({ renderedPage }) => {
+const DrawerFilter = ({SelectedFilters, renderedPage }) => {
   const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
   const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
@@ -50,13 +50,13 @@ const DrawerFilter = ({ renderedPage }) => {
   }, []);
 
   useEffect(() => {
-    // SelectedFilters({
-    //   startDate: selectedStartDate,
-    //   endDate: selectedEndDate,
-    //   eventSearch: eventSearch,
-    //   contentFilter: selectedContentType,
-    //   subDomainFilter: selectedSubDomain,
-    // });
+    SelectedFilters({
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+      eventSearch: eventSearch,
+      contentFilter: selectedContentType,
+      subDomainFilter: selectedSubDomain,
+    });
   }, [
     selectedContentType,
     selectedSubDomain,
