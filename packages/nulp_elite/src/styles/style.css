@@ -1229,9 +1229,9 @@ button {
   .w-100 {
     width: 100% !important;
   }
-  .translate svg {
+  /* .translate svg {
     color: #fff !important;
-  }
+  } */
   .explore-text {
     width: 100% !important;
   }
@@ -1583,7 +1583,7 @@ button {
   }
   .language .MuiSelect-select {
     font-size: 12px !important;
-    color: #fff !important;
+    /* color: #fff !important; */
     padding-right: 27px;
     padding-left: 7px;
   }
