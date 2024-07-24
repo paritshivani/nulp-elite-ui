@@ -658,7 +658,7 @@ setOrgId(org);
               textAlign="center"
               padding="10"
               sx={{ marginTop: "22px" }}
-              className="xs-pr-16 mb-10"
+              className="mb-10"
             >
               <Box className="grey-bx">
                 <Box
@@ -876,6 +876,7 @@ setOrgId(org);
                             style={{
                               backgroundColor: "transparent",
                               color: "#0e7a9c",
+                              paddingRight: "20px",
                             }}
                           >
                             You are not enrolled in any course. Enroll now!

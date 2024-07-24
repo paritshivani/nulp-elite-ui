@@ -47,7 +47,7 @@ const FAQPage = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="min-472">
+      <Container maxWidth="xl" role="main" className="min-472 pb-30">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
