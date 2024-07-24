@@ -49,6 +49,7 @@ import VotingList from "pages/voting/votingList";
 import createForm from "pages/voting/createForm";
 import VotingDetails from "pages/voting/votingDetails";
 import { truncate } from "lodash";
+import votingDashboard from "pages/voting/votingDashboard";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 
@@ -210,11 +211,11 @@ function App() {
       path: routeConfig.ROUTES.VOTING.VOTING_DETAILS,
       component: VotingDetails,
     },
-    // {
-    //   moduleName: "nulp_elite",
-    //   path: routeConfig.ROUTES.VOTING.VOTING_DASHBOARD,
-    //   component: votingDashboard,
-    // },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.VOTING.VOTING_DASHBOARD,
+      component: votingDashboard,
+    },
   ];
   createForm;
   initializeI18n(
