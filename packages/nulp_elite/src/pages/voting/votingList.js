@@ -31,10 +31,6 @@ import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 
 import FloatingChatIcon from "components/FloatingChatIcon";
-const urlConfig = require("../../configs/urlConfig.json");
-
-console.log("ekta1", data);
-
 const VotingList = (props) => {
   console.log("ekta", data);
   const [toasterOpen, setToasterOpen] = useState(false);
