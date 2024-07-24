@@ -27,7 +27,8 @@ const SunbirdPlayer = ({
         'application/vnd.ekstep.html-archive',
         'application/vnd.ekstep.content-collection',
         'application/vnd.ekstep.h5p-archive',
-        'video/x-youtube'
+        'video/x-youtube',
+        'application/epub'
       ].includes(mimeType)
     ) {
       setUrl(`/content-player`)
