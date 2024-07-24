@@ -1094,10 +1094,10 @@ button {
     margin-bottom: 22px;
     padding-right: 10px;
   }
-  .MuiContainer-root.pt-121,
+  /* .MuiContainer-root.pt-121,
   .container-pb.player {
     padding-top: 121px !important;
-  }
+  } */
   .dashboard .fs-40 {
     font-size: 40px !important;
   }
