@@ -210,11 +210,11 @@ function App() {
       path: routeConfig.ROUTES.VOTING.VOTING_DETAILS,
       component: VotingDetails,
     },
-    // {
-    //   moduleName: "nulp_elite",
-    //   path: routeConfig.ROUTES.VOTING.VOTING_DASHBOARD,
-    //   component: votingDashboard,
-    // },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.VOTING.VOTING_DASHBOARD,
+      component: votingDashboard,
+    },
   ];
   createForm;
   initializeI18n(

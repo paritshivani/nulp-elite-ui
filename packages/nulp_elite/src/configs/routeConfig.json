@@ -78,7 +78,8 @@
     "VOTING": {
       "VOTING_LIST": "/webapp/votingList",
       "VOTING_DETAILS": "/webapp/votingDetails",
-      "VOTING_FORM": "/webapp/createform"
+      "VOTING_FORM": "/webapp/createform",
+      "VOTING_DASHBOARD": "webapp/votingDashboard"
     }
   }
 }
