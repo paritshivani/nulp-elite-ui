@@ -59,7 +59,7 @@ function App() {
   // const theme = extendTheme(DEFAULT_THEME);
   const colors = "";
   const [sortArray, setSortArray] = React.useState([]);
-  const [checkPref, setCheckPref] = React.useState(false);
+  const [checkPref, setCheckPref] = React.useState(true);
   const _userId = util.userId();
     const [orgId, setOrgId]=useState();
 
