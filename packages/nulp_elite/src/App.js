@@ -49,7 +49,7 @@ import VotingList from "pages/voting/votingList";
 import createForm from "pages/voting/createForm";
 import VotingDetails from "pages/voting/votingDetails";
 import { truncate } from "lodash";
-import votingDashboard from "pages/voting/dashboard";
+import votingDashboard from "pages/voting/votingDashboard";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 
