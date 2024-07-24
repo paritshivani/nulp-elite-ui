@@ -150,7 +150,7 @@ const CategoryPage = () => {
       }
     };
     useEffect(() => {
-  if (orgId || framework) {
+  if (orgId && framework) {
     fetchDomains();
   }
 }, [orgId,framework]);

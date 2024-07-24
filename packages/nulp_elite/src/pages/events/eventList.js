@@ -291,7 +291,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
   }
 };
  useEffect(() => {
-  if (orgId || framework) {
+  if (orgId && framework) {
     Fetchdomain();
   }
 }, [orgId,framework]);
