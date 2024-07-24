@@ -14,11 +14,12 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import ToasterCommon from "../ToasterCommon";
 
@@ -34,10 +35,57 @@ import {
   LinkedinIcon,
   TwitterIcon,
 } from "react-share";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import AddConnections from "pages/connections/AddConnections";
 // import { Button } from "native-base";
 import { maxWidth } from "@shiksha/common-lib";
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
+function LinearProgressWithLabel(props) {
+  return (
+    <Box display="flex" alignItems="center">
+      <Box width="100%" mr={1}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box minWidth={35}>
+        <Typography variant="body2" color="textSecondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
 const VotingDetails = () => {
+  const [progress, setProgress] = React.useState(10);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10
+      );
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+  const [open, setOpen] = React.useState(false);
+
   // const { eventId } = useParams();
   const shareUrl = window.location.href; // Current page URL
 
@@ -47,6 +95,12 @@ const VotingDetails = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
   const { t } = useTranslation();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const formatTimeToIST = (timeString) => {
     // Check if the timeString is a full date-time string
@@ -81,15 +135,7 @@ const VotingDetails = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      <Container
-        className=" xs-pb-20 mt-12 xss-p-0"
-        style={{
-          maxWidth: "100%",
-          paddingLeft: "14px",
-          paddingRight: "14px",
-          marginBottom: "20px",
-        }}
-      >
+      <Container maxWidth="xl" role="main" className=" xs-pb-20 mt-12">
         <Breadcrumbs
           aria-label="breadcrumb"
           className="h6-title mt-15 pl-28 xss-pb-0"
@@ -111,20 +157,21 @@ const VotingDetails = () => {
             className="h6-title oneLineEllipsis"
           >
             {data.title}
+            India will win the Gold Medal for at least 5 sports this year
           </Link>
         </Breadcrumbs>
         <Grid
           container
           spacing={2}
-          className="bg-whitee custom-event-container mb-20"
+          className="bg-whitee custom-event-container mb-20 xs-container"
         >
-          <Grid item xs={3} md={6} lg={2}>
+          <Grid item xs={3} md={6} lg={2} className="lg-pl-5">
             <img
               src={require("assets/default.png")}
               className="eventCardImg"
               alt="App Icon"
             />
-            <Box className="lg-hide">
+            {/* <Box>
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -153,9 +200,9 @@ const VotingDetails = () => {
                   {t("SUBMIT_VOTE")}
                 </Button>
               </Box>
-            </Box>
+            </Box> */}
           </Grid>
-          <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
+          {/* <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
             <Typography gutterBottom className="mt-10  h1-title mb-20 xs-pl-15">
               {data.title}
             </Typography>
@@ -166,12 +213,15 @@ const VotingDetails = () => {
               #CheerforBhaarat Paris Olympics Survey
             </Box>
 
-            <Box className="pr-5">
-              Live until
-              <TodayOutlinedIcon className="h3-custom-title pl-10 mt-10" />
+            <Box className="pr-5 h3-custom-title">
+              <span className=" h3-custom-title"> Live until</span>
+              <TodayOutlinedIcon
+                className="h3-custom-title pl-10 mt-10"
+                style={{ verticalAlign: "middle" }}
+              />
               {data.start_date}
             </Box>
-            <Box className="xs-hide">
+            <Box>
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -201,8 +251,176 @@ const VotingDetails = () => {
                 </Button>
               </Box>
             </Box>
-          </Grid>
+          </Grid> */}
+          <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
+            <Box width="100%"></Box>
+            <Typography
+              gutterBottom
+              className="mt-10  h1-title mb-20 xs-pl-15 ellsp"
+            >
+              {data.title}
+              India will win the Gold Medal for at least 5 sports this year
+            </Typography>
+            <Box
+              className="h5-title mb-20 xs-hide"
+              style={{ fontWeight: "400" }}
+            >
+              #CheerforBhaarat Paris Olympics Survey
+            </Box>
 
+            <Box className="pr-5">
+              <span className=" h3-custom-title"> Voting Ended On</span>
+              <TodayOutlinedIcon
+                className="h3-custom-title pl-10 mt-10"
+                style={{ verticalAlign: "middle" }}
+              />
+              <span className="h3-custom-title ">
+                {data.start_date} 26 July 2024
+              </span>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <Box
+                sx={{ width: "100%" }}
+                className="voting-option my-10 progressOne"
+              >
+                <span
+                  className=" h3-custom-title"
+                  style={{ paddingRight: "33px" }}
+                >
+                  {" "}
+                  Yes
+                </span>{" "}
+                <LinearProgressWithLabel value={progress} />
+              </Box>
+              <Box
+                sx={{ width: "100%" }}
+                className="voting-option my-10 progressTwo"
+              >
+                <span
+                  className=" h3-custom-title"
+                  style={{ paddingRight: "33px" }}
+                >
+                  {" "}
+                  No
+                </span>{" "}
+                <LinearProgressWithLabel value={progress} />
+              </Box>
+              <Box
+                sx={{ width: "100%" }}
+                className="voting-option my-10 progressThree"
+              >
+                <span className=" h3-custom-title"> MayBe</span>{" "}
+                <LinearProgressWithLabel value={progress} />
+              </Box>
+              <Box className="mt-20">
+                <Button
+                  type="button"
+                  className="custom-btn-primary"
+                  onClick={handleClickOpen}
+                >
+                  {t("SHARE_RESULTS")}{" "}
+                  <ShareOutlinedIcon
+                    style={{ color: "#fff", paddingLeft: "10px" }}
+                  />
+                </Button>
+              </Box>
+            </Box>
+          </Grid>
+          <BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+          >
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <DialogContent dividers>
+              <Grid
+                container
+                spacing={2}
+                className="custom-event-container mb-20 mt-15"
+                style={{ paddingRight: "10px" }}
+              >
+                <Grid item xs={9} md={6} lg={9}>
+                  <Typography
+                    gutterBottom
+                    className="mt-10  h1-title mb-20 xs-pl-15 ellsp"
+                  >
+                    {data.title}
+                    India will win the Gold Medal for at least 5 sports this
+                    year
+                  </Typography>
+                  <Box
+                    className="h5-title mb-20 xs-hide"
+                    style={{ fontWeight: "400" }}
+                  >
+                    #CheerforBhaarat Paris Olympics Survey
+                  </Box>
+
+                  <Box className="pr-5">
+                    <span className=" h3-custom-title"> Voting Ended On</span>
+                    <TodayOutlinedIcon
+                      className="h3-custom-title pl-10 mt-10"
+                      style={{ verticalAlign: "middle" }}
+                    />
+                    <span className="h3-custom-title ">
+                      {data.start_date} 26 July 2024
+                    </span>
+                  </Box>
+                  <Box>
+                    <Box sx={{ width: "100%" }} className="voting-option my-10">
+                      <span
+                        className=" h3-custom-title"
+                        style={{ paddingRight: "33px" }}
+                      >
+                        {" "}
+                        Yes
+                      </span>{" "}
+                      <LinearProgress />
+                    </Box>
+                    <Box sx={{ width: "100%" }} className="voting-option my-10">
+                      <span
+                        className=" h3-custom-title"
+                        style={{ paddingRight: "33px" }}
+                      >
+                        {" "}
+                        No
+                      </span>{" "}
+                      <LinearProgress />
+                    </Box>
+                    <Box sx={{ width: "100%" }} className="voting-option my-10">
+                      <span className=" h3-custom-title"> MayBe</span>{" "}
+                      <LinearProgress />
+                    </Box>
+                  </Box>
+                  <Box className="mt-20">
+                    <Button type="button" className="custom-btn-primary">
+                      {t("SHARE_RESULTS")}{" "}
+                      <ShareOutlinedIcon
+                        style={{ color: "#fff", paddingLeft: "10px" }}
+                      />
+                    </Button>
+                  </Box>
+                </Grid>
+                <Grid item xs={3} md={6} lg={3}>
+                  <img
+                    src={require("assets/default.png")}
+                    className="appicon"
+                    alt="App Icon"
+                  />
+                </Grid>
+              </Grid>
+            </DialogContent>
+          </BootstrapDialog>
           <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
             <Box className="xs-hide">
               <FacebookShareButton url={shareUrl} className="pr-5">

@@ -1297,11 +1297,7 @@ const AddConnections = () => {
     <Box>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Container
-        maxWidth="xl"
-        role="main"
-        className="pt-0 xs-p-0 xs-pb-62 lg-pr-0"
-      >
+      <Container maxWidth="xl" role="main" className="pt-0  xs-pb-62">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -1310,13 +1306,18 @@ const AddConnections = () => {
 
         <Box textAlign="center" padding="10">
           <Box>
-            <Grid container spacing={2} className="pt-8 xs-p-0">
+            <Grid
+              container
+              spacing={2}
+              className="pt-8"
+              style={{ paddingLeft: "16px" }}
+            >
               <Grid
                 item
                 xs={12}
                 md={4}
                 lg={4}
-                className="sm-p-25 left-container my-custom lg-mt-12 pr-16 xs-shadow-none"
+                className="sm-p-25 left-container my-custom pr-16 xs-shadow-none"
                 style={{ background: "#fff" }}
               >
                 <Box
