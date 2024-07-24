@@ -35,8 +35,8 @@ const ContinueLearning = () => {
   const [itemsPerPage] = useState(16); // Number of items per page
   const navigate = useNavigate();
   const location = useLocation();
-   const [orgId, setOrgId]=useState();
-  const [framework, setFramework]=useState();
+  const [orgId, setOrgId] = useState();
+  const [framework, setFramework] = useState();
   const { domain } = location.state || {};
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -71,22 +71,21 @@ const ContinueLearning = () => {
       setIsLoading(false);
     }
   };
-    const fetchUserData = async () => {
-  try {
-   const uservData = await util.userData();
-    
-setOrgId(uservData?.data?.result?.response?.rootOrgId);
-setFramework(uservData?.data?.result?.response?.framework?.id[0])
+  const fetchUserData = async () => {
+    try {
+      const uservData = await util.userData();
 
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
- useEffect(() => {
-  if (orgId || framework) {
-    fetchGradeLevels();
-  }
-}, [orgId,framework]);
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if (orgId || framework) {
+      fetchGradeLevels();
+    }
+  }, [orgId, framework]);
   const fetchGradeLevels = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
@@ -168,7 +167,12 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
             <Grid container spacing={2}>
               <Box className="custom-card profile-card-view w-100">
                 {paginatedCourses.length === 0 ? (
-                  <NoResult className="center-no-result " />
+                  <>
+                    <Box style={{ width: "300px" }}>
+                      <NoResult className="center-no-result " />
+                      <Box className="h5-title">Explore Content</Box>
+                    </Box>
+                  </>
                 ) : (
                   paginatedCourses.map((items) => (
                     <Box className="custom-card-box" key={items.contentId}>

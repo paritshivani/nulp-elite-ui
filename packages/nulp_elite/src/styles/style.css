@@ -661,7 +661,7 @@ button {
   }
 
   .chatIcon {
-    bottom: 114px;
+    bottom: 162px;
     width: 175px;
     height: 46px;
     background: #484848;
@@ -1557,6 +1557,9 @@ button {
   .cardCourses {
     width: 133px;
   }
+  .cardBox {
+    height: 314px;
+  }
 
   .card-img {
     height: 75px;
@@ -1582,7 +1585,7 @@ button {
     color: #484848 !important;
     display: flex;
     justify-content: flex-start;
-    padding: 6px 15px;
+    padding: 6px 20px;
     text-align: center;
     font-size: 14px !important;
   }
@@ -1687,7 +1690,7 @@ button {
     border-radius: 10px;
   }
 
-  .allContent .cardBox {
+  /* .allContent .cardBox {
     flex: 1;
     height: 300px;
   }
@@ -1695,9 +1698,9 @@ button {
   .cardheight .cardBox {
     flex: 1;
     height: 300px;
-  }
+  } */
 
-  .allContent .MuiGrid-grid-lg-2 {
+  /* .allContent .MuiGrid-grid-lg-2 {
     height: 319px;
   }
 
@@ -1707,7 +1710,7 @@ button {
 
   .allContentlearning .MuiGrid-item {
     height: 318px !important;
-  }
+  } */
 
   /* .allContentlearning .custom-card-box {
     width: 234px !important;
@@ -1853,7 +1856,7 @@ button {
   }
 
   .language .MuiSelect-select {
-    font-size: 12px !important;
+    font-size: 14px !important;
     /* color: #fff !important; */
     padding-right: 27px;
     padding-left: 7px;
@@ -3464,4 +3467,7 @@ thead th {
 }
 .MuiDialog-paper .MuiListItemText-root {
   display: inline-block !important;
+}
+.MuiDialogTitle-root + .css-1ty026z {
+  padding-top: 20px !important;
 }
