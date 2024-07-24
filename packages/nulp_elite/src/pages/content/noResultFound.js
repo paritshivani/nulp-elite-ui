@@ -19,9 +19,8 @@ const NoResult = () => {
       <Box
         style={{
           fontSize: "30px",
-          border: "solid 1px #edece9",
           textAlign: "center",
-          margin: "20px 0 60px 0",
+          margin: "0 21px",
           BorderRadius: "10px",
         }}
         className="center-box"
