@@ -22,7 +22,7 @@ import Link from "@mui/material/Link";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import ToasterCommon from "../ToasterCommon";
-
+import VerifiedIcon from "@mui/icons-material/Verified";
 const data = require("./polls-detail.json");
 
 import {
@@ -45,7 +45,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddConnections from "pages/connections/AddConnections";
 // import { Button } from "native-base";
 import { maxWidth } from "@shiksha/common-lib";
-import VerifiedIcon from "@mui/icons-material/Verified";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -130,7 +129,6 @@ const VotingDetails = () => {
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
   };
-
   return (
     <div>
       <Header />
@@ -147,7 +145,7 @@ const VotingDetails = () => {
             style={{ maxHeight: "inherit" }}
             onClick={handleGoBack}
             color="#004367"
-            href="/webapp/allevents"
+            href="/webapp/votingList"
           >
             {t("LIVE_POLLS")}
           </Link>
@@ -390,7 +388,7 @@ const VotingDetails = () => {
                     alt="App Icon"
                   />
                 </Grid>
-                <Box>
+                <Box style={{ paddingLeft: "18px", width: "100%" }}>
                   <Box sx={{ width: "100%" }}>
                     <Box
                       sx={{ width: "100%" }}
@@ -428,7 +426,7 @@ const VotingDetails = () => {
                     <Box className="mt-20">
                       <Button
                         type="button"
-                        className="custom-btn-primary"
+                        className="custom-btn-primaryy"
                         onClick={handleClickOpen}
                       >
                         {t("SHARE_RESULTS")}{" "}

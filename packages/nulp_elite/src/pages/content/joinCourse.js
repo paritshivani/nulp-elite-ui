@@ -743,7 +743,7 @@ const JoinCourse = () => {
         role="main"
         className="xs-pr-0 xs-pb-20 lg-mt-12"
       >
-        <Box className=" pos-relative xs-ml-15  pt-10">
+        <Box className=" pos-relative xs-ml-15 pt-10">
           <Box>
             <img
               src={
@@ -776,7 +776,7 @@ const JoinCourse = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container mt-9 xs-px-0 xs-pl-15"
+            className="sm-p-25 left-container mt-9 xs-px-0 xs-pl-15 mb-20"
           >
             {/* <Breadcrumbs
             aria-label="breadcrumb"
@@ -1145,7 +1145,7 @@ const JoinCourse = () => {
               </TwitterShareButton>
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="mb-20 xs-pr-16 lg-pr-20 ">
+          <Grid item xs={12} md={8} lg={8} className="mb-20 xs-pr-16 lg-pr-20">
             <Box style={{ textAlign: "right" }} className="xs-hide">
               {" "}
               {renderActionButton()}

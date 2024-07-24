@@ -47,7 +47,7 @@ const FAQPage = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="min-472">
+      <Container maxWidth="xl" role="main" className="min-472 pb-30">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -60,7 +60,7 @@ const FAQPage = () => {
           <Grid item xs={12} lg={3}>
             <ul className="bg-white h6-title" style={{ borderRadius: "5px" }}>
               <Box
-                sx={{ fontSize: "18px", color: "#484848" }}
+                sx={{ fontSize: "18px", color: "#484848", paddingLeft: "18px" }}
                 className="h5-title"
               >
                 {t("SELECT_CATEGORY")}
@@ -72,6 +72,7 @@ const FAQPage = () => {
                   className={
                     selectedCategory === category.name ? classes.active : ""
                   } // Apply active class
+                  style={{ cursor: "pointer" }}
                 >
                   {category.name}
                 </li>
