@@ -61,7 +61,7 @@ function App() {
   const [sortArray, setSortArray] = React.useState([]);
   const [checkPref, setCheckPref] = React.useState(true);
   const _userId = util.userId();
-    const [orgId, setOrgId]=useState();
+  const [orgId, setOrgId] = useState();
 
   const routes = [
     {
@@ -210,6 +210,11 @@ function App() {
       path: routeConfig.ROUTES.VOTING.VOTING_DETAILS,
       component: VotingDetails,
     },
+    // {
+    //   moduleName: "nulp_elite",
+    //   path: routeConfig.ROUTES.VOTING.VOTING_DASHBOARD,
+    //   component: votingDashboard,
+    // },
   ];
   createForm;
   initializeI18n(
@@ -217,16 +222,15 @@ function App() {
     `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
   );
   useEffect(() => {
-     const fetchUserData = async () => {
-  try {
-   const uservData = await util.userData();
-setOrgId(uservData?.data?.result?.response?.rootOrgId);
-    fetchDataFramework();
-
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
+    const fetchUserData = async () => {
+      try {
+        const uservData = await util.userData();
+        setOrgId(uservData?.data?.result?.response?.rootOrgId);
+        fetchDataFramework();
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}`;
@@ -253,14 +257,13 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
         );
         if (data.result.response.framework.id) {
           // setCheckPref(true);
-           if(data.result.response.framework.id[0]==="nulp"){
-          setCheckPref(false);
-
+          if (data.result.response.framework.id[0] === "nulp") {
+            setCheckPref(false);
+          } else {
+            setCheckPref(true);
+          }
         } else {
-          setCheckPref(true);
-        }
-        }else{
-          setCheckPref(false)
+          setCheckPref(false);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -277,7 +280,12 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       {/* <I18nextProvider i18n={i18n}> */}
       {/* <ChakraProvider> */}
       <React.Suspense>
-         {!checkPref && <SelectPreference isOpen={!checkPref} onClose={() => setCheckPref(true)} />} 
+        {!checkPref && (
+          <SelectPreference
+            isOpen={!checkPref}
+            onClose={() => setCheckPref(true)}
+          />
+        )}
 
         <Router>
           <Routes>

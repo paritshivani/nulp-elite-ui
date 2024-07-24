@@ -250,7 +250,7 @@ export default function DomainCarousel({
 
           {isBoxVisible && (
             <Box style={{ position: "relative" }} className="bg-darkblue">
-              <Box className="carousel-bx">
+              <Box className="carousel-bx" style={{ paddingTop: "7px" }}>
                 <Container
                   role="main"
                   maxWidth="xl"
@@ -304,7 +304,7 @@ export default function DomainCarousel({
                     </Box>
                   </Box>
                   <Box style={{ textAlign: "center", margin: "0 auto" }}>
-                    <Button onClick={handleClick}>
+                    <Button onClick={handleClick} style={{ paddingTop: "0" }}>
                       <KeyboardArrowDownIcon
                         style={{ color: "#fff", fontSize: "33px" }}
                       />

@@ -34,7 +34,7 @@ import { Checkbox, ListItemText, Chip } from "@material-ui/core";
 import { saveAs } from "file-saver";
 import * as util from "../../services/utilService";
 
-const Dashboard = () => {
+const votingDashboard = () => {
   const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -105,41 +105,34 @@ const Dashboard = () => {
   const chartSetting = {
     yAxis: [
       {
-        label: 'rainfall (mm)',
+        label: "rainfall (mm)",
       },
     ],
-   
-   
-  
   };
   const chartSettingH = {
     yAxis: [
       {
-        label: 'rainfall (mm)',
+        label: "rainfall (mm)",
       },
     ],
-   
-   
-  
   };
   const xLabels = [
-    'Chief Municipal Officer',
-    'Junior Engineer',
-    'Consultant',
-    'Scholar',
-    'Executive',
-  
+    "Chief Municipal Officer",
+    "Junior Engineer",
+    "Consultant",
+    "Scholar",
+    "Executive",
   ];
   const xxLabels = [
-    'Page A',
-    'Page B',
-    'Page C',
-    'Page D',
-    'Page E',
-    'Page F',
-    'Page G',
+    "Page A",
+    "Page B",
+    "Page C",
+    "Page D",
+    "Page E",
+    "Page F",
+    "Page G",
   ];
-  const uData = [10, 20, 30, 40, 50, 60, 70,80,90];
+  const uData = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 
   const downloadCSV = (event) => {
     const csvContent = convertArrayToCSV(data);
@@ -592,8 +585,7 @@ const Dashboard = () => {
           </Box>
         </Grid>
         <Grid container spacing={2} className="custom-date">
-          <Grid item xs={12} md={6} style={{position:"relative"
-          }}>
+          <Grid item xs={12} md={6} style={{ position: "relative" }}>
             <Box className="mb-10 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_EVENT")}
@@ -629,21 +621,21 @@ const Dashboard = () => {
                 titleProps: { fill: "#000", fontSize: 14, fontWeight: "bold" },
               }}
               height={300}
-
             />
-             <BarChart
+            <BarChart
               xAxis={[
-                { scaleType: "band", data: ["Event A", "Event B", "Event C", "Event D" , "Event E"] },
+                {
+                  scaleType: "band",
+                  data: ["Event A", "Event B", "Event C", "Event D", "Event E"],
+                },
               ]}
-              series={[{ data: [4, 1, 4,8,7] }]}
-             
+              series={[{ data: [4, 1, 4, 8, 7] }]}
               height={300}
             />
-             <Box className="brYlabel">No. of Participants</Box>
-            <Box sx={{textAlign:"center"}}>Events</Box>
+            <Box className="brYlabel">No. of Participants</Box>
+            <Box sx={{ textAlign: "center" }}>Events</Box>
           </Grid>
-          <Grid item xs={12} md={6} style={{position:"relative"
-          }}>
+          <Grid item xs={12} md={6} style={{ position: "relative" }}>
             <Box className="mb-10 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_DESIGNATIONS")}
@@ -671,25 +663,26 @@ const Dashboard = () => {
               </Box>
             </Box>
             <LineChart
-              xAxis={[{ data: [1, 4, 6, 8, 10, 12]  }]}
+              xAxis={[{ data: [1, 4, 6, 8, 10, 12] }]}
               series={seriesData}
               height={300}
               {...chartSettingH}
-
             />
-             <LineChart
-      height={300}
-      series={[
-        { data: uData, label: 'No. of Participants' },
-      ]}
-      xAxis={[{ scaleType: 'point', data: xLabels }]}
-    />
-    <Box className="yLabel">Participants</Box>
-            <Box sx={{textAlign:"center"}}>Designation</Box>
-
+            <LineChart
+              height={300}
+              series={[{ data: uData, label: "No. of Participants" }]}
+              xAxis={[{ scaleType: "point", data: xLabels }]}
+            />
+            <Box className="yLabel">Participants</Box>
+            <Box sx={{ textAlign: "center" }}>Designation</Box>
           </Grid>
         </Grid>
-        <Grid container spacing={2} className="mt-32" style={{justifyContent:"space-between"}}>
+        <Grid
+          container
+          spacing={2}
+          className="mt-32"
+          style={{ justifyContent: "space-between" }}
+        >
           {isAdmin ? (
             <Grid item xs={6} md={2}>
               <FormControl>
@@ -732,9 +725,7 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={6} md={2}>
             <FormControl fullWidth>
-              <InputLabel id="sub-category-select-label">
-                Sub-Domain
-              </InputLabel>
+              <InputLabel id="sub-category-select-label">Sub-Domain</InputLabel>
               <Select
                 labelId="sub-category-select-label"
                 id="sub-category-select"
@@ -838,9 +829,7 @@ const Dashboard = () => {
                   <TableCell align="left">
                     {new Date(event.startDate).toLocaleDateString()}
                   </TableCell>
-                  <TableCell align="left">
-                    {event.totalParticipants}
-                  </TableCell>
+                  <TableCell align="left">{event.totalParticipants}</TableCell>
                   <TableCell align="left">{event.IssueCerificate}</TableCell>
                   <TableCell align="left">{event.EventOrganisedby}</TableCell>
                   <TableCell align="left">
@@ -868,4 +857,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default votingDashboard;

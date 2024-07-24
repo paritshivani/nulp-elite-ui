@@ -62,7 +62,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [orgId, setOrgId] = useState();
-  const [framworkname,setframworkname]=useState(false)
+  const [framworkname, setframworkname] = useState(false);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -87,40 +87,40 @@ const SelectPreference = ({ isOpen, onClose }) => {
 
     fetchUserData();
   }, []);
- 
- const fetchUserDataAndSetCustodianOrgData = async () => {
-      try {
-        const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.SYSTEM_SETTING.CUSTODIAN_ORG}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Failed to fetch custodian organization ID");
-        }
-        const data = await response.json();
-        const custodianOrgId = data?.result?.response?.value;
-        setCustodianOrgId(custodianOrgId);
-        const rootOrgId = sessionStorage.getItem("rootOrgId");
-        if (custodianOrgId) {
-          if (custodianOrgId === orgId) {
-            const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            const defaultFramework = data?.result?.channel?.defaultFramework;
-            setDefaultFramework(defaultFramework);
-            localStorage.setItem("defaultFramework", defaultFramework);
-          } else {
-            const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            const defaultFramework = data?.result?.channel?.defaultFramework;
-            setDefaultFramework(defaultFramework);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-        setToasterOpen(true);
+
+  const fetchUserDataAndSetCustodianOrgData = async () => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.SYSTEM_SETTING.CUSTODIAN_ORG}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Failed to fetch custodian organization ID");
       }
-    };
+      const data = await response.json();
+      const custodianOrgId = data?.result?.response?.value;
+      setCustodianOrgId(custodianOrgId);
+      const rootOrgId = sessionStorage.getItem("rootOrgId");
+      if (custodianOrgId) {
+        if (custodianOrgId === orgId) {
+          const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
+          const response = await fetch(url);
+          const data = await response.json();
+          const defaultFramework = data?.result?.channel?.defaultFramework;
+          setDefaultFramework(defaultFramework);
+          localStorage.setItem("defaultFramework", defaultFramework);
+        } else {
+          const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
+          const response = await fetch(url);
+          const data = await response.json();
+          const defaultFramework = data?.result?.channel?.defaultFramework;
+          setDefaultFramework(defaultFramework);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      setToasterOpen(true);
+    }
+  };
   useEffect(() => {
     if (orgId) {
       fetchUserDataAndSetCustodianOrgData();
@@ -222,8 +222,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
-      if(responseData?.result?.response.framework?.id[0]==="nulp"){
-        setframworkname(true)
+      if (responseData?.result?.response.framework?.id[0] === "nulp") {
+        setframworkname(true);
       }
       if (_.isEmpty(responseData?.result?.response.framework)) {
         setIsEmptyPreference(true);
@@ -352,10 +352,12 @@ const SelectPreference = ({ isOpen, onClose }) => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <DialogTitle>{t("Select Preferences")}</DialogTitle>
       {framworkname && (
-          <DialogTitle onClick={handleClose}>
-            {t("We have made some changes in framework Please select your preferance")}
-          </DialogTitle>
-        )}
+        <DialogTitle onClick={handleClose}>
+          {t(
+            "We have made some changes in framework Please select your preferance"
+          )}
+        </DialogTitle>
+      )}
       <DialogContent>
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth sx={{ marginBottom: 2 }}>
@@ -441,13 +443,13 @@ const SelectPreference = ({ isOpen, onClose }) => {
       </DialogContent>
       <DialogActions>
         {!isEmptyPreference && (
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleClose} className="custom-btn-default">
             {t("CANCEL")}
           </Button>
         )}
         <Button
           onClick={handleSavePreferences}
-          color="primary"
+          className="custom-btn-primary"
           disabled={isDisabled}
         >
           {t("SUBMIT")}
