@@ -45,6 +45,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddConnections from "pages/connections/AddConnections";
 // import { Button } from "native-base";
 import { maxWidth } from "@shiksha/common-lib";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -165,7 +166,7 @@ const VotingDetails = () => {
           spacing={2}
           className="bg-whitee custom-event-container mb-20 xs-container"
         >
-          <Grid item xs={3} md={6} lg={2} className="lg-pl-5">
+          <Grid item xs={3} md={6} lg={2} className="lg-pl-5 xs-pl-0">
             <img
               src={require("assets/default.png")}
               className="eventCardImg"
@@ -254,10 +255,7 @@ const VotingDetails = () => {
           </Grid> */}
           <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
             <Box width="100%"></Box>
-            <Typography
-              gutterBottom
-              className="mt-10  h1-title mb-20 xs-pl-15 ellsp"
-            >
+            <Typography gutterBottom className="mt-10  h1-title mb-20 ellsp">
               {data.title}
               India will win the Gold Medal for at least 5 sports this year
             </Typography>
@@ -278,7 +276,15 @@ const VotingDetails = () => {
                 {data.start_date} 26 July 2024
               </span>
             </Box>
-            <Box sx={{ width: "100%" }}>
+            <Box className="pr-5 my-20">
+              <span className=" h3-custom-title"> Your Vote</span>
+              <VerifiedIcon
+                className="h3-custom-title pl-10 mt-10 icon-blue"
+                style={{ verticalAlign: "middle" }}
+              />
+              <span className="h3-custom-title ">Yes</span>
+            </Box>
+            <Box sx={{ width: "100%" }} className="xs-hide">
               <Box
                 sx={{ width: "100%" }}
                 className="voting-option my-10 progressOne"
@@ -376,40 +382,6 @@ const VotingDetails = () => {
                       {data.start_date} 26 July 2024
                     </span>
                   </Box>
-                  <Box>
-                    <Box sx={{ width: "100%" }} className="voting-option my-10">
-                      <span
-                        className=" h3-custom-title"
-                        style={{ paddingRight: "33px" }}
-                      >
-                        {" "}
-                        Yes
-                      </span>{" "}
-                      <LinearProgress />
-                    </Box>
-                    <Box sx={{ width: "100%" }} className="voting-option my-10">
-                      <span
-                        className=" h3-custom-title"
-                        style={{ paddingRight: "33px" }}
-                      >
-                        {" "}
-                        No
-                      </span>{" "}
-                      <LinearProgress />
-                    </Box>
-                    <Box sx={{ width: "100%" }} className="voting-option my-10">
-                      <span className=" h3-custom-title"> MayBe</span>{" "}
-                      <LinearProgress />
-                    </Box>
-                  </Box>
-                  <Box className="mt-20">
-                    <Button type="button" className="custom-btn-primary">
-                      {t("SHARE_RESULTS")}{" "}
-                      <ShareOutlinedIcon
-                        style={{ color: "#fff", paddingLeft: "10px" }}
-                      />
-                    </Button>
-                  </Box>
                 </Grid>
                 <Grid item xs={3} md={6} lg={3}>
                   <img
@@ -418,6 +390,55 @@ const VotingDetails = () => {
                     alt="App Icon"
                   />
                 </Grid>
+                <Box>
+                  <Box sx={{ width: "100%" }}>
+                    <Box
+                      sx={{ width: "100%" }}
+                      className="voting-option my-10 progressOne"
+                    >
+                      <span
+                        className=" h3-custom-title"
+                        style={{ paddingRight: "33px" }}
+                      >
+                        {" "}
+                        Yes
+                      </span>{" "}
+                      <LinearProgressWithLabel value={progress} />
+                    </Box>
+                    <Box
+                      sx={{ width: "100%" }}
+                      className="voting-option my-10 progressTwo"
+                    >
+                      <span
+                        className=" h3-custom-title"
+                        style={{ paddingRight: "33px" }}
+                      >
+                        {" "}
+                        No
+                      </span>{" "}
+                      <LinearProgressWithLabel value={progress} />
+                    </Box>
+                    <Box
+                      sx={{ width: "100%" }}
+                      className="voting-option my-10 progressThree"
+                    >
+                      <span className=" h3-custom-title"> MayBe</span>{" "}
+                      <LinearProgressWithLabel value={progress} />
+                    </Box>
+                    <Box className="mt-20">
+                      <Button
+                        type="button"
+                        className="custom-btn-primary"
+                        onClick={handleClickOpen}
+                      >
+                        {t("SHARE_RESULTS")}{" "}
+                        <ShareOutlinedIcon
+                          style={{ color: "#fff", paddingLeft: "10px" }}
+                        />
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
               </Grid>
             </DialogContent>
           </BootstrapDialog>
@@ -441,7 +462,52 @@ const VotingDetails = () => {
               </TwitterShareButton>
             </Box>
           </Grid>
-
+          <Box className="lg-hide" sx={{ width: "100%" }}>
+            <Box sx={{ width: "100%" }}>
+              <Box
+                sx={{ width: "100%" }}
+                className="voting-option my-10 progressOne"
+              >
+                <span
+                  className=" h3-custom-title"
+                  style={{ paddingRight: "33px" }}
+                >
+                  {" "}
+                  Yes
+                </span>{" "}
+                <LinearProgressWithLabel value={progress} />
+              </Box>
+              <Box
+                sx={{ width: "100%" }}
+                className="voting-option my-10 progressTwo"
+              >
+                <span
+                  className=" h3-custom-title"
+                  style={{ paddingRight: "33px" }}
+                >
+                  {" "}
+                  No
+                </span>{" "}
+                <LinearProgressWithLabel value={progress} />
+              </Box>
+              <Box
+                sx={{ width: "100%" }}
+                className="voting-option my-10 progressThree"
+              >
+                <span className=" h3-custom-title"> MayBe</span>{" "}
+                <LinearProgressWithLabel value={progress} />
+              </Box>
+            </Box>
+            <Box className="mt-20">
+              <Button type="button" className="custom-btn-primaryy">
+                {t("SHARE_RESULTS")}{" "}
+                <ShareOutlinedIcon
+                  style={{ color: "#fff", paddingLeft: "10px" }}
+                />
+              </Button>
+            </Box>
+          </Box>
+          <Box style={{ display: "block", width: "100%" }}></Box>
           <Box
             className="h2-title pl-20 mb-20 mt-20"
             style={{ fontWeight: "600" }}

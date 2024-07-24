@@ -832,7 +832,7 @@ button {
     padding-left: 5px !important;
   }
   .xs-pl-30 {
-    padding-left: 56px !important;
+    padding-left: 36px !important;
   }
   .xs-pl-15 {
     padding-left: 15px !important;
@@ -2031,6 +2031,18 @@ Footer {
 .custom-btn-primary:hover {
   background: #0e7a9c !important;
 }
+.custom-btn-primaryy {
+  background: #0e7a9c !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+  padding: 10px 25px !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  border: solid 1px #0e7a9c;
+}
+.custom-btn-primaryy:hover {
+  background: #0e7a9c !important;
+}
 .custom-btn-default {
   border-radius: 10px !important;
   color: #004367 !important;
@@ -2971,4 +2983,10 @@ thead th {
 }
 .progressThree .MuiLinearProgress-root {
   background-color: #3cc3df;
+}
+.voting-option .css-70qvj9 {
+  width: 100% !important;
+}
+.icon-blue {
+  color: #7995ff !important;
 }
