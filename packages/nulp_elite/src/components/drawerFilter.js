@@ -178,8 +178,10 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       className="header-bg-blue p-20 filter-bx w-100"
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <Box className="d-flex jc-bw">
         <Box className="filter-title">{t("FILTER_BY")} : </Box>

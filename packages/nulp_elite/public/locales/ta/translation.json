@@ -277,5 +277,6 @@
   "CONTENT_TYPE": "உள்ளடக்கம் வகை",
   "MY_CONNECTION": "என் இணைப்புகள்",
   "CONNECTION_REQUEST": "இணைப்பு கோரிக்கைகள்",
-  "BLOCKED_USERS": "தடுக்கும் பயனர்கள்"
+  "BLOCKED_USERS": "தடுக்கும் பயனர்கள்",
+  "What do you want to learn today?  ":"இன்று நீங்கள் என்ன கற்க விரும்புகிறீர்கள்?"
 }

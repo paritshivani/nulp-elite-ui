@@ -673,7 +673,7 @@ fetchUserData();
                           background: "#0e7a9c",
                           marginTop: "10px",
                         }}
-                        onClick={managePublicPrivateEvent("reg")}
+                        onClick={() => managePublicPrivateEvent("reg")}
                       >
                         {t("REGISTER_WEBINAR")}
                       </Button>

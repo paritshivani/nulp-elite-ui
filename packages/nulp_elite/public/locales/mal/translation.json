@@ -254,5 +254,6 @@
   "CONTENT_TYPE": "സാമഗ്രി തരം",
   "MY_CONNECTION": "എന്റെ കണക്ഷനുകൾ",
   "CONNECTION_REQUEST": "കണക്ഷൻ അഭ്യർത്ഥനകൾ",
-  "BLOCKED_USERS": "അടച്ച ഉപയോക്താക്കൾ"
+  "BLOCKED_USERS": "അടച്ച ഉപയോക്താക്കൾ",
+  "What do you want to learn today?  ":"ഇന്ന് നിങ്ങൾ എന്താണ് പഠിക്കാൻ ആഗ്രഹിക്കുന്നത്?"
 }
