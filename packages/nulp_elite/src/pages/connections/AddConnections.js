@@ -1680,7 +1680,15 @@ const AddConnections = () => {
                                     {`${item.firstName} ${
                                       item.lastName ? item.lastName : " "
                                     }`}
-                                    <div style={{ display: "inline" }}> | </div>
+                                    <div
+                                      style={{
+                                        display: "inline",
+                                        color: "#484848",
+                                      }}
+                                    >
+                                      {" "}
+                                      |{" "}
+                                    </div>
                                     <div
                                       className="h6-title "
                                       style={{ display: "inline" }}

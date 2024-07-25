@@ -2004,6 +2004,13 @@ button {
     grid-template-columns: repeat(5, 1fr) !important;
     gap: 16px !important;
   }
+
+  .MuiContainer-root.allContent.content-list .custom-card {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px !important;
+  }
+
   .custom-card-box {
     width: 258px !important;
   }
@@ -2771,7 +2778,7 @@ tspan {
   font-size: 14px !important;
   font-weight: 400 !important;
   cursor: pointer !important;
-  border-radius: 30px !important;
+  border-radius: 10px !important;
 }
 
 .unblock-btn {
@@ -2782,7 +2789,7 @@ tspan {
   font-size: 16px !important;
   font-weight: 400 !important;
   cursor: pointer !important;
-  border-radius: 30px !important;
+  border-radius: 10px !important;
 }
 
 .text-center {
@@ -3491,7 +3498,7 @@ thead th {
 
 #root > div:first-child {
   min-height: 100vh;
-  padding-bottom: 130px;
+  padding-bottom: 55px;
 }
 .MuiDialogTitle-root + .css-1ty026z {
   padding-top: 20px !important;
