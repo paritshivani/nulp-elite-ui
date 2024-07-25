@@ -1209,7 +1209,7 @@ const Profile = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="pb-20">
+          <Grid item xs={12} md={8} lg={8} className="pb-20 lg-pl-0">
             {showCertificate ? (
               <Certificate />
             ) : (

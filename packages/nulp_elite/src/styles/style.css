@@ -1846,6 +1846,9 @@ button {
   .xs-p-0 {
     padding-top: 0 !important;
   }
+  .addConnectChat .jss7 {
+    margin-top: 21px !important;
+  }
 }
 
 @media (max-width: 769px) {
@@ -3495,4 +3498,10 @@ thead th {
 }
 .MuiListItemText-root span {
   font-family: Poppins, sans-serif !important;
+}
+input:required::after {
+  content: "*";
+  color: red;
+  margin-left: 5px; /* Adjust spacing as needed */
+  font-weight: bold;
 }
