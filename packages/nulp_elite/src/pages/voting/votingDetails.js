@@ -48,6 +48,7 @@ import AddConnections from "pages/connections/AddConnections";
 // import { Button } from "native-base";
 import { maxWidth } from "@shiksha/common-lib";
 import * as util from "../../services/utilService";
+import moment from "moment";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -296,7 +297,11 @@ const VotingDetails = () => {
                       className="h3-custom-title pl-10 mt-10"
                       style={{ verticalAlign: "middle" }}
                     />
-                    <span className="h3-custom-title ">{poll.end_date}</span>
+                    <span className="h3-custom-title ">
+                      {moment(poll.end_date).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </span>
                   </Box>
                   <Box className="pr-5 my-20">
                     <span className=" h3-custom-title"> Your Vote</span>
@@ -355,7 +360,9 @@ const VotingDetails = () => {
                       className="h3-custom-title pl-10 mt-10"
                       style={{ verticalAlign: "middle" }}
                     />
-                    {poll.end_date}
+                    {moment(poll.end_date).format(
+                      "dddd, MMMM Do YYYY, h:mm:ss a"
+                    )}
                   </Box>
                   <Box>
                     <FormControl>
@@ -447,7 +454,9 @@ const VotingDetails = () => {
                           style={{ verticalAlign: "middle" }}
                         />
                         <span className="h3-custom-title ">
-                          {poll.end_date}
+                          {moment(poll.end_date).format(
+                            "dddd, MMMM Do YYYY, h:mm:ss a"
+                          )}
                         </span>
                       </Box>
                     </Grid>

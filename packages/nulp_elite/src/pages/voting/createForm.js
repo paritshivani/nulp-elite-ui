@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -29,6 +29,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import MenuItem from "@mui/material/MenuItem";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import { BorderRight } from "@mui/icons-material";
+import * as util from "../../services/utilService";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -46,11 +47,16 @@ const createForm = () => {
   const [userList, setUserList] = useState([]);
   const [fields, setFields] = useState([{ id: 1, value: "" }]);
   const urlConfig = require("../../configs/urlConfig.json");
+  const userId = util.userId();
+  const [userData, setUserData] = useState([]);
 
   const [globalSearchQuery, setGlobalSearchQuery] = useState(
     location.state?.globalSearchQuery || undefined
   );
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleInputChange = (id, event) => {
     const newFields = fields.map((field) => {
@@ -79,6 +85,15 @@ const createForm = () => {
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
+  };
+
+  const isFormValid = () => {
+    return (
+      title.length >= 10 &&
+      description.length >= 100 &&
+      startDate !== null &&
+      endDate !== null
+    );
   };
 
   const handleSubmit = async () => {
@@ -118,7 +133,29 @@ const createForm = () => {
       setToasterOpen(true);
     }
   };
+  const fetchData = async () => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${userId}?fields=${urlConfig.params.userReadParam.fields}`;
 
+      const header = "application/json";
+      const response = await fetch(url, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+      });
+      const data = await response.json();
+      setUserData(data);
+      // const rootOrgId = data.result.response.rootOrgId;
+      // sessionStorage.setItem("rootOrgId", rootOrgId);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    isFormValid();
+  }, [title, description, startDate, endDate]);
+  console.log("uuuuuuuuuuuuuuuuuuuuuuddddddddddddddddddd", userData);
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -131,7 +168,7 @@ const createForm = () => {
         style={{ paddingTop: "0" }}
       >
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-5 xs-py-10">Create Polls</Box>
+          <Box className="h3-custom-title pl-5 xs-py-10">Poll Creation</Box>
 
           <Alert severity="info" className="custom-alert">
             Poll will be published Based on Start Date
@@ -153,6 +190,12 @@ const createForm = () => {
               className="mb-20"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              error={title.length > 0 && title.length < 10}
+              helperText={
+                title.length > 0 && title.length < 10
+                  ? "Title must be at least 10 characters"
+                  : ""
+              }
             />
             <TextField
               id="description"
@@ -163,6 +206,12 @@ const createForm = () => {
               className="mb-20"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              error={description.length > 0 && description.length < 100}
+              helperText={
+                description.length > 0 && description.length < 100
+                  ? "Description must be at least 100 characters"
+                  : ""
+              }
             />
             <TextField
               id="poll_type"
@@ -235,6 +284,16 @@ const createForm = () => {
                       value={organisationName}
                       onChange={(e) => setOrganisationName(e.target.value)}
                     />
+                    <Select
+                      labelId="demo-multiple-checkbox-label"
+                      id="demo-multiple-checkbox"
+                      multiple
+                      value={userList}
+                      onChange={(e) => setOrgList(e.target.value)}
+                    >
+                      <MenuItem value="user1">User 1</MenuItem>
+                      <MenuItem value="user2">User 2</MenuItem>
+                    </Select>
                     <RadioGroup
                       row
                       aria-labelledby="nested-radio-buttons-group-label"
@@ -335,6 +394,7 @@ const createForm = () => {
             className="custom-btn-primary"
             style={{ width: "10%" }}
             onClick={handleSubmit}
+            disabled={!isFormValid()}
           >
             Submit
           </Button>
