@@ -256,6 +256,7 @@ const createForm = () => {
                   </Box>
                 ))}
               </Box>
+
               <Box className="voting-btn">
                 <Button
                   type="button"
