@@ -487,7 +487,7 @@ const ContentList = (props) => {
           ) : (
             <Box sx={{ marginTop: "10px" }}></Box>
           )}
-          <Link onClick={handleGoBack} className="viewAll xs-hide">
+          <Link onClick={handleGoBack} className="viewAll xs-hide mr-22">
             {t("BACK")}
           </Link>
         </Box>
