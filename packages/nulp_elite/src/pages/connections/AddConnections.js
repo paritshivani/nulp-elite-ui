@@ -1421,7 +1421,7 @@ const AddConnections = () => {
                               style={{
                                 fontWeight:
                                   item.userId === selectedUserId
-                                    ? "bold"
+                                    ? "normal"
                                     : "normal",
                                 color:
                                   item.userId === selectedUserId
@@ -1446,9 +1446,9 @@ const AddConnections = () => {
                                             : "black",
                                         fontWeight:
                                           item.userId === selectedUserId
-                                            ? "bold"
+                                            ? "normal"
                                             : item.isRead === false
-                                            ? "bold"
+                                            ? "normal"
                                             : "normal",
                                       }}
                                     >
@@ -1675,14 +1675,18 @@ const AddConnections = () => {
                               <ListItemText
                                 primary={
                                   <span
-                                    style={{
-                                      fontSize: "1rem",
-                                      color: "#000",
-                                    }}
+                                    style={{ fontSize: "1rem", color: "#000" }}
                                   >
                                     {`${item.firstName} ${
                                       item.lastName ? item.lastName : " "
-                                    } |  ${item.designation}`}
+                                    }`}
+                                    <div style={{ display: "inline" }}> | </div>
+                                    <div
+                                      className="h6-title "
+                                      style={{ display: "inline" }}
+                                    >
+                                      {item.designation}
+                                    </div>
                                   </span>
                                 }
                               />

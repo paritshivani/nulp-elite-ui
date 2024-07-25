@@ -197,7 +197,7 @@ const createForm = () => {
           <Grid item xs={12} md={4} lg={4}>
             <FormControl style={{ width: "100%" }}>
               <FormLabel id="demo-row-radio-buttons-group-label">
-                Visibility<span style={{ color: "#000" }}>*</span>
+                Visibility<span style={{ color: "red" }}>*</span>
               </FormLabel>
               <RadioGroup
                 row
@@ -274,7 +274,7 @@ const createForm = () => {
             <FormGroup className="d-flex" style={{ flexFlow: "row" }}>
               <Box className="voting-textfield mt-10">
                 <FormLabel id="demo-row-radio-buttons-group-label">
-                  Poll Options<span style={{ color: "#000" }}>*</span>
+                  Poll Options<span style={{ color: "red" }}>*</span>
                 </FormLabel>
                 {fields.map((field, index) => (
                   <Box key={field.id} display="flex" alignItems="center">
@@ -309,6 +309,7 @@ const createForm = () => {
                   </Box>
                 ))}
               </Box>
+
               <Box className="voting-btn">
                 <Button
                   type="button"

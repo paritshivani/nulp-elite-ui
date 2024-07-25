@@ -607,7 +607,7 @@ const Dashboard = () => {
         </Grid>
         <Grid container spacing={2} className="custom-date">
           <Grid item xs={12} md={6} style={{ position: "relative" }}>
-            <Box className="mb-10 h3-title mt-32">
+            <Box className="mb-20 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_EVENT")}
             </Box>
@@ -657,7 +657,7 @@ const Dashboard = () => {
             <Box sx={{ textAlign: "center" }}>Events</Box>
           </Grid>
           <Grid item xs={12} md={6} style={{ position: "relative" }}>
-            <Box className="mb-10 h3-title mt-32">
+            <Box className="mb-20 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_DESIGNATIONS")}
             </Box>
@@ -705,11 +705,7 @@ const Dashboard = () => {
           style={{ justifyContent: "space-between" }}
         >
           <Grid item xs={12} style={{ textAlign: "right" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleClearFilters}
-            >
+            <Button className="custom-btn-primary" onClick={handleClearFilters}>
               Clear All Filters
             </Button>
           </Grid>
@@ -835,13 +831,13 @@ const Dashboard = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead sx={{ background: "#f4efe3" }}>
               <TableRow>
-                <TableCell>S.No.</TableCell>
+                <TableCell align="center">S.No.</TableCell>
                 <TableCell align="left">Event Name</TableCell>
-                <TableCell align="left">Event Date</TableCell>
-                <TableCell align="left">No. of Participants</TableCell>
-                <TableCell align="left">Certificate Attached</TableCell>
-                <TableCell align="left">Organisation</TableCell>
-                <TableCell align="left">Download Report</TableCell>
+                <TableCell align="center">Event Date</TableCell>
+                <TableCell align="center">No. of Participants</TableCell>
+                <TableCell align="center">Certificate Attached</TableCell>
+                <TableCell align="center">Organisation</TableCell>
+                <TableCell align="center">Download Report</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
