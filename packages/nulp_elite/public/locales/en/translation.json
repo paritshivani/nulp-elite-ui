@@ -272,5 +272,6 @@
   "MY_CONNECTION": "My Connections",
   "CONNECTION_REQUEST": "Connection Requests",
   "BLOCKED_USERS": "Blocked Users",
-  "SHARE_RESULTS": "Share Results"
+  "SHARE_RESULTS": "Share Results",
+  "UPDATE_VOTE": "Update Vote"
 }
