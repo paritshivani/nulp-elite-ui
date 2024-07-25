@@ -18,6 +18,15 @@ import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import Modal from "@mui/material/Modal";
+import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import ShareIcon from '@mui/icons-material/Share';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -31,8 +40,19 @@ import {
 
 const votingDashboard = () => {
   const { t } = useTranslation();
-  const data = require("./polls.json");
-  console.log(data, 'data');
+  const [openModal, setOpenModal] = useState(false);
+
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+  const polldata = require("./polls.json");
+
+
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-GB", {
@@ -41,6 +61,11 @@ const votingDashboard = () => {
       year: "numeric",
     });
   };
+  const piedata = [
+    { id: 'Yes', value: 67, color: '#00B135' },
+    { id: 'Maybe', value: 20, color: '#E8C532' },
+    { id: 'No', value: 13, color: '#B987FF' },
+  ];
 
 
   return (
@@ -114,8 +139,8 @@ const votingDashboard = () => {
           spacing={2}
           style={{ marginBottom: "30px" }}
         >
-          {data &&
-            data.map((items, index) => (
+          {polldata &&
+            polldata.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -125,7 +150,7 @@ const votingDashboard = () => {
                 key={items.poll_id}
               >
                 <Card
-                  className="cardBox pb-20"
+                  className="cardBox1 pb-20"
                   sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
                 >
                   <CardContent className="d-flex jc-bw">
@@ -194,14 +219,14 @@ const votingDashboard = () => {
             <Button type="button" className="custom-btn-primary ml-20">
               View All
             </Button>
-          </Box> 
-         </Box> <Grid
+          </Box>
+        </Box> <Grid
           container
           spacing={2}
           style={{ marginBottom: "5px" }}
         >
-          {data &&
-            data.map((items, index) => (
+          {polldata &&
+            polldata.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -251,8 +276,8 @@ const votingDashboard = () => {
                 </Card>
               </Grid>
             ))}
-        </Grid> 
-       <Box
+        </Grid>
+        <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -268,15 +293,15 @@ const votingDashboard = () => {
               View All
             </Button>
           </Box>
-        </Box> 
+        </Box>
 
         <Grid
           container
           spacing={2}
           style={{ marginBottom: "30px" }}
         >
-          {data &&
-            data.map((items, index) => (
+          {polldata &&
+            polldata.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -313,7 +338,7 @@ const votingDashboard = () => {
                   </CardContent>
                   <Box className="voting-text lg-mt-30">
                     <Box>
-                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
+                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20" onClick={handleOpenModal}>
                         View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
@@ -339,10 +364,114 @@ const votingDashboard = () => {
                 </Card>
               </Grid>
             ))}
-        </Grid> 
+        </Grid>
       </Container>
       <FloatingChatIcon />
       <Footer />
+      <Dialog
+        fullWidth={true}
+        maxWidth="lg"
+        open={openModal}
+        onClose={handleCloseModal}
+      >
+        <IconButton
+          aria-label="close"
+          onClick={handleCloseModal}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent>
+        <Grid container>
+  <Grid
+    item
+    xs={12}
+    sm={12}
+    lg={4}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      width: '100%',
+      order: { xs: 2, lg: 1 }, 
+     
+      
+    }}
+  >
+    <Box  sx={{marginLeft:'25%'}}>
+    <PieChart
+      series={[
+        {
+          data: piedata.map((d) => ({
+            id: d.id,
+            value: d.value,
+            color: d.color,
+          })),
+          arcLabel: (item) => (
+            <>
+              {item.id}
+              <br />
+              ({item.value}%)
+            </>
+          ),
+          arcLabelMinAngle: 45,
+        },
+      ]}
+      sx={{
+        [`& .${pieArcLabelClasses.root}`]: {
+          fill: 'white',
+          fontWeight: '500',
+        },
+      }}
+      width={350}
+      height={350}
+     
+    />
+    </Box>
+  </Grid>
+  <Grid
+    item
+    xs={12}
+    sm={12}
+    lg={8}
+    sx={{
+      p: 2,
+      order: { xs: 1, lg: 2 },
+    }}
+  >
+    <Box className="h1-title fw-600 lg-mt-20">
+      India will win the Gold Medal for at least 5 sports this year!
+    </Box>
+    <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
+    <Box>
+      <Box className="mt-9 h5-title">
+        Poll Created On:
+        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+      </Box>
+      <Box className="mt-9 h5-title">Total Votes: 1200</Box>
+      <Box className="mt-9 h5-title">Total Voted Users: 800</Box>
+      <Box className="mt-9 h5-title">
+        Voting Ended On:
+        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+      </Box>
+      <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box>
+      <Box>
+        <Button type="button" className="primary-btn lg-mt-20">
+          Share Results <ShareIcon className="fs-14 pl-18" />
+        </Button>
+      </Box>
+    </Box>
+  </Grid>
+</Grid>
+
+
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

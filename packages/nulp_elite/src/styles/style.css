@@ -732,6 +732,13 @@ button {
 }
 
 @media (max-width: 768px) {
+  .primary-btn{
+    margin-top:20px !important;
+  }
+  .h1-title{
+    line-height: 30px;
+    margin-bottom: 25px;
+}
   .custom-btn-primary,
   .custom-btn-danger,
   .custom-btn-success,
@@ -1227,9 +1234,20 @@ button {
     width: 60px;
     height: 60px;
   }
+
+  .lg-left {
+    text-align: left;
+  }
 }
 
 @media (min-width: 769px) {
+  .custom-event-container .cardBox,
+  .votingDashboard .cardBox {
+    height: inherit !important;
+  }
+  .lg-left {
+    text-align: right;
+  }
   .appicon {
     width: 100px;
     height: 100px;
@@ -1835,6 +1853,9 @@ button {
   .xs-p-0 {
     padding-top: 0 !important;
   }
+  .addConnectChat .jss7 {
+    margin-top: 21px !important;
+  }
 }
 
 @media (max-width: 769px) {
@@ -2336,12 +2357,19 @@ Footer {
   background: #0e7a9c !important;
   border-radius: 10px !important;
   color: #fff !important;
-  padding: 10px 25px !important;
+  padding: 10.5px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
 }
-
+.primary-btn{
+  background: #0e7a9c !important;
+  border-radius: 20px !important;
+  color: #fff !important;
+  padding: 8px 25px !important;
+  font-weight: 500 !important;
+  border: solid 1px #0e7a9c;
+}
 .custom-btn-primary:hover {
   background: #0e7a9c !important;
 }
@@ -2349,7 +2377,7 @@ Footer {
   background: #0e7a9c !important;
   border-radius: 10px !important;
   color: #fff !important;
-  padding: 10px 25px !important;
+  padding: 10.5px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
@@ -2983,8 +3011,8 @@ custom-chip {
   background: #e3f5ff !important;
 }
 
-.fs-12 {
-  font-size: 12px !important;
+.fs-14{
+  font-size: 14px !important;
 }
 
 .certificate .MuiCard-root {
@@ -3471,7 +3499,7 @@ thead th {
   display: inline-block !important;
 }
 
-#root{
+#root {
   min-height: 100vh;
 }
 
@@ -3481,4 +3509,13 @@ thead th {
 }
 .MuiDialogTitle-root + .css-1ty026z {
   padding-top: 20px !important;
+}
+.MuiListItemText-root span {
+  font-family: Poppins, sans-serif !important;
+}
+input:required::after {
+  content: "*";
+  color: red;
+  margin-left: 5px; /* Adjust spacing as needed */
+  font-weight: bold;
 }
