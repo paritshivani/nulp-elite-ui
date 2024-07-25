@@ -155,7 +155,6 @@ const createForm = () => {
   useEffect(() => {
     isFormValid();
   }, [title, description, startDate, endDate]);
-  console.log("uuuuuuuuuuuuuuuuuuuuuuddddddddddddddddddd", userData);
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
