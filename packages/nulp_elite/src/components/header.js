@@ -184,10 +184,11 @@ function Header({ globalSearchQuery }) {
        
         </Box> */}
       <Box
+        style={{ padding: "0 24px" }}
         className={
           scrolled
             ? "pos-fixed xs-hide d-flex bg-white"
-            : " xs-hide d-flex  bg-white"
+            : " xs-hide d-flex  bg-white "
         }
       >
         <Box className="d-flex alignItems-center w-100">
