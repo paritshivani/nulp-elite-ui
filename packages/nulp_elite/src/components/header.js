@@ -184,11 +184,10 @@ function Header({ globalSearchQuery }) {
        
         </Box> */}
       <Box
-        style={{ padding: "0 24px" }}
         className={
           scrolled
             ? "pos-fixed xs-hide d-flex bg-white"
-            : " xs-hide d-flex  bg-white "
+            : " xs-hide d-flex  bg-white"
         }
       >
         <Box className="d-flex alignItems-center w-100">
@@ -300,12 +299,11 @@ function Header({ globalSearchQuery }) {
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
               className={
                 activePath ===
-                `${
-                  routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
                   activePath.startsWith(
                     routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
                   )
-                }`
+                  }`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -326,7 +324,7 @@ function Header({ globalSearchQuery }) {
               className={
                 activePath ===
                   routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
-                activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
+                  activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -345,7 +343,7 @@ function Header({ globalSearchQuery }) {
               href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
               className={
                 activePath ===
-                `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -476,7 +474,7 @@ function Header({ globalSearchQuery }) {
             <Tooltip
               className={
                 activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                  activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
                   ? "Menuactive"
                   : ""
               }
@@ -545,8 +543,8 @@ function Header({ globalSearchQuery }) {
 
               {/* Check if roles array is empty or contains "PUBLIC" */}
               {(roleNames && roleNames.length === 0) ||
-              (roleNames.length === 1 &&
-                roleNames.includes("PUBLIC")) ? null : (
+                (roleNames.length === 1 &&
+                  roleNames.includes("PUBLIC")) ? null : (
                 <MenuItem>
                   <Link
                     target="_blank"
@@ -595,7 +593,6 @@ function Header({ globalSearchQuery }) {
           </Box>
         </Box>
       </Box>
-
       {/* Top Navigation Bar */}
       <AppBar className="bg-inherit pos-inherit">
         <Container className="p-0">
@@ -758,8 +755,8 @@ function Header({ globalSearchQuery }) {
                   className={
                     activePath ===
                       `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                    activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
-                    activePath ===
+                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
+                      activePath ===
                       `${routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}`
                       ? "Menuactive"
                       : ""
@@ -841,21 +838,21 @@ function Header({ globalSearchQuery }) {
                       "CONTENT_CREATOR",
                     ].includes(role)
                   ) && (
-                    <MenuItem>
-                      <Link
-                        href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
-                        underline="none"
-                        textAlign="center"
-                      >
-                        {t("DASHBOARD")}
-                      </Link>
-                    </MenuItem>
-                  )}
+                      <MenuItem>
+                        <Link
+                          href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("DASHBOARD")}
+                        </Link>
+                      </MenuItem>
+                    )}
 
                   {/* Check if roles array is empty or contains "PUBLIC" */}
                   {(roleNames && roleNames?.length === 0) ||
-                  (roleNames.length === 1 &&
-                    roleNames.includes("PUBLIC")) ? null : (
+                    (roleNames.length === 1 &&
+                      roleNames.includes("PUBLIC")) ? null : (
                     <MenuItem>
                       <Link
                         target="_blank"
