@@ -2728,10 +2728,10 @@ tspan {
   height: 10px !important;
 } */
 
-.pos-fixed .MuiInputBase-input {
+/* .pos-fixed .MuiInputBase-input {
   font-size: 12px !important;
   padding-right: 23px !important;
-}
+} */
 
 .scrolledTop .pos-fixed {
   top: 39px !important;
@@ -3195,7 +3195,7 @@ custom-chip {
   color: #fff !important;
   align-items: center;
   border-radius: 5px !important;
-  padding: 5px !important;
+  padding: 6px !important;
   /* width: 140px; */
   display: flex !important;
   text-align: center;
