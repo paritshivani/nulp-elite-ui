@@ -21,7 +21,7 @@ import {
 const processString = (str) => {
   return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 };
-export default function VotingCard({ items }) {
+export default function VotingCard({ items, index, onClick }) {
   // const [imgUrl, setImgUrl] = useState();
   const { t } = useTranslation();
   const shareUrl = window.location.href; // Current page URL
@@ -66,6 +66,7 @@ export default function VotingCard({ items }) {
     <Card
       className="cardBox pb-20"
       sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
+      onClick={onClick}
     >
       <CardContent className="d-flex jc-bw">
         <Box>
