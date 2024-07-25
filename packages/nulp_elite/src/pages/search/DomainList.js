@@ -299,7 +299,7 @@ const categories=response?.data?.result?.framework?.categories;
   const loadContents = async (term) => {
     // console.log(term);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
-      state: { domain: term.code, domainName: term.name },
+      state: { domain: term.name, domainName: term.name },
     });
   };
 
