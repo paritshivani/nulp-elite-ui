@@ -13,6 +13,7 @@ body {
   font-weight: 500;
   font-style: normal;
   background: #ffbc0154;
+  min-height: 100vh;
 }
 
 body,
@@ -1605,6 +1606,7 @@ button {
     padding-right: 45px;
     padding-left: 45px;
   } */
+
   .lg-w-140 {
     width: 140px;
   }
@@ -3467,6 +3469,15 @@ thead th {
 }
 .MuiDialog-paper .MuiListItemText-root {
   display: inline-block !important;
+}
+
+#root{
+  min-height: 100vh;
+}
+
+#root > div:first-child {
+  min-height: 100vh;
+  padding-bottom: 130px;
 }
 .MuiDialogTitle-root + .css-1ty026z {
   padding-top: 20px !important;
