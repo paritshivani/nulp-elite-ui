@@ -1227,9 +1227,20 @@ button {
     width: 60px;
     height: 60px;
   }
+
+  .lg-left {
+    text-align: left;
+  }
 }
 
 @media (min-width: 769px) {
+  .custom-event-container .cardBox,
+  .votingDashboard .cardBox {
+    height: inherit !important;
+  }
+  .lg-left {
+    text-align: right;
+  }
   .appicon {
     width: 100px;
     height: 100px;
@@ -2336,7 +2347,7 @@ Footer {
   background: #0e7a9c !important;
   border-radius: 10px !important;
   color: #fff !important;
-  padding: 10px 25px !important;
+  padding: 10.5px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
@@ -2349,7 +2360,7 @@ Footer {
   background: #0e7a9c !important;
   border-radius: 10px !important;
   color: #fff !important;
-  padding: 10px 25px !important;
+  padding: 10.5px 25px !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
@@ -3471,7 +3482,7 @@ thead th {
   display: inline-block !important;
 }
 
-#root{
+#root {
   min-height: 100vh;
 }
 
@@ -3481,4 +3492,7 @@ thead th {
 }
 .MuiDialogTitle-root + .css-1ty026z {
   padding-top: 20px !important;
+}
+.MuiListItemText-root span {
+  font-family: Poppins, sans-serif !important;
 }
