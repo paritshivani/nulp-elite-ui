@@ -8,15 +8,9 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
-import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-import {
-  Button,
-  Card,
-  CardContent,
-  Pagination,
-  TextField,
-} from "@mui/material";
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import { Button, Card, CardContent, Pagination, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -24,6 +18,15 @@ import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import Modal from "@mui/material/Modal";
+import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import ShareIcon from '@mui/icons-material/Share';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -34,10 +37,22 @@ import {
   LinkedinIcon,
 } from "react-share";
 
+
 const votingDashboard = () => {
   const { t } = useTranslation();
-  const data = require("./polls.json");
-  console.log(data, "data");
+  const [openModal, setOpenModal] = useState(false);
+
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+  const polldata = require("./polls.json");
+
+
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-GB", {
@@ -46,6 +61,12 @@ const votingDashboard = () => {
       year: "numeric",
     });
   };
+  const piedata = [
+    { id: 'Yes', value: 67, color: '#00B135' },
+    { id: 'Maybe', value: 20, color: '#E8C532' },
+    { id: 'No', value: 13, color: '#B987FF' },
+  ];
+
 
   return (
     <div>
@@ -53,7 +74,7 @@ const votingDashboard = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="xs-pb-20 lg-pt-20 votingDashboard"
+        className="xs-pb-20 lg-pt-20 min-"
       >
         <Box mb={2} mt={2}>
           <Grid container spacing={2} alignItems="center">
@@ -73,15 +94,8 @@ const votingDashboard = () => {
                 }}
               />
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={2}
-              sx={{ color: "#000000b3" }}
-              className="lg-left"
-            >
+            <Grid item xs={12} sm={6} md={4} lg={2}
+              sx={{ color: '#000000b3', textAlign: 'center' }}>
               Select Date Range
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -101,6 +115,7 @@ const votingDashboard = () => {
             </Grid>
           </Grid>
         </Box>
+
         <Box
           display="flex"
           justifyContent="space-between"
@@ -118,9 +133,14 @@ const votingDashboard = () => {
             </Button>
           </Box>
         </Box>
-        <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {data &&
-            data.map((items, index) => (
+
+        <Grid
+          container
+          spacing={2}
+          style={{ marginBottom: "30px" }}
+        >
+          {polldata &&
+            polldata.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -130,12 +150,8 @@ const votingDashboard = () => {
                 key={items.poll_id}
               >
                 <Card
-                  className="cardBox pb-20"
-                  sx={{
-                    position: "relative",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
+                  className="cardBox1 pb-20"
+                  sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
                 >
                   <CardContent className="d-flex jc-bw">
                     <Box>
@@ -144,26 +160,16 @@ const votingDashboard = () => {
                           {items.title}
                         </Typography>
                       )}
-                      <Box
-                        className="d-flex h6-title mt-30"
-                        style={{ color: "#484848" }}
-                      >
+                      <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
                         <Box className="d-flex jc-bw alignItems-center fs-14">
                           <TodayOutlinedIcon className="fs-14 pr-5" />
                           {formatDate(items.start_date)}
                         </Box>
                       </Box>
                     </Box>
-                    <Box
-                      className="card-img-container"
-                      style={{ position: "inherit" }}
-                    >
+                    <Box className="card-img-container" style={{ position: "inherit" }}>
                       <img
-                        src={
-                          items.image
-                            ? items.image
-                            : require("assets/default.png")
-                        }
+                        src={items.image ? items.image : require("assets/default.png")}
                         className="event-card-img"
                         alt="App Icon"
                       />
@@ -171,12 +177,8 @@ const votingDashboard = () => {
                   </CardContent>
                   <Box className="voting-text lg-mt-30">
                     <Box>
-                      <Button
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20"
-                      >
-                        View Slots{" "}
-                        <ArrowForwardIosOutlinedIcon className="fs-12" />
+                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
+                        View Slots <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box className="xs-hide">
@@ -218,10 +220,13 @@ const votingDashboard = () => {
               View All
             </Button>
           </Box>
-        </Box>{" "}
-        <Grid container spacing={2} style={{ marginBottom: "5px" }}>
-          {data &&
-            data.map((items, index) => (
+        </Box> <Grid
+          container
+          spacing={2}
+          style={{ marginBottom: "5px" }}
+        >
+          {polldata &&
+            polldata.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -232,11 +237,7 @@ const votingDashboard = () => {
               >
                 <Card
                   className="cardBox pb-20"
-                  sx={{
-                    position: "relative",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
+                  sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
                 >
                   <CardContent className="d-flex jc-bw">
                     <Box>
@@ -245,26 +246,16 @@ const votingDashboard = () => {
                           {items.title}
                         </Typography>
                       )}
-                      <Box
-                        className="d-flex h6-title mt-30"
-                        style={{ color: "#484848" }}
-                      >
+                      <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
                         <Box className="d-flex jc-bw alignItems-center fs-14">
                           <TodayOutlinedIcon className="fs-14 pr-5" />
                           {formatDate(items.start_date)}
                         </Box>
                       </Box>
                     </Box>
-                    <Box
-                      className="card-img-container"
-                      style={{ position: "inherit" }}
-                    >
+                    <Box className="card-img-container" style={{ position: "inherit" }}>
                       <img
-                        src={
-                          items.image
-                            ? items.image
-                            : require("assets/default.png")
-                        }
+                        src={items.image ? items.image : require("assets/default.png")}
                         className="event-card-img"
                         alt="App Icon"
                       />
@@ -272,18 +263,12 @@ const votingDashboard = () => {
                   </CardContent>
                   <Box className="voting-buttons lg-mt-30">
                     <Box>
-                      <Button
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20"
-                      >
+                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
                         Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box>
-                      <Button
-                        type="button"
-                        className="custom-btn-default ml-20 lg-mt-20 mr-13"
-                      >
+                      <Button type="button" className="custom-btn-default ml-20 lg-mt-20 mr-13">
                         Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
@@ -309,9 +294,14 @@ const votingDashboard = () => {
             </Button>
           </Box>
         </Box>
-        <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {data &&
-            data.map((items, index) => (
+
+        <Grid
+          container
+          spacing={2}
+          style={{ marginBottom: "30px" }}
+        >
+          {polldata &&
+            polldata.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -322,11 +312,7 @@ const votingDashboard = () => {
               >
                 <Card
                   className="cardBox pb-20"
-                  sx={{
-                    position: "relative",
-                    cursor: "pointer",
-                    textAlign: "left",
-                  }}
+                  sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
                 >
                   <CardContent className="d-flex jc-bw">
                     <Box>
@@ -335,26 +321,16 @@ const votingDashboard = () => {
                           {items.title}
                         </Typography>
                       )}
-                      <Box
-                        className="d-flex h6-title mt-30"
-                        style={{ color: "#484848" }}
-                      >
+                      <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
                         <Box className="d-flex jc-bw alignItems-center fs-14">
                           <TodayOutlinedIcon className="fs-14 pr-5" />
                           {formatDate(items.start_date)}
                         </Box>
                       </Box>
                     </Box>
-                    <Box
-                      className="card-img-container"
-                      style={{ position: "inherit" }}
-                    >
+                    <Box className="card-img-container" style={{ position: "inherit" }}>
                       <img
-                        src={
-                          items.image
-                            ? items.image
-                            : require("assets/default.png")
-                        }
+                        src={items.image ? items.image : require("assets/default.png")}
                         className="event-card-img"
                         alt="App Icon"
                       />
@@ -362,12 +338,8 @@ const votingDashboard = () => {
                   </CardContent>
                   <Box className="voting-text lg-mt-30">
                     <Box>
-                      <Button
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20"
-                      >
-                        View Results{" "}
-                        <ArrowForwardIosOutlinedIcon className="fs-12" />
+                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20" onClick={handleOpenModal}>
+                        View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box className="xs-hide">
@@ -396,6 +368,110 @@ const votingDashboard = () => {
       </Container>
       <FloatingChatIcon />
       <Footer />
+      <Dialog
+        fullWidth={true}
+        maxWidth="lg"
+        open={openModal}
+        onClose={handleCloseModal}
+      >
+        <IconButton
+          aria-label="close"
+          onClick={handleCloseModal}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent>
+        <Grid container>
+  <Grid
+    item
+    xs={12}
+    sm={12}
+    lg={4}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      width: '100%',
+      order: { xs: 2, lg: 1 }, 
+     
+      
+    }}
+  >
+    <Box  sx={{marginLeft:'25%'}}>
+    <PieChart
+      series={[
+        {
+          data: piedata.map((d) => ({
+            id: d.id,
+            value: d.value,
+            color: d.color,
+          })),
+          arcLabel: (item) => (
+            <>
+              {item.id}
+              <br />
+              ({item.value}%)
+            </>
+          ),
+          arcLabelMinAngle: 45,
+        },
+      ]}
+      sx={{
+        [`& .${pieArcLabelClasses.root}`]: {
+          fill: 'white',
+          fontWeight: '500',
+        },
+      }}
+      width={350}
+      height={350}
+     
+    />
+    </Box>
+  </Grid>
+  <Grid
+    item
+    xs={12}
+    sm={12}
+    lg={8}
+    sx={{
+      p: 2,
+      order: { xs: 1, lg: 2 },
+    }}
+  >
+    <Box className="h1-title fw-600 lg-mt-20">
+      India will win the Gold Medal for at least 5 sports this year!
+    </Box>
+    <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
+    <Box>
+      <Box className="mt-9 h5-title">
+        Poll Created On:
+        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+      </Box>
+      <Box className="mt-9 h5-title">Total Votes: 1200</Box>
+      <Box className="mt-9 h5-title">Total Voted Users: 800</Box>
+      <Box className="mt-9 h5-title">
+        Voting Ended On:
+        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+      </Box>
+      <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box>
+      <Box>
+        <Button type="button" className="primary-btn lg-mt-20">
+          Share Results <ShareIcon className="fs-14 pl-18" />
+        </Button>
+      </Box>
+    </Box>
+  </Grid>
+</Grid>
+
+
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

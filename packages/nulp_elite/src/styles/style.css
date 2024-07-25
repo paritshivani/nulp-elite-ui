@@ -732,6 +732,13 @@ button {
 }
 
 @media (max-width: 768px) {
+  .primary-btn{
+    margin-top:20px !important;
+  }
+  .h1-title{
+    line-height: 30px;
+    margin-bottom: 25px;
+}
   .custom-btn-primary,
   .custom-btn-danger,
   .custom-btn-success,
@@ -2355,7 +2362,14 @@ Footer {
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
 }
-
+.primary-btn{
+  background: #0e7a9c !important;
+  border-radius: 20px !important;
+  color: #fff !important;
+  padding: 8px 25px !important;
+  font-weight: 500 !important;
+  border: solid 1px #0e7a9c;
+}
 .custom-btn-primary:hover {
   background: #0e7a9c !important;
 }
@@ -2997,8 +3011,8 @@ custom-chip {
   background: #e3f5ff !important;
 }
 
-.fs-12 {
-  font-size: 12px !important;
+.fs-14{
+  font-size: 14px !important;
 }
 
 .certificate .MuiCard-root {
