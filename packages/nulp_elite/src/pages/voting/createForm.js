@@ -53,7 +53,11 @@ const createForm = () => {
   const [globalSearchQuery, setGlobalSearchQuery] = useState(
     location.state?.globalSearchQuery || undefined
   );
+  const [orgUserList, setOrgUserList] = useState([]);
+  const [orgList, setOrgList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
+  const [userListFinal, setUserListFinal] = useState([]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -87,6 +91,23 @@ const createForm = () => {
     setSelectedOption(event.target.value);
   };
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      if (selectedOption === "option1") {
+        try {
+          const users = await getOrgUser(
+            userData?.result?.response?.rootOrg?.id
+          );
+          const userIds = users.map((item) => item.userId);
+          setUserListFinal(userIds);
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        }
+      }
+    };
+
+    fetchUsers();
+  }, [userData, selectedOption]);
   const isFormValid = () => {
     return (
       title.length >= 10 &&
@@ -98,19 +119,32 @@ const createForm = () => {
 
   const handleSubmit = async () => {
     const pollOptions = fields.map((field) => field.value);
-
-    const data = {
-      title,
-      description,
-      visibility,
-      poll_options: pollOptions,
-      poll_type: pollType,
-      status: "Live",
-      start_date: startDate,
-      end_date: endDate,
-      user_list: userList,
-    };
-
+    let data;
+    if (visibility === "private") {
+      data = {
+        title,
+        description,
+        visibility,
+        poll_options: pollOptions,
+        poll_type: pollType,
+        status: "Live",
+        start_date: startDate,
+        end_date: endDate,
+        user_list: userListFinal,
+      };
+    } else {
+      data = {
+        title,
+        description,
+        visibility,
+        poll_options: pollOptions,
+        poll_type: pollType,
+        status: "Live",
+        start_date: startDate,
+        end_date: endDate,
+        user_list: userList,
+      };
+    }
     try {
       const response = await fetch(`${urlConfig.URLS.POLL.CREATE}`, {
         method: "POST",
@@ -136,25 +170,104 @@ const createForm = () => {
   const fetchData = async () => {
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${userId}?fields=${urlConfig.params.userReadParam.fields}`;
-
-      const header = "application/json";
-      const response = await fetch(url, {
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
-      });
+      const response = await fetch(url);
       const data = await response.json();
       setUserData(data);
-      // const rootOrgId = data.result.response.rootOrgId;
-      // sessionStorage.setItem("rootOrgId", rootOrgId);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
 
+  const getOrgUser = async (rootOrgId) => {
+    const requestBody = {
+      request: {
+        filters: {
+          status: "1",
+          rootOrgId: rootOrgId,
+        },
+        sort_by: {
+          lastUpdatedOn: "desc",
+        },
+      },
+    };
+
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.ADMIN.USER_SEARCH}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error(t("FAILED_TO_FETCH_DATA"));
+      }
+
+      let responseData = await response.json();
+      const users = responseData?.result?.response?.content || [];
+      setOrgUserList(users);
+      return users;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getOrgDetail = async (rootOrgId) => {
+    const requestBody = {
+      request: {
+        query: "",
+        filters: {
+          channel: "niua",
+        },
+        limit: 100,
+      },
+    };
+
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.ADMIN.ORG_SEARCH}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+        throw new Error(t("FAILED_TO_FETCH_DATA"));
+      }
+
+      let responseData = await response.json();
+
+      const orgs = responseData?.result?.response?.content || [];
+      setOrgList(orgs);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
     isFormValid();
-  }, [title, description, startDate, endDate]);
+    setOrganisationName(userData?.result?.response?.rootOrg?.orgName);
+  }, [title, description, startDate, endDate, userData]);
+
+  const roleNames =
+    userData?.result?.response?.roles?.map((role) => role.role) || [];
+  const isAdmin =
+    roleNames.includes("SYSTEM_ADMINISTRATION") ||
+    roleNames.includes("ORG_ADMIN");
+  const isContentCreator = roleNames.includes("CONTENT_CREATOR");
+
+  useEffect(() => {
+    if (isContentCreator || isAdmin) {
+      getOrgUser(userData?.result?.response?.rootOrg?.id);
+      getOrgDetail(userData?.result?.response?.rootOrg?.id);
+    }
+  }, [isContentCreator, isAdmin, userData]);
+
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -261,13 +374,13 @@ const createForm = () => {
                   label="Public"
                 />
                 <FormControlLabel
-                  value="invite"
+                  value="private"
                   control={<Radio />}
                   label="Invite only"
                 />
               </RadioGroup>
 
-              {visibility === "invite" && (
+              {visibility === "private" && (
                 <Box
                   style={{
                     background: "#f4d88b",
@@ -276,23 +389,29 @@ const createForm = () => {
                   }}
                 >
                   <div>
-                    <TextField
-                      label="Organisation Name"
-                      variant="outlined"
-                      required
-                      value={organisationName}
-                      onChange={(e) => setOrganisationName(e.target.value)}
-                    />
-                    <Select
-                      labelId="demo-multiple-checkbox-label"
-                      id="demo-multiple-checkbox"
-                      multiple
-                      value={userList}
-                      onChange={(e) => setOrgList(e.target.value)}
-                    >
-                      <MenuItem value="user1">User 1</MenuItem>
-                      <MenuItem value="user2">User 2</MenuItem>
-                    </Select>
+                    {isContentCreator ? (
+                      <TextField
+                        label="Organization"
+                        value={organisationName}
+                        variant="outlined"
+                        fullWidth
+                        disabled
+                      />
+                    ) : isAdmin ? (
+                      <Select
+                        label="Select Organization"
+                        value={organisationName}
+                        onChange={(e) => setOrganisationName(e.target.value)}
+                        fullWidth
+                      >
+                        {orgList?.map((org) => (
+                          <MenuItem key={org.id} value={org.id}>
+                            {org.orgName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    ) : null}
+
                     <RadioGroup
                       row
                       aria-labelledby="nested-radio-buttons-group-label"
@@ -315,14 +434,32 @@ const createForm = () => {
 
                     {selectedOption === "option2" && (
                       <Select
-                        labelId="demo-multiple-checkbox-label"
-                        id="demo-multiple-checkbox"
+                        label="Select Users"
                         multiple
                         value={userList}
                         onChange={(e) => setUserList(e.target.value)}
+                        fullWidth
+                        renderValue={(selected) =>
+                          selected.map((user) => user.firstName).join(", ")
+                        }
                       >
-                        <MenuItem value="user1">User 1</MenuItem>
-                        <MenuItem value="user2">User 2</MenuItem>
+                        {orgUserList.map((user) => (
+                          <MenuItem key={user.userId} value={user}>
+                            <Checkbox
+                              checked={userList.indexOf(user) > -1}
+                              onChange={() => {
+                                const isSelected = userList.indexOf(user) > -1;
+                                const newSelectedUsers = isSelected
+                                  ? userList.filter(
+                                      (u) => u.userId !== user.userId
+                                    )
+                                  : [...userList, user];
+                                setUserList(newSelectedUsers);
+                              }}
+                            />
+                            {user.firstName} {user.lastName}
+                          </MenuItem>
+                        ))}
                       </Select>
                     )}
                   </div>
