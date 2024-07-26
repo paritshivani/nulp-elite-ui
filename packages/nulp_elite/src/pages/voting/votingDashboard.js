@@ -36,12 +36,22 @@ import {
   WhatsappIcon,
   LinkedinIcon,
 } from "react-share";
-
-
+const urlConfig = require("../../configs/urlConfig.json");
 const votingDashboard = () => {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
+  const [pollsData, setPollsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const shareUrl = window.location.href;
+  const [showAll, setShowAll] = useState(false);
+  
 
+  const handleShowMore = () => {
+    setShowAll(true);
+  };
+
+  const visiblePolls = showAll ? pollsData : pollsData.slice(0, 3);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -66,7 +76,53 @@ const votingDashboard = () => {
     { id: 'Maybe', value: 20, color: '#E8C532' },
     { id: 'No', value: 13, color: '#B987FF' },
   ];
+  const fetchPolls = async (visibility) => {
+    setIsLoading(true);
+    setError(null);
 
+    const requestBody = {
+      request: {
+        filters: {
+          visibility,
+          status: "Live",
+        },
+        sort_by: {
+          created_at: "desc",
+          start_date: "desc",
+        },
+        // offset: (currentPage - 1) * 10,
+        // limit: 10,
+      },
+    };
+
+    try {
+      const response = await fetch(`${urlConfig.URLS.POLL.LIST}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      setPollsData(result.result.data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchPolls();
+  }, []);
+
+  const handleCardClick = () => {
+    navigate(`/webapp/pollsDetails`);
+  };
 
   return (
     <div>
@@ -127,11 +183,13 @@ const votingDashboard = () => {
             <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
             Live Polls
           </Box>
-          <Box>
-            <Button type="button" className="custom-btn-primary ml-20">
-              View All
-            </Button>
-          </Box>
+          {!showAll && pollsData.length > 3 && (
+            <Box>
+              <Button type="button" className="custom-btn-primary ml-20" onClick={handleCardClick}>
+                View All
+              </Button>
+            </Box>
+          )}
         </Box>
 
         <Grid
@@ -139,8 +197,8 @@ const votingDashboard = () => {
           spacing={2}
           style={{ marginBottom: "30px" }}
         >
-          {polldata &&
-            polldata.map((items, index) => (
+          {visiblePolls &&
+            visiblePolls.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -177,21 +235,21 @@ const votingDashboard = () => {
                   </CardContent>
                   <Box className="voting-text lg-mt-30">
                     <Box>
-                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
+                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20" onClick={handleOpenModal}>
                         View Slots <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box className="xs-hide">
                       <FacebookShareButton className="pr-5">
-                        <FacebookIcon size={32} round={true} />
+                        <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
                       <WhatsappShareButton className="pr-5">
-                        <WhatsappIcon size={32} round={true} />
+                        <WhatsappIcon url={shareUrl} size={32} round={true} />
                       </WhatsappShareButton>
                       <LinkedinShareButton className="pr-5">
-                        <LinkedinIcon size={32} round={true} />
+                        <LinkedinIcon url={shareUrl} size={32} round={true} />
                       </LinkedinShareButton>
-                      <TwitterShareButton className="pr-5">
+                      <TwitterShareButton url={shareUrl} className="pr-5">
                         <img
                           src={require("../../assets/twitter.png")}
                           alt="Twitter"
@@ -204,7 +262,7 @@ const votingDashboard = () => {
               </Grid>
             ))}
         </Grid>
-        <Box
+         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -220,7 +278,8 @@ const votingDashboard = () => {
               View All
             </Button>
           </Box>
-        </Box> <Grid
+        </Box> 
+        <Grid
           container
           spacing={2}
           style={{ marginBottom: "5px" }}
@@ -276,7 +335,7 @@ const votingDashboard = () => {
                 </Card>
               </Grid>
             ))}
-        </Grid>
+        </Grid> 
         <Box
           display="flex"
           justifyContent="space-between"
@@ -364,7 +423,7 @@ const votingDashboard = () => {
                 </Card>
               </Grid>
             ))}
-        </Grid>
+        </Grid> 
       </Container>
       <FloatingChatIcon />
       <Footer />
@@ -386,90 +445,88 @@ const votingDashboard = () => {
           <CloseIcon />
         </IconButton>
         <DialogContent>
-        <Grid container>
-  <Grid
-    item
-    xs={12}
-    sm={12}
-    lg={4}
-    sx={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%',
-      width: '100%',
-      order: { xs: 2, lg: 1 }, 
-     
-      
-    }}
-  >
-    <Box  sx={{marginLeft:'25%'}}>
-    <PieChart
-      series={[
-        {
-          data: piedata.map((d) => ({
-            id: d.id,
-            value: d.value,
-            color: d.color,
-          })),
-          arcLabel: (item) => (
-            <>
-              {item.id}
-              <br />
-              ({item.value}%)
-            </>
-          ),
-          arcLabelMinAngle: 45,
-        },
-      ]}
-      sx={{
-        [`& .${pieArcLabelClasses.root}`]: {
-          fill: 'white',
-          fontWeight: '500',
-        },
-      }}
-      width={350}
-      height={350}
-     
-    />
-    </Box>
-  </Grid>
-  <Grid
-    item
-    xs={12}
-    sm={12}
-    lg={8}
-    sx={{
-      p: 2,
-      order: { xs: 1, lg: 2 },
-    }}
-  >
-    <Box className="h1-title fw-600 lg-mt-20">
-      India will win the Gold Medal for at least 5 sports this year!
-    </Box>
-    <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
-    <Box>
-      <Box className="mt-9 h5-title">
-        Poll Created On:
-        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
-      </Box>
-      <Box className="mt-9 h5-title">Total Votes: 1200</Box>
-      <Box className="mt-9 h5-title">Total Voted Users: 800</Box>
-      <Box className="mt-9 h5-title">
-        Voting Ended On:
-        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
-      </Box>
-      <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box>
-      <Box>
-        <Button type="button" className="primary-btn lg-mt-20">
-          Share Results <ShareIcon className="fs-14 pl-18" />
-        </Button>
-      </Box>
-    </Box>
-  </Grid>
-</Grid>
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              lg={4}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                width: '100%',
+                order: { xs: 2, lg: 1 },
 
 
+              }}
+            >
+              <Box sx={{ marginLeft: '25%' }}>
+                <PieChart
+                  series={[
+                    {
+                      data: piedata.map((d) => ({
+                        id: d.id,
+                        value: d.value,
+                        color: d.color,
+                      })),
+                      arcLabel: (item) => (
+                        <>
+                          {item.id}
+                          <br />
+                          ({item.value}%)
+                        </>
+                      ),
+                      arcLabelMinAngle: 45,
+                    },
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontWeight: '500',
+                    },
+                  }}
+                  width={350}
+                  height={350}
+
+                />
+              </Box>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              lg={8}
+              sx={{
+                p: 2,
+                order: { xs: 1, lg: 2 },
+              }}
+            >
+              <Box className="h1-title fw-600 lg-mt-20">
+                India will win the Gold Medal for at least 5 sports this year!
+              </Box>
+              <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
+              <Box>
+                <Box className="mt-9 h5-title">
+                  Poll Created On:
+                  <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+                </Box>
+                <Box className="mt-9 h5-title">Total Votes: 1200</Box>
+                <Box className="mt-9 h5-title">Total Voted Users: 800</Box>
+                <Box className="mt-9 h5-title">
+                  Voting Ended On:
+                  <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+                </Box>
+                <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box>
+                <Box>
+                  <Button type="button" className="primary-btn lg-mt-20">
+                    Share Results <ShareIcon className="fs-14 pl-18" />
+                  </Button>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
         </DialogContent>
       </Dialog>
     </div>
