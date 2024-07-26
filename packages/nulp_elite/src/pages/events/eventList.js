@@ -106,7 +106,7 @@ const EventList = (props) => {
   };
 
   useEffect(() => {
-    fetchAllData();
+    // fetchAllData();
     fetchMyEvents();
     fetchUserData();
   }, []);
@@ -162,6 +162,7 @@ const EventList = (props) => {
   }
 
   const fetchAllData = async () => {
+    console.log("searchQuery",searchQuery);
     let filters = {};
     if (searchQuery && domainfilter && subDomainFilter) {
       filters = {
@@ -222,7 +223,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 10,
-        query: searchQuery ? searchQuery : "",
+        query: searchQuery ,
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 10 * (currentPage - 1),
       },

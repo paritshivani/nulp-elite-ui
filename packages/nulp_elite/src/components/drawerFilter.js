@@ -168,7 +168,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
     setSelectedContentType([]);
     setSelectedSubDomain([]);
     setSearchTerm();
-    setEventSearch();
+    setEventSearch("");
     setStartDate(null);
     setEndDate(null);
   };
