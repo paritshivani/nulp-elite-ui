@@ -190,7 +190,7 @@ function Header({ globalSearchQuery }) {
             : " xs-hide d-flex  bg-white"
         }
       >
-        <Box className="d-flex alignItems-center w-100">
+        <Box className="d-flex alignItems-center w-100" style={{marginLeft:"10px"}}>
           <Link
             href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
             className="pl-0 py-15 d-flex xs-py-3"
@@ -211,7 +211,7 @@ function Header({ globalSearchQuery }) {
             }}
           >
             <Box className="h5-title px-10">{t("EXPLORE")}</Box>
-            <Box style={{ width: "75%" }}>
+            <Box style={{ width: "100%" }}>
               <TextField
                 placeholder={t("What do you want to learn today?  ")}
                 variant="outlined"
@@ -286,13 +286,14 @@ function Header({ globalSearchQuery }) {
           {/* Language Select */}
 
           <Box
-            className="xs-hide"
+            className="xs-hide spacing-header"
             sx={{
               flexGrow: 1,
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
               marginLeft: "20px",
+              marginRight:"10px"
             }}
           >
             <Link
@@ -393,7 +394,8 @@ function Header({ globalSearchQuery }) {
                 />
               </Tooltip>
             </Link>
-            <Box sx={{ minWidth: 102, padding: "0px 10px 0px 10px" }}>
+            <Tooltip title={t("Language")} placement="bottom" arrow>
+            <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
               <FormControl
                 fullWidth
                 size="small"
@@ -427,6 +429,8 @@ function Header({ globalSearchQuery }) {
                 </Select>
               </FormControl>
             </Box>
+            </Tooltip>
+            <Tooltip title={t("Notification")} placement="bottom" arrow>
             <Box className="notification-circle xs-hide">
               {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
@@ -469,9 +473,11 @@ function Header({ globalSearchQuery }) {
                 </MenuItem>
               </Menu>
             </Box>
+            </Tooltip>
 
             {/* User Profile */}
             <Tooltip
+            title={t("PROFILE")} placement="bottom" arrow
               className={
                 activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
                   activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`

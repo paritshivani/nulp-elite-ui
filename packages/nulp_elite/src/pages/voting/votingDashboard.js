@@ -130,7 +130,7 @@ const votingDashboard = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="xs-pb-20 lg-pt-20 min-"
+        className="xs-pb-20 lg-pt-20 votingDashboard lg-mb-70"
       >
         <Box mb={2} mt={2}>
           <Grid container spacing={2} alignItems="center">
@@ -445,88 +445,90 @@ const votingDashboard = () => {
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <Grid container>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              lg={4}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                width: '100%',
-                order: { xs: 2, lg: 1 },
+        <Grid container>
+  <Grid
+    item
+    xs={12}
+    sm={12}
+    lg={4}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      width: '100%',
+      order: { xs: 2, lg: 1 }, 
+     
+      
+    }}
+  >
+    <Box  sx={{marginLeft:'25%'}}>
+    <PieChart
+      series={[
+        {
+          data: piedata.map((d) => ({
+            id: d.id,
+            value: d.value,
+            color: d.color,
+          })),
+          arcLabel: (item) => (
+            <>
+              {item.id}
+              <br />
+              ({item.value}%)
+            </>
+          ),
+          arcLabelMinAngle: 45,
+        },
+      ]}
+      sx={{
+        [`& .${pieArcLabelClasses.root}`]: {
+          fill: 'white',
+          fontWeight: '500',
+        },
+      }}
+      width={350}
+      height={350}
+     
+    />
+    </Box>
+  </Grid>
+  <Grid
+    item
+    xs={12}
+    sm={12}
+    lg={8}
+    sx={{
+      p: 2,
+      order: { xs: 1, lg: 2 },
+    }}
+  >
+    <Box className="h1-title fw-600 lg-mt-20">
+      India will win the Gold Medal for at least 5 sports this year!
+    </Box>
+    <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
+    <Box>
+      <Box className="mt-9 h5-title">
+        Poll Created On:
+        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+      </Box>
+      <Box className="mt-9 h5-title">Total Votes: 1200</Box>
+      <Box className="mt-9 h5-title">Total Voted Users: 800</Box>
+      <Box className="mt-9 h5-title">
+        Voting Ended On:
+        <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
+      </Box>
+      <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box>
+      <Box>
+        <Button type="button" className="primary-btn lg-mt-20">
+          Share Results <ShareIcon className="fs-14 pl-18" />
+        </Button>
+      </Box>
+    </Box>
+  </Grid>
+</Grid>
 
 
-              }}
-            >
-              <Box sx={{ marginLeft: '25%' }}>
-                <PieChart
-                  series={[
-                    {
-                      data: piedata.map((d) => ({
-                        id: d.id,
-                        value: d.value,
-                        color: d.color,
-                      })),
-                      arcLabel: (item) => (
-                        <>
-                          {item.id}
-                          <br />
-                          ({item.value}%)
-                        </>
-                      ),
-                      arcLabelMinAngle: 45,
-                    },
-                  ]}
-                  sx={{
-                    [`& .${pieArcLabelClasses.root}`]: {
-                      fill: 'white',
-                      fontWeight: '500',
-                    },
-                  }}
-                  width={350}
-                  height={350}
-
-                />
-              </Box>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              lg={8}
-              sx={{
-                p: 2,
-                order: { xs: 1, lg: 2 },
-              }}
-            >
-              <Box className="h1-title fw-600 lg-mt-20">
-                India will win the Gold Medal for at least 5 sports this year!
-              </Box>
-              <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
-              <Box>
-                <Box className="mt-9 h5-title">
-                  Poll Created On:
-                  <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
-                </Box>
-                <Box className="mt-9 h5-title">Total Votes: 1200</Box>
-                <Box className="mt-9 h5-title">Total Voted Users: 800</Box>
-                <Box className="mt-9 h5-title">
-                  Voting Ended On:
-                  <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
-                </Box>
-                <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box>
-                <Box>
-                  <Button type="button" className="primary-btn lg-mt-20">
-                    Share Results <ShareIcon className="fs-14 pl-18" />
-                  </Button>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
         </DialogContent>
       </Dialog>
     </div>

@@ -281,7 +281,7 @@ button {
     margin: 0 10px;
   } */
   .notification-circle {
-    padding-right: 20px;
+    padding-right: 30px;
   }
 
   .notification-circle svg {
@@ -1238,9 +1238,17 @@ button {
   .lg-left {
     text-align: left;
   }
+  #root > div:first-child {
+    min-height: 100vh;
+    padding-bottom: 55px;
+  }
 }
 
 @media (min-width: 769px) {
+  #root > div:first-child {
+    min-height: 100vh;
+    padding-bottom: 135px;
+  }
   .custom-event-container .cardBox,
   .votingDashboard .cardBox {
     height: inherit !important;
@@ -1311,7 +1319,9 @@ button {
   .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
     padding-top: 117px !important;
   }
-
+ .lg-mb-70{
+  margin-bottom: 90px !important;
+ }
   .lg-pr-10 {
     padding-right: 10px !important;
   }
@@ -1418,7 +1428,7 @@ button {
   } */
   .domainText {
     color: #484848;
-    font-size: 13px !important;
+    font-size: 11px !important;
     margin: 0 auto;
     display: block;
     padding-left: 0 !important;
@@ -1604,7 +1614,7 @@ button {
     color: #484848 !important;
     display: flex;
     justify-content: flex-start;
-    padding: 6px 20px;
+    /* padding: 6px 30px; */
     text-align: center;
     font-size: 14px !important;
   }
@@ -1856,6 +1866,9 @@ button {
   .addConnectChat .jss7 {
     margin-top: 21px !important;
   }
+  .spacing-header a{
+    margin: 0 23px !important;
+  }
 }
 
 @media (max-width: 769px) {
@@ -1953,6 +1966,7 @@ button {
     text-align: center;
     margin: 0 auto;
     background: none !important;
+    margin-top: -9px !important;
   }
   SkeletonLoader {
     margin-top: 117px !important;
@@ -1965,9 +1979,10 @@ button {
     font-size: 12px !important;
     font-weight: 500 !important;
     padding: 10px 15px !important;
-    box-shadow: 0 4px 4px 0 #00000040 !important;
+    /* box-shadow: 0 4px 4px 0 #00000040 !important; */
     border: none;
     cursor: pointer;
+    box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.2) !important;
   }
   .pos-fixed,
   .scrolledTop,
@@ -3022,6 +3037,10 @@ custom-chip {
   font-size: 14px !important;
 }
 
+.fs-16{
+  font-size: 16px !important;
+}
+
 .certificate .MuiCard-root {
   background: #ffe8a975 !important;
   border: solid 1px #ffe8a975 !important;
@@ -3510,10 +3529,7 @@ thead th {
   min-height: 100vh;
 }
 
-#root > div:first-child {
-  min-height: 100vh;
-  padding-bottom: 55px;
-}
+
 .MuiDialogTitle-root + .css-1ty026z {
   padding-top: 20px !important;
 }
