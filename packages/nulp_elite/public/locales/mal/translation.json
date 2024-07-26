@@ -41,8 +41,13 @@
   "HELP": "സഹായം",
   "LOGOUT": "ലോഗ്ഔട്ട്",
   "LANGUAGE": "ഭാഷ",
-  "ENGLISH": "ഇംഗ്ലീഷ്",
-  "HINDI": "ഹിന്ദി",
+  "ENGLISH": "English",
+  "HINDI": "हिंदी",
+  "MARATHI":"मराठी",
+  "GUJARATI":"ગુજરાતી",
+  "TAMIL":"தமிழ்",
+  "BENGALI":"বাংলা",
+  "MALYALAM":"മലയാളം",
   "WELCOME_TEXT": "നിങ്ങളുടെ പഠന പോർട്ടലിൽ സ്വാഗതം",
   "EXPLORE_COURSES": " കോഴ്‌സുകൾ കണ്ടെത്തുക",
   "CERTIFICATES": "സർട്ടിഫിക്കറ്റുകൾ",
@@ -256,4 +261,5 @@
   "CONNECTION_REQUEST": "കണക്ഷൻ അഭ്യർത്ഥനകൾ",
   "BLOCKED_USERS": "അടച്ച ഉപയോക്താക്കൾ",
   "What do you want to learn today?  ":"ഇന്ന് നിങ്ങൾ എന്താണ് പഠിക്കാൻ ആഗ്രഹിക്കുന്നത്?"
+  
 }

@@ -41,8 +41,13 @@
   "HELP": "உதவி",
   "LOGOUT": "உள்நுழைவதை நிறுத்து",
   "LANGUAGE": "மொழி",
-  "ENGLISH": "ஆங்கிலம்",
-  "HINDI": "இந்தி",
+  "ENGLISH": "English",
+  "HINDI": "हिंदी",
+  "MARATHI":"मराठी",
+  "GUJARATI":"ગુજરાતી",
+  "TAMIL":"தமிழ்",
+  "BENGALI":"বাংলা",
+  "MALYALAM":"മലയാളം",
   "WELCOME_TEXT": "எங்கள் கல்வி தளத்திற்கு வரவேற்கிறோம்",
   "EXPLORE_COURSES": "வகுப்புகளை ஆய்வு செய்க",
   "CERTIFICATES": "சான்றிதழ்கள்",
@@ -279,4 +284,5 @@
   "CONNECTION_REQUEST": "இணைப்பு கோரிக்கைகள்",
   "BLOCKED_USERS": "தடுக்கும் பயனர்கள்",
   "What do you want to learn today?  ":"இன்று நீங்கள் என்ன கற்க விரும்புகிறீர்கள்?"
+  
 }
