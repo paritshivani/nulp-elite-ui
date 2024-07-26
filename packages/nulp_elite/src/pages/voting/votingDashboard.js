@@ -74,7 +74,7 @@ const votingDashboard = () => {
       <Container
         maxWidth="xl"
         role="main"
-        className="xs-pb-20 lg-pt-20 min-"
+        className="xs-pb-20 lg-pt-20 votingDashboard lg-mb-70"
       >
         <Box mb={2} mt={2}>
           <Grid container spacing={2} alignItems="center">
@@ -453,16 +453,16 @@ const votingDashboard = () => {
         Poll Created On:
         <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
       </Box>
-      <Box className="mt-9 h5-title">Total Votes: 1200</Box>
-      <Box className="mt-9 h5-title">Total Voted Users: 800</Box>
+      <Box className="mt-9 h5-title"><span style={{fontWeight:"400"}}>Total Votes </span> : 1200</Box>
+      <Box className="mt-9 h5-title"><span style={{fontWeight:"400"}}>Total Voted Users </span> : 800</Box>
       <Box className="mt-9 h5-title">
-        Voting Ended On:
+      <span style={{fontWeight:"400"}}> Voting Ended On : </span>
         <TodayOutlinedIcon className="fs-14 pr-5" /> 25th July, 2024
       </Box>
-      <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box>
+      <Box className="lg-mt-12 h5-title"><span style={{fontWeight:"400"}}>Voting Criteria</span> : At least 5 sports</Box>
       <Box>
         <Button type="button" className="primary-btn lg-mt-20">
-          Share Results <ShareIcon className="fs-14 pl-18" />
+          Share Results <ShareIcon className="fs-16 pl-18" />
         </Button>
       </Box>
     </Box>
