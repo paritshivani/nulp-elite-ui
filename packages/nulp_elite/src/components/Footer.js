@@ -112,7 +112,7 @@ export default function Footer() {
               icon={<HomeOutlinedIcon />}
               className={
                 location.pathname ===
-                `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
+                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}`
                   ? "navigateActive"
                   : ""
               }
@@ -124,7 +124,7 @@ export default function Footer() {
               label={t("CONTENTS")}
               className={
                 location.pathname ===
-                `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
+                  `${routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT}`
                   ? "navigateActive"
                   : ""
               }
@@ -138,7 +138,7 @@ export default function Footer() {
               className={
                 location.pathname ===
                   `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}` ||
-                location.pathname === routeConfig.ROUTES.CHAT_PAGE.CHAT
+                  location.pathname === routeConfig.ROUTES.CHAT_PAGE.CHAT
                   ? "navigateActive"
                   : ""
               }
@@ -173,132 +173,136 @@ export default function Footer() {
           </BottomNavigation>
         </Box>
       </Box>
-      <Box
-        className="xs-hide"
-        style={{
-          background: "#065872",
-          color: "#fff",
-          padding: "15px 15px 13px",
-          marginTop: "auto",
-        }}
-      >
-        {/* <Box>dfgdfgsg */}
+        <Box
+          className="xs-hide"
+          style={{
+            background: "#065872",
+            color: "#fff",
+            padding: "15px 15px 13px",
+            marginTop: "auto",
+            position: 'absolute',
+            bottom: '0px',
+            width:'100%',
+            boxSizing: 'border-box'
+          }}
+        >
+          {/* <Box>dfgdfgsg */}
 
-        <Grid container spacing={2} className="footer">
-          <Grid
-            item
-            xs={8}
-            md={3}
-            style={{ fontSize: "14px", lineHeight: "2.4", fontWeight: "400" }}
-          >
-            <Link
-              underline="none"
-              target="_blank"
-              href="https://niua.in/"
-              style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
+          <Grid container spacing={2} className="footer">
+            <Grid
+              item
+              xs={8}
+              md={3}
+              style={{ fontSize: "14px", lineHeight: "2.4", fontWeight: "400" }}
             >
-              {t("NIUA")}
-            </Link>
-            <Link
-              underline="none"
-              target="_blank"
-              href="https://mohua.gov.in/"
-              style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
-            >
-              {t("MOHUA")}
-            </Link>
-            <br />
-            <Link
-              underline="none"
-              target="_blank"
-              href="/aboutus.html"
-              style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
-            >
-              {t("ABOUT_US")}
-            </Link>
-            <Link
-              underline="none"
-              href="#"
-              style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
-            >
-              {t("CONTACT_US")}
-            </Link>
-            <Link
-              underline="none"
-              href={routeConfig.ROUTES.HELP_PAGE.HELP}
-              style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
-            >
-              {t("FAQS")}
-            </Link>
-            <Link
-              underline="none"
-              href="/logout"
-              style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
-            >
-              {t("LOG_OUT")}
-            </Link>
-          </Grid>
-          <Grid
-            item
-            xs={4}
-            md={3}
-            style={{ fontSize: "14px", lineHeight: "2.4", fontWeight: "400" }}
-          >
-            {/* <Link underline="none" target="_blank" href="https://niua.org/cdg/" style={{padding:'10px 0 2px',color:'#fff', fontSize:'14px'}}>{t("CENTER_FOR_DIGITAL_GOVERNANCE")}</Link><br/> */}
-            <Link
-              underline="none"
-              target="_blank"
-              href="https://nudm.mohua.gov.in/"
-              style={{ padding: "10px 0 2px", color: "#fff", fontSize: "14px" }}
-            >
-              {t("NATIONAL_URBAN_DIGITAL_MISSION")}
-            </Link>
-            <Box className="social-icons">
-              <Link href="#" underline="none">
-                <FacebookIcon />
+              <Link
+                underline="none"
+                target="_blank"
+                href="https://niua.in/"
+                style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
+              >
+                {t("NIUA")}
               </Link>
-              <Link href="#" underline="none">
-                <InstagramIcon />
+              <Link
+                underline="none"
+                target="_blank"
+                href="https://mohua.gov.in/"
+                style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
+              >
+                {t("MOHUA")}
               </Link>
-              <Link href="#" underline="none">
-                <LinkedInIcon />
+              <br />
+              <Link
+                underline="none"
+                target="_blank"
+                href="/aboutus.html"
+                style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
+              >
+                {t("ABOUT_US")}
               </Link>
-              <Link href="#" underline="none">
-                <TwitterIcon />
+              <Link
+                underline="none"
+                href="#"
+                style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
+              >
+                {t("CONTACT_US")}
               </Link>
-            </Box>
+              <Link
+                underline="none"
+                href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
+              >
+                {t("FAQS")}
+              </Link>
+              <Link
+                underline="none"
+                href="/logout"
+                style={{ padding: "10px 0 2px", color: "#fff", margin: "0 8px" }}
+              >
+                {t("LOG_OUT")}
+              </Link>
+            </Grid>
+            <Grid
+              item
+              xs={4}
+              md={3}
+              style={{ fontSize: "14px", lineHeight: "2.4", fontWeight: "400" }}
+            >
+              {/* <Link underline="none" target="_blank" href="https://niua.org/cdg/" style={{padding:'10px 0 2px',color:'#fff', fontSize:'14px'}}>{t("CENTER_FOR_DIGITAL_GOVERNANCE")}</Link><br/> */}
+              <Link
+                underline="none"
+                target="_blank"
+                href="https://nudm.mohua.gov.in/"
+                style={{ padding: "10px 0 2px", color: "#fff", fontSize: "14px" }}
+              >
+                {t("NATIONAL_URBAN_DIGITAL_MISSION")}
+              </Link>
+              <Box className="social-icons">
+                <Link href="#" underline="none">
+                  <FacebookIcon />
+                </Link>
+                <Link href="#" underline="none">
+                  <InstagramIcon />
+                </Link>
+                <Link href="#" underline="none">
+                  <LinkedInIcon />
+                </Link>
+                <Link href="#" underline="none">
+                  <TwitterIcon />
+                </Link>
+              </Box>
+            </Grid>
+            <Grid
+              item
+              xs={4}
+              md={3}
+              style={{ fontSize: "14px", lineHeight: "1.5", fontWeight: "400" }}
+            >
+              <Box style={{ fontSize: "14px", fontWeight: "700" }}>
+                {t("N0DAL_MINISTRY")}:
+              </Box>
+              {t("MINISTRY_OF_HOUSING_AND_URBAN")}
+              <br />
+              {t("NIRMAN_BHAWAN")}
+            </Grid>
+            <Grid
+              item
+              xs={8}
+              md={3}
+              style={{ fontSize: "14px", lineHeight: "1.5", fontWeight: "400" }}
+            >
+              <Box style={{ fontSize: "14px", fontWeight: "700" }}>
+                {" "}
+                {t("ANCHOR_INSTITUE")}:
+              </Box>
+              {t("NATIONAL_INSTITUE_OF_URBAN")}
+              <br />
+              {t("FIRST_FLOOR_CORE")}
+              <br />
+              Phone: (+91 11) 24617517, 24617543, 24617595
+            </Grid>
           </Grid>
-          <Grid
-            item
-            xs={4}
-            md={3}
-            style={{ fontSize: "14px", lineHeight: "1.5", fontWeight: "400" }}
-          >
-            <Box style={{ fontSize: "14px", fontWeight: "700" }}>
-              {t("N0DAL_MINISTRY")}:
-            </Box>
-            {t("MINISTRY_OF_HOUSING_AND_URBAN")}
-            <br />
-            {t("NIRMAN_BHAWAN")}
-          </Grid>
-          <Grid
-            item
-            xs={8}
-            md={3}
-            style={{ fontSize: "14px", lineHeight: "1.5", fontWeight: "400" }}
-          >
-            <Box style={{ fontSize: "14px", fontWeight: "700" }}>
-              {" "}
-              {t("ANCHOR_INSTITUE")}:
-            </Box>
-            {t("NATIONAL_INSTITUE_OF_URBAN")}
-            <br />
-            {t("FIRST_FLOOR_CORE")}
-            <br />
-            Phone: (+91 11) 24617517, 24617543, 24617595
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
     </>
   );
 }

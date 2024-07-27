@@ -35,6 +35,8 @@ const ContinueLearning = () => {
   const [itemsPerPage] = useState(16); // Number of items per page
   const navigate = useNavigate();
   const location = useLocation();
+  const [orgId, setOrgId] = useState();
+  const [framework, setFramework] = useState();
   const { domain } = location.state || {};
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -45,7 +47,7 @@ const ContinueLearning = () => {
   };
   useEffect(() => {
     fetchData();
-    fetchGradeLevels();
+    fetchUserData();
   }, [filters]);
   const handleFilterChange = (selectedOptions) => {
     const selectedValues = selectedOptions.map((option) => option.value);
@@ -69,10 +71,25 @@ const ContinueLearning = () => {
       setIsLoading(false);
     }
   };
+  const fetchUserData = async () => {
+    try {
+      const uservData = await util.userData();
+
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if (orgId || framework) {
+      fetchGradeLevels();
+    }
+  }, [orgId, framework]);
   const fetchGradeLevels = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework");
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
       const response = await fetch(url);
       const data = await response.json();
       if (
@@ -138,7 +155,7 @@ const ContinueLearning = () => {
             {error}
           </Alert>
         )}
-        <Box style={{ margin: "20px 0 20px -9px" }}>
+        <Box style={{ margin: "20px 0 20px -12px" }}>
           <Filter
             options={gradeLevels}
             label="Filter by Sub-Domain"
@@ -150,7 +167,12 @@ const ContinueLearning = () => {
             <Grid container spacing={2}>
               <Box className="custom-card profile-card-view w-100">
                 {paginatedCourses.length === 0 ? (
-                  <NoResult className="center-no-result " />
+                  <>
+                    <Box style={{ width: "300px" }}>
+                      <NoResult className="center-no-result " />
+                      <Box className="h5-title">Explore Content</Box>
+                    </Box>
+                  </>
                 ) : (
                   paginatedCourses.map((items) => (
                     <Box className="custom-card-box" key={items.contentId}>

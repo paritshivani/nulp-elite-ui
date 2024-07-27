@@ -124,6 +124,8 @@ const Profile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [orgId, setOrgId] = useState();
+
   // for bar charts
   const defaultCertData = {
     certificatesReceived: 0,
@@ -347,13 +349,17 @@ const Profile = () => {
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
       }
     };
-
+    fetchUserData();
     fetchData();
     fetchCertificateCount();
     fetchCourseCount();
     fetchUserInfo();
-    fetchUserDataAndSetCustodianOrgData();
   }, []);
+  useEffect(() => {
+    if (orgId) {
+      fetchUserDataAndSetCustodianOrgData();
+    }
+  }, [orgId]);
 
   const fetchUserDataAndSetCustodianOrgData = async () => {
     try {
@@ -366,14 +372,14 @@ const Profile = () => {
       const custodianOrgId = data?.result?.response?.value;
       const rootOrgId = sessionStorage.getItem("rootOrgId");
 
-      if (custodianOrgId === rootOrgId) {
+      if (custodianOrgId === orgId) {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${custodianOrgId}`;
         const response = await fetch(url);
         const data = await response.json();
         const defaultFramework = data?.result?.channel?.defaultFramework;
         localStorage.setItem("defaultFramework", defaultFramework);
       } else {
-        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
         const response = await fetch(url);
         const data = await response.json();
         const defaultFramework = data?.result?.channel?.defaultFramework;
@@ -475,6 +481,15 @@ const Profile = () => {
     setIsEditing(false);
     window.location.reload();
     setIsFormDirty(false);
+  };
+  const fetchUserData = async () => {
+    try {
+      const uservData = await util.userData();
+      const org = uservData.data?.result?.response?.rootOrgId;
+      setOrgId(org);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   };
 
   const fetchData = async () => {
@@ -630,8 +645,8 @@ const Profile = () => {
             xs={12}
             md={4}
             lg={4}
-            className="sm-p-25 left-container profile my-20 lg-mt-12"
-            style={{ background: "transparent", boxShadow: "none !important" }}
+            className="sm-p-25 left-container profile my-20 lg-mt-12 bx-none b-none"
+            style={{ background: "transparent", boxShadow: "none" }}
           >
             <Box
               style={{
@@ -648,7 +663,7 @@ const Profile = () => {
                 textAlign="center"
                 padding="10"
                 sx={{ marginTop: "22px" }}
-                className="xs-pr-16 mb-10"
+                className="mb-10"
               >
                 <Box className="grey-bx">
                   <Box
@@ -737,7 +752,7 @@ const Profile = () => {
                         {!isCertDataEmpty ? (
                           <>
                             <Box className="h6-title pl-20">
-                              Certifications Received
+                              {t("CERTIFICATIONS RECEIVED")}
                             </Box>
                             <BarChart
                               yAxis={[
@@ -805,14 +820,13 @@ const Profile = () => {
                         ) : (
                           <>
                             <Box className="h6-title pl-20">
-                              Certifications Received
+                              {t("CERTIFICATIONS RECEIVED")}
                             </Box>
                             <Alert
                               severity="info"
                               style={{
                                 backgroundColor: "transparent",
                                 color: "#0e7a9c",
-                                width: "100%",
                               }}
                             >
                               No certificates found
@@ -825,7 +839,7 @@ const Profile = () => {
                         {!isCourseDataEmpty ? (
                           <>
                             <Box className="h6-title  pl-20">
-                              Courses more than last month
+                              {t("COURSES MORE THAN LAST MONTH")}
                             </Box>
                             <BarChart
                               yAxis={[
@@ -854,11 +868,12 @@ const Profile = () => {
                               height={200}
                               options={{}}
                             />
+                            <Box className="h6-title">Certiifcates</Box>
                           </>
                         ) : (
                           <>
                             <Box className="h6-title  pl-20">
-                              Courses more than last month
+                              {t("COURSES MORE THAN LAST MONTH")}
                             </Box>
 
                             <Alert
@@ -866,7 +881,7 @@ const Profile = () => {
                               style={{
                                 backgroundColor: "transparent",
                                 color: "#0e7a9c",
-                                width: "100%",
+                                paddingRight: "20px",
                               }}
                             >
                               You are not enrolled in any course. Enroll now!
@@ -1122,39 +1137,43 @@ const Profile = () => {
                   }}
                 >
                   <ReceiptLongIcon className="pr-5" />
-                  {t("Download Certificates")}
+                  {t("DOWNLOAD CERTIFICATES")}
                 </Button>
 
-                <Modal
-                  // open={open}
-                  // onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                  isableEscapeKeyDown={!isEmptyPreference}
-                  open={openModal}
-                  className="xs-w-300"
-                  onClose={(event, reason) => {
-                    if (
-                      reason === "backdropClick" ||
-                      reason === "escapeKeyDown"
-                    ) {
-                      setOpenModal(true);
-                    } else {
-                      handleCloseModal();
-                    }
-                  }}
-                >
-                  <Box sx={style}>
-                    <Typography
-                      id="modal-modal-title"
-                      className="h3-title"
-                      style={{ marginBottom: "20px" }}
-                    >
-                      {t("SELECT_PREFERENCE")}
-                    </Typography>
-                    <SelectPreference onClose={handleCloseModal} />
-                  </Box>
-                </Modal>
+                {/* <Modal
+                // open={open}
+                // onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                isableEscapeKeyDown={!isEmptyPreference}
+                open={openModal}
+                className="xs-w-300"
+                onClose={(event, reason) => {
+                  if (
+                    reason === "backdropClick" ||
+                    reason === "escapeKeyDown"
+                  ) {
+                    setOpenModal(true);
+                  } else {
+                    handleCloseModal();
+                  }
+                }}
+              >
+                <Box sx={style}>
+                  <Typography
+                    id="modal-modal-title"
+                    className="h3-title"
+                    style={{ marginBottom: "20px" }}
+                  >
+                    {t("SELECT_PREFERENCE")}
+                  </Typography>
+                  <SelectPreference onClose={handleCloseModal} />
+                </Box>
+              </Modal> */}
+                <SelectPreference
+                  onClose={handleCloseModal}
+                  isOpen={openModal}
+                />
 
                 <Box className="grey-bx p-10 py-15">
                   <Box className="h4-title d-flex pt-10 alignItems-center">
@@ -1190,7 +1209,7 @@ const Profile = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="pb-20">
+          <Grid item xs={12} md={8} lg={8} className="pb-20 lg-pl-0">
             {showCertificate ? (
               <Certificate />
             ) : (
@@ -1202,13 +1221,13 @@ const Profile = () => {
                       aria-label="lab API tabs example"
                     >
                       <Tab
-                        label="Continue learning"
+                        label={t("CONTINUE LEARNING")}
                         className="tab-text profile-tab"
                         icon={<DomainVerificationOutlinedIcon />}
                         value="1"
                       />
                       <Tab
-                        label="Learning History"
+                        label={t("LEARNING HISTORY")}
                         className="tab-text profile-tab"
                         icon={<WatchLaterOutlinedIcon />}
                         value="2"

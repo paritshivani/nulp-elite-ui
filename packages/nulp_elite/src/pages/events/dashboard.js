@@ -30,7 +30,7 @@ import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 const urlConfig = require("../../configs/urlConfig.json");
-import { Checkbox, ListItemText, Chip } from "@material-ui/core";
+import { Checkbox, ListItemText, Chip, Button } from "@material-ui/core";
 import { saveAs } from "file-saver";
 import * as util from "../../services/utilService";
 
@@ -53,12 +53,12 @@ const Dashboard = () => {
   });
   const [topEvent, setTopEvent] = useState([]);
   const [topDesignation, setTopDesignation] = useState([]);
-  const [startDateFilter, setStartDateFilter] = useState(null);
-  const [endDateFilter, setEndDateFilter] = useState(null);
-  const [startDateDesignationFilter, setStartDateDesignationFilter] =
-    useState(null);
-  const [endDateDesignationFilter, setEndDateDesignationFilter] =
-    useState(null);
+  const [startDateDesignationFilter, setStartDateDesignationFilter] = useState(
+    dayjs().subtract(30, "day")
+  );
+  const [endDateDesignationFilter, setEndDateDesignationFilter] = useState(
+    dayjs()
+  );
   const [domainList, setDomainList] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState([]);
@@ -68,6 +68,11 @@ const Dashboard = () => {
   const [currentEventId, setCurrentEventId] = useState(null);
   const _userId = util.userId();
   const [userData, setUserData] = useState(null);
+  const [orgId, setOrgId] = useState();
+  const [startDateFilter, setStartDateFilter] = useState(
+    dayjs().subtract(30, "day")
+  );
+  const [endDateFilter, setEndDateFilter] = useState(dayjs());
 
   const handleDomainChange = (event) => {
     setSelectedDomain(event.target.value);
@@ -105,41 +110,34 @@ const Dashboard = () => {
   const chartSetting = {
     yAxis: [
       {
-        label: 'rainfall (mm)',
+        label: "rainfall (mm)",
       },
     ],
-   
-   
-  
   };
   const chartSettingH = {
     yAxis: [
       {
-        label: 'rainfall (mm)',
+        label: "rainfall (mm)",
       },
     ],
-   
-   
-  
   };
   const xLabels = [
-    'Chief Municipal Officer',
-    'Junior Engineer',
-    'Consultant',
-    'Scholar',
-    'Executive',
-  
+    "Chief Municipal Officer",
+    "Junior Engineer",
+    "Consultant",
+    "Scholar",
+    "Executive",
   ];
   const xxLabels = [
-    'Page A',
-    'Page B',
-    'Page C',
-    'Page D',
-    'Page E',
-    'Page F',
-    'Page G',
+    "Page A",
+    "Page B",
+    "Page C",
+    "Page D",
+    "Page E",
+    "Page F",
+    "Page G",
   ];
-  const uData = [10, 20, 30, 40, 50, 60, 70,80,90];
+  const uData = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 
   const downloadCSV = (event) => {
     const csvContent = convertArrayToCSV(data);
@@ -335,10 +333,10 @@ const Dashboard = () => {
           params.append("toDate", dayjs(endDateFilter).format("YYYY-MM-DD"));
         }
 
-        // const url = `${
-        //   urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
-        // }?${params.toString()}`;
-        const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
+        const url = `${
+          urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
+        }?${params.toString()}`;
+        // const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
 
         const response = await fetch(url, {
           method: "GET",
@@ -458,6 +456,15 @@ const Dashboard = () => {
         console.error("Error fetching data:", error);
       }
     };
+    const fetchUserData = async () => {
+      try {
+        const uservData = await util.userData();
+        setOrgId(uservData?.data?.result?.response?.rootOrgId);
+        fetchDataFramework();
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}?fields=${urlConfig.params.userReadParam.fields}`;
@@ -540,6 +547,13 @@ const Dashboard = () => {
     roleNames.includes("ORG_ADMIN");
   // Check for content creator role
   const isContentCreator = roleNames.includes("CONTENT_CREATOR");
+  const handleClearFilters = () => {
+    setSelectedUser("");
+    setSelectedDomain("");
+    setSelectedSubDomain([]);
+    setVisibilityFilter("");
+    setCertificateFilter("");
+  };
 
   return (
     <div>
@@ -592,9 +606,8 @@ const Dashboard = () => {
           </Box>
         </Grid>
         <Grid container spacing={2} className="custom-date">
-          <Grid item xs={12} md={6} style={{position:"relative"
-          }}>
-            <Box className="mb-10 h3-title mt-32">
+          <Grid item xs={12} md={6} style={{ position: "relative" }}>
+            <Box className="mb-20 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_EVENT")}
             </Box>
@@ -602,7 +615,7 @@ const Dashboard = () => {
               <Box>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <MuiDatePicker
-                    label="Select Date from"
+                    label="Select Date From"
                     value={startDateFilter}
                     onChange={handleStartDateChange}
                     renderInput={(params) => <TextField {...params} />}
@@ -629,22 +642,22 @@ const Dashboard = () => {
                 titleProps: { fill: "#000", fontSize: 14, fontWeight: "bold" },
               }}
               height={300}
-
             />
-             <BarChart
+            {/* <BarChart
               xAxis={[
-                { scaleType: "band", data: ["Event A", "Event B", "Event C", "Event D" , "Event E"] },
+                {
+                  scaleType: "band",
+                  data: ["Event A", "Event B", "Event C", "Event D", "Event E"],
+                },
               ]}
-              series={[{ data: [4, 1, 4,8,7] }]}
-             
+              series={[{ data: [4, 1, 4, 8, 7] }]}
               height={300}
-            />
-             <Box className="brYlabel">No. of Participants</Box>
-            <Box sx={{textAlign:"center"}}>Events</Box>
+            /> */}
+            <Box className="brYlabel">No. of Participants</Box>
+            <Box sx={{ textAlign: "center" }}>Events</Box>
           </Grid>
-          <Grid item xs={12} md={6} style={{position:"relative"
-          }}>
-            <Box className="mb-10 h3-title mt-32">
+          <Grid item xs={12} md={6} style={{ position: "relative" }}>
+            <Box className="mb-20 h3-title mt-32">
               <TrendingUpOutlinedIcon style={{ paddingRight: "10px" }} />
               {t("TOP_TRENDING_DESIGNATIONS")}
             </Box>
@@ -671,25 +684,31 @@ const Dashboard = () => {
               </Box>
             </Box>
             <LineChart
-              xAxis={[{ data: [1, 4, 6, 8, 10, 12]  }]}
+              xAxis={[{ data: [1, 4, 6, 8, 10, 12] }]}
               series={seriesData}
               height={300}
               {...chartSettingH}
-
             />
-             <LineChart
-      height={300}
-      series={[
-        { data: uData, label: 'No. of Participants' },
-      ]}
-      xAxis={[{ scaleType: 'point', data: xLabels }]}
-    />
-    <Box className="yLabel">Participants</Box>
-            <Box sx={{textAlign:"center"}}>Designation</Box>
-
+            {/* <LineChart
+              height={300}
+              series={[{ data: uData, label: "No. of Participants" }]}
+              xAxis={[{ scaleType: "point", data: xLabels }]}
+            /> */}
+            <Box className="yLabel">Participants</Box>
+            <Box sx={{ textAlign: "center" }}>Designation</Box>
           </Grid>
         </Grid>
-        <Grid container spacing={2} className="mt-32" style={{justifyContent:"space-between"}}>
+        <Grid
+          container
+          spacing={2}
+          className="mt-32"
+          style={{ justifyContent: "space-between" }}
+        >
+          <Grid item xs={12} style={{ textAlign: "right" }}>
+            <Button className="custom-btn-primary" onClick={handleClearFilters}>
+              Clear All Filters
+            </Button>
+          </Grid>
           {isAdmin ? (
             <Grid item xs={6} md={2}>
               <FormControl>
@@ -732,9 +751,7 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={6} md={2}>
             <FormControl fullWidth>
-              <InputLabel id="sub-category-select-label">
-                Sub-Domain
-              </InputLabel>
+              <InputLabel id="sub-category-select-label">Sub-Domain</InputLabel>
               <Select
                 labelId="sub-category-select-label"
                 id="sub-category-select"
@@ -814,13 +831,13 @@ const Dashboard = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead sx={{ background: "#f4efe3" }}>
               <TableRow>
-                <TableCell>S.No.</TableCell>
+                <TableCell align="center">S.No.</TableCell>
                 <TableCell align="left">Event Name</TableCell>
-                <TableCell align="left">Event Date</TableCell>
-                <TableCell align="left">No. of Participants</TableCell>
-                <TableCell align="left">Certificate Attached</TableCell>
-                <TableCell align="left">Creator</TableCell>
-                <TableCell align="left">Download Report</TableCell>
+                <TableCell align="center">Event Date</TableCell>
+                <TableCell align="center">No. of Participants</TableCell>
+                <TableCell align="center">Certificate Attached</TableCell>
+                <TableCell align="center">Organisation</TableCell>
+                <TableCell align="center">Download Report</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -831,19 +848,19 @@ const Dashboard = () => {
                     "&:last-child td, &:last-child th": { border: 0 },
                   }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell align="center" component="th" scope="row">
                     {index + 1}
                   </TableCell>
                   <TableCell align="left">{event.name}</TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">
                     {new Date(event.startDate).toLocaleDateString()}
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">
                     {event.totalParticipants}
                   </TableCell>
-                  <TableCell align="left">{event.IssueCerificate}</TableCell>
-                  <TableCell align="left">{event.EventOrganisedby}</TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">{event.IssueCerificate}</TableCell>
+                  <TableCell align="center">{event.EventOrganisedby}</TableCell>
+                  <TableCell align="center">
                     <FileDownloadOutlinedIcon
                       onClick={() => handleDownloadClick(event.identifier)}
                       className="text-primary"

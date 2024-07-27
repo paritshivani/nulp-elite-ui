@@ -64,6 +64,7 @@ const EventDetails = () => {
 
   const [isRecorded, setIsRecorded] = useState();
   const [eventEnded, setEventEnded] = useState();
+  const [userData, setUserData] = useState(null);
 
   const [isEnrolled, setIsEnrolled] = useState();
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
@@ -126,7 +127,16 @@ const EventDetails = () => {
     }
   };
 
+ const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
   useEffect(() => {
+fetchUserData();
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.EVENT.READ}/${eventId}`;
@@ -537,18 +547,16 @@ const EventDetails = () => {
       </Snackbar>
       {detailData && (
         <Container
-          className=" xs-pb-20 mt-12 xss-p-0"
+         className=" xs-pb-20 mt-12 mb-38"
           style={{
             maxWidth: "100%",
-            paddingLeft: "14px",
-            paddingRight: "14px",
-            marginBottom: "20px",
+
           }}
         >
           <Breadcrumbs
             aria-label="breadcrumb"
             className="h6-title mt-15 pl-28 xss-pb-0"
-            style={{ padding: "0 0 20px 20px" }}
+            style={{ padding: "0 0 10px 0px" }}
           >
             <Link
               underline="hover"
@@ -571,7 +579,7 @@ const EventDetails = () => {
           <Grid
             container
             spacing={2}
-            className="bg-whitee custom-event-container mb-20"
+            className="bg-whitee custom-event-container mb-20 custom-container mb-38"
           >
             <Grid item xs={3} md={6} lg={2}>
               {/* <img
@@ -669,7 +677,7 @@ const EventDetails = () => {
                           background: "#0e7a9c",
                           marginTop: "10px",
                         }}
-                        onClick={managePublicPrivateEvent("reg")}
+                        onClick={() => managePublicPrivateEvent("reg")}
                       >
                         {t("REGISTER_WEBINAR")}
                       </Button>
@@ -705,6 +713,7 @@ const EventDetails = () => {
                       border: "solid 1px #1976d2",
                       background: "#1976d2",
                       marginTop: "10px",
+                      marginRight: "10px",
                     }}
                     className="custom-btn-primary mr-20"
                     disabled={!canJoin} // Disable the button when canEnroll is true
@@ -887,6 +896,7 @@ const EventDetails = () => {
                       border: "solid 1px #1976d2",
                       background: "#1976d2",
                       marginTop: "10px",
+                      marginRight: "10px",
                     }}
                     className="custom-btn-primary mr-20"
                     disabled={!canJoin} // Disable the button when canEnroll is true
@@ -1077,12 +1087,12 @@ const EventDetails = () => {
           }}
         >
           <Typography variant="h6" component="h2">
-            {t("Registration Form")}
+            {t("REGISTRATION_FORM")}
           </Typography>
 
           {detailData && (
             <Typography gutterBottom className="mt-10 h1-title mb-20 xs-pl-15">
-              Event Name: {detailData.name}
+              {detailData.name}
             </Typography>
           )}
 

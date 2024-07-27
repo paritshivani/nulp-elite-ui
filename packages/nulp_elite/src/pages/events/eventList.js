@@ -96,6 +96,8 @@ const EventList = (props) => {
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
   const [valueTab, setValueTab] = React.useState("2");
+  const [orgId, setOrgId]=useState();
+  const [framework, setFramework]=useState();
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -106,9 +108,9 @@ const EventList = (props) => {
   };
 
   useEffect(() => {
-    fetchAllData();
+    // fetchAllData();
     fetchMyEvents();
-    Fetchdomain();
+    fetchUserData();
   }, []);
   useEffect(() => {
     fetchAllData();
@@ -162,12 +164,13 @@ const EventList = (props) => {
   }
 
   const fetchAllData = async () => {
+    console.log("searchQuery",searchQuery);
     let filters = {};
     if (searchQuery && domainfilter && subDomainFilter) {
       filters = {
         objectType: ["Event"],
         // query: searchQuery ? searchQuery : "",
-        se_boards: domainfilter.se_board || [domain],
+        board: domainfilter.se_board || [domain],
         gradeLevel: subDomainFilter,
         startDate: startDate,
       };
@@ -175,7 +178,7 @@ const EventList = (props) => {
       filters = {
         objectType: ["Event"],
         // query: searchQuery ? searchQuery : "",
-        se_boards: domainfilter.se_board || [domain],
+        board: domainfilter.se_board || [domain],
         startDate: startDate,
       };
     } else if (searchQuery && subDomainFilter) {
@@ -188,14 +191,14 @@ const EventList = (props) => {
     } else if (domainfilter && subDomainFilter) {
       filters = {
         objectType: ["Event"],
-        se_boards: domainfilter.se_board || [domain],
+        board: domainfilter.se_board || [domain],
         gradeLevel: subDomainFilter,
         startDate: startDate || {},
       };
     } else if (domainfilter) {
       filters = {
         objectType: ["Event"],
-        se_boards: domainfilter.se_board || [domain],
+        board: domainfilter.se_board || [domain],
         startDate: startDate || {},
       };
     } else if (subDomainFilter) {
@@ -222,7 +225,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 10,
-        query: searchQuery ? searchQuery : "",
+        query: searchQuery ,
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 10 * (currentPage - 1),
       },
@@ -277,10 +280,29 @@ const EventList = (props) => {
       setIsLoading(false);
     }
   };
+
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+    
+
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+setFramework(uservData?.data?.result?.response?.framework?.id[0])
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId && framework) {
+    Fetchdomain();
+  }
+}, [orgId,framework]);
+
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework") || "nulp";
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?orgdetails=${urlConfig.params.framework}`;
 
       const response = await fetch(url);
 
@@ -298,8 +320,12 @@ const EventList = (props) => {
               value: term.code,
               label: term.name,
             }));
+             const categories=responseData?.result?.framework?.categories;
+      const selectedIndex = categories.findIndex(
+      (category) => category.code === "board"
+    );
           setCategory(domainOptions);
-          responseData.result.framework.categories[0].terms?.map((term) => {
+          responseData.result.framework.categories[selectedIndex].terms?.map((term) => {
             setCategory(term);
             if (domainWithImage) {
               domainWithImage.result.form.data.fields.map((imgItem) => {
@@ -310,7 +336,7 @@ const EventList = (props) => {
             }
           });
           const domainList =
-            responseData?.result?.framework?.categories[0].terms;
+            responseData?.result?.framework?.categories[selectedIndex].terms;
           setDomainList(domainList);
         }
       } else {
@@ -351,7 +377,7 @@ const EventList = (props) => {
             xs={12}
             md={4}
             lg={3}
-            className="sm-p-25 left-container  flter-btn w-100 my-20"
+            className="sm-p-25 left-container flter-btn w-100"
             style={{
               padding: "0",
               borderRight: "none",
@@ -380,13 +406,13 @@ const EventList = (props) => {
                           aria-label="lab API tabs example"
                         >
                           <Tab
-                            label="My Events"
+                            label={t("MY_EVENTS")}
                             className="tab-text"
                             icon={<RecentActorsOutlinedIcon />}
                             value="1"
                           />
                           <Tab
-                            label="All Events"
+                            label={t("ALL_EVENTS")}
                             className="tab-text"
                             icon={<PublicOutlinedIcon />}
                             value="2"

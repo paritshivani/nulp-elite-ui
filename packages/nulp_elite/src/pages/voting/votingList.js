@@ -14,12 +14,14 @@ import Alert from "@mui/material/Alert";
 import ToasterCommon from "../ToasterCommon";
 import VotingDrawerFilter from "../../components/VotingDrawerFilter";
 import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
+// import TabContext from "@mui/lab/TabContext";
+import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import FloatingChatIcon from "components/FloatingChatIcon";
+const urlConfig = require("../../configs/urlConfig.json");
 
 const VotingList = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -83,7 +85,7 @@ const VotingList = () => {
   }, [valueTab, currentPage]);
 
   const handleCardClick = (poll_id) => {
-    navigate(`/webapp/eventDetails?${poll_id}`);
+    navigate(`/webapp/votingDetails?${poll_id}`);
   };
 
   const handlePageChange = (event, value) => {

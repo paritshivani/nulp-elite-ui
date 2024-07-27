@@ -426,7 +426,12 @@
     },
     "POLL": {
       "CREATE": "/polls/create",
-      "LIST": "/polls/list"
+      "LIST": "/polls/list",
+      "UPDATE": "/polls/update",
+      "GET_POLL": "/polls/get_poll",
+      "GET_USER_POLL": "/polls/user/get_user_poll",
+      "USER_CREATE": "/polls/user/create",
+      "USER_UPDATE": "/polls/user/update"
     }
   }
 }

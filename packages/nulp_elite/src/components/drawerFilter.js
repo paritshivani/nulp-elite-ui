@@ -26,10 +26,12 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useTranslation } from "react-i18next";
+import * as util from "../services/utilService";
+
 
 // const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
-const DrawerFilter = ({ renderedPage }) => {
-  const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
+const DrawerFilter = ({SelectedFilters, renderedPage }) => {
+  const contentTypeList = ["Course", "Manuals and SOPs", "Reports","Good Practices"];
   const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
@@ -40,19 +42,21 @@ const DrawerFilter = ({ renderedPage }) => {
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
   const { t } = useTranslation();
+  const [orgId, setOrgId]=useState();
 
   useEffect(() => {
-    fetchDataFramework();
+    fetchUserData();
+    
   }, []);
 
   useEffect(() => {
-    // SelectedFilters({
-    //   startDate: selectedStartDate,
-    //   endDate: selectedEndDate,
-    //   eventSearch: eventSearch,
-    //   contentFilter: selectedContentType,
-    //   subDomainFilter: selectedSubDomain,
-    // });
+    SelectedFilters({
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+      eventSearch: eventSearch,
+      contentFilter: selectedContentType,
+      subDomainFilter: selectedSubDomain,
+    });
   }, [
     selectedContentType,
     selectedSubDomain,
@@ -86,12 +90,27 @@ const DrawerFilter = ({ renderedPage }) => {
     setToasterOpen(true);
   };
 
+  const fetchUserData = async () => {
+  try {
+   const uservData = await util.userData();
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId) {
+    fetchDataFramework();
+  }
+}, [orgId]);
+
   const fetchDataFramework = async () => {
     const rootOrgId = sessionStorage.getItem("rootOrgId");
     const defaultFramework = localStorage.getItem("defaultFramework");
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${rootOrgId}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -138,11 +157,9 @@ const DrawerFilter = ({ renderedPage }) => {
       setEventSearch(item);
     } else if (filterType === "startDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
-      console.log("Selected Start Date:", formattedDate);
       setStartDate(formattedDate);
     } else if (filterType === "endDate") {
       const formattedDate = dayjs(item).format("YYYY-MM-DD");
-      console.log("Selected End Date:", formattedDate);
       setEndDate(formattedDate);
     }
   };
@@ -151,7 +168,7 @@ const DrawerFilter = ({ renderedPage }) => {
     setSelectedContentType([]);
     setSelectedSubDomain([]);
     setSearchTerm();
-    setEventSearch();
+    setEventSearch("");
     setStartDate(null);
     setEndDate(null);
   };
@@ -161,23 +178,25 @@ const DrawerFilter = ({ renderedPage }) => {
       className="header-bg-blue p-20 filter-bx w-100"
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
       <Box className="d-flex jc-bw">
-        <Box className="filter-title">Filter By:</Box>
+        <Box className="filter-title">{t("FILTER_BY")} : </Box>
         <Button
           type="button"
           className="viewAll mb-20"
           onClick={handleClearAll}
         >
-          Clear all
+          {t("CLEAR_ALL")}
         </Button>
       </Box>
       {renderedPage === "eventList" && (
         <FormControl>
           <InputLabel htmlFor="outlined-adornment-password">
-            Search for a webinar
+            {t("SEARCH_FOR_A_EVENT")}
           </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
@@ -200,12 +219,12 @@ const DrawerFilter = ({ renderedPage }) => {
 
       {renderedPage === "eventList" && (
         <div>
-          <Box className="filter-text mt-15">Select Date Range</Box>
+          <Box className="filter-text mt-15">{t("SELECT_DATE_RANGE")}</Box>
           <Box className="mt-9 dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
-                  label="Select Date From"
+                  label={t("SELECT_DATE_FROM")}
                   className="mt-9"
                   value={selectedStartDate ? dayjs(selectedStartDate) : null}
                   onChange={(newValue) =>
@@ -218,7 +237,7 @@ const DrawerFilter = ({ renderedPage }) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
-                  label="Select Date To"
+                  label={t("SELECT_DATE_TO")}
                   className="mt-9"
                   value={selectedEndDate ? dayjs(selectedEndDate) : null}
                   onChange={(newValue) =>
@@ -235,7 +254,7 @@ const DrawerFilter = ({ renderedPage }) => {
         <div>
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-password">
-              Search for a Poll
+              {t("SEARCH_FOR_A_POLL")}
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
@@ -254,16 +273,16 @@ const DrawerFilter = ({ renderedPage }) => {
               label="Search Sub-domain"
             />
           </FormControl>
-          <Box className="filter-text mt-15">Select Date Range</Box>
+          <Box className="filter-text mt-15">{t("SELECT_DATE_RANGE")}</Box>
           <Box className="mt-9 dateRange">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DateTimePicker label="Select Date To" />
+                <DateTimePicker label={t("SELECT_DATE_FROM")} />
               </DemoContainer>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DateTimePicker label="Select Date To" />
+                <DateTimePicker label={t("SELECT_DATE_TO")} />
               </DemoContainer>
             </LocalizationProvider>
           </Box>
@@ -296,7 +315,7 @@ const DrawerFilter = ({ renderedPage }) => {
 
       {renderedPage === "contentlist" && (
         <div>
-          <Box className="filter-text mt-15">Content Type</Box>
+          <Box className="filter-text mt-15">{t("CONTENT_TYPE")}e</Box>
           <List>
             {contentTypeList.map((contentType) => (
               <ListItem className="filter-ul-text" key={contentType}>
@@ -317,14 +336,14 @@ const DrawerFilter = ({ renderedPage }) => {
         </div>
       )}
 
-      <Box className="filter-text mt-15">Sub-domains</Box>
+      <Box className="filter-text mt-15">{t("SUB_DOMAIN")}</Box>
       <FormControl
         sx={{ m: 1, width: "25ch" }}
         variant="outlined"
         className="w-100"
       >
         <InputLabel htmlFor="outlined-adornment-password">
-          Search Sub-domain
+          {t("SEARCH_SUB_DOMAIN")}
         </InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
@@ -336,7 +355,7 @@ const DrawerFilter = ({ renderedPage }) => {
               </IconButton>
             </InputAdornment>
           }
-          label="Search Sub-domain"
+          label={t("SEARCH_SUB_DOMAIN")}
         />
       </FormControl>
       <List>
@@ -392,19 +411,19 @@ const DrawerFilter = ({ renderedPage }) => {
       ) : (
         <Box className="header-bg-blue p-15 filter-bx">
           <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
-            <Box className="filter-title">Filter By:</Box>
+            <Box className="filter-title">{t("FILTER_BY")} :</Box>
             <Button
               type="button"
               className="viewAll mb-20"
               onClick={handleClearAll}
             >
-              Clear all
+             {t("CLEAR_ALL")}
             </Button>
           </Box>
           {renderedPage === "eventList" && (
             <FormControl className="mt-9">
               <InputLabel htmlFor="outlined-adornment-password">
-                Search for a event
+                {t("SEARCH_FOR_A_EVENT")}
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-search"
@@ -429,13 +448,13 @@ const DrawerFilter = ({ renderedPage }) => {
           )}
           {renderedPage == "eventList" && (
             <div>
-              <Box className="filter-text mt-15">Select Date Range</Box>
+              <Box className="filter-text mt-15">{t("SELECT_DATE_RANGE")}</Box>
 
               <Box className="mt-9 dateRange">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
-                      label="Select Date From"
+                      label={t("SELECT_DATE_FROM")}
                       className="mt-9"
                       value={
                         selectedStartDate ? dayjs(selectedStartDate) : null
@@ -450,7 +469,7 @@ const DrawerFilter = ({ renderedPage }) => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
-                      label="Select Date To"
+                      label={t("SELECT_DATE_TO")}
                       className="mt-9"
                       value={selectedEndDate ? dayjs(selectedEndDate) : null}
                       onChange={(newValue) =>
@@ -466,7 +485,7 @@ const DrawerFilter = ({ renderedPage }) => {
 
           {renderedPage == "contentlist" && (
             <div>
-              <Box className="filter-text mt-15">Content Type</Box>
+              <Box className="filter-text mt-15">{t("CONTENT_TYPE")}</Box>
               <List>
                 {contentTypeList &&
                   contentTypeList.map((contentType) => (
@@ -491,10 +510,10 @@ const DrawerFilter = ({ renderedPage }) => {
               </List>
             </div>
           )}
-          <Box className="filter-text lg-mt-12 mb-20">Sub-domains</Box>
+          <Box className="filter-text lg-mt-12 mb-20">{t("SUB_DOMAIN")}</Box>
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-password">
-              Search Sub-domain
+              {t("SEARCH_SUB_DOMAIN")}
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
@@ -506,7 +525,7 @@ const DrawerFilter = ({ renderedPage }) => {
                   </IconButton>
                 </InputAdornment>
               }
-              label="Search Sub-domain"
+              label={t("SEARCH_SUB_DOMAIN")}
             />
           </FormControl>
           {/* <Autocomplete
