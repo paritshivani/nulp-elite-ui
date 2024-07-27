@@ -36,7 +36,7 @@ const CategoryPage = () => {
   const [itemsArray, setItemsArray] = useState([]);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
-  const [domainName, setDomainName] = useState("");
+  const [domainName, setDomainName] = useState(null);
   const routeConfig = require("../../configs/routeConfig.json");
   const [orgId, setOrgId] = useState();
   const [framework, setFramework]=useState();
@@ -91,7 +91,7 @@ const CategoryPage = () => {
         filters: {
           primaryCategory: [category],
           visibility: [],
-          se_boards: [selectedDomain],
+          se_boards: [domainName],
         },
         limit: 20,
         sort_by: {
