@@ -332,7 +332,7 @@ const VotingDetails = () => {
                       </Box>
                     ))}
 
-                    {/* <Box className="mt-20">
+                    <Box className="mt-20">
                       <Button
                         type="button"
                         className="custom-btn-primary"
@@ -343,7 +343,7 @@ const VotingDetails = () => {
                           style={{ color: "#fff", paddingLeft: "10px" }}
                         />
                       </Button>
-                    </Box> */}
+                    </Box>
                   </Box>
                 </Grid>
               ) : (
@@ -383,11 +383,6 @@ const VotingDetails = () => {
                         ))}
                       </RadioGroup>
                       <Box>
-                        {console.log(
-                          "0000000000000000000000000000000000",
-                          userVote
-                        )}
-
                         {userVote?.length > 0 ? (
                           <Button
                             type="button"
