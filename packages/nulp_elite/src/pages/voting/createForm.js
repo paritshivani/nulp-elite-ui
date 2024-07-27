@@ -31,6 +31,7 @@ import FloatingChatIcon from "components/FloatingChatIcon";
 import { BorderRight } from "@mui/icons-material";
 import * as util from "../../services/utilService";
 import { Autocomplete, ListItemText } from "@mui/material";
+import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -298,7 +299,12 @@ const createForm = () => {
         style={{ paddingTop: "0" }}
       >
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-5 xs-py-10">Poll Creation</Box>
+          <Box className="h3-custom-title pl-5 xs-py-10">
+            <PollOutlinedIcon
+              style={{ paddingRight: "10px", verticalAlign: "middle" }}
+            />
+            Poll Creation
+          </Box>
 
           <Alert severity="info" className="custom-alert">
             Poll will be published Based on Start Date

@@ -643,7 +643,7 @@ const Dashboard = () => {
               }}
               height={300}
             />
-            <BarChart
+            {/* <BarChart
               xAxis={[
                 {
                   scaleType: "band",
@@ -652,7 +652,7 @@ const Dashboard = () => {
               ]}
               series={[{ data: [4, 1, 4, 8, 7] }]}
               height={300}
-            />
+            /> */}
             <Box className="brYlabel">No. of Participants</Box>
             <Box sx={{ textAlign: "center" }}>Events</Box>
           </Grid>
@@ -689,11 +689,11 @@ const Dashboard = () => {
               height={300}
               {...chartSettingH}
             />
-            <LineChart
+            {/* <LineChart
               height={300}
               series={[{ data: uData, label: "No. of Participants" }]}
               xAxis={[{ scaleType: "point", data: xLabels }]}
-            />
+            /> */}
             <Box className="yLabel">Participants</Box>
             <Box sx={{ textAlign: "center" }}>Designation</Box>
           </Grid>
