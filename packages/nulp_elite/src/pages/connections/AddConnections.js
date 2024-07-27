@@ -311,8 +311,12 @@ const AddConnections = () => {
       }
 
       let responseData = await response.json();
-      setTotalPages(Math.ceil(responseData?.result?.response?.count / 10));
-      console.log("responseData", responseData);
+const TotalPage=Math.ceil(responseData?.result?.response?.count / 10);
+      if(TotalPage<=9990){
+      setTotalPages(TotalPage);
+      }else{
+        setTotalPages(9990);
+      }      console.log("responseData", responseData);
       console.log(
         "user list of all type user",
         invitationAcceptedUsers,

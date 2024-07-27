@@ -31,40 +31,38 @@ import {
   LinkedinIcon,
 } from "react-share";
 const urlConfig = require("../../configs/urlConfig.json");
+import { useLocation } from 'react-router-dom';
+
 
 const pollsDetailes = () => {
   const { t } = useTranslation();
-  const [openModal, setOpenModal] = useState(false);
-  const [pollsData, setPollsData] = useState([]);
-  const [pollResult, setPollResult] = useState([]);
-  const [poll, setPoll] = useState([])
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const location = useLocation();
+  const { polls, type } = location.state || { polls: [], type: '' };
   const shareUrl = window.location.href;
-  const hasData = Array.isArray(pollResult) && pollResult.some((d) => d.count > 0);
+console.log(polls,'polls');
 
-  const handleShowMore = () => {
-    setShowAll(true);
-  };
+  // const handleShowMore = () => {
+  //   setShowAll(true);
+  // };
 
 
-  const handleOpenModal = async (pollId) => {
-    setOpenModal(true);
-    try {
-      const response = await axios.get(
-        `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
-      );
-      console.log(response, 'response');
-      setPoll(response.data.result.poll);
-      setPollResult(response.data.result.result);
-    } catch (error) {
-      console.error("Error fetching poll", error);
-    }
-  };
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setPollResult(null);
-  };
+  // const handleOpenModal = async (pollId) => {
+  //   setOpenModal(true);
+  //   try {
+  //     const response = await axios.get(
+  //       `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
+  //     );
+  //     console.log(response, 'response');
+  //     setPoll(response.data.result.poll);
+  //     setPollResult(response.data.result.result);
+  //   } catch (error) {
+  //     console.error("Error fetching poll", error);
+  //   }
+  // };
+  // const handleCloseModal = () => {
+  //   setOpenModal(false);
+  //   setPollResult(null);
+  // };
 
 
 
@@ -76,116 +74,34 @@ const pollsDetailes = () => {
       year: "numeric",
     });
   };
-  // const piedata = [
-  //   { id: 'Yes', value: 67, color: '#00B135' },
-  //   { id: 'Maybe', value: 20, color: '#E8C532' },
-  //   { id: 'No', value: 13, color: '#B987FF' },
-  // ];
-  const fetchPolls = async (visibility) => {
-    setIsLoading(true);
-    setError(null);
 
-    const requestBody = {
-      request: {
-        filters: {
-          visibility,
-          status: "Live",
-        },
-        sort_by: {
-          created_at: "desc",
-          start_date: "desc",
-        },
-      },
-    };
+ 
 
-    try {
-      const response = await fetch(`${urlConfig.URLS.POLL.LIST}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch polls");
-      }
-
-      const result = await response.json();
-
-      setPollsData(result.result.data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchPolls();
-  }, []);
-
-  console.log('poll', poll);
-  console.log('graph data', pollResult);
 
   return (
     <div>
       <Header />
+  
+       <div>
+      {polls.length === 0 ? (
+        <p>No polls available</p>
+      ) : (
       <Container
         maxWidth="xl"
         role="main"
         className="xs-pb-20 lg-pt-20 min-"
       >
-        <Box mb={2} mt={2}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                className="searchbar"
-                placeholder="Search for a poll"
-                variant="outlined"
-                size="small"
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <IconButton type="submit" aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={2}
-              sx={{ color: '#000000b3', textAlign: 'center' }}>
-              Select Date Range
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <MuiDatePicker label="Select Date from" />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <MuiDatePicker label="Select Date To" />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={1}>
-              <Button type="button" className="custom-btn-primary">
-                Go Back
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-
-        <Box
+      <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
           mb={2}
           className="mb-20 mt-20 mr-13"
         >
-          <Box display="flex" alignItems="center" className="h3-title">
+          {/* <Box display="flex" alignItems="center" className="h3-title">
             <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
-            Live Polls
-          </Box>
+            {}
+          </Box> */}
         </Box>
 
         <Grid
@@ -193,8 +109,8 @@ const pollsDetailes = () => {
           spacing={2}
           style={{ marginBottom: "30px" }}
         >
-          {pollsData &&
-            pollsData.map((items, index) => (
+          {polls &&
+            polls.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -259,112 +175,12 @@ const pollsDetailes = () => {
               </Grid>
             ))}
         </Grid>
-      </Container>
+      </Container> 
+      )}
+    </div>
       <FloatingChatIcon />
       <Footer />
-      {poll && (
-        <Dialog
-          fullWidth={true}
-          maxWidth="lg"
-          open={openModal}
-          onClose={handleCloseModal}
-        >
-          <IconButton
-            aria-label="close"
-            onClick={handleCloseModal}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <DialogContent>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                lg={4}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '100%',
-                  width: '100%',
-                  order: { xs: 2, lg: 1 },
-
-
-                }}
-              >
-                <Box sx={{ marginLeft: '25%' }}>
-                  {hasData ? (
-                    <PieChart
-                      series={[
-                        {
-                          data: pollResult.map((d) => ({
-                            id: d.poll_option,
-                            value: d.count,
-                            // color: d.color,
-                          })),
-                          arcLabel: (item) => (
-                            <>
-                              {item.id}
-                              <br />
-                              ({item.value}%)
-                            </>
-                          ),
-                          arcLabelMinAngle: 45,
-                        },
-                      ]}
-                      sx={{
-                        [`& .${pieArcLabelClasses.root}`]: {
-                          fill: 'white',
-                          fontWeight: '500',
-                        },
-                      }}
-                      width={350}
-                      height={350}
-                    />
-                  ) : (
-                    <p>No data available</p>
-                  )}
-                </Box>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                lg={8}
-                sx={{
-                  p: 2,
-                  order: { xs: 1, lg: 2 },
-                }}
-              >
-                <Box className="h1-title fw-600 lg-mt-20">
-                  {poll.title}
-                </Box>
-                <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
-                <Box>
-                  <Box className="mt-9 h5-title">
-                    Poll Created On:
-                    <TodayOutlinedIcon className="fs-14 pr-5" />
-                    {formatDate(poll.created_at)}
-                  </Box>
-                  {/* <Box className="mt-9 h5-title">Total Votes: 1200</Box>
-                <Box className="mt-9 h5-title">Total Voted Users: 800</Box> */}
-                  <Box className="mt-9 h5-title">
-                    Voting Ended On:
-                    <TodayOutlinedIcon className="fs-14 pr-5" /> {formatDate(poll.end_date)}
-                  </Box>
-                  {/* <Box className="lg-mt-12 h5-title">Voting Criteria: At least 5 sports</Box> */}
-                </Box>
-              </Grid>
-            </Grid>
-          </DialogContent>
-        </Dialog>
-      )}
+  
     </div>
   );
 };
