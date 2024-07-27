@@ -31,7 +31,7 @@ import * as util from "../services/utilService";
 
 // const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
 const DrawerFilter = ({SelectedFilters, renderedPage }) => {
-  const contentTypeList = ["Course", "Manuals and SOPs", "Reports"];
+  const contentTypeList = ["Course", "Manuals and SOPs", "Reports","Good Practices"];
   const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);

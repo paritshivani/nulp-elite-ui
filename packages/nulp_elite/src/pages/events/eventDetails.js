@@ -1083,12 +1083,12 @@ fetchUserData();
           }}
         >
           <Typography variant="h6" component="h2">
-            {t("Registration Form")}
+            {t("REGISTRATION_FORM")}
           </Typography>
 
           {detailData && (
             <Typography gutterBottom className="mt-10 h1-title mb-20 xs-pl-15">
-              Event Name: {detailData.name}
+              {detailData.name}
             </Typography>
           )}
 
