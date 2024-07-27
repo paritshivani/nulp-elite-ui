@@ -115,7 +115,7 @@ const AllContent = () => {
 
   useEffect(() => {
     fetchData();
-  }, [selectedDomain]);
+  }, [selectedDomain, domainName]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);

@@ -313,25 +313,29 @@ const VotingDetails = () => {
                       {userVote[0]?.poll_result}
                     </span>
                   </Box>
-                  <Box sx={{ width: "100%" }} className="xs-hide">
-                    {pollResult?.map((option, index) => (
-                      <Box
-                        key={index}
-                        sx={{ width: "100%" }}
-                        className={`voting-option my-10 progress${index}`}
-                      >
-                        <span
-                          className="h3-custom-title"
-                          style={{ paddingRight: "33px" }}
-                        >
-                          {option.poll_option}
-                        </span>
-                        <LinearProgressWithLabel
-                          value={getProgressValue(option.count)}
-                        />
-                      </Box>
-                    ))}
 
+                  <Box sx={{ width: "100%" }} className="xs-hide">
+                    {pollResult && (
+                      <div>
+                        {pollResult?.map((option, index) => (
+                          <Box
+                            key={index}
+                            sx={{ width: "100%" }}
+                            className={`voting-option my-10 progress${index}`}
+                          >
+                            <span
+                              className="h3-custom-title"
+                              style={{ paddingRight: "33px" }}
+                            >
+                              {option.poll_option}
+                            </span>
+                            <LinearProgressWithLabel
+                              value={getProgressValue(option.count)}
+                            />
+                          </Box>
+                        ))}
+                      </div>
+                    )}
                     <Box className="mt-20">
                       <Button
                         type="button"
