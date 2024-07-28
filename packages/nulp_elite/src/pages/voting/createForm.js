@@ -30,7 +30,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import { BorderRight } from "@mui/icons-material";
 import * as util from "../../services/utilService";
-import PollOutlinedIcon from '@mui/icons-material/PollOutlined';
+import { Autocomplete, ListItemText } from "@mui/material";
+import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -58,10 +59,15 @@ const createForm = () => {
   const [orgList, setOrgList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const [userListFinal, setUserListFinal] = useState([]);
+  const [selectedOrg, setSelectedOrg] = useState(
+    "Select or Search Organization"
+  );
 
   useEffect(() => {
     fetchData();
-  }, []);
+    const userIds = userList.map((item) => item.userId);
+    setUserListFinal(userIds);
+  }, [userList]);
 
   const handleInputChange = (id, event) => {
     const newFields = fields.map((field) => {
@@ -82,14 +88,27 @@ const createForm = () => {
     setFields(fields.filter((field) => field.id !== id));
   };
 
-  const [selectedValue, setSelectedValue] = useState("public");
-
   const handleRadioChange = (event) => {
     setVisibility(event.target.value);
   };
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
+  };
+  useEffect(() => {
+    // Ensure selectedOrg is updated when organisationName changes
+    const initialOrg = orgList.find((org) => org.orgName === organisationName);
+    setSelectedOrg(initialOrg || null);
+  }, [organisationName, orgList]);
+
+  const handleOrgChange = async (event, value) => {
+    console.log("eve", value.rootOrgId);
+    await getOrgUser(value.rootOrgId);
+    setSelectedOrg(value);
+  };
+
+  const handleUserChange = (event, newValue) => {
+    setUserList(newValue);
   };
 
   useEffect(() => {
@@ -219,9 +238,7 @@ const createForm = () => {
     const requestBody = {
       request: {
         query: "",
-        filters: {
-          channel: "niua",
-        },
+        filters: {},
         limit: 100,
       },
     };
@@ -263,8 +280,9 @@ const createForm = () => {
   const isContentCreator = roleNames.includes("CONTENT_CREATOR");
 
   useEffect(() => {
-    if (isContentCreator || isAdmin) {
+    if (isContentCreator) {
       getOrgUser(userData?.result?.response?.rootOrg?.id);
+    } else if (isAdmin) {
       getOrgDetail(userData?.result?.response?.rootOrg?.id);
     }
   }, [isContentCreator, isAdmin, userData]);
@@ -281,7 +299,12 @@ const createForm = () => {
         style={{ paddingTop: "0" }}
       >
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-5 xs-py-10"><PollOutlinedIcon style={{paddingRight:"10px",verticalAlign:"middle"}}/>Poll Creation</Box>
+          <Box className="h3-custom-title pl-5 xs-py-10">
+            <PollOutlinedIcon
+              style={{ paddingRight: "10px", verticalAlign: "middle" }}
+            />
+            Poll Creation
+          </Box>
 
           <Alert severity="info" className="custom-alert">
             Poll will be published Based on Start Date
@@ -399,18 +422,20 @@ const createForm = () => {
                         disabled
                       />
                     ) : isAdmin ? (
-                      <Select
-                        label="Select Organization"
-                        value={organisationName}
-                        onChange={(e) => setOrganisationName(e.target.value)}
-                        fullWidth
-                      >
-                        {orgList?.map((org) => (
-                          <MenuItem key={org.id} value={org.id}>
-                            {org.orgName}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      <Autocomplete
+                        options={orgList}
+                        getOptionLabel={(option) => option.orgName}
+                        value={selectedOrg}
+                        onChange={handleOrgChange}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Organization"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                      />
                     ) : null}
 
                     <RadioGroup
@@ -434,34 +459,53 @@ const createForm = () => {
                     </RadioGroup>
 
                     {selectedOption === "option2" && (
-                      <Select
-                        label="Select Users"
+                      <Autocomplete
                         multiple
-                        value={userList}
-                        onChange={(e) => setUserList(e.target.value)}
-                        fullWidth
-                        renderValue={(selected) =>
-                          selected.map((user) => user.firstName).join(", ")
+                        options={orgUserList}
+                        getOptionLabel={(option) =>
+                          `${option.firstName} ${option.lastName || " "}`
                         }
-                      >
-                        {orgUserList.map((user) => (
-                          <MenuItem key={user.userId} value={user}>
+                        value={userList}
+                        onChange={handleUserChange}
+                        renderOption={(props, option, { selected }) => (
+                          <li {...props}>
                             <Checkbox
-                              checked={userList.indexOf(user) > -1}
+                              checked={selected}
                               onChange={() => {
-                                const isSelected = userList.indexOf(user) > -1;
+                                const isSelected = userList.includes(option);
                                 const newSelectedUsers = isSelected
                                   ? userList.filter(
-                                      (u) => u.userId !== user.userId
+                                      (user) => user.userId !== option.userId
                                     )
-                                  : [...userList, user];
+                                  : [...userList, option];
                                 setUserList(newSelectedUsers);
                               }}
                             />
-                            {user.firstName} {user.lastName}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                            <ListItemText
+                              primary={`${option.firstName} ${
+                                option.lastName || " "
+                              }`}
+                            />
+                          </li>
+                        )}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            label="Select Users"
+                            placeholder="Search users"
+                          />
+                        )}
+                        renderTags={(selected, getTagProps) =>
+                          selected.map((user, index) => (
+                            <ListItemText
+                              key={user.userId}
+                              primary={`${user.firstName} ${user.lastName}`}
+                              {...getTagProps({ index })}
+                            />
+                          ))
+                        }
+                      />
                     )}
                   </div>
                 </Box>

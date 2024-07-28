@@ -37,7 +37,6 @@ import NoResult from "./noResultFound";
 const routeConfig = require("../../configs/routeConfig.json");
 import * as util from "../../services/utilService";
 
-
 const responsiveCard = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -86,9 +85,8 @@ const AllContent = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [domainName, setDomainName] = useState();
-  const [orgId, setOrgId]=useState();
-  const [framework, setFramework]=useState();
-
+  const [orgId, setOrgId] = useState();
+  const [framework, setFramework] = useState();
 
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -104,19 +102,20 @@ const AllContent = () => {
     console.log("Search query:", selectedDomain);
   };
 
-  useEffect(() => {
-    // const userDomain = sessionStorage.getItem("userDomain");
-    // if (userDomain) {
-    //   setSelectedDomain(userDomain);
-    //   setDomainName(userDomain);
-    // }
+  useEffect(async () => {
+    const uservData = await util.userData();
+    const userDomain = uservData?.data?.result?.response?.framework?.board[0];
+    if (userDomain) {
+      setSelectedDomain(userDomain);
+      setDomainName(userDomain);
+    }
     fetchUserData();
     fetchData();
   }, []);
 
   useEffect(() => {
     fetchData();
-  }, [selectedDomain]);
+  }, [selectedDomain, domainName]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -224,22 +223,20 @@ const AllContent = () => {
   };
 
   const fetchUserData = async () => {
-  try {
-   const uservData = await util.userData();
-    
+    try {
+      const uservData = await util.userData();
 
-setOrgId(uservData?.data?.result?.response?.rootOrgId);
-setFramework(uservData?.data?.result?.response?.framework?.id[0])
-
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
- useEffect(() => {
-  if (orgId && framework) {
-    fetchDomains();
-  }
-}, [orgId,framework]);
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if (orgId && framework) {
+      fetchDomains();
+    }
+  }, [orgId, framework]);
 
   const fetchDomains = async () => {
     setError(null);
@@ -264,24 +261,25 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
         url,
         headers
       );
-      const categories=response?.data?.result?.framework?.categories;
+      const categories = response?.data?.result?.framework?.categories;
       const selectedIndex = categories.findIndex(
-      (category) => category.code === "board"
-    );
+        (category) => category.code === "board"
+      );
 
-      response.data.result.framework.categories[selectedIndex].terms?.map((term) => {
-        if (domainWithImage) {
-          domainWithImage.result.form.data.fields.map((imgItem) => {
-            if ((term && term.code) === (imgItem && imgItem.code)) {
-              term["image"] = imgItem.image ? imgItem.image : "";
-              pushData(term);
-              itemsArray.push(term);
-            }
-          });
+      response.data.result.framework.categories[selectedIndex].terms?.map(
+        (term) => {
+          if (domainWithImage) {
+            domainWithImage.result.form.data.fields.map((imgItem) => {
+              if ((term && term.code) === (imgItem && imgItem.code)) {
+                term["image"] = imgItem.image ? imgItem.image : "";
+                pushData(term);
+                itemsArray.push(term);
+              }
+            });
+          }
         }
-      });
+      );
       setDomain(response.data.result.framework.categories[selectedIndex].terms);
-      console.log("---------------------------",response.data.result.framework.categories[3].terms);
     } catch (error) {
       console.log("nulp--  error-", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));

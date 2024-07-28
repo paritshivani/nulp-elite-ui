@@ -21,6 +21,7 @@ import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import CloseIcon from '@mui/icons-material/Close';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -31,15 +32,15 @@ import {
   LinkedinIcon,
 } from "react-share";
 const urlConfig = require("../../configs/urlConfig.json");
-import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import ToasterCommon from "../ToasterCommon";
 
 const votingDashboard = () => {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
-  const [pollsData, setPollsData] = useState([]);
   const [pollResult, setPollResult] = useState([]);
-  const [poll, setPoll] = useState([])
+  const [poll, setPoll] = useState([]);
+  const [signlePOll,setSinglePoll] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const shareUrl = window.location.href;
@@ -47,22 +48,11 @@ const votingDashboard = () => {
   const [showAllLive, setShowAllLive] = useState(false);
   const [showAllDraft, setShowAllDraft] = useState(false);
   const [showAllClosed, setShowAllClosed] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
   const navigate = useNavigate();
 
   const handleViewAll = (polls, type) => {
     navigate('/webapp/pollsDetails', { state: { polls, type } });
-  };
-
-  const handleShowMoreLive = () => {
-    setShowAllLive(true);
-  };
-  
-  const handleShowMoreDraft = () => {
-    setShowAllDraft(true);
-  };
-  
-  const handleShowMoreClosed = () => {
-    setShowAllClosed(true);
   };
 
   const handleOpenModal = async (pollId) => {
@@ -71,18 +61,19 @@ const votingDashboard = () => {
       const response = await axios.get(
         `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
       );
-      console.log(response, 'response');
-      setPoll(response.data.result.poll);
-      setPollResult(response.data.result.result);
+      setSinglePoll(response.data.result.poll);
     } catch (error) {
       console.error("Error fetching poll", error);
     }
   };
+
+  
+  
   const handleCloseModal = () => {
     setOpenModal(false);
     setPollResult(null);
   };
-  
+
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -98,10 +89,6 @@ const votingDashboard = () => {
 
     const requestBody = {
       request: {
-        filters: {
-         // visibility,
-          //status: "Live",
-        },
         sort_by: {
           created_at: "desc",
           start_date: "desc",
@@ -123,7 +110,6 @@ const votingDashboard = () => {
       }
 
       const result = await response.json();
-      console.log(result,'result');
       setPoll(result.result.data);
       setPollResult(result.result.data);
     } catch (error) {
@@ -136,17 +122,33 @@ const votingDashboard = () => {
     fetchPolls();
   }, []);
 
-const livePolls = poll.filter(poll => poll.status === 'Live');
-const draftPolls = poll.filter(poll => poll.status === 'Draft');
-const closedPolls = poll.filter(poll => poll.status === 'Closed');
+  const deletePoll = async (pollId) => {
+    try {
+      const response = await axios.get(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
+      if (response.status === 200) {
+        setToasterMessage("Poll deleted successfully");
+        fetchPolls();
+        setPoll(prevPolls => prevPolls.filter(poll => poll.poll_id !== pollId));
+      }
+    } catch (error) {
+      console.error("Error deleting poll", error);
+    }
+  };
 
-const visibleLivePolls = showAllLive ? livePolls : livePolls.slice(0, 3);
-const visibleDraftPolls = showAllDraft ? draftPolls : draftPolls.slice(0, 3);
-const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3);
+  const livePolls = poll.filter(poll => poll.status === 'Live');
+  const draftPolls = poll.filter(poll => poll.status === 'Draft');
+  const closedPolls = poll.filter(poll => poll.status === 'Closed');
+
+  const visibleLivePolls = showAllLive ? livePolls : livePolls.slice(0, 3);
+  const visibleDraftPolls = showAllDraft ? draftPolls : draftPolls.slice(0, 3);
+  const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3);
+
+  console.log(signlePOll,'signlePOll');
 
   return (
     <div>
       <Header />
+      {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <Container
         maxWidth="xl"
         role="main"
@@ -205,8 +207,8 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
           </Box>
           {!showAllLive && visibleLivePolls.length >= 3 && (
             <Box>
-              <Button type="button" className="custom-btn-primary ml-20"  
-              onClick={() => handleViewAll(visibleLivePolls, 'live')}>
+              <Button type="button" className="custom-btn-primary ml-20"
+                onClick={() => handleViewAll(visibleLivePolls, 'live')}>
                 View All
               </Button>
             </Box>
@@ -260,7 +262,12 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
                         onClick={() => handleOpenModal(items.poll_id)}>
                         View Slots <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
+                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
+              onClick={() => deletePoll(items.poll_id)}>
+              Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
+            </Button>
                     </Box>
+                    
                     <Box className="xs-hide">
                       <FacebookShareButton className="pr-5">
                         <FacebookIcon url={shareUrl} size={32} round={true} />
@@ -295,10 +302,10 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
             <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
             Draft Polls
           </Box>
-          {!showAllDraft && visibleDraftPolls.length >= 3 && (
+          {!showAllDraft && visibleDraftPolls.length >= 1 && (
             <Box>
-               <Button type="button" className="custom-btn-primary ml-20"  
-              onClick={() => handleViewAll(visibleDraftPolls, 'live')}>
+              <Button type="button" className="custom-btn-primary ml-20"
+                onClick={() => handleViewAll(visibleDraftPolls, 'live')}>
                 View All
               </Button>
             </Box>
@@ -383,13 +390,13 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
           className="mb-20 mt-20 mr-13"
         >
           <Box display="flex" alignItems="center" className="h3-title">
-            <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
+            <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />
             Closed Polls
           </Box>
-          {!showAllClosed && visibleClosedPolls.length >=1 && (
+          {!showAllClosed && visibleClosedPolls.length >= 1 && (
             <Box>
-              <Button type="button" className="custom-btn-primary ml-20"  
-              onClick={() => handleViewAll(visibleClosedPolls, 'closed')}>
+              <Button type="button" className="custom-btn-primary ml-20"
+                onClick={() => handleViewAll(visibleClosedPolls, 'closed')}>
                 View All
               </Button>
             </Box>
@@ -440,7 +447,7 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
                         onClick={() => handleOpenModal(items.poll_id)}>
-                        View Slots <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box className="xs-hide">
@@ -469,7 +476,7 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
       </Container>
       <FloatingChatIcon />
       <Footer />
-       {poll && (
+      {signlePOll && (
         <Dialog
           fullWidth={true}
           maxWidth="lg"
@@ -510,7 +517,7 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
                     <PieChart
                       series={[
                         {
-                          data: pollResult.map((d) => ({
+                          data: signlePOll.map((d) => ({
                             id: d.poll_option,
                             value: d.count,
                             // color: d.color,
@@ -550,18 +557,18 @@ const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3)
                 }}
               >
                 <Box className="h1-title fw-600 lg-mt-20">
-                  {poll.title}
+                  {signlePOll.title}
                 </Box>
                 <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
                 <Box>
                   <Box className="mt-9 h5-title">
                     Poll Created On:
                     <TodayOutlinedIcon className="fs-14 pr-5" />
-                    {formatDate(poll.created_at)}
+                    {formatDate(signlePOll.created_at)}
                   </Box>
                   <Box className="mt-9 h5-title">
                     Voting Ended On:
-                    <TodayOutlinedIcon className="fs-14 pr-5" /> {formatDate(poll.end_date)}
+                    <TodayOutlinedIcon className="fs-14 pr-5" /> {formatDate(signlePOll.end_date)}
                   </Box>
                 </Box>
               </Grid>

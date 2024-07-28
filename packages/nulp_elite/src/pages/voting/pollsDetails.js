@@ -37,35 +37,12 @@ import { useLocation } from 'react-router-dom';
 const pollsDetailes = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const [openModal, setOpenModal] = useState(false);
+  const [signlePOll,setSinglePoll] = useState([]);
+  const [pollResult, setPollResult] = useState([]);
   const { polls, type } = location.state || { polls: [], type: '' };
+  const hasData = Array.isArray(pollResult) && pollResult.some((d) => d.count > 0);
   const shareUrl = window.location.href;
-console.log(polls,'polls');
-
-  // const handleShowMore = () => {
-  //   setShowAll(true);
-  // };
-
-
-  // const handleOpenModal = async (pollId) => {
-  //   setOpenModal(true);
-  //   try {
-  //     const response = await axios.get(
-  //       `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
-  //     );
-  //     console.log(response, 'response');
-  //     setPoll(response.data.result.poll);
-  //     setPollResult(response.data.result.result);
-  //   } catch (error) {
-  //     console.error("Error fetching poll", error);
-  //   }
-  // };
-  // const handleCloseModal = () => {
-  //   setOpenModal(false);
-  //   setPollResult(null);
-  // };
-
-
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-GB", {
@@ -75,7 +52,22 @@ console.log(polls,'polls');
     });
   };
 
- 
+  const handleOpenModal = async (pollId) => {
+    setOpenModal(true);
+    try {
+      const response = await axios.get(
+        `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
+      );
+      setSinglePoll(response.data.result.poll);
+    } catch (error) {
+      console.error("Error fetching poll", error);
+    }
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setPollResult(null);
+  };
+
 
 
   return (
@@ -179,6 +171,106 @@ console.log(polls,'polls');
       )}
     </div>
       <FloatingChatIcon />
+      {signlePOll && (
+        <Dialog
+          fullWidth={true}
+          maxWidth="lg"
+          open={openModal}
+          onClose={handleCloseModal}
+        >
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseModal}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent>
+            <Grid container>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                lg={4}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                  width: '100%',
+                  order: { xs: 2, lg: 1 },
+
+
+                }}
+              >
+                <Box sx={{ marginLeft: '25%' }}>
+                  {hasData ? (
+                    <PieChart
+                      series={[
+                        {
+                          data: signlePOll.map((d) => ({
+                            id: d.poll_option,
+                            value: d.count,
+                            // color: d.color,
+                          })),
+                          arcLabel: (item) => (
+                            <>
+                              {item.id}
+                              <br />
+                              ({item.value}%)
+                            </>
+                          ),
+                          arcLabelMinAngle: 45,
+                        },
+                      ]}
+                      sx={{
+                        [`& .${pieArcLabelClasses.root}`]: {
+                          fill: 'white',
+                          fontWeight: '500',
+                        },
+                      }}
+                      width={350}
+                      height={350}
+                    />
+                  ) : (
+                    <p>No data available</p>
+                  )}
+                </Box>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                lg={8}
+                sx={{
+                  p: 2,
+                  order: { xs: 1, lg: 2 },
+                }}
+              >
+                <Box className="h1-title fw-600 lg-mt-20">
+                  {signlePOll.title}
+                </Box>
+                <Box className="lg-mt-12 h6-title Link">#CheerforBharat Paris Olympics Survey</Box>
+                <Box>
+                  <Box className="mt-9 h5-title">
+                    Poll Created On:
+                    <TodayOutlinedIcon className="fs-14 pr-5" />
+                    {formatDate(signlePOll.created_at)}
+                  </Box>
+                  <Box className="mt-9 h5-title">
+                    Voting Ended On:
+                    <TodayOutlinedIcon className="fs-14 pr-5" /> {formatDate(signlePOll.end_date)}
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </DialogContent>
+        </Dialog>
+      )}
       <Footer />
   
     </div>

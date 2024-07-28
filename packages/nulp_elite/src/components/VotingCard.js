@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import { useTranslation } from "react-i18next";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
@@ -21,16 +22,25 @@ import {
 const processString = (str) => {
   return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 };
+
 export default function VotingCard({ items, index, onClick }) {
-  // const [imgUrl, setImgUrl] = useState();
   const { t } = useTranslation();
   const shareUrl = window.location.href; // Current page URL
+  const [showStatsModal, setShowStatsModal] = useState(false);
 
-  const unixTimestampToHumanDate = (unixTimestamp) => {
-    const dateObject = new Date(unixTimestamp);
-    const options = { day: "2-digit", month: "long", year: "numeric" };
-    return dateObject.toLocaleDateString("en-GB", options);
+  const handleOpenStats = (event) => {
+    event.stopPropagation();
+    setShowStatsModal(true);
   };
+
+  const handleCloseStats = (event) => {
+    event.stopPropagation();
+
+    setShowStatsModal(false);
+  };
+
+  const isVotingEnded = new Date(items.end_date) < new Date();
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-GB", {
@@ -38,28 +48,6 @@ export default function VotingCard({ items, index, onClick }) {
       month: "long",
       year: "numeric",
     });
-  };
-  const formatTimeToIST = (timeString) => {
-    // Check if the timeString is a full date-time string
-    let dateObject = new Date(timeString);
-
-    // If it is not a valid date, assume it is just a time string (e.g., "14:30")
-    if (isNaN(dateObject.getTime())) {
-      const [hours, minutes] = timeString.split(":");
-      dateObject = new Date();
-      dateObject.setHours(hours);
-      dateObject.setMinutes(minutes);
-      dateObject.setSeconds(0);
-    }
-
-    // Convert the date to IST
-    const options = {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "Asia/Kolkata",
-    };
-    return dateObject.toLocaleTimeString("en-GB", options);
   };
 
   return (
@@ -92,16 +80,20 @@ export default function VotingCard({ items, index, onClick }) {
       </CardContent>
       <Box className="voting-text lg-mt-30">
         <Box>
-          <Box>
-            <Button type="button" className="custom-btn-default ml-20 lg-mt-20">
-              View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
-            </Button>
-          </Box>
-          <Box>
+          {!isVotingEnded && (
             <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
               Vote Now <ArrowForwardIosOutlinedIcon className="fs-12" />
             </Button>
-          </Box>
+          )}
+          {isVotingEnded && (
+            <Button
+              type="button"
+              className="custom-btn-default ml-20 lg-mt-20"
+              onClick={handleOpenStats}
+            >
+              View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
+            </Button>
+          )}
         </Box>
         <Box className="xs-hide">
           <FacebookShareButton url={shareUrl} className="pr-5">
@@ -122,6 +114,34 @@ export default function VotingCard({ items, index, onClick }) {
           </TwitterShareButton>
         </Box>
       </Box>
+
+      <Modal
+        open={showStatsModal}
+        onClose={handleCloseStats}
+        aria-labelledby="stats-modal-title"
+        aria-describedby="stats-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="stats-modal-title" variant="h6" component="h2">
+            Statistics
+          </Typography>
+          <Typography id="stats-modal-description" sx={{ mt: 2 }}>
+            {/* Your stats content goes here */}
+          </Typography>
+          <Button onClick={handleCloseStats}>Close</Button>
+        </Box>
+      </Modal>
     </Card>
   );
 }
