@@ -18,20 +18,74 @@ import {
   LinkedinIcon,
   TwitterIcon,
 } from "react-share";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Grid from "@mui/material/Grid";
+import axios from "axios";
+const urlConfig = require("../configs/urlConfig.json");
+import moment from "moment";
+import LinearProgress from "@mui/material/LinearProgress";
 
-const processString = (str) => {
-  return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-};
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
 
+function LinearProgressWithLabel(props) {
+  return (
+    <Box display="flex" alignItems="center">
+      <Box width="100%" mr={1}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box minWidth={35}>
+        <Typography variant="body2" color="textSecondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 export default function VotingCard({ items, index, onClick }) {
   const { t } = useTranslation();
   const shareUrl = window.location.href; // Current page URL
   const [showStatsModal, setShowStatsModal] = useState(false);
+  const [poll, setPoll] = useState(null);
+  const [pollResult, setPollResult] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [progress, setProgress] = useState(10);
 
-  const handleOpenStats = (event) => {
+  const handleClickOpen = (event) => {
     event.stopPropagation();
-    setShowStatsModal(true);
+    setOpen(true);
+    if (items.poll_id) {
+      fetchPoll(items.poll_id);
+    }
   };
+  const handleClose = (event) => {
+    event.stopPropagation();
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10
+      );
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleCloseStats = (event) => {
     event.stopPropagation();
@@ -49,6 +103,22 @@ export default function VotingCard({ items, index, onClick }) {
       year: "numeric",
     });
   };
+
+  const fetchPoll = async (pollId) => {
+    try {
+      const response = await axios.get(
+        `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
+      );
+      setPoll(response.data.result.poll);
+      setPollResult(response.data.result.result);
+    } catch (error) {
+      console.error("Error fetching poll", error);
+    }
+  };
+  const totalVotes = pollResult?.reduce((sum, option) => sum + option.count, 0);
+
+  const getProgressValue = (count) =>
+    totalVotes > 0 ? (count / totalVotes) * 100 : 0;
 
   return (
     <Card
@@ -89,7 +159,7 @@ export default function VotingCard({ items, index, onClick }) {
             <Button
               type="button"
               className="custom-btn-default ml-20 lg-mt-20"
-              onClick={handleOpenStats}
+              onClick={handleClickOpen}
             >
               View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
             </Button>
@@ -114,34 +184,84 @@ export default function VotingCard({ items, index, onClick }) {
           </TwitterShareButton>
         </Box>
       </Box>
-
-      <Modal
-        open={showStatsModal}
-        onClose={handleCloseStats}
-        aria-labelledby="stats-modal-title"
-        aria-describedby="stats-modal-description"
+      <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
       >
-        <Box
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
           sx={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
           }}
         >
-          <Typography id="stats-modal-title" variant="h6" component="h2">
-            Statistics
-          </Typography>
-          <Typography id="stats-modal-description" sx={{ mt: 2 }}>
-            {/* Your stats content goes here */}
-          </Typography>
-          <Button onClick={handleCloseStats}>Close</Button>
-        </Box>
-      </Modal>
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          {poll && (
+            <Grid
+              container
+              spacing={2}
+              className="custom-event-container mb-20 mt-15"
+              style={{ paddingRight: "10px" }}
+            >
+              <Grid item xs={9} md={6} lg={9}>
+                <Typography
+                  gutterBottom
+                  className="mt-10  h1-title mb-20 xs-pl-15 ellsp"
+                >
+                  {poll.title}
+                </Typography>
+
+                <Box className="pr-5">
+                  <span className=" h3-custom-title"> Voting Ended On</span>
+                  <TodayOutlinedIcon
+                    className="h3-custom-title pl-10 mt-10"
+                    style={{ verticalAlign: "middle" }}
+                  />
+                  <span className="h3-custom-title ">
+                    {moment(poll.end_date).format(
+                      "dddd, MMMM Do YYYY, h:mm:ss a"
+                    )}
+                  </span>
+                </Box>
+              </Grid>
+              <Grid item xs={3} md={6} lg={3}>
+                <img
+                  src={require("assets/default.png")}
+                  className="appicon"
+                  alt="App Icon"
+                />
+              </Grid>
+              <Box style={{ paddingLeft: "18px", width: "100%" }}>
+                <Box sx={{ width: "100%" }}>
+                  {pollResult?.map((option, index) => (
+                    <Box
+                      key={index}
+                      sx={{ width: "100%" }}
+                      className={`voting-option my-10 progress${index}`}
+                    >
+                      <span
+                        className="h3-custom-title"
+                        style={{ paddingRight: "33px" }}
+                      >
+                        {option.poll_option}
+                      </span>
+                      <LinearProgressWithLabel
+                        value={getProgressValue(option.count)}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
+            </Grid>
+          )}
+        </DialogContent>
+      </BootstrapDialog>
     </Card>
   );
 }

@@ -36,6 +36,31 @@ const VotingList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const globalSearchQuery = location.state?.globalSearchQuery || undefined;
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    selectedStartDate: null,
+    selectedEndDate: null,
+    status: ["Live"],
+  });
+  const [finalFilters, setFinalFilters] = useState({});
+
+  const handleFilterChange = (newFilters) => {
+    // Format the dates if needed
+    const formattedFilters = {
+      ...newFilters,
+      selectedStartDate: newFilters.selectedStartDate
+        ? new Date(newFilters.selectedStartDate).toLocaleDateString()
+        : null,
+      selectedEndDate: newFilters.selectedEndDate
+        ? new Date(newFilters.selectedEndDate).toLocaleDateString()
+        : null,
+    };
+
+    setFilters(formattedFilters);
+  };
+  useEffect(() => {
+    fetchPolls();
+  }, [filters, currentPage]);
 
   const fetchPolls = async (visibility) => {
     setIsLoading(true);
@@ -45,8 +70,11 @@ const VotingList = () => {
       request: {
         filters: {
           visibility,
-          status: "Live",
+          status: filters.status || "Live",
+          from_date: filters.selectedStartDate || "",
+          to_date: filters.selectedEndDate || "",
         },
+        search: filters.searchTerm || "",
         sort_by: {
           created_at: "desc",
           start_date: "desc",
@@ -121,7 +149,7 @@ const VotingList = () => {
               boxShadow: "none",
             }}
           >
-            <VotingDrawerFilter />
+            <VotingDrawerFilter onFilterChange={handleFilterChange} />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="pb-20 pt-0 event-list">
             <Box textAlign="center" padding="10">
