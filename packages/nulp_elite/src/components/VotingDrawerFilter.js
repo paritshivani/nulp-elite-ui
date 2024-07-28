@@ -17,7 +17,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import { useTranslation } from "react-i18next";
 
 const VotingDrawerFilter = ({ onFilterChange }) => {
-  const [status, setStatus] = useState([]);
+  const [status, setStatus] = useState(["Live"]);
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -76,6 +76,15 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
     handleFilterChange();
   }, [searchTerm, selectedStartDate, selectedEndDate, status]);
 
+  const handleStatusChange = (event) => {
+    const value = event.target.value;
+    setStatus((prevStatus) =>
+      event.target.checked
+        ? [...prevStatus, value]
+        : prevStatus.filter((status) => status !== value)
+    );
+  };
+
   return (
     <>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
@@ -93,11 +102,11 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
         </Box>
 
         <FormControl>
-          <InputLabel htmlFor="outlined-adornment-password">
+          <InputLabel htmlFor="outlined-adornment-search">
             Search for a Poll
           </InputLabel>
           <OutlinedInput
-            id="outlined-adornment-password"
+            id="outlined-adornment-search"
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -133,30 +142,26 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
             >
               <FormControlLabel
-                control={<Checkbox defaultChecked={status.includes("Live")} />}
+                control={
+                  <Checkbox
+                    checked={status.includes("Live")}
+                    onChange={handleStatusChange}
+                  />
+                }
                 label="Live"
                 value="Live"
-                onChange={(e) => {
-                  const newStatus = e.target.checked
-                    ? [...status, e.target.value]
-                    : status.filter((item) => item !== e.target.value);
-                  setStatus(newStatus);
-                }}
               />
               <FormControlLabel
-                control={<Checkbox checked={status.includes("Closed")} />}
+                control={
+                  <Checkbox
+                    checked={status.includes("Closed")}
+                    onChange={handleStatusChange}
+                  />
+                }
                 label="Closed"
                 value="Closed"
-                onChange={(e) => {
-                  const newStatus = e.target.checked
-                    ? [...status, e.target.value]
-                    : status.filter((item) => item !== e.target.value);
-                  setStatus(newStatus);
-                }}
               />
             </RadioGroup>
           </FormControl>
