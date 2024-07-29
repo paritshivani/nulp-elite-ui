@@ -49,6 +49,8 @@ import AddConnections from "pages/connections/AddConnections";
 import { maxWidth } from "@shiksha/common-lib";
 import * as util from "../../services/utilService";
 import moment from "moment";
+import Alert from "@mui/material/Alert";
+import Toast from "pages/Toast";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -88,6 +90,7 @@ const VotingDetails = () => {
   const shareUrl = window.location.href; // Current page URL
   const userId = util.userId();
   const [pollResult, setPollResult] = useState([]);
+  const [timeDifference, setTimeDifference] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -129,6 +132,7 @@ const VotingDetails = () => {
         `${urlConfig.URLS.POLL.GET_USER_POLL}?poll_id=${pollId}&user_id=${userId}`
       );
       setUserVote(response.data.result);
+      setSelectedOption(response.data.result[0].poll_result);
     } catch (error) {
       console.error("Error fetching user vote", error);
     }
@@ -147,7 +151,9 @@ const VotingDetails = () => {
 
     try {
       await axios.post(`${urlConfig.URLS.POLL.USER_CREATE}`, data);
-      setToasterMessage("Vote submitted successfully");
+      setToasterMessage(
+        "Vote submitted successfully, You can update your vote within next 15 minutes"
+      );
       setToasterOpen(true);
       fetchUserVote(pollId);
     } catch (error) {
@@ -188,15 +194,18 @@ const VotingDetails = () => {
   const countUserVoteTime = () => {
     // Calculate the time difference between now and the time poll was created
     const currentDateTime = new Date();
-    const pollCreatedTime = new Date(userPollData[0]?.poll_date);
+    const pollCreatedTime = new Date(userVote[0]?.poll_date);
     const timeDiffMinutes = (currentDateTime - pollCreatedTime) / (1000 * 60);
+    setTimeDifference(timeDiffMinutes);
     return timeDiffMinutes;
   };
+  useEffect(() => {
+    countUserVoteTime();
+  }, [userVote]);
   return (
     <div>
       <Header />
-      {toasterMessage && <ToasterCommon response={toasterMessage} />}
-
+      {toasterMessage && <Toast response={toasterMessage} type="success" />}
       {poll && (
         <Container maxWidth="xl" role="main" className=" xs-pb-20 mt-12">
           <Breadcrumbs
@@ -264,7 +273,8 @@ const VotingDetails = () => {
               </Box>
             </Box> */}
             </Grid>
-            {(userVote && userVote?.length > 0) || isVotingEnded ? (
+            {(userVote && userVote?.length > 0 && timeDifference > 15) ||
+            isVotingEnded ? (
               <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
                 <Box width="100%"></Box>
                 <Typography
@@ -275,7 +285,11 @@ const VotingDetails = () => {
                 </Typography>
 
                 <Box className="pr-5">
-                  <span className=" h3-custom-title"> Voting Ended On</span>
+                  {isVotingEnded ? (
+                    <span className=" h3-custom-title"> Voting Ended On</span>
+                  ) : (
+                    <span className=" h3-custom-title"> Live until</span>
+                  )}
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 mt-10"
                     style={{ verticalAlign: "middle" }}
@@ -360,6 +374,27 @@ const VotingDetails = () => {
                   />
                   {moment(poll.end_date).format(
                     "dddd, MMMM Do YYYY, h:mm:ss a"
+                  )}
+                </Box>
+                <Box className="pr-5">
+                  {userVote?.length > 0 && timeDifference <= 15 && (
+                    <>
+                      <span className=" h3-custom-title">
+                        <Alert severity="info">
+                          You can update your vote within next 15 minutes.
+                        </Alert>
+                      </span>
+                      <Box className="pr-5 my-20">
+                        <span className=" h3-custom-title"> Your Vote</span>
+                        <VerifiedIcon
+                          className="h3-custom-title pl-10 mt-10 icon-blue"
+                          style={{ verticalAlign: "middle" }}
+                        />
+                        <span className="h3-custom-title ">
+                          {userVote[0]?.poll_result}
+                        </span>
+                      </Box>
+                    </>
                   )}
                 </Box>
                 <Box>
