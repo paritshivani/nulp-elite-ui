@@ -40,7 +40,7 @@ const votingDashboard = () => {
   const [openModal, setOpenModal] = useState(false);
   const [pollResult, setPollResult] = useState([]);
   const [poll, setPoll] = useState([]);
-  const [signlePOll,setSinglePoll] = useState([]);
+  const [signlePOll, setSinglePoll] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const shareUrl = window.location.href;
@@ -67,8 +67,6 @@ const votingDashboard = () => {
     }
   };
 
-  
-  
   const handleCloseModal = () => {
     setOpenModal(false);
     setPollResult(null);
@@ -118,23 +116,28 @@ const votingDashboard = () => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchPolls();
   }, []);
 
+
   const deletePoll = async (pollId) => {
     try {
-      const response = await axios.get(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
+      const response = await axios.delete(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
       if (response.status === 200) {
         setToasterMessage("Poll deleted successfully");
         fetchPolls();
-        setPoll(prevPolls => prevPolls.filter(poll => poll.poll_id !== pollId));
+        setPoll(prevPolls => {
+          const updatedPolls = prevPolls.filter(poll => poll.poll_id !== pollId);
+          return updatedPolls;
+        });
       }
     } catch (error) {
       console.error("Error deleting poll", error);
     }
   };
-
+  
   const livePolls = poll.filter(poll => poll.status === 'Live');
   const draftPolls = poll.filter(poll => poll.status === 'Draft');
   const closedPolls = poll.filter(poll => poll.status === 'Closed');
@@ -143,7 +146,6 @@ const votingDashboard = () => {
   const visibleDraftPolls = showAllDraft ? draftPolls : draftPolls.slice(0, 3);
   const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3);
 
-  console.log(signlePOll,'signlePOll');
 
   return (
     <div>
@@ -262,12 +264,9 @@ const votingDashboard = () => {
                         onClick={() => handleOpenModal(items.poll_id)}>
                         View Slots <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
-                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-              onClick={() => deletePoll(items.poll_id)}>
-              Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
-            </Button>
+
                     </Box>
-                    
+
                     <Box className="xs-hide">
                       <FacebookShareButton className="pr-5">
                         <FacebookIcon url={shareUrl} size={32} round={true} />
@@ -354,9 +353,12 @@ const votingDashboard = () => {
                   </CardContent>
                   <Box className="voting-text lg-mt-30">
                     <Box>
+                      <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
+                        Edit  <ArrowForwardIosOutlinedIcon className="fs-12" />
+                      </Button>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={() => handleOpenModal(items.poll_id)}>
-                        View Slots <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        onClick={() => deletePoll(items.poll_id)}>
+                        Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box className="xs-hide">
