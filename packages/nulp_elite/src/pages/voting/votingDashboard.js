@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
@@ -10,9 +10,6 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import { Button, Card, CardContent, Pagination, TextField } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -22,6 +19,16 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import CloseIcon from '@mui/icons-material/Close';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -49,11 +56,77 @@ const votingDashboard = () => {
   const [showAllDraft, setShowAllDraft] = useState(false);
   const [showAllClosed, setShowAllClosed] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [filters, setFilters] = useState({
+    searchTerm: '',
+    selectedStartDate: null,
+    selectedEndDate: null,
+  });
+
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   const handleViewAll = (polls, type) => {
     navigate('/webapp/pollsDetails', { state: { polls, type } });
   };
+  // const [filters, setFilters] = useState({
+  //   searchTerm: "",
+  //   selectedStartDate: null,
+  //   selectedEndDate: null,
+  //   status: [],
+  // });
+
+  const fetchPolls = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    const requestBody = {
+      request: {
+        filters: {
+          status: filters.status,
+          from_date: filters.selectedStartDate,
+          to_date: filters.selectedEndDate,
+        },
+        search: filters.searchTerm || "",
+        sort_by: {
+          created_at: "desc",
+          start_date: "desc",
+        },
+        offset: (currentPage - 1) * 10,
+        limit: 10,
+      },
+    };
+
+    try {
+      const response = await fetch(`${urlConfig.URLS.POLL.LIST}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      setPoll(result.result.data);
+      setPollResult(result.result.data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+
+  useEffect(() => {
+    fetchPolls();
+  }, []);
 
   const handleOpenModal = async (pollId) => {
     setOpenModal(true);
@@ -81,46 +154,46 @@ const votingDashboard = () => {
       year: "numeric",
     });
   };
-  const fetchPolls = async (visibility) => {
-    setIsLoading(true);
-    setError(null);
 
-    const requestBody = {
-      request: {
-        sort_by: {
-          created_at: "desc",
-          start_date: "desc",
-        },
-      },
+  const handleFilterChange = useCallback((newFilters = {}) => {
+    const formattedFilters = {
+      ...newFilters,
+      selectedStartDate: newFilters.selectedStartDate
+        ? new Date(newFilters.selectedStartDate).toISOString()
+        : null,
+      selectedEndDate: newFilters.selectedEndDate
+        ? new Date(newFilters.selectedEndDate).toISOString()
+        : null,
     };
+    setFilters(formattedFilters);
+  }, []);
+  
 
-    try {
-      const response = await fetch(`${urlConfig.URLS.POLL.LIST}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+  useEffect(() => {
+    handleFilterChange();
+  }, [searchTerm, selectedStartDate, selectedEndDate]);
+  useEffect(() => {
+    handleFilterChange({ searchTerm, selectedStartDate, selectedEndDate });
+  }, [searchTerm, selectedStartDate, selectedEndDate, handleFilterChange]);
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch polls");
-      }
+  useEffect(() => {
+    fetchPolls();
+  }, [filters, currentPage, fetchPolls]);
 
-      const result = await response.json();
-      setPoll(result.result.data);
-      setPollResult(result.result.data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleClearAll = () => {
+    setSearchTerm('');
+    setSelectedStartDate(null);
+    setSelectedEndDate(null);
+    setFilters({
+      searchTerm: '',
+      selectedStartDate: null,
+      selectedEndDate: null,
+    });
   };
 
   useEffect(() => {
     fetchPolls();
-  }, []);
-
+  }, [filters]);
 
   const deletePoll = async (pollId) => {
     try {
@@ -137,7 +210,7 @@ const votingDashboard = () => {
       console.error("Error deleting poll", error);
     }
   };
-  
+
   const livePolls = poll.filter(poll => poll.status === 'Live');
   const draftPolls = poll.filter(poll => poll.status === 'Draft');
   const closedPolls = poll.filter(poll => poll.status === 'Closed');
@@ -157,44 +230,55 @@ const votingDashboard = () => {
         className="xs-pb-20 lg-pt-20 min-"
       >
         <Box mb={2} mt={2}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                className="searchbar"
-                placeholder="Search for a poll"
-                variant="outlined"
-                size="small"
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <IconButton type="submit" aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={2}
-              sx={{ color: '#000000b3', textAlign: 'center' }}>
-              Select Date Range
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <MuiDatePicker label="Select Date from" />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <MuiDatePicker label="Select Date To" />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={1}>
-              <Button type="button" className="custom-btn-primary">
-                Go Back
+          <Box className="header-bg-blue p-15 filter-bx xs-hide">
+            <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
+              <Box className="filter-title">Filter By:</Box>
+              <Button
+                type="button"
+                className="viewAll mb-20"
+                onClick={handleClearAll}
+              >
+                Clear all
               </Button>
-            </Grid>
-          </Grid>
+            </Box>
+
+            <FormControl>
+              <InputLabel htmlFor="outlined-adornment-search">
+                Search for a Poll
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-search"
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton aria-label="toggle search visibility">
+                      <SearchOutlinedIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Search poll"
+              />
+            </FormControl>
+            <Box className="filter-text mt-15">Select Date Range</Box>
+            <Box className="mt-9 dateRange">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Select Date From"
+                  value={selectedStartDate}
+                  onChange={(newValue) => setSelectedStartDate(newValue ? dayjs(newValue.toDate()) : null)}
+                />
+                <DatePicker
+                  label="Select Date To"
+                  value={selectedEndDate}
+                  onChange={(newValue) => setSelectedEndDate(newValue ? dayjs(newValue.toDate()) : null)}
+                />
+              </LocalizationProvider>
+            </Box>
+          </Box>
         </Box>
+
 
         <Box
           display="flex"
