@@ -327,10 +327,7 @@ const VotingDetails = () => {
                         >
                           <Grid container spacing={2}>
                             <Grid item xs={3} md={4} lg={2}>
-                              <span
-                                className="h3-custom-title"
-                                style={{ paddingRight: "33px" }}
-                              >
+                              <span className="h3-custom-title">
                                 {option.poll_option}
                               </span>
                             </Grid>
