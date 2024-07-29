@@ -62,6 +62,20 @@ const createForm = () => {
   const [selectedOrg, setSelectedOrg] = useState(
     "Select or Search Organization"
   );
+  const [orgOffset, setOrgOffset] = useState(0);
+  const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
+  useEffect(() => {
+    const initialOrg = orgList.find((org) => org.orgName === organisationName);
+    setSelectedOrg(initialOrg || null);
+  }, [organisationName, orgList]);
+
+  const loadMoreOrgs = async () => {
+    setIsFetchingMoreOrgs(true);
+    const newOffset = orgOffset + 100;
+    await getOrgDetail(searchQuery, newOffset);
+    setOrgOffset(newOffset);
+    setIsFetchingMoreOrgs(false);
+  };
 
   useEffect(() => {
     fetchData();
@@ -234,12 +248,13 @@ const createForm = () => {
     }
   };
 
-  const getOrgDetail = async (rootOrgId) => {
+  const getOrgDetail = async (searchQuery = "", offset = 0) => {
     const requestBody = {
       request: {
-        query: "",
+        query: searchQuery,
         filters: {},
         limit: 100,
+        offset: offset,
       },
     };
 
@@ -254,14 +269,13 @@ const createForm = () => {
       });
 
       if (!response.ok) {
-        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
         throw new Error(t("FAILED_TO_FETCH_DATA"));
       }
 
-      let responseData = await response.json();
-
-      const orgs = responseData?.result?.response?.content || [];
-      setOrgList(orgs);
+      const responseData = await response.json();
+      const newOrgs = responseData?.result?.response?.content || [];
+      setOrgList((prevOrgs) => [...prevOrgs, ...newOrgs]);
+      return responseData?.result?.response?.content || [];
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -430,11 +444,25 @@ const createForm = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Select Organization"
+                            label="Select or Search Organization"
                             variant="outlined"
                             fullWidth
                           />
                         )}
+                        ListboxProps={{
+                          onScroll: (event) => {
+                            const listboxNode = event.currentTarget;
+                            if (
+                              listboxNode.scrollTop +
+                                listboxNode.clientHeight ===
+                              listboxNode.scrollHeight
+                            ) {
+                              if (!isFetchingMoreOrgs) {
+                                loadMoreOrgs();
+                              }
+                            }
+                          },
+                        }}
                       />
                     ) : null}
 
