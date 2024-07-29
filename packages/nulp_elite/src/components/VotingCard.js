@@ -136,7 +136,9 @@ export default function VotingCard({ items, index, onClick }) {
           <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
             <Box className="d-flex jc-bw alignItems-center">
               <TodayOutlinedIcon className="fs-12 pr-5" />
-              {formatDate(items.start_date)}
+              {moment(items?.start_date).format(
+                "dddd, MMMM Do YYYY, h:mm:ss a"
+              )}
             </Box>
           </Box>
         </Box>
