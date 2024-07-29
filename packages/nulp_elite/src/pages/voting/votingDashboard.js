@@ -71,12 +71,6 @@ const votingDashboard = () => {
   const handleViewAll = (polls, type) => {
     navigate('/webapp/pollsDetails', { state: { polls, type } });
   };
-  // const [filters, setFilters] = useState({
-  //   searchTerm: "",
-  //   selectedStartDate: null,
-  //   selectedEndDate: null,
-  //   status: [],
-  // });
 
   const fetchPolls = async () => {
     setIsLoading(true);
@@ -155,45 +149,42 @@ const votingDashboard = () => {
     });
   };
 
-  const handleFilterChange = useCallback((newFilters = {}) => {
-    const formattedFilters = {
-      ...newFilters,
-      selectedStartDate: newFilters.selectedStartDate
-        ? new Date(newFilters.selectedStartDate).toISOString()
+  const handleFilterChange = useCallback(() => {
+    setFilters({
+      searchTerm,
+      selectedStartDate: selectedStartDate
+        ? new Date(selectedStartDate).toISOString()
         : null,
-      selectedEndDate: newFilters.selectedEndDate
-        ? new Date(newFilters.selectedEndDate).toISOString()
+      selectedEndDate: selectedEndDate
+        ? new Date(selectedEndDate).toISOString()
         : null,
-    };
-    setFilters(formattedFilters);
-  }, []);
+    });
+  }, [searchTerm, selectedStartDate, selectedEndDate]);
   
 
-  useEffect(() => {
-    handleFilterChange();
-  }, [searchTerm, selectedStartDate, selectedEndDate]);
-  useEffect(() => {
-    handleFilterChange({ searchTerm, selectedStartDate, selectedEndDate });
-  }, [searchTerm, selectedStartDate, selectedEndDate, handleFilterChange]);
+useEffect(() => {
+  handleFilterChange();
+}, [searchTerm, selectedStartDate, selectedEndDate, handleFilterChange]);
 
-  useEffect(() => {
-    fetchPolls();
-  }, [filters, currentPage, fetchPolls]);
+useEffect(() => {
+  fetchPolls();
+}, [filters, currentPage]);
 
-  const handleClearAll = () => {
-    setSearchTerm('');
-    setSelectedStartDate(null);
-    setSelectedEndDate(null);
-    setFilters({
-      searchTerm: '',
-      selectedStartDate: null,
-      selectedEndDate: null,
-    });
-  };
+const handleClearAll = () => {
+  setSearchTerm('');
+  setSelectedStartDate(null);
+  setSelectedEndDate(null);
+  handleFilterChange();  
+};
 
-  useEffect(() => {
-    fetchPolls();
-  }, [filters]);
+
+
+useEffect(() => {
+  fetchPolls();
+}, [filters, currentPage]);
+ useEffect(() => {
+  fetchPolls();
+}, [filters, currentPage]);
 
   const deletePoll = async (pollId) => {
     try {
@@ -230,22 +221,12 @@ const votingDashboard = () => {
         className="xs-pb-20 lg-pt-20 min-"
       >
         <Box mb={2} mt={2}>
-          <Box className="header-bg-blue p-15 filter-bx xs-hide">
-            <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
-              <Box className="filter-title">Filter By:</Box>
-              <Button
-                type="button"
-                className="viewAll mb-20"
-                onClick={handleClearAll}
-              >
-                Clear all
-              </Button>
-            </Box>
-
-            <FormControl>
-              <InputLabel htmlFor="outlined-adornment-search">
-                Search for a Poll
-              </InputLabel>
+      <Box className="p-15">
+        <Grid container spacing={2} alignItems="center">
+         
+          <Grid item xs={12} md={3}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="outlined-adornment-search">Search for a Poll</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-search"
                 type="text"
@@ -261,23 +242,36 @@ const votingDashboard = () => {
                 label="Search poll"
               />
             </FormControl>
-            <Box className="filter-text mt-15">Select Date Range</Box>
-            <Box className="mt-9 dateRange">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Select Date From"
-                  value={selectedStartDate}
-                  onChange={(newValue) => setSelectedStartDate(newValue ? dayjs(newValue.toDate()) : null)}
-                />
-                <DatePicker
-                  label="Select Date To"
-                  value={selectedEndDate}
-                  onChange={(newValue) => setSelectedEndDate(newValue ? dayjs(newValue.toDate()) : null)}
-                />
-              </LocalizationProvider>
-            </Box>
-          </Box>
-        </Box>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            {/* <Box className="ml-20">Select Date Range</Box> */}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Select Date From"
+                value={selectedStartDate}
+                onChange={(newValue) => setSelectedStartDate(newValue ? dayjs(newValue).toDate() : null)}
+                renderInput={(params) => <OutlinedInput {...params} fullWidth />}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Select Date To"
+                value={selectedEndDate}
+                onChange={(newValue) => setSelectedEndDate(newValue ? dayjs(newValue).toDate() : null)}
+                renderInput={(params) => <OutlinedInput {...params} fullWidth />}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Button type="button" className="custom-btn-primary" onClick={handleClearAll} fullWidth>
+              Clear all
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
 
 
         <Box
