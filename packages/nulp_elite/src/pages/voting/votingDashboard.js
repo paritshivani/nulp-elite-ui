@@ -122,7 +122,8 @@ const votingDashboard = () => {
     fetchPolls();
   }, []);
 
-  const handleOpenModal = async (pollId) => {
+  const handleOpenModal = async (pollId,event) => {
+    event.stopPropagation();
     setOpenModal(true);
     try {
       const response = await axios.get(
@@ -134,7 +135,8 @@ const votingDashboard = () => {
     }
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (event) => {
+    event.stopPropagation();
     setOpenModal(false);
     setPollResult(null);
   };
@@ -210,6 +212,9 @@ useEffect(() => {
   const visibleDraftPolls = showAllDraft ? draftPolls : draftPolls.slice(0, 3);
   const visibleClosedPolls = showAllClosed ? closedPolls : closedPolls.slice(0, 3);
 
+  const handleCardClick = (poll_id) => {
+    navigate(`/webapp/votingDetails?${poll_id}`);
+  };
 
   return (
     <div>
@@ -310,9 +315,12 @@ useEffect(() => {
                 style={{ marginBottom: "10px" }}
                 key={items.poll_id}
               >
+                
                 <Card
-                  className="cardBox1 pb-20"
-                  sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
+                  className="pb-20"
+                  sx={{ position: "relative", cursor: "pointer",textAlign: "left",borderRadius: '10px',
+                  boxShadow: '0 4px 4px 0 #00000040!important' }}
+                  onClick={() => handleCardClick(items.poll_id)}
                 >
                   <CardContent className="d-flex jc-bw">
                     <Box>
@@ -340,7 +348,7 @@ useEffect(() => {
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
                         onClick={() => handleOpenModal(items.poll_id)}>
-                        View Slots <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
 
                     </Box>
@@ -382,7 +390,7 @@ useEffect(() => {
           {!showAllDraft && visibleDraftPolls.length >= 1 && (
             <Box>
               <Button type="button" className="custom-btn-primary ml-20"
-                onClick={() => handleViewAll(visibleDraftPolls, 'live')}>
+                onClick={() => handleViewAll(visibleDraftPolls, 'Draft')}>
                 View All
               </Button>
             </Box>
@@ -404,8 +412,10 @@ useEffect(() => {
                 key={items.poll_id}
               >
                 <Card
-                  className="cardBox1 pb-20"
-                  sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
+                  className="pb-20"
+                  sx={{ position: "relative", cursor: "pointer", textAlign: "left",borderRadius: '10px',
+                  boxShadow: '0 4px 4px 0 #00000040!important' }}
+                  onClick={() => handleCardClick(items.poll_id)}
                 >
                   <CardContent className="d-flex jc-bw">
                     <Box>
@@ -498,8 +508,10 @@ useEffect(() => {
                 key={items.poll_id}
               >
                 <Card
-                  className="cardBox1 pb-20"
-                  sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
+                  className="pb-20"
+                  sx={{ position: "relative", cursor: "pointer", textAlign: "left",borderRadius: '10px',
+                  boxShadow: '0 4px 4px 0 #00000040!important' }}
+                  onClick={() => handleCardClick(items.poll_id)}
                 >
                   <CardContent className="d-flex jc-bw">
                     <Box>
