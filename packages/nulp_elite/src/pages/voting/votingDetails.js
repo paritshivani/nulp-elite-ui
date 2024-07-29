@@ -173,30 +173,8 @@ const VotingDetails = () => {
     }
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const formatTimeToIST = (timeString) => {
-    let dateObject = new Date(timeString);
-    if (isNaN(dateObject.getTime())) {
-      const [hours, minutes] = timeString.split(":");
-      dateObject = new Date();
-      dateObject.setHours(hours);
-      dateObject.setMinutes(minutes);
-      dateObject.setSeconds(0);
-    }
-    const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-    };
   };
 
   const handleGoBack = () => {
@@ -206,7 +184,14 @@ const VotingDetails = () => {
 
   const getProgressValue = (count) =>
     totalVotes > 0 ? (count / totalVotes) * 100 : 0;
-
+  const isVotingEnded = new Date(poll?.end_date) < new Date();
+  const countUserVoteTime = () => {
+    // Calculate the time difference between now and the time poll was created
+    const currentDateTime = new Date();
+    const pollCreatedTime = new Date(userPollData[0]?.poll_date);
+    const timeDiffMinutes = (currentDateTime - pollCreatedTime) / (1000 * 60);
+    return timeDiffMinutes;
+  };
   return (
     <div>
       <Header />
@@ -279,7 +264,7 @@ const VotingDetails = () => {
               </Box>
             </Box> */}
             </Grid>
-            {userVote && userVote?.length > 0 ? (
+            {(userVote && userVote?.length > 0) || isVotingEnded ? (
               <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
                 <Box width="100%"></Box>
                 <Typography
@@ -334,7 +319,7 @@ const VotingDetails = () => {
                       ))}
                     </div>
                   )}
-                  <Box className="mt-20">
+                  {/* <Box className="mt-20">
                     <Button
                       type="button"
                       className="custom-btn-primary"
@@ -345,7 +330,7 @@ const VotingDetails = () => {
                         style={{ color: "#fff", paddingLeft: "10px" }}
                       />
                     </Button>
-                  </Box>
+                  </Box> */}
                 </Box>
               </Grid>
             ) : (
@@ -517,35 +502,38 @@ const VotingDetails = () => {
                 </TwitterShareButton>
               </Box>
             </Grid>
-            <Box className="lg-hide" sx={{ width: "100%" }}>
-              <Box sx={{ width: "100%" }}>
-                {pollResult?.map((option, index) => (
-                  <Box
-                    key={index}
-                    sx={{ width: "100%" }}
-                    className={`voting-option my-10 progress${index}`}
-                  >
-                    <span
-                      className="h3-custom-title"
-                      style={{ paddingRight: "33px" }}
+            {(userVote?.length > 0 || isVotingEnded) && (
+              <Box className="lg-hide" sx={{ width: "100%" }}>
+                <Box sx={{ width: "100%" }}>
+                  {pollResult?.map((option, index) => (
+                    <Box
+                      key={index}
+                      sx={{ width: "100%" }}
+                      className={`voting-option my-10 progress${index}`}
                     >
-                      {option.poll_option}
-                    </span>
-                    <LinearProgressWithLabel
-                      value={getProgressValue(option.count)}
-                    />
-                  </Box>
-                ))}
+                      <span
+                        className="h3-custom-title"
+                        style={{ paddingRight: "33px" }}
+                      >
+                        {option.poll_option}
+                      </span>
+                      <LinearProgressWithLabel
+                        value={getProgressValue(option.count)}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+                {/* <Box className="mt-20">
+    <Button type="button" className="custom-btn-primaryy">
+      {t("SHARE_RESULTS")}{" "}
+      <ShareOutlinedIcon
+        style={{ color: "#fff", paddingLeft: "10px" }}
+      />
+    </Button>
+  </Box> */}
               </Box>
-              {/* <Box className="mt-20">
-                  <Button type="button" className="custom-btn-primaryy">
-                    {t("SHARE_RESULTS")}{" "}
-                    <ShareOutlinedIcon
-                      style={{ color: "#fff", paddingLeft: "10px" }}
-                    />
-                  </Button>
-                </Box> */}
-            </Box>
+            )}
+
             <Box style={{ display: "block", width: "100%" }}></Box>
             <Box
               className="h2-title pl-20 mb-20 mt-20"
