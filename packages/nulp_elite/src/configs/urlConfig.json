@@ -429,6 +429,7 @@
       "LIST": "/polls/list",
       "UPDATE": "/polls/update",
       "GET_POLL": "/polls/get_poll",
+      "DELETE_POLL":"/polls/delete",
       "GET_USER_POLL": "/polls/user/get_user_poll",
       "USER_CREATE": "/polls/user/create",
       "USER_UPDATE": "/polls/user/update"

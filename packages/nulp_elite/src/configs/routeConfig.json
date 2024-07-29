@@ -79,7 +79,8 @@
       "VOTING_LIST": "/webapp/votingList",
       "VOTING_DETAILS": "/webapp/votingDetails",
       "VOTING_FORM": "/webapp/createform",
-      "VOTING_DASHBOARD": "webapp/votingDashboard"
+      "VOTING_DASHBOARD": "webapp/votingDashboard",
+      "POLLS_DETAILS": "webapp/pollsDetails"
     }
   }
 }
