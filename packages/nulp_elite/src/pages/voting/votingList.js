@@ -14,8 +14,8 @@ import Alert from "@mui/material/Alert";
 import ToasterCommon from "../ToasterCommon";
 import VotingDrawerFilter from "../../components/VotingDrawerFilter";
 import Tab from "@mui/material/Tab";
-// import TabContext from "@mui/lab/TabContext";
-import TabContext from "@material-ui/lab/TabContext";
+import TabContext from "@mui/lab/TabContext";
+// import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
@@ -36,6 +36,26 @@ const VotingList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const globalSearchQuery = location.state?.globalSearchQuery || undefined;
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    selectedStartDate: null,
+    selectedEndDate: null,
+    status: ["Live"],
+  });
+  const [finalFilters, setFinalFilters] = useState({});
+
+  const handleFilterChange = (newFilters) => {
+    const formattedFilters = {
+      ...newFilters,
+      selectedStartDate: newFilters.selectedStartDate
+        ? new Date(newFilters.selectedStartDate).toLocaleDateString()
+        : null,
+      selectedEndDate: newFilters.selectedEndDate
+        ? new Date(newFilters.selectedEndDate).toLocaleDateString()
+        : null,
+    };
+    setFilters(formattedFilters);
+  };
 
   const fetchPolls = async (visibility) => {
     setIsLoading(true);
@@ -45,8 +65,11 @@ const VotingList = () => {
       request: {
         filters: {
           visibility,
-          status: "Live",
+          status: filters.status || ["Live"],
+          from_date: filters.selectedStartDate || "",
+          to_date: filters.selectedEndDate || "",
         },
+        search: filters.searchTerm || "",
         sort_by: {
           created_at: "desc",
           start_date: "desc",
@@ -82,7 +105,7 @@ const VotingList = () => {
   useEffect(() => {
     const visibility = valueTab === "1" ? "private" : "public";
     fetchPolls(visibility);
-  }, [valueTab, currentPage]);
+  }, [filters, currentPage, valueTab]);
 
   const handleCardClick = (poll_id) => {
     navigate(`/webapp/votingDetails?${poll_id}`);
@@ -121,37 +144,37 @@ const VotingList = () => {
               boxShadow: "none",
             }}
           >
-            <VotingDrawerFilter />
+            <VotingDrawerFilter onFilterChange={handleFilterChange} />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="pb-20 pt-0 event-list">
             <Box textAlign="center" padding="10">
               <Box>
-                {isLoading ? (
-                  <p>Loading...</p>
-                ) : error ? (
-                  <Alert severity="error">{error}</Alert>
-                ) : data && data?.length ? (
-                  <div>
-                    <TabContext value={valueTab} className="eventTab">
-                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <TabList
-                          onChange={handleTabChange}
-                          aria-label="lab API tabs example"
-                        >
-                          <Tab
-                            label="Private Polls"
-                            className="tab-text"
-                            icon={<RecentActorsOutlinedIcon />}
-                            value="1"
-                          />
-                          <Tab
-                            label="All Polls"
-                            className="tab-text"
-                            icon={<PublicOutlinedIcon />}
-                            value="2"
-                          />
-                        </TabList>
-                      </Box>
+                <div>
+                  <TabContext value={valueTab} className="eventTab">
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <TabList
+                        onChange={handleTabChange}
+                        aria-label="lab API tabs example"
+                      >
+                        <Tab
+                          label="Private Polls"
+                          className="tab-text"
+                          icon={<RecentActorsOutlinedIcon />}
+                          value="1"
+                        />
+                        <Tab
+                          label="All Polls"
+                          className="tab-text"
+                          icon={<PublicOutlinedIcon />}
+                          value="2"
+                        />
+                      </TabList>
+                    </Box>
+                    {isLoading ? (
+                      <p>Loading...</p>
+                    ) : error ? (
+                      <Alert severity="error">{error}</Alert>
+                    ) : data && data?.length ? (
                       <TabPanel value="1" className="mt-15">
                         <Grid
                           container
@@ -177,41 +200,41 @@ const VotingList = () => {
                             ))}
                         </Grid>
                       </TabPanel>
-                      <TabPanel value="2" className="mt-15">
-                        <Grid
-                          container
-                          spacing={2}
-                          style={{ marginBottom: "5px" }}
-                        >
-                          {data &&
-                            data.map((items, index) => (
-                              <Grid
-                                item
-                                xs={12}
-                                md={6}
-                                lg={6}
-                                style={{ marginBottom: "10px" }}
-                                key={items.poll_id}
-                              >
-                                <VotingCard
-                                  items={items}
-                                  index={index}
-                                  onClick={() => handleCardClick(items.poll_id)}
-                                />
-                              </Grid>
-                            ))}
-                        </Grid>
-                        <Pagination
-                          count={totalPages}
-                          page={currentPage}
-                          onChange={handlePageChange}
-                        />
-                      </TabPanel>
-                    </TabContext>
-                  </div>
-                ) : (
-                  <NoResult />
-                )}
+                    ) : (
+                      <NoResult />
+                    )}
+                    <TabPanel value="2" className="mt-15">
+                      <Grid
+                        container
+                        spacing={2}
+                        style={{ marginBottom: "5px" }}
+                      >
+                        {data &&
+                          data.map((items, index) => (
+                            <Grid
+                              item
+                              xs={12}
+                              md={6}
+                              lg={6}
+                              style={{ marginBottom: "10px" }}
+                              key={items.poll_id}
+                            >
+                              <VotingCard
+                                items={items}
+                                index={index}
+                                onClick={() => handleCardClick(items.poll_id)}
+                              />
+                            </Grid>
+                          ))}
+                      </Grid>
+                    </TabPanel>
+                  </TabContext>
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                  />
+                </div>
               </Box>
             </Box>
           </Grid>

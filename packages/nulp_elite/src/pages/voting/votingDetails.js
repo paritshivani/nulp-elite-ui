@@ -49,6 +49,8 @@ import AddConnections from "pages/connections/AddConnections";
 import { maxWidth } from "@shiksha/common-lib";
 import * as util from "../../services/utilService";
 import moment from "moment";
+import Alert from "@mui/material/Alert";
+import Toast from "pages/Toast";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -88,6 +90,7 @@ const VotingDetails = () => {
   const shareUrl = window.location.href; // Current page URL
   const userId = util.userId();
   const [pollResult, setPollResult] = useState([]);
+  const [timeDifference, setTimeDifference] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -129,6 +132,7 @@ const VotingDetails = () => {
         `${urlConfig.URLS.POLL.GET_USER_POLL}?poll_id=${pollId}&user_id=${userId}`
       );
       setUserVote(response.data.result);
+      setSelectedOption(response.data.result[0].poll_result);
     } catch (error) {
       console.error("Error fetching user vote", error);
     }
@@ -147,7 +151,9 @@ const VotingDetails = () => {
 
     try {
       await axios.post(`${urlConfig.URLS.POLL.USER_CREATE}`, data);
-      setToasterMessage("Vote submitted successfully");
+      setToasterMessage(
+        "Vote submitted successfully, You can update your vote within next 15 minutes"
+      );
       setToasterOpen(true);
       fetchUserVote(pollId);
     } catch (error) {
@@ -173,30 +179,8 @@ const VotingDetails = () => {
     }
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const formatTimeToIST = (timeString) => {
-    let dateObject = new Date(timeString);
-    if (isNaN(dateObject.getTime())) {
-      const [hours, minutes] = timeString.split(":");
-      dateObject = new Date();
-      dateObject.setHours(hours);
-      dateObject.setMinutes(minutes);
-      dateObject.setSeconds(0);
-    }
-    const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-    };
   };
 
   const handleGoBack = () => {
@@ -206,51 +190,59 @@ const VotingDetails = () => {
 
   const getProgressValue = (count) =>
     totalVotes > 0 ? (count / totalVotes) * 100 : 0;
-
+  const isVotingEnded = new Date(poll?.end_date) < new Date();
+  const countUserVoteTime = () => {
+    // Calculate the time difference between now and the time poll was created
+    const currentDateTime = new Date();
+    const pollCreatedTime = new Date(userVote[0]?.poll_date);
+    const timeDiffMinutes = (currentDateTime - pollCreatedTime) / (1000 * 60);
+    setTimeDifference(timeDiffMinutes);
+    return timeDiffMinutes;
+  };
+  useEffect(() => {
+    countUserVoteTime();
+  }, [userVote]);
   return (
     <div>
       <Header />
-      {toasterMessage && <ToasterCommon response={toasterMessage} />}
-
-      {poll &&
-        (console.log("poll", poll),
-        (
-          <Container maxWidth="xl" role="main" className=" xs-pb-20 mt-12">
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              className="h6-title mt-15 pl-28 xss-pb-0"
-              style={{ padding: "0 0 20px 20px" }}
+      {toasterMessage && <Toast response={toasterMessage} type="success" />}
+      {poll && (
+        <Container maxWidth="xl" role="main" className=" xs-pb-20 mt-12">
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            className="h6-title mt-15 pl-28 xss-pb-0"
+            style={{ padding: "0 0 20px 20px" }}
+          >
+            <Link
+              underline="hover"
+              style={{ maxHeight: "inherit" }}
+              onClick={handleGoBack}
+              color="#004367"
+              href="/webapp/votingList"
             >
-              <Link
-                underline="hover"
-                style={{ maxHeight: "inherit" }}
-                onClick={handleGoBack}
-                color="#004367"
-                href="/webapp/votingList"
-              >
-                {t("LIVE_POLLS")}
-              </Link>
-              <Link
-                underline="hover"
-                href=""
-                aria-current="page"
-                className="h6-title oneLineEllipsis"
-              >
-                {poll.title}
-              </Link>
-            </Breadcrumbs>
-            <Grid
-              container
-              spacing={2}
-              className="bg-whitee custom-event-container mb-20 xs-container"
+              {t("LIVE_POLLS")}
+            </Link>
+            <Link
+              underline="hover"
+              href=""
+              aria-current="page"
+              className="h6-title oneLineEllipsis"
             >
-              <Grid item xs={3} md={6} lg={2} className="lg-pl-5 xs-pl-0">
-                <img
-                  src={require("assets/default.png")}
-                  className="eventCardImg"
-                  alt="App Icon"
-                />
-                {/* <Box>
+              {poll.title}
+            </Link>
+          </Breadcrumbs>
+          <Grid
+            container
+            spacing={2}
+            className="bg-whitee custom-event-container mb-20 xs-container"
+          >
+            <Grid item xs={3} md={6} lg={2} className="lg-pl-5 xs-pl-0">
+              <img
+                src={require("assets/default.png")}
+                className="eventCardImg"
+                alt="App Icon"
+              />
+              {/* <Box>
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -280,29 +272,44 @@ const VotingDetails = () => {
                 </Button>
               </Box>
             </Box> */}
-              </Grid>
-              {userVote && userVote?.length > 0 ? (
-                <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
-                  <Box width="100%"></Box>
-                  <Typography
-                    gutterBottom
-                    className="mt-10  h1-title mb-20 ellsp"
-                  >
-                    {poll.title}
-                  </Typography>
+            </Grid>
+            {(userVote && userVote?.length > 0 && timeDifference > 15) ||
+            isVotingEnded ? (
+              <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
+                <Box width="100%"></Box>
+                <Typography
+                  gutterBottom
+                  className="mt-10  h1-title mb-20 ellsp"
+                >
+                  {poll.title}
+                </Typography>
 
-                  <Box className="pr-5">
+                <Box className="pr-5">
+                  {isVotingEnded ? (
                     <span className=" h3-custom-title"> Voting Ended On</span>
-                    <TodayOutlinedIcon
-                      className="h3-custom-title pl-10 mt-10"
-                      style={{ verticalAlign: "middle" }}
-                    />
-                    <span className="h3-custom-title ">
-                      {moment(poll.end_date).format(
-                        "dddd, MMMM Do YYYY, h:mm:ss a"
-                      )}
+                  ) : (
+                    <span className=" h3-custom-title"> Live until</span>
+                  )}
+                  <TodayOutlinedIcon
+                    className="h3-custom-title pl-10 mt-10"
+                    style={{ verticalAlign: "middle" }}
+                  />
+                  <span className="h3-custom-title ">
+                    {moment(poll.end_date).format(
+                      "dddd, MMMM Do YYYY, h:mm:ss a"
+                    )}
+                  </span>
+                </Box>
+                <Box className="pr-5">
+                  {userVote?.length > 0 && timeDifference > 15 && (
+                    <span className=" h3-custom-title">
+                      <Alert severity="info">
+                        Your vote has been captured.
+                      </Alert>
                     </span>
-                  </Box>
+                  )}
+                </Box>
+                {userVote?.length ? (
                   <Box className="pr-5 my-20">
                     <span className=" h3-custom-title"> Your Vote</span>
                     <VerifiedIcon
@@ -313,180 +320,197 @@ const VotingDetails = () => {
                       {userVote[0]?.poll_result}
                     </span>
                   </Box>
-                  <Box sx={{ width: "100%" }} className="xs-hide">
-                    {pollResult?.map((option, index) => (
-                      <Box
-                        key={index}
-                        sx={{ width: "100%" }}
-                        className={`voting-option my-10 progress${index}`}
-                      >
-                        <span
-                          className="h3-custom-title"
-                          style={{ paddingRight: "33px" }}
+                ) : null}
+                <Box sx={{ width: "100%" }} className="xs-hide">
+                  {pollResult && (
+                    <div>
+                      {pollResult?.map((option, index) => (
+                        <Box
+                          key={index}
+                          sx={{ width: "100%" }}
+                          className={`voting-option my-10 progress${index}`}
                         >
-                          {option.poll_option}
-                        </span>
-                        <LinearProgressWithLabel
-                          value={getProgressValue(option.count)}
-                        />
-                      </Box>
-                    ))}
-
-                    {/* <Box className="mt-20">
-                      <Button
-                        type="button"
-                        className="custom-btn-primary"
-                        onClick={handleClickOpen}
-                      >
-                        {t("SHARE_RESULTS")}
-                        <ShareOutlinedIcon
-                          style={{ color: "#fff", paddingLeft: "10px" }}
-                        />
-                      </Button>
-                    </Box> */}
-                  </Box>
-                </Grid>
-              ) : (
-                <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
-                  <Typography
-                    gutterBottom
-                    className="mt-10  h1-title mb-20 xs-pl-15"
-                  >
-                    {poll.title}
-                  </Typography>
-                  <Box className="pr-5 h3-custom-title">
-                    <span className=" h3-custom-title"> Live until</span>
-                    <TodayOutlinedIcon
-                      className="h3-custom-title pl-10 mt-10"
-                      style={{ verticalAlign: "middle" }}
-                    />
-                    {moment(poll.end_date).format(
-                      "dddd, MMMM Do YYYY, h:mm:ss a"
-                    )}
-                  </Box>
-                  <Box>
-                    <FormControl>
-                      <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="Poll"
-                        value={selectedOption}
-                        onChange={handleOptionChange}
-                        name="radio-buttons-group"
-                      >
-                        {poll?.poll_options?.map((option, index) => (
-                          <FormControlLabel
-                            key={index}
-                            value={option}
-                            control={<Radio />}
-                            label={option}
+                          <span
+                            className="h3-custom-title"
+                            style={{ paddingRight: "33px" }}
+                          >
+                            {option.poll_option}
+                          </span>
+                          <LinearProgressWithLabel
+                            value={getProgressValue(option.count)}
                           />
-                        ))}
-                      </RadioGroup>
-                      <Box>
-                        {console.log(
-                          "0000000000000000000000000000000000",
-                          userVote
-                        )}
-
-                        {userVote?.length > 0 ? (
-                          <Button
-                            type="button"
-                            className="custom-btn-primary"
-                            onClick={handleVoteUpdate}
-                            disabled={!selectedOption} // Disable the button if no option is selected
-                          >
-                            {t("UPDATE_VOTE")}
-                          </Button>
-                        ) : (
-                          <Button
-                            type="button"
-                            className="custom-btn-primary"
-                            onClick={handleVoteSubmit}
-                            disabled={!selectedOption} // Disable the button if no option is selected
-                          >
-                            {t("SUBMIT_VOTE")}
-                          </Button>
-                        )}
-                      </Box>
-                    </FormControl>
-                  </Box>
-                </Grid>
-              )}
-              <BootstrapDialog
-                onClose={handleClose}
-                aria-labelledby="customized-dialog-title"
-                open={open}
-              >
-                <IconButton
-                  aria-label="close"
-                  onClick={handleClose}
-                  sx={{
-                    position: "absolute",
-                    right: 8,
-                    top: 8,
-                    color: (theme) => theme.palette.grey[500],
-                  }}
+                        </Box>
+                      ))}
+                    </div>
+                  )}
+                  {/* <Box className="mt-20">
+                    <Button
+                      type="button"
+                      className="custom-btn-primary"
+                      onClick={handleClickOpen}
+                    >
+                      {t("SHARE_RESULTS")}
+                      <ShareOutlinedIcon
+                        style={{ color: "#fff", paddingLeft: "10px" }}
+                      />
+                    </Button>
+                  </Box> */}
+                </Box>
+              </Grid>
+            ) : (
+              <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
+                <Typography
+                  gutterBottom
+                  className="mt-10  h1-title mb-20 xs-pl-15"
                 >
-                  <CloseIcon />
-                </IconButton>
-                <DialogContent dividers>
-                  <Grid
-                    container
-                    spacing={2}
-                    className="custom-event-container mb-20 mt-15"
-                    style={{ paddingRight: "10px" }}
-                  >
-                    <Grid item xs={9} md={6} lg={9}>
-                      <Typography
-                        gutterBottom
-                        className="mt-10  h1-title mb-20 xs-pl-15 ellsp"
-                      >
-                        {poll.title}
-                      </Typography>
-
-                      <Box className="pr-5">
-                        <span className=" h3-custom-title">
-                          {" "}
-                          Voting Ended On
-                        </span>
-                        <TodayOutlinedIcon
-                          className="h3-custom-title pl-10 mt-10"
+                  {poll.title}
+                </Typography>
+                <Box className="pr-5 h3-custom-title">
+                  <span className=" h3-custom-title"> Live until</span>
+                  <TodayOutlinedIcon
+                    className="h3-custom-title pl-10 mt-10"
+                    style={{ verticalAlign: "middle" }}
+                  />
+                  {moment(poll.end_date).format(
+                    "dddd, MMMM Do YYYY, h:mm:ss a"
+                  )}
+                </Box>
+                <Box className="pr-5">
+                  {userVote?.length > 0 && timeDifference <= 15 && (
+                    <>
+                      <span className=" h3-custom-title">
+                        <Alert severity="info">
+                          You can update your vote within next 15 minutes.
+                        </Alert>
+                      </span>
+                      <Box className="pr-5 my-20">
+                        <span className=" h3-custom-title"> Your Vote</span>
+                        <VerifiedIcon
+                          className="h3-custom-title pl-10 mt-10 icon-blue"
                           style={{ verticalAlign: "middle" }}
                         />
                         <span className="h3-custom-title ">
-                          {moment(poll.end_date).format(
-                            "dddd, MMMM Do YYYY, h:mm:ss a"
-                          )}
+                          {userVote[0]?.poll_result}
                         </span>
                       </Box>
-                    </Grid>
-                    <Grid item xs={3} md={6} lg={3}>
-                      <img
-                        src={require("assets/default.png")}
-                        className="appicon"
-                        alt="App Icon"
+                    </>
+                  )}
+                </Box>
+                <Box>
+                  <FormControl>
+                    <RadioGroup
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      defaultValue="Poll"
+                      value={selectedOption}
+                      onChange={handleOptionChange}
+                      name="radio-buttons-group"
+                    >
+                      {poll?.poll_options?.map((option, index) => (
+                        <FormControlLabel
+                          key={index}
+                          value={option}
+                          control={<Radio />}
+                          label={option}
+                        />
+                      ))}
+                    </RadioGroup>
+                    <Box>
+                      {userVote?.length > 0 ? (
+                        <Button
+                          type="button"
+                          className="custom-btn-primary"
+                          onClick={handleVoteUpdate}
+                          disabled={!selectedOption} // Disable the button if no option is selected
+                        >
+                          {t("UPDATE_VOTE")}
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          className="custom-btn-primary"
+                          onClick={handleVoteSubmit}
+                          disabled={!selectedOption} // Disable the button if no option is selected
+                        >
+                          {t("SUBMIT_VOTE")}
+                        </Button>
+                      )}
+                    </Box>
+                  </FormControl>
+                </Box>
+              </Grid>
+            )}
+            <BootstrapDialog
+              onClose={handleClose}
+              aria-labelledby="customized-dialog-title"
+              open={open}
+            >
+              <IconButton
+                aria-label="close"
+                onClick={handleClose}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <DialogContent dividers>
+                <Grid
+                  container
+                  spacing={2}
+                  className="custom-event-container mb-20 mt-15"
+                  style={{ paddingRight: "10px" }}
+                >
+                  <Grid item xs={9} md={6} lg={9}>
+                    <Typography
+                      gutterBottom
+                      className="mt-10  h1-title mb-20 xs-pl-15 ellsp"
+                    >
+                      {poll.title}
+                    </Typography>
+
+                    <Box className="pr-5">
+                      <span className=" h3-custom-title"> Voting Ended On</span>
+                      <TodayOutlinedIcon
+                        className="h3-custom-title pl-10 mt-10"
+                        style={{ verticalAlign: "middle" }}
                       />
-                    </Grid>
-                    <Box style={{ paddingLeft: "18px", width: "100%" }}>
-                      <Box sx={{ width: "100%" }}>
-                        {pollResult?.map((option, index) => (
-                          <Box
-                            key={index}
-                            sx={{ width: "100%" }}
-                            className={`voting-option my-10 progress${index}`}
+                      <span className="h3-custom-title ">
+                        {moment(poll.end_date).format(
+                          "dddd, MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </span>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={3} md={6} lg={3}>
+                    <img
+                      src={require("assets/default.png")}
+                      className="appicon"
+                      alt="App Icon"
+                    />
+                  </Grid>
+                  <Box style={{ paddingLeft: "18px", width: "100%" }}>
+                    <Box sx={{ width: "100%" }}>
+                      {pollResult?.map((option, index) => (
+                        <Box
+                          key={index}
+                          sx={{ width: "100%" }}
+                          className={`voting-option my-10 progress${index}`}
+                        >
+                          <span
+                            className="h3-custom-title"
+                            style={{ paddingRight: "33px" }}
                           >
-                            <span
-                              className="h3-custom-title"
-                              style={{ paddingRight: "33px" }}
-                            >
-                              {option.poll_option}
-                            </span>
-                            <LinearProgressWithLabel
-                              value={getProgressValue(option.count)}
-                            />
-                          </Box>
-                        ))}
-                        {/* <Box className="mt-20">
+                            {option.poll_option}
+                          </span>
+                          <LinearProgressWithLabel
+                            value={getProgressValue(option.count)}
+                          />
+                        </Box>
+                      ))}
+                      {/* <Box className="mt-20">
                           <Button
                             type="button"
                             className="custom-btn-primaryy"
@@ -498,31 +522,32 @@ const VotingDetails = () => {
                             />
                           </Button>
                         </Box> */}
-                      </Box>
                     </Box>
-                  </Grid>
-                </DialogContent>
-              </BootstrapDialog>
-              <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
-                <Box className="xs-hide">
-                  <FacebookShareButton url={shareUrl} className="pr-5">
-                    <FacebookIcon size={32} round={true} />
-                  </FacebookShareButton>
-                  <WhatsappShareButton url={shareUrl} className="pr-5">
-                    <WhatsappIcon size={32} round={true} />
-                  </WhatsappShareButton>
-                  <LinkedinShareButton url={shareUrl} className="pr-5">
-                    <LinkedinIcon size={32} round={true} />
-                  </LinkedinShareButton>
-                  <TwitterShareButton url={shareUrl} className="pr-5">
-                    <img
-                      src={require("../../assets/twitter.png")}
-                      alt="Twitter"
-                      style={{ width: 32, height: 32 }}
-                    />
-                  </TwitterShareButton>
-                </Box>
-              </Grid>
+                  </Box>
+                </Grid>
+              </DialogContent>
+            </BootstrapDialog>
+            <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
+              <Box className="xs-hide">
+                <FacebookShareButton url={shareUrl} className="pr-5">
+                  <FacebookIcon size={32} round={true} />
+                </FacebookShareButton>
+                <WhatsappShareButton url={shareUrl} className="pr-5">
+                  <WhatsappIcon size={32} round={true} />
+                </WhatsappShareButton>
+                <LinkedinShareButton url={shareUrl} className="pr-5">
+                  <LinkedinIcon size={32} round={true} />
+                </LinkedinShareButton>
+                <TwitterShareButton url={shareUrl} className="pr-5">
+                  <img
+                    src={require("../../assets/twitter.png")}
+                    alt="Twitter"
+                    style={{ width: 32, height: 32 }}
+                  />
+                </TwitterShareButton>
+              </Box>
+            </Grid>
+            {(userVote?.length > 0 || isVotingEnded) && (
               <Box className="lg-hide" sx={{ width: "100%" }}>
                 <Box sx={{ width: "100%" }}>
                   {pollResult?.map((option, index) => (
@@ -544,48 +569,50 @@ const VotingDetails = () => {
                   ))}
                 </Box>
                 {/* <Box className="mt-20">
-                  <Button type="button" className="custom-btn-primaryy">
-                    {t("SHARE_RESULTS")}{" "}
-                    <ShareOutlinedIcon
-                      style={{ color: "#fff", paddingLeft: "10px" }}
-                    />
-                  </Button>
-                </Box> */}
+    <Button type="button" className="custom-btn-primaryy">
+      {t("SHARE_RESULTS")}{" "}
+      <ShareOutlinedIcon
+        style={{ color: "#fff", paddingLeft: "10px" }}
+      />
+    </Button>
+  </Box> */}
               </Box>
-              <Box style={{ display: "block", width: "100%" }}></Box>
-              <Box
-                className="h2-title pl-20 mb-20 mt-20"
-                style={{ fontWeight: "600" }}
-              >
-                {t("About survey")}
-              </Box>
-              <Box
-                className="event-h2-title  pl-20 mb-20"
-                style={{ fontWeight: "400" }}
-              >
-                {poll.description}
-              </Box>
-              <Box className="lg-hide ml-20">
-                <FacebookShareButton url={shareUrl} className="pr-5">
-                  <FacebookIcon size={32} round={true} />
-                </FacebookShareButton>
-                <WhatsappShareButton url={shareUrl} className="pr-5">
-                  <WhatsappIcon size={32} round={true} />
-                </WhatsappShareButton>
-                <LinkedinShareButton url={shareUrl} className="pr-5">
-                  <LinkedinIcon size={32} round={true} />
-                </LinkedinShareButton>
-                <TwitterShareButton url={shareUrl} className="pr-5">
-                  <img
-                    src={require("../../assets/twitter.png")}
-                    alt="Twitter"
-                    style={{ width: 32, height: 32 }}
-                  />
-                </TwitterShareButton>
-              </Box>
-            </Grid>
-          </Container>
-        ))}
+            )}
+
+            <Box style={{ display: "block", width: "100%" }}></Box>
+            <Box
+              className="h2-title pl-20 mb-20 mt-20"
+              style={{ fontWeight: "600" }}
+            >
+              {t("About survey")}
+            </Box>
+            <Box
+              className="event-h2-title  pl-20 mb-20"
+              style={{ fontWeight: "400" }}
+            >
+              {poll.description}
+            </Box>
+            <Box className="lg-hide ml-20">
+              <FacebookShareButton url={shareUrl} className="pr-5">
+                <FacebookIcon size={32} round={true} />
+              </FacebookShareButton>
+              <WhatsappShareButton url={shareUrl} className="pr-5">
+                <WhatsappIcon size={32} round={true} />
+              </WhatsappShareButton>
+              <LinkedinShareButton url={shareUrl} className="pr-5">
+                <LinkedinIcon size={32} round={true} />
+              </LinkedinShareButton>
+              <TwitterShareButton url={shareUrl} className="pr-5">
+                <img
+                  src={require("../../assets/twitter.png")}
+                  alt="Twitter"
+                  style={{ width: 32, height: 32 }}
+                />
+              </TwitterShareButton>
+            </Box>
+          </Grid>
+        </Container>
+      )}
       <FloatingChatIcon />
 
       <Footer />
