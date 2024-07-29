@@ -129,7 +129,7 @@ export default function VotingCard({ items, index, onClick }) {
       <CardContent className="d-flex jc-bw">
         <Box>
           {items.title && (
-            <Typography gutterBottom className="mt-10  event-title">
+            <Typography gutterBottom className="mt-10  event-title" style={{height:"inherit"}}>
               {items.title}
             </Typography>
           )}

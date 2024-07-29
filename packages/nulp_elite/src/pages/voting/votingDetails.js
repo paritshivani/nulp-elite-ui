@@ -217,7 +217,7 @@ const VotingDetails = () => {
               underline="hover"
               href=""
               aria-current="page"
-              className="h6-title oneLineEllipsis"
+              className="h6-title oneLineEllipsis xs-pt-0"
             >
               {poll.title}
             </Link>
@@ -289,15 +289,20 @@ const VotingDetails = () => {
                 <Box className="pr-5 my-20">
                   <span className=" h3-custom-title"> Your Vote</span>
                   <VerifiedIcon
-                    className="h3-custom-title pl-10 mt-10 icon-blue"
-                    style={{ verticalAlign: "middle" }}
+                    className="h3-custom-title pl-10 mt-10 icon-blue fs-18"
+                    style={{
+                      verticalAlign: "middle",
+                      paddingLeft: "10px",
+                      paddingRight: "10px",
+                      fontSize: "22px",
+                    }}
                   />
                   <span className="h3-custom-title ">
                     {userVote[0]?.poll_result}
                   </span>
                 </Box>
 
-                <Box sx={{ width: "100%" }} className="xs-hide">
+                <Box sx={{ width: "100%" }}>
                   {pollResult && (
                     <div>
                       {pollResult?.map((option, index) => (
@@ -306,15 +311,21 @@ const VotingDetails = () => {
                           sx={{ width: "100%" }}
                           className={`voting-option my-10 progress${index}`}
                         >
-                          <span
-                            className="h3-custom-title"
-                            style={{ paddingRight: "33px" }}
-                          >
-                            {option.poll_option}
-                          </span>
-                          <LinearProgressWithLabel
-                            value={getProgressValue(option.count)}
-                          />
+                          <Grid container spacing={2}>
+                            <Grid item xs={3} md={4} lg={2}>
+                              <span
+                                className="h3-custom-title"
+                                style={{ paddingRight: "33px" }}
+                              >
+                                {option.poll_option}
+                              </span>
+                            </Grid>
+                            <Grid item xs={9} md={4} lg={10}>
+                              <LinearProgressWithLabel
+                                value={getProgressValue(option.count)}
+                              />
+                            </Grid>
+                          </Grid>
                         </Box>
                       ))}
                     </div>
@@ -345,7 +356,7 @@ const VotingDetails = () => {
                   <span className=" h3-custom-title"> Live until</span>
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 mt-10"
-                    style={{ verticalAlign: "middle" }}
+                    style={{ verticalAlign: "middle", paddingRight: "10px" }}
                   />
                   {moment(poll.end_date).format(
                     "dddd, MMMM Do YYYY, h:mm:ss a"
@@ -430,7 +441,10 @@ const VotingDetails = () => {
                       <span className=" h3-custom-title"> Voting Ended On</span>
                       <TodayOutlinedIcon
                         className="h3-custom-title pl-10 mt-10"
-                        style={{ verticalAlign: "middle" }}
+                        style={{
+                          verticalAlign: "middle",
+                          paddingRight: "10px",
+                        }}
                       />
                       <span className="h3-custom-title ">
                         {moment(poll.end_date).format(
@@ -454,15 +468,18 @@ const VotingDetails = () => {
                           sx={{ width: "100%" }}
                           className={`voting-option my-10 progress${index}`}
                         >
-                          <span
-                            className="h3-custom-title"
-                            style={{ paddingRight: "33px" }}
-                          >
-                            {option.poll_option}
-                          </span>
-                          <LinearProgressWithLabel
-                            value={getProgressValue(option.count)}
-                          />
+                          <Grid container spacing={2}>
+                            <Grid item xs={3} md={4} lg={2}>
+                              <span className="h3-custom-title">
+                                {option.poll_option}
+                              </span>
+                            </Grid>
+                            <Grid item xs={8} md={4} lg={10}>
+                              <LinearProgressWithLabel
+                                value={getProgressValue(option.count)}
+                              />
+                            </Grid>
+                          </Grid>
                         </Box>
                       ))}
                       {/* <Box className="mt-20">
@@ -503,7 +520,7 @@ const VotingDetails = () => {
               </Box>
             </Grid>
             {(userVote?.length > 0 || isVotingEnded) && (
-              <Box className="lg-hide" sx={{ width: "100%" }}>
+              <Box className="lg-hide xs-hide" sx={{ width: "100%" }}>
                 <Box sx={{ width: "100%" }}>
                   {pollResult?.map((option, index) => (
                     <Box
@@ -511,15 +528,18 @@ const VotingDetails = () => {
                       sx={{ width: "100%" }}
                       className={`voting-option my-10 progress${index}`}
                     >
-                      <span
-                        className="h3-custom-title"
-                        style={{ paddingRight: "33px" }}
-                      >
-                        {option.poll_option}
-                      </span>
-                      <LinearProgressWithLabel
-                        value={getProgressValue(option.count)}
-                      />
+                      <Grid container spacing={2}>
+                        <Grid item xs={3} md={4} lg={2}>
+                          <span className="h3-custom-title">
+                            {option.poll_option}
+                          </span>
+                        </Grid>
+                        <Grid item xs={9} md={4} lg={10}>
+                          <LinearProgressWithLabel
+                            value={getProgressValue(option.count)}
+                          />
+                        </Grid>
+                      </Grid>
                     </Box>
                   ))}
                 </Box>
