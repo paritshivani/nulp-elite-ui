@@ -127,6 +127,8 @@ const AllContent = () => {
   };
 
   const fetchData = async () => {
+     const newPath = location.pathname;
+sessionStorage.setItem('previousRoutes', newPath)
     setError(null);
     let data = JSON.stringify({
       request: {
