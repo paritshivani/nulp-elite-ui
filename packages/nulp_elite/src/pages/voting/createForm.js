@@ -567,19 +567,6 @@ const createForm = () => {
                   />
                 </FormLabel>
                 <Box>
-                  <Box className="voting-btn">
-                    <Button
-                      type="button"
-                      style={{
-                        width: "10%",
-                        height: "55px",
-                        color: "#0e7a9c",
-                      }}
-                      onClick={addField}
-                    >
-                      <AddOutlinedIcon />
-                    </Button>
-                  </Box>
                   {fields.map((field, index) => (
                     <Box key={field.id} display="flex" alignItems="center">
                       <TextField
@@ -610,9 +597,22 @@ const createForm = () => {
                           />
                         </Button>
                       )}
+                      {index === 0 && (
+                        <Button
+                          type="button"
+                          style={{
+                            width: "10%",
+                            height: "55px",
+                            color: "#0e7a9c",
+                          }}
+                          onClick={addField}
+                        >
+                          <AddOutlinedIcon />
+                        </Button>
+                      )}
                     </Box>
                   ))}
-                  <Box className="voting-btn">
+                  {/* <Box className="voting-btn">
                     <Button
                       type="button"
                       style={{
@@ -624,7 +624,7 @@ const createForm = () => {
                     >
                       <AddOutlinedIcon />
                     </Button>
-                  </Box>
+                  </Box> */}
                 </Box>
               </Box>
             </FormGroup>
