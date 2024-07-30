@@ -3450,7 +3450,7 @@ thead th {
 
 .yLabel {
   position: absolute;
-  top: 593px;
+  top: 321px;
   transform: rotate(269deg);
   left: -20px;
   color: #484848;
@@ -3464,7 +3464,7 @@ thead th {
 
 .brYlabel {
   position: absolute;
-  top: 593px;
+  top: 321px;
   transform: rotate(269deg);
   left: -28px !important;
   color: #484848;
