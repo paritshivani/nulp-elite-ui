@@ -165,7 +165,8 @@ const votingDashboard = () => {
     fetchPolls();
   };
 
-  const deletePoll = async (pollId) => {
+  const deletePoll = async (pollId,event) => {
+    event.stopPropagation();
     try {
       const response = await axios.delete(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
       if (response.status === 200) {
@@ -321,7 +322,7 @@ const votingDashboard = () => {
                   <Box className="voting-text lg-mt-30">
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={() => handleOpenModal(items.poll_id)}>
+                        onClick={(event) => handleOpenModal(items.poll_id,event)}>
                         View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
 
@@ -421,7 +422,7 @@ const votingDashboard = () => {
                         Edit  <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={() => deletePoll(items.poll_id)}>
+                        onClick={(event) => deletePoll(items.poll_id,event)}>
                         Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
@@ -516,7 +517,7 @@ const votingDashboard = () => {
                   <Box className="voting-text lg-mt-30">
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={() => handleOpenModal(items.poll_id)}>
+                        onClick={(event) => handleOpenModal(items.poll_id,event)}>
                         View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>

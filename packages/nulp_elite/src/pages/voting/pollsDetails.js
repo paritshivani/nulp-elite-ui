@@ -76,7 +76,23 @@ const pollsDetailes = () => {
   const handleBackNavigate = () => {
     navigate('/webapp/votingDashboard');
   };
-
+  
+  const deletePoll = async (pollId,event) => {
+    event.stopPropagation();
+    try {
+      const response = await axios.delete(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
+      if (response.status === 200) {
+        setToasterMessage("Poll deleted successfully");
+        fetchPolls();
+        setPoll(prevPolls => {
+          const updatedPolls = prevPolls.filter(poll => poll.poll_id !== pollId);
+          return updatedPolls;
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting poll", error);
+    }
+  };
 
   return (
     <div>
@@ -168,7 +184,7 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={() => deletePoll(items.poll_id)}
+                              onClick={(event) => deletePoll(items.poll_id,event)}
                             >
                               Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
@@ -178,7 +194,7 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={() => handleOpenModal(items.poll_id)}
+                              onClick={(event) => handleOpenModal(items.poll_id,event)}
                             >
                               View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
@@ -188,7 +204,7 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={() => handleOpenModal(items.poll_id)}
+                              onClick={(event) => handleOpenModal(items.poll_id,event)}
                             >
                               View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
