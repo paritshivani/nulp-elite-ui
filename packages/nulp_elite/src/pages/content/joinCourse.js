@@ -122,7 +122,8 @@ const JoinCourse = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+        const newPath = location.pathname + "?" + contentId;
+sessionStorage.setItem('previousRoutes', newPath)
   useEffect(() => {
     const fetchData = async () => {
       try {
