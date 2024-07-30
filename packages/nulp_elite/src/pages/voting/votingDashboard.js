@@ -50,6 +50,7 @@ const votingDashboard = () => {
   const shareUrl = window.location.href;
   const hasData =
     Array.isArray(pollResult) && pollResult.some((d) => d.count > 0);
+  const [pieData, setPieData] = useState([]);
   const [showAllLive, setShowAllLive] = useState(false);
   const [showAllDraft, setShowAllDraft] = useState(false);
   const [showAllClosed, setShowAllClosed] = useState(false);
@@ -65,6 +66,7 @@ const votingDashboard = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+  const [timeDifference, setTimeDifference] = useState(0);
 
   const handleViewAll = (polls, type) => {
     navigate("/webapp/pollsDetails", { state: { polls, type } });
@@ -125,11 +127,12 @@ const votingDashboard = () => {
         `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
       );
       setSinglePoll(response.data.result.poll);
+      setPieData(response.data.result.result);
     } catch (error) {
       console.error("Error fetching poll", error);
     }
   };
-
+  console.log(pieData, "pieData");
   const handleCloseModal = (event) => {
     event.stopPropagation();
     setOpenModal(false);
@@ -194,6 +197,12 @@ const votingDashboard = () => {
     }
   };
 
+  const openSocialMediaLink = (event, url) => {
+    event.stopPropagation();
+    event.preventDefault();
+    window.open(url, "_blank");
+  };
+
   const livePolls = poll.filter((poll) => poll.status === "Live");
   const draftPolls = poll.filter((poll) => poll.status === "Draft");
   const closedPolls = poll.filter((poll) => poll.status === "Closed");
@@ -212,6 +221,18 @@ const votingDashboard = () => {
     event.stopPropagation();
     navigate("/webapp/createform", { state: item });
   };
+  const totalVotes = pieData?.reduce((sum, option) => sum + option.count, 0);
+
+  const getProgressValue = (count) =>
+    totalVotes > 0 ? (count / totalVotes) * 100 : 0;
+  console.log(getProgressValue, "getProgressValue");
+
+  useEffect(() => {
+    getProgressValue();
+  }, [pieData]);
+
+  const hasPollData = pieData.some((d) => d.count > 0);
+
   return (
     <div>
       <Header />
@@ -264,6 +285,7 @@ const votingDashboard = () => {
                 <Button
                   type="button"
                   className="custom-btn-primary"
+                  sx={{ height: "50px" }}
                   onClick={handleClearAll}
                   fullWidth
                 >
@@ -366,16 +388,46 @@ const votingDashboard = () => {
                     </Box>
 
                     <Box className="xs-hide">
-                      <FacebookShareButton className="pr-5">
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        quote={`Check out this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
                         <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
-                      <WhatsappShareButton className="pr-5">
-                        <WhatsappIcon url={shareUrl} size={32} round={true} />
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        title={`Check out this poll: ${items.title}`}
+                        separator=":: "
+                        className="pr-5"
+                        onClick={(event) =>
+                          openSocialMediaLink(event, shareUrl)
+                        }
+                      >
+                        <WhatsappIcon size={32} round />
                       </WhatsappShareButton>
-                      <LinkedinShareButton className="pr-5">
-                        <LinkedinIcon url={shareUrl} size={32} round={true} />
+                      <LinkedinShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={items.title}
+                        summary={`Participate in this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
+                        <LinkedinIcon size={32} round={true} />
                       </LinkedinShareButton>
-                      <TwitterShareButton url={shareUrl} className="pr-5">
+                      <TwitterShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={`Check out this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
                         <img
                           src={require("../../assets/twitter.png")}
                           alt="Twitter"
@@ -483,16 +535,46 @@ const votingDashboard = () => {
                       </Button>
                     </Box>
                     <Box className="xs-hide">
-                      <FacebookShareButton className="pr-5">
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        quote={`Check out this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
                         <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
-                      <WhatsappShareButton className="pr-5">
-                        <WhatsappIcon url={shareUrl} size={32} round={true} />
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        title={`Check out this poll: ${items.title}`}
+                        separator=":: "
+                        className="pr-5"
+                        onClick={(event) =>
+                          openSocialMediaLink(event, shareUrl)
+                        }
+                      >
+                        <WhatsappIcon size={32} round />
                       </WhatsappShareButton>
-                      <LinkedinShareButton className="pr-5">
-                        <LinkedinIcon url={shareUrl} size={32} round={true} />
+                      <LinkedinShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={items.title}
+                        summary={`Participate in this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
+                        <LinkedinIcon size={32} round={true} />
                       </LinkedinShareButton>
-                      <TwitterShareButton url={shareUrl} className="pr-5">
+                      <TwitterShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={`Check out this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
                         <img
                           src={require("../../assets/twitter.png")}
                           alt="Twitter"
@@ -596,16 +678,46 @@ const votingDashboard = () => {
                       </Button>
                     </Box>
                     <Box className="xs-hide">
-                      <FacebookShareButton className="pr-5">
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        quote={`Check out this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
                         <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
-                      <WhatsappShareButton className="pr-5">
-                        <WhatsappIcon url={shareUrl} size={32} round={true} />
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        title={`Check out this poll: ${items.title}`}
+                        separator=":: "
+                        className="pr-5"
+                        onClick={(event) =>
+                          openSocialMediaLink(event, shareUrl)
+                        }
+                      >
+                        <WhatsappIcon size={32} round />
                       </WhatsappShareButton>
-                      <LinkedinShareButton className="pr-5">
-                        <LinkedinIcon url={shareUrl} size={32} round={true} />
+                      <LinkedinShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={items.title}
+                        summary={`Participate in this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
+                        <LinkedinIcon size={32} round={true} />
                       </LinkedinShareButton>
-                      <TwitterShareButton url={shareUrl} className="pr-5">
+                      <TwitterShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={`Check out this poll: ${items.title}`}
+                        onClick={(event) => {
+                          openSocialMediaLink(event, shareUrl);
+                        }}
+                      >
                         <img
                           src={require("../../assets/twitter.png")}
                           alt="Twitter"
@@ -656,19 +768,18 @@ const votingDashboard = () => {
                 }}
               >
                 <Box sx={{ marginLeft: "25%" }}>
-                  {hasData ? (
+                  {hasPollData ? (
                     <PieChart
                       series={[
                         {
-                          data: signlePOll.map((d) => ({
+                          data: pieData.map((d) => ({
                             id: d.poll_option,
                             value: d.count,
-                            // color: d.color,
                           })),
                           arcLabel: (item) => (
                             <>
                               {item.id}
-                              <br />({item.value}%)
+                              <br />({getProgressValue(item.value)})
                             </>
                           ),
                           arcLabelMinAngle: 45,
@@ -684,7 +795,7 @@ const votingDashboard = () => {
                       height={350}
                     />
                   ) : (
-                    <p>No data available</p>
+                    <Box>No data available</Box>
                   )}
                 </Box>
               </Grid>
@@ -715,6 +826,7 @@ const votingDashboard = () => {
                     <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
                     {formatDate(signlePOll.end_date)}
                   </Box>
+                  <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
                 </Box>
               </Grid>
             </Grid>

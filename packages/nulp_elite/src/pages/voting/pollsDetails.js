@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
@@ -39,7 +39,7 @@ const pollsDetailes = () => {
   const [signlePOll, setSinglePoll] = useState([]);
   const [pollResult, setPollResult] = useState([]);
   const { polls, type } = location.state || { polls: [], type: '' };
-  const hasData = Array.isArray(pollResult) && pollResult.some((d) => d.count > 0);
+  const [pieData,setPieData] = useState([]);
   const shareUrl = window.location.href;
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -58,6 +58,7 @@ const pollsDetailes = () => {
         `${urlConfig.URLS.POLL.GET_POLL}?poll_id=${pollId}`
       );
       setSinglePoll(response.data.result.poll);
+      setPieData(response.data.result.result);
     } catch (error) {
       console.error("Error fetching poll", error);
     }
@@ -76,7 +77,7 @@ const pollsDetailes = () => {
   const handleBackNavigate = () => {
     navigate('/webapp/votingDashboard');
   };
-  
+
   const deletePoll = async (pollId,event) => {
     event.stopPropagation();
     try {
@@ -94,6 +95,16 @@ const pollsDetailes = () => {
     }
   };
 
+  const totalVotes = pieData?.reduce((sum, option) => sum + option.count, 0);
+
+  const getProgressValue = (count) =>
+    totalVotes > 0 ? (count / totalVotes) * 100 : 0;
+  console.log(getProgressValue,'getProgressValue');
+
+  useEffect(() => {
+    getProgressValue();
+  }, [pieData]);
+  const hasPollData = pieData.some((d) => d.count > 0);
   return (
     <div>
       <Header />
@@ -274,20 +285,19 @@ const pollsDetailes = () => {
                 }}
               >
                 <Box sx={{ marginLeft: '25%' }}>
-                  {hasData ? (
-                    <PieChart
+                  {hasPollData ? (
+                     <PieChart
                       series={[
                         {
-                          data: signlePOll.map((d) => ({
+                          data: pieData.map((d) => ({
                             id: d.poll_option,
                             value: d.count,
-                            // color: d.color,
                           })),
                           arcLabel: (item) => (
                             <>
-                              {item.id}
+                            {item.id}
                               <br />
-                              ({item.value}%)
+                              ({getProgressValue(item.value)})
                             </>
                           ),
                           arcLabelMinAngle: 45,
@@ -303,7 +313,7 @@ const pollsDetailes = () => {
                       height={350}
                     />
                   ) : (
-                    <p>No data available</p>
+                    <Box>No data available</Box>
                   )}
                 </Box>
               </Grid>
@@ -330,6 +340,9 @@ const pollsDetailes = () => {
                   <Box className="mt-9 h5-title">
                     Voting Ended On:
                     <TodayOutlinedIcon className="fs-14 pr-5" /> {formatDate(signlePOll.end_date)}
+                  </Box>
+                  <Box className="mt-9 h5-title">
+                    Total Votes: { totalVotes }
                   </Box>
                 </Box>
               </Grid>
