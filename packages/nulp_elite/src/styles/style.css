@@ -1130,6 +1130,9 @@ button {
   .xs-pt-15 {
     padding-top: 15px;
   }
+  .xs-pt-0 {
+    padding-top: 0 !important;
+  }
 
   .xs-cert-bx {
     text-align: left;
@@ -1162,15 +1165,13 @@ button {
   }
 
   .translate svg {
-    font-size: 13px !important;
-    color: #fff;
+    font-size: 15px !important;
   }
 
   .translate .MuiSelect-select {
     padding-left: 6px !important;
     padding-right: 14px !important;
-    font-size: 11px;
-    color: #fff;
+    font-size: 15px;
   }
 
   .profile-btn svg {
@@ -2570,6 +2571,12 @@ button {
 .jc-bw {
   justify-content: space-between !important;
 }
+.jc-center {
+  justify-content: center !important;
+}
+.jc-center .MuiTabs-flexContainer {
+  justify-content: center !important;
+}
 
 .alignItems-center {
   align-items: center;
@@ -2666,6 +2673,9 @@ button {
 
 .fs-12 {
   font-size: 12px !important;
+}
+.fs-18 {
+  font-size: 18px !important;
 }
 
 .text-heading {
@@ -3478,12 +3488,10 @@ thead th {
   width: 100%;
   height: 10px !important;
   border-radius: 10px;
-  margin-left: 30px;
 }
 .voting-option {
   display: flex;
   align-items: center;
-  width: 77% !important;
 }
 .MuiBox-root.css-pazuet {
   margin-left: 40px;
@@ -3540,4 +3548,7 @@ input:required::after {
   color: red;
   margin-left: 5px; /* Adjust spacing as needed */
   font-weight: bold;
+}
+.red {
+  color: red !important;
 }

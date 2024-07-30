@@ -85,6 +85,8 @@ const CategoryPage = () => {
   };
 
   const fetchMoreItems = async (category, selectedDomain) => {
+    const newPath = location.pathname + "?" + category;
+sessionStorage.setItem('previousRoutes', newPath)
     setError(null);
     let data = JSON.stringify({
       request: {

@@ -155,6 +155,8 @@ const VotingList = () => {
                       <TabList
                         onChange={handleTabChange}
                         aria-label="lab API tabs example"
+                        className="jc-center"
+                        style={{ justifyContent: "center" }}
                       >
                         <Tab
                           label="Private Polls"
