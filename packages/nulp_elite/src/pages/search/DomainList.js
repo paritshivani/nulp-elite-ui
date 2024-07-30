@@ -123,6 +123,8 @@ const DomainList = ({ globalSearchQuery }) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
    const fetchUserData = async () => {
+     const newPath = location.pathname;
+sessionStorage.setItem('previousRoutes', newPath)
       try {
         const uservData = await util.userData();
         console.log("-------------",uservData?.data?.result?.response?.framework?.id[0]);

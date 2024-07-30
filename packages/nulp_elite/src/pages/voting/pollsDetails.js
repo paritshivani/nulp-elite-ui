@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
@@ -8,11 +8,10 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { Button, Card, CardContent, Pagination, TextField } from "@mui/material";
+import { Button, Card, CardContent } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -51,7 +50,6 @@ const pollsDetailes = () => {
     });
   };
   const navigate = useNavigate();
-
   const handleOpenModal = async (pollId, event) => {
     event.stopPropagation();
     setOpenModal(true);
@@ -78,6 +76,23 @@ const pollsDetailes = () => {
   const handleBackNavigate = () => {
     navigate('/webapp/votingDashboard');
   };
+  
+  const deletePoll = async (pollId,event) => {
+    event.stopPropagation();
+    try {
+      const response = await axios.delete(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
+      if (response.status === 200) {
+        setToasterMessage("Poll deleted successfully");
+        fetchPolls();
+        setPoll(prevPolls => {
+          const updatedPolls = prevPolls.filter(poll => poll.poll_id !== pollId);
+          return updatedPolls;
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting poll", error);
+    }
+  };
 
   return (
     <div>
@@ -87,11 +102,7 @@ const pollsDetailes = () => {
         {polls.length === 0 ? (
           <p>No polls available</p>
         ) : (
-          <Container
-            maxWidth="xl"
-            role="main"
-            className="xs-pb-20 lg-pt-20 min-"
-          >
+          <Container maxWidth="xl" role="main" className="xs-pb-20 lg-pt-20 min-">
             <Box
               display="flex"
               justifyContent="space-between"
@@ -101,25 +112,26 @@ const pollsDetailes = () => {
             >
               <Box display="flex" alignItems="center" className="h3-title">
                 {type === 'live' ? (
-                  <Box> <DashboardOutlinedIcon style={{ paddingRight: "10px" }} /> Live Polls</Box>
+                  <Box>
+                    <DashboardOutlinedIcon style={{ paddingRight: '10px' }} /> Live Polls
+                  </Box>
                 ) : type === 'closed' ? (
-                  <Box>  <WorkspacePremiumIcon style={{ paddingRight: "10px" }} /> Closed Polls</Box>
+                  <Box>
+                    <WorkspacePremiumIcon style={{ paddingRight: '10px' }} /> Closed Polls
+                  </Box>
                 ) : (
-                  <Box> <DashboardOutlinedIcon style={{ paddingRight: "10px" }} /> Draft Polls</Box>
+                  <Box>
+                    <DashboardOutlinedIcon style={{ paddingRight: '10px' }} /> Draft Polls
+                  </Box>
                 )}
               </Box>
               <Box>
-                <Button type="button" className="custom-btn-primary ml-20"
-                  onClick={handleBackNavigate}>
+                <Button type="button" className="custom-btn-primary ml-20" onClick={handleBackNavigate}>
                   Back
                 </Button>
               </Box>
             </Box>
-            <Grid
-              container
-              spacing={2}
-              style={{ marginBottom: "30px" }}
-            >
+            <Grid container spacing={2} style={{ marginBottom: '30px' }}>
               {polls &&
                 polls.map((items, index) => (
                   <Grid
@@ -127,46 +139,77 @@ const pollsDetailes = () => {
                     xs={12}
                     md={4}
                     lg={4}
-                    style={{ marginBottom: "10px" }}
+                    style={{ marginBottom: '10px' }}
                     key={items.poll_id}
                   >
                     <Card
                       className="cardBox1 pb-20"
                       sx={{
-                        position: "relative", cursor: "pointer", textAlign: "left", borderRadius: '10px',
-                        boxShadow: '0 4px 4px 0 #00000040!important'
+                        position: 'relative',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        borderRadius: '10px',
+                        boxShadow: '0 4px 4px 0 #00000040!important',
                       }}
                       onClick={() => handleCardClick(items.poll_id)}
                     >
                       <CardContent className="d-flex jc-bw">
                         <Box>
                           {items.title && (
-                            <Typography gutterBottom className="mt-10  event-title">
+                            <Typography gutterBottom className="mt-10 event-title">
                               {items.title}
                             </Typography>
                           )}
-                          <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
+                          <Box className="d-flex h6-title mt-30" style={{ color: '#484848' }}>
                             <Box className="d-flex jc-bw alignItems-center fs-14">
                               <TodayOutlinedIcon className="fs-14 pr-5" />
                               {formatDate(items.start_date)}
                             </Box>
                           </Box>
                         </Box>
-                        <Box className="card-img-container" style={{ position: "inherit" }}>
+                        <Box className="card-img-container" style={{ position: 'inherit' }}>
                           <img
-                            src={items.image ? items.image : require("assets/default.png")}
+                            src={items.image ? items.image : require('assets/default.png')}
                             className="event-card-img"
                             alt="App Icon"
                           />
                         </Box>
                       </CardContent>
                       <Box className="voting-text lg-mt-30">
-                        <Box>
-                          <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                            onClick={() => handleOpenModal(items.poll_id)}>
-                            View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
-                          </Button>
-                        </Box>
+                        {type === 'Draft' ? (
+                          <Box>
+                            <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
+                              Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                            <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20"
+                              onClick={(event) => deletePoll(items.poll_id,event)}
+                            >
+                              Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                          </Box>
+                        ) : type === 'live' ? (
+                          <Box>
+                            <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20"
+                              onClick={(event) => handleOpenModal(items.poll_id,event)}
+                            >
+                              View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                          </Box>
+                        ) : type === 'closed' ? (
+                          <Box>
+                            <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20"
+                              onClick={(event) => handleOpenModal(items.poll_id,event)}
+                            >
+                              View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                          </Box>
+                        ) : null}
                         <Box className="xs-hide">
                           <FacebookShareButton className="pr-5">
                             <FacebookIcon url={shareUrl} size={32} round={true} />
@@ -179,7 +222,7 @@ const pollsDetailes = () => {
                           </LinkedinShareButton>
                           <TwitterShareButton url={shareUrl} className="pr-5">
                             <img
-                              src={require("../../assets/twitter.png")}
+                              src={require('../../assets/twitter.png')}
                               alt="Twitter"
                               style={{ width: 32, height: 32 }}
                             />

@@ -151,6 +151,8 @@ const ContentList = (props) => {
   };
 
   const fetchData = async () => {
+     const newPath = location.pathname + "?" + currentPage;
+sessionStorage.setItem('previousRoutes', newPath)
     setIsLoading(true);
     setError(null);
 
