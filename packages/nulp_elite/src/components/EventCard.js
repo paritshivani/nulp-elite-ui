@@ -166,7 +166,7 @@ export default function EventCard({ items, index, onClick }) {
       <CardContent className="d-flex jc-bw">
         <Box>
           {items.name && (
-            <Typography gutterBottom className="mt-10  event-title">
+            <Typography gutterBottom className="mt-10  event-title" >
               {items.name}
             </Typography>
           )}

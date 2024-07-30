@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
@@ -9,22 +9,19 @@ import Box from "@mui/material/Box";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import { Button, Card, CardContent, Pagination, TextField } from "@mui/material";
+import { Button, Card, CardContent } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import CloseIcon from '@mui/icons-material/Close';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -75,7 +72,6 @@ const votingDashboard = () => {
   const fetchPolls = async () => {
     setIsLoading(true);
     setError(null);
-
     const requestBody = {
       request: {
         filters: {
@@ -116,13 +112,11 @@ const votingDashboard = () => {
     }
   };
 
-
-
   useEffect(() => {
     fetchPolls();
   }, []);
 
-  const handleOpenModal = async (pollId,event) => {
+  const handleOpenModal = async (pollId, event) => {
     event.stopPropagation();
     setOpenModal(true);
     try {
@@ -151,44 +145,28 @@ const votingDashboard = () => {
     });
   };
 
-  const handleFilterChange = useCallback(() => {
+  useEffect(() => {
     setFilters({
       searchTerm,
-      selectedStartDate: selectedStartDate
-        ? new Date(selectedStartDate).toISOString()
-        : null,
-      selectedEndDate: selectedEndDate
-        ? new Date(selectedEndDate).toISOString()
-        : null,
+      selectedStartDate: selectedStartDate ? new Date(selectedStartDate).toISOString() : null,
+      selectedEndDate: selectedEndDate ? new Date(selectedEndDate).toISOString() : null,
     });
   }, [searchTerm, selectedStartDate, selectedEndDate]);
-  
 
-useEffect(() => {
-  handleFilterChange();
-}, [searchTerm, selectedStartDate, selectedEndDate, handleFilterChange]);
+  useEffect(() => {
+    fetchPolls();
+  }, [filters, currentPage]);
 
-useEffect(() => {
-  fetchPolls();
-}, [filters, currentPage]);
+  const handleClearAll = () => {
+    setSearchTerm('');
+    setSelectedStartDate(null);
+    setSelectedEndDate(null);
+    setFilters({ searchTerm: '', selectedStartDate: null, selectedEndDate: null });
+    fetchPolls();
+  };
 
-const handleClearAll = () => {
-  setSearchTerm('');
-  setSelectedStartDate(null);
-  setSelectedEndDate(null);
-  handleFilterChange();  
-};
-
-
-
-useEffect(() => {
-  fetchPolls();
-}, [filters, currentPage]);
- useEffect(() => {
-  fetchPolls();
-}, [filters, currentPage]);
-
-  const deletePoll = async (pollId) => {
+  const deletePoll = async (pollId,event) => {
+    event.stopPropagation();
     try {
       const response = await axios.delete(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
       if (response.status === 200) {
@@ -226,59 +204,54 @@ useEffect(() => {
         className="xs-pb-20 lg-pt-20 min-"
       >
         <Box mb={2} mt={2}>
-      <Box className="p-15">
-        <Grid container spacing={2} alignItems="center">
-         
-          <Grid item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel htmlFor="outlined-adornment-search">Search for a Poll</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-search"
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton aria-label="toggle search visibility">
-                      <SearchOutlinedIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Search poll"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            {/* <Box className="ml-20">Select Date Range</Box> */}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Select Date From"
-                value={selectedStartDate}
-                onChange={(newValue) => setSelectedStartDate(newValue ? dayjs(newValue).toDate() : null)}
-                renderInput={(params) => <OutlinedInput {...params} fullWidth />}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Select Date To"
-                value={selectedEndDate}
-                onChange={(newValue) => setSelectedEndDate(newValue ? dayjs(newValue).toDate() : null)}
-                renderInput={(params) => <OutlinedInput {...params} fullWidth />}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <Button type="button" className="custom-btn-primary" onClick={handleClearAll} fullWidth>
-              Clear all
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </Box>
-
-
+          <Box className="p-15">
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} md={3}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="outlined-adornment-search">Search for a Poll</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-search"
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton aria-label="toggle search visibility">
+                          <SearchOutlinedIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Search poll"
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                {/* <Box className="ml-20">Select Date Range</Box> */}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Select Date From"
+                    value={selectedStartDate}
+                    onChange={(newValue) => setSelectedStartDate(newValue)}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Select Date To"
+                    value={selectedEndDate}
+                    onChange={(newValue) => setSelectedEndDate(newValue)}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} md={2}>
+                <Button type="button" className="custom-btn-primary" onClick={handleClearAll} fullWidth>
+                  Clear all
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -315,11 +288,13 @@ useEffect(() => {
                 style={{ marginBottom: "10px" }}
                 key={items.poll_id}
               >
-                
+
                 <Card
                   className="pb-20"
-                  sx={{ position: "relative", cursor: "pointer",textAlign: "left",borderRadius: '10px',
-                  boxShadow: '0 4px 4px 0 #00000040!important' }}
+                  sx={{
+                    position: "relative", cursor: "pointer", textAlign: "left", borderRadius: '10px',
+                    boxShadow: '0 4px 4px 0 #00000040!important'
+                  }}
                   onClick={() => handleCardClick(items.poll_id)}
                 >
                   <CardContent className="d-flex jc-bw">
@@ -347,7 +322,7 @@ useEffect(() => {
                   <Box className="voting-text lg-mt-30">
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={() => handleOpenModal(items.poll_id)}>
+                        onClick={(event) => handleOpenModal(items.poll_id,event)}>
                         View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
 
@@ -413,8 +388,10 @@ useEffect(() => {
               >
                 <Card
                   className="pb-20"
-                  sx={{ position: "relative", cursor: "pointer", textAlign: "left",borderRadius: '10px',
-                  boxShadow: '0 4px 4px 0 #00000040!important' }}
+                  sx={{
+                    position: "relative", cursor: "pointer", textAlign: "left", borderRadius: '10px',
+                    boxShadow: '0 4px 4px 0 #00000040!important'
+                  }}
                   onClick={() => handleCardClick(items.poll_id)}
                 >
                   <CardContent className="d-flex jc-bw">
@@ -445,7 +422,7 @@ useEffect(() => {
                         Edit  <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={() => deletePoll(items.poll_id)}>
+                        onClick={(event) => deletePoll(items.poll_id,event)}>
                         Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
@@ -509,8 +486,10 @@ useEffect(() => {
               >
                 <Card
                   className="pb-20"
-                  sx={{ position: "relative", cursor: "pointer", textAlign: "left",borderRadius: '10px',
-                  boxShadow: '0 4px 4px 0 #00000040!important' }}
+                  sx={{
+                    position: "relative", cursor: "pointer", textAlign: "left", borderRadius: '10px',
+                    boxShadow: '0 4px 4px 0 #00000040!important'
+                  }}
                   onClick={() => handleCardClick(items.poll_id)}
                 >
                   <CardContent className="d-flex jc-bw">
@@ -538,7 +517,7 @@ useEffect(() => {
                   <Box className="voting-text lg-mt-30">
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={() => handleOpenModal(items.poll_id)}>
+                        onClick={(event) => handleOpenModal(items.poll_id,event)}>
                         View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>

@@ -333,9 +333,12 @@ const createForm = () => {
         >
           <Grid item xs={12} md={4} lg={8} className="lg-pl-0">
             <TextField
+              label={
+                <span>
+                  Title<span className="red"> *</span>
+                </span>
+              }
               id="title"
-              required
-              label="Title"
               variant="outlined"
               className="mb-20"
               value={title}
@@ -348,11 +351,14 @@ const createForm = () => {
               }
             />
             <TextField
+              label={
+                <span>
+                  Description<span className="red"> *</span>
+                </span>
+              }
               id="description"
-              label="Description"
               multiline
               rows={4}
-              required
               className="mb-20"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -375,7 +381,11 @@ const createForm = () => {
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
-                  label="Start Date"
+                  label={
+                    <span>
+                      Start Date<span className="red"> *</span>
+                    </span>
+                  }
                   required
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
@@ -385,7 +395,11 @@ const createForm = () => {
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
-                  label="End Date"
+                  label={
+                    <span>
+                      End Date<span className="red"> *</span>
+                    </span>
+                  }
                   required
                   value={endDate}
                   onChange={(newValue) => setEndDate(newValue)}
@@ -543,49 +557,75 @@ const createForm = () => {
               <Box className="voting-textfield mt-10">
                 <FormLabel id="demo-row-radio-buttons-group-label">
                   Poll Options<span style={{ color: "red" }}>*</span>
+                  <TextField
+                    label="Poll Options"
+                    value=""
+                    multiline
+                    maxRows={4}
+                    margin="normal"
+                    style={{ flex: 1, width: "100%" }}
+                  />
                 </FormLabel>
-                {fields.map((field, index) => (
-                  <Box key={field.id} display="flex" alignItems="center">
-                    <TextField
-                      label={`Option ${field.id}`}
-                      value={field.value}
-                      onChange={(e) => handleInputChange(field.id, e)}
-                      multiline
-                      maxRows={4}
-                      margin="normal"
-                      style={{ flex: 1, width: "100%" }}
-                    />
-                    {index !== 0 && (
-                      <Button
-                        type="button"
-                        style={{
-                          width: "10%",
-                          height: "55px",
-                          color: "#0e7a9c",
-                        }}
-                        onClick={() => handleDeleteField(field.id)}
-                      >
-                        <DeleteOutlineOutlinedIcon
+                <Box>
+                  {fields.map((field, index) => (
+                    <Box key={field.id} display="flex" alignItems="center">
+                      <TextField
+                        label={`Option ${field.id}`}
+                        value={field.value}
+                        onChange={(e) => handleInputChange(field.id, e)}
+                        multiline
+                        maxRows={4}
+                        margin="normal"
+                        style={{ flex: 1, width: "100%" }}
+                      />
+                      {index !== 0 && (
+                        <Button
+                          type="button"
                           style={{
-                            fontSize: "30px",
+                            width: "10%",
+                            height: "55px",
                             color: "#0e7a9c",
-                            cursor: "pointer",
                           }}
-                        />
-                      </Button>
-                    )}
-                  </Box>
-                ))}
-              </Box>
-
-              <Box className="voting-btn">
-                <Button
-                  type="button"
-                  style={{ width: "10%", height: "55px", color: "#0e7a9c" }}
-                  onClick={addField}
-                >
-                  <AddOutlinedIcon />
-                </Button>
+                          onClick={() => handleDeleteField(field.id)}
+                        >
+                          <DeleteOutlineOutlinedIcon
+                            style={{
+                              fontSize: "30px",
+                              color: "#0e7a9c",
+                              cursor: "pointer",
+                            }}
+                          />
+                        </Button>
+                      )}
+                      {index === 0 && (
+                        <Button
+                          type="button"
+                          style={{
+                            width: "10%",
+                            height: "55px",
+                            color: "#0e7a9c",
+                          }}
+                          onClick={addField}
+                        >
+                          <AddOutlinedIcon />
+                        </Button>
+                      )}
+                    </Box>
+                  ))}
+                  {/* <Box className="voting-btn">
+                    <Button
+                      type="button"
+                      style={{
+                        width: "10%",
+                        height: "55px",
+                        color: "#0e7a9c",
+                      }}
+                      onClick={addField}
+                    >
+                      <AddOutlinedIcon />
+                    </Button>
+                  </Box> */}
+                </Box>
               </Box>
             </FormGroup>
           </Grid>
