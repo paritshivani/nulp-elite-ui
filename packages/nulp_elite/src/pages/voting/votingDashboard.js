@@ -165,7 +165,7 @@ const votingDashboard = () => {
     fetchPolls();
   };
 
-  const deletePoll = async (pollId,event) => {
+  const deletePoll = async (pollId, event) => {
     event.stopPropagation();
     try {
       const response = await axios.delete(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
@@ -180,6 +180,12 @@ const votingDashboard = () => {
     } catch (error) {
       console.error("Error deleting poll", error);
     }
+  };
+
+  const openSocialMediaLink = (event, url) => {
+    event.stopPropagation();
+    event.preventDefault();
+    window.open(url, '_blank');
   };
 
   const livePolls = poll.filter(poll => poll.status === 'Live');
@@ -245,7 +251,8 @@ const votingDashboard = () => {
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12} md={2}>
-                <Button type="button" className="custom-btn-primary" onClick={handleClearAll} fullWidth>
+                <Button type="button" className="custom-btn-primary"
+                  sx={{ height: '50px' }} onClick={handleClearAll} fullWidth>
                   Clear all
                 </Button>
               </Grid>
@@ -322,23 +329,45 @@ const votingDashboard = () => {
                   <Box className="voting-text lg-mt-30">
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={(event) => handleOpenModal(items.poll_id,event)}>
+                        onClick={(event) => handleOpenModal(items.poll_id, event)}>
                         View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
 
                     </Box>
 
                     <Box className="xs-hide">
-                      <FacebookShareButton className="pr-5">
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        quote={`Check out this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
                         <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
-                      <WhatsappShareButton className="pr-5">
-                        <WhatsappIcon url={shareUrl} size={32} round={true} />
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        title={`Check out this poll: ${items.title}`}
+                        separator=":: "
+                        className="pr-5"
+                        onClick={(event) => openSocialMediaLink(event, shareUrl)}
+                      >
+                        <WhatsappIcon size={32} round />
                       </WhatsappShareButton>
-                      <LinkedinShareButton className="pr-5">
-                        <LinkedinIcon url={shareUrl} size={32} round={true} />
+                      <LinkedinShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={items.title}
+                        summary={`Participate in this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
+                        <LinkedinIcon size={32} round={true} />
                       </LinkedinShareButton>
-                      <TwitterShareButton url={shareUrl} className="pr-5">
+                      <TwitterShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={`Check out this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
                         <img
                           src={require("../../assets/twitter.png")}
                           alt="Twitter"
@@ -346,6 +375,7 @@ const votingDashboard = () => {
                         />
                       </TwitterShareButton>
                     </Box>
+
                   </Box>
                 </Card>
               </Grid>
@@ -422,21 +452,43 @@ const votingDashboard = () => {
                         Edit  <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={(event) => deletePoll(items.poll_id,event)}>
+                        onClick={(event) => deletePoll(items.poll_id, event)}>
                         Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box className="xs-hide">
-                      <FacebookShareButton className="pr-5">
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        quote={`Check out this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
                         <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
-                      <WhatsappShareButton className="pr-5">
-                        <WhatsappIcon url={shareUrl} size={32} round={true} />
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        title={`Check out this poll: ${items.title}`}
+                        separator=":: "
+                        className="pr-5"
+                        onClick={(event) => openSocialMediaLink(event, shareUrl)}
+                      >
+                        <WhatsappIcon size={32} round />
                       </WhatsappShareButton>
-                      <LinkedinShareButton className="pr-5">
-                        <LinkedinIcon url={shareUrl} size={32} round={true} />
+                      <LinkedinShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={items.title}
+                        summary={`Participate in this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
+                        <LinkedinIcon size={32} round={true} />
                       </LinkedinShareButton>
-                      <TwitterShareButton url={shareUrl} className="pr-5">
+                      <TwitterShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={`Check out this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
                         <img
                           src={require("../../assets/twitter.png")}
                           alt="Twitter"
@@ -517,21 +569,43 @@ const votingDashboard = () => {
                   <Box className="voting-text lg-mt-30">
                     <Box>
                       <Button type="button" className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={(event) => handleOpenModal(items.poll_id,event)}>
+                        onClick={(event) => handleOpenModal(items.poll_id, event)}>
                         View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                       </Button>
                     </Box>
                     <Box className="xs-hide">
-                      <FacebookShareButton className="pr-5">
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        quote={`Check out this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
                         <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
-                      <WhatsappShareButton className="pr-5">
-                        <WhatsappIcon url={shareUrl} size={32} round={true} />
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        title={`Check out this poll: ${items.title}`}
+                        separator=":: "
+                        className="pr-5"
+                        onClick={(event) => openSocialMediaLink(event, shareUrl)}
+                      >
+                        <WhatsappIcon size={32} round />
                       </WhatsappShareButton>
-                      <LinkedinShareButton className="pr-5">
-                        <LinkedinIcon url={shareUrl} size={32} round={true} />
+                      <LinkedinShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={items.title}
+                        summary={`Participate in this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
+                        <LinkedinIcon size={32} round={true} />
                       </LinkedinShareButton>
-                      <TwitterShareButton url={shareUrl} className="pr-5">
+                      <TwitterShareButton
+                        url={shareUrl}
+                        className="pr-5"
+                        title={`Check out this poll: ${items.title}`}
+                        onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+                      >
                         <img
                           src={require("../../assets/twitter.png")}
                           alt="Twitter"
