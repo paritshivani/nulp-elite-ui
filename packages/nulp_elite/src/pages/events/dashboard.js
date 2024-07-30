@@ -107,37 +107,6 @@ const Dashboard = () => {
 
     return csvContent;
   };
-  const chartSetting = {
-    yAxis: [
-      {
-        label: "rainfall (mm)",
-      },
-    ],
-  };
-  const chartSettingH = {
-    yAxis: [
-      {
-        label: "rainfall (mm)",
-      },
-    ],
-  };
-  const xLabels = [
-    "Chief Municipal Officer",
-    "Junior Engineer",
-    "Consultant",
-    "Scholar",
-    "Executive",
-  ];
-  const xxLabels = [
-    "Page A",
-    "Page B",
-    "Page C",
-    "Page D",
-    "Page E",
-    "Page F",
-    "Page G",
-  ];
-  const uData = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 
   const downloadCSV = (event) => {
     const csvContent = convertArrayToCSV(data);
@@ -525,20 +494,16 @@ const Dashboard = () => {
   const handleVisibilityFilterChange = (event) => {
     setVisibilityFilter(event.target.value);
   };
-  const xAxisDataa = topEvent?.map((event) => event.event_name);
-  const seriesDataa = [
-    { data: topEvent?.map((event) => parseInt(event.user_count)) },
-  ];
-  const xAxisData = topDesignation?.map(
-    (designation) => designation.event_name
+  const eventNames = topEvent?.map((event) => event.event_name);
+  const eventTopUser = topEvent?.map((event) => parseInt(event.user_count));
+
+  const listOfDesignation = topDesignation?.map(
+    (designation) => designation.designation
   );
-  const seriesData = [
-    {
-      data: topDesignation?.map((designation) =>
-        parseFloat(designation.user_count)
-      ),
-    },
-  ];
+  const countOfTopDesignationUser = topDesignation?.map((designation) =>
+    parseInt(designation.count)
+  );
+
   const roleNames =
     userData?.result?.response?.roles.map((role) => role.role) || [];
   // Check for admin roles
@@ -634,27 +599,22 @@ const Dashboard = () => {
               </Box>
             </Box>
 
-            <BarChart
-              xAxis={[{ scaleType: "band", data: xAxisDataa }]}
-              series={seriesDataa}
-              axisLeft={{
-                title: "Participants",
-                titleProps: { fill: "#000", fontSize: 14, fontWeight: "bold" },
-              }}
-              height={300}
-            />
-            {/* <BarChart
-              xAxis={[
-                {
-                  scaleType: "band",
-                  data: ["Event A", "Event B", "Event C", "Event D", "Event E"],
-                },
-              ]}
-              series={[{ data: [4, 1, 4, 8, 7] }]}
-              height={300}
-            /> */}
-            <Box className="brYlabel">No. of Participants</Box>
-            <Box sx={{ textAlign: "center" }}>Events</Box>
+            {eventNames && eventTopUser && (
+              <>
+                <BarChart
+                  xAxis={[
+                    {
+                      scaleType: "band",
+                      data: eventNames,
+                    },
+                  ]}
+                  series={[{ data: eventTopUser }]}
+                  height={300}
+                />
+                <Box className="brYlabel">No. of Participants</Box>
+                <Box sx={{ textAlign: "center" }}>Events</Box>
+              </>
+            )}
           </Grid>
           <Grid item xs={12} md={6} style={{ position: "relative" }}>
             <Box className="mb-20 h3-title mt-32">
@@ -683,19 +643,24 @@ const Dashboard = () => {
                 </LocalizationProvider>
               </Box>
             </Box>
-            <LineChart
-              xAxis={[{ data: [1, 4, 6, 8, 10, 12] }]}
-              series={seriesData}
-              height={300}
-              {...chartSettingH}
-            />
-            {/* <LineChart
-              height={300}
-              series={[{ data: uData, label: "No. of Participants" }]}
-              xAxis={[{ scaleType: "point", data: xLabels }]}
-            /> */}
-            <Box className="yLabel">Participants</Box>
-            <Box sx={{ textAlign: "center" }}>Designation</Box>
+
+            {listOfDesignation && countOfTopDesignationUser && (
+              <>
+                {" "}
+                <LineChart
+                  height={300}
+                  series={[
+                    {
+                      data: countOfTopDesignationUser,
+                      label: "No. of Participants",
+                    },
+                  ]}
+                  xAxis={[{ scaleType: "point", data: listOfDesignation }]}
+                />
+                <Box className="yLabel">Participants</Box>
+                <Box sx={{ textAlign: "center" }}>Designation</Box>
+              </>
+            )}
           </Grid>
         </Grid>
         <Grid

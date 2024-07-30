@@ -77,7 +77,6 @@ const pollsDetailes = () => {
     navigate('/webapp/votingDashboard');
   };
 
-  console.log(type, 'type');
 
   return (
     <div>
@@ -221,7 +220,6 @@ const pollsDetailes = () => {
           </Container>
         )}
       </div>
-
       <FloatingChatIcon />
       {signlePOll && (
         <Dialog
