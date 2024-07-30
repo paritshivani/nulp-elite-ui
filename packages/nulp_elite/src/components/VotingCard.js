@@ -120,6 +120,12 @@ export default function VotingCard({ items, index, onClick }) {
   const getProgressValue = (count) =>
     totalVotes > 0 ? (count / totalVotes) * 100 : 0;
 
+  const openSocialMediaLink = (event, url) => {
+    event.stopPropagation();
+    event.preventDefault();
+    window.open(url, '_blank');
+  };
+
   return (
     <Card
       className="cardBox pb-20"
@@ -168,18 +174,40 @@ export default function VotingCard({ items, index, onClick }) {
           )}
         </Box>
         <Box className="xs-hide">
-          <FacebookShareButton url={shareUrl} className="pr-5">
-            <FacebookIcon size={32} round={true} />
+          <FacebookShareButton
+            url={shareUrl}
+            className="pr-5"
+            quote={`Check out this poll: ${items.title}`}
+            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+          >
+            <FacebookIcon url={shareUrl} size={32} round={true} />
           </FacebookShareButton>
-          <WhatsappShareButton url={shareUrl} className="pr-5">
-            <WhatsappIcon size={32} round={true} />
+          <WhatsappShareButton
+            url={shareUrl}
+            title={`Check out this poll: ${items.title}`}
+            separator=":: "
+            className="pr-5"
+            onClick={(event) => openSocialMediaLink(event, shareUrl)}
+          >
+            <WhatsappIcon size={32} round />
           </WhatsappShareButton>
-          <LinkedinShareButton url={shareUrl} className="pr-5">
+          <LinkedinShareButton
+            url={shareUrl}
+            className="pr-5"
+            title={items.title}
+            summary={`Participate in this poll: ${items.title}`}
+            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+          >
             <LinkedinIcon size={32} round={true} />
           </LinkedinShareButton>
-          <TwitterShareButton url={shareUrl} className="pr-5">
+          <TwitterShareButton
+            url={shareUrl}
+            className="pr-5"
+            title={`Check out this poll: ${items.title}`}
+            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+          >
             <img
-              src={require("../assets/twitter.png")}
+               src={require("../assets/twitter.png")}
               alt="Twitter"
               style={{ width: 32, height: 32 }}
             />
