@@ -145,7 +145,7 @@ const Player = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="container-pb player">
+      <Container maxWidth="xl" role="main" className="player">
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {lesson && (
