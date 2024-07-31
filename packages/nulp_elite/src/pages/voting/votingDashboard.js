@@ -65,25 +65,48 @@ const votingDashboard = () => {
     selectedStartDate: null,
     selectedEndDate: null,
   });
+  const [errormessage, setErrormessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+  const [timeDifference, setTimeDifference] = useState(0);
   const userId = util.userId();
   const [creatorId, setCreatorId] = useState("");
+  const [userData, setUserData] = useState([]);
+  const [admin, setAdmin] = useState(false);
+  const [contentCreator, setContentCreator] = useState(false);
+
   const handleViewAll = (polls, type) => {
     navigate("/webapp/pollsDetails", { state: { polls, type } });
   };
   // const userData = await util.userData();
-  // const roleNames =
-  //   userData?.data?.result?.response?.roles.map((role) => role.role) || [];
-  // // Check for admin roles
-  // const isAdmin =
-  //   roleNames.includes("SYSTEM_ADMINISTRATION") ||
-  //   roleNames.includes("ORG_ADMIN");
-  // // Check for content creator role
-  // const isContentCreator = roleNames.includes("CONTENT_CREATOR");
-  console.log("------------------------", userId);
-  // setCreatorId(userId);
+
+  const fetchData = async () => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${userId}?fields=${urlConfig.params.userReadParam.fields}`;
+
+      const header = "application/json";
+      const response = await fetch(url, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+      });
+      const data = await response.json();
+      setUserData(data.result.response);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (creatorId) {
+      fetchPolls();
+    }
+  }, [creatorId, filters, currentPage]);
 
   const fetchPolls = async () => {
     setIsLoading(true);
@@ -91,7 +114,7 @@ const votingDashboard = () => {
     const requestBody = {
       request: {
         filters: {
-          status: filters.status,
+          status: ["Live", "Closed", "Draft"],
           from_date: filters.selectedStartDate,
           to_date: filters.selectedEndDate,
           created_by: creatorId,
@@ -101,8 +124,7 @@ const votingDashboard = () => {
           created_at: "desc",
           start_date: "desc",
         },
-        offset: (currentPage - 1) * 10,
-        limit: 10,
+        limit: 100,
       },
     };
 
@@ -158,6 +180,7 @@ const votingDashboard = () => {
   };
 
   useEffect(() => {
+    console.log("set--------", searchTerm, selectedStartDate, selectedEndDate);
     setFilters({
       searchTerm,
       selectedStartDate: selectedStartDate
@@ -168,10 +191,6 @@ const votingDashboard = () => {
         : null,
     });
   }, [searchTerm, selectedStartDate, selectedEndDate]);
-
-  useEffect(() => {
-    fetchPolls();
-  }, [userId, filters, currentPage]);
 
   const handleClearAll = () => {
     setSearchTerm("");
@@ -238,7 +257,20 @@ const votingDashboard = () => {
 
   useEffect(() => {
     getProgressValue();
-  }, [pieData]);
+    const roleNames = userData?.roles?.map((role) => role.role) || [];
+    // Check for admin roles
+    const isAdmin = roleNames.includes("SYSTEM_ADMINISTRATION");
+    // Check for content creator role
+    const isContentCreator = roleNames.includes("CONTENT_CREATOR");
+    if (isAdmin) {
+      setAdmin(true);
+      fetchPolls();
+    }
+    if (isContentCreator) {
+      setContentCreator(true);
+      setCreatorId(userId);
+    }
+  }, [pieData, userData, filters]);
 
   const hasPollData = pieData.some((d) => d.count > 0);
 
@@ -246,536 +278,564 @@ const votingDashboard = () => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Container maxWidth="xl" role="main" className="xs-pb-20 lg-pt-20 min-">
-        <Box mb={2} mt={2}>
-          <Box className="p-15">
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} md={3}>
-                <FormControl fullWidth>
-                  <InputLabel htmlFor="outlined-adornment-search">
-                    Search for a Poll
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-search"
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton aria-label="toggle search visibility">
-                          <SearchOutlinedIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Search poll"
-                  />
-                </FormControl>
+      {contentCreator || admin ? (
+        <Container maxWidth="xl" role="main" className="xs-pb-20 lg-pt-20 min-">
+          <Box mb={2} mt={2}>
+            <Box className="p-15">
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} md={3}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="outlined-adornment-search">
+                      Search for a Poll
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-search"
+                      type="text"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle search visibility">
+                            <SearchOutlinedIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Search poll"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={3}>
+                  {/* <Box className="ml-20">Select Date Range</Box> */}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Select Date From"
+                      value={selectedStartDate}
+                      onChange={(newValue) => setSelectedStartDate(newValue)}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} md={3}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Select Date To"
+                      value={selectedEndDate}
+                      onChange={(newValue) => setSelectedEndDate(newValue)}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} md={2}>
+                  <Button
+                    type="button"
+                    className="custom-btn-primary"
+                    sx={{ height: "50px" }}
+                    onClick={handleClearAll}
+                    fullWidth
+                  >
+                    Clear all
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12} md={3}>
-                {/* <Box className="ml-20">Select Date Range</Box> */}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Select Date From"
-                    value={selectedStartDate}
-                    onChange={(newValue) => setSelectedStartDate(newValue)}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Select Date To"
-                    value={selectedEndDate}
-                    onChange={(newValue) => setSelectedEndDate(newValue)}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12} md={2}>
+            </Box>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+            className="mb-20 mt-20 mr-13"
+          >
+            <Box display="flex" alignItems="center" className="h3-title">
+              <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
+              Live Polls
+            </Box>
+            {!showAllLive && visibleLivePolls.length >= 3 && (
+              <Box>
                 <Button
                   type="button"
-                  className="custom-btn-primary"
-                  sx={{ height: "50px" }}
-                  onClick={handleClearAll}
-                  fullWidth
+                  className="custom-btn-primary ml-20"
+                  onClick={() => handleViewAll(livePolls, "live")}
                 >
-                  Clear all
+                  View All
                 </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-          className="mb-20 mt-20 mr-13"
-        >
-          <Box display="flex" alignItems="center" className="h3-title">
-            <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
-            Live Polls
-          </Box>
-          {!showAllLive && visibleLivePolls.length >= 3 && (
-            <Box>
-              <Button
-                type="button"
-                className="custom-btn-primary ml-20"
-                onClick={() => handleViewAll(livePolls, "live")}
-              >
-                View All
-              </Button>
-            </Box>
-          )}
-        </Box>
-
-        <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleLivePolls && visibleLivePolls?.length >= 1 ? (
-            visibleLivePolls?.map((items, index) => (
-              <Grid
-                item
-                xs={12}
-                md={4}
-                lg={4}
-                style={{ marginBottom: "10px" }}
-                key={items.poll_id}
-              >
-                <Card
-                  className="pb-20"
-                  sx={{
-                    position: "relative",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    borderRadius: "10px",
-                    boxShadow: "0 4px 4px 0 #00000040!important",
-                  }}
-                  onClick={() => handleCardClick(items.poll_id)}
-                >
-                  <CardContent className="d-flex jc-bw">
-                    <Box>
-                      {items.title && (
-                        <Typography gutterBottom className="mt-10 event-title">
-                          {items.title}
-                        </Typography>
-                      )}
-                      <Box
-                        className="d-flex h6-title mt-30"
-                        style={{ color: "#484848" }}
-                      >
-                        <Box className="d-flex jc-bw alignItems-center fs-14">
-                          <TodayOutlinedIcon className="fs-14 pr-5" />
-                          {formatDate(items.start_date)}
-                        </Box>
-                      </Box>
-                    </Box>
-                    <Box
-                      className="card-img-container"
-                      style={{ position: "inherit" }}
-                    >
-                      <img
-                        src={
-                          items.image
-                            ? items.image
-                            : require("assets/default.png")
-                        }
-                        className="event-card-img"
-                        alt="App Icon"
-                      />
-                    </Box>
-                  </CardContent>
-                  <Box className="voting-text lg-mt-30">
-                    <Box>
-                      <Button
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={(event) =>
-                          handleOpenModal(items.poll_id, event)
-                        }
-                      >
-                        View Stats{" "}
-                        <ArrowForwardIosOutlinedIcon className="fs-12" />
-                      </Button>
-                    </Box>
-
-                    <Box className="xs-hide">
-                      <FacebookShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        quote={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <FacebookIcon url={shareUrl} size={32} round={true} />
-                      </FacebookShareButton>
-                      <WhatsappShareButton
-                        url={shareUrl}
-                        title={`Check out this poll: ${items.title}`}
-                        separator=":: "
-                        className="pr-5"
-                        onClick={(event) =>
-                          openSocialMediaLink(event, shareUrl)
-                        }
-                      >
-                        <WhatsappIcon size={32} round />
-                      </WhatsappShareButton>
-                      <LinkedinShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        title={items.title}
-                        summary={`Participate in this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <LinkedinIcon size={32} round={true} />
-                      </LinkedinShareButton>
-                      <TwitterShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        title={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <img
-                          src={require("../../assets/twitter.png")}
-                          alt="Twitter"
-                          style={{ width: 32, height: 32 }}
-                        />
-                      </TwitterShareButton>
-                    </Box>
-                  </Box>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              style={{ textAlign:'center'}}
-              className="h2-title mt-30"
-            >
-              <Box>It looks like there are no live polls at the moment.</Box>
-            </Grid>
-          )}
-
-        </Grid>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-          className="mb-20 mt-20 mr-13"
-        >
-          <Box display="flex" alignItems="center" className="h3-title">
-            <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
-            Draft Polls
-          </Box>
-          {!showAllDraft && visibleDraftPolls.length >= 3 && (
-            <Box>
-              <Button
-                type="button"
-                className="custom-btn-primary ml-20"
-                onClick={() => handleViewAll(draftPolls, "Draft")}
-              >
-                View All
-              </Button>
-            </Box>
-          )}
-        </Box>
-        <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleDraftPolls && visibleDraftPolls?.length>=1 ? (
-            visibleDraftPolls?.map((items, index) => (
-              <Grid
-                item
-                xs={12}
-                md={4}
-                lg={4}
-                style={{ marginBottom: "10px" }}
-                key={items.poll_id}
-              >
-                <Card
-                  className="pb-20"
-                  sx={{
-                    position: "relative",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    borderRadius: "10px",
-                    boxShadow: "0 4px 4px 0 #00000040!important",
-                  }}
-                  onClick={() => handleCardClick(items.poll_id)}
-                >
-                  <CardContent className="d-flex jc-bw">
-                    <Box>
-                      {items.title && (
-                        <Typography gutterBottom className="mt-10  event-title">
-                          {items.title}
-                        </Typography>
-                      )}
-                      <Box
-                        className="d-flex h6-title mt-30"
-                        style={{ color: "#484848" }}
-                      >
-                        <Box className="d-flex jc-bw alignItems-center fs-14">
-                          <TodayOutlinedIcon className="fs-14 pr-5" />
-                          {formatDate(items.start_date)}
-                        </Box>
-                      </Box>
-                    </Box>
-                    <Box
-                      className="card-img-container"
-                      style={{ position: "inherit" }}
-                    >
-                      <img
-                        src={
-                          items.image
-                            ? items.image
-                            : require("assets/default.png")
-                        }
-                        className="event-card-img"
-                        alt="App Icon"
-                      />
-                    </Box>
-                  </CardContent>
-                  <Box className="voting-text lg-mt-30">
-                    <Box>
-                      <Button
-                        onClick={(event) => handleEdit(event, items)}
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20"
-                      >
-                        Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
-                      </Button>
-                      <Button
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={(event) => deletePoll(items.poll_id, event)}
-                      >
-                        Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
-                      </Button>
-                    </Box>
-                    <Box className="xs-hide">
-                      <FacebookShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        quote={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <FacebookIcon url={shareUrl} size={32} round={true} />
-                      </FacebookShareButton>
-                      <WhatsappShareButton
-                        url={shareUrl}
-                        title={`Check out this poll: ${items.title}`}
-                        separator=":: "
-                        className="pr-5"
-                        onClick={(event) =>
-                          openSocialMediaLink(event, shareUrl)
-                        }
-                      >
-                        <WhatsappIcon size={32} round />
-                      </WhatsappShareButton>
-                      <LinkedinShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        title={items.title}
-                        summary={`Participate in this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <LinkedinIcon size={32} round={true} />
-                      </LinkedinShareButton>
-                      <TwitterShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        title={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <img
-                          src={require("../../assets/twitter.png")}
-                          alt="Twitter"
-                          style={{ width: 32, height: 32 }}
-                        />
-                      </TwitterShareButton>
-                    </Box>
-                  </Box>
-                </Card>
-              </Grid>
-            )) 
-          ): (
-            <Grid
-            item
-            xs={12}
-            md={12}
-            lg={12}
-            style={{ textAlign:'center'}}
-            className="h2-title mt-30"
-          >
-            <Box>It looks like there are no Draft polls at the moment.</Box>
-          </Grid>)}
-        </Grid>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-          className="mb-20 mt-20 mr-13"
-        >
-          <Box display="flex" alignItems="center" className="h3-title">
-            <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />
-            Closed Polls
-          </Box>
-          {!showAllClosed && visibleClosedPolls.length >= 3 && (
-            <Box>
-              <Button
-                type="button"
-                className="custom-btn-primary ml-20"
-                onClick={() => handleViewAll(closedPolls, "closed")}
-              >
-                View All
-              </Button>
-            </Box>
-          )}
-        </Box>
-        <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleClosedPolls && visibleClosedPolls?.length>=1 ? (
-            visibleClosedPolls?.map((items, index) => (
-              <Grid
-                item
-                xs={12}
-                md={4}
-                lg={4}
-                style={{ marginBottom: "10px" }}
-                key={items.poll_id}
-              >
-                <Card
-                  className="pb-20"
-                  sx={{
-                    position: "relative",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    borderRadius: "10px",
-                    boxShadow: "0 4px 4px 0 #00000040!important",
-                  }}
-                  onClick={() => handleCardClick(items.poll_id)}
-                >
-                  <CardContent className="d-flex jc-bw">
-                    <Box>
-                      {items.title && (
-                        <Typography gutterBottom className="mt-10  event-title">
-                          {items.title}
-                        </Typography>
-                      )}
-                      <Box
-                        className="d-flex h6-title mt-30"
-                        style={{ color: "#484848" }}
-                      >
-                        <Box className="d-flex jc-bw alignItems-center fs-14">
-                          <TodayOutlinedIcon className="fs-14 pr-5" />
-                          {formatDate(items.start_date)}
-                        </Box>
-                      </Box>
-                    </Box>
-                    <Box
-                      className="card-img-container"
-                      style={{ position: "inherit" }}
-                    >
-                      <img
-                        src={
-                          items.image
-                            ? items.image
-                            : require("assets/default.png")
-                        }
-                        className="event-card-img"
-                        alt="App Icon"
-                      />
-                    </Box>
-                  </CardContent>
-                  <Box className="voting-text lg-mt-30">
-                    <Box>
-                      <Button
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20"
-                        onClick={(event) =>
-                          handleOpenModal(items.poll_id, event)
-                        }
-                      >
-                        View Results{" "}
-                        <ArrowForwardIosOutlinedIcon className="fs-12" />
-                      </Button>
-                    </Box>
-                    <Box className="xs-hide">
-                      <FacebookShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        quote={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <FacebookIcon url={shareUrl} size={32} round={true} />
-                      </FacebookShareButton>
-                      <WhatsappShareButton
-                        url={shareUrl}
-                        title={`Check out this poll: ${items.title}`}
-                        separator=":: "
-                        className="pr-5"
-                        onClick={(event) =>
-                          openSocialMediaLink(event, shareUrl)
-                        }
-                      >
-                        <WhatsappIcon size={32} round />
-                      </WhatsappShareButton>
-                      <LinkedinShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        title={items.title}
-                        summary={`Participate in this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <LinkedinIcon size={32} round={true} />
-                      </LinkedinShareButton>
-                      <TwitterShareButton
-                        url={shareUrl}
-                        className="pr-5"
-                        title={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
-                      >
-                        <img
-                          src={require("../../assets/twitter.png")}
-                          alt="Twitter"
-                          style={{ width: 32, height: 32 }}
-                        />
-                      </TwitterShareButton>
-                    </Box>
-                  </Box>
-                </Card>
-              </Grid>
-            ))) :
-            (
-              <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              style={{ textAlign:'center'}}
-              className="h2-title mt-30"
-            >
-              <Box>It looks like there are no Closed polls at the moment.</Box>
-            </Grid>
+              </Box>
             )}
-        </Grid>
-      </Container>
+          </Box>
+
+          <Grid container spacing={2} style={{ marginBottom: "30px" }}>
+            {visibleLivePolls && visibleLivePolls?.length >= 1 ? (
+              visibleLivePolls?.map((items, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  lg={4}
+                  style={{ marginBottom: "10px" }}
+                  key={items.poll_id}
+                >
+                  <Card
+                    className="pb-20"
+                    sx={{
+                      position: "relative",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      borderRadius: "10px",
+                      boxShadow: "0 4px 4px 0 #00000040!important",
+                    }}
+                    onClick={() => handleCardClick(items.poll_id)}
+                  >
+                    <CardContent className="d-flex jc-bw">
+                      <Box>
+                        {items.title && (
+                          <Typography
+                            gutterBottom
+                            className="mt-10  event-title"
+                          >
+                            {items.title}
+                          </Typography>
+                        )}
+                        <Box
+                          className="d-flex h6-title mt-30"
+                          style={{ color: "#484848" }}
+                        >
+                          <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <TodayOutlinedIcon className="fs-14 pr-5" />
+                            {formatDate(items.start_date)}
+                          </Box>
+                        </Box>
+                      </Box>
+                      <Box
+                        className="card-img-container"
+                        style={{ position: "inherit" }}
+                      >
+                        <img
+                          src={
+                            items.image
+                              ? items.image
+                              : require("assets/default.png")
+                          }
+                          className="event-card-img"
+                          alt="App Icon"
+                        />
+                      </Box>
+                    </CardContent>
+                    <Box className="voting-text lg-mt-30">
+                      <Box>
+                        <Button
+                          type="button"
+                          className="custom-btn-primary ml-20 lg-mt-20"
+                          onClick={(event) =>
+                            handleOpenModal(items.poll_id, event)
+                          }
+                        >
+                          View Stats{" "}
+                          <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        </Button>
+                        {admin && (
+                          <Button
+                            type="button"
+                            className="custom-btn-primary ml-20 lg-mt-20"
+                            onClick={(event) =>
+                              deletePoll(items.poll_id, event)
+                            }
+                          >
+                            Delete{" "}
+                            <ArrowForwardIosOutlinedIcon className="fs-12" />
+                          </Button>
+                        )}
+                      </Box>
+
+                      <Box className="xs-hide">
+                        <FacebookShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          quote={`Check out this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <FacebookIcon url={shareUrl} size={32} round={true} />
+                        </FacebookShareButton>
+                        <WhatsappShareButton
+                          url={shareUrl}
+                          title={`Check out this poll: ${items.title}`}
+                          separator=":: "
+                          className="pr-5"
+                          onClick={(event) =>
+                            openSocialMediaLink(event, shareUrl)
+                          }
+                        >
+                          <WhatsappIcon size={32} round />
+                        </WhatsappShareButton>
+                        <LinkedinShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          title={items.title}
+                          summary={`Participate in this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <LinkedinIcon size={32} round={true} />
+                        </LinkedinShareButton>
+                        <TwitterShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          title={`Check out this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <img
+                            src={require("../../assets/twitter.png")}
+                            alt="Twitter"
+                            style={{ width: 32, height: 32 }}
+                          />
+                        </TwitterShareButton>
+                      </Box>
+                    </Box>
+                  </Card>
+                </Grid>
+              ))
+            ) : (
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={12}
+                style={{ textAlign: "center" }}
+                className="h2-title mt-30"
+              >
+                <Box>It looks like there are no live polls at the moment.</Box>
+              </Grid>
+            )}
+          </Grid>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+            className="mb-20 mt-20 mr-13"
+          >
+            <Box display="flex" alignItems="center" className="h3-title">
+              <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
+              Draft Polls
+            </Box>
+            {!showAllDraft && visibleDraftPolls.length >= 1 && (
+              <Box>
+                <Button
+                  type="button"
+                  className="custom-btn-primary ml-20"
+                  onClick={() => handleViewAll(draftPolls, "Draft")}
+                >
+                  View All
+                </Button>
+              </Box>
+            )}
+          </Box>
+          <Grid container spacing={2} style={{ marginBottom: "30px" }}>
+            {visibleDraftPolls && visibleDraftPolls?.length >= 1 ? (
+              visibleDraftPolls?.map((items, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  lg={4}
+                  style={{ marginBottom: "10px" }}
+                  key={items.poll_id}
+                >
+                  <Card
+                    className="pb-20"
+                    sx={{
+                      position: "relative",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      borderRadius: "10px",
+                      boxShadow: "0 4px 4px 0 #00000040!important",
+                    }}
+                    onClick={() => handleCardClick(items.poll_id)}
+                  >
+                    <CardContent className="d-flex jc-bw">
+                      <Box>
+                        {items.title && (
+                          <Typography
+                            gutterBottom
+                            className="mt-10  event-title"
+                          >
+                            {items.title}
+                          </Typography>
+                        )}
+                        <Box
+                          className="d-flex h6-title mt-30"
+                          style={{ color: "#484848" }}
+                        >
+                          <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <TodayOutlinedIcon className="fs-14 pr-5" />
+                            {formatDate(items.start_date)}
+                          </Box>
+                        </Box>
+                      </Box>
+                      <Box
+                        className="card-img-container"
+                        style={{ position: "inherit" }}
+                      >
+                        <img
+                          src={
+                            items.image
+                              ? items.image
+                              : require("assets/default.png")
+                          }
+                          className="event-card-img"
+                          alt="App Icon"
+                        />
+                      </Box>
+                    </CardContent>
+                    <Box className="voting-text lg-mt-30">
+                      <Box>
+                        <Button
+                          onClick={(event) => handleEdit(event, items)}
+                          type="button"
+                          className="custom-btn-primary ml-20 lg-mt-20"
+                        >
+                          Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        </Button>
+                        <Button
+                          type="button"
+                          className="custom-btn-primary ml-20 lg-mt-20"
+                          onClick={(event) => deletePoll(items.poll_id, event)}
+                        >
+                          Delete{" "}
+                          <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        </Button>
+                      </Box>
+                      <Box className="xs-hide">
+                        <FacebookShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          quote={`Check out this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <FacebookIcon url={shareUrl} size={32} round={true} />
+                        </FacebookShareButton>
+                        <WhatsappShareButton
+                          url={shareUrl}
+                          title={`Check out this poll: ${items.title}`}
+                          separator=":: "
+                          className="pr-5"
+                          onClick={(event) =>
+                            openSocialMediaLink(event, shareUrl)
+                          }
+                        >
+                          <WhatsappIcon size={32} round />
+                        </WhatsappShareButton>
+                        <LinkedinShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          title={items.title}
+                          summary={`Participate in this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <LinkedinIcon size={32} round={true} />
+                        </LinkedinShareButton>
+                        <TwitterShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          title={`Check out this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <img
+                            src={require("../../assets/twitter.png")}
+                            alt="Twitter"
+                            style={{ width: 32, height: 32 }}
+                          />
+                        </TwitterShareButton>
+                      </Box>
+                    </Box>
+                  </Card>
+                </Grid>
+              ))
+            ) : (
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={12}
+                style={{ textAlign: "center" }}
+                className="h2-title mt-30"
+              >
+                <Box>It looks like there are no Draft polls at the moment.</Box>
+              </Grid>
+            )}
+          </Grid>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+            className="mb-20 mt-20 mr-13"
+          >
+            <Box display="flex" alignItems="center" className="h3-title">
+              <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />
+              Closed Polls
+            </Box>
+            {!showAllClosed && visibleClosedPolls.length >= 1 && (
+              <Box>
+                <Button
+                  type="button"
+                  className="custom-btn-primary ml-20"
+                  onClick={() => handleViewAll(closedPolls, "closed")}
+                >
+                  View All
+                </Button>
+              </Box>
+            )}
+          </Box>
+          <Grid container spacing={2} style={{ marginBottom: "30px" }}>
+            {visibleClosedPolls && visibleClosedPolls?.length >= 1 ? (
+              visibleClosedPolls?.map((items, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  lg={4}
+                  style={{ marginBottom: "10px" }}
+                  key={items.poll_id}
+                >
+                  <Card
+                    className="pb-20"
+                    sx={{
+                      position: "relative",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      borderRadius: "10px",
+                      boxShadow: "0 4px 4px 0 #00000040!important",
+                    }}
+                    onClick={() => handleCardClick(items.poll_id)}
+                  >
+                    <CardContent className="d-flex jc-bw">
+                      <Box>
+                        {items.title && (
+                          <Typography
+                            gutterBottom
+                            className="mt-10  event-title"
+                          >
+                            {items.title}
+                          </Typography>
+                        )}
+                        <Box
+                          className="d-flex h6-title mt-30"
+                          style={{ color: "#484848" }}
+                        >
+                          <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <TodayOutlinedIcon className="fs-14 pr-5" />
+                            {formatDate(items.start_date)}
+                          </Box>
+                        </Box>
+                      </Box>
+                      <Box
+                        className="card-img-container"
+                        style={{ position: "inherit" }}
+                      >
+                        <img
+                          src={
+                            items.image
+                              ? items.image
+                              : require("assets/default.png")
+                          }
+                          className="event-card-img"
+                          alt="App Icon"
+                        />
+                      </Box>
+                    </CardContent>
+                    <Box className="voting-text lg-mt-30">
+                      <Box>
+                        <Button
+                          type="button"
+                          className="custom-btn-primary ml-20 lg-mt-20"
+                          onClick={(event) =>
+                            handleOpenModal(items.poll_id, event)
+                          }
+                        >
+                          View Results{" "}
+                          <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        </Button>
+                      </Box>
+                      <Box className="xs-hide">
+                        <FacebookShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          quote={`Check out this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <FacebookIcon url={shareUrl} size={32} round={true} />
+                        </FacebookShareButton>
+                        <WhatsappShareButton
+                          url={shareUrl}
+                          title={`Check out this poll: ${items.title}`}
+                          separator=":: "
+                          className="pr-5"
+                          onClick={(event) =>
+                            openSocialMediaLink(event, shareUrl)
+                          }
+                        >
+                          <WhatsappIcon size={32} round />
+                        </WhatsappShareButton>
+                        <LinkedinShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          title={items.title}
+                          summary={`Participate in this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <LinkedinIcon size={32} round={true} />
+                        </LinkedinShareButton>
+                        <TwitterShareButton
+                          url={shareUrl}
+                          className="pr-5"
+                          title={`Check out this poll: ${items.title}`}
+                          onClick={(event) => {
+                            openSocialMediaLink(event, shareUrl);
+                          }}
+                        >
+                          <img
+                            src={require("../../assets/twitter.png")}
+                            alt="Twitter"
+                            style={{ width: 32, height: 32 }}
+                          />
+                        </TwitterShareButton>
+                      </Box>
+                    </Box>
+                  </Card>
+                </Grid>
+              ))
+            ) : (
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={12}
+                style={{ textAlign: "center" }}
+                className="h2-title mt-30"
+              >
+                <Box>
+                  It looks like there are no Closed polls at the moment.
+                </Box>
+              </Grid>
+            )}
+          </Grid>
+        </Container>
+      ) : (
+        <div>Unauthorized</div>
+      )}
       <FloatingChatIcon />
       <Footer />
       {signlePOll && (
