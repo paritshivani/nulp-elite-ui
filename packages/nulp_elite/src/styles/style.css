@@ -3573,3 +3573,6 @@ input:required::after {
   text-overflow: ellipsis;
   width: 175px !important;
 }
+.subDomain legend {
+  min-width: 90px !important;
+}

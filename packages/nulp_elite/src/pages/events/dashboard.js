@@ -717,7 +717,7 @@ const Dashboard = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid item xs={6} md={2} className="subDomain">
             <FormControl fullWidth>
               <InputLabel id="sub-category-select-label">Sub-Domain</InputLabel>
               <Select

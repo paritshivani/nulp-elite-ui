@@ -66,6 +66,18 @@ function Header({ globalSearchQuery }) {
   const [roles, setRoles] = useState([]);
   const [orgId, setOrgId] = useState();
   const [openSubmenu, setOpenSubmenu] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
+  const handleSelectClick = () => {
+    setOpen(false);
+  };
   const handleSubmenuToggle = () => {
     setOpenSubmenu(!openSubmenu);
   };
@@ -406,7 +418,14 @@ function Header({ globalSearchQuery }) {
                 />
               </Tooltip>
             </Link>
-            <Tooltip title={t("Language")} placement="bottom" arrow>
+            <Tooltip
+              title={t("Language")}
+              placement="bottom"
+              arrow
+              open={open}
+              onOpen={handleTooltipOpen}
+              onClose={handleTooltipClose}
+            >
               <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
                 <FormControl
                   fullWidth
@@ -608,7 +627,7 @@ function Header({ globalSearchQuery }) {
                 >
                   <MenuItem className="ml-10" style={{ background: "#f9fafc" }}>
                     <Link
-                      href={routeConfig.ROUTES.VOTING.VOTING_FORM}
+                      href={routeConfig.ROUTES.POLL.POLL_FORM}
                       underline="none"
                       textAlign="center"
                     >
@@ -617,7 +636,7 @@ function Header({ globalSearchQuery }) {
                   </MenuItem>
                   <MenuItem className="ml-10">
                     <Link
-                      href={routeConfig.ROUTES.VOTING.VOTING_LIST}
+                      href={routeConfig.ROUTES.POLL.POLL_LIST}
                       underline="none"
                       textAlign="center"
                     >
@@ -626,7 +645,7 @@ function Header({ globalSearchQuery }) {
                   </MenuItem>
                   <MenuItem className="ml-10">
                     <Link
-                      href={routeConfig.ROUTES.VOTING.VOTING_DASHBOARD}
+                      href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
                       underline="none"
                       textAlign="center"
                     >
@@ -948,7 +967,7 @@ function Header({ globalSearchQuery }) {
                     >
                       <MenuItem className="ml-10">
                         <Link
-                          href={routeConfig.ROUTES.VOTING.VOTING_FORM}
+                          href={routeConfig.ROUTES.POLL.POLL_FORM}
                           underline="none"
                           textAlign="center"
                         >
@@ -957,7 +976,7 @@ function Header({ globalSearchQuery }) {
                       </MenuItem>
                       <MenuItem className="ml-10">
                         <Link
-                          href={routeConfig.ROUTES.VOTING.VOTING_LIST}
+                          href={routeConfig.ROUTES.POLL.POLL_LIST}
                           underline="none"
                           textAlign="center"
                         >
@@ -966,7 +985,7 @@ function Header({ globalSearchQuery }) {
                       </MenuItem>
                       <MenuItem className="ml-10">
                         <Link
-                          href={routeConfig.ROUTES.VOTING.VOTING_DASHBOARD}
+                          href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
                           underline="none"
                           textAlign="center"
                         >

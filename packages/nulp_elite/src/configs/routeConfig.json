@@ -75,12 +75,12 @@
       "EVENT_DETAILS": "/webapp/eventDetails",
       "EVENT_ID": "/:eventId"
     },
-    "VOTING": {
-      "VOTING_LIST": "/webapp/votingList",
-      "VOTING_DETAILS": "/webapp/votingDetails",
-      "VOTING_FORM": "/webapp/createform",
-      "VOTING_DASHBOARD": "webapp/votingDashboard",
-      "POLLS_DETAILS": "webapp/pollsDetails"
+    "POLL": {
+      "POLL_LIST": "/webapp/votingList",
+      "POLL_DETAILS": "/webapp/votingDetails",
+      "POLL_FORM": "/webapp/createform",
+      "POLL_DASHBOARD": "/webapp/votingDashboard",
+      "POLLS_VIEW_ALL": "/webapp/pollsDetails"
     }
   }
 }
