@@ -50,6 +50,7 @@ import createForm from "pages/voting/createForm";
 import VotingDetails from "pages/voting/votingDetails";
 import { truncate } from "lodash";
 import votingDashboard from "pages/voting/votingDashboard";
+import pollsDetails from "pages/voting/pollsDetails";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 
@@ -198,23 +199,28 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path: routeConfig.ROUTES.VOTING.VOTING_LIST,
+      path: routeConfig.ROUTES.POLL.POLL_LIST,
       component: VotingList,
     },
     {
       moduleName: "nulp_elite",
-      path: routeConfig.ROUTES.VOTING.VOTING_FORM,
+      path: routeConfig.ROUTES.POLL.POLL_FORM,
       component: createForm,
     },
     {
       moduleName: "nulp_elite",
-      path: routeConfig.ROUTES.VOTING.VOTING_DETAILS,
+      path: routeConfig.ROUTES.POLL.POLL_DETAILS,
       component: VotingDetails,
     },
     {
       moduleName: "nulp_elite",
-      path: routeConfig.ROUTES.VOTING.VOTING_DASHBOARD,
+      path: routeConfig.ROUTES.POLL.POLL_DASHBOARD,
       component: votingDashboard,
+    },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.POLL.POLLS_DETAILS,
+      component: pollsDetails,
     },
   ];
   createForm;

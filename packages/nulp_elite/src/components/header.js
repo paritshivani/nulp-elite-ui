@@ -37,6 +37,9 @@ import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import Grid from "@mui/material/Grid";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Collapse, List } from "@mui/material";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -54,6 +57,7 @@ function Header({ globalSearchQuery }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElNotify, setAnchorElNotify] = React.useState(null);
+  const [anchorElPoll, setAnchorElPoll] = React.useState(null);
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const navigate = useNavigate();
@@ -61,7 +65,22 @@ function Header({ globalSearchQuery }) {
   const [userData, setUserData] = useState(null);
   const [roles, setRoles] = useState([]);
   const [orgId, setOrgId] = useState();
+  const [openSubmenu, setOpenSubmenu] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
 
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
+  const handleSelectClick = () => {
+    setOpen(false);
+  };
+  const handleSubmenuToggle = () => {
+    setOpenSubmenu(!openSubmenu);
+  };
   // Retrieve roles from sessionStorage
   const rolesJson = sessionStorage.getItem("roles");
   useEffect(() => {
@@ -90,6 +109,7 @@ function Header({ globalSearchQuery }) {
   const handleCloseNotifyMenu = () => {
     setAnchorElNotify(null);
   };
+
   const [activePath, setActivePath] = useState(location.pathname);
 
   useEffect(() => {
@@ -190,7 +210,10 @@ function Header({ globalSearchQuery }) {
             : " xs-hide d-flex  bg-white"
         }
       >
-        <Box className="d-flex alignItems-center w-100" style={{marginLeft:"10px"}}>
+        <Box
+          className="d-flex alignItems-center w-100"
+          style={{ marginLeft: "10px" }}
+        >
           <Link
             href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
             className="pl-0 py-15 d-flex xs-py-3"
@@ -293,18 +316,19 @@ function Header({ globalSearchQuery }) {
               justifyContent: "flex-end",
               alignItems: "center",
               marginLeft: "20px",
-              marginRight:"10px"
+              marginRight: "10px",
             }}
           >
             <Link
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
               className={
                 activePath ===
-                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                `${
+                  routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
                   activePath.startsWith(
                     routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
                   )
-                  }`
+                }`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -325,7 +349,7 @@ function Header({ globalSearchQuery }) {
               className={
                 activePath ===
                   routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
-                  activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
+                activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -344,7 +368,7 @@ function Header({ globalSearchQuery }) {
               href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
               className={
                 activePath ===
-                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -394,93 +418,102 @@ function Header({ globalSearchQuery }) {
                 />
               </Tooltip>
             </Link>
-            <Tooltip title={t("Language")} placement="bottom" arrow>
-            <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
-              <FormControl
-                fullWidth
-                size="small"
-                className="translate xs-h-28"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "end",
-                }}
-              >
-                <GTranslateIcon />
-                <Select
-                  labelId="language-select-label"
-                  id="language-select"
-                  className="language"
-                  style={{ border: "none", color: "#4f4f4f" }}
-                  label={t("LANGUAGE")}
-                  value={language}
-                  startIcon={<LanguageIcon />}
-                  onChange={handleChangeLanguage}
-                  inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+            <Tooltip
+              title={t("Language")}
+              placement="bottom"
+              arrow
+              open={open}
+              onOpen={handleTooltipOpen}
+              onClose={handleTooltipClose}
+            >
+              <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
+                <FormControl
+                  fullWidth
+                  size="small"
+                  className="translate xs-h-28"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "end",
+                  }}
                 >
-                  <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                  <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                  <MenuItem value="ma">{t("MARATHI")}</MenuItem>
-                  <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
-                  <MenuItem value="ta">{t("TAMIL")}</MenuItem>
-                  <MenuItem value="be">{t("BENGALI")}</MenuItem>
-                  <MenuItem value="mal">{t("MALYALAM")}</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+                  <GTranslateIcon />
+                  <Select
+                    labelId="language-select-label"
+                    id="language-select"
+                    className="language"
+                    style={{ border: "none", color: "#4f4f4f" }}
+                    label={t("LANGUAGE")}
+                    value={language}
+                    startIcon={<LanguageIcon />}
+                    onChange={handleChangeLanguage}
+                    inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                  >
+                    <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                    <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                    <MenuItem value="ma">{t("MARATHI")}</MenuItem>
+                    <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
+                    <MenuItem value="ta">{t("TAMIL")}</MenuItem>
+                    <MenuItem value="be">{t("BENGALI")}</MenuItem>
+                    <MenuItem value="mal">{t("MALYALAM")}</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </Tooltip>
             <Tooltip title={t("Notification")} placement="bottom" arrow>
-            <Box className="notification-circle xs-hide">
-              {/* <NotificationsNoneOutlinedIcon />
+              <Box className="notification-circle xs-hide">
+                {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
 
-              <Tooltip>
-                <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
-                  <NotificationsNoneOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElNotify}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElNotify)}
-                onClose={handleCloseNotifyMenu}
-              >
-                <MenuItem>
-                  <Link underline="none" textAlign="center">
-                    Text 1
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link underline="none" textAlign="center">
-                    Text 2
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link underline="none" textAlign="center">
-                    Text 3
-                  </Link>
-                </MenuItem>
-              </Menu>
-            </Box>
+                <Tooltip>
+                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                    <NotificationsNoneOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElNotify}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElNotify)}
+                  onClose={handleCloseNotifyMenu}
+                >
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 1
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 2
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 3
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </Box>
             </Tooltip>
 
             {/* User Profile */}
             <Tooltip
-            title={t("PROFILE")} placement="bottom" arrow
+              title={t("PROFILE")}
+              placement="bottom"
+              arrow
               className={
                 activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                  activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
                   ? "Menuactive"
                   : ""
               }
@@ -549,8 +582,8 @@ function Header({ globalSearchQuery }) {
 
               {/* Check if roles array is empty or contains "PUBLIC" */}
               {(roleNames && roleNames.length === 0) ||
-                (roleNames.length === 1 &&
-                  roleNames.includes("PUBLIC")) ? null : (
+              (roleNames.length === 1 &&
+                roleNames.includes("PUBLIC")) ? null : (
                 <MenuItem>
                   <Link
                     target="_blank"
@@ -572,27 +605,58 @@ function Header({ globalSearchQuery }) {
                   {t("HELP")}
                 </Link>
               </MenuItem>
+              <MenuItem
+                onClick={handleSubmenuToggle}
+                style={{ background: "#f9fafc", color: "#1976d2" }}
+                className="lg-hide"
+              >
+                Poll
+                <Link primary="Submenu" />
+                {openSubmenu ? <ExpandLess /> : <ExpandMore />}
+              </MenuItem>
+              <Collapse
+                in={openSubmenu}
+                timeout="auto"
+                unmountOnExit
+                className="lg-hide"
+              >
+                <List
+                  component="div"
+                  disablePadding
+                  style={{ background: "#f9fafc" }}
+                >
+                  <MenuItem className="ml-10" style={{ background: "#f9fafc" }}>
+                    <Link
+                      href={routeConfig.ROUTES.POLL.POLL_FORM}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("CREATE_POLL")}
+                    </Link>
+                  </MenuItem>
+                  <MenuItem className="ml-10">
+                    <Link
+                      href={routeConfig.ROUTES.POLL.POLL_LIST}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("POLL_LIST")}
+                    </Link>
+                  </MenuItem>
+                  <MenuItem className="ml-10">
+                    <Link
+                      href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("DASHBOARD")}
+                    </Link>
+                  </MenuItem>
+                </List>
+              </Collapse>
               <MenuItem>
                 <Link href="/logoff" underline="none" textAlign="center">
                   {t("LOGOUT")}
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  href={routeConfig.ROUTES.VOTING.VOTING_FORM}
-                  underline="none"
-                  textAlign="center"
-                >
-                  {t("CREATE_FORM")}
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  href={routeConfig.ROUTES.VOTING.VOTING_LIST}
-                  underline="none"
-                  textAlign="center"
-                >
-                  {t("VOTING_LIST")}
                 </Link>
               </MenuItem>
             </Menu>
@@ -680,7 +744,7 @@ function Header({ globalSearchQuery }) {
                 </Link>
               </Box>
 
-              <Box className="lg-hide xs-hide translate">
+              <Box className="lg-hide  translate">
                 {/* Language Select */}
                 <Box>
                   <FormControl
@@ -761,8 +825,8 @@ function Header({ globalSearchQuery }) {
                   className={
                     activePath ===
                       `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
-                      activePath ===
+                    activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
+                    activePath ===
                       `${routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}`
                       ? "Menuactive"
                       : ""
@@ -844,21 +908,21 @@ function Header({ globalSearchQuery }) {
                       "CONTENT_CREATOR",
                     ].includes(role)
                   ) && (
-                      <MenuItem>
-                        <Link
-                          href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
-                          underline="none"
-                          textAlign="center"
-                        >
-                          {t("DASHBOARD")}
-                        </Link>
-                      </MenuItem>
-                    )}
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("DASHBOARD")}
+                      </Link>
+                    </MenuItem>
+                  )}
 
                   {/* Check if roles array is empty or contains "PUBLIC" */}
                   {(roleNames && roleNames?.length === 0) ||
-                    (roleNames.length === 1 &&
-                      roleNames.includes("PUBLIC")) ? null : (
+                  (roleNames.length === 1 &&
+                    roleNames.includes("PUBLIC")) ? null : (
                     <MenuItem>
                       <Link
                         target="_blank"
@@ -879,27 +943,61 @@ function Header({ globalSearchQuery }) {
                       {t("HELP")}
                     </Link>
                   </MenuItem>
+
+                  {/* <NotificationsNoneOutlinedIcon />
+                    ekta */}
+                  <MenuItem
+                    onClick={handleSubmenuToggle}
+                    style={{ background: "#f9fafc", color: "#1976d2" }}
+                  >
+                    Poll
+                    <Link primary="Submenu" />
+                    {openSubmenu ? <ExpandLess /> : <ExpandMore />}
+                  </MenuItem>
+                  <Collapse
+                    in={openSubmenu}
+                    timeout="auto"
+                    unmountOnExit
+                    style={{ background: "#f9fafc" }}
+                  >
+                    <List
+                      component="div"
+                      disablePadding
+                      style={{ background: "#f9fafc" }}
+                    >
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.POLL.POLL_FORM}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("CREATE_POLL")}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.POLL.POLL_LIST}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("POLL_LIST")}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("DASHBOARD")}
+                        </Link>
+                      </MenuItem>
+                    </List>
+                  </Collapse>
+
                   <MenuItem>
                     <Link href="/logoff" underline="none" textAlign="center">
                       {t("LOGOUT")}
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.VOTING.VOTING_FORM}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("CREATE_FORM")}
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.VOTING.VOTING_LIST}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("VOTING_LIST")}
                     </Link>
                   </MenuItem>
                 </Menu>

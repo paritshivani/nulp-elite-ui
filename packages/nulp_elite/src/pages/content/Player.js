@@ -33,6 +33,7 @@ const Player = () => {
   const [contentData, setContentData] = useState();
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
+  const [ previousRoute ,setPreviousRoute] = useState("")
 
   const [lesson, setLesson] = React.useState();
   const queryString = location.search;
@@ -99,8 +100,16 @@ const Player = () => {
     // }
     // courseRegistryService.lessontracking(data);
   };
+   const handleGoBack = () => {
+    const previousRoutes = sessionStorage.getItem("previousRoutes");
+    console.log("previousRoutes",previousRoutes);
+    navigate(previousRoutes);
+  };
 
   useEffect(() => {
+    const previousRoutes = sessionStorage.getItem("previousRoutes");
+    console.log("previousRoutes",previousRoutes);
+    setPreviousRoute(previousRoutes)
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/content/v1/read/${contentId}`, {
@@ -139,20 +148,22 @@ const Player = () => {
             {lesson && (
               <Breadcrumbs
                 aria-label="breadcrumb"
-                style={{
-                  padding: "25px 0",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                }}
+                className="h6-title mt-15 pl-18"
               >
-                {/* <Link underline="hover" color="#004367" href="/">
-                {t("COURSES")}
-              </Link> */}
+                <Link
+                  underline="hover"
+                  style={{ maxHeight: "inherit" }}
+                  onClick={handleGoBack}
+                  color="#004367"
+                  href={previousRoute}
+                >
+                  {t("BACK")}
+                </Link>
                 <Link
                   underline="hover"
                   href=""
                   aria-current="page"
-                  color="#484848"
+                  className="h6-title oneLineEllipsis"
                 >
                   {lesson?.name}
                 </Link>

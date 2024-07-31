@@ -6,7 +6,6 @@ import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
 import NoResult from "pages/content/noResultFound";
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
@@ -30,23 +29,47 @@ import MenuItem from "@mui/material/MenuItem";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import { BorderRight } from "@mui/icons-material";
 import * as util from "../../services/utilService";
-import PollOutlinedIcon from '@mui/icons-material/PollOutlined';
+import { Autocomplete, ListItemText } from "@mui/material";
+import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
+import dayjs from "dayjs";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state: editData } = location;
+  const [title, setTitle] = useState(editData?.title || "");
+  const [description, setDescription] = useState(editData?.description || "");
+  const [pollType, setPollType] = useState(editData?.pollType || "");
+  const [startDate, setStartDate] = useState(
+    editData?.start_date ? dayjs(editData.start_date) : null
+  );
+  const [endDate, setEndDate] = useState(
+    editData?.end_date ? dayjs(editData.end_date) : null
+  );
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [pollType, setPollType] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [visibility, setVisibility] = useState("public");
-  const [organisationName, setOrganisationName] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [fields, setFields] = useState([{ id: 1, value: "" }]);
+  const [visibility, setVisibility] = useState(
+    editData?.visibility || "public"
+  );
+  const [organisationName, setOrganisationName] = useState(
+    editData?.organisationName || ""
+  );
+  const [selectedOption, setSelectedOption] = useState(
+    editData?.selectedOption || ""
+  );
+  const [userList, setUserList] = useState(editData?.userList || []);
+  const [fields, setFields] = useState(() =>
+    editData?.poll_options?.map((option, index) => ({
+      id: index + 1,
+      value: option,
+    })) || [
+      { id: 1, value: '' },
+      { id: 2, value: '' },
+    ]
+  );
+
+
   const urlConfig = require("../../configs/urlConfig.json");
   const userId = util.userId();
   const [userData, setUserData] = useState([]);
@@ -58,10 +81,33 @@ const createForm = () => {
   const [orgList, setOrgList] = useState([]);
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const [userListFinal, setUserListFinal] = useState([]);
+  const [selectedOrg, setSelectedOrg] = useState(
+    "Select or Search Organization"
+  );
+  const [orgOffset, setOrgOffset] = useState(0);
+  const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
+  const currentDateTime = new Date();
+  // Check if startDate is in the past
+  const isStartDateInPast = startDate && new Date(startDate) < currentDateTime;
+
+  useEffect(() => {
+    const initialOrg = orgList.find((org) => org.orgName === organisationName);
+    setSelectedOrg(initialOrg || null);
+  }, [organisationName, orgList]);
+
+  const loadMoreOrgs = async () => {
+    setIsFetchingMoreOrgs(true);
+    const newOffset = orgOffset + 100;
+    await getOrgDetail(searchQuery, newOffset);
+    setOrgOffset(newOffset);
+    setIsFetchingMoreOrgs(false);
+  };
 
   useEffect(() => {
     fetchData();
-  }, []);
+    const userIds = userList.map((item) => item.userId);
+    setUserListFinal(userIds);
+  }, [userList]);
 
   const handleInputChange = (id, event) => {
     const newFields = fields.map((field) => {
@@ -75,14 +121,13 @@ const createForm = () => {
 
   const addField = () => {
     const newId = fields.length ? fields[fields.length - 1].id + 1 : 1;
-    setFields([...fields, { id: newId, value: "" }]);
+    setFields([...fields, { id: newId, value: '' }]);
   };
 
   const handleDeleteField = (id) => {
     setFields(fields.filter((field) => field.id !== id));
   };
 
-  const [selectedValue, setSelectedValue] = useState("public");
 
   const handleRadioChange = (event) => {
     setVisibility(event.target.value);
@@ -90,6 +135,21 @@ const createForm = () => {
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
+  };
+  useEffect(() => {
+    // Ensure selectedOrg is updated when organisationName changes
+    const initialOrg = orgList.find((org) => org.orgName === organisationName);
+    setSelectedOrg(initialOrg || null);
+  }, [organisationName, orgList]);
+
+  const handleOrgChange = async (event, value) => {
+    console.log("eve", value.rootOrgId);
+    await getOrgUser(value.rootOrgId);
+    setSelectedOrg(value);
+  };
+
+  const handleUserChange = (event, newValue) => {
+    setUserList(newValue);
   };
 
   useEffect(() => {
@@ -159,12 +219,56 @@ const createForm = () => {
         const responseData = await response.json();
         setToasterMessage("Poll created successfully!");
         setToasterOpen(true);
-        navigate("/webapp/votingList"); // Redirect to success page
+        navigate("/webapp/votingDashboard"); // Redirect to success page
       } else {
         throw new Error("Failed to create poll");
       }
     } catch (error) {
-      setToasterMessage(error.message);
+      // setToasterMessage(error.message);
+      setToasterOpen(true);
+    }
+  };
+
+  const handleUpdate = async () => {
+    const pollOptions = fields.map((field) => field.value);
+    const currentDateTime = new Date();
+    const startDateTime = new Date(startDate);
+
+    const data = {
+      title,
+      description,
+      poll_options: pollOptions,
+      poll_type: pollType,
+      start_date: startDate,
+      end_date: endDate,
+    };
+    // Check if currentDateTime is greater than startDateTime
+    if (currentDateTime > startDateTime) {
+      delete data.start_date;
+    }
+
+    try {
+      const response = await fetch(
+        `${urlConfig.URLS.POLL.UPDATE}?poll_id=${editData.poll_id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        const responseData = await response.json();
+        setToasterMessage("Poll updated successfully!");
+        setToasterOpen(true);
+        navigate("/webapp/votingDashboard");
+      } else {
+        throw new Error("Failed to update poll");
+      }
+    } catch (error) {
+      // setToasterMessage(error.message);
       setToasterOpen(true);
     }
   };
@@ -215,14 +319,13 @@ const createForm = () => {
     }
   };
 
-  const getOrgDetail = async (rootOrgId) => {
+  const getOrgDetail = async (searchQuery = "", offset = 0) => {
     const requestBody = {
       request: {
-        query: "",
-        filters: {
-          channel: "niua",
-        },
+        query: searchQuery,
+        filters: {},
         limit: 100,
+        offset: offset,
       },
     };
 
@@ -237,14 +340,13 @@ const createForm = () => {
       });
 
       if (!response.ok) {
-        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
         throw new Error(t("FAILED_TO_FETCH_DATA"));
       }
 
-      let responseData = await response.json();
-
-      const orgs = responseData?.result?.response?.content || [];
-      setOrgList(orgs);
+      const responseData = await response.json();
+      const newOrgs = responseData?.result?.response?.content || [];
+      setOrgList((prevOrgs) => [...prevOrgs, ...newOrgs]);
+      return responseData?.result?.response?.content || [];
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -263,8 +365,9 @@ const createForm = () => {
   const isContentCreator = roleNames.includes("CONTENT_CREATOR");
 
   useEffect(() => {
-    if (isContentCreator || isAdmin) {
+    if (isContentCreator) {
       getOrgUser(userData?.result?.response?.rootOrg?.id);
+    } else if (isAdmin) {
       getOrgDetail(userData?.result?.response?.rootOrg?.id);
     }
   }, [isContentCreator, isAdmin, userData]);
@@ -281,7 +384,12 @@ const createForm = () => {
         style={{ paddingTop: "0" }}
       >
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-5 xs-py-10"><PollOutlinedIcon style={{paddingRight:"10px",verticalAlign:"middle"}}/>Poll Creation</Box>
+          <Box className="h3-custom-title pl-5 xs-py-10">
+            <PollOutlinedIcon
+              style={{ paddingRight: "10px", verticalAlign: "middle" }}
+            />
+            {editData ? "Edit Poll" : "Poll Creation"}
+          </Box>
 
           <Alert severity="info" className="custom-alert">
             Poll will be published Based on Start Date
@@ -296,9 +404,12 @@ const createForm = () => {
         >
           <Grid item xs={12} md={4} lg={8} className="lg-pl-0">
             <TextField
+              label={
+                <span>
+                  Title<span className="red"> *</span>
+                </span>
+              }
               id="title"
-              required
-              label="Title"
               variant="outlined"
               className="mb-20"
               value={title}
@@ -311,11 +422,14 @@ const createForm = () => {
               }
             />
             <TextField
+              label={
+                <span>
+                  Description<span className="red"> *</span>
+                </span>
+              }
               id="description"
-              label="Description"
               multiline
               rows={4}
-              required
               className="mb-20"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -334,21 +448,30 @@ const createForm = () => {
               maxRows={4}
               value={pollType}
               onChange={(e) => setPollType(e.target.value)}
-            />
+            />{" "}
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
-                  label="Start Date"
+                  label={
+                    <span>
+                      Start Date<span className="red"> *</span>
+                    </span>
+                  }
                   required
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
+                  disabled={isStartDateInPast} // Disable if startDate is in the past
                 />
               </LocalizationProvider>
             </Box>
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
-                  label="End Date"
+                  label={
+                    <span>
+                      End Date<span className="red"> *</span>
+                    </span>
+                  }
                   required
                   value={endDate}
                   onChange={(newValue) => setEndDate(newValue)}
@@ -373,11 +496,13 @@ const createForm = () => {
                   value="public"
                   control={<Radio />}
                   label="Public"
+                  disabled={Boolean(editData)}
                 />
                 <FormControlLabel
                   value="private"
                   control={<Radio />}
                   label="Invite only"
+                  disabled={Boolean(editData)}
                 />
               </RadioGroup>
 
@@ -399,18 +524,34 @@ const createForm = () => {
                         disabled
                       />
                     ) : isAdmin ? (
-                      <Select
-                        label="Select Organization"
-                        value={organisationName}
-                        onChange={(e) => setOrganisationName(e.target.value)}
-                        fullWidth
-                      >
-                        {orgList?.map((org) => (
-                          <MenuItem key={org.id} value={org.id}>
-                            {org.orgName}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      <Autocomplete
+                        options={orgList}
+                        getOptionLabel={(option) => option.orgName}
+                        value={selectedOrg}
+                        onChange={handleOrgChange}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select or Search Organization"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        ListboxProps={{
+                          onScroll: (event) => {
+                            const listboxNode = event.currentTarget;
+                            if (
+                              listboxNode.scrollTop +
+                              listboxNode.clientHeight ===
+                              listboxNode.scrollHeight
+                            ) {
+                              if (!isFetchingMoreOrgs) {
+                                loadMoreOrgs();
+                              }
+                            }
+                          },
+                        }}
+                      />
                     ) : null}
 
                     <RadioGroup
@@ -419,7 +560,7 @@ const createForm = () => {
                       name="nested-radio-buttons-group"
                       value={selectedOption}
                       onChange={handleSelectChange}
-                      className="my-15"
+                      className="mt-15"
                     >
                       <FormControlLabel
                         value="option1"
@@ -434,86 +575,120 @@ const createForm = () => {
                     </RadioGroup>
 
                     {selectedOption === "option2" && (
-                      <Select
-                        label="Select Users"
+                      <Autocomplete
                         multiple
-                        value={userList}
-                        onChange={(e) => setUserList(e.target.value)}
-                        fullWidth
-                        renderValue={(selected) =>
-                          selected.map((user) => user.firstName).join(", ")
+                        options={orgUserList}
+                        getOptionLabel={(option) =>
+                          `${option.firstName} ${option.lastName || " "}`
                         }
-                      >
-                        {orgUserList.map((user) => (
-                          <MenuItem key={user.userId} value={user}>
+                        value={userList}
+                        onChange={handleUserChange}
+                        renderOption={(props, option, { selected }) => (
+                          <li {...props}>
                             <Checkbox
-                              checked={userList.indexOf(user) > -1}
+                              checked={selected}
                               onChange={() => {
-                                const isSelected = userList.indexOf(user) > -1;
+                                const isSelected = userList.includes(option);
                                 const newSelectedUsers = isSelected
                                   ? userList.filter(
-                                      (u) => u.userId !== user.userId
-                                    )
-                                  : [...userList, user];
+                                    (user) => user.userId !== option.userId
+                                  )
+                                  : [...userList, option];
                                 setUserList(newSelectedUsers);
                               }}
                             />
-                            {user.firstName} {user.lastName}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                            <ListItemText
+                              primary={`${option.firstName} ${option.lastName || " "
+                                }`}
+                            />
+                          </li>
+                        )}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            label="Select Users"
+                            placeholder="Search users"
+                          />
+                        )}
+                        renderTags={(selected, getTagProps) =>
+                          selected.map((user, index) => (
+                            <ListItemText
+                              key={user.userId}
+                              primary={`${user.firstName} ${user.lastName}`}
+                              {...getTagProps({ index })}
+                            />
+                          ))
+                        }
+                      />
                     )}
                   </div>
                 </Box>
               )}
             </FormControl>
+
             <FormGroup className="d-flex" style={{ flexFlow: "row" }}>
-              <Box className="voting-textfield mt-10">
+              <Box className="voting-textfield">
                 <FormLabel id="demo-row-radio-buttons-group-label">
                   Poll Options<span style={{ color: "red" }}>*</span>
+                  {/* <TextField
+                    id="outlined-basic"
+                    label="Options"
+                    variant="outlined"
+                    className="w-86 mt-20"
+                  /> */}
                 </FormLabel>
-                {fields.map((field, index) => (
-                  <Box key={field.id} display="flex" alignItems="center">
-                    <TextField
-                      label={`Option ${field.id}`}
-                      value={field.value}
-                      onChange={(e) => handleInputChange(field.id, e)}
-                      multiline
-                      maxRows={4}
-                      margin="normal"
-                      style={{ flex: 1, width: "100%" }}
-                    />
-                    {index !== 0 && (
-                      <Button
-                        type="button"
-                        style={{
-                          width: "10%",
-                          height: "55px",
-                          color: "#0e7a9c",
-                        }}
-                        onClick={() => handleDeleteField(field.id)}
-                      >
-                        <DeleteOutlineOutlinedIcon
+                <Box>
+                  {fields.map((field, index) => (
+                    <Box key={field.id} display="flex" alignItems="center">
+                      <Box><TextField
+                        label={`Option ${field.id}`}
+                        value={field.value}
+                        onChange={(e) => handleInputChange(field.id, e)}
+                        multiline
+                        maxRows={4}
+                        margin="normal"
+                        style={{ flex: 1, width: '100%' }}
+                      /></Box>
+                      <Box>
+                      {index >= 2 && (
+                        <Button
+                          type="button"
                           style={{
-                            fontSize: "30px",
-                            color: "#0e7a9c",
-                            cursor: "pointer",
+                            width: '10%',
+                            height: '55px',
+                            color: '#0e7a9c',
                           }}
-                        />
-                      </Button>
-                    )}
-                  </Box>
-                ))}
-              </Box>
-
-              <Box className="voting-btn">
-                <Button
-                  type="button"
-                  style={{ width: "10%", height: "55px", color: "#0e7a9c" }}
-                  onClick={addField}
-                >
-                  <AddOutlinedIcon />
-                </Button>
+                          onClick={() => handleDeleteField(field.id)}
+                        >
+                          <DeleteOutlineOutlinedIcon
+                            style={{
+                              fontSize: '30px',
+                              color: '#0e7a9c',
+                              cursor: 'pointer',
+                            }}
+                          />
+                        </Button>
+                      )}
+                     </Box>
+                     <Box>
+                      {index === fields.length - 1 && (
+                        <Button
+                          type="button"
+                          style={{
+                            width: '10%',
+                            height: '55px',
+                            color: '#0e7a9c',
+                          }}
+                          onClick={addField}
+                        >
+                          <AddOutlinedIcon />
+                        </Button>
+                      )}
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
               </Box>
             </FormGroup>
           </Grid>
@@ -526,7 +701,7 @@ const createForm = () => {
             textAlign: "right",
           }}
         >
-          <Button
+          {/* <Button
             type="button"
             className="custom-btn-primary"
             style={{ width: "10%" }}
@@ -534,6 +709,15 @@ const createForm = () => {
             disabled={!isFormValid()}
           >
             Submit
+          </Button> */}
+          <Button
+            type="button"
+            className="custom-btn-primary"
+            style={{ width: "10%" }}
+            onClick={editData ? handleUpdate : handleSubmit}
+            disabled={!isFormValid()}
+          >
+            {editData ? "Update" : "Create"}
           </Button>
         </Box>
       </Container>
