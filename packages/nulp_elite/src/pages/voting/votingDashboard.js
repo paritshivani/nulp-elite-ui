@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import { Button, Card, CardContent } from "@mui/material";
+import { Alert, Button, Card, CardContent } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -40,6 +40,8 @@ import { useNavigate } from "react-router-dom";
 import ToasterCommon from "../ToasterCommon";
 import * as util from "../../services/utilService";
 import Toast from "../Toast";
+import Loader from "pages/Loader";
+import Unauthorized from "pages/Unauthorized";
 
 const votingDashboard = () => {
   const { t } = useTranslation();
@@ -76,7 +78,15 @@ const votingDashboard = () => {
   const [userData, setUserData] = useState([]);
   const [admin, setAdmin] = useState(false);
   const [contentCreator, setContentCreator] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
   const handleViewAll = (polls, type) => {
     navigate("/webapp/pollsDetails", { state: { polls, type } });
   };
@@ -506,7 +516,9 @@ const votingDashboard = () => {
                 style={{ textAlign: "center" }}
                 className="h2-title mt-30"
               >
-                <Box>It looks like there are no live polls at the moment.</Box>
+                <Alert severity="info" style={{ margin: "10px 0" }}>
+                  It looks like there are no live polls at the moment.
+                </Alert>
               </Grid>
             )}
           </Grid>
@@ -669,7 +681,9 @@ const votingDashboard = () => {
                 style={{ textAlign: "center" }}
                 className="h2-title mt-30"
               >
-                <Box>It looks like there are no Draft polls at the moment.</Box>
+                <Alert severity="info" style={{ margin: "10px 0" }}>
+                  It looks like there are no Draft polls at the moment.
+                </Alert>
               </Grid>
             )}
           </Grid>
@@ -827,15 +841,15 @@ const votingDashboard = () => {
                 style={{ textAlign: "center" }}
                 className="h2-title mt-30"
               >
-                <Box>
+                <Alert severity="info" style={{ margin: "10px 0" }}>
                   It looks like there are no Closed polls at the moment.
-                </Box>
+                </Alert>
               </Grid>
             )}
           </Grid>
         </Container>
       ) : (
-        <div>Unauthorized</div>
+        <div>{loading ? <Loader /> : <Unauthorized />}</div>
       )}
       <FloatingChatIcon />
       <Footer />
