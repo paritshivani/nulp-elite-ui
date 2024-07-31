@@ -13,6 +13,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 const urlConfig = require("../../configs/urlConfig.json");
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+
 
 // const [width, height] = useWindowSize();
 
@@ -34,7 +36,9 @@ const Player = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
   const [ previousRoute ,setPreviousRoute] = useState("")
-
+ const [courseName, setCourseName] = useState(
+    location.state?.coursename || undefined
+  );
   const [lesson, setLesson] = React.useState();
   const queryString = location.search;
   const contentId = queryString.startsWith("?do_")
@@ -148,30 +152,40 @@ const Player = () => {
       <Container maxWidth="xl" role="main" className="container-pb player">
         <Grid container spacing={2}>
           <Grid item xs={8}>
-            {lesson && (
+             {lesson && (
               <Breadcrumbs
                 aria-label="breadcrumb"
-                className="h6-title mt-15 pl-18"
+                style={{
+                  padding: "25px 0",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                }}
               >
-                <Link
+                 <Link
                   underline="hover"
                   style={{ maxHeight: "inherit" }}
                   onClick={handleGoBack}
                   color="#004367"
                   href={previousRoute}
                 >
+            <ArrowBackIosNewIcon style={{ fontSize: 15 }} />
                   {t("BACK")}
+                  
                 </Link>
                 <Link
                   underline="hover"
                   href=""
                   aria-current="page"
-                  className="h6-title oneLineEllipsis"
+                  color="#484848"
                 >
-                  {lesson?.name}
+                  {courseName}
                 </Link>
               </Breadcrumbs>
             )}
+              <Box className="h3-title my-10">
+              {" "}
+              {lesson?.name}
+            </Box>
           </Grid>
           <Grid item xs={4}>
             <Link

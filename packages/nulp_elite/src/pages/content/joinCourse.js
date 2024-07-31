@@ -306,7 +306,10 @@ sessionStorage.setItem('previousRoutes', newPath)
   };
 
   const handleLinkClick = (id) => {
-    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`);
+    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`,{
+      state: { coursename:  userData?.result?.content?.name},
+    });
+    
   };
 
   const handleSnackbarClose = (event, reason) => {
