@@ -65,12 +65,9 @@ const votingDashboard = () => {
     selectedStartDate: null,
     selectedEndDate: null,
   });
-  const [errormessage, setErrormessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  const [timeDifference, setTimeDifference] = useState(0);
   const userId = util.userId();
   const [creatorId, setCreatorId] = useState("");
   const handleViewAll = (polls, type) => {
@@ -332,8 +329,8 @@ const votingDashboard = () => {
         </Box>
 
         <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleLivePolls &&
-            visibleLivePolls.map((items, index) => (
+          {visibleLivePolls && visibleLivePolls?.length >= 1 ? (
+            visibleLivePolls?.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -356,7 +353,7 @@ const votingDashboard = () => {
                   <CardContent className="d-flex jc-bw">
                     <Box>
                       {items.title && (
-                        <Typography gutterBottom className="mt-10  event-title">
+                        <Typography gutterBottom className="mt-10 event-title">
                           {items.title}
                         </Typography>
                       )}
@@ -450,7 +447,20 @@ const votingDashboard = () => {
                   </Box>
                 </Card>
               </Grid>
-            ))}
+            ))
+          ) : (
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              style={{ textAlign:'center'}}
+              className="h2-title mt-30"
+            >
+              <Box>It looks like there are no live polls at the moment.</Box>
+            </Grid>
+          )}
+
         </Grid>
         <Box
           display="flex"
@@ -463,7 +473,7 @@ const votingDashboard = () => {
             <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
             Draft Polls
           </Box>
-          {!showAllDraft && visibleDraftPolls.length >= 1 && (
+          {!showAllDraft && visibleDraftPolls.length >= 3 && (
             <Box>
               <Button
                 type="button"
@@ -476,8 +486,8 @@ const votingDashboard = () => {
           )}
         </Box>
         <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleDraftPolls &&
-            visibleDraftPolls.map((items, index) => (
+          {visibleDraftPolls && visibleDraftPolls?.length>=1 ? (
+            visibleDraftPolls?.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -597,7 +607,18 @@ const votingDashboard = () => {
                   </Box>
                 </Card>
               </Grid>
-            ))}
+            )) 
+          ): (
+            <Grid
+            item
+            xs={12}
+            md={12}
+            lg={12}
+            style={{ textAlign:'center'}}
+            className="h2-title mt-30"
+          >
+            <Box>It looks like there are no Draft polls at the moment.</Box>
+          </Grid>)}
         </Grid>
         <Box
           display="flex"
@@ -610,7 +631,7 @@ const votingDashboard = () => {
             <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />
             Closed Polls
           </Box>
-          {!showAllClosed && visibleClosedPolls.length >= 1 && (
+          {!showAllClosed && visibleClosedPolls.length >= 3 && (
             <Box>
               <Button
                 type="button"
@@ -623,8 +644,8 @@ const votingDashboard = () => {
           )}
         </Box>
         <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleClosedPolls &&
-            visibleClosedPolls.map((items, index) => (
+          {visibleClosedPolls && visibleClosedPolls?.length>=1 ? (
+            visibleClosedPolls?.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -740,7 +761,19 @@ const votingDashboard = () => {
                   </Box>
                 </Card>
               </Grid>
-            ))}
+            ))) :
+            (
+              <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              style={{ textAlign:'center'}}
+              className="h2-title mt-30"
+            >
+              <Box>It looks like there are no Closed polls at the moment.</Box>
+            </Grid>
+            )}
         </Grid>
       </Container>
       <FloatingChatIcon />
