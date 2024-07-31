@@ -123,7 +123,7 @@ export default function VotingCard({ items, index, onClick }) {
   const openSocialMediaLink = (event, url) => {
     event.stopPropagation();
     event.preventDefault();
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
 
   return (
@@ -135,7 +135,11 @@ export default function VotingCard({ items, index, onClick }) {
       <CardContent className="d-flex jc-bw">
         <Box>
           {items.title && (
-            <Typography gutterBottom className="mt-10  event-title" style={{height:"inherit"}}>
+            <Typography
+              gutterBottom
+              className="mt-10  event-title"
+              style={{ height: "inherit" }}
+            >
               {items.title}
             </Typography>
           )}
@@ -178,7 +182,9 @@ export default function VotingCard({ items, index, onClick }) {
             url={shareUrl}
             className="pr-5"
             quote={`Check out this poll: ${items.title}`}
-            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+            onClick={(event) => {
+              openSocialMediaLink(event, shareUrl);
+            }}
           >
             <FacebookIcon url={shareUrl} size={32} round={true} />
           </FacebookShareButton>
@@ -196,7 +202,9 @@ export default function VotingCard({ items, index, onClick }) {
             className="pr-5"
             title={items.title}
             summary={`Participate in this poll: ${items.title}`}
-            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+            onClick={(event) => {
+              openSocialMediaLink(event, shareUrl);
+            }}
           >
             <LinkedinIcon size={32} round={true} />
           </LinkedinShareButton>
@@ -204,10 +212,12 @@ export default function VotingCard({ items, index, onClick }) {
             url={shareUrl}
             className="pr-5"
             title={`Check out this poll: ${items.title}`}
-            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
+            onClick={(event) => {
+              openSocialMediaLink(event, shareUrl);
+            }}
           >
             <img
-               src={require("../assets/twitter.png")}
+              src={require("../assets/twitter.png")}
               alt="Twitter"
               style={{ width: 32, height: 32 }}
             />
@@ -275,15 +285,21 @@ export default function VotingCard({ items, index, onClick }) {
                       sx={{ width: "100%" }}
                       className={`voting-option my-10 progress${index}`}
                     >
-                      <span
-                        className="h3-custom-title"
-                        style={{ paddingRight: "33px" }}
-                      >
-                        {option.poll_option}
-                      </span>
-                      <LinearProgressWithLabel
-                        value={getProgressValue(option.count)}
-                      />
+                      <Grid container spacing={2}>
+                        <Grid item xs={3} md={4} lg={4}>
+                          <span
+                            className="h3-custom-title"
+                            style={{ paddingRight: "33px" }}
+                          >
+                            {option.poll_option}
+                          </span>
+                        </Grid>
+                        <Grid item xs={9} md={4} lg={8}>
+                          <LinearProgressWithLabel
+                            value={getProgressValue(option.count)}
+                          />
+                        </Grid>
+                      </Grid>
                     </Box>
                   ))}
                 </Box>
