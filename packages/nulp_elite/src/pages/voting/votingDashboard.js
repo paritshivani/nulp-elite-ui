@@ -39,6 +39,7 @@ const urlConfig = require("../../configs/urlConfig.json");
 import { useNavigate } from "react-router-dom";
 import ToasterCommon from "../ToasterCommon";
 import * as util from "../../services/utilService";
+import Toast from "../Toast";
 
 const votingDashboard = () => {
   const { t } = useTranslation();
@@ -64,6 +65,8 @@ const votingDashboard = () => {
     selectedStartDate: null,
     selectedEndDate: null,
   });
+  const [errormessage,setErrormessage] = useState("");
+  const [successMessage,setSuccessMessage] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
@@ -113,6 +116,7 @@ const votingDashboard = () => {
       setPollResult(result.result.data);
     } catch (error) {
       setError(error.message);
+      
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +132,6 @@ const votingDashboard = () => {
       roleNames.includes("ORG_ADMIN");
     // Check for content creator role
     const isContentCreator = roleNames.includes("CONTENT_CREATOR");
-    console.log("-----------rrrrrrrrrrrrrr", isAdmin, isContentCreator);
     if (isContentCreator) {
       setCreatorId(userId);
     } else {
@@ -200,7 +203,8 @@ const votingDashboard = () => {
         `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`
       );
       if (response.status === 200) {
-        setToasterMessage("Poll deleted successfully");
+        // console.log(response.params.status);
+         setToasterMessage('Poll deleted successfully');
         fetchPolls();
         setPoll((prevPolls) => {
           const updatedPolls = prevPolls.filter(
@@ -242,7 +246,6 @@ const votingDashboard = () => {
 
   const getProgressValue = (count) =>
     totalVotes > 0 ? (count / totalVotes) * 100 : 0;
-  console.log(getProgressValue, "getProgressValue");
 
   useEffect(() => {
     getProgressValue();
@@ -328,7 +331,7 @@ const votingDashboard = () => {
               <Button
                 type="button"
                 className="custom-btn-primary ml-20"
-                onClick={() => handleViewAll(visibleLivePolls, "live")}
+                onClick={() => handleViewAll(livePolls, "live")}
               >
                 View All
               </Button>
@@ -473,7 +476,7 @@ const votingDashboard = () => {
               <Button
                 type="button"
                 className="custom-btn-primary ml-20"
-                onClick={() => handleViewAll(visibleDraftPolls, "Draft")}
+                onClick={() => handleViewAll(draftPolls, "Draft")}
               >
                 View All
               </Button>
@@ -620,7 +623,7 @@ const votingDashboard = () => {
               <Button
                 type="button"
                 className="custom-btn-primary ml-20"
-                onClick={() => handleViewAll(visibleClosedPolls, "closed")}
+                onClick={() => handleViewAll(closedPolls, "closed")}
               >
                 View All
               </Button>
