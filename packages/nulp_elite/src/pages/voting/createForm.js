@@ -59,12 +59,16 @@ const createForm = () => {
     editData?.selectedOption || ""
   );
   const [userList, setUserList] = useState(editData?.userList || []);
-  const [fields, setFields] = useState(
+  const [fields, setFields] = useState(() =>
     editData?.poll_options?.map((option, index) => ({
       id: index + 1,
       value: option,
-    })) || [{ id: 1, value: "" }]
+    })) || [
+      { id: 1, value: '' },
+      { id: 2, value: '' },
+    ]
   );
+
 
   const urlConfig = require("../../configs/urlConfig.json");
   const userId = util.userId();
@@ -117,12 +121,13 @@ const createForm = () => {
 
   const addField = () => {
     const newId = fields.length ? fields[fields.length - 1].id + 1 : 1;
-    setFields([...fields, { id: newId, value: "" }]);
+    setFields([...fields, { id: newId, value: '' }]);
   };
 
   const handleDeleteField = (id) => {
     setFields(fields.filter((field) => field.id !== id));
   };
+
 
   const handleRadioChange = (event) => {
     setVisibility(event.target.value);
@@ -537,7 +542,7 @@ const createForm = () => {
                             const listboxNode = event.currentTarget;
                             if (
                               listboxNode.scrollTop +
-                                listboxNode.clientHeight ===
+                              listboxNode.clientHeight ===
                               listboxNode.scrollHeight
                             ) {
                               if (!isFetchingMoreOrgs) {
@@ -586,16 +591,15 @@ const createForm = () => {
                                 const isSelected = userList.includes(option);
                                 const newSelectedUsers = isSelected
                                   ? userList.filter(
-                                      (user) => user.userId !== option.userId
-                                    )
+                                    (user) => user.userId !== option.userId
+                                  )
                                   : [...userList, option];
                                 setUserList(newSelectedUsers);
                               }}
                             />
                             <ListItemText
-                              primary={`${option.firstName} ${
-                                option.lastName || " "
-                              }`}
+                              primary={`${option.firstName} ${option.lastName || " "
+                                }`}
                             />
                           </li>
                         )}
@@ -627,72 +631,63 @@ const createForm = () => {
               <Box className="voting-textfield">
                 <FormLabel id="demo-row-radio-buttons-group-label">
                   Poll Options<span style={{ color: "red" }}>*</span>
-                  <TextField
+                  {/* <TextField
                     id="outlined-basic"
                     label="Options"
                     variant="outlined"
                     className="w-86 mt-20"
-                  />
+                  /> */}
                 </FormLabel>
                 <Box>
                   {fields.map((field, index) => (
                     <Box key={field.id} display="flex" alignItems="center">
-                      <TextField
+                      <Box><TextField
                         label={`Option ${field.id}`}
                         value={field.value}
                         onChange={(e) => handleInputChange(field.id, e)}
                         multiline
                         maxRows={4}
                         margin="normal"
-                        style={{ flex: 1, width: "100%" }}
-                      />
-                      {index !== 0 && (
+                        style={{ flex: 1, width: '100%' }}
+                      /></Box>
+                      <Box>
+                      {index >= 2 && (
                         <Button
                           type="button"
                           style={{
-                            width: "10%",
-                            height: "55px",
-                            color: "#0e7a9c",
+                            width: '10%',
+                            height: '55px',
+                            color: '#0e7a9c',
                           }}
                           onClick={() => handleDeleteField(field.id)}
                         >
                           <DeleteOutlineOutlinedIcon
                             style={{
-                              fontSize: "30px",
-                              color: "#0e7a9c",
-                              cursor: "pointer",
+                              fontSize: '30px',
+                              color: '#0e7a9c',
+                              cursor: 'pointer',
                             }}
                           />
                         </Button>
                       )}
-                      {index === 0 && (
+                     </Box>
+                     <Box>
+                      {index === fields.length - 1 && (
                         <Button
                           type="button"
                           style={{
-                            width: "10%",
-                            height: "55px",
-                            color: "#0e7a9c",
+                            width: '10%',
+                            height: '55px',
+                            color: '#0e7a9c',
                           }}
                           onClick={addField}
                         >
                           <AddOutlinedIcon />
                         </Button>
                       )}
+                      </Box>
                     </Box>
                   ))}
-                  {/* <Box className="voting-btn">
-                    <Button
-                      type="button"
-                      style={{
-                        width: "10%",
-                        height: "55px",
-                        color: "#0e7a9c",
-                      }}
-                      onClick={addField}
-                    >
-                      <AddOutlinedIcon />
-                    </Button>
-                  </Box> */}
                 </Box>
               </Box>
             </FormGroup>
