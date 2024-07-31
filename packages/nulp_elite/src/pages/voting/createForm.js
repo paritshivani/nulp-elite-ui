@@ -83,6 +83,10 @@ const createForm = () => {
   );
   const [orgOffset, setOrgOffset] = useState(0);
   const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
+  const currentDateTime = new Date();
+  // Check if startDate is in the past
+  const isStartDateInPast = startDate && new Date(startDate) < currentDateTime;
+
   useEffect(() => {
     const initialOrg = orgList.find((org) => org.orgName === organisationName);
     setSelectedOrg(initialOrg || null);
@@ -223,6 +227,9 @@ const createForm = () => {
 
   const handleUpdate = async () => {
     const pollOptions = fields.map((field) => field.value);
+    const currentDateTime = new Date();
+    const startDateTime = new Date(startDate);
+
     const data = {
       title,
       description,
@@ -231,6 +238,10 @@ const createForm = () => {
       start_date: startDate,
       end_date: endDate,
     };
+    // Check if currentDateTime is greater than startDateTime
+    if (currentDateTime > startDateTime) {
+      delete data.start_date;
+    }
 
     try {
       const response = await fetch(
@@ -433,7 +444,7 @@ const createForm = () => {
               maxRows={4}
               value={pollType}
               onChange={(e) => setPollType(e.target.value)}
-            />
+            />{" "}
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -445,6 +456,7 @@ const createForm = () => {
                   required
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
+                  disabled={isStartDateInPast} // Disable if startDate is in the past
                 />
               </LocalizationProvider>
             </Box>
