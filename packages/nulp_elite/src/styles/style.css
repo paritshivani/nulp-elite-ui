@@ -2931,6 +2931,9 @@ tspan {
 .pt-0 {
   padding-top: 0 !important;
 }
+.pt-12 {
+  padding-top: 12px !important;
+}
 
 .mt-15 {
   margin-top: 15px !important;
