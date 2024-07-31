@@ -243,7 +243,7 @@ const votingDashboard = () => {
     : closedPolls.slice(0, 3);
 
   const handleCardClick = (poll_id) => {
-    navigate(`/webapp/votingDetails?${poll_id}`);
+    navigate(`/webapp/pollDetails?${poll_id}`);
   };
 
   const handleEdit = (event, item) => {
@@ -277,7 +277,8 @@ const votingDashboard = () => {
   return (
     <div>
       <Header />
-      {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      {toasterMessage && <Toast response={toasterMessage} type="success" />}
+
       {contentCreator || admin ? (
         <Container maxWidth="xl" role="main" className="xs-pb-20 lg-pt-20 min-">
           <Box mb={2} mt={2}>

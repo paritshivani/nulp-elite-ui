@@ -705,6 +705,20 @@ const Profile = () => {
                                   }
                                 </Box>
                               </Typography>
+                              <Typography className="h6-title d-flex">
+                                <Box className="h6-title d-flex">
+                                  Organization Name :
+                                  {userData?.result?.response?.rootOrg?.orgName}
+                                </Box>
+                              </Typography>
+                              <Typography className="h6-title d-flex">
+                                <Box className="h6-title d-flex">
+                                  Role :{" "}
+                                  {userData?.result?.response?.roles
+                                    ?.map((role) => role.role)
+                                    .join(", ")}
+                                </Box>
+                              </Typography>
                             </Box>
 
                             <ModeEditIcon

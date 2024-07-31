@@ -219,7 +219,7 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path: routeConfig.ROUTES.POLL.POLLS_DETAILS,
+      path: routeConfig.ROUTES.POLL.POLLS_VIEW_ALL,
       component: pollsDetails,
     },
   ];
