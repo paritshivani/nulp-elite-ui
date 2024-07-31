@@ -381,7 +381,7 @@ const Dashboard = () => {
             responseData.result.framework.categories[0].terms
           ) {
             const domainList =
-              responseData?.result?.framework?.categories[0].terms;
+              responseData?.result?.framework?.categories[3].terms;
             setDomainList(domainList || []);
             setSubCategory(
               responseData?.result?.framework?.categories[1]?.terms || []

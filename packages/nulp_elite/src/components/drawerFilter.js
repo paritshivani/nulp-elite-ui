@@ -370,7 +370,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                   }
                 />
               }
-              label={item.code}
+              label={item.name}
             />
           </ListItem>
         ))}
@@ -548,7 +548,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
                         }
                       />
                     }
-                    label={item.code}
+                    label={item.name}
                   />
                 </ListItem>
               ))}
