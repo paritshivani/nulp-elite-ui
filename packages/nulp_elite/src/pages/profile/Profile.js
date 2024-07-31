@@ -748,7 +748,7 @@ const Profile = () => {
                       </Box>
                     </Box>
                     <Grid container spacing={2}>
-                      <Grid item xs={6} md={6} className="chartOne">
+                      <Grid item xs={6} md={12} lg={6} className="chartOne">
                         {!isCertDataEmpty ? (
                           <>
                             <Box className="h6-title pl-20">
@@ -835,7 +835,7 @@ const Profile = () => {
                         )}
                       </Grid>
 
-                      <Grid item xs={12} md={6} className="chartTwo">
+                      <Grid item xs={12} md={12} lg={6} className="chartTwo">
                         {!isCourseDataEmpty ? (
                           <>
                             <Box className="h6-title  pl-20">
@@ -868,7 +868,6 @@ const Profile = () => {
                               height={200}
                               options={{}}
                             />
-                            <Box className="h6-title">Certiifcates</Box>
                           </>
                         ) : (
                           <>

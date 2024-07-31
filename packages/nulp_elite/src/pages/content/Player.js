@@ -33,7 +33,7 @@ const Player = () => {
   const [contentData, setContentData] = useState();
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
-  const [ previousRoute ,setPreviousRoute] = useState("")
+  const [previousRoute, setPreviousRoute] = useState("");
 
   const [lesson, setLesson] = React.useState();
   const queryString = location.search;
@@ -100,16 +100,16 @@ const Player = () => {
     // }
     // courseRegistryService.lessontracking(data);
   };
-   const handleGoBack = () => {
+  const handleGoBack = () => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes",previousRoutes);
+    console.log("previousRoutes", previousRoutes);
     navigate(previousRoutes);
   };
 
   useEffect(() => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes",previousRoutes);
-    setPreviousRoute(previousRoutes)
+    console.log("previousRoutes", previousRoutes);
+    setPreviousRoute(previousRoutes);
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -220,7 +220,16 @@ const Player = () => {
             </Button>
           </Typography>
         </Box> */}
-        <Box className="lg-mx-90">
+        <Box
+          className="lg-mx-90"
+          style={{
+            position: "relative",
+            paddingBottom: "56.25%", // 16:9 aspect ratio
+            height: 0,
+            overflow: "hidden",
+            maxWidth: "100%",
+          }}
+        >
           {lesson && (
             <SunbirdPlayer
               // {...{ width, height: height - 64 }}
