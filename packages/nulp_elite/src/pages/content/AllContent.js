@@ -102,20 +102,14 @@ const AllContent = () => {
     console.log("Search query:", selectedDomain);
   };
 
-  useEffect(async () => {
-    const uservData = await util.userData();
-    const userDomain = uservData?.data?.result?.response?.framework?.board[0];
-    if (userDomain) {
-      setSelectedDomain(userDomain);
-      setDomainName(userDomain);
-    }
+  useEffect( () => {
     fetchUserData();
     fetchData();
   }, []);
 
   useEffect(() => {
     fetchData();
-  }, [selectedDomain, domainName]);
+  }, [selectedDomain,domainName]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -226,19 +220,25 @@ sessionStorage.setItem('previousRoutes', newPath)
 
   const fetchUserData = async () => {
     try {
-      const uservData = await util.userData();
+   const uservData = await util.userData();
 
-      setOrgId(uservData?.data?.result?.response?.rootOrgId);
-      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-  useEffect(() => {
-    if (orgId && framework) {
-      fetchDomains();
-    }
-  }, [orgId, framework]);
+
+setOrgId(uservData?.data?.result?.response?.rootOrgId);
+setFramework(uservData?.data?.result?.response?.framework?.id[0])
+const userDomain = uservData?.data?.result?.response?.framework?.board[0];
+if (userDomain) {
+       setSelectedDomain(userDomain);
+       setDomainName(userDomain);
+     }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+ useEffect(() => {
+  if (orgId && framework) {
+    fetchDomains();
+  }
+}, [orgId,framework]);
 
   const fetchDomains = async () => {
     setError(null);
