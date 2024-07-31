@@ -621,8 +621,12 @@ const Chat = ({
                     {option.option !== "Other" && (
                       <Tooltip
                         title={option.description}
-                        placement="right-start"
                         arrow
+                        placement="bottom"
+                        disableHoverListener={isMobile}
+                        disableFocusListener={isMobile}
+                        disableTouchListener={!isMobile}
+                        interactive
                       >
                         <IconButton size="small" style={{ marginLeft: "8px" }}>
                           <InfoIcon fontSize="small" />

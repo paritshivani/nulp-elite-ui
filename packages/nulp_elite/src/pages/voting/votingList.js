@@ -80,13 +80,16 @@ const VotingList = () => {
     };
 
     try {
-      const response = await fetch(`${urlConfig.URLS.POLL.LIST}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await fetch(
+        `${urlConfig.URLS.POLL.LIST}?list_page=true`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch polls");
@@ -155,6 +158,8 @@ const VotingList = () => {
                       <TabList
                         onChange={handleTabChange}
                         aria-label="lab API tabs example"
+                        className="jc-center"
+                        style={{ justifyContent: "center" }}
                       >
                         <Tab
                           label="Private Polls"
