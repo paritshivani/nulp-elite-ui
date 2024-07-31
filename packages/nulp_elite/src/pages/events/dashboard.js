@@ -606,10 +606,13 @@ const Dashboard = () => {
                     {
                       scaleType: "band",
                       data: eventNames,
+                      tickSize: 5,
+                      tickRotation: -45,
                     },
                   ]}
                   series={[{ data: eventTopUser }]}
                   height={300}
+                  width={1000}
                   barSize={10}
                 />
                 <Box className="brYlabel">No. of Participants</Box>
@@ -653,7 +656,6 @@ const Dashboard = () => {
                   series={[
                     {
                       data: countOfTopDesignationUser,
-                      label: "No. of Participants",
                     },
                   ]}
                   xAxis={[{ scaleType: "point", data: listOfDesignation }]}
