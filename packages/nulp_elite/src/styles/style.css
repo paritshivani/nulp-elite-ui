@@ -194,8 +194,16 @@ button {
     top: 0;
     left: 0;
     width: 100%;
-    height: 80%;
+    height: 100%;
     border: 0;
+  }
+  .lg-mx-90 > div {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0px;
+    overflow: hidden;
+    max-width: 100%;
+    border-radius: 10px;
   }
 
   .dashboard-cards {
@@ -1309,13 +1317,6 @@ button {
   } */
   .lg-mx-90 {
     margin: 0 140px !important;
-  }
-  .lg-mx-90 > div {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0px;
-    overflow: hidden;
-    max-width: 100%;
   }
 
   .dashboard .MuiFormControl-root {

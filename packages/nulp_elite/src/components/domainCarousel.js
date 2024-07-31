@@ -251,7 +251,7 @@ export default function DomainCarousel({
 
           {isBoxVisible && (
             <Box style={{ position: "relative" }} className="bg-darkblue">
-              <Box className="carousel-bx" style={{ paddingTop: "7px" }}>
+              <Box className="carousel-bx" style={{ paddingTop: "12px" }}>
                 <Container
                   role="main"
                   maxWidth="xl"
