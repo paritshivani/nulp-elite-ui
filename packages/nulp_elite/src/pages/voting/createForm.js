@@ -32,22 +32,41 @@ import { BorderRight } from "@mui/icons-material";
 import * as util from "../../services/utilService";
 import { Autocomplete, ListItemText } from "@mui/material";
 import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
+import dayjs from "dayjs";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state: editData } = location;
+  const [title, setTitle] = useState(editData?.title || "");
+  const [description, setDescription] = useState(editData?.description || "");
+  const [pollType, setPollType] = useState(editData?.pollType || "");
+  const [startDate, setStartDate] = useState(
+    editData?.start_date ? dayjs(editData.start_date) : null
+  );
+  const [endDate, setEndDate] = useState(
+    editData?.end_date ? dayjs(editData.end_date) : null
+  );
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [pollType, setPollType] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [visibility, setVisibility] = useState("public");
-  const [organisationName, setOrganisationName] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [fields, setFields] = useState([{ id: 1, value: "" }]);
+  const [visibility, setVisibility] = useState(
+    editData?.visibility || "public"
+  );
+  const [organisationName, setOrganisationName] = useState(
+    editData?.organisationName || ""
+  );
+  const [selectedOption, setSelectedOption] = useState(
+    editData?.selectedOption || ""
+  );
+  const [userList, setUserList] = useState(editData?.userList || []);
+  const [fields, setFields] = useState(
+    editData?.poll_options?.map((option, index) => ({
+      id: index + 1,
+      value: option,
+    })) || [{ id: 1, value: "" }]
+  );
+
   const urlConfig = require("../../configs/urlConfig.json");
   const userId = util.userId();
   const [userData, setUserData] = useState([]);
@@ -192,9 +211,46 @@ const createForm = () => {
         const responseData = await response.json();
         setToasterMessage("Poll created successfully!");
         setToasterOpen(true);
-        navigate("/webapp/votingList"); // Redirect to success page
+        navigate("/webapp/votingDashboard"); // Redirect to success page
       } else {
         throw new Error("Failed to create poll");
+      }
+    } catch (error) {
+      setToasterMessage(error.message);
+      setToasterOpen(true);
+    }
+  };
+
+  const handleUpdate = async () => {
+    const pollOptions = fields.map((field) => field.value);
+    const data = {
+      title,
+      description,
+      poll_options: pollOptions,
+      poll_type: pollType,
+      start_date: startDate,
+      end_date: endDate,
+    };
+
+    try {
+      const response = await fetch(
+        `${urlConfig.URLS.POLL.UPDATE}?poll_id=${editData.poll_id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        const responseData = await response.json();
+        setToasterMessage("Poll updated successfully!");
+        setToasterOpen(true);
+        navigate("/webapp/votingDashboard");
+      } else {
+        throw new Error("Failed to update poll");
       }
     } catch (error) {
       setToasterMessage(error.message);
@@ -317,7 +373,7 @@ const createForm = () => {
             <PollOutlinedIcon
               style={{ paddingRight: "10px", verticalAlign: "middle" }}
             />
-            Poll Creation
+            {editData ? "Edit Poll" : "Poll Creation"}
           </Box>
 
           <Alert severity="info" className="custom-alert">
@@ -424,11 +480,13 @@ const createForm = () => {
                   value="public"
                   control={<Radio />}
                   label="Public"
+                  disabled={Boolean(editData)}
                 />
                 <FormControlLabel
                   value="private"
                   control={<Radio />}
                   label="Invite only"
+                  disabled={Boolean(editData)}
                 />
               </RadioGroup>
 
@@ -553,9 +611,10 @@ const createForm = () => {
                 </Box>
               )}
             </FormControl>
-            <FormGroup className="d-flex">
+
+            <FormGroup className="d-flex" style={{ flexFlow: "row" }}>
               <Box className="voting-textfield">
-                <FormLabel>
+                <FormLabel id="demo-row-radio-buttons-group-label">
                   Poll Options<span style={{ color: "red" }}>*</span>
                   <TextField
                     id="outlined-basic"
@@ -636,7 +695,7 @@ const createForm = () => {
             textAlign: "right",
           }}
         >
-          <Button
+          {/* <Button
             type="button"
             className="custom-btn-primary"
             style={{ width: "10%" }}
@@ -644,6 +703,15 @@ const createForm = () => {
             disabled={!isFormValid()}
           >
             Submit
+          </Button> */}
+          <Button
+            type="button"
+            className="custom-btn-primary"
+            style={{ width: "10%" }}
+            onClick={editData ? handleUpdate : handleSubmit}
+            disabled={!isFormValid()}
+          >
+            {editData ? "Update" : "Create"}
           </Button>
         </Box>
       </Container>

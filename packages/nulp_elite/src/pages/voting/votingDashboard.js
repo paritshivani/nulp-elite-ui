@@ -38,6 +38,7 @@ import {
 const urlConfig = require("../../configs/urlConfig.json");
 import { useNavigate } from "react-router-dom";
 import ToasterCommon from "../ToasterCommon";
+import * as util from "../../services/utilService";
 
 const votingDashboard = () => {
   const { t } = useTranslation();
@@ -67,7 +68,8 @@ const votingDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const [timeDifference, setTimeDifference] = useState(0);
-
+  const userId = util.userId();
+  const [creatorId, setCreatorId] = useState("");
   const handleViewAll = (polls, type) => {
     navigate("/webapp/pollsDetails", { state: { polls, type } });
   };
@@ -81,6 +83,7 @@ const votingDashboard = () => {
           status: filters.status,
           from_date: filters.selectedStartDate,
           to_date: filters.selectedEndDate,
+          created_by: creatorId,
         },
         search: filters.searchTerm || "",
         sort_by: {
@@ -115,9 +118,24 @@ const votingDashboard = () => {
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
+    const userData = await util.userData();
+    const roleNames =
+      userData?.data?.result?.response?.roles.map((role) => role.role) || [];
+    // Check for admin roles
+    const isAdmin =
+      roleNames.includes("SYSTEM_ADMINISTRATION") ||
+      roleNames.includes("ORG_ADMIN");
+    // Check for content creator role
+    const isContentCreator = roleNames.includes("CONTENT_CREATOR");
+    console.log("-----------rrrrrrrrrrrrrr", isAdmin, isContentCreator);
+    if (isContentCreator) {
+      setCreatorId(userId);
+    } else {
+      setCreatorId("");
+    }
     fetchPolls();
-  }, []);
+  }, [userId]);
 
   const handleOpenModal = async (pollId, event) => {
     event.stopPropagation();
@@ -132,7 +150,6 @@ const votingDashboard = () => {
       console.error("Error fetching poll", error);
     }
   };
-  console.log(pieData, "pieData");
   const handleCloseModal = (event) => {
     event.stopPropagation();
     setOpenModal(false);

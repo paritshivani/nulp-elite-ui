@@ -422,14 +422,14 @@
       "GET_COUNT": "/event/event_count",
       "TOP_TRENDING_EVENT": "/event/get_top_trending",
       "REGISTER": "/event/registration",
-      "REPORT": "/event/reports"
+      "REPORT": "event/reports"
     },
     "POLL": {
       "CREATE": "/polls/create",
       "LIST": "/polls/list",
       "UPDATE": "/polls/update",
       "GET_POLL": "/polls/get_poll",
-      "DELETE_POLL":"/polls/delete",
+      "DELETE_POLL": "/polls/delete",
       "GET_USER_POLL": "/polls/user/get_user_poll",
       "USER_CREATE": "/polls/user/create",
       "USER_UPDATE": "/polls/user/update"
