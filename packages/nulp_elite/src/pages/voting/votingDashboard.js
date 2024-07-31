@@ -329,8 +329,8 @@ const votingDashboard = () => {
         </Box>
 
         <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleLivePolls.length >= 1 ? (
-            visibleLivePolls.map((items, index) => (
+          {visibleLivePolls && visibleLivePolls?.length >= 1 ? (
+            visibleLivePolls?.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -486,8 +486,8 @@ const votingDashboard = () => {
           )}
         </Box>
         <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleDraftPolls.length>=1 ? (
-            visibleDraftPolls.map((items, index) => (
+          {visibleDraftPolls && visibleDraftPolls?.length>=1 ? (
+            visibleDraftPolls?.map((items, index) => (
               <Grid
                 item
                 xs={12}
@@ -644,8 +644,8 @@ const votingDashboard = () => {
           )}
         </Box>
         <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-          {visibleClosedPolls.length>=1 ? (
-            visibleClosedPolls.map((items, index) => (
+          {visibleClosedPolls && visibleClosedPolls?.length>=1 ? (
+            visibleClosedPolls?.map((items, index) => (
               <Grid
                 item
                 xs={12}
