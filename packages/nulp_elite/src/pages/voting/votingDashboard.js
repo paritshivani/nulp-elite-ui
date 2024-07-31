@@ -180,6 +180,7 @@ const votingDashboard = () => {
   };
 
   useEffect(() => {
+    console.log("set--------", searchTerm, selectedStartDate, selectedEndDate);
     setFilters({
       searchTerm,
       selectedStartDate: selectedStartDate
@@ -269,7 +270,8 @@ const votingDashboard = () => {
       setContentCreator(true);
       setCreatorId(userId);
     }
-  }, [pieData, userData]);
+  }, [pieData, userData, filters]);
+
   const hasPollData = pieData.some((d) => d.count > 0);
 
   return (
@@ -360,8 +362,8 @@ const votingDashboard = () => {
           </Box>
 
           <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-            {visibleLivePolls &&
-              visibleLivePolls.map((items, index) => (
+            {visibleLivePolls && visibleLivePolls?.length >= 1 ? (
+              visibleLivePolls?.map((items, index) => (
                 <Grid
                   item
                   xs={12}
@@ -428,6 +430,18 @@ const votingDashboard = () => {
                           View Stats{" "}
                           <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
+                        {admin && (
+                          <Button
+                            type="button"
+                            className="custom-btn-primary ml-20 lg-mt-20"
+                            onClick={(event) =>
+                              deletePoll(items.poll_id, event)
+                            }
+                          >
+                            Delete{" "}
+                            <ArrowForwardIosOutlinedIcon className="fs-12" />
+                          </Button>
+                        )}
                       </Box>
 
                       <Box className="xs-hide">
@@ -481,7 +495,19 @@ const votingDashboard = () => {
                     </Box>
                   </Card>
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={12}
+                style={{ textAlign: "center" }}
+                className="h2-title mt-30"
+              >
+                <Box>It looks like there are no live polls at the moment.</Box>
+              </Grid>
+            )}
           </Grid>
           <Box
             display="flex"
@@ -507,8 +533,8 @@ const votingDashboard = () => {
             )}
           </Box>
           <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-            {visibleDraftPolls &&
-              visibleDraftPolls.map((items, index) => (
+            {visibleDraftPolls && visibleDraftPolls?.length >= 1 ? (
+              visibleDraftPolls?.map((items, index) => (
                 <Grid
                   item
                   xs={12}
@@ -632,7 +658,19 @@ const votingDashboard = () => {
                     </Box>
                   </Card>
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={12}
+                style={{ textAlign: "center" }}
+                className="h2-title mt-30"
+              >
+                <Box>It looks like there are no Draft polls at the moment.</Box>
+              </Grid>
+            )}
           </Grid>
           <Box
             display="flex"
@@ -658,8 +696,8 @@ const votingDashboard = () => {
             )}
           </Box>
           <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-            {visibleClosedPolls &&
-              visibleClosedPolls.map((items, index) => (
+            {visibleClosedPolls && visibleClosedPolls?.length >= 1 ? (
+              visibleClosedPolls?.map((items, index) => (
                 <Grid
                   item
                   xs={12}
@@ -778,7 +816,21 @@ const votingDashboard = () => {
                     </Box>
                   </Card>
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={12}
+                style={{ textAlign: "center" }}
+                className="h2-title mt-30"
+              >
+                <Box>
+                  It looks like there are no Closed polls at the moment.
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </Container>
       ) : (
