@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import { useTranslation } from "react-i18next";
 import { Button, Card, CardContent } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
@@ -33,13 +32,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 const pollsDetailes = () => {
-  const { t } = useTranslation();
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const [signlePOll, setSinglePoll] = useState([]);
   const [pollResult, setPollResult] = useState([]);
   const { polls, type } = location.state || { polls: [], type: '' };
-  const [pieData,setPieData] = useState([]);
+  const [pieData, setPieData] = useState([]);
   const shareUrl = window.location.href;
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -78,7 +76,7 @@ const pollsDetailes = () => {
     navigate('/webapp/votingDashboard');
   };
 
-  const deletePoll = async (pollId,event) => {
+  const deletePoll = async (pollId, event) => {
     event.stopPropagation();
     try {
       const response = await axios.delete(`${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`);
@@ -99,12 +97,24 @@ const pollsDetailes = () => {
 
   const getProgressValue = (count) =>
     totalVotes > 0 ? (count / totalVotes) * 100 : 0;
-  console.log(getProgressValue,'getProgressValue');
+  console.log(getProgressValue, 'getProgressValue');
 
   useEffect(() => {
     getProgressValue();
   }, [pieData]);
   const hasPollData = pieData.some((d) => d.count > 0);
+
+  const openSocialMediaLink = (event, url) => {
+    event.stopPropagation();
+    event.preventDefault();
+    window.open(url, "_blank");
+  };
+
+  const handleEdit = (event, item) => {
+    event.stopPropagation();
+    navigate("/webapp/createform", { state: item });
+  };
+
   return (
     <div>
       <Header />
@@ -189,13 +199,14 @@ const pollsDetailes = () => {
                       <Box className="voting-text lg-mt-30">
                         {type === 'Draft' ? (
                           <Box>
-                            <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
+                            <Button type="button" className="custom-btn-primary ml-20 lg-mt-20" 
+                            onClick={(event) => handleEdit(event, items)}>
                               Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={(event) => deletePoll(items.poll_id,event)}
+                              onClick={(event) => deletePoll(items.poll_id, event)}
                             >
                               Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
@@ -205,7 +216,7 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={(event) => handleOpenModal(items.poll_id,event)}
+                              onClick={(event) => handleOpenModal(items.poll_id, event)}
                             >
                               View Stats <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
@@ -215,25 +226,55 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={(event) => handleOpenModal(items.poll_id,event)}
+                              onClick={(event) => handleOpenModal(items.poll_id, event)}
                             >
                               View Results <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
                         ) : null}
                         <Box className="xs-hide">
-                          <FacebookShareButton className="pr-5">
+                          <FacebookShareButton
+                            url={shareUrl}
+                            className="pr-5"
+                            quote={`Check out this poll: ${items.title}`}
+                            onClick={(event) => {
+                              openSocialMediaLink(event, shareUrl);
+                            }}
+                          >
                             <FacebookIcon url={shareUrl} size={32} round={true} />
                           </FacebookShareButton>
-                          <WhatsappShareButton className="pr-5">
-                            <WhatsappIcon url={shareUrl} size={32} round={true} />
+                          <WhatsappShareButton
+                            url={shareUrl}
+                            title={`Check out this poll: ${items.title}`}
+                            separator=":: "
+                            className="pr-5"
+                            onClick={(event) =>
+                              openSocialMediaLink(event, shareUrl)
+                            }
+                          >
+                            <WhatsappIcon size={32} round />
                           </WhatsappShareButton>
-                          <LinkedinShareButton className="pr-5">
-                            <LinkedinIcon url={shareUrl} size={32} round={true} />
+                          <LinkedinShareButton
+                            url={shareUrl}
+                            className="pr-5"
+                            title={items.title}
+                            summary={`Participate in this poll: ${items.title}`}
+                            onClick={(event) => {
+                              openSocialMediaLink(event, shareUrl);
+                            }}
+                          >
+                            <LinkedinIcon size={32} round={true} />
                           </LinkedinShareButton>
-                          <TwitterShareButton url={shareUrl} className="pr-5">
+                          <TwitterShareButton
+                            url={shareUrl}
+                            className="pr-5"
+                            title={`Check out this poll: ${items.title}`}
+                            onClick={(event) => {
+                              openSocialMediaLink(event, shareUrl);
+                            }}
+                          >
                             <img
-                              src={require('../../assets/twitter.png')}
+                              src={require("../../assets/twitter.png")}
                               alt="Twitter"
                               style={{ width: 32, height: 32 }}
                             />
@@ -286,7 +327,7 @@ const pollsDetailes = () => {
               >
                 <Box sx={{ marginLeft: '25%' }}>
                   {hasPollData ? (
-                     <PieChart
+                    <PieChart
                       series={[
                         {
                           data: pieData.map((d) => ({
@@ -295,7 +336,7 @@ const pollsDetailes = () => {
                           })),
                           arcLabel: (item) => (
                             <>
-                            {item.id}
+                              {item.id}
                               <br />
                               ({getProgressValue(item.value)})
                             </>
@@ -342,7 +383,7 @@ const pollsDetailes = () => {
                     <TodayOutlinedIcon className="fs-14 pr-5" /> {formatDate(signlePOll.end_date)}
                   </Box>
                   <Box className="mt-9 h5-title">
-                    Total Votes: { totalVotes }
+                    Total Votes: {totalVotes}
                   </Box>
                 </Box>
               </Grid>
