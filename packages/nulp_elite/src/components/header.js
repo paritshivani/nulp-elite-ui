@@ -37,6 +37,9 @@ import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import Grid from "@mui/material/Grid";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Collapse, List } from "@mui/material";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -54,6 +57,7 @@ function Header({ globalSearchQuery }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElNotify, setAnchorElNotify] = React.useState(null);
+  const [anchorElPoll, setAnchorElPoll] = React.useState(null);
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const navigate = useNavigate();
@@ -61,7 +65,10 @@ function Header({ globalSearchQuery }) {
   const [userData, setUserData] = useState(null);
   const [roles, setRoles] = useState([]);
   const [orgId, setOrgId] = useState();
-
+  const [openSubmenu, setOpenSubmenu] = useState(false);
+  const handleSubmenuToggle = () => {
+    setOpenSubmenu(!openSubmenu);
+  };
   // Retrieve roles from sessionStorage
   const rolesJson = sessionStorage.getItem("roles");
   useEffect(() => {
@@ -90,6 +97,7 @@ function Header({ globalSearchQuery }) {
   const handleCloseNotifyMenu = () => {
     setAnchorElNotify(null);
   };
+
   const [activePath, setActivePath] = useState(location.pathname);
 
   useEffect(() => {
@@ -578,27 +586,58 @@ function Header({ globalSearchQuery }) {
                   {t("HELP")}
                 </Link>
               </MenuItem>
+              <MenuItem
+                onClick={handleSubmenuToggle}
+                style={{ background: "#f9fafc", color: "#1976d2" }}
+                className="lg-hide"
+              >
+                Poll
+                <Link primary="Submenu" />
+                {openSubmenu ? <ExpandLess /> : <ExpandMore />}
+              </MenuItem>
+              <Collapse
+                in={openSubmenu}
+                timeout="auto"
+                unmountOnExit
+                className="lg-hide"
+              >
+                <List
+                  component="div"
+                  disablePadding
+                  style={{ background: "#f9fafc" }}
+                >
+                  <MenuItem className="ml-10" style={{ background: "#f9fafc" }}>
+                    <Link
+                      href={routeConfig.ROUTES.VOTING.VOTING_FORM}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("CREATE_POLL")}
+                    </Link>
+                  </MenuItem>
+                  <MenuItem className="ml-10">
+                    <Link
+                      href={routeConfig.ROUTES.VOTING.VOTING_LIST}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("POLL_LIST")}
+                    </Link>
+                  </MenuItem>
+                  <MenuItem className="ml-10">
+                    <Link
+                      href={routeConfig.ROUTES.VOTING.VOTING_DASHBOARD}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("DASHBOARD")}
+                    </Link>
+                  </MenuItem>
+                </List>
+              </Collapse>
               <MenuItem>
                 <Link href="/logoff" underline="none" textAlign="center">
                   {t("LOGOUT")}
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  href={routeConfig.ROUTES.VOTING.VOTING_FORM}
-                  underline="none"
-                  textAlign="center"
-                >
-                  {t("CREATE_FORM")}
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  href={routeConfig.ROUTES.VOTING.VOTING_LIST}
-                  underline="none"
-                  textAlign="center"
-                >
-                  {t("VOTING_LIST")}
                 </Link>
               </MenuItem>
             </Menu>
@@ -885,27 +924,61 @@ function Header({ globalSearchQuery }) {
                       {t("HELP")}
                     </Link>
                   </MenuItem>
+
+                  {/* <NotificationsNoneOutlinedIcon />
+                    ekta */}
+                  <MenuItem
+                    onClick={handleSubmenuToggle}
+                    style={{ background: "#f9fafc", color: "#1976d2" }}
+                  >
+                    Poll
+                    <Link primary="Submenu" />
+                    {openSubmenu ? <ExpandLess /> : <ExpandMore />}
+                  </MenuItem>
+                  <Collapse
+                    in={openSubmenu}
+                    timeout="auto"
+                    unmountOnExit
+                    style={{ background: "#f9fafc" }}
+                  >
+                    <List
+                      component="div"
+                      disablePadding
+                      style={{ background: "#f9fafc" }}
+                    >
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.VOTING.VOTING_FORM}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("CREATE_POLL")}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.VOTING.VOTING_LIST}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("POLL_LIST")}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.VOTING.VOTING_DASHBOARD}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("DASHBOARD")}
+                        </Link>
+                      </MenuItem>
+                    </List>
+                  </Collapse>
+
                   <MenuItem>
                     <Link href="/logoff" underline="none" textAlign="center">
                       {t("LOGOUT")}
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.VOTING.VOTING_FORM}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("CREATE_FORM")}
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.VOTING.VOTING_LIST}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("VOTING_LIST")}
                     </Link>
                   </MenuItem>
                 </Menu>

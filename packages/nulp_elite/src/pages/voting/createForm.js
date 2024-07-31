@@ -486,7 +486,7 @@ const createForm = () => {
                       name="nested-radio-buttons-group"
                       value={selectedOption}
                       onChange={handleSelectChange}
-                      className="my-15"
+                      className="mt-15"
                     >
                       <FormControlLabel
                         value="option1"
@@ -553,17 +553,15 @@ const createForm = () => {
                 </Box>
               )}
             </FormControl>
-            <FormGroup className="d-flex" style={{ flexFlow: "row" }}>
-              <Box className="voting-textfield mt-10">
-                <FormLabel id="demo-row-radio-buttons-group-label">
+            <FormGroup className="d-flex">
+              <Box className="voting-textfield">
+                <FormLabel>
                   Poll Options<span style={{ color: "red" }}>*</span>
                   <TextField
-                    label="Poll Options"
-                    value=""
-                    multiline
-                    maxRows={4}
-                    margin="normal"
-                    style={{ flex: 1, width: "100%" }}
+                    id="outlined-basic"
+                    label="Options"
+                    variant="outlined"
+                    className="w-86 mt-20"
                   />
                 </FormLabel>
                 <Box>
