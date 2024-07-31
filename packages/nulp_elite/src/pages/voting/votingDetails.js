@@ -202,11 +202,11 @@ const VotingDetails = () => {
   useEffect(() => {
     countUserVoteTime();
   }, [userVote]);
-  
+
   const openSocialMediaLink = (event, url) => {
     event.stopPropagation();
     event.preventDefault();
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
 
   return (
@@ -332,12 +332,12 @@ const VotingDetails = () => {
                           className={`voting-option my-10 progress${index}`}
                         >
                           <Grid container spacing={2}>
-                            <Grid item xs={3} md={4} lg={2}>
+                            <Grid item xs={3} md={4} lg={4}>
                               <span className="h3-custom-title">
                                 {option.poll_option}
                               </span>
                             </Grid>
-                            <Grid item xs={9} md={4} lg={10}>
+                            <Grid item xs={9} md={4} lg={8}>
                               <LinearProgressWithLabel
                                 value={getProgressValue(option.count)}
                               />
@@ -507,12 +507,12 @@ const VotingDetails = () => {
                           className={`voting-option my-10 progress${index}`}
                         >
                           <Grid container spacing={2}>
-                            <Grid item xs={3} md={4} lg={2}>
+                            <Grid item xs={3} md={4} lg={4}>
                               <span className="h3-custom-title">
                                 {option.poll_option}
                               </span>
                             </Grid>
-                            <Grid item xs={8} md={4} lg={10}>
+                            <Grid item xs={8} md={4} lg={8}>
                               <LinearProgressWithLabel
                                 value={getProgressValue(option.count)}
                               />
@@ -538,46 +538,52 @@ const VotingDetails = () => {
               </DialogContent>
             </BootstrapDialog>
             <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
-            <Box className="xs-hide">
-          <FacebookShareButton
-            url={shareUrl}
-            className="pr-5"
-            quote={`Check out this poll: ${poll.title}`}
-            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
-          >
-            <FacebookIcon url={shareUrl} size={32} round={true} />
-          </FacebookShareButton>
-          <WhatsappShareButton
-            url={shareUrl}
-            title={`Check out this poll: ${poll.title}`}
-            separator=":: "
-            className="pr-5"
-            onClick={(event) => openSocialMediaLink(event, shareUrl)}
-          >
-            <WhatsappIcon size={32} round />
-          </WhatsappShareButton>
-          <LinkedinShareButton
-            url={shareUrl}
-            className="pr-5"
-            title={poll.title}
-            summary={`Participate in this poll: ${poll.title}`}
-            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
-          >
-            <LinkedinIcon size={32} round={true} />
-          </LinkedinShareButton>
-          <TwitterShareButton
-            url={shareUrl}
-            className="pr-5"
-            title={`Check out this poll: ${poll.title}`}
-            onClick={(event) => { openSocialMediaLink(event, shareUrl) }}
-          >
-            <img
-              src={require("../../assets/twitter.png")}
-              alt="Twitter"
-              style={{ width: 32, height: 32 }}
-            />
-          </TwitterShareButton>
-        </Box>
+              <Box className="xs-hide">
+                <FacebookShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  quote={`Check out this poll: ${poll.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <FacebookIcon url={shareUrl} size={32} round={true} />
+                </FacebookShareButton>
+                <WhatsappShareButton
+                  url={shareUrl}
+                  title={`Check out this poll: ${poll.title}`}
+                  separator=":: "
+                  className="pr-5"
+                  onClick={(event) => openSocialMediaLink(event, shareUrl)}
+                >
+                  <WhatsappIcon size={32} round />
+                </WhatsappShareButton>
+                <LinkedinShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  title={poll.title}
+                  summary={`Participate in this poll: ${poll.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <LinkedinIcon size={32} round={true} />
+                </LinkedinShareButton>
+                <TwitterShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  title={`Check out this poll: ${poll.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <img
+                    src={require("../../assets/twitter.png")}
+                    alt="Twitter"
+                    style={{ width: 32, height: 32 }}
+                  />
+                </TwitterShareButton>
+              </Box>
             </Grid>
             {(userVote?.length > 0 || isVotingEnded) && (
               <Box className="lg-hide xs-hide" sx={{ width: "100%" }}>
@@ -589,12 +595,12 @@ const VotingDetails = () => {
                       className={`voting-option my-10 progress${index}`}
                     >
                       <Grid container spacing={2}>
-                        <Grid item xs={3} md={4} lg={2}>
+                        <Grid item xs={3} md={4} lg={4}>
                           <span className="h3-custom-title">
                             {option.poll_option}
                           </span>
                         </Grid>
-                        <Grid item xs={9} md={4} lg={10}>
+                        <Grid item xs={9} md={4} lg={8}>
                           <LinearProgressWithLabel
                             value={getProgressValue(option.count)}
                           />
