@@ -65,8 +65,8 @@ const votingDashboard = () => {
     selectedStartDate: null,
     selectedEndDate: null,
   });
-  const [errormessage,setErrormessage] = useState("");
-  const [successMessage,setSuccessMessage] = useState("");
+  const [errormessage, setErrormessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
@@ -76,6 +76,17 @@ const votingDashboard = () => {
   const handleViewAll = (polls, type) => {
     navigate("/webapp/pollsDetails", { state: { polls, type } });
   };
+  // const userData = await util.userData();
+  // const roleNames =
+  //   userData?.data?.result?.response?.roles.map((role) => role.role) || [];
+  // // Check for admin roles
+  // const isAdmin =
+  //   roleNames.includes("SYSTEM_ADMINISTRATION") ||
+  //   roleNames.includes("ORG_ADMIN");
+  // // Check for content creator role
+  // const isContentCreator = roleNames.includes("CONTENT_CREATOR");
+  console.log("------------------------", userId);
+  // setCreatorId(userId);
 
   const fetchPolls = async () => {
     setIsLoading(true);
@@ -116,29 +127,10 @@ const votingDashboard = () => {
       setPollResult(result.result.data);
     } catch (error) {
       setError(error.message);
-      
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(async () => {
-    const userData = await util.userData();
-    const roleNames =
-      userData?.data?.result?.response?.roles.map((role) => role.role) || [];
-    // Check for admin roles
-    const isAdmin =
-      roleNames.includes("SYSTEM_ADMINISTRATION") ||
-      roleNames.includes("ORG_ADMIN");
-    // Check for content creator role
-    const isContentCreator = roleNames.includes("CONTENT_CREATOR");
-    if (isContentCreator) {
-      setCreatorId(userId);
-    } else {
-      setCreatorId("");
-    }
-    fetchPolls();
-  }, [userId]);
 
   const handleOpenModal = async (pollId, event) => {
     event.stopPropagation();
@@ -182,7 +174,7 @@ const votingDashboard = () => {
 
   useEffect(() => {
     fetchPolls();
-  }, [filters, currentPage]);
+  }, [userId, filters, currentPage]);
 
   const handleClearAll = () => {
     setSearchTerm("");
@@ -204,7 +196,7 @@ const votingDashboard = () => {
       );
       if (response.status === 200) {
         // console.log(response.params.status);
-         setToasterMessage('Poll deleted successfully');
+        setToasterMessage("Poll deleted successfully");
         fetchPolls();
         setPoll((prevPolls) => {
           const updatedPolls = prevPolls.filter(

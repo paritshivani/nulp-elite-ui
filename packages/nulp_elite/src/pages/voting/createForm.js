@@ -6,7 +6,6 @@ import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
 import NoResult from "pages/content/noResultFound";
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
@@ -220,7 +219,7 @@ const createForm = () => {
         throw new Error("Failed to create poll");
       }
     } catch (error) {
-      setToasterMessage(error.message);
+      // setToasterMessage(error.message);
       setToasterOpen(true);
     }
   };
@@ -264,7 +263,7 @@ const createForm = () => {
         throw new Error("Failed to update poll");
       }
     } catch (error) {
-      setToasterMessage(error.message);
+      // setToasterMessage(error.message);
       setToasterOpen(true);
     }
   };
