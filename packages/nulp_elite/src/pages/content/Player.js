@@ -33,8 +33,9 @@ const Player = () => {
   const [contentData, setContentData] = useState();
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
-  const [ previousRoute ,setPreviousRoute] = useState("")
-
+  const [previousRoute, setPreviousRoute] = useState("");
+  const [userFirstName, setuserFirstName] = useState("");
+  const [userLastName, setuserLastName] = useState("");
   const [lesson, setLesson] = React.useState();
   const queryString = location.search;
   const contentId = queryString.startsWith("?do_")
@@ -51,65 +52,43 @@ const Player = () => {
       navigate(-1);
     }
   };
+  const fetchUserData = async () => {
+    try {
+      const userData = await util.userData();
+      console.log("user name ----");
+      setuserFirstName(userData?.data?.result?.response?.firstName);
+      setuserLastName(userData?.data?.result?.response?.lastName);
+      if (userDomain) {
+        setSelectedDomain(userDomain);
+        setDomainName(userDomain);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
   const handleTrackData = async (
     { score, trackData, attempts, ...props },
     playerType = "quml"
   ) => {
-    // let data = {};
-    // const programData = await subjectListRegistryService.getProgramId();
-    // if (playerType === "quml") {
-    //   const newFormatData = trackData.reduce((oldData, newObj) => {
-    //     const dataExist = oldData.findIndex(
-    //       (e) => e.sectionId === newObj["item"]["sectionId"]
-    //     );
-    //     if (dataExist >= 0) {
-    //       oldData[dataExist]["data"].push(newObj);
-    //     } else {
-    //       oldData = [
-    //         ...oldData,
-    //         {
-    //           sectionId: newObj["item"]["sectionId"],
-    //           sectionName: newObj["sectionName"] ? newObj["sectionName"] : "",
-    //           data: [newObj],
-    //         },
-    //       ];
-    //     }
-    //     return oldData;
-    //   }, []);
-    //   data = {
-    //     courseId: id,
-    //     moduleId: id,
-    //     lessonId: id,
-    //     status: "completed",
-    //     score: score,
-    //     scoreDetails: JSON.stringify(newFormatData),
-    //     program: programData?.programId,
-    //     subject: lesson?.subject?.join(","),
-    //   };
-    // } else {
-    //   data = {
-    //     courseId: id,
-    //     moduleId: lessonId?.parent,
-    //     lessonId: lessonId?.identifier,
-    //     status: "completed",
-    //     score: score ? score : 0,
-    //     scoreDetails: JSON.stringify(props),
-    //     program: programData?.programId,
-    //     subject: lessons?.subject?.join(","),
-    //   };
-    // }
-    // courseRegistryService.lessontracking(data);
+    console.log(
+      "handleTrackData----",
+      score,
+      trackData,
+      attempts,
+      ...props,
+      playerType
+    );
   };
-   const handleGoBack = () => {
+  const handleGoBack = () => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes",previousRoutes);
+    console.log("previousRoutes", previousRoutes);
     navigate(previousRoutes);
   };
 
   useEffect(() => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes",previousRoutes);
-    setPreviousRoute(previousRoutes)
+    console.log("previousRoutes", previousRoutes);
+    setPreviousRoute(previousRoutes);
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/content/v1/read/${contentId}`, {
@@ -129,6 +108,7 @@ const Player = () => {
       }
     };
     fetchData();
+    fetchUserData();
   }, []);
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -144,21 +124,21 @@ const Player = () => {
       <Header />
       <Container maxWidth="xl" role="main" className="container-pb player">
         <Grid container spacing={2}>
+          <Link
+            underline="hover"
+            onClick={handleGoBack}
+            color="#004367"
+            href={previousRoute}
+            className="viewAll mr-17"
+          >
+            {t("BACK")}
+          </Link>
           <Grid item xs={8}>
             {lesson && (
               <Breadcrumbs
                 aria-label="breadcrumb"
                 className="h6-title mt-15 pl-18"
               >
-                <Link
-                  underline="hover"
-                  style={{ maxHeight: "inherit" }}
-                  onClick={handleGoBack}
-                  color="#004367"
-                  href={previousRoute}
-                >
-                  {t("BACK")}
-                </Link>
                 <Link
                   underline="hover"
                   href=""
@@ -181,6 +161,88 @@ const Player = () => {
             >
               <ShareOutlinedIcon />
             </Link>
+          </Grid>
+          <Grid>
+            {lesson &&
+              (lesson.board ||
+                lesson.se_boards ||
+                lesson.gradeLevel ||
+                lesson.se_gradeLevels) && (
+                <Box>
+                  <Typography
+                    className="h6-title"
+                    style={{ display: "inline-block" }}
+                  >
+                    {t("CONTENT_TAGS")}:{" "}
+                  </Typography>
+
+                  {
+                    lesson && lesson.board && (
+                      // && lesson.board.map((item, index) => (
+                      <Button
+                        key={`board`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {lesson.board}
+                      </Button>
+                    )
+                    // ))
+                  }
+                  {lesson &&
+                    lesson.se_boards &&
+                    lesson.se_boards.map((item, index) => (
+                      <Button
+                        key={`se_boards-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {lesson &&
+                    lesson.gradeLevel &&
+                    lesson.gradeLevel.map((item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {lesson.se_gradeLevels &&
+                    lesson.se_gradeLevels.map((item, index) => (
+                      <Button
+                        key={`se_gradeLevels-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                </Box>
+              )}
           </Grid>
         </Grid>
         {/* <Box>
@@ -224,8 +286,8 @@ const Player = () => {
               // handleExitButton={handleExitButton}
               {...lesson}
               userData={{
-                firstName: "Shivani",
-                lastName: "",
+                firstName: userFirstName || "",
+                lastName: userLastName || "",
               }}
               setTrackData={(data) => {
                 if (
