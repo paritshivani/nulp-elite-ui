@@ -625,15 +625,22 @@ function Header({ globalSearchQuery }) {
                   disablePadding
                   style={{ background: "#f9fafc" }}
                 >
-                  <MenuItem className="ml-10" style={{ background: "#f9fafc" }}>
-                    <Link
-                      href={routeConfig.ROUTES.POLL.POLL_FORM}
-                      underline="none"
-                      textAlign="center"
+                  {roleNames.some((role) =>
+                    ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(role)
+                  ) && (
+                    <MenuItem
+                      className="ml-10"
+                      style={{ background: "#f9fafc" }}
                     >
-                      {t("CREATE_POLL")}
-                    </Link>
-                  </MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.POLL.POLL_FORM}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("CREATE_POLL")}
+                      </Link>
+                    </MenuItem>
+                  )}
                   <MenuItem className="ml-10">
                     <Link
                       href={routeConfig.ROUTES.POLL.POLL_LIST}
@@ -643,15 +650,19 @@ function Header({ globalSearchQuery }) {
                       {t("POLL_LIST")}
                     </Link>
                   </MenuItem>
-                  <MenuItem className="ml-10">
-                    <Link
-                      href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("DASHBOARD")}
-                    </Link>
-                  </MenuItem>
+                  {roleNames.some((role) =>
+                    ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(role)
+                  ) && (
+                    <MenuItem className="ml-10">
+                      <Link
+                        href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("DASHBOARD")}
+                      </Link>
+                    </MenuItem>
+                  )}
                 </List>
               </Collapse>
               <MenuItem>
@@ -946,6 +957,7 @@ function Header({ globalSearchQuery }) {
 
                   {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
+
                   <MenuItem
                     onClick={handleSubmenuToggle}
                     style={{ background: "#f9fafc", color: "#1976d2" }}
@@ -965,15 +977,21 @@ function Header({ globalSearchQuery }) {
                       disablePadding
                       style={{ background: "#f9fafc" }}
                     >
-                      <MenuItem className="ml-10">
-                        <Link
-                          href={routeConfig.ROUTES.POLL.POLL_FORM}
-                          underline="none"
-                          textAlign="center"
-                        >
-                          {t("CREATE_POLL")}
-                        </Link>
-                      </MenuItem>
+                      {roleNames.some((role) =>
+                        ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
+                          role
+                        )
+                      ) && (
+                        <MenuItem className="ml-10">
+                          <Link
+                            href={routeConfig.ROUTES.POLL.POLL_FORM}
+                            underline="none"
+                            textAlign="center"
+                          >
+                            {t("CREATE_POLL")}
+                          </Link>
+                        </MenuItem>
+                      )}
                       <MenuItem className="ml-10">
                         <Link
                           href={routeConfig.ROUTES.POLL.POLL_LIST}
@@ -983,15 +1001,21 @@ function Header({ globalSearchQuery }) {
                           {t("POLL_LIST")}
                         </Link>
                       </MenuItem>
-                      <MenuItem className="ml-10">
-                        <Link
-                          href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
-                          underline="none"
-                          textAlign="center"
-                        >
-                          {t("DASHBOARD")}
-                        </Link>
-                      </MenuItem>
+                      {roleNames.some((role) =>
+                        ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
+                          role
+                        )
+                      ) && (
+                        <MenuItem className="ml-10">
+                          <Link
+                            href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                            underline="none"
+                            textAlign="center"
+                          >
+                            {t("DASHBOARD")}
+                          </Link>
+                        </MenuItem>
+                      )}
                     </List>
                   </Collapse>
 

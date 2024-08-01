@@ -17,292 +17,114 @@
         "action": "list",
         "fields": [
           {
-            "identifier": "nulp_board_nulp",
-            "code": "nulp",
-            "name": "Nulp",
+            "identifier": "nulp-domain_board_solidwastemanagement",
+            "code": "solidwastemanagement",
+            "translations": null,
+            "name": "Solid Waste Management",
+            "description": "Solid Waste Management",
             "index": 1,
+            "category": "board",
             "status": "Live",
-            "image": "/admin.png"
+            "image": "/swm.png"
           },
           {
             "identifier": "nulp-domain_board_environmentandclimate",
             "code": "environmentandclimate",
+            "translations": null,
             "name": "Environment and Climate",
-            "index": 1,
+            "description": "Environment and Climate",
+            "index": 2,
+            "category": "board",
             "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp-domain_board_solidwastemanagement",
-            "code":  "solidwastemanagement",
-            "name": "Solid Waste Management",
-            "index": 1,
-            "status": "Live",
-            "image": "/admin.png"
+            "image": "/uran.png"
           },
           {
             "identifier": "nulp-domain_board_wash",
             "code": "wash",
+            "translations": null,
             "name": "WASH - Water, Sanitation and Hygiene",
-            "index": 1,
+            "description": "WASH - Water, Sanitation and Hygiene",
+            "index": 3,
+            "category": "board",
+            "status": "Live",
+            "image": "/water.png"
+          },
+          {
+            "identifier": "nulp-domain_board_urbanplanningandhousing",
+            "code": "urbanplanningandhousing",
+            "translations": null,
+            "name": "Urban Planning and Housing",
+            "description": "Urban Planning and Housing",
+            "index": 4,
+            "category": "board",
+            "status": "Live",
+            "image": "/building.png"
+          },
+          {
+            "identifier": "nulp-domain_board_transportandmobility",
+            "code": "transportandmobility",
+            "translations": null,
+            "name": "Transport and Mobility",
+            "description": "Transport and Mobility",
+            "index": 5,
+            "category": "board",
+            "status": "Live",
+            "image": "/mobility.png"
+          },
+          {
+            "identifier": "nulp-domain_board_socialaspects",
+            "code": "socialaspects",
+            "translations": null,
+            "name": "Social Aspects",
+            "description": "Social Aspects",
+            "index": 6,
+            "category": "board",
+            "status": "Live",
+            "image": "/social.png"
+          },
+          {
+            "identifier": "nulp-domain_board_municipalfinance",
+            "code": "municipalfinance",
+            "translations": null,
+            "name": "Municipal Finance",
+            "description": "Municipal Finance",
+            "index": 7,
+            "category": "board",
+            "status": "Live",
+            "image": "/gov.png"
+          },
+          {
+            "identifier": "nulp-domain_board_generaladministration",
+            "code": "generaladministration",
+            "translations": null,
+            "name": "General Administration",
+            "description": "General Administration",
+            "index": 8,
+            "category": "board",
+            "status": "Live",
+            "image": "/health.png"
+          },
+          {
+            "identifier": "nulp-domain_board_governanceandurbanmanagement",
+            "code": "governanceandurbanmanagement",
+            "translations": null,
+            "name": "Governance and Urban Management",
+            "description": "Governance and Urban Management",
+            "index": 9,
+            "category": "board",
             "status": "Live",
             "image": "/admin.png"
           },
           {
             "identifier": "nulp-domain_board_miscellaneousothers",
             "code": "miscellaneousothers",
+            "translations": null,
             "name": "Miscellaneous/ Others",
-            "index": 1,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp-domain_board_governanceandurbanmanagement",
-            "code": "governanceandurbanmanagement",
-            "name": "Governance and Urban Management",
-            "index": 1,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp-domain_board_municipalfinance",
-            "code": "municipalfinance",
-            "name": "Municipal Finance",
-            "index": 1,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp-domain_board_socialaspects",
-            "code": "socialaspects",
-            "name": "Social Aspects",
-            "index": 1,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier":"nulp-domain_board_transportandmobility",
-            "code": "transportandmobility",
-            "name": "Transport and Mobility",
-            "index": 1,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp-domain_board_urbanplanningandhousing",
-            "code": "urbanplanningandhousing",
-            "name": "Urban Planning and Housing",
-            "index": 1,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp_board_finance",
-            "code": "finance",
-            "name": "Municipal Finance",
-            "index": 2,
-            "status": "Live",
-            "image": "/uran.png"
-          },
-          {
-            "identifier": "nulp_board_leadershippillar",
-            "code": "leadershippillar",
-            "name": "Community Leadership",
-            "index": 3,
-            "status": "Live",
-            "image": "/social.png"
-          },
-          {
-            "identifier": "nulp_board_mobilitybrts",
-            "code": "mobility/brts",
-            "name": "Mobility/BRTS",
-            "index": 4,
-            "status": "Live",
-            "image": "/mobility.png"
-          },
-          {
-            "identifier": "nulp_board_water",
-            "code": "water",
-            "name": "Water",
-            "index": 5,
-            "status": "Live",
-            "image": "/savage.png"
-          },
-          {
-            "identifier": "nulp_board_medical",
-            "code": "medical",
-            "name": "Medical",
-            "index": 6,
-            "status": "Live",
-            "image": "/gov.png"
-          },
-          {
-            "identifier": "nulp_board_environment_swm",
-            "code": "environment_swm",
-            "name": "Environment/SWM",
-            "index": 7,
-            "status": "Live",
-            "image": "/swm.png"
-          },
-          {
-            "identifier": "nulp_board_it",
-            "code": "it",
-            "name": "IT",
-            "index": 8,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp_board_health",
-            "code": "health",
-            "name": "Health",
-            "index": 9,
-            "status": "Live",
-            "image": "/health.png"
-          },
-          {
-            "identifier": "nulp_board_education",
-            "code": "education",
-            "name": "Education",
+            "description": "Miscellaneous/ Others",
             "index": 10,
-            "status": "Live",
-            "image": "/building.png"
-          },
-          {
-            "identifier": "nulp_board_sports",
-            "code": "sports",
-            "name": "Sports",
-            "index": 11,
+            "category": "board",
             "status": "Live",
             "image": "/mobility.png"
-          },
-          {
-            "identifier": "nulp_board_civil",
-            "code": "civil",
-            "name": "Civil",
-            "index": 12,
-            "status": "Live",
-            "image": "/swm.png"
-          },
-          {
-            "identifier": "nulp_board_electrical",
-            "code": "electrical",
-            "name": "Electrical",
-            "index": 13,
-            "status": "Live",
-            "image": "/uran.png"
-          },
-          {
-            "identifier": "nulp_board_csrcell",
-            "code": "csrcell",
-            "name": "CSR Cell",
-            "index": 14,
-            "status": "Live",
-            "image": "/mobility.png"
-          },
-          {
-            "identifier": "nulp_board_citytransformationoffice",
-            "code": "citytransformationoffice",
-            "name": "City Transformation  Office",
-            "index": 15,
-            "status": "Live",
-            "image": "/town.png"
-          },
-          {
-            "identifier": "nulp_board_landandassets",
-            "code": "landandassets",
-            "name": "Land and Assets",
-            "index": 16,
-            "status": "Live",
-            "image": "/town.png"
-          },
-          {
-            "identifier": "nulp_board_townplan",
-            "code": "townplan",
-            "name": "Town Plan",
-            "index": 17,
-            "status": "Live",
-            "image": "/town.png"
-          },
-          {
-            "identifier": "nulp_board_generaladministration",
-            "code": "generaladministration",
-            "name": "General Administration",
-            "index": 18,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp_board_audit",
-            "code": "audit",
-            "name": "Audit",
-            "index": 19,
-            "status": "Live",
-            "image": "/uran.png"
-          },
-          {
-            "identifier": "nulp_board_horticulture",
-            "code": "horticulture",
-            "name": "Horticulture",
-            "index": 20,
-            "status": "Live",
-            "image": "/social.png"
-          },
-          {
-            "identifier": "nulp_board_ucd",
-            "code": "ucd",
-            "name": "UCD",
-            "index": 21,
-            "status": "Live",
-            "image": "/swm.png"
-          },
-          {
-            "identifier": "nulp_board_mechanical",
-            "code": "mechanical",
-            "name": "Mechanical",
-            "index": 22,
-            "status": "Live",
-            "image": "/uran.png"
-          },
-          {
-            "identifier": "nulp_board_csection",
-            "code": "csection",
-            "name": "C Section",
-            "index": 23,
-            "status": "Live",
-            "image": "/swm.png"
-          },
-          {
-            "identifier": "nulp_board_eoa",
-            "code": "eoa",
-            "name": "EOA",
-            "index": 24,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp_board_accounts",
-            "code": "accounts",
-            "name": "Accounts",
-            "index": 25,
-            "status": "Live",
-            "image": "/social.png"
-          },
-          {
-            "identifier": "nulp_board_revenue",
-            "code": "revenue",
-            "name": "Revenue",
-            "index": 26,
-            "status": "Live",
-            "image": "/admin.png"
-          },
-          {
-            "identifier": "nulp_board_accessibility",
-            "code": "accessibility",
-            "name": "Accessibility",
-            "index": 27,
-            "status": "Live",
-            "image": "/building.png"
           }
         ],
         "templateName": "domainImgConfig"

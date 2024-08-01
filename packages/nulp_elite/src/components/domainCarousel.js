@@ -9,9 +9,9 @@ import { MarginOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import { useTranslation } from "react-i18next";
 import SkeletonLoader from "components/skeletonLoader";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 // import { useNavigate } from "react-router-dom";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button } from "@mui/material";
 const styles = {
   box: {
@@ -251,7 +251,7 @@ export default function DomainCarousel({
 
           {isBoxVisible && (
             <Box style={{ position: "relative" }} className="bg-darkblue">
-              <Box className="carousel-bx" style={{ paddingTop: "7px" }}>
+              <Box className="carousel-bx pt-12">
                 <Container
                   role="main"
                   maxWidth="xl"
@@ -304,8 +304,17 @@ export default function DomainCarousel({
                         ))}
                     </Box>
                   </Box>
-                  <Box style={{ textAlign: "center", margin: "0 auto" ,marginTop:"-21px"}}>
-                    <Button onClick={handleClick} style={{ paddingTop: "0" }}>
+                  <Box
+                    style={{
+                      textAlign: "center",
+                      margin: "0 auto",
+                      marginTop: "-21px",
+                    }}
+                  >
+                    <Button
+                      onClick={handleClick}
+                      style={{ paddingTop: "0", marginTop: "20px" }}
+                    >
                       <KeyboardArrowUpIcon
                         style={{ color: "#fff", fontSize: "33px" }}
                       />

@@ -111,7 +111,7 @@ const VotingList = () => {
   }, [filters, currentPage, valueTab]);
 
   const handleCardClick = (poll_id) => {
-    navigate(`/webapp/votingDetails?${poll_id}`);
+    navigate(`/webapp/pollDetails?${poll_id}`);
   };
 
   const handlePageChange = (event, value) => {

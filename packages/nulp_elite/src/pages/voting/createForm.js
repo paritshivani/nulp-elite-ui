@@ -32,6 +32,7 @@ import * as util from "../../services/utilService";
 import { Autocomplete, ListItemText } from "@mui/material";
 import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 import dayjs from "dayjs";
+import Toast from "pages/Toast";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -59,16 +60,16 @@ const createForm = () => {
     editData?.selectedOption || ""
   );
   const [userList, setUserList] = useState(editData?.userList || []);
-  const [fields, setFields] = useState(() =>
-    editData?.poll_options?.map((option, index) => ({
-      id: index + 1,
-      value: option,
-    })) || [
-      { id: 1, value: '' },
-      { id: 2, value: '' },
-    ]
+  const [fields, setFields] = useState(
+    () =>
+      editData?.poll_options?.map((option, index) => ({
+        id: index + 1,
+        value: option,
+      })) || [
+        { id: 1, value: "" },
+        { id: 2, value: "" },
+      ]
   );
-
 
   const urlConfig = require("../../configs/urlConfig.json");
   const userId = util.userId();
@@ -121,13 +122,12 @@ const createForm = () => {
 
   const addField = () => {
     const newId = fields.length ? fields[fields.length - 1].id + 1 : 1;
-    setFields([...fields, { id: newId, value: '' }]);
+    setFields([...fields, { id: newId, value: "" }]);
   };
 
   const handleDeleteField = (id) => {
     setFields(fields.filter((field) => field.id !== id));
   };
-
 
   const handleRadioChange = (event) => {
     setVisibility(event.target.value);
@@ -219,7 +219,7 @@ const createForm = () => {
         const responseData = await response.json();
         setToasterMessage("Poll created successfully!");
         setToasterOpen(true);
-        navigate("/webapp/votingDashboard"); // Redirect to success page
+        navigate("/webapp/pollDashboard"); // Redirect to success page
       } else {
         throw new Error("Failed to create poll");
       }
@@ -263,7 +263,7 @@ const createForm = () => {
         const responseData = await response.json();
         setToasterMessage("Poll updated successfully!");
         setToasterOpen(true);
-        navigate("/webapp/votingDashboard");
+        navigate("/webapp/pollDashboard");
       } else {
         throw new Error("Failed to update poll");
       }
@@ -375,7 +375,7 @@ const createForm = () => {
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
-      {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      {toasterMessage && <Toast response={toasterMessage} type="success" />}
 
       <Container
         maxWidth="xl"
@@ -542,7 +542,7 @@ const createForm = () => {
                             const listboxNode = event.currentTarget;
                             if (
                               listboxNode.scrollTop +
-                              listboxNode.clientHeight ===
+                                listboxNode.clientHeight ===
                               listboxNode.scrollHeight
                             ) {
                               if (!isFetchingMoreOrgs) {
@@ -591,15 +591,16 @@ const createForm = () => {
                                 const isSelected = userList.includes(option);
                                 const newSelectedUsers = isSelected
                                   ? userList.filter(
-                                    (user) => user.userId !== option.userId
-                                  )
+                                      (user) => user.userId !== option.userId
+                                    )
                                   : [...userList, option];
                                 setUserList(newSelectedUsers);
                               }}
                             />
                             <ListItemText
-                              primary={`${option.firstName} ${option.lastName || " "
-                                }`}
+                              primary={`${option.firstName} ${
+                                option.lastName || " "
+                              }`}
                             />
                           </li>
                         )}
@@ -641,50 +642,52 @@ const createForm = () => {
                 <Box>
                   {fields.map((field, index) => (
                     <Box key={field.id} display="flex" alignItems="center">
-                      <Box><TextField
-                        label={`Option ${field.id}`}
-                        value={field.value}
-                        onChange={(e) => handleInputChange(field.id, e)}
-                        multiline
-                        maxRows={4}
-                        margin="normal"
-                        style={{ flex: 1, width: '100%' }}
-                      /></Box>
                       <Box>
-                      {index >= 2 && (
-                        <Button
-                          type="button"
-                          style={{
-                            width: '10%',
-                            height: '55px',
-                            color: '#0e7a9c',
-                          }}
-                          onClick={() => handleDeleteField(field.id)}
-                        >
-                          <DeleteOutlineOutlinedIcon
+                        <TextField
+                          label={`Option ${field.id}`}
+                          value={field.value}
+                          onChange={(e) => handleInputChange(field.id, e)}
+                          multiline
+                          maxRows={4}
+                          margin="normal"
+                          style={{ flex: 1, width: "100%" }}
+                        />
+                      </Box>
+                      <Box>
+                        {index >= 2 && (
+                          <Button
+                            type="button"
                             style={{
-                              fontSize: '30px',
-                              color: '#0e7a9c',
-                              cursor: 'pointer',
+                              width: "10%",
+                              height: "55px",
+                              color: "#0e7a9c",
                             }}
-                          />
-                        </Button>
-                      )}
-                     </Box>
-                     <Box>
-                      {index === fields.length - 1 && (
-                        <Button
-                          type="button"
-                          style={{
-                            width: '10%',
-                            height: '55px',
-                            color: '#0e7a9c',
-                          }}
-                          onClick={addField}
-                        >
-                          <AddOutlinedIcon />
-                        </Button>
-                      )}
+                            onClick={() => handleDeleteField(field.id)}
+                          >
+                            <DeleteOutlineOutlinedIcon
+                              style={{
+                                fontSize: "30px",
+                                color: "#0e7a9c",
+                                cursor: "pointer",
+                              }}
+                            />
+                          </Button>
+                        )}
+                      </Box>
+                      <Box>
+                        {index === fields.length - 1 && (
+                          <Button
+                            type="button"
+                            style={{
+                              width: "10%",
+                              height: "55px",
+                              color: "#0e7a9c",
+                            }}
+                            onClick={addField}
+                          >
+                            <AddOutlinedIcon />
+                          </Button>
+                        )}
                       </Box>
                     </Box>
                   ))}

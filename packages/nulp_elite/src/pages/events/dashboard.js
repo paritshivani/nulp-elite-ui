@@ -612,7 +612,7 @@ const Dashboard = () => {
                   ]}
                   series={[{ data: eventTopUser }]}
                   height={300}
-                  width={1000}
+                  width={500}
                   barSize={10}
                 />
                 <Box className="brYlabel">No. of Participants</Box>
