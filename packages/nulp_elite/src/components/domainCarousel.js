@@ -24,20 +24,23 @@ const styles = {
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
+    // breakpoint: { max: 4000, min: 3000 },
+    breakpoint: { max: 1280, min: 1024 },
+
+    items: 8,
   },
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    // breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 1024, min: 769 },
     items: 8,
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
+    breakpoint: { max: 768, min: 464 },
+    items: 4,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 4,
+    items: 3,
   },
 };
 
@@ -57,7 +60,7 @@ export default function DomainCarousel({
   // (
   //   () => domains?.map(() => false) // Initialize all items as inactive
   // );
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1208);
   const [activeDomain, setActiveDomain] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   // const navigate = useNavigate();
@@ -84,7 +87,7 @@ export default function DomainCarousel({
   }, []);
 
   const handleResize = () => {
-    setIsMobile(window.innerWidth <= 767);
+    setIsMobile(window.innerWidth <= 1024);
   };
   useEffect(() => {
     const handleScroll = () => {

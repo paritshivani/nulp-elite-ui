@@ -133,11 +133,10 @@ const LearningHistory = () => {
             </Box>
             {filteredCourses?.length === 0 && (
               <>
-                <NoResult
-                  className="center-no-result "
-                  style={{ width: "300px" }}
-                />
-                <Box className="h5-title">Explore Content</Box>
+                <Box style={{ width: "100%" }}>
+                  <NoResult className="center-no-result " />
+                  <Box className="h5-title">Explore Content</Box>
+                </Box>
               </>
             )}
 

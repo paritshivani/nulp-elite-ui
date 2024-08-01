@@ -419,61 +419,59 @@ function Header({ globalSearchQuery }) {
                 />
               </Tooltip>
             </Link>
-            <Tooltip
+            {/* <Tooltip
               title={t("Language")}
               placement="bottom"
               arrow
               open={show}
               onMouseEnter={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
-            >
-              <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  className="translate xs-h-28"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "end",
-                  }}
+            > */}
+            <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
+              <FormControl
+                fullWidth
+                size="small"
+                className="translate xs-h-28"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "end",
+                }}
+              >
+                <GTranslateIcon />
+                <Select
+                  labelId="language-select-label"
+                  id="language-select"
+                  className="language"
+                  style={{ border: "none", color: "#4f4f4f" }}
+                  label={t("LANGUAGE")}
+                  value={language}
+                  startIcon={<LanguageIcon />}
+                  onChange={handleChangeLanguage}
+                  inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                  onOpen={() => setShow(false)}
+                  onClose={() => setShow(true)}
                 >
-                  <GTranslateIcon />
-                  <Select
-                    labelId="language-select-label"
-                    id="language-select"
-                    className="language"
-                    style={{ border: "none", color: "#4f4f4f" }}
-                    label={t("LANGUAGE")}
-                    value={language}
-                    startIcon={<LanguageIcon />}
-                    onChange={handleChangeLanguage}
-                    inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-                    onOpen={() => setShow(false)}
-                    onClose={() => setShow(true)}
-                  >
-                    <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                    <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                    <MenuItem value="ma">{t("MARATHI")}</MenuItem>
-                    <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
-                    <MenuItem value="ta">{t("TAMIL")}</MenuItem>
-                    <MenuItem value="be">{t("BENGALI")}</MenuItem>
-                    <MenuItem value="mal">{t("MALAYALAM")}</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </Tooltip>
-            {/* <Tooltip title={t("Notification")} placement="bottom" arrow>
+                  <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                  <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                  <MenuItem value="ma">{t("MARATHI")}</MenuItem>
+                  <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
+                  <MenuItem value="ta">{t("TAMIL")}</MenuItem>
+                  <MenuItem value="be">{t("BENGALI")}</MenuItem>
+                  <MenuItem value="mal">{t("MALAYALAM")}</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            {/* </Tooltip> */}
+            <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
-               
-
                 <Tooltip>
                   <IconButton sx={{ p: 0 }}>
                     <NotificationsNoneOutlinedIcon />
                   </IconButton>
                 </Tooltip>
-                <Menu
+                {/* <Menu
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
                   anchorEl={anchorElNotify}
@@ -504,9 +502,9 @@ function Header({ globalSearchQuery }) {
                       Text 3
                     </Link>
                   </MenuItem>
-                </Menu>
+                </Menu> */}
               </Box>
-            </Tooltip> */}
+            </Tooltip>
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 {/* <NotificationsNoneOutlinedIcon />
@@ -800,53 +798,62 @@ function Header({ globalSearchQuery }) {
                   />
                 </Link>
               </Box>
-
-              <Box className="lg-hide  translate">
-                {/* Language Select */}
-                <Box>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      justifyContent: "end",
-                    }}
-                  >
-                    {/* <InputLabel id="language-select-label">
+              <Tooltip
+                title={t("Language")}
+                placement="bottom"
+                arrow
+                open={show}
+                onMouseEnter={() => setShow(true)}
+                onMouseLeave={() => setShow(false)}
+              >
+                <Box className="lg-hide  translate">
+                  {/* Language Select */}
+                  <Box>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "end",
+                      }}
+                    >
+                      {/* <InputLabel id="language-select-label">
                   {t("LANGUAGE")}
                 </InputLabel> */}
-                    <GTranslateIcon style={{ color: "#000" }} />
-                    <Select
-                      labelId="language-select-label"
-                      id="language-select"
-                      className="language"
-                      style={{ border: "none" }}
-                      label={t("LANGUAGE")}
-                      value={language}
-                      startIcon={<LanguageIcon />}
-                      onChange={handleChangeLanguage}
-                      inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-                    >
-                      <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                      <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                    </Select>
-                  </FormControl>
+                      <GTranslateIcon style={{ color: "#000" }} />
+                      <Select
+                        labelId="language-select-label"
+                        id="language-select"
+                        className="language"
+                        style={{ border: "none" }}
+                        label={t("LANGUAGE")}
+                        value={language}
+                        startIcon={<LanguageIcon />}
+                        onChange={handleChangeLanguage}
+                        inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                      >
+                        <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                        <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
                 </Box>
-              </Box>
+              </Tooltip>
               <Box className="d-flex">
-                <Box className="notification-circle lg-hide">
-                  {/* <NotificationsNoneOutlinedIcon />
+                <Tooltip title={t("Notification")} placement="bottom" arrow>
+                  <Box className="notification-circle lg-hide">
+                    {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
-                  {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
+                    {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
 
-                  {/* <Tooltip>
-                    <IconButton sx={{ p: 0 }}>
-                      <NotificationsNoneOutlinedIcon />
-                    </IconButton>
-                  </Tooltip> */}
-                  {/* <Menu
+                    <Tooltip>
+                      <IconButton sx={{ p: 0 }}>
+                        <NotificationsNoneOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                    {/* <Menu
                     sx={{ mt: "45px" }}
                     id="menu-appbar"
                     anchorEl={anchorElNotify}
@@ -878,8 +885,12 @@ function Header({ globalSearchQuery }) {
                       </Link>
                     </MenuItem>
                   </Menu> */}
-                </Box>
+                  </Box>
+                </Tooltip>
                 <Tooltip
+                  title={t("PROFILE")}
+                  placement="bottom"
+                  arrow
                   className={
                     activePath ===
                       `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
