@@ -362,7 +362,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth sx={{ marginBottom: 2 }}>
             <InputLabel id="category-label" className="year-select">
-              {domain}
+              {"Domain"}
             </InputLabel>
             <Select
               labelId="category-label"
@@ -380,7 +380,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth sx={{ marginBottom: 2 }}>
             <InputLabel id="sub-category-label" className="year-select">
-              {subDomain}
+              {"Sub-Domain"}
             </InputLabel>
             <Select
               labelId="sub-category-label"
@@ -404,7 +404,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth sx={{ marginBottom: 2 }}>
             <InputLabel id="language-label" className="year-select">
-              {language}
+              {"language"}
             </InputLabel>
             <Select
               labelId="language-label"
@@ -426,7 +426,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         </Box>
         <FormControl fullWidth sx={{ marginBottom: 2 }}>
           <InputLabel id="topic-label" className="year-select">
-            {topic}
+            {"Topic"}
           </InputLabel>
           <Select
             labelId="topic-label"
