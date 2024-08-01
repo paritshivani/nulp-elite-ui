@@ -67,7 +67,7 @@ function Header({ globalSearchQuery }) {
   const [orgId, setOrgId] = useState();
   const [openSubmenu, setOpenSubmenu] = useState(false);
   const [open, setOpen] = useState(false);
-  const [show, setShow] = React.useState(false)
+  const [show, setShow] = React.useState(false);
   const handleTooltipClose = () => {
     setOpen(false);
   };
@@ -324,11 +324,12 @@ function Header({ globalSearchQuery }) {
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
               className={
                 activePath ===
-                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                `${
+                  routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
                   activePath.startsWith(
                     routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
                   )
-                  }`
+                }`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -349,7 +350,7 @@ function Header({ globalSearchQuery }) {
               className={
                 activePath ===
                   routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
-                  activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
+                activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -368,7 +369,7 @@ function Header({ globalSearchQuery }) {
               href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
               className={
                 activePath ===
-                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -463,13 +464,11 @@ function Header({ globalSearchQuery }) {
                 </FormControl>
               </Box>
             </Tooltip>
-            <Tooltip title={t("Notification")} placement="bottom" arrow>
+            {/* <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
-                {/* <NotificationsNoneOutlinedIcon />
-                    ekta */}
+               
 
                 <Tooltip>
-                  {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
                   <IconButton sx={{ p: 0 }}>
                     <NotificationsNoneOutlinedIcon />
                   </IconButton>
@@ -507,7 +506,7 @@ function Header({ globalSearchQuery }) {
                   </MenuItem>
                 </Menu>
               </Box>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 {/* <NotificationsNoneOutlinedIcon />
@@ -560,7 +559,7 @@ function Header({ globalSearchQuery }) {
               arrow
               className={
                 activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                  activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
                   ? "Menuactive"
                   : ""
               }
@@ -629,8 +628,8 @@ function Header({ globalSearchQuery }) {
 
               {/* Check if roles array is empty or contains "PUBLIC" */}
               {(roleNames && roleNames.length === 0) ||
-                (roleNames.length === 1 &&
-                  roleNames.includes("PUBLIC")) ? null : (
+              (roleNames.length === 1 &&
+                roleNames.includes("PUBLIC")) ? null : (
                 <MenuItem>
                   <Link
                     target="_blank"
@@ -666,19 +665,19 @@ function Header({ globalSearchQuery }) {
                   {roleNames.some((role) =>
                     ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(role)
                   ) && (
-                      <MenuItem
-                        className="ml-10"
-                        style={{ background: "#f9fafc" }}
+                    <MenuItem
+                      className="ml-10"
+                      style={{ background: "#f9fafc" }}
+                    >
+                      <Link
+                        href={routeConfig.ROUTES.POLL.POLL_FORM}
+                        underline="none"
+                        textAlign="center"
                       >
-                        <Link
-                          href={routeConfig.ROUTES.POLL.POLL_FORM}
-                          underline="none"
-                          textAlign="center"
-                        >
-                          {t("CREATE_POLL")}
-                        </Link>
-                      </MenuItem>
-                    )}
+                        {t("CREATE_POLL")}
+                      </Link>
+                    </MenuItem>
+                  )}
                   <MenuItem className="ml-10">
                     <Link
                       href={routeConfig.ROUTES.POLL.POLL_LIST}
@@ -691,16 +690,16 @@ function Header({ globalSearchQuery }) {
                   {roleNames.some((role) =>
                     ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(role)
                   ) && (
-                      <MenuItem className="ml-10">
-                        <Link
-                          href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
-                          underline="none"
-                          textAlign="center"
-                        >
-                          {t("DASHBOARD")}
-                        </Link>
-                      </MenuItem>
-                    )}
+                    <MenuItem className="ml-10">
+                      <Link
+                        href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("DASHBOARD")}
+                      </Link>
+                    </MenuItem>
+                  )}
                 </List>
               </Collapse>
               <MenuItem>
@@ -840,14 +839,14 @@ function Header({ globalSearchQuery }) {
                 <Box className="notification-circle lg-hide">
                   {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
+                  {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
 
-                  <Tooltip>
-                    {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
+                  {/* <Tooltip>
                     <IconButton sx={{ p: 0 }}>
                       <NotificationsNoneOutlinedIcon />
                     </IconButton>
-                  </Tooltip>
-                  <Menu
+                  </Tooltip> */}
+                  {/* <Menu
                     sx={{ mt: "45px" }}
                     id="menu-appbar"
                     anchorEl={anchorElNotify}
@@ -878,14 +877,14 @@ function Header({ globalSearchQuery }) {
                         Text 3
                       </Link>
                     </MenuItem>
-                  </Menu>
+                  </Menu> */}
                 </Box>
                 <Tooltip
                   className={
                     activePath ===
                       `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
-                      activePath ===
+                    activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
+                    activePath ===
                       `${routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}`
                       ? "Menuactive"
                       : ""
@@ -967,21 +966,21 @@ function Header({ globalSearchQuery }) {
                       "CONTENT_CREATOR",
                     ].includes(role)
                   ) && (
-                      <MenuItem>
-                        <Link
-                          href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
-                          underline="none"
-                          textAlign="center"
-                        >
-                          {t("DASHBOARD")}
-                        </Link>
-                      </MenuItem>
-                    )}
+                    <MenuItem>
+                      <Link
+                        href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                        underline="none"
+                        textAlign="center"
+                      >
+                        {t("DASHBOARD")}
+                      </Link>
+                    </MenuItem>
+                  )}
 
                   {/* Check if roles array is empty or contains "PUBLIC" */}
                   {(roleNames && roleNames?.length === 0) ||
-                    (roleNames.length === 1 &&
-                      roleNames.includes("PUBLIC")) ? null : (
+                  (roleNames.length === 1 &&
+                    roleNames.includes("PUBLIC")) ? null : (
                     <MenuItem>
                       <Link
                         target="_blank"
@@ -993,15 +992,6 @@ function Header({ globalSearchQuery }) {
                       </Link>
                     </MenuItem>
                   )}
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.HELP_PAGE.HELP}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("HELP")}
-                    </Link>
-                  </MenuItem>
 
                   {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
@@ -1030,16 +1020,16 @@ function Header({ globalSearchQuery }) {
                           role
                         )
                       ) && (
-                          <MenuItem className="ml-10">
-                            <Link
-                              href={routeConfig.ROUTES.POLL.POLL_FORM}
-                              underline="none"
-                              textAlign="center"
-                            >
-                              {t("CREATE_POLL")}
-                            </Link>
-                          </MenuItem>
-                        )}
+                        <MenuItem className="ml-10">
+                          <Link
+                            href={routeConfig.ROUTES.POLL.POLL_FORM}
+                            underline="none"
+                            textAlign="center"
+                          >
+                            {t("CREATE_POLL")}
+                          </Link>
+                        </MenuItem>
+                      )}
                       <MenuItem className="ml-10">
                         <Link
                           href={routeConfig.ROUTES.POLL.POLL_LIST}
@@ -1054,18 +1044,27 @@ function Header({ globalSearchQuery }) {
                           role
                         )
                       ) && (
-                          <MenuItem className="ml-10">
-                            <Link
-                              href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
-                              underline="none"
-                              textAlign="center"
-                            >
-                              {t("DASHBOARD")}
-                            </Link>
-                          </MenuItem>
-                        )}
+                        <MenuItem className="ml-10">
+                          <Link
+                            href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                            underline="none"
+                            textAlign="center"
+                          >
+                            {t("DASHBOARD")}
+                          </Link>
+                        </MenuItem>
+                      )}
                     </List>
                   </Collapse>
+                  <MenuItem>
+                    <Link
+                      href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("HELP")}
+                    </Link>
+                  </MenuItem>
 
                   <MenuItem>
                     <Link href="/logoff" underline="none" textAlign="center">
