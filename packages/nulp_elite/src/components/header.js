@@ -467,7 +467,8 @@ function Header({ globalSearchQuery }) {
                     ekta */}
 
                 <Tooltip>
-                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                  {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
+                  <IconButton sx={{ p: 0 }}>
                     <NotificationsNoneOutlinedIcon />
                   </IconButton>
                 </Tooltip>
@@ -596,15 +597,6 @@ function Header({ globalSearchQuery }) {
                 </MenuItem>
               )}
 
-              <MenuItem>
-                <Link
-                  href={routeConfig.ROUTES.HELP_PAGE.HELP}
-                  underline="none"
-                  textAlign="center"
-                >
-                  {t("HELP")}
-                </Link>
-              </MenuItem>
               <MenuItem
                 onClick={handleSubmenuToggle}
                 style={{ background: "#f9fafc", color: "#1976d2" }}
@@ -665,6 +657,15 @@ function Header({ globalSearchQuery }) {
                   )}
                 </List>
               </Collapse>
+              <MenuItem>
+                <Link
+                  href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                  underline="none"
+                  textAlign="center"
+                >
+                  {t("HELP")}
+                </Link>
+              </MenuItem>
               <MenuItem>
                 <Link href="/logoff" underline="none" textAlign="center">
                   {t("LOGOUT")}
@@ -795,7 +796,8 @@ function Header({ globalSearchQuery }) {
                     ekta */}
 
                   <Tooltip>
-                    <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                    {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
+                    <IconButton sx={{ p: 0 }}>
                       <NotificationsNoneOutlinedIcon />
                     </IconButton>
                   </Tooltip>
