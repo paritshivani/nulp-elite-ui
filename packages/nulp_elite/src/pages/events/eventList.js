@@ -38,6 +38,7 @@ import * as util from "../../services/utilService";
 
 import FloatingChatIcon from "components/FloatingChatIcon";
 import SkeletonLoader from "components/skeletonLoader";
+const myEvents = require("./myEvents.json");
 
 const responsive = {
   superLargeDesktop: {
@@ -64,7 +65,8 @@ const EventList = (props) => {
   const location = useLocation();
   const [pageNumber, setPageNumber] = useState(1);
   const [data, setData] = useState();
-  const [myData, setMyData] = useState();
+  console.log("myEvents.result.events ---- ", myEvents.result.events);
+  const [myData, setMyData] = useState(myEvents.result.events);
   const [filters, setFilters] = useState({});
   const [domainfilter, setDomainfilter] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -270,7 +272,7 @@ const EventList = (props) => {
       const response = await fetch(url, headers);
       const responseData = await response.json();
       console.log("My data  ---", responseData.result.courses);
-      setMyData(responseData.result.courses);
+      // setMyData(responseData.result.courses);
     } catch (error) {
       console.log("m data error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
