@@ -25,9 +25,17 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
 const consenttext = require("../../configs/consent.json");
 const urlConfig = require("../../configs/urlConfig.json");
+const designations = require("../../configs/designations.json");
 
 import {
   FacebookShareButton,
@@ -80,7 +88,12 @@ const EventDetails = () => {
   const [consent, setConsent] = useState(consenttext);
   const [emailError, setEmailError] = useState(false);
   console.log("isEnrolled origin-----", isEnrolled);
+  const [designationsList, setDesignationsList] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
 
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
   const { t } = useTranslation();
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -89,6 +102,11 @@ const EventDetails = () => {
     }, 2000);
     setToasterOpen(true);
   };
+
+  useEffect(() => {
+    setDesignationsList(designations);
+  }, []);
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 767);
     window.addEventListener("resize", handleResize);
@@ -127,16 +145,16 @@ const EventDetails = () => {
     }
   };
 
- const fetchUserData = async () => {
-  try {
-   const uservData = await util.userData();
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
+  const fetchUserData = async () => {
+    try {
+      const uservData = await util.userData();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   useEffect(() => {
-fetchUserData();
+    fetchUserData();
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.EVENT.READ}/${eventId}`;
@@ -543,10 +561,9 @@ fetchUserData();
       </Snackbar>
       {detailData && (
         <Container
-         className=" xs-pb-20 mt-12 mb-38"
+          className=" xs-pb-20 mt-12 mb-38"
           style={{
             maxWidth: "100%",
-
           }}
         >
           <Breadcrumbs
@@ -1121,10 +1138,11 @@ fetchUserData();
               onChange={handleChange}
               label="Designation"
             >
-              <MenuItem value="Commissioner">Commissioner</MenuItem>
-              <MenuItem value="Dep.Commissioner">Dep.Commissioner</MenuItem>
-              <MenuItem value="Engineer">Engineer</MenuItem>
-              <MenuItem value="Manager">Manager</MenuItem>
+              {designationsList?.map((desig, index) => (
+                <MenuItem key={index} value={desig}>
+                  {desig}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -1154,10 +1172,20 @@ fetchUserData();
             email ID and ticking the box below, you consent to the collection
             and use of your email ID for the purposes stated above.
           </Typography>
-
+          <FormControlLabel
+            control={
+              <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
+            }
+            label="I consent to the collection and use of my email ID for the purposes stated above."
+          />
           <Box sx={{ mt: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              {t("AGREE")}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              disabled={!isChecked}
+            >
+              {t("SUBMIT")}
             </Button>
             <Button
               variant="outlined"
@@ -1165,7 +1193,7 @@ fetchUserData();
               onClick={handleCloseConsentModal}
               sx={{ ml: 2 }}
             >
-              {t("DISAGREE")}
+              {t("CANCEL")}
             </Button>
           </Box>
         </Box>

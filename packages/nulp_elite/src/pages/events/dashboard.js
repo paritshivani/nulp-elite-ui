@@ -183,8 +183,8 @@ const Dashboard = () => {
       };
 
       try {
-        // const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
-        const url = `https://devnulp.niua.org/event/list`;
+        const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
+        // const url = `https://devnulp.niua.org/event/list`;
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -223,8 +223,8 @@ const Dashboard = () => {
       };
 
       try {
-        // const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
-        const url = `https://devnulp.niua.org/event/list`;
+        const url = `${urlConfig.URLS.EVENT.GET_LIST}`;
+        // const url = `https://devnulp.niua.org/event/list`;
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -302,10 +302,10 @@ const Dashboard = () => {
           params.append("toDate", dayjs(endDateFilter).format("YYYY-MM-DD"));
         }
 
-        // const url = `${
-        //   urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
-        // }?${params.toString()}`;
-        const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
+        const url = `${
+          urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
+        }?${params.toString()}`;
+        // const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
 
         const response = await fetch(url, {
           method: "GET",
@@ -378,7 +378,7 @@ const Dashboard = () => {
             responseData.result.framework &&
             responseData.result.framework.categories &&
             responseData.result.framework.categories.length > 0 &&
-            responseData.result.framework.categories[0].terms
+            responseData.result.framework.categories[3].terms
           ) {
             const domainList =
               responseData?.result?.framework?.categories[3].terms;
@@ -481,11 +481,11 @@ const Dashboard = () => {
   const handleSearchChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    if (query.length >= 2) {
-      setCurrentPage(1);
-    } else {
-      setSearchQuery("");
-    }
+    // if (query.length >= 2) {
+    //   setCurrentPage(1);
+    // } else {
+    //   setSearchQuery("");
+    // }
   };
 
   const handleCertificateFilterChange = (event) => {
@@ -518,6 +518,7 @@ const Dashboard = () => {
     setSelectedSubDomain([]);
     setVisibilityFilter("");
     setCertificateFilter("");
+    setSearchQuery("");
   };
 
   return (
@@ -710,7 +711,7 @@ const Dashboard = () => {
                 label="Category"
               >
                 {domainList?.map((domain, index) => (
-                  <MenuItem key={index} value={domain.code}>
+                  <MenuItem key={index} value={domain.name}>
                     {domain.name}
                   </MenuItem>
                 ))}
@@ -732,7 +733,7 @@ const Dashboard = () => {
                       <Chip
                         key={value}
                         label={
-                          subCategory.find((item) => item.code === value)?.name
+                          subCategory.find((item) => item.name === value)?.name
                         }
                       />
                     ))}
@@ -740,9 +741,9 @@ const Dashboard = () => {
                 )}
               >
                 {subCategory?.map((domain) => (
-                  <MenuItem key={domain.code} value={domain.code}>
+                  <MenuItem key={domain.name} value={domain.name}>
                     <Checkbox
-                      checked={selectedSubDomain.includes(domain.code)}
+                      checked={selectedSubDomain.includes(domain.name)}
                     />
                     <ListItemText primary={domain.name} />
                   </MenuItem>
@@ -789,6 +790,7 @@ const Dashboard = () => {
               label="Search By Event Name"
               id="outlined-basic"
               variant="outlined"
+              value={searchQuery}
               fullWidth
               margin="normal"
               onChange={handleSearchChange}
