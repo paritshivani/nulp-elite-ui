@@ -14,7 +14,7 @@ const NoResult = () => {
 
   // Now contentId contains the value from the URL parameter
   return (
-    <div>
+    <div style={{width:"100%",marginTop:"20px"}}>
       {/* <Container maxWidth="md" role="main" className="container-pb"> */}
       <Box
         style={{

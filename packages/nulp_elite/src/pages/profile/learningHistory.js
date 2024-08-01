@@ -115,19 +115,17 @@ const LearningHistory = () => {
             />
           </Box>
           <Box>
-            <Box className="custom-card">
               {filteredCourses?.length === 0 ? (
                 <>
-                  <Box style={{ width: "300px" }}>
                     <NoResult
                       className="center-no-result "
-                      style={{ width: "300px" }}
                     />
                     <Box className="h5-title">Explore Content</Box>
-                  </Box>
                 </>
               ) : (
                 filteredCourses?.map((course) => (
+                  <Box className="custom-card">
+
                   <Box className="custom-card-box" key={course.courseName}>
                     <BoxCard
                       items={course}
@@ -139,11 +137,12 @@ const LearningHistory = () => {
                       }
                     />
                   </Box>
+                  </Box>
+
                 ))
               )}
               <div className="blankCard"></div>
             </Box>
-          </Box>
           <Pagination
             count={Math.ceil(
               courseData?.result?.courses?.length / itemsPerPage
