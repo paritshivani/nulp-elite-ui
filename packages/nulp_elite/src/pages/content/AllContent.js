@@ -152,6 +152,9 @@ sessionStorage.setItem('previousRoutes', newPath)
             "TVLesson",
             "Course Unit",
             "Exam Question",
+            "Manuals/SOPs",
+            "Good Practices",
+            "Reports"
           ],
           visibility: ["Default", "Parent"],
         },
@@ -185,25 +188,28 @@ sessionStorage.setItem('previousRoutes', newPath)
     };
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
+  const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
 
-      const response = await getAllContents(url, data, headers);
-      const sortedData = response?.data?.result?.content?.sort((a, b) => {
-        if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
-          return -1;
-        } else if (
-          a.primaryCategory !== "Course" &&
-          b.primaryCategory === "Course"
-        ) {
-          return 1;
-        } else {
-          return a.primaryCategory.localeCompare(b.primaryCategory);
-        }
-      });
-      setData(sortedData);
-    } catch (error) {
-      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-    }
+  const response = await getAllContents(url, data, headers);
+
+  const filteredAndSortedData = response?.data?.result?.content
+    ?.filter(item => 
+      ["Manuals/SOPs","Good Practices", "Reports", "Course"].includes(item.primaryCategory)
+    )
+    .sort((a, b) => {
+      if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
+        return -1;
+      } else if (a.primaryCategory !== "Course" && b.primaryCategory === "Course") {
+        return 1;
+      } else {
+        return a.primaryCategory.localeCompare(b.primaryCategory);
+      }
+    });
+
+  setData(filteredAndSortedData);
+} catch (error) {
+  showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+}
   };
 
   const getCookieValue = (name) => {

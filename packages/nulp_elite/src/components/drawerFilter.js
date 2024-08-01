@@ -117,7 +117,7 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
     }
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp?categories=${urlConfig.params.framework}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp-domain?categories=${urlConfig.params.framework}`;
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
       );
