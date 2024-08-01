@@ -89,7 +89,10 @@ const createForm = () => {
   const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
   const currentDateTime = new Date();
   // Check if startDate is in the past
-  const isStartDateInPast = startDate && new Date(startDate) < currentDateTime;
+  let isStartDateInPast;
+  if (editData) {
+    startDate && new Date(startDate) < currentDateTime;
+  }
 
   useEffect(() => {
     const initialOrg = orgList.find((org) => org.orgName === organisationName);

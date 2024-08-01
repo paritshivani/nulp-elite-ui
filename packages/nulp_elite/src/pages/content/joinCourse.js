@@ -122,8 +122,8 @@ const JoinCourse = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-        const newPath = location.pathname + "?" + contentId;
-sessionStorage.setItem('previousRoutes', newPath)
+  const newPath = location.pathname + "?" + contentId;
+  sessionStorage.setItem("previousRoutes", newPath);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -306,10 +306,9 @@ sessionStorage.setItem('previousRoutes', newPath)
   };
 
   const handleLinkClick = (id) => {
-    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`,{
-      state: { coursename:  userData?.result?.content?.name},
+    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
+      state: { coursename: userData?.result?.content?.name },
     });
-    
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -850,7 +849,7 @@ sessionStorage.setItem('previousRoutes', newPath)
                 </Typography>
 
                 {courseData?.result?.content?.board &&
-                  courseData.result.content.board.map((item, index) => (
+                  courseData?.result?.content?.board?.map((item, index) => (
                     <Button
                       key={`board-${index}`}
                       size="small"
@@ -865,7 +864,7 @@ sessionStorage.setItem('previousRoutes', newPath)
                     </Button>
                   ))}
                 {courseData?.result?.content?.se_boards &&
-                  courseData.result.content.se_boards.map((item, index) => (
+                  courseData?.result?.content?.se_boards?.map((item, index) => (
                     <Button
                       key={`se_boards-${index}`}
                       size="small"
@@ -880,22 +879,24 @@ sessionStorage.setItem('previousRoutes', newPath)
                     </Button>
                   ))}
                 {courseData?.result?.content?.gradeLevel &&
-                  courseData.result.content.gradeLevel.map((item, index) => (
-                    <Button
-                      key={`gradeLevel-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
+                  courseData?.result?.content?.gradeLevel?.map(
+                    (item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    )
+                  )}
                 {courseData?.result?.content?.se_gradeLevels &&
-                  courseData.result.content.se_gradeLevels.map(
+                  courseData?.result?.content?.se_gradeLevels?.map(
                     (item, index) => (
                       <Button
                         key={`se_gradeLevels-${index}`}
