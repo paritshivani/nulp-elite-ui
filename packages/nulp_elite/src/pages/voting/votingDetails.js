@@ -306,22 +306,23 @@ const VotingDetails = () => {
                     )}
                   </span>
                 </Box>
-                <Box className="pr-5 my-20">
-                  <span className=" h3-custom-title"> Your Vote</span>
-                  <VerifiedIcon
-                    className="h3-custom-title pl-10 mt-10 icon-blue fs-18"
-                    style={{
-                      verticalAlign: "middle",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      fontSize: "22px",
-                    }}
-                  />
-                  <span className="h3-custom-title ">
-                    {userVote[0]?.poll_result}
-                  </span>
-                </Box>
-
+                {userVote && userVote?.length > 0 && (
+                  <Box className="pr-5 my-20">
+                    <span className=" h3-custom-title"> Your Vote</span>
+                    <VerifiedIcon
+                      className="h3-custom-title pl-10 mt-10 icon-blue fs-18"
+                      style={{
+                        verticalAlign: "middle",
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                        fontSize: "22px",
+                      }}
+                    />
+                    <span className="h3-custom-title ">
+                      {userVote[0]?.poll_result}
+                    </span>
+                  </Box>
+                )}
                 <Box sx={{ width: "100%" }}>
                   {pollResult && (
                     <div>
