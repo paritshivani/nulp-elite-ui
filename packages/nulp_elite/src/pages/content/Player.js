@@ -104,16 +104,16 @@ const Player = () => {
     // }
     // courseRegistryService.lessontracking(data);
   };
-   const handleGoBack = () => {
+  const handleGoBack = () => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes",previousRoutes);
+    console.log("previousRoutes", previousRoutes);
     navigate(previousRoutes);
   };
 
   useEffect(() => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes",previousRoutes);
-    setPreviousRoute(previousRoutes)
+    console.log("previousRoutes", previousRoutes);
+    setPreviousRoute(previousRoutes);
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -149,7 +149,7 @@ const Player = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="container-pb player">
+      <Container maxWidth="xl" role="main" className="player">
         <Grid container spacing={2}>
           <Grid item xs={8}>
              {lesson && (
@@ -234,7 +234,16 @@ const Player = () => {
             </Button>
           </Typography>
         </Box> */}
-        <Box className="lg-mx-90">
+        <Box
+          className="lg-mx-90"
+          style={{
+            position: "relative",
+            paddingBottom: "56.25%", // 16:9 aspect ratio
+            height: 0,
+            overflow: "hidden",
+            maxWidth: "100%",
+          }}
+        >
           {lesson && (
             <SunbirdPlayer
               // {...{ width, height: height - 64 }}

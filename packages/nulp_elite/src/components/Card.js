@@ -117,11 +117,9 @@ export default function BoxCard({ items, index, onClick }) {
           >
             {(() => {
               if (items.status === 2) return t("Completed");
-              if (items.batch.status === 2) return t("Expired");
-              if (
-                (items.status === 0 || items.status === 1) &&
-                items.batch.status === 1
-              )
+              if (items.batch.status === 2 || items.status === 0)
+                return t("Expired");
+              if (items.status === 1 && items.batch.status === 1)
                 return t("Ongoing");
             })()}
           </Typography>
