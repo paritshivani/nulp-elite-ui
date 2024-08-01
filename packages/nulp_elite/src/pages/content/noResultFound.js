@@ -23,6 +23,7 @@ const NoResult = () => {
           margin: "0 21px",
           BorderRadius: "10px",
           marginTop: "20px",
+          marginBottom: "20px",
         }}
         className="center-box"
       >
