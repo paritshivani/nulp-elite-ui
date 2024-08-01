@@ -512,7 +512,7 @@ function Header({ globalSearchQuery }) {
                 {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
 
-                <Tooltip>
+                {/* <Tooltip>
                   <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
                     <NotificationsNoneOutlinedIcon />
                   </IconButton>
@@ -548,7 +548,7 @@ function Header({ globalSearchQuery }) {
                       Text 3
                     </Link>
                   </MenuItem>
-                </Menu>
+                </Menu> */}
               </Box>
             </Tooltip>
 

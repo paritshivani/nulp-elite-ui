@@ -383,17 +383,18 @@ const createForm = () => {
         className="xs-pb-20 createForm min-472"
         style={{ paddingTop: "0" }}
       >
+        <Box sx={{background:'#fff',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',padding:'30px',
+    marginTop: '30px'
+}}>
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-5 xs-py-10">
+          <Box className="h3-title pl-5 xs-py-10">
             <PollOutlinedIcon
               style={{ paddingRight: "10px", verticalAlign: "middle" }}
             />
             {editData ? "Edit Poll" : "Poll Creation"}
           </Box>
 
-          <Alert severity="info" className="custom-alert">
-            Poll will be published Based on Start Date
-          </Alert>
+
         </Box>
 
         <Grid
@@ -402,7 +403,7 @@ const createForm = () => {
           className="pt-8 mt-2 custom-event-container"
           style={{ paddingTop: "0" }}
         >
-          <Grid item xs={12} md={4} lg={8} className="lg-pl-0">
+          <Grid item xs={12} md={4} lg={7} className="lg-pl-0">
             <TextField
               label={
                 <span>
@@ -440,6 +441,7 @@ const createForm = () => {
                   : ""
               }
             />
+          
             <TextField
               id="poll_type"
               label="Poll Type"
@@ -449,6 +451,9 @@ const createForm = () => {
               value={pollType}
               onChange={(e) => setPollType(e.target.value)}
             />{" "}
+              <Alert severity="info" className="mt-15" sx={{marginBottom:'30px'}}>
+              Poll will be published Based on Start Date
+            </Alert>
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -479,7 +484,8 @@ const createForm = () => {
               </LocalizationProvider>
             </Box>
           </Grid>
-          <Grid item xs={12} md={4} lg={4}>
+          <Grid item xs={12} md={4} lg={5}>
+            <Box sx={{marginLeft:'30px'}}>
             <FormControl style={{ width: "100%" }}>
               <FormLabel id="demo-row-radio-buttons-group-label">
                 Visibility<span style={{ color: "red" }}>*</span>
@@ -542,7 +548,7 @@ const createForm = () => {
                             const listboxNode = event.currentTarget;
                             if (
                               listboxNode.scrollTop +
-                                listboxNode.clientHeight ===
+                              listboxNode.clientHeight ===
                               listboxNode.scrollHeight
                             ) {
                               if (!isFetchingMoreOrgs) {
@@ -591,16 +597,15 @@ const createForm = () => {
                                 const isSelected = userList.includes(option);
                                 const newSelectedUsers = isSelected
                                   ? userList.filter(
-                                      (user) => user.userId !== option.userId
-                                    )
+                                    (user) => user.userId !== option.userId
+                                  )
                                   : [...userList, option];
                                 setUserList(newSelectedUsers);
                               }}
                             />
                             <ListItemText
-                              primary={`${option.firstName} ${
-                                option.lastName || " "
-                              }`}
+                              primary={`${option.firstName} ${option.lastName || " "
+                                }`}
                             />
                           </li>
                         )}
@@ -694,6 +699,7 @@ const createForm = () => {
                 </Box>
               </Box>
             </FormGroup>
+            </Box>
           </Grid>
         </Grid>
 
@@ -722,6 +728,7 @@ const createForm = () => {
           >
             {editData ? "Update" : "Create"}
           </Button>
+        </Box>
         </Box>
       </Container>
       <FloatingChatIcon />
