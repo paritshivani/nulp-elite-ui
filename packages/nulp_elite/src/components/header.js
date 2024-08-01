@@ -419,51 +419,51 @@ function Header({ globalSearchQuery }) {
                 />
               </Tooltip>
             </Link>
-            <Tooltip
+            {/* <Tooltip
               title={t("Language")}
               placement="bottom"
               arrow
               open={show}
               onMouseEnter={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
-            >
-              <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  className="translate xs-h-28"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "end",
-                  }}
+            > */}
+            <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
+              <FormControl
+                fullWidth
+                size="small"
+                className="translate xs-h-28"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "end",
+                }}
+              >
+                <GTranslateIcon />
+                <Select
+                  labelId="language-select-label"
+                  id="language-select"
+                  className="language"
+                  style={{ border: "none", color: "#4f4f4f" }}
+                  label={t("LANGUAGE")}
+                  value={language}
+                  startIcon={<LanguageIcon />}
+                  onChange={handleChangeLanguage}
+                  inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                  onOpen={() => setShow(false)}
+                  onClose={() => setShow(true)}
                 >
-                  <GTranslateIcon />
-                  <Select
-                    labelId="language-select-label"
-                    id="language-select"
-                    className="language"
-                    style={{ border: "none", color: "#4f4f4f" }}
-                    label={t("LANGUAGE")}
-                    value={language}
-                    startIcon={<LanguageIcon />}
-                    onChange={handleChangeLanguage}
-                    inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-                    onOpen={() => setShow(false)}
-                    onClose={() => setShow(true)}
-                  >
-                    <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                    <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                    <MenuItem value="ma">{t("MARATHI")}</MenuItem>
-                    <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
-                    <MenuItem value="ta">{t("TAMIL")}</MenuItem>
-                    <MenuItem value="be">{t("BENGALI")}</MenuItem>
-                    <MenuItem value="mal">{t("MALAYALAM")}</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </Tooltip>
+                  <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                  <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                  <MenuItem value="ma">{t("MARATHI")}</MenuItem>
+                  <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
+                  <MenuItem value="ta">{t("TAMIL")}</MenuItem>
+                  <MenuItem value="be">{t("BENGALI")}</MenuItem>
+                  <MenuItem value="mal">{t("MALAYALAM")}</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            {/* </Tooltip> */}
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 <Tooltip>
