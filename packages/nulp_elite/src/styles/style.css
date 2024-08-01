@@ -1276,6 +1276,9 @@ button {
 }
 
 @media (min-width: 769px) {
+  .custom-event-container .MuiTabs-flexContainer {
+    justify-content: center !important;
+  }
   .MuiFormControl-root.MuiTextField-root.w-86 {
     width: 86% !important;
   }
@@ -1898,10 +1901,7 @@ button {
   .spacing-header a {
     margin: 0 23px !important;
   }
-  .domainText{
-    width: 82px;
-  }
-  .my-class{
+  .my-class {
     margin: 0 10px !important;
   }
 }
@@ -2037,6 +2037,12 @@ button {
     gap: 16px !important;
   }
 } */
+}
+@media (min-width: 1201px) {
+  .domainText {
+    width: 82px !important;
+    margin: 0 20px !important;
+  }
 }
 @media (min-width: 1377px) {
   .allContentlearning .custom-card,
