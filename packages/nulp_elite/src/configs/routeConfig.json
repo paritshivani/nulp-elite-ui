@@ -76,10 +76,10 @@
       "EVENT_ID": "/:eventId"
     },
     "POLL": {
-      "POLL_LIST": "/webapp/votingList",
-      "POLL_DETAILS": "/webapp/votingDetails",
+      "POLL_LIST": "/webapp/pollList",
+      "POLL_DETAILS": "/webapp/pollDetails",
       "POLL_FORM": "/webapp/createform",
-      "POLL_DASHBOARD": "/webapp/votingDashboard",
+      "POLL_DASHBOARD": "/webapp/pollDashboard",
       "POLLS_VIEW_ALL": "/webapp/pollsDetails"
     }
   }

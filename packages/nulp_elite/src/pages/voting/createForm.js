@@ -32,6 +32,7 @@ import * as util from "../../services/utilService";
 import { Autocomplete, ListItemText } from "@mui/material";
 import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 import dayjs from "dayjs";
+import Toast from "pages/Toast";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -59,16 +60,16 @@ const createForm = () => {
     editData?.selectedOption || ""
   );
   const [userList, setUserList] = useState(editData?.userList || []);
-  const [fields, setFields] = useState(() =>
-    editData?.poll_options?.map((option, index) => ({
-      id: index + 1,
-      value: option,
-    })) || [
-      { id: 1, value: '' },
-      { id: 2, value: '' },
-    ]
+  const [fields, setFields] = useState(
+    () =>
+      editData?.poll_options?.map((option, index) => ({
+        id: index + 1,
+        value: option,
+      })) || [
+        { id: 1, value: "" },
+        { id: 2, value: "" },
+      ]
   );
-
 
   const urlConfig = require("../../configs/urlConfig.json");
   const userId = util.userId();
@@ -88,7 +89,10 @@ const createForm = () => {
   const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
   const currentDateTime = new Date();
   // Check if startDate is in the past
-  const isStartDateInPast = startDate && new Date(startDate) < currentDateTime;
+  let isStartDateInPast;
+  if (editData) {
+    startDate && new Date(startDate) < currentDateTime;
+  }
 
   useEffect(() => {
     const initialOrg = orgList.find((org) => org.orgName === organisationName);
@@ -121,13 +125,12 @@ const createForm = () => {
 
   const addField = () => {
     const newId = fields.length ? fields[fields.length - 1].id + 1 : 1;
-    setFields([...fields, { id: newId, value: '' }]);
+    setFields([...fields, { id: newId, value: "" }]);
   };
 
   const handleDeleteField = (id) => {
     setFields(fields.filter((field) => field.id !== id));
   };
-
 
   const handleRadioChange = (event) => {
     setVisibility(event.target.value);
@@ -219,7 +222,7 @@ const createForm = () => {
         const responseData = await response.json();
         setToasterMessage("Poll created successfully!");
         setToasterOpen(true);
-        navigate("/webapp/votingDashboard"); // Redirect to success page
+        navigate("/webapp/pollDashboard"); // Redirect to success page
       } else {
         throw new Error("Failed to create poll");
       }
@@ -263,7 +266,7 @@ const createForm = () => {
         const responseData = await response.json();
         setToasterMessage("Poll updated successfully!");
         setToasterOpen(true);
-        navigate("/webapp/votingDashboard");
+        navigate("/webapp/pollDashboard");
       } else {
         throw new Error("Failed to update poll");
       }
@@ -375,7 +378,7 @@ const createForm = () => {
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
-      {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      {toasterMessage && <Toast response={toasterMessage} type="success" />}
 
       <Container
         maxWidth="xl"
@@ -383,17 +386,18 @@ const createForm = () => {
         className="xs-pb-20 createForm min-472"
         style={{ paddingTop: "0" }}
       >
+        <Box sx={{background:'#fff',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',padding:'30px',
+    marginTop: '30px'
+}}>
         <Box className="voting-text1">
-          <Box className="h3-custom-title pl-5 xs-py-10">
+          <Box className="h3-title pl-5 xs-py-10">
             <PollOutlinedIcon
               style={{ paddingRight: "10px", verticalAlign: "middle" }}
             />
             {editData ? "Edit Poll" : "Poll Creation"}
           </Box>
 
-          <Alert severity="info" className="custom-alert">
-            Poll will be published Based on Start Date
-          </Alert>
+
         </Box>
 
         <Grid
@@ -402,7 +406,7 @@ const createForm = () => {
           className="pt-8 mt-2 custom-event-container"
           style={{ paddingTop: "0" }}
         >
-          <Grid item xs={12} md={4} lg={8} className="lg-pl-0">
+          <Grid item xs={12} md={4} lg={7} className="lg-pl-0">
             <TextField
               label={
                 <span>
@@ -440,6 +444,7 @@ const createForm = () => {
                   : ""
               }
             />
+          
             <TextField
               id="poll_type"
               label="Poll Type"
@@ -449,6 +454,9 @@ const createForm = () => {
               value={pollType}
               onChange={(e) => setPollType(e.target.value)}
             />{" "}
+              <Alert severity="info" className="mt-15" sx={{marginBottom:'30px'}}>
+              Poll will be published Based on Start Date
+            </Alert>
             <Box className="mb-20">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -479,7 +487,8 @@ const createForm = () => {
               </LocalizationProvider>
             </Box>
           </Grid>
-          <Grid item xs={12} md={4} lg={4}>
+          <Grid item xs={12} md={4} lg={5}>
+            <Box sx={{marginLeft:'30px'}}>
             <FormControl style={{ width: "100%" }}>
               <FormLabel id="demo-row-radio-buttons-group-label">
                 Visibility<span style={{ color: "red" }}>*</span>
@@ -641,56 +650,59 @@ const createForm = () => {
                 <Box>
                   {fields.map((field, index) => (
                     <Box key={field.id} display="flex" alignItems="center">
-                      <Box><TextField
-                        label={`Option ${field.id}`}
-                        value={field.value}
-                        onChange={(e) => handleInputChange(field.id, e)}
-                        multiline
-                        maxRows={4}
-                        margin="normal"
-                        style={{ flex: 1, width: '100%' }}
-                      /></Box>
                       <Box>
-                      {index >= 2 && (
-                        <Button
-                          type="button"
-                          style={{
-                            width: '10%',
-                            height: '55px',
-                            color: '#0e7a9c',
-                          }}
-                          onClick={() => handleDeleteField(field.id)}
-                        >
-                          <DeleteOutlineOutlinedIcon
+                        <TextField
+                          label={`Option ${field.id}`}
+                          value={field.value}
+                          onChange={(e) => handleInputChange(field.id, e)}
+                          multiline
+                          maxRows={4}
+                          margin="normal"
+                          style={{ flex: 1, width: "100%" }}
+                        />
+                      </Box>
+                      <Box>
+                        {index >= 2 && (
+                          <Button
+                            type="button"
                             style={{
-                              fontSize: '30px',
-                              color: '#0e7a9c',
-                              cursor: 'pointer',
+                              width: "10%",
+                              height: "55px",
+                              color: "#0e7a9c",
                             }}
-                          />
-                        </Button>
-                      )}
-                     </Box>
-                     <Box>
-                      {index === fields.length - 1 && (
-                        <Button
-                          type="button"
-                          style={{
-                            width: '10%',
-                            height: '55px',
-                            color: '#0e7a9c',
-                          }}
-                          onClick={addField}
-                        >
-                          <AddOutlinedIcon />
-                        </Button>
-                      )}
+                            onClick={() => handleDeleteField(field.id)}
+                          >
+                            <DeleteOutlineOutlinedIcon
+                              style={{
+                                fontSize: "30px",
+                                color: "#0e7a9c",
+                                cursor: "pointer",
+                              }}
+                            />
+                          </Button>
+                        )}
+                      </Box>
+                      <Box>
+                        {index === fields.length - 1 && (
+                          <Button
+                            type="button"
+                            style={{
+                              width: "10%",
+                              height: "55px",
+                              color: "#0e7a9c",
+                            }}
+                            onClick={addField}
+                          >
+                            <AddOutlinedIcon />
+                          </Button>
+                        )}
                       </Box>
                     </Box>
                   ))}
                 </Box>
               </Box>
             </FormGroup>
+            </Box>
           </Grid>
         </Grid>
 
@@ -719,6 +731,7 @@ const createForm = () => {
           >
             {editData ? "Update" : "Create"}
           </Button>
+        </Box>
         </Box>
       </Container>
       <FloatingChatIcon />

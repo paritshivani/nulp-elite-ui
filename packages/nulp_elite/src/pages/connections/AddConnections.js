@@ -312,10 +312,10 @@ const AddConnections = () => {
 
       let responseData = await response.json();
 const TotalPage=Math.ceil(responseData?.result?.response?.count / 10);
-      if(TotalPage<=9990){
+      if(TotalPage<=1000){
       setTotalPages(TotalPage);
       }else{
-        setTotalPages(9990);
+        setTotalPages(1000);
       }      console.log("responseData", responseData);
       console.log(
         "user list of all type user",
@@ -1460,7 +1460,22 @@ const TotalPage=Math.ceil(responseData?.result?.response?.count / 10);
                                         item.lastName ? item.lastName : " "
                                       }`}
                                     </span>
-                                    <span className="h6-title ">{` |  ${item.designation}`}</span>
+                                    <div
+                                      style={{
+                                        display: "inline",
+                                        color: "#484848",
+                                      }}
+                                    >
+                                      {" "}
+                                      |{" "}
+                                    </div>
+                                    <div
+                                      className="h6-title "
+                                      style={{ display: "inline" }}
+                                    >
+                                      {item.designation}
+                                    </div>
+                                    {/* <span className="h6-title ">{` |  ${item.designation}`}</span> */}
                                   </>
                                 }
                                 secondary={
@@ -1493,9 +1508,30 @@ const TotalPage=Math.ceil(responseData?.result?.response?.count / 10);
                           >
                             <ListItem>
                               <ListItemText
-                                primary={`${item.firstName} ${
-                                  item.lastName ? item.lastName : ""
-                                } | ${item.designation}`}
+                                primary={
+                                  <span
+                                    style={{ fontSize: "1rem", color: "#000" }}
+                                  >
+                                    {`${item.firstName} ${
+                                      item.lastName ? item.lastName : " "
+                                    }`}
+                                    <div
+                                      style={{
+                                        display: "inline",
+                                        color: "#484848",
+                                      }}
+                                    >
+                                      {" "}
+                                      |{" "}
+                                    </div>
+                                    <div
+                                      className="h6-title "
+                                      style={{ display: "inline" }}
+                                    >
+                                      {item.designation}
+                                    </div>
+                                  </span>
+                                }
                               />
                             </ListItem>
                             <Box className="left-bx">
@@ -1550,9 +1586,30 @@ const TotalPage=Math.ceil(responseData?.result?.response?.count / 10);
                             <ListItem className="connection-tab">
                               <ListItemText
                                 style={{ color: "#000" }}
-                                primary={`${item.firstName}${
-                                  item.lastName ? ` ${item.lastName}` : ""
-                                } | ${item.designation}`}
+                                primary={
+                                  <span
+                                    style={{ fontSize: "1rem", color: "#000" }}
+                                  >
+                                    {`${item.firstName} ${
+                                      item.lastName ? item.lastName : " "
+                                    }`}
+                                    <div
+                                      style={{
+                                        display: "inline",
+                                        color: "#484848",
+                                      }}
+                                    >
+                                      {" "}
+                                      |{" "}
+                                    </div>
+                                    <div
+                                      className="h6-title "
+                                      style={{ display: "inline" }}
+                                    >
+                                      {item.designation}
+                                    </div>
+                                  </span>
+                                }
                                 secondary={
                                   item.messageRequest.length > 20 ? (
                                     <div
@@ -1809,10 +1866,34 @@ const TotalPage=Math.ceil(responseData?.result?.response?.count / 10);
                             >
                               <ListItem>
                                 <ListItemText
-                                  primary={`${item.firstName}${
-                                    item.lastName ? ` ${item.lastName}` : ""
-                                  }`}
-                                  secondary={`${item.designation}`}
+                                  primary={
+                                    <span
+                                      style={{
+                                        fontSize: "1rem",
+                                        color: "#000",
+                                      }}
+                                    >
+                                      {`${item.firstName} ${
+                                        item.lastName ? item.lastName : " "
+                                      }`}
+                                      <div
+                                        style={{
+                                          display: "inline",
+                                          color: "#484848",
+                                        }}
+                                      >
+                                        {" "}
+                                        |{" "}
+                                      </div>
+                                      <div
+                                        className="h6-title "
+                                        style={{ display: "inline" }}
+                                      >
+                                        {item.designation}
+                                      </div>
+                                    </span>
+                                  }
+                                  // secondary={`${item.designation}`}
                                   onClick={() =>
                                     onClickSearchedUser(item.userId)
                                   }

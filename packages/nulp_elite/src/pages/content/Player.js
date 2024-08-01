@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 const urlConfig = require("../../configs/urlConfig.json");
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 // const [width, height] = useWindowSize();
 
@@ -36,6 +37,9 @@ const Player = () => {
   const [previousRoute, setPreviousRoute] = useState("");
   const [userFirstName, setuserFirstName] = useState("");
   const [userLastName, setuserLastName] = useState("");
+  const [courseName, setCourseName] = useState(
+    location.state?.coursename || undefined
+  );
   const [lesson, setLesson] = React.useState();
   const queryString = location.search;
   const contentId = queryString.startsWith("?do_")
@@ -122,7 +126,7 @@ const Player = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="container-pb player">
+      <Container maxWidth="xl" role="main" className="player">
         <Grid container spacing={2}>
           <Link
             underline="hover"
@@ -137,18 +141,23 @@ const Player = () => {
             {lesson && (
               <Breadcrumbs
                 aria-label="breadcrumb"
-                className="h6-title mt-15 pl-18"
+                style={{
+                  padding: "25px 0",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                }}
               >
                 <Link
                   underline="hover"
                   href=""
                   aria-current="page"
-                  className="h6-title oneLineEllipsis"
+                  color="#484848"
                 >
-                  {lesson?.name}
+                  {courseName}
                 </Link>
               </Breadcrumbs>
             )}
+            <Box className="h3-title my-10"> {lesson?.name}</Box>
           </Grid>
           <Grid item xs={4}>
             <Link
@@ -279,7 +288,16 @@ const Player = () => {
             </Button>
           </Typography>
         </Box> */}
-        <Box className="lg-mx-90">
+        <Box
+          className="lg-mx-90"
+          style={{
+            position: "relative",
+            paddingBottom: "56.25%", // 16:9 aspect ratio
+            height: 0,
+            overflow: "hidden",
+            maxWidth: "100%",
+          }}
+        >
           {lesson && (
             <SunbirdPlayer
               // {...{ width, height: height - 64 }}
