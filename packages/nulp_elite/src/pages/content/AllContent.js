@@ -188,13 +188,10 @@ sessionStorage.setItem('previousRoutes', newPath)
     };
 
     try {
-  // Construct the URL with required query parameters
   const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
 
-  // Fetch data from the constructed URL
   const response = await getAllContents(url, data, headers);
 
-  // Filter and sort the response data
   const filteredAndSortedData = response?.data?.result?.content
     ?.filter(item => 
       ["Manuals/SOPs","Good Practices", "Reports", "Course"].includes(item.primaryCategory)
@@ -209,10 +206,8 @@ sessionStorage.setItem('previousRoutes', newPath)
       }
     });
 
-  // Update state with filtered and sorted data
   setData(filteredAndSortedData);
 } catch (error) {
-  // Display an error message if the fetch fails
   showErrorMessage(t("FAILED_TO_FETCH_DATA"));
 }
   };
