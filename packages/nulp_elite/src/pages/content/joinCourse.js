@@ -79,6 +79,7 @@ const JoinCourse = () => {
   const [creatorId, setCreatorId] = useState("");
   const [open, setOpen] = useState(false);
   const [chat, setChat] = useState([]);
+  const[childnode, setChildNode]=useState([]);
   const [formData, setFormData] = useState({
     message: "",
   });
@@ -95,6 +96,7 @@ const JoinCourse = () => {
   const [showMore, setShowMore] = useState(false);
   const [batchDetail, setBatchDetail] = useState("");
   const [score, setScore] = useState("");
+  const [isEnroll, setIsEnroll]=useState(false);
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -142,6 +144,8 @@ sessionStorage.setItem('previousRoutes', newPath)
         setCreatorId(data?.result?.content?.createdBy);
         setCourseData(data);
         setUserData(data);
+        const identifiers = data?.result?.content?.children?.map((child) => child.identifier) || [];
+        setChildNode(identifiers);
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -205,6 +209,9 @@ sessionStorage.setItem('previousRoutes', newPath)
         }
         const data = await response.json();
         setUserCourseData(data.result);
+        if(userCourseData.courses.some((course) => course.contentId === contentId)){
+          setIsEnroll(true)
+        }
       } catch (error) {
         console.error("Error while fetching courses:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -255,12 +262,7 @@ sessionStorage.setItem('previousRoutes', newPath)
           request: {
             userId: _userId,
             courseId: contentId,
-            contentIds: [
-              "do_1140201666434088961676",
-              "do_1140158031054356481608",
-              "do_1140159308293570561628",
-              "do_1140158135726735361613",
-            ],
+            contentIds: childnode,
             batchId: batchDetails.batchId,
             fields: ["progress", "score"],
           },
@@ -306,9 +308,16 @@ sessionStorage.setItem('previousRoutes', newPath)
   };
 
   const handleLinkClick = (id) => {
+    console.log(" batchDetails?.batchId", batchDetails?.batchId);
+    console.log("contentId",contentId);
+    console.log("isEnroll",isEnroll);
     navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`,{
-      state: { coursename:  userData?.result?.content?.name},
-    });
+    state: {
+      coursename: userData?.result?.content?.name,
+      batchid: batchDetails?.batchId,
+      courseid: contentId,
+      isenroll: isEnroll,
+    },    });
     
   };
 
