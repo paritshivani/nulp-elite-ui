@@ -14,7 +14,7 @@ const NoResult = () => {
 
   // Now contentId contains the value from the URL parameter
   return (
-    <div>
+    <Box style={{ width: "100%" }}>
       {/* <Container maxWidth="md" role="main" className="container-pb"> */}
       <Box
         style={{
@@ -22,15 +22,16 @@ const NoResult = () => {
           textAlign: "center",
           margin: "0 21px",
           BorderRadius: "10px",
+          marginTop: "20px",
         }}
         className="center-box"
       >
         <SearchOffIcon style={{ fontSize: "70px", color: "#ccc" }} />
-        <Box> {t("NO_RESULT_FOUND")}</Box>
+        <Box> No Result Found</Box>
       </Box>
       {/* </Container> */}
       <FloatingChatIcon />
-    </div>
+    </Box>
   );
 };
 

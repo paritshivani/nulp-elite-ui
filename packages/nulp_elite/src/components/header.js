@@ -67,6 +67,7 @@ function Header({ globalSearchQuery }) {
   const [orgId, setOrgId] = useState();
   const [openSubmenu, setOpenSubmenu] = useState(false);
   const [open, setOpen] = useState(false);
+  const [show, setShow] = React.useState(false);
   const handleTooltipClose = () => {
     setOpen(false);
   };
@@ -422,9 +423,9 @@ function Header({ globalSearchQuery }) {
               title={t("Language")}
               placement="bottom"
               arrow
-              open={open}
-              onOpen={handleTooltipOpen}
-              onClose={handleTooltipClose}
+              open={show}
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
             >
               <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
                 <FormControl
@@ -449,6 +450,8 @@ function Header({ globalSearchQuery }) {
                     startIcon={<LanguageIcon />}
                     onChange={handleChangeLanguage}
                     inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                    onOpen={() => setShow(false)}
+                    onClose={() => setShow(true)}
                   >
                     <MenuItem value="en">{t("ENGLISH")}</MenuItem>
                     <MenuItem value="hi">{t("HINDI")}</MenuItem>
@@ -456,18 +459,17 @@ function Header({ globalSearchQuery }) {
                     <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
                     <MenuItem value="ta">{t("TAMIL")}</MenuItem>
                     <MenuItem value="be">{t("BENGALI")}</MenuItem>
-                    <MenuItem value="mal">{t("MALYALAM")}</MenuItem>
+                    <MenuItem value="mal">{t("MALAYALAM")}</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
             </Tooltip>
-            <Tooltip title={t("Notification")} placement="bottom" arrow>
+            {/* <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
-                {/* <NotificationsNoneOutlinedIcon />
-                    ekta */}
+               
 
                 <Tooltip>
-                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                  <IconButton sx={{ p: 0 }}>
                     <NotificationsNoneOutlinedIcon />
                   </IconButton>
                 </Tooltip>
@@ -503,6 +505,50 @@ function Header({ globalSearchQuery }) {
                     </Link>
                   </MenuItem>
                 </Menu>
+              </Box>
+            </Tooltip> */}
+            <Tooltip title={t("Notification")} placement="bottom" arrow>
+              <Box className="notification-circle xs-hide">
+                {/* <NotificationsNoneOutlinedIcon />
+                    ekta */}
+
+                {/* <Tooltip>
+                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                    <NotificationsNoneOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElNotify}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElNotify)}
+                  onClose={handleCloseNotifyMenu}
+                >
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 1
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 2
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link underline="none" textAlign="center">
+                      Text 3
+                    </Link>
+                  </MenuItem>
+                </Menu> */}
               </Box>
             </Tooltip>
 
@@ -596,15 +642,6 @@ function Header({ globalSearchQuery }) {
                 </MenuItem>
               )}
 
-              <MenuItem>
-                <Link
-                  href={routeConfig.ROUTES.HELP_PAGE.HELP}
-                  underline="none"
-                  textAlign="center"
-                >
-                  {t("HELP")}
-                </Link>
-              </MenuItem>
               <MenuItem
                 onClick={handleSubmenuToggle}
                 style={{ background: "#f9fafc", color: "#1976d2" }}
@@ -665,6 +702,15 @@ function Header({ globalSearchQuery }) {
                   )}
                 </List>
               </Collapse>
+              <MenuItem>
+                <Link
+                  href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                  underline="none"
+                  textAlign="center"
+                >
+                  {t("HELP")}
+                </Link>
+              </MenuItem>
               <MenuItem>
                 <Link href="/logoff" underline="none" textAlign="center">
                   {t("LOGOUT")}
@@ -793,13 +839,14 @@ function Header({ globalSearchQuery }) {
                 <Box className="notification-circle lg-hide">
                   {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
+                  {/* <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}> */}
 
-                  <Tooltip>
-                    <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
+                  {/* <Tooltip>
+                    <IconButton sx={{ p: 0 }}>
                       <NotificationsNoneOutlinedIcon />
                     </IconButton>
-                  </Tooltip>
-                  <Menu
+                  </Tooltip> */}
+                  {/* <Menu
                     sx={{ mt: "45px" }}
                     id="menu-appbar"
                     anchorEl={anchorElNotify}
@@ -830,7 +877,7 @@ function Header({ globalSearchQuery }) {
                         Text 3
                       </Link>
                     </MenuItem>
-                  </Menu>
+                  </Menu> */}
                 </Box>
                 <Tooltip
                   className={
@@ -945,15 +992,6 @@ function Header({ globalSearchQuery }) {
                       </Link>
                     </MenuItem>
                   )}
-                  <MenuItem>
-                    <Link
-                      href={routeConfig.ROUTES.HELP_PAGE.HELP}
-                      underline="none"
-                      textAlign="center"
-                    >
-                      {t("HELP")}
-                    </Link>
-                  </MenuItem>
 
                   {/* <NotificationsNoneOutlinedIcon />
                     ekta */}
@@ -1018,6 +1056,15 @@ function Header({ globalSearchQuery }) {
                       )}
                     </List>
                   </Collapse>
+                  <MenuItem>
+                    <Link
+                      href={routeConfig.ROUTES.HELP_PAGE.HELP}
+                      underline="none"
+                      textAlign="center"
+                    >
+                      {t("HELP")}
+                    </Link>
+                  </MenuItem>
 
                   <MenuItem>
                     <Link href="/logoff" underline="none" textAlign="center">

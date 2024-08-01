@@ -116,41 +116,39 @@ const LearningHistory = () => {
           </Box>
           <Box>
             <Box className="custom-card">
-              {filteredCourses?.length === 0 ? (
-                <>
-                  <Box style={{ width: "300px" }}>
-                    <NoResult
-                      className="center-no-result "
-                      style={{ width: "300px" }}
-                    />
-                    <Box className="h5-title">Explore Content</Box>
-                  </Box>
-                </>
-              ) : (
-                filteredCourses?.map((course) => (
-                  <Box className="custom-card-box" key={course.courseName}>
-                    <BoxCard
-                      items={course}
-                      index={courseData.result.courses.length}
-                      onClick={() =>
-                        navigate(
-                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
-                        )
-                      }
-                    />
-                  </Box>
-                ))
-              )}
+              {filteredCourses?.map((course) => (
+                <Box className="custom-card-box" key={course.courseName}>
+                  <BoxCard
+                    items={course}
+                    index={courseData.result.courses.length}
+                    onClick={() =>
+                      navigate(
+                        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
+                      )
+                    }
+                  />
+                </Box>
+              ))}
               <div className="blankCard"></div>
             </Box>
-          </Box>
-          <Pagination
-            count={Math.ceil(
-              courseData?.result?.courses?.length / itemsPerPage
+            {filteredCourses?.length === 0 && (
+              <>
+                <NoResult
+                  className="center-no-result "
+                  style={{ width: "300px" }}
+                />
+                <Box className="h5-title">Explore Content</Box>
+              </>
             )}
-            page={currentPage}
-            onChange={handlePageChange}
-          />
+
+            <Pagination
+              count={Math.ceil(
+                courseData?.result?.courses?.length / itemsPerPage
+              )}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </Box>
         </Box>
       </Container>
       <FloatingChatIcon />
