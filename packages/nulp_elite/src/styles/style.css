@@ -1898,6 +1898,12 @@ button {
   .spacing-header a {
     margin: 0 23px !important;
   }
+  .domainText{
+    width: 82px;
+  }
+  .my-class{
+    margin: 0 10px !important;
+  }
 }
 
 @media (max-width: 769px) {

@@ -412,9 +412,6 @@ const pollsDetailes = () => {
                 <Box className="h1-title fw-600 lg-mt-20">
                   {signlePOll.title}
                 </Box>
-                <Box className="lg-mt-12 h6-title Link">
-                  #CheerforBharat Paris Olympics Survey
-                </Box>
                 <Box>
                   <Box className="mt-9 h5-title">
                     Poll Created On:
