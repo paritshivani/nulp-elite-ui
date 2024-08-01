@@ -507,50 +507,6 @@ function Header({ globalSearchQuery }) {
                 </Menu>
               </Box>
             </Tooltip>
-            <Tooltip title={t("Notification")} placement="bottom" arrow>
-              <Box className="notification-circle xs-hide">
-                {/* <NotificationsNoneOutlinedIcon />
-                    ekta */}
-
-                <Tooltip>
-                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
-                    <NotificationsNoneOutlinedIcon />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElNotify}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElNotify)}
-                  onClose={handleCloseNotifyMenu}
-                >
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 1
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 2
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 3
-                    </Link>
-                  </MenuItem>
-                </Menu>
-              </Box>
-            </Tooltip>
 
             {/* User Profile */}
             <Tooltip
