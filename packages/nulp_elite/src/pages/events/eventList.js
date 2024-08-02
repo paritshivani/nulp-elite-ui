@@ -66,7 +66,7 @@ const EventList = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [data, setData] = useState();
   console.log("myEvents.result.events ---- ", myEvents.result.events);
-  const [myData, setMyData] = useState(myEvents.result.events);
+  const [myData, setMyData] = useState();
   const [filters, setFilters] = useState({});
   const [domainfilter, setDomainfilter] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -96,8 +96,8 @@ const EventList = (props) => {
   const [startDateFilter, setStartDateFilter] = useState([]);
   const [endDateFilter, setEndDateFilter] = useState([]);
   const [valueTab, setValueTab] = React.useState("2");
-  const [orgId, setOrgId]=useState();
-  const [framework, setFramework]=useState();
+  const [orgId, setOrgId] = useState();
+  const [framework, setFramework] = useState();
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -164,7 +164,7 @@ const EventList = (props) => {
   }
 
   const fetchAllData = async () => {
-    console.log("searchQuery",searchQuery);
+    console.log("searchQuery", searchQuery);
     let filters = {};
     if (searchQuery && domainfilter && subDomainFilter) {
       filters = {
@@ -225,7 +225,7 @@ const EventList = (props) => {
       request: {
         filters: filters,
         limit: 10,
-        query: searchQuery ,
+        query: searchQuery,
         sort_by: { lastPublishedOn: "desc", startDate: "desc" },
         offset: 10 * (currentPage - 1),
       },
@@ -252,27 +252,24 @@ const EventList = (props) => {
   const fetchMyEvents = async () => {
     setIsLoading(true);
     setError(null);
-
     const _userId = util.userId();
-
     let data = JSON.stringify({
       request: {
-        filters: { objectType: ["Event"] },
+        filters: { user_id: _userId },
         limit: 10,
-        sort_by: { lastPublishedOn: "desc" },
+        sort_by: { created_at: "desc" },
         offset: 0,
       },
     });
     const headers = {
       "Content-Type": "application/json",
     };
-
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
-      const response = await fetch(url, headers);
-      const responseData = await response.json();
-      console.log("My data  ---", responseData.result.courses);
-      // setMyData(responseData.result.courses);
+      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
+      const url = `https://devnulp.niua.org/event/enrollment-list`;
+      const response = await getAllContents(url, data, headers);
+      console.log("My data  ---", response.data.result.event);
+      setMyData(response.data.result.event);
     } catch (error) {
       console.log("m data error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -281,23 +278,53 @@ const EventList = (props) => {
     }
   };
 
+  // const fetchMyEvents = async () => {
+  //   setIsLoading(true);
+  //   setError(null);
+
+  //   const _userId = util.userId();
+
+  //   let data = JSON.stringify({
+  //     request: {
+  //       filters: { objectType: ["Event"] },
+  //       limit: 10,
+  //       sort_by: { lastPublishedOn: "desc" },
+  //       offset: 0,
+  //     },
+  //   });
+  //   const headers = {
+  //     "Content-Type": "application/json",
+  //   };
+
+  //   try {
+  //     const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
+  //     const response = await fetch(url, headers);
+  //     const responseData = await response.json();
+  //     console.log("My data  ---", responseData.result.courses);
+  //     // setMyData(responseData.result.courses);
+  //   } catch (error) {
+  //     console.log("m data error---", error);
+  //     showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const fetchUserData = async () => {
-  try {
-   const uservData = await util.userData();
-    
+    try {
+      const uservData = await util.userData();
 
-setOrgId(uservData?.data?.result?.response?.rootOrgId);
-setFramework(uservData?.data?.result?.response?.framework?.id[0])
-
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
- useEffect(() => {
-  if (orgId && framework) {
-    Fetchdomain();
-  }
-}, [orgId,framework]);
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if (orgId && framework) {
+      Fetchdomain();
+    }
+  }, [orgId, framework]);
 
   const Fetchdomain = async () => {
     const defaultFramework = localStorage.getItem("defaultFramework") || "nulp";
@@ -320,21 +347,23 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
               value: term.code,
               label: term.name,
             }));
-             const categories=responseData?.result?.framework?.categories;
-      const selectedIndex = categories.findIndex(
-      (category) => category.code === "board"
-    );
+          const categories = responseData?.result?.framework?.categories;
+          const selectedIndex = categories.findIndex(
+            (category) => category.code === "board"
+          );
           setCategory(domainOptions);
-          responseData.result.framework.categories[selectedIndex].terms?.map((term) => {
-            setCategory(term);
-            if (domainWithImage) {
-              domainWithImage.result.form.data.fields.map((imgItem) => {
-                if ((term && term.code) === (imgItem && imgItem.code)) {
-                  term["image"] = imgItem.image ? imgItem.image : "";
-                }
-              });
+          responseData.result.framework.categories[selectedIndex].terms?.map(
+            (term) => {
+              setCategory(term);
+              if (domainWithImage) {
+                domainWithImage.result.form.data.fields.map((imgItem) => {
+                  if ((term && term.code) === (imgItem && imgItem.code)) {
+                    term["image"] = imgItem.image ? imgItem.image : "";
+                  }
+                });
+              }
             }
-          });
+          );
           const domainList =
             responseData?.result?.framework?.categories[selectedIndex].terms;
           setDomainList(domainList);
@@ -441,7 +470,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
                                   items={item}
                                   index={index}
                                   onClick={() =>
-                                    handleCardClick(items.identifier)
+                                    handleCardClick(item.identifier)
                                   }
                                   // onClick={() => alert("hii")}
                                 ></EventCard>
