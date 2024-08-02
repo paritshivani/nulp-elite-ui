@@ -824,7 +824,7 @@ const JoinCourse = () => {
                   underline="hover"
                   href=""
                   aria-current="page"
-                  className="h6-title oneLineEllipsis"
+                  className="h6-title oneLineEllipsis height-inherit"
                 >
                   {userData?.result?.content?.name}
                 </Link>

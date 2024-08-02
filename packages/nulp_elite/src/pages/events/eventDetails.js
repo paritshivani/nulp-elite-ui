@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-
+import { getAllContents } from "services/contentService";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import AccessAlarmsOutlinedIcon from "@mui/icons-material/AccessAlarmsOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
@@ -87,7 +87,8 @@ const EventDetails = () => {
   });
   const [consent, setConsent] = useState(consenttext);
   const [emailError, setEmailError] = useState(false);
-  console.log("isEnrolled origin-----", isEnrolled);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [designationsList, setDesignationsList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -196,6 +197,7 @@ const EventDetails = () => {
 
   useEffect(() => {
     getUserData(_userId, "loggedIn");
+    fetchMyEvents();
     // checkEnrolledCourse();
   }, [_userId, eventId]);
 
@@ -243,33 +245,69 @@ const EventDetails = () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
-  const checkEnrolledCourse = async () => {
+  const fetchMyEvents = async () => {
+    setIsLoading(true);
+    setError(null);
+    const _userId = util.userId();
+    let data = JSON.stringify({
+      request: {
+        filters: { user_id: _userId },
+        limit: 10,
+        sort_by: { created_at: "desc" },
+        offset: 0,
+      },
+    });
+    const headers = {
+      "Content-Type": "application/json",
+    };
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
-      const response = await fetch(url);
-      if (!response.ok) {
-        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-        throw new Error(t("FAILED_TO_FETCH_DATA"));
-      }
-      const data = await response.json();
-      console.log("enrollment data ---", data.result.courses);
-      setUserCourseData(data.result.courses);
-      if (data.result.courses.length > 0) {
-        data.result.courses.map((event) => {
+      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
+      const url = `https://devnulp.niua.org/event/enrollment-list`;
+      const response = await getAllContents(url, data, headers);
+      console.log("My data  ---", response.data.result.event);
+      setUserCourseData(response.data.result.event);
+      if (response.data.result.event.length > 0) {
+        response.data.result.event.map((event) => {
           console.log("check enrollment list API 1-----", event);
-
           if (event.identifier === eventId) {
-            alert("list match");
             setIsEnrolled(true);
           }
         });
       }
-      console.log("check enrollment list API 2-----", isEnrolled);
     } catch (error) {
-      console.error("Error while fetching courses:", error);
+      console.log("m data error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    } finally {
+      setIsLoading(false);
     }
   };
+  // const checkEnrolledCourse = async () => {
+  //   try {
+  //     const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
+  //     const response = await fetch(url);
+  //     if (!response.ok) {
+  //       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+  //       throw new Error(t("FAILED_TO_FETCH_DATA"));
+  //     }
+  //     const data = await response.json();
+  //     console.log("enrollment data ---", data.result.courses);
+  //     setUserCourseData(data.result.courses);
+  //     if (data.result.courses.length > 0) {
+  //       data.result.courses.map((event) => {
+  //         console.log("check enrollment list API 1-----", event);
+
+  //         if (event.identifier === eventId) {
+  //           alert("list match");
+  //           setIsEnrolled(true);
+  //         }
+  //       });
+  //     }
+  //     console.log("check enrollment list API 2-----", isEnrolled);
+  //   } catch (error) {
+  //     console.error("Error while fetching courses:", error);
+  //     showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+  //   }
+  // };
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
   };
@@ -1182,18 +1220,16 @@ const EventDetails = () => {
             }
             label="I consent to the collection and use of my email ID for the purposes stated above."
           />
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ mt: 2 }} style={{ textAlign: "right" }}>
             <Button
-              variant="contained"
-              color="primary"
+              className="custom-btn-primary"
               onClick={handleSubmit}
               disabled={!isChecked}
             >
               {t("SUBMIT")}
             </Button>
             <Button
-              variant="outlined"
-              color="secondary"
+              className="custom-btn-default"
               onClick={handleCloseConsentModal}
               sx={{ ml: 2 }}
             >
