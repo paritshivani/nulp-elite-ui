@@ -184,7 +184,7 @@ const Player = () => {
                 <Box>
                   <Typography
                     className="h6-title pl-20 mb-20"
-                    style={{ display: "inline-block", verticalAlign: "middle" }}
+                    style={{ display: "inline-block", verticalAlign: "super" }}
                   >
                     {t("CONTENT_TAGS")}:{" "}
                   </Typography>
