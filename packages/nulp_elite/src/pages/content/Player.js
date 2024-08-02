@@ -41,6 +41,21 @@ const Player = () => {
   const queryString = location.search;
   const contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
 
+   const fetchUserData = async () => {
+    try {
+      const userData = await util.userData();
+      console.log("user name ----");
+      setuserFirstName(userData?.data?.result?.response?.firstName);
+      setuserLastName(userData?.data?.result?.response?.lastName);
+      if (userDomain) {
+        setSelectedDomain(userDomain);
+        setDomainName(userDomain);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   const handleExitButton = () => {
     setLesson();
     setLessonId();
@@ -97,14 +112,11 @@ const Player = () => {
     setPreviousRoute(previousRoutes);
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `/api/content/v1/read/${contentId}?fields=transcripts,ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&orgdetails=orgName,email&licenseDetails=name,description,url`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+                const response = await fetch(`/api/content/v1/read/${contentId}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch course data");
         }
@@ -115,6 +127,7 @@ const Player = () => {
       }
     };
     fetchData();
+        fetchUserData();
   }, [contentId]);
 
   useEffect(() => {
@@ -128,6 +141,15 @@ const Player = () => {
       <Header />
       <Container maxWidth="xl" role="main" className="player">
         <Grid container spacing={2}>
+          <Link
+            underline="hover"
+            onClick={handleGoBack}
+            color="#004367"
+            href={previousRoute}
+            className="viewAll mr-17"
+          >
+            {t("BACK")}
+          </Link>
           <Grid item xs={8}>
             {lesson && (
               <Breadcrumbs
@@ -159,6 +181,88 @@ const Player = () => {
               <ShareOutlinedIcon />
             </Link>
           </Grid>
+          <Grid>
+            {lesson &&
+              (lesson.board ||
+                lesson.se_boards ||
+                lesson.gradeLevel ||
+                lesson.se_gradeLevels) && (
+                <Box>
+                  <Typography
+                    className="h6-title"
+                    style={{ display: "inline-block" }}
+                  >
+                    {t("CONTENT_TAGS")}:{" "}
+                  </Typography>
+
+                  {
+                    lesson && lesson.board && (
+                      // && lesson.board.map((item, index) => (
+                      <Button
+                        key={`board`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {lesson.board}
+                      </Button>
+                    )
+                    // ))
+                  }
+                  {lesson &&
+                    lesson.se_boards &&
+                    lesson.se_boards.map((item, index) => (
+                      <Button
+                        key={`se_boards-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {lesson &&
+                    lesson.gradeLevel &&
+                    lesson.gradeLevel.map((item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {lesson.se_gradeLevels &&
+                    lesson.se_gradeLevels.map((item, index) => (
+                      <Button
+                        key={`se_gradeLevels-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                </Box>
+              )}
+          </Grid>
         </Grid>
         <Box
           className="lg-mx-90"
@@ -173,7 +277,10 @@ const Player = () => {
           {lesson && (
             <SunbirdPlayer
               {...lesson}
-              userData={{ firstName: "Shivani", lastName: "" }}
+              userData={{
+                firstName: userFirstName || "",
+                lastName: userLastName || "",
+              }}
               setTrackData={(data) => {
                 const type = lesson?.mimeType;
                 if (["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(type)) {

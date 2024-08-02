@@ -14,7 +14,7 @@ import Alert from "@mui/material/Alert";
 import domainWithImage from "../../assets/domainImgForm.json";
 import DomainCarousel from "components/domainCarousel";
 import * as frameworkService from "../../services/frameworkService";
-import * as util from "../../services/utilService"
+import * as util from "../../services/utilService";
 import SearchBox from "components/search";
 import { t } from "i18next";
 import appConfig from "../../configs/appConfig.json";
@@ -39,8 +39,7 @@ const CategoryPage = () => {
   const [domainName, setDomainName] = useState(null);
   const routeConfig = require("../../configs/routeConfig.json");
   const [orgId, setOrgId] = useState();
-  const [framework, setFramework]=useState();
-
+  const [framework, setFramework] = useState();
 
   const location = useLocation();
   const queryString = location.search;
@@ -86,7 +85,7 @@ const CategoryPage = () => {
 
   const fetchMoreItems = async (category, selectedDomain) => {
     const newPath = location.pathname + "?" + category;
-sessionStorage.setItem('previousRoutes', newPath)
+    sessionStorage.setItem("previousRoutes", newPath);
     setError(null);
     let data = JSON.stringify({
       request: {
@@ -141,21 +140,20 @@ sessionStorage.setItem('previousRoutes', newPath)
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
-   const fetchUserData = async () => {
-      try {
-        const uservData = await util.userData();
-        setOrgId(uservData?.data?.result?.response?.rootOrgId);
-        setFramework(uservData?.data?.result?.response?.framework?.id[0])
-
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    useEffect(() => {
-  if (orgId && framework) {
-    fetchDomains();
-  }
-}, [orgId,framework]);
+  const fetchUserData = async () => {
+    try {
+      const uservData = await util.userData();
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if (orgId && framework) {
+      fetchDomains();
+    }
+  }, [orgId, framework]);
 
   const fetchDomains = async () => {
     setError(null);
@@ -179,11 +177,12 @@ sessionStorage.setItem('previousRoutes', newPath)
         url,
         headers
       );
-      const categories=response?.data?.result?.framework?.categories;
+      const categories = response?.data?.result?.framework?.categories;
       const selectedIndex = categories.findIndex(
-      (category) => category.code === "board"
-    );
-      const terms = response.data.result.framework.categories[selectedIndex].terms ?? [];
+        (category) => category.code === "board"
+      );
+      const terms =
+        response.data.result.framework.categories[selectedIndex].terms ?? [];
       terms.forEach((term) => {
         if (domainWithImage) {
           domainWithImage.result.form.data.fields.forEach((imgItem) => {

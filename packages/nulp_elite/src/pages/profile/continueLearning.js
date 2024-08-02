@@ -166,31 +166,32 @@ const ContinueLearning = () => {
           <Box>
             <Grid container spacing={2}>
               <Box className="custom-card profile-card-view w-100">
-                {paginatedCourses.length === 0 ? (
-                  <>
-                    <Box style={{ width: "300px" }}>
-                      <NoResult className="center-no-result " />
-                      <Box className="h5-title">Explore Content</Box>
-                    </Box>
-                  </>
-                ) : (
-                  paginatedCourses.map((items) => (
-                    <Box className="custom-card-box" key={items.contentId}>
-                      <BoxCard
-                        items={items.content}
-                        index={filteredCourses.length}
-                        onClick={() =>
-                          handleCardClick(
-                            items.content.identifier,
-                            items.content.primaryCategory
-                          )
-                        }
-                      ></BoxCard>
-                    </Box>
-                  ))
-                )}
-                <div className="blankCard"></div>
+                {paginatedCourses.map((items) => (
+                  <Box className="custom-card-box" key={items.contentId}>
+                    <BoxCard
+                      items={items.content}
+                      index={filteredCourses.length}
+                      onClick={() =>
+                        handleCardClick(
+                          items.content.identifier,
+                          items.content.primaryCategory
+                        )
+                      }
+                    ></BoxCard>
+                  </Box>
+                ))}
               </Box>
+              {paginatedCourses.length === 0 && (
+                <>
+                  <Box style={{ width: "100%" }}>
+                    <NoResult className="center-no-result " />
+
+                    <Box className="h5-title">Explore Content</Box>
+                  </Box>
+                </>
+              )}
+
+              <div className="blankCard"></div>
             </Grid>
           </Box>
           <Pagination

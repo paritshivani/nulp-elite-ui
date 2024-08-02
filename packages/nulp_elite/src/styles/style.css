@@ -994,6 +994,8 @@ button {
 
   .my-class .MuiTypography-title-md {
     padding: 0 !important;
+    width: 80px;
+    margin: 0 auto;
   }
 
   .carousel-active-ui .imgBorder {
@@ -1276,6 +1278,9 @@ button {
 }
 
 @media (min-width: 769px) {
+  .custom-event-container .MuiTabs-flexContainer {
+    justify-content: center !important;
+  }
   .MuiFormControl-root.MuiTextField-root.w-86 {
     width: 86% !important;
   }
@@ -1566,6 +1571,9 @@ button {
 
   .content-list .custom-card {
     justify-content: start;
+  }
+  .custom-card {
+    justify-content: start !important;
   }
 
   .content-list .custom-card-box {
@@ -1858,19 +1866,19 @@ button {
     filter: brightness(0) invert(1);
   } */
 
-  .react-multi-carousel-list {
+  /* .react-multi-carousel-list {
     background: #fff;
     box-shadow: 0px 4px 4px 0px #00000040;
     margin-top: 0;
-  }
+  } */
 
   .react-multi-carousel-list.carousel-container .MuiGrid-container {
     margin-left: -2px !important;
   }
 
-  .react-multi-carousel-list {
+  /* .react-multi-carousel-list {
     display: block !important;
-  }
+  } */
 
   .bg-blue {
     width: 100%;
@@ -1897,6 +1905,9 @@ button {
   }
   .spacing-header a {
     margin: 0 23px !important;
+  }
+  .my-class {
+    margin: 0 10px !important;
   }
 }
 
@@ -2014,15 +2025,8 @@ button {
     box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.2) !important;
   }
   .pos-fixed,
-  .scrolledTop,
-  .carousel-bx {
+  .scrolledTop {
     transition: top 0.2s ease-in-out;
-    /* .addConnectChat {
-    margin-top: 29px !important;
-  } */
-    /* .MuiContainer-root.pt-108 {
-    padding-top: 108px !important;
-  } */
   }
   /* @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   .custom-card {
@@ -2032,6 +2036,35 @@ button {
   }
 } */
 }
+@media (min-width: 1201px) {
+  .domainText {
+    width: 82px !important;
+    margin: 0 20px !important;
+  }
+}
+@media (min-width: 769px) and (max-width: 1208px) {
+  .carousel-bx {
+    padding: 9px 0 !important;
+  }
+}
+@media (min-width: 1209px) {
+  .carousel-bx {
+    transition: top 0.2s ease-in-out;
+  }
+  .react-multi-carousel-list {
+    background: #fff;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    margin-top: 0;
+  }
+  .react-multi-carousel-list {
+    display: block !important;
+  }
+  .carousel-bx {
+    box-shadow: 0 4px 4px 0 #00000040;
+    justify-content: center;
+  }
+}
+
 @media (min-width: 1377px) {
   .allContentlearning .custom-card,
   .allContentProfile .custom-card {
@@ -2114,11 +2147,10 @@ button {
   display: none !important;
 }
 
-.carousel-bx {
+/* .carousel-bx {
   box-shadow: 0 4px 4px 0 #00000040;
   justify-content: center;
-  /* padding-top: 15px !important; */
-}
+} */
 
 /* .carousel-bx .my-class:first-child {
   margin-left: 0 !important;
@@ -3505,13 +3537,14 @@ thead th {
 .createForm {
   margin-bottom: 30px !important;
 }
-.createForm .MuiButton-root:hover {
+/* .createForm .MuiButton-root:hover {
   background: none !important;
-}
+} */
 
 .createForm .MuiInputBase-formControl {
   background: #fff !important;
   width: 100% !important;
+  border: 2px solid #efefef;
 }
 
 .MuiRadioGroup-root svg {

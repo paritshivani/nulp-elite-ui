@@ -120,8 +120,8 @@ const Dashboard = () => {
   const eventReports = async (event_id) => {
     try {
       const params = new URLSearchParams({ event_id: event_id });
-      const url = `${urlConfig.URLS.EVENT.REPORT}?${params.toString()}`;
-      // const url = `https://devnulp.niua.org/event/reports?${params.toString()}`;
+      // const url = `${urlConfig.URLS.EVENT.REPORT}?${params.toString()}`;
+      const url = `https://devnulp.niua.org/event/reports?${params.toString()}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -269,8 +269,8 @@ const Dashboard = () => {
       };
 
       try {
-        const url = `${urlConfig.URLS.EVENT.GET_COUNT}`;
-        // const url = `https://devnulp.niua.org/event/event_count`;
+        // const url = `${urlConfig.URLS.EVENT.GET_COUNT}`;
+        const url = `https://devnulp.niua.org/event/event_count`;
 
         const response = await fetch(url, {
           method: "POST",
@@ -340,10 +340,10 @@ const Dashboard = () => {
           );
         }
 
-        const url = `${
-          urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
-        }?${params.toString()}`;
-        // const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
+        // const url = `${
+        //   urlConfig.URLS.EVENT.TOP_TRENDING_EVENT
+        // }?${params.toString()}`;
+        const url = `https://devnulp.niua.org/event/get_top_trending?${params.toString()}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -378,7 +378,7 @@ const Dashboard = () => {
             responseData.result.framework &&
             responseData.result.framework.categories &&
             responseData.result.framework.categories.length > 0 &&
-            responseData.result.framework.categories[0].terms
+            responseData.result.framework.categories[3].terms
           ) {
             const domainList =
               responseData?.result?.framework?.categories[3].terms;
@@ -481,11 +481,11 @@ const Dashboard = () => {
   const handleSearchChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    if (query.length >= 2) {
-      setCurrentPage(1);
-    } else {
-      setSearchQuery("");
-    }
+    // if (query.length >= 2) {
+    //   setCurrentPage(1);
+    // } else {
+    //   setSearchQuery("");
+    // }
   };
 
   const handleCertificateFilterChange = (event) => {
@@ -518,6 +518,7 @@ const Dashboard = () => {
     setSelectedSubDomain([]);
     setVisibilityFilter("");
     setCertificateFilter("");
+    setSearchQuery("");
   };
 
   return (
@@ -612,7 +613,6 @@ const Dashboard = () => {
                   ]}
                   series={[{ data: eventTopUser }]}
                   height={300}
-                  width={500}
                   barSize={10}
                 />
                 <Box className="brYlabel">No. of Participants</Box>
@@ -710,7 +710,7 @@ const Dashboard = () => {
                 label="Category"
               >
                 {domainList?.map((domain, index) => (
-                  <MenuItem key={index} value={domain.code}>
+                  <MenuItem key={index} value={domain.name}>
                     {domain.name}
                   </MenuItem>
                 ))}
@@ -732,7 +732,7 @@ const Dashboard = () => {
                       <Chip
                         key={value}
                         label={
-                          subCategory.find((item) => item.code === value)?.name
+                          subCategory.find((item) => item.name === value)?.name
                         }
                       />
                     ))}
@@ -740,9 +740,9 @@ const Dashboard = () => {
                 )}
               >
                 {subCategory?.map((domain) => (
-                  <MenuItem key={domain.code} value={domain.code}>
+                  <MenuItem key={domain.name} value={domain.name}>
                     <Checkbox
-                      checked={selectedSubDomain.includes(domain.code)}
+                      checked={selectedSubDomain.includes(domain.name)}
                     />
                     <ListItemText primary={domain.name} />
                   </MenuItem>
@@ -789,6 +789,7 @@ const Dashboard = () => {
               label="Search By Event Name"
               id="outlined-basic"
               variant="outlined"
+              value={searchQuery}
               fullWidth
               margin="normal"
               onChange={handleSearchChange}
