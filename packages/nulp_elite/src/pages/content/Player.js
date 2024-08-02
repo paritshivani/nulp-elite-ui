@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useParams,useNavigate, useLocation } from "react-router-dom";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
-import FloatingChatIcon from "components/FloatingChatIcon";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Link from "@mui/material/Link";
+import FloatingChatIcon from "../../components/FloatingChatIcon";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+const urlConfig = require("../../configs/urlConfig.json");
 import { SunbirdPlayer } from "@shiksha/common-lib";
 import * as util from "../../services/utilService";
 import axios from "axios";
@@ -27,10 +28,13 @@ const Player = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
   const [previousRoute, setPreviousRoute] = useState("");
+  const [userFirstName, setuserFirstName] = useState("");
+  const [userLastName, setuserLastName] = useState("");
   const [courseName, setCourseName] = useState(location.state?.coursename);
   const [batchId, setBatchId] = useState(location.state?.batchid);
   const [courseId, setCourseId] = useState(location.state?.courseid);
   const [isEnrolled, setIsEnrolled] = useState(location.state?.isenroll ||  undefined);
+    const { content } = location.state || {};
 
   const _userId = util.userId();
 
@@ -130,6 +134,14 @@ const Player = () => {
         fetchUserData();
   }, [contentId]);
 
+  const showErrorMessage = (msg) => {
+    setToasterMessage(msg);
+    setTimeout(() => {
+      setToasterMessage("");
+    }, 2000);
+    setToasterOpen(true);
+  };
+
   useEffect(() => {
     if (isCompleted) {
       updateContentState();
@@ -154,18 +166,13 @@ const Player = () => {
             {lesson && (
               <Breadcrumbs
                 aria-label="breadcrumb"
-                style={{ padding: "25px 0", fontSize: "16px", fontWeight: "600" }}
+                style={{
+                  padding: "25px 0",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                }}
               >
-                <Link
-                  underline="hover"
-                  style={{ maxHeight: "inherit" }}
-                  onClick={handleGoBack}
-                  color="#004367"
-                  href={previousRoute}
-                >
-                  <ArrowBackIosNewIcon style={{ fontSize: 15 }} />
-                  {t("BACK")}
-                </Link>
+                
                 <Link underline="hover" href="" aria-current="page" color="#484848">
                   {courseName}
                 </Link>
