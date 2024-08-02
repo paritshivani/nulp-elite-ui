@@ -30,7 +30,7 @@ const Player = () => {
   const [courseName, setCourseName] = useState(location.state?.coursename);
   const [batchId, setBatchId] = useState(location.state?.batchid);
   const [courseId, setCourseId] = useState(location.state?.courseid);
-  const [isEnrolled, setIsEnrolled] = useState(location.state?.isenroll);
+  const [isEnrolled, setIsEnrolled] = useState(location.state?.isenroll ||  undefined);
 
   const _userId = util.userId();
 

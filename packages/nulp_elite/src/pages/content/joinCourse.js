@@ -96,7 +96,7 @@ const JoinCourse = () => {
   const [showMore, setShowMore] = useState(false);
   const [batchDetail, setBatchDetail] = useState("");
   const [score, setScore] = useState("");
-  const [isEnroll, setIsEnroll]=useState(false);
+  const [isEnroll, setIsEnroll]=useState(true);
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -209,8 +209,8 @@ sessionStorage.setItem('previousRoutes', newPath)
         }
         const data = await response.json();
         setUserCourseData(data.result);
-        if(userCourseData.courses.some((course) => course.contentId === contentId)){
-          setIsEnroll(true)
+        if(userCourseData.courses.some((course) => course.contentId != contentId)){
+          setIsEnroll(false)
         }
       } catch (error) {
         console.error("Error while fetching courses:", error);
