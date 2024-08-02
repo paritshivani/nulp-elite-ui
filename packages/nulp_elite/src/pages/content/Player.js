@@ -127,7 +127,7 @@ const Player = () => {
     <div>
       <Header />
       <Container maxWidth="xl" role="main" className="player">
-        <Grid container spacing={2}>
+        <Box style={{ textAlign: "right" }}>
           <Link
             underline="hover"
             onClick={handleGoBack}
@@ -137,27 +137,31 @@ const Player = () => {
           >
             {t("BACK")}
           </Link>
+        </Box>
+        <Grid container spacing={2}>
           <Grid item xs={8}>
-            {lesson && (
-              <Breadcrumbs
-                aria-label="breadcrumb"
-                style={{
-                  padding: "25px 0",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                <Link
-                  underline="hover"
-                  href=""
-                  aria-current="page"
-                  color="#484848"
+            <Box>
+              {lesson && (
+                <Breadcrumbs
+                  aria-label="breadcrumb"
+                  style={{
+                    padding: "25px 0",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                  }}
                 >
-                  {courseName}
-                </Link>
-              </Breadcrumbs>
-            )}
-            <Box className="h3-title my-10"> {lesson?.name}</Box>
+                  <Link
+                    underline="hover"
+                    href=""
+                    aria-current="page"
+                    color="#484848"
+                  >
+                    {courseName}
+                  </Link>
+                </Breadcrumbs>
+              )}
+              <Box className="h3-title my-10"> {lesson?.name}</Box>
+            </Box>
           </Grid>
           <Grid item xs={4}>
             <Link
