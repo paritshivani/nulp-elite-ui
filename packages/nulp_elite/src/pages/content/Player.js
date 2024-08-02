@@ -126,14 +126,14 @@ const Player = () => {
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="player">
+      <Container maxWidth="xl" role="main" className="player mt-15">
         <Box style={{ textAlign: "right" }}>
           <Link
             underline="hover"
             onClick={handleGoBack}
             color="#004367"
             href={previousRoute}
-            className="viewAll mr-17"
+            className="viewAll"
           >
             {t("BACK")}
           </Link>
@@ -145,7 +145,7 @@ const Player = () => {
                 <Breadcrumbs
                   aria-label="breadcrumb"
                   style={{
-                    padding: "25px 0",
+                    padding: "5px 0",
                     fontSize: "16px",
                     fontWeight: "600",
                   }}
@@ -183,8 +183,8 @@ const Player = () => {
                 lesson.se_gradeLevels) && (
                 <Box>
                   <Typography
-                    className="h6-title"
-                    style={{ display: "inline-block" }}
+                    className="h6-title pl-20 mb-20"
+                    style={{ display: "inline-block", verticalAlign: "middle" }}
                   >
                     {t("CONTENT_TAGS")}:{" "}
                   </Typography>

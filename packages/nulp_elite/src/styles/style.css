@@ -302,7 +302,7 @@ button {
     margin: 0 10px;
   } */
   .notification-circle {
-    padding-right: 30px;
+    padding-right: 15px;
   }
 
   .notification-circle svg {
@@ -756,9 +756,9 @@ button {
     background: #cacccc70 !important;
     border: none !important;
   }
-  .h6-title.pl-20 {
+  /* .h6-title.pl-20 {
     width: 139px;
-  }
+  } */
 }
 
 @media (max-width: 768px) {
@@ -3632,4 +3632,10 @@ input:required::after {
 }
 .subDomain legend {
   min-width: 90px !important;
+}
+.mt-15 {
+  margin-top: 15px !important;
+}
+.height-inherit {
+  height: inherit !important;
 }
