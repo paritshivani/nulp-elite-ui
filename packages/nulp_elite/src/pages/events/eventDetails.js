@@ -1182,18 +1182,16 @@ const EventDetails = () => {
             }
             label="I consent to the collection and use of my email ID for the purposes stated above."
           />
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ mt: 2 }} style={{ textAlign: "right" }}>
             <Button
-              variant="contained"
-              color="primary"
+              className="custom-btn-primary"
               onClick={handleSubmit}
               disabled={!isChecked}
             >
               {t("SUBMIT")}
             </Button>
             <Button
-              variant="outlined"
-              color="secondary"
+              className="custom-btn-default"
               onClick={handleCloseConsentModal}
               sx={{ ml: 2 }}
             >
