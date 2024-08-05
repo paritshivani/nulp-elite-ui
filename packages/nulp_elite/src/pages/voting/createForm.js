@@ -44,7 +44,7 @@ const createForm = () => {
   const { state: editData } = location;
   const [title, setTitle] = useState(editData?.title || "");
   const [description, setDescription] = useState(editData?.description || "");
-  const [pollType, setPollType] = useState(editData?.pollType || "");
+  const [pollType, setPollType] = useState([]);
   const [startDate, setStartDate] = useState(
     editData?.start_date ? dayjs(editData.start_date) : null
   );
@@ -90,7 +90,7 @@ const createForm = () => {
   const [orgOffset, setOrgOffset] = useState(0);
   const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
   const currentDateTime = new Date();
-  const [chips, setChips] = useState([]);
+  const [chips, setChips] = useState(editData?.poll_keywords || []);
   const inputRef = useRef(null);
 
   // Check if startDate is in the past
@@ -204,7 +204,6 @@ const createForm = () => {
 
   const handleSubmit = async () => {
     const pollOptions = fields.map((field) => field.value);
-    console.log("-------------", pollType, chips);
     let data;
     if (visibility === "private") {
       data = {
