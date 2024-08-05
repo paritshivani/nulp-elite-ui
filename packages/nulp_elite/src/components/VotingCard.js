@@ -30,6 +30,7 @@ import axios from "axios";
 const urlConfig = require("../configs/urlConfig.json");
 import moment from "moment";
 import LinearProgress from "@mui/material/LinearProgress";
+import { Tooltip } from "@mui/material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -150,15 +151,37 @@ export default function VotingCard({ items, index, onClick }) {
                 "dddd, MMMM Do YYYY, h:mm:ss a"
               )}
             </Box>
+            {items?.poll_keywords && (
+              <Tooltip
+                title={
+                  Array.isArray(items?.poll_keywords) &&
+                  items?.poll_keywords?.length > 1
+                    ? items?.poll_keywords.join(", ")
+                    : items?.poll_keywords?.[0]
+                }
+                placement="right"
+                className="labeltwo cardLabelEllips"
+              >
+                <Button>
+                  {Array.isArray(items?.poll_keywords) &&
+                  items?.poll_keywords.length === 1
+                    ? items?.poll_keywords[0]
+                    : Array.isArray(items?.poll_keywords) &&
+                      `${items?.poll_keywords[0]} + ${
+                        items?.poll_keywords.length - 1
+                      }`}
+                </Button>
+              </Tooltip>
+            )}
           </Box>
         </Box>
-        <Box className="card-img-container" style={{ position: "inherit" }}>
+        {/* <Box className="card-img-container" style={{ position: "inherit" }}>
           <img
             src={items.image ? items.image : require("assets/default.png")}
             className="event-card-img"
             alt="App Icon"
           />
-        </Box>
+        </Box> */}
       </CardContent>
       <Box className="voting-text lg-mt-30">
         <Box>

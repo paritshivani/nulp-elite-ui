@@ -208,7 +208,7 @@ const pollsDetailes = () => {
                             </Box>
                           </Box>
                         </Box>
-                        <Box
+                        {/* <Box
                           className="card-img-container"
                           style={{ position: "inherit" }}
                         >
@@ -221,7 +221,7 @@ const pollsDetailes = () => {
                             className="event-card-img"
                             alt="App Icon"
                           />
-                        </Box>
+                        </Box> */}
                       </CardContent>
                       <Box className="voting-text lg-mt-30">
                         {type === "Draft" ? (

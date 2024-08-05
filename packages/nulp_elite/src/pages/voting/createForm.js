@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -33,6 +33,8 @@ import { Autocomplete, ListItemText } from "@mui/material";
 import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 import dayjs from "dayjs";
 import Toast from "pages/Toast";
+import { Chip, Stack, InputAdornment } from "@mui/material";
+import { Cancel as CancelIcon } from "@mui/icons-material";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -88,12 +90,31 @@ const createForm = () => {
   const [orgOffset, setOrgOffset] = useState(0);
   const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
   const currentDateTime = new Date();
+  const [chips, setChips] = useState([]);
+  const inputRef = useRef(null);
+
   // Check if startDate is in the past
   let isStartDateInPast;
   if (editData) {
     startDate && new Date(startDate) < currentDateTime;
   }
 
+  const handleAddChip = useCallback(
+    (event) => {
+      if (event.key === "Enter" && pollType.trim() !== "") {
+        event.preventDefault(); // Prevent the default behavior of adding a new line
+        if (!chips.includes(pollType.trim())) {
+          setChips([...chips, pollType.trim()]);
+        }
+        setPollType("");
+      }
+    },
+    [chips, pollType]
+  );
+  const handleDeleteChip = (chipToDelete) => () => {
+    setChips(chips.filter((chip) => chip !== chipToDelete));
+  };
+  console.log("--------=================", pollType);
   useEffect(() => {
     const initialOrg = orgList.find((org) => org.orgName === organisationName);
     setSelectedOrg(initialOrg || null);
@@ -183,6 +204,7 @@ const createForm = () => {
 
   const handleSubmit = async () => {
     const pollOptions = fields.map((field) => field.value);
+    console.log("-------------", pollType, chips);
     let data;
     if (visibility === "private") {
       data = {
@@ -190,7 +212,7 @@ const createForm = () => {
         description,
         visibility,
         poll_options: pollOptions,
-        poll_type: pollType,
+        poll_keywords: chips,
         status: "Live",
         start_date: startDate,
         end_date: endDate,
@@ -202,7 +224,7 @@ const createForm = () => {
         description,
         visibility,
         poll_options: pollOptions,
-        poll_type: pollType,
+        poll_keywords: chips,
         status: "Live",
         start_date: startDate,
         end_date: endDate,
@@ -241,7 +263,7 @@ const createForm = () => {
       title,
       description,
       poll_options: pollOptions,
-      poll_type: pollType,
+      poll_keywords: chips,
       start_date: startDate,
       end_date: endDate,
     };
@@ -386,334 +408,361 @@ const createForm = () => {
         className="xs-pb-20 createForm min-472"
         style={{ paddingTop: "0" }}
       >
-        <Box sx={{background:'#fff',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',padding:'30px',
-    marginTop: '30px'
-}}>
-        <Box className="voting-text1">
-          <Box className="h3-title pl-5 xs-py-10">
-            <PollOutlinedIcon
-              style={{ paddingRight: "10px", verticalAlign: "middle" }}
-            />
-            {editData ? "Edit Poll" : "Poll Creation"}
+        <Box
+          sx={{
+            background: "#fff",
+            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+            padding: "30px",
+            marginTop: "30px",
+          }}
+        >
+          <Box className="voting-text1">
+            <Box className="h3-title pl-5 xs-py-10">
+              <PollOutlinedIcon
+                style={{ paddingRight: "10px", verticalAlign: "middle" }}
+              />
+              {editData ? "Edit Poll" : "Poll Creation"}
+            </Box>
           </Box>
 
-
-        </Box>
-
-        <Grid
-          container
-          spacing={2}
-          className="pt-8 mt-2 custom-event-container"
-          style={{ paddingTop: "0" }}
-        >
-          <Grid item xs={12} md={4} lg={7} className="lg-pl-0">
-            <TextField
-              label={
-                <span>
-                  Title<span className="red"> *</span>
-                </span>
-              }
-              id="title"
-              variant="outlined"
-              className="mb-20"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              error={title.length > 0 && title.length < 10}
-              helperText={
-                title.length > 0 && title.length < 10
-                  ? "Title must be at least 10 characters"
-                  : ""
-              }
-            />
-            <TextField
-              label={
-                <span>
-                  Description<span className="red"> *</span>
-                </span>
-              }
-              id="description"
-              multiline
-              rows={4}
-              className="mb-20"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              error={description.length > 0 && description.length < 100}
-              helperText={
-                description.length > 0 && description.length < 100
-                  ? "Description must be at least 100 characters"
-                  : ""
-              }
-            />
-          
-            <TextField
-              id="poll_type"
-              label="Poll Type"
-              className="mb-20"
-              multiline
-              maxRows={4}
-              value={pollType}
-              onChange={(e) => setPollType(e.target.value)}
-            />{" "}
-              <Alert severity="info" className="mt-15" sx={{marginBottom:'30px'}}>
-              Poll will be published Based on Start Date
-            </Alert>
-            <Box className="mb-20">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  label={
-                    <span>
-                      Start Date<span className="red"> *</span>
-                    </span>
-                  }
-                  required
-                  value={startDate}
-                  onChange={(newValue) => setStartDate(newValue)}
-                  disabled={isStartDateInPast} // Disable if startDate is in the past
-                />
-              </LocalizationProvider>
-            </Box>
-            <Box className="mb-20">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  label={
-                    <span>
-                      End Date<span className="red"> *</span>
-                    </span>
-                  }
-                  required
-                  value={endDate}
-                  onChange={(newValue) => setEndDate(newValue)}
-                />
-              </LocalizationProvider>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={4} lg={5}>
-            <Box sx={{marginLeft:'30px'}}>
-            <FormControl style={{ width: "100%" }}>
-              <FormLabel id="demo-row-radio-buttons-group-label">
-                Visibility<span style={{ color: "red" }}>*</span>
-              </FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                value={visibility}
-                onChange={handleRadioChange}
+          <Grid
+            container
+            spacing={2}
+            className="pt-8 mt-2 custom-event-container"
+            style={{ paddingTop: "0" }}
+          >
+            <Grid item xs={12} md={4} lg={7} className="lg-pl-0">
+              <TextField
+                label={
+                  <span>
+                    Title<span className="red"> *</span>
+                  </span>
+                }
+                id="title"
+                variant="outlined"
                 className="mb-20"
-              >
-                <FormControlLabel
-                  value="public"
-                  control={<Radio />}
-                  label="Public"
-                  disabled={Boolean(editData)}
-                />
-                <FormControlLabel
-                  value="private"
-                  control={<Radio />}
-                  label="Invite only"
-                  disabled={Boolean(editData)}
-                />
-              </RadioGroup>
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                error={title.length > 0 && title.length < 10}
+                helperText={
+                  title.length > 0 && title.length < 10
+                    ? "Title must be at least 10 characters"
+                    : ""
+                }
+              />
+              <TextField
+                label={
+                  <span>
+                    Description<span className="red"> *</span>
+                  </span>
+                }
+                id="description"
+                multiline
+                rows={4}
+                className="mb-20"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                error={description.length > 0 && description.length < 100}
+                helperText={
+                  description.length > 0 && description.length < 100
+                    ? "Description must be at least 100 characters"
+                    : ""
+                }
+              />
+              <TextField
+                inputRef={inputRef}
+                value={pollType}
+                onChange={(e) => setPollType(e.target.value)}
+                onKeyDown={handleAddChip}
+                label="Poll Keywords"
+                placeholder="Type and press Enter to add"
+                variant="outlined"
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Stack direction="row" spacing={1} flexWrap="wrap">
+                        {chips.map((chip) => (
+                          <Chip
+                            key={chip}
+                            label={chip}
+                            onDelete={handleDeleteChip(chip)}
+                            deleteIcon={<CancelIcon />}
+                          />
+                        ))}
+                      </Stack>
+                    </InputAdornment>
+                  ),
+                }}
+              />
 
-              {visibility === "private" && (
-                <Box
-                  style={{
-                    background: "#f4d88b",
-                    borderRadius: "10px",
-                    padding: "15px",
-                  }}
-                >
-                  <div>
-                    {isContentCreator ? (
-                      <TextField
-                        label="Organization"
-                        value={organisationName}
-                        variant="outlined"
-                        fullWidth
-                        disabled
-                      />
-                    ) : isAdmin ? (
-                      <Autocomplete
-                        options={orgList}
-                        getOptionLabel={(option) => option.orgName}
-                        value={selectedOrg}
-                        onChange={handleOrgChange}
-                        renderInput={(params) => (
+              <Alert
+                severity="info"
+                className="mt-15"
+                sx={{ marginBottom: "30px" }}
+              >
+                Poll will be published Based on Start Date
+              </Alert>
+              <Box className="mb-20">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    label={
+                      <span>
+                        Start Date<span className="red"> *</span>
+                      </span>
+                    }
+                    required
+                    value={startDate}
+                    onChange={(newValue) => setStartDate(newValue)}
+                    disabled={isStartDateInPast} // Disable if startDate is in the past
+                  />
+                </LocalizationProvider>
+              </Box>
+              <Box className="mb-20">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    label={
+                      <span>
+                        End Date<span className="red"> *</span>
+                      </span>
+                    }
+                    required
+                    value={endDate}
+                    onChange={(newValue) => setEndDate(newValue)}
+                  />
+                </LocalizationProvider>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4} lg={5}>
+              <Box sx={{ marginLeft: "30px" }}>
+                <FormControl style={{ width: "100%" }}>
+                  <FormLabel id="demo-row-radio-buttons-group-label">
+                    Visibility<span style={{ color: "red" }}>*</span>
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    value={visibility}
+                    onChange={handleRadioChange}
+                    className="mb-20"
+                  >
+                    <FormControlLabel
+                      value="public"
+                      control={<Radio />}
+                      label="Public"
+                      disabled={Boolean(editData)}
+                    />
+                    <FormControlLabel
+                      value="private"
+                      control={<Radio />}
+                      label="Invite only"
+                      disabled={Boolean(editData)}
+                    />
+                  </RadioGroup>
+
+                  {visibility === "private" && (
+                    <Box
+                      style={{
+                        background: "#f4d88b",
+                        borderRadius: "10px",
+                        padding: "15px",
+                      }}
+                    >
+                      <div>
+                        {isContentCreator ? (
                           <TextField
-                            {...params}
-                            label="Select or Search Organization"
+                            label="Organization"
+                            value={organisationName}
                             variant="outlined"
                             fullWidth
+                            disabled
                           />
-                        )}
-                        ListboxProps={{
-                          onScroll: (event) => {
-                            const listboxNode = event.currentTarget;
-                            if (
-                              listboxNode.scrollTop +
-                              listboxNode.clientHeight ===
-                              listboxNode.scrollHeight
-                            ) {
-                              if (!isFetchingMoreOrgs) {
-                                loadMoreOrgs();
-                              }
-                            }
-                          },
-                        }}
-                      />
-                    ) : null}
+                        ) : isAdmin ? (
+                          <Autocomplete
+                            options={orgList}
+                            getOptionLabel={(option) => option.orgName}
+                            value={selectedOrg}
+                            onChange={handleOrgChange}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Select or Search Organization"
+                                variant="outlined"
+                                fullWidth
+                              />
+                            )}
+                            ListboxProps={{
+                              onScroll: (event) => {
+                                const listboxNode = event.currentTarget;
+                                if (
+                                  listboxNode.scrollTop +
+                                    listboxNode.clientHeight ===
+                                  listboxNode.scrollHeight
+                                ) {
+                                  if (!isFetchingMoreOrgs) {
+                                    loadMoreOrgs();
+                                  }
+                                }
+                              },
+                            }}
+                          />
+                        ) : null}
 
-                    <RadioGroup
-                      row
-                      aria-labelledby="nested-radio-buttons-group-label"
-                      name="nested-radio-buttons-group"
-                      value={selectedOption}
-                      onChange={handleSelectChange}
-                      className="mt-15"
-                    >
-                      <FormControlLabel
-                        value="option1"
-                        control={<Radio />}
-                        label="All Users"
-                      />
-                      <FormControlLabel
-                        value="option2"
-                        control={<Radio />}
-                        label="Select Users"
-                      />
-                    </RadioGroup>
-
-                    {selectedOption === "option2" && (
-                      <Autocomplete
-                        multiple
-                        options={orgUserList}
-                        getOptionLabel={(option) =>
-                          `${option.firstName} ${option.lastName || " "}`
-                        }
-                        value={userList}
-                        onChange={handleUserChange}
-                        renderOption={(props, option, { selected }) => (
-                          <li {...props}>
-                            <Checkbox
-                              checked={selected}
-                              onChange={() => {
-                                const isSelected = userList.includes(option);
-                                const newSelectedUsers = isSelected
-                                  ? userList.filter(
-                                    (user) => user.userId !== option.userId
-                                  )
-                                  : [...userList, option];
-                                setUserList(newSelectedUsers);
-                              }}
-                            />
-                            <ListItemText
-                              primary={`${option.firstName} ${option.lastName || " "
-                                }`}
-                            />
-                          </li>
-                        )}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            variant="outlined"
+                        <RadioGroup
+                          row
+                          aria-labelledby="nested-radio-buttons-group-label"
+                          name="nested-radio-buttons-group"
+                          value={selectedOption}
+                          onChange={handleSelectChange}
+                          className="mt-15"
+                        >
+                          <FormControlLabel
+                            value="option1"
+                            control={<Radio />}
+                            label="All Users"
+                          />
+                          <FormControlLabel
+                            value="option2"
+                            control={<Radio />}
                             label="Select Users"
-                            placeholder="Search users"
+                          />
+                        </RadioGroup>
+
+                        {selectedOption === "option2" && (
+                          <Autocomplete
+                            multiple
+                            options={orgUserList}
+                            getOptionLabel={(option) =>
+                              `${option.firstName} ${option.lastName || " "}`
+                            }
+                            value={userList}
+                            onChange={handleUserChange}
+                            renderOption={(props, option, { selected }) => (
+                              <li {...props}>
+                                <Checkbox
+                                  checked={selected}
+                                  onChange={() => {
+                                    const isSelected =
+                                      userList.includes(option);
+                                    const newSelectedUsers = isSelected
+                                      ? userList.filter(
+                                          (user) =>
+                                            user.userId !== option.userId
+                                        )
+                                      : [...userList, option];
+                                    setUserList(newSelectedUsers);
+                                  }}
+                                />
+                                <ListItemText
+                                  primary={`${option.firstName} ${
+                                    option.lastName || " "
+                                  }`}
+                                />
+                              </li>
+                            )}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                variant="outlined"
+                                label="Select Users"
+                                placeholder="Search users"
+                              />
+                            )}
+                            renderTags={(selected, getTagProps) =>
+                              selected.map((user, index) => (
+                                <ListItemText
+                                  key={user.userId}
+                                  primary={`${user.firstName} ${user.lastName}`}
+                                  {...getTagProps({ index })}
+                                />
+                              ))
+                            }
                           />
                         )}
-                        renderTags={(selected, getTagProps) =>
-                          selected.map((user, index) => (
-                            <ListItemText
-                              key={user.userId}
-                              primary={`${user.firstName} ${user.lastName}`}
-                              {...getTagProps({ index })}
-                            />
-                          ))
-                        }
-                      />
-                    )}
-                  </div>
-                </Box>
-              )}
-            </FormControl>
+                      </div>
+                    </Box>
+                  )}
+                </FormControl>
 
-            <FormGroup className="d-flex" style={{ flexFlow: "row" }}>
-              <Box className="voting-textfield">
-                <FormLabel id="demo-row-radio-buttons-group-label">
-                  Poll Options<span style={{ color: "red" }}>*</span>
-                  {/* <TextField
+                <FormGroup className="d-flex" style={{ flexFlow: "row" }}>
+                  <Box className="voting-textfield">
+                    <FormLabel id="demo-row-radio-buttons-group-label">
+                      Poll Options<span style={{ color: "red" }}>*</span>
+                      {/* <TextField
                     id="outlined-basic"
                     label="Options"
                     variant="outlined"
                     className="w-86 mt-20"
                   /> */}
-                </FormLabel>
-                <Box>
-                  {fields.map((field, index) => (
-                    <Box key={field.id} display="flex" alignItems="center">
-                      <Box>
-                        <TextField
-                          label={`Option ${field.id}`}
-                          value={field.value}
-                          onChange={(e) => handleInputChange(field.id, e)}
-                          multiline
-                          maxRows={4}
-                          margin="normal"
-                          style={{ flex: 1, width: "100%" }}
-                        />
-                      </Box>
-                      <Box>
-                        {index >= 2 && (
-                          <Button
-                            type="button"
-                            style={{
-                              width: "10%",
-                              height: "55px",
-                              color: "#0e7a9c",
-                            }}
-                            onClick={() => handleDeleteField(field.id)}
-                          >
-                            <DeleteOutlineOutlinedIcon
-                              style={{
-                                fontSize: "30px",
-                                color: "#0e7a9c",
-                                cursor: "pointer",
-                              }}
+                    </FormLabel>
+                    <Box>
+                      {fields.map((field, index) => (
+                        <Box key={field.id} display="flex" alignItems="center">
+                          <Box>
+                            <TextField
+                              label={`Option ${field.id}`}
+                              value={field.value}
+                              onChange={(e) => handleInputChange(field.id, e)}
+                              multiline
+                              maxRows={4}
+                              margin="normal"
+                              style={{ flex: 1, width: "100%" }}
                             />
-                          </Button>
-                        )}
-                      </Box>
-                      <Box>
-                        {index === fields.length - 1 && (
-                          <Button
-                            type="button"
-                            style={{
-                              width: "10%",
-                              height: "55px",
-                              color: "#0e7a9c",
-                            }}
-                            onClick={addField}
-                          >
-                            <AddOutlinedIcon />
-                          </Button>
-                        )}
-                      </Box>
+                          </Box>
+                          <Box>
+                            {index >= 2 && (
+                              <Button
+                                type="button"
+                                style={{
+                                  width: "10%",
+                                  height: "55px",
+                                  color: "#0e7a9c",
+                                }}
+                                onClick={() => handleDeleteField(field.id)}
+                              >
+                                <DeleteOutlineOutlinedIcon
+                                  style={{
+                                    fontSize: "30px",
+                                    color: "#0e7a9c",
+                                    cursor: "pointer",
+                                  }}
+                                />
+                              </Button>
+                            )}
+                          </Box>
+                          <Box>
+                            {index === fields.length - 1 && (
+                              <Button
+                                type="button"
+                                style={{
+                                  width: "10%",
+                                  height: "55px",
+                                  color: "#0e7a9c",
+                                }}
+                                onClick={addField}
+                              >
+                                <AddOutlinedIcon />
+                              </Button>
+                            )}
+                          </Box>
+                        </Box>
+                      ))}
                     </Box>
-                  ))}
-                </Box>
+                  </Box>
+                </FormGroup>
               </Box>
-            </FormGroup>
-            </Box>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Box
-          style={{
-            marginTop: "8px",
-            marginBottom: "20px",
-            textAlign: "right",
-          }}
-        >
-          {/* <Button
+          <Box
+            style={{
+              marginTop: "8px",
+              marginBottom: "20px",
+              textAlign: "right",
+            }}
+          >
+            {/* <Button
             type="button"
             className="custom-btn-primary"
             style={{ width: "10%" }}
@@ -722,16 +771,16 @@ const createForm = () => {
           >
             Submit
           </Button> */}
-          <Button
-            type="button"
-            className="custom-btn-primary"
-            style={{ width: "10%" }}
-            onClick={editData ? handleUpdate : handleSubmit}
-            disabled={!isFormValid()}
-          >
-            {editData ? "Update" : "Create"}
-          </Button>
-        </Box>
+            <Button
+              type="button"
+              className="custom-btn-primary"
+              style={{ width: "10%" }}
+              onClick={editData ? handleUpdate : handleSubmit}
+              disabled={!isFormValid()}
+            >
+              {editData ? "Update" : "Create"}
+            </Button>
+          </Box>
         </Box>
       </Container>
       <FloatingChatIcon />
