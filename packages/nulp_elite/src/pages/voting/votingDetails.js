@@ -242,13 +242,13 @@ const VotingDetails = () => {
             spacing={2}
             className="bg-whitee custom-event-container mb-20 xs-container"
           >
-            <Grid item xs={3} md={6} lg={2} className="lg-pl-5 xs-pl-0">
-              <img
+            {/* <Grid item xs={3} md={6} lg={2} className="lg-pl-5 xs-pl-0"> */}
+            {/* <img
                 src={require("assets/default.png")}
                 className="eventCardImg"
                 alt="App Icon"
-              />
-              {/* <Box>
+              /> */}
+            {/* <Box>
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -278,7 +278,7 @@ const VotingDetails = () => {
                 </Button>
               </Box>
             </Box> */}
-            </Grid>
+            {/* </Grid> */}
             {(userVote && userVote?.length > 0 && timeDifference > 15) ||
             isVotingEnded ? (
               <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
@@ -380,6 +380,24 @@ const VotingDetails = () => {
                     "dddd, MMMM Do YYYY, h:mm:ss a"
                   )}
                 </Box>
+                <Box className="pr-5">
+                  {poll?.poll_keywords &&
+                    poll?.poll_keywords?.map((item, index) => (
+                      <Button
+                        key={`board-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                </Box>
+
                 <Box className="pr-5">
                   {userVote?.length > 0 && timeDifference <= 15 && (
                     <>
