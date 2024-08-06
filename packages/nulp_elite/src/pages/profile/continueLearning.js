@@ -82,7 +82,7 @@ const ContinueLearning = () => {
     }
   };
   useEffect(() => {
-    if (orgId || framework) {
+    if (orgId && framework) {
       fetchGradeLevels();
     }
   }, [orgId, framework]);
