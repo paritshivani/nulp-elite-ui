@@ -96,7 +96,11 @@ const JoinCourse = () => {
   const [showMore, setShowMore] = useState(false);
   const [batchDetail, setBatchDetail] = useState("");
   const [score, setScore] = useState("");
-  const [isEnroll, setIsEnroll] = useState(true);
+  const [isEnroll, setIsEnroll] = useState(false);
+  const [ConsumedContents, setConsumedContents] = useState();
+  const [TotalContents, setTotalContents] = useState();
+  const [IsUnitCompleted, setIsUnitCompleted] = useState();
+
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -212,11 +216,11 @@ const JoinCourse = () => {
         const data = await response.json();
         setUserCourseData(data.result);
         if (
-          userCourseData?.courses?.some(
-            (course) => course?.contentId != contentId
+          data?.result?.courses?.some(
+            (course) => course?.contentId === contentId
           )
         ) {
-          setIsEnroll(false);
+          setIsEnroll(true);
         }
       } catch (error) {
         console.error("Error while fetching courses:", error);
@@ -245,6 +249,94 @@ const JoinCourse = () => {
     checkEnrolledCourse();
     getUserData();
   }, []);
+
+  const flattenDeep = async (contents) => {
+    if (contents) {
+      let result = [];
+      for (let val of contents) {
+        result.push(val);
+        if (val.children) {
+          const children = await flattenDeep(val.children);
+          result = result.concat(children);
+        }
+      }
+      return result;
+    }
+    return [];
+  };
+
+  const calculateProgress = async () => {
+    console.log("batchDetails?-------", batchDetails);
+
+    console.log("batchDetails?.batchId", batchDetails?.batchId);
+    console.log("courseData?-----", courseData);
+
+    console.log(
+      "courseData?.result?.content?.children",
+      courseData?.result?.content?.children
+    );
+    if (batchDetails?.batchId && courseData?.result?.content?.children) {
+      let tempConsumedContents = 0;
+      let tempTotalContents = 0;
+
+      for (let unit of courseData?.result?.content?.children) {
+        if (unit.mimeType === "application/vnd.ekstep.content-collection") {
+          let consumedContents = [];
+          let flattenDeepContents = [];
+
+          if (unit.children) {
+            flattenDeepContents = (await flattenDeep(unit.children)).filter(
+              (item) =>
+                item.mimeType !== "application/vnd.ekstep.content-collection"
+            );
+            console.log("flattenDeepContents", flattenDeepContents);
+            consumedContents = flattenDeepContents.filter((o) =>
+              contentStatus.some(
+                ({ contentId, status }) =>
+                  o.identifier === contentId && status === 2
+              )
+            );
+          }
+
+          unit.consumedContent = consumedContents.length;
+          unit.contentCount = flattenDeepContents.length;
+          unit.isUnitConsumed =
+            consumedContents.length === flattenDeepContents.length;
+          unit.isUnitConsumptionStart = consumedContents.length > 0;
+          unit.progress = flattenDeepContents.length
+            ? (consumedContents.length / flattenDeepContents.length) * 100
+            : 0;
+        } else {
+          const consumedContent = contentStatus.filter(
+            ({ contentId, status }) =>
+              unit.identifier === contentId && status === 2
+          );
+          unit.consumedContent = consumedContent.length;
+          unit.contentCount = 1;
+          unit.isUnitConsumed = consumedContent.length === 1;
+          unit.progress = consumedContent.length ? 100 : 0;
+          unit.isUnitConsumptionStart = Boolean(consumedContent.length);
+        }
+
+        tempConsumedContents += unit.consumedContent;
+        tempTotalContents += unit.contentCount;
+      }
+
+      const progress = tempTotalContents
+        ? (tempConsumedContents / tempTotalContents) * 100
+        : 0;
+      console.log("progress", progress);
+      setConsumedContents(tempConsumedContents);
+      setTotalContents(tempTotalContents);
+      courseHierarchy.progress = progress;
+      const unitCompleted = tempTotalContents === tempConsumedContents;
+      setIsUnitCompleted(unitCompleted);
+    }
+  };
+
+  useEffect(() => {
+    calculateProgress();
+  }, [batchDetails, courseData]);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -278,6 +370,9 @@ const JoinCourse = () => {
           const response = await axios.post(url, request);
           const data = response.data;
           setCourseProgress(data);
+          const contentIds =
+            data?.result?.contentList?.map((item) => item.contentId) || [];
+          setConsumedContents(contentIds);
         } catch (error) {
           console.error("Error while fetching courses:", error);
           showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -314,15 +409,13 @@ const JoinCourse = () => {
   };
 
   const handleLinkClick = (id) => {
-    console.log(" batchDetails?.batchId", batchDetails?.batchId);
-    console.log("contentId", contentId);
-    console.log("isEnroll", isEnroll);
     navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
       state: {
         coursename: userData?.result?.content?.name,
         batchid: batchDetails?.batchId,
         courseid: contentId,
         isenroll: isEnroll,
+        consumedcontents: ConsumedContents,
       },
     });
   };
@@ -535,6 +628,7 @@ const JoinCourse = () => {
       if (response.status === 200) {
         setEnrolled(true);
         setShowEnrollmentSnackbar(true);
+        setIsEnroll(true);
       }
     } catch (error) {
       console.error("Error enrolling in the course:", error);
