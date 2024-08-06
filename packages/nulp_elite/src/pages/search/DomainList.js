@@ -35,7 +35,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Skeleton from "@mui/material/Skeleton";
 import SkeletonLoader from "components/skeletonLoader";
 import FloatingChatIcon from "components/FloatingChatIcon";
-import * as util from "../../services/utilService"
+import * as util from "../../services/utilService";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -96,10 +96,8 @@ const DomainList = ({ globalSearchQuery }) => {
   const [domain, setDomain] = useState();
   const [popularCourses, setPopularCourses] = useState([]);
   const [recentlyAddedCourses, setRecentlyAddedCourses] = useState([]);
-  const [orgId, setOrgId]=useState();
-  const [framework, setFramework]=useState();
-
-
+  const [orgId, setOrgId] = useState();
+  const [framework, setFramework] = useState();
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
 
@@ -122,24 +120,27 @@ const DomainList = ({ globalSearchQuery }) => {
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
-   const fetchUserData = async () => {
-     const newPath = location.pathname;
-sessionStorage.setItem('previousRoutes', newPath)
-      try {
-        const uservData = await util.userData();
-        console.log("-------------",uservData?.data?.result?.response?.framework?.id[0]);
-        setOrgId(uservData?.data?.result?.response?.rootOrgId);
-        setFramework(uservData?.data?.result?.response?.framework?.id[0])
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-      };
+  const fetchUserData = async () => {
+    const newPath = location.pathname;
+    sessionStorage.setItem("previousRoutes", newPath);
+    try {
+      const uservData = await util.userData();
+      console.log(
+        "-------------",
+        uservData?.data?.result?.response?.framework?.id[0]
+      );
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-       useEffect(() => {
-  if (orgId && framework ) {
-    fetchDataFramework();
-  }
-}, [orgId,framework]);
+  useEffect(() => {
+    if (orgId && framework) {
+      fetchDataFramework();
+    }
+  }, [orgId, framework]);
 
   const fetchDataFramework = async () => {
     setIsLoading(true);
@@ -164,25 +165,29 @@ sessionStorage.setItem('previousRoutes', newPath)
       const response = await frameworkService.getSelectedFrameworkCategories(
         url
       );
-const categories=response?.data?.result?.framework?.categories;
+      const categories = response?.data?.result?.framework?.categories;
       const selectedIndex = categories.findIndex(
-      (category) => category.code === "board"
-    );
-    console.log("---------",selectedIndex);
+        (category) => category.code === "board"
+      );
+      console.log("---------", selectedIndex);
 
-      response?.data?.result?.framework?.categories[selectedIndex].terms.map((term) => {
-        setCategory(term);
-        if (domainWithImage) {
-          domainWithImage.result.form.data.fields.map((imgItem) => {
-            if ((term && term.code) === (imgItem && imgItem.code)) {
-              term["image"] = imgItem.image ? imgItem.image : "";
-              pushData(term);
-              itemsArray.push(term);
-            }
-          });
+      response?.data?.result?.framework?.categories[selectedIndex].terms.map(
+        (term) => {
+          setCategory(term);
+          if (domainWithImage) {
+            domainWithImage.result.form.data.fields.map((imgItem) => {
+              if ((term && term.code) === (imgItem && imgItem.code)) {
+                term["image"] = imgItem.image ? imgItem.image : "";
+                pushData(term);
+                itemsArray.push(term);
+              }
+            });
+          }
         }
-      });
-      setDomain(response?.data?.result?.framework?.categories[selectedIndex].terms);
+      );
+      setDomain(
+        response?.data?.result?.framework?.categories[selectedIndex].terms
+      );
       setData(itemsArray);
     } catch (error) {
       console.log("nulp--  error-", error);
@@ -523,7 +528,7 @@ const categories=response?.data?.result?.framework?.categories;
 
       <Container
         maxWidth="xl"
-        className=" allContent allContentList domain-list"
+        className=" allContent allContentList domain-list mt-180"
         role="main"
       >
         {error && <Alert severity="error">{error}</Alert>}
@@ -533,7 +538,6 @@ const categories=response?.data?.result?.framework?.categories;
             style={{
               display: "flex",
               justifyContent: "space-between",
-              
             }}
           >
             <Box>

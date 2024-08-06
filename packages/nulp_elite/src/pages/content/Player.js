@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams,useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
@@ -18,10 +18,6 @@ import axios from "axios";
 import Link from "@mui/material/Link";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 
-
-
-
-
 const Player = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -37,19 +33,22 @@ const Player = () => {
   const [courseName, setCourseName] = useState(location.state?.coursename);
   const [batchId, setBatchId] = useState(location.state?.batchid);
   const [courseId, setCourseId] = useState(location.state?.courseid);
-  const [isEnrolled, setIsEnrolled] = useState(location.state?.isenroll ||  undefined);
-    const { content } = location.state || {};
+  const [isEnrolled, setIsEnrolled] = useState(
+    location.state?.isenroll || undefined
+  );
+  const { content } = location.state || {};
 
   const _userId = util.userId();
-
 
   const [lesson, setLesson] = useState();
   const [isCompleted, setIsCompleted] = useState(false); // Track completion status
 
   const queryString = location.search;
-  const contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  const contentId = queryString.startsWith("?do_")
+    ? queryString.slice(1)
+    : null;
 
-   const fetchUserData = async () => {
+  const fetchUserData = async () => {
     try {
       const userData = await util.userData();
       console.log("user name ----");
@@ -67,20 +66,27 @@ const Player = () => {
   const handleExitButton = () => {
     setLesson();
     setLessonId();
-    if (["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(type)) {
+    if (
+      ["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(
+        type
+      )
+    ) {
       navigate(-1);
     }
   };
 
-  const handleTrackData = async ({ score, trackData, attempts, ...props }, playerType = "quml") => {
+  const handleTrackData = async (
+    { score, trackData, attempts, ...props },
+    playerType = "quml"
+  ) => {
     console.log("score----------------", score);
-    console.log("trackData----------------",trackData);
-    console.log("attempts----------------",attempts);
-    console.log("props----------------",props);
-    console.log("playerType----------------",playerType);
-    if (playerType === "pdf-video" && props.currentPage==props.totalPages) {
-      setIsCompleted(true); 
-    }else if(playerType === "ecml" ){
+    console.log("trackData----------------", trackData);
+    console.log("attempts----------------", attempts);
+    console.log("props----------------", props);
+    console.log("playerType----------------", playerType);
+    if (playerType === "pdf-video" && props.currentPage == props.totalPages) {
+      setIsCompleted(true);
+    } else if (playerType === "ecml") {
       setIsCompleted(true);
     }
   };
@@ -91,28 +97,25 @@ const Player = () => {
   };
 
   const updateContentState = async () => {
-    console.log("courseId",courseId);
-    console.log("batchId",batchId);
-    console.log("isEnrolled",isEnrolled);
-    if(isEnrolled){
+    console.log("courseId", courseId);
+    console.log("batchId", batchId);
+    console.log("isEnrolled", isEnrolled);
+    if (isEnrolled) {
       const url = "/content/course/v1/content/state/update";
-    const response = await axios.patch(url, {
-          request: {
-           
-              userId: _userId,
-              contents:[{
-                contentId: contentId,
-                courseId: courseId,
-                batchId: batchId,
-                status:  2,
-              }
-                
-              ],
-          },
-        });
+      const response = await axios.patch(url, {
+        request: {
+          userId: _userId,
+          contents: [
+            {
+              contentId: contentId,
+              courseId: courseId,
+              batchId: batchId,
+              status: 2,
+            },
+          ],
+        },
+      });
     }
-    
-   
   };
 
   useEffect(() => {
@@ -120,7 +123,7 @@ const Player = () => {
     setPreviousRoute(previousRoutes);
     const fetchData = async () => {
       try {
-                const response = await fetch(`/api/content/v1/read/${contentId}`, {
+        const response = await fetch(`/api/content/v1/read/${contentId}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -135,7 +138,7 @@ const Player = () => {
       }
     };
     fetchData();
-        fetchUserData();
+    fetchUserData();
   }, [contentId]);
 
   const showErrorMessage = (msg) => {
@@ -167,7 +170,7 @@ const Player = () => {
             {t("BACK")}
           </Link>
         </Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className="mt-10">
           <Grid item xs={8}>
             <Box>
               {lesson && (
@@ -193,12 +196,12 @@ const Player = () => {
             </Box>
           </Grid>
           <Grid item xs={4}>
-            <Link
+            {/* <Link
               href="#"
               style={{ textAlign: "right", marginTop: "20px", display: "block" }}
             >
               <ShareOutlinedIcon />
-            </Link>
+            </Link> */}
           </Grid>
           <Grid>
             {lesson &&
@@ -302,17 +305,37 @@ const Player = () => {
               }}
               setTrackData={(data) => {
                 const type = lesson?.mimeType;
-                if (["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(type)) {
+                if (
+                  [
+                    "assessment",
+                    "SelfAssess",
+                    "QuestionSet",
+                    "QuestionSetImage",
+                  ].includes(type)
+                ) {
                   handleTrackData(data);
-                } else if (["application/vnd.sunbird.questionset"].includes(type)) {
+                } else if (
+                  ["application/vnd.sunbird.questionset"].includes(type)
+                ) {
                   handleTrackData(data, "application/vnd.sunbird.questionset");
                 } else if (
-                  ["application/pdf", "video/mp4", "video/webm", "video/x-youtube", "application/vnd.ekstep.h5p-archive"].includes(type)
+                  [
+                    "application/pdf",
+                    "video/mp4",
+                    "video/webm",
+                    "video/x-youtube",
+                    "application/vnd.ekstep.h5p-archive",
+                  ].includes(type)
                 ) {
                   handleTrackData(data, "pdf-video");
-                } else if (["application/vnd.ekstep.ecml-archive"].includes(type)) {
+                } else if (
+                  ["application/vnd.ekstep.ecml-archive"].includes(type)
+                ) {
                   if (Array.isArray(data)) {
-                    const score = data.reduce((old, newData) => old + newData?.score, 0);
+                    const score = data.reduce(
+                      (old, newData) => old + newData?.score,
+                      0
+                    );
                     handleTrackData({ ...data, score: `${score}` }, "ecml");
                     setTrackData(data);
                   } else {
