@@ -415,15 +415,15 @@
       "UPDATE_CHAT": "/directConnect/update-chat",
       "GET_BLOCK_USER_LIST": "/directConnect/get-block-user-list"
     },
-    "EVENT": {
+    "CUSTOM_EVENT": {
       "READ": "/event/v4/read",
       "SEARCH": "/action/composite/v3/search",
-      "GET_LIST": "/event/list",
-      "GET_COUNT": "/event/event_count",
-      "TOP_TRENDING_EVENT": "/event/get_top_trending",
-      "REGISTER": "/event/registration",
-      "REPORT": "/event/reports",
-      "CUSTOM_ENROLL_LIST": "/event/enrollment-list"
+      "GET_LIST": "/custom_event/list",
+      "GET_COUNT": "/custom_event/event_count",
+      "TOP_TRENDING_EVENT": "/custom_event/get_top_trending",
+      "REGISTER": "/custom_event/registration",
+      "REPORT": "/custom_event/reports",
+      "CUSTOM_ENROLL_LIST": "/custom_event/enrollment-list"
     },
     "POLL": {
       "CREATE": "/polls/create",
