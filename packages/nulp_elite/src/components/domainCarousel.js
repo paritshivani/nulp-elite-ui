@@ -71,6 +71,7 @@ export default function DomainCarousel({
   const handleClick = () => {
     // setIsBoxVisible(true);
     setIsBoxVisible(!isBoxVisible);
+    document.body.classList.add("domain-fixed");
   };
   useEffect(() => {
     // Simulate loading completion after a delay

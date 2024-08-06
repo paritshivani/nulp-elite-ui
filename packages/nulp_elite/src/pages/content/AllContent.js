@@ -102,14 +102,14 @@ const AllContent = () => {
     console.log("Search query:", selectedDomain);
   };
 
-  useEffect( () => {
+  useEffect(() => {
     fetchUserData();
     fetchData();
   }, []);
 
   useEffect(() => {
     fetchData();
-  }, [selectedDomain,domainName]);
+  }, [selectedDomain, domainName]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -120,8 +120,8 @@ const AllContent = () => {
   };
 
   const fetchData = async () => {
-     const newPath = location.pathname;
-sessionStorage.setItem('previousRoutes', newPath)
+    const newPath = location.pathname;
+    sessionStorage.setItem("previousRoutes", newPath);
     setError(null);
     let data = JSON.stringify({
       request: {
@@ -154,7 +154,7 @@ sessionStorage.setItem('previousRoutes', newPath)
             "Exam Question",
             "Manuals/SOPs",
             "Good Practices",
-            "Reports"
+            "Reports",
           ],
           visibility: ["Default", "Parent"],
         },
@@ -188,28 +188,36 @@ sessionStorage.setItem('previousRoutes', newPath)
     };
 
     try {
-  const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
 
-  const response = await getAllContents(url, data, headers);
+      const response = await getAllContents(url, data, headers);
 
-  const filteredAndSortedData = response?.data?.result?.content
-    ?.filter(item => 
-      ["Manuals/SOPs","Good Practices", "Reports", "Course"].includes(item.primaryCategory)
-    )
-    .sort((a, b) => {
-      if (a.primaryCategory === "Course" && b.primaryCategory !== "Course") {
-        return -1;
-      } else if (a.primaryCategory !== "Course" && b.primaryCategory === "Course") {
-        return 1;
-      } else {
-        return a.primaryCategory.localeCompare(b.primaryCategory);
-      }
-    });
+      const filteredAndSortedData = response?.data?.result?.content
+        ?.filter((item) =>
+          ["Manuals/SOPs", "Good Practices", "Reports", "Course"].includes(
+            item.primaryCategory
+          )
+        )
+        .sort((a, b) => {
+          if (
+            a.primaryCategory === "Course" &&
+            b.primaryCategory !== "Course"
+          ) {
+            return -1;
+          } else if (
+            a.primaryCategory !== "Course" &&
+            b.primaryCategory === "Course"
+          ) {
+            return 1;
+          } else {
+            return a.primaryCategory.localeCompare(b.primaryCategory);
+          }
+        });
 
-  setData(filteredAndSortedData);
-} catch (error) {
-  showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-}
+      setData(filteredAndSortedData);
+    } catch (error) {
+      showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    }
   };
 
   const getCookieValue = (name) => {
@@ -226,25 +234,24 @@ sessionStorage.setItem('previousRoutes', newPath)
 
   const fetchUserData = async () => {
     try {
-   const uservData = await util.userData();
+      const uservData = await util.userData();
 
-
-setOrgId(uservData?.data?.result?.response?.rootOrgId);
-setFramework(uservData?.data?.result?.response?.framework?.id[0])
-const userDomain = uservData?.data?.result?.response?.framework?.board[0];
-if (userDomain) {
-       setSelectedDomain(userDomain);
-       setDomainName(userDomain);
-     }
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
- useEffect(() => {
-  if (orgId && framework) {
-    fetchDomains();
-  }
-}, [orgId,framework]);
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
+      const userDomain = uservData?.data?.result?.response?.framework?.board[0];
+      if (userDomain) {
+        setSelectedDomain(userDomain);
+        setDomainName(userDomain);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if (orgId && framework) {
+      fetchDomains();
+    }
+  }, [orgId, framework]);
 
   const fetchDomains = async () => {
     setError(null);
@@ -342,7 +349,7 @@ if (userDomain) {
 
       <Container
         maxWidth="xl"
-        className="pb-30 allContent xs-pb-80 all-card-list"
+        className="pb-30 allContent xs-pb-80 all-card-list mt-180"
       >
         {domainName && (
           <Box
