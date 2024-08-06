@@ -36,6 +36,9 @@ const Player = () => {
   const [isEnrolled, setIsEnrolled] = useState(
     location.state?.isenroll || undefined
   );
+  const [consumedContent, setconsumedContents] = useState(
+    location.state?.consumedcontents || []
+  );
   const { content } = location.state || {};
 
   const _userId = util.userId();
@@ -54,10 +57,6 @@ const Player = () => {
       console.log("user name ----");
       setuserFirstName(userData?.data?.result?.response?.firstName);
       setuserLastName(userData?.data?.result?.response?.lastName);
-      if (userDomain) {
-        setSelectedDomain(userDomain);
-        setDomainName(userDomain);
-      }
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -96,7 +95,7 @@ const Player = () => {
     navigate(previousRoutes);
   };
 
-  const updateContentState = async () => {
+  const updateContentState = async (status) => {
     console.log("courseId", courseId);
     console.log("batchId", batchId);
     console.log("isEnrolled", isEnrolled);
@@ -110,11 +109,11 @@ const Player = () => {
               contentId: contentId,
               courseId: courseId,
               batchId: batchId,
+<<<<<<< HEAD
               status: 2,
-            },
-          ],
+=======
+              status: status,
         },
-      });
     }
   };
 
@@ -133,10 +132,15 @@ const Player = () => {
         }
         const data = await response.json();
         setLesson(data.result.content);
+        console.log(data.re);
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
     };
+    console.log(consumedContent);
+    if (!consumedContent.includes(contentId)) {
+      updateContentState(1);
+    }
     fetchData();
     fetchUserData();
   }, [contentId]);
@@ -151,7 +155,7 @@ const Player = () => {
 
   useEffect(() => {
     if (isCompleted) {
-      updateContentState();
+      updateContentState(2);
     }
   }, [isCompleted]);
 
@@ -198,7 +202,11 @@ const Player = () => {
           <Grid item xs={4}>
             {/* <Link
               href="#"
-              style={{ textAlign: "right", marginTop: "20px", display: "block" }}
+              style={{
+                textAlign: "right",
+                marginTop: "20px",
+                display: "block",
+              }}
             >
               <ShareOutlinedIcon />
             </Link> */}
