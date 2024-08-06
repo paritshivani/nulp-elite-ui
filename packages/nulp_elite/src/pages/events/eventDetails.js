@@ -158,7 +158,7 @@ const EventDetails = () => {
     fetchUserData();
     const fetchData = async () => {
       try {
-        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.EVENT.READ}/${eventId}`;
+        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.READ}/${eventId}`;
         const response = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
@@ -261,7 +261,7 @@ const EventDetails = () => {
       "Content-Type": "application/json",
     };
     try {
-      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
+      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
       const url = `https://devnulp.niua.org/event/enrollment-list`;
       const response = await getAllContents(url, data, headers);
       console.log("My data  ---", response.data.result.event);
@@ -528,12 +528,12 @@ const EventDetails = () => {
   };
 
   const registerEvent = async (formData) => {
-    const url = `${urlConfig.URLS.EVENT.REGISTER}`;
+    const url = `${urlConfig.URLS.CUSTOM_EVENT.REGISTER}`;
     console.log("------------------url", url);
-    console.log("------------------urlConfig.URLS.EVENT", urlConfig.URLS.EVENT);
+    console.log("------------------urlConfig.URLS.EVENT", urlConfig.URLS.CUSTOM_EVENT);
     console.log(
-      "------------------urlConfig.URLS.EVENT.REGISTER",
-      urlConfig.URLS.EVENT.REGISTER
+      "------------------urlConfig.URLS.CUSTOM_EVENT.REGISTER",
+      urlConfig.URLS.CUSTOM_EVENT.REGISTER
     );
 
     const RequestBody = {
