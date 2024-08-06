@@ -79,7 +79,7 @@ const JoinCourse = () => {
   const [creatorId, setCreatorId] = useState("");
   const [open, setOpen] = useState(false);
   const [chat, setChat] = useState([]);
-  const[childnode, setChildNode]=useState([]);
+  const [childnode, setChildNode] = useState([]);
   const [formData, setFormData] = useState({
     message: "",
   });
@@ -96,7 +96,7 @@ const JoinCourse = () => {
   const [showMore, setShowMore] = useState(false);
   const [batchDetail, setBatchDetail] = useState("");
   const [score, setScore] = useState("");
-  const [isEnroll, setIsEnroll]=useState(true);
+  const [isEnroll, setIsEnroll] = useState(true);
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -144,7 +144,9 @@ const JoinCourse = () => {
         setCreatorId(data?.result?.content?.createdBy);
         setCourseData(data);
         setUserData(data);
-        const identifiers = data?.result?.content?.children?.map((child) => child.identifier) || [];
+        const identifiers =
+          data?.result?.content?.children?.map((child) => child.identifier) ||
+          [];
         setChildNode(identifiers);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -209,8 +211,12 @@ const JoinCourse = () => {
         }
         const data = await response.json();
         setUserCourseData(data.result);
-        if(userCourseData.courses.some((course) => course.contentId != contentId)){
-          setIsEnroll(false)
+        if (
+          userCourseData?.courses?.some(
+            (course) => course?.contentId != contentId
+          )
+        ) {
+          setIsEnroll(false);
         }
       } catch (error) {
         console.error("Error while fetching courses:", error);
@@ -309,16 +315,16 @@ const JoinCourse = () => {
 
   const handleLinkClick = (id) => {
     console.log(" batchDetails?.batchId", batchDetails?.batchId);
-    console.log("contentId",contentId);
-    console.log("isEnroll",isEnroll);
-    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`,{
-    state: {
-      coursename: userData?.result?.content?.name,
-      batchid: batchDetails?.batchId,
-      courseid: contentId,
-      isenroll: isEnroll,
-    },    });
-    
+    console.log("contentId", contentId);
+    console.log("isEnroll", isEnroll);
+    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
+      state: {
+        coursename: userData?.result?.content?.name,
+        batchid: batchDetails?.batchId,
+        courseid: contentId,
+        isenroll: isEnroll,
+      },
+    });
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -858,7 +864,7 @@ const JoinCourse = () => {
                   {t("CONTENT_TAGS")}:{" "}
                 </Typography>
 
-                {courseData?.result?.content?.board &&
+                {Array.isArray(courseData?.result?.content?.board) &&
                   courseData?.result?.content?.board?.map((item, index) => (
                     <Button
                       key={`board-${index}`}

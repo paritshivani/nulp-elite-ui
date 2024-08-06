@@ -705,12 +705,14 @@ const Profile = () => {
                                   }
                                 </Box>
                               </Typography>
-                              <Typography className="h6-title d-flex">
-                                <Box className="h6-title d-flex">
-                                  Organization Name :
-                                  {userData?.result?.response?.rootOrg?.orgName}
-                                </Box>
-                              </Typography>
+                              {userInfo && userInfo?.length && (
+                                <Typography className="h6-title d-flex">
+                                  <Box className="h6-title d-flex">
+                                    Organization Name :
+                                    {userInfo?.[0]?.organisation || "NA"}
+                                  </Box>
+                                </Typography>
+                              )}
                               <Typography className="h6-title d-flex">
                                 <Box className="h6-title d-flex">
                                   Role :{" "}
@@ -986,7 +988,7 @@ const Profile = () => {
                               </Select>
                             </FormControl>
                           </Box>
-                          {editedUserInfo.designation === "Other" && (
+                          {editedUserInfo.designation === "Others" && (
                             <Box py={1}>
                               <CssTextField
                                 id="otherDesignation"
