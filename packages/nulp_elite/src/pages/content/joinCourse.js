@@ -958,7 +958,7 @@ const JoinCourse = () => {
                   {t("CONTENT_TAGS")}:{" "}
                 </Typography>
 
-                {courseData?.result?.content?.board &&
+                {Array.isArray(courseData?.result?.content?.board) &&
                   courseData?.result?.content?.board?.map((item, index) => (
                     <Button
                       key={`board-${index}`}

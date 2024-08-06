@@ -191,11 +191,10 @@ export default function BoxCard({ items, index, onClick }) {
                 title={
                   Array.isArray(items?.board) && items.board.length === 1
                     ? items.board.join(", ")
-                    : items.se_boards[0] ||
-                      (Array.isArray(items?.se_boards) &&
-                      items?.se_boards.length > 1
-                        ? items.se_boards.join(", ")
-                        : items.se_boards?.[0] || "")
+                    : Array.isArray(items?.se_boards) &&
+                      items.se_boards.length > 1
+                    ? items.se_boards.join(", ")
+                    : items?.se_boards?.[0] || ""
                 }
                 placement="top"
                 className="labelOne cardLabelEllips"
