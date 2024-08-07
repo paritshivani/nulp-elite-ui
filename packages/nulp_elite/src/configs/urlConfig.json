@@ -423,7 +423,9 @@
       "TOP_TRENDING_EVENT": "/custom_event/get_top_trending",
       "REGISTER": "/custom_event/registration",
       "REPORT": "/custom_event/reports",
-      "CUSTOM_ENROLL_LIST": "/custom_event/enrollment-list"
+      "CUSTOM_ENROLL_LIST": "/custom_event/enrollment-list",
+      "UNREGISTER": "custom_event/unregister",
+      "UPDATE_REGISTER": "custom_event/registration/update"
     },
     "POLL": {
       "CREATE": "/polls/create",
