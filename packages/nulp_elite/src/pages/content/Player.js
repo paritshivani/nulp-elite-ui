@@ -109,9 +109,7 @@ const Player = () => {
               contentId: contentId,
               courseId: courseId,
               batchId: batchId,
-<<<<<<< HEAD
               status: 2,
-=======
               status: status,
         },
     }
