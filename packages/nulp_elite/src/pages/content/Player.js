@@ -1,62 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams,useNavigate, useLocation } from "react-router-dom";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Link from "@mui/material/Link";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
 const urlConfig = require("../../configs/urlConfig.json");
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { SunbirdPlayer } from "@shiksha/common-lib";
+import * as util from "../../services/utilService";
+import axios from "axios";
+import Link from "@mui/material/Link";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 
-// const [width, height] = useWindowSize();
 
-import {
-  subjectListRegistryService,
-  courseRegistryService,
-  SunbirdPlayer,
-  useWindowSize,
-} from "@shiksha/common-lib";
+
+
 
 const Player = () => {
-  // const { contentId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const [lessonId, setLessonId] = React.useState();
-  const [trackData, setTrackData] = React.useState();
-  const { content } = location.state || {};
+  const [lessonId, setLessonId] = useState();
+  const [trackData, setTrackData] = useState();
   const [contentData, setContentData] = useState();
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
   const [previousRoute, setPreviousRoute] = useState("");
   const [userFirstName, setuserFirstName] = useState("");
   const [userLastName, setuserLastName] = useState("");
-  const [courseName, setCourseName] = useState(
-    location.state?.coursename || undefined
-  );
-  const [lesson, setLesson] = React.useState();
+  const [courseName, setCourseName] = useState(location.state?.coursename);
+  const [batchId, setBatchId] = useState(location.state?.batchid);
+  const [courseId, setCourseId] = useState(location.state?.courseid);
+  const [isEnrolled, setIsEnrolled] = useState(location.state?.isenroll ||  undefined);
+    const { content } = location.state || {};
+
+  const _userId = util.userId();
+
+
+  const [lesson, setLesson] = useState();
+  const [isCompleted, setIsCompleted] = useState(false); // Track completion status
+
   const queryString = location.search;
-  const contentId = queryString.startsWith("?do_")
-    ? queryString.slice(1)
-    : null;
-  const handleExitButton = () => {
-    setLesson();
-    setLessonId();
-    if (
-      ["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(
-        type
-      )
-    ) {
-      navigate(-1);
-    }
-  };
-  const fetchUserData = async () => {
+  const contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+
+   const fetchUserData = async () => {
     try {
       const userData = await util.userData();
       console.log("user name ----");
@@ -70,32 +63,64 @@ const Player = () => {
       console.error("Error fetching user data:", error);
     }
   };
-  const handleTrackData = async (
-    { score, trackData, attempts, ...props },
-    playerType = "quml"
-  ) => {
-    console.log(
-      "handleTrackData----",
-      score,
-      trackData,
-      attempts,
-      ...props,
-      playerType
-    );
+
+  const handleExitButton = () => {
+    setLesson();
+    setLessonId();
+    if (["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(type)) {
+      navigate(-1);
+    }
   };
+
+  const handleTrackData = async ({ score, trackData, attempts, ...props }, playerType = "quml") => {
+    console.log("score----------------", score);
+    console.log("trackData----------------",trackData);
+    console.log("attempts----------------",attempts);
+    console.log("props----------------",props);
+    console.log("playerType----------------",playerType);
+    if (playerType === "pdf-video" && props.currentPage==props.totalPages) {
+      setIsCompleted(true); 
+    }else if(playerType === "ecml" ){
+      setIsCompleted(true);
+    }
+  };
+
   const handleGoBack = () => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes", previousRoutes);
     navigate(previousRoutes);
+  };
+
+  const updateContentState = async () => {
+    console.log("courseId",courseId);
+    console.log("batchId",batchId);
+    console.log("isEnrolled",isEnrolled);
+    if(isEnrolled){
+      const url = "/content/course/v1/content/state/update";
+    const response = await axios.patch(url, {
+          request: {
+           
+              userId: _userId,
+              contents:[{
+                contentId: contentId,
+                courseId: courseId,
+                batchId: batchId,
+                status:  2,
+              }
+                
+              ],
+          },
+        });
+    }
+    
+   
   };
 
   useEffect(() => {
     const previousRoutes = sessionStorage.getItem("previousRoutes");
-    console.log("previousRoutes", previousRoutes);
     setPreviousRoute(previousRoutes);
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/content/v1/read/${contentId}`, {
+                const response = await fetch(`/api/content/v1/read/${contentId}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -104,16 +129,15 @@ const Player = () => {
           throw new Error("Failed to fetch course data");
         }
         const data = await response.json();
-        console.log("data-----", data.result.content);
         setLesson(data.result.content);
-        // setCourseData(data);
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
     };
     fetchData();
-    fetchUserData();
-  }, []);
+        fetchUserData();
+  }, [contentId]);
+
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
     setTimeout(() => {
@@ -122,7 +146,12 @@ const Player = () => {
     setToasterOpen(true);
   };
 
-  // Now contentId contains the value from the URL parameter
+  useEffect(() => {
+    if (isCompleted) {
+      updateContentState();
+    }
+  }, [isCompleted]);
+
   return (
     <div>
       <Header />
@@ -166,11 +195,7 @@ const Player = () => {
           <Grid item xs={4}>
             <Link
               href="#"
-              style={{
-                textAlign: "right",
-                marginTop: "20px",
-                display: "block",
-              }}
+              style={{ textAlign: "right", marginTop: "20px", display: "block" }}
             >
               <ShareOutlinedIcon />
             </Link>
@@ -258,40 +283,6 @@ const Player = () => {
               )}
           </Grid>
         </Grid>
-        {/* <Box>
-          <Typography
-            variant="h7"
-            style={{
-              margin: "0 0 9px 0",
-              display: "block",
-              fontSize: "11px",
-            }}
-          >
-            {t("RELEVANT_FOR")}:
-            <Button
-              size="small"
-              style={{
-                background: "#ffefc2",
-                color: "#484848",
-                fontSize: "10px",
-                margin: "0 10px",
-              }}
-            >
-              SWM
-            </Button>
-            <Button
-              size="small"
-              style={{
-                background: "#ffefc2",
-                color: "#484848",
-                fontSize: "10px",
-              }}
-            >
-              {" "}
-              Sanitation
-            </Button>
-          </Typography>
-        </Box> */}
         <Box
           className="lg-mx-90"
           style={{
@@ -304,60 +295,32 @@ const Player = () => {
         >
           {lesson && (
             <SunbirdPlayer
-              // {...{ width, height: height - 64 }}
-              // handleExitButton={handleExitButton}
               {...lesson}
               userData={{
                 firstName: userFirstName || "",
                 lastName: userLastName || "",
               }}
               setTrackData={(data) => {
-                if (
-                  [
-                    "assessment",
-                    "SelfAssess",
-                    "QuestionSet",
-                    "QuestionSetImage",
-                  ].includes(type)
-                ) {
+                const type = lesson?.mimeType;
+                if (["assessment", "SelfAssess", "QuestionSet", "QuestionSetImage"].includes(type)) {
                   handleTrackData(data);
-                } else if (
-                  ["application/vnd.sunbird.questionset"].includes(
-                    lesson?.mimeType
-                  )
-                ) {
+                } else if (["application/vnd.sunbird.questionset"].includes(type)) {
                   handleTrackData(data, "application/vnd.sunbird.questionset");
                 } else if (
-                  [
-                    "application/pdf",
-                    "video/mp4",
-                    "video/webm",
-                    "video/x-youtube",
-                    "application/vnd.ekstep.h5p-archive",
-                  ].includes(lesson?.mimeType)
+                  ["application/pdf", "video/mp4", "video/webm", "video/x-youtube", "application/vnd.ekstep.h5p-archive"].includes(type)
                 ) {
                   handleTrackData(data, "pdf-video");
-                } else {
-                  if (
-                    ["application/vnd.ekstep.ecml-archive"].includes(
-                      lesson?.mimeType
-                    )
-                  ) {
-                    if (Array.isArray(data)) {
-                      const score = data.reduce(
-                        (old, newData) => old + newData?.score,
-                        0
-                      );
-                      handleTrackData({ ...data, score: `${score}` }, "ecml");
-                      setTrackData(data);
-                    } else {
-                      handleTrackData({ ...data, score: `0` }, "ecml");
-                    }
+                } else if (["application/vnd.ekstep.ecml-archive"].includes(type)) {
+                  if (Array.isArray(data)) {
+                    const score = data.reduce((old, newData) => old + newData?.score, 0);
+                    handleTrackData({ ...data, score: `${score}` }, "ecml");
+                    setTrackData(data);
+                  } else {
+                    handleTrackData({ ...data, score: `0` }, "ecml");
                   }
                 }
               }}
               public_url="https://devnulp.niua.org/newplayer"
-              // public_url="https://nulp.niua.org"
             />
           )}
         </Box>

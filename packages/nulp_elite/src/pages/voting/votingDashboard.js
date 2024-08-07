@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import { Alert, Button, Card, CardContent } from "@mui/material";
+import { Alert, Button, Card, CardContent, Tooltip } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -42,6 +42,7 @@ import * as util from "../../services/utilService";
 import Toast from "../Toast";
 import Loader from "pages/Loader";
 import Unauthorized from "pages/Unauthorized";
+import moment from "moment";
 
 const votingDashboard = () => {
   const { t } = useTranslation();
@@ -410,11 +411,37 @@ const votingDashboard = () => {
                         >
                           <Box className="d-flex jc-bw alignItems-center fs-14">
                             <TodayOutlinedIcon className="fs-14 pr-5" />
-                            {formatDate(items.start_date)}
+                            {moment(items?.start_date).format(
+                              "dddd, MMMM Do YYYY, h:mm:ss a"
+                            )}
                           </Box>
                         </Box>
+                        {items?.poll_keywords && (
+                          <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <Tooltip
+                              title={
+                                Array.isArray(items?.poll_keywords) &&
+                                items?.poll_keywords?.length > 1
+                                  ? items?.poll_keywords.join(", ")
+                                  : items?.poll_keywords?.[0]
+                              }
+                              placement="right"
+                              className="labeltwo cardLabelEllips"
+                            >
+                              <Button>
+                                {Array.isArray(items?.poll_keywords) &&
+                                items?.poll_keywords.length === 1
+                                  ? items?.poll_keywords[0]
+                                  : Array.isArray(items?.poll_keywords) &&
+                                    `${items?.poll_keywords[0]} + ${
+                                      items?.poll_keywords.length - 1
+                                    }`}
+                              </Button>
+                            </Tooltip>
+                          </Box>
+                        )}
                       </Box>
-                      <Box
+                      {/* <Box
                         className="card-img-container"
                         style={{ position: "inherit" }}
                       >
@@ -427,7 +454,7 @@ const votingDashboard = () => {
                           className="event-card-img"
                           alt="App Icon"
                         />
-                      </Box>
+                      </Box> */}
                     </CardContent>
                     <Box className="voting-text lg-mt-30">
                       <Box>
@@ -441,18 +468,26 @@ const votingDashboard = () => {
                           View Stats{" "}
                           <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
-                        {admin && (
-                          <Button
-                            type="button"
-                            className="custom-btn-primary ml-20 lg-mt-20"
-                            onClick={(event) =>
-                              deletePoll(items.poll_id, event)
-                            }
-                          >
-                            Delete{" "}
-                            <ArrowForwardIosOutlinedIcon className="fs-12" />
-                          </Button>
-                        )}
+                        <Button
+                          onClick={(event) => handleEdit(event, items)}
+                          type="button"
+                          className="custom-btn-primary ml-20 lg-mt-20"
+                        >
+                          Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        </Button>
+                        {admin ||
+                          (contentCreator && (
+                            <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20"
+                              onClick={(event) =>
+                                deletePoll(items.poll_id, event)
+                              }
+                            >
+                              Delete{" "}
+                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                          ))}
                       </Box>
 
                       <Box className="xs-hide">
@@ -583,11 +618,37 @@ const votingDashboard = () => {
                         >
                           <Box className="d-flex jc-bw alignItems-center fs-14">
                             <TodayOutlinedIcon className="fs-14 pr-5" />
-                            {formatDate(items.start_date)}
+                            {moment(items?.start_date).format(
+                              "dddd, MMMM Do YYYY, h:mm:ss a"
+                            )}
                           </Box>
                         </Box>
+                        {items?.poll_keywords && (
+                          <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <Tooltip
+                              title={
+                                Array.isArray(items?.poll_keywords) &&
+                                items?.poll_keywords?.length > 1
+                                  ? items?.poll_keywords.join(", ")
+                                  : items?.poll_keywords?.[0]
+                              }
+                              placement="right"
+                              className="labeltwo cardLabelEllips"
+                            >
+                              <Button>
+                                {Array.isArray(items?.poll_keywords) &&
+                                items?.poll_keywords.length === 1
+                                  ? items?.poll_keywords[0]
+                                  : Array.isArray(items?.poll_keywords) &&
+                                    `${items?.poll_keywords[0]} + ${
+                                      items?.poll_keywords.length - 1
+                                    }`}
+                              </Button>
+                            </Tooltip>
+                          </Box>
+                        )}
                       </Box>
-                      <Box
+                      {/* <Box
                         className="card-img-container"
                         style={{ position: "inherit" }}
                       >
@@ -600,7 +661,7 @@ const votingDashboard = () => {
                           className="event-card-img"
                           alt="App Icon"
                         />
-                      </Box>
+                      </Box> */}
                     </CardContent>
                     <Box className="voting-text lg-mt-30">
                       <Box>
@@ -748,11 +809,37 @@ const votingDashboard = () => {
                         >
                           <Box className="d-flex jc-bw alignItems-center fs-14">
                             <TodayOutlinedIcon className="fs-14 pr-5" />
-                            {formatDate(items.start_date)}
+                            {moment(items?.start_date).format(
+                              "dddd, MMMM Do YYYY, h:mm:ss a"
+                            )}
                           </Box>
                         </Box>
+                        {items?.poll_keywords && (
+                          <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <Tooltip
+                              title={
+                                Array.isArray(items?.poll_keywords) &&
+                                items?.poll_keywords?.length > 1
+                                  ? items?.poll_keywords.join(", ")
+                                  : items?.poll_keywords?.[0]
+                              }
+                              placement="right"
+                              className="labeltwo cardLabelEllips"
+                            >
+                              <Button>
+                                {Array.isArray(items?.poll_keywords) &&
+                                items?.poll_keywords.length === 1
+                                  ? items?.poll_keywords[0]
+                                  : Array.isArray(items?.poll_keywords) &&
+                                    `${items?.poll_keywords[0]} + ${
+                                      items?.poll_keywords.length - 1
+                                    }`}
+                              </Button>
+                            </Tooltip>
+                          </Box>
+                        )}
                       </Box>
-                      <Box
+                      {/* <Box
                         className="card-img-container"
                         style={{ position: "inherit" }}
                       >
@@ -765,7 +852,7 @@ const votingDashboard = () => {
                           className="event-card-img"
                           alt="App Icon"
                         />
-                      </Box>
+                      </Box> */}
                     </CardContent>
                     <Box className="voting-text lg-mt-30">
                       <Box>
