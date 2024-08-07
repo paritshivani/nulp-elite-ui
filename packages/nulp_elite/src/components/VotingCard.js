@@ -151,27 +151,37 @@ export default function VotingCard({ items, index, onClick }) {
                 "dddd, MMMM Do YYYY, h:mm:ss a"
               )}
             </Box>
+          </Box>
+          <Box className="d-flex jc-bw alignItems-center fs-14">
             {items?.poll_keywords && (
-              <Tooltip
-                title={
-                  Array.isArray(items?.poll_keywords) &&
-                  items?.poll_keywords?.length > 1
-                    ? items?.poll_keywords.join(", ")
-                    : items?.poll_keywords?.[0]
-                }
-                placement="right"
-                className="labeltwo cardLabelEllips"
-              >
-                <Button>
-                  {Array.isArray(items?.poll_keywords) &&
-                  items?.poll_keywords.length === 1
-                    ? items?.poll_keywords[0]
-                    : Array.isArray(items?.poll_keywords) &&
-                      `${items?.poll_keywords[0]} + ${
-                        items?.poll_keywords.length - 1
-                      }`}
-                </Button>
-              </Tooltip>
+              <>
+                {items.poll_keywords.slice(0, 3).map((keyword, index) => (
+                  <Tooltip
+                    key={index}
+                    title={keyword}
+                    placement="right"
+                    className="labeltwo cardLabelEllips"
+                  >
+                    <Button>
+                      {index < 2
+                        ? keyword
+                        : `${keyword} + ${items.poll_keywords.length - 3}`}
+                    </Button>
+                  </Tooltip>
+                ))}
+                {items.poll_keywords.length > 3 && (
+                  <Tooltip
+                    title={items.poll_keywords.slice(3).join(", ")}
+                    placement="right"
+                    className="labeltwo cardLabelEllips"
+                  >
+                    <Button>
+                      {items.poll_keywords[2]} +{" "}
+                      {items.poll_keywords.length - 3}
+                    </Button>
+                  </Tooltip>
+                )}
+              </>
             )}
           </Box>
         </Box>
