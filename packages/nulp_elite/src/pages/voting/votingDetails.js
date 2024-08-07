@@ -281,7 +281,7 @@ const VotingDetails = () => {
             {/* </Grid> */}
             {(userVote && userVote?.length > 0 && timeDifference > 15) ||
             isVotingEnded ? (
-              <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
+              <Grid item xs={9} md={6} lg={6}>
                 <Box width="100%"></Box>
                 <Typography
                   gutterBottom

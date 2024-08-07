@@ -109,7 +109,6 @@ const Player = () => {
               contentId: contentId,
               courseId: courseId,
               batchId: batchId,
-
               status: status,
             },
           ],

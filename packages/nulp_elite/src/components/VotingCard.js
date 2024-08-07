@@ -135,15 +135,67 @@ export default function VotingCard({ items, index, onClick }) {
     >
       <CardContent className="d-flex jc-bw">
         <Box>
-          {items.title && (
-            <Typography
-              gutterBottom
-              className="mt-10  event-title"
-              style={{ height: "inherit" }}
-            >
-              {items.title}
-            </Typography>
-          )}
+          <Box className="d-flex jc-bw">
+            <Box>
+              {items.title && (
+                <Typography
+                  gutterBottom
+                  className="mt-10  event-title"
+                  style={{ height: "inherit" }}
+                >
+                  {items.title}
+                </Typography>
+              )}
+            </Box>
+            <Box>
+              <Box className="xs-hide">
+                <FacebookShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  quote={`Check out this poll: ${items.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <FacebookIcon url={shareUrl} size={32} round={true} />
+                </FacebookShareButton>
+                <WhatsappShareButton
+                  url={shareUrl}
+                  title={`Check out this poll: ${items.title}`}
+                  separator=":: "
+                  className="pr-5"
+                  onClick={(event) => openSocialMediaLink(event, shareUrl)}
+                >
+                  <WhatsappIcon size={32} round />
+                </WhatsappShareButton>
+                <LinkedinShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  title={items.title}
+                  summary={`Participate in this poll: ${items.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <LinkedinIcon size={32} round={true} />
+                </LinkedinShareButton>
+                <TwitterShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  title={`Check out this poll: ${items.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <img
+                    src={require("../assets/twitter.png")}
+                    alt="Twitter"
+                    style={{ width: 32, height: 32 }}
+                  />
+                </TwitterShareButton>
+              </Box>
+            </Box>
+          </Box>
           <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
             <Box className="d-flex jc-bw alignItems-center">
               <TodayOutlinedIcon className="fs-12 pr-5" />
@@ -152,7 +204,7 @@ export default function VotingCard({ items, index, onClick }) {
               )}
             </Box>
           </Box>
-          <Box className="d-flex jc-bw alignItems-center fs-14">
+          <Box className="fs-14">
             {items?.poll_keywords && (
               <>
                 {items.poll_keywords.slice(0, 3).map((keyword, index) => (
@@ -160,9 +212,9 @@ export default function VotingCard({ items, index, onClick }) {
                     key={index}
                     title={keyword}
                     placement="right"
-                    className="labeltwo cardLabelEllips"
+                    className="customlabeltwo cardLabelEllips"
                   >
-                    <Button>
+                    <Button className="d-inline-block">
                       {index < 2
                         ? keyword
                         : `${keyword} + ${items.poll_keywords.length - 3}`}
@@ -173,7 +225,7 @@ export default function VotingCard({ items, index, onClick }) {
                   <Tooltip
                     title={items.poll_keywords.slice(3).join(", ")}
                     placement="right"
-                    className="labeltwo cardLabelEllips"
+                    className="customlabeltwo cardLabelEllips"
                   >
                     <Button>
                       {items.poll_keywords[2]} +{" "}
@@ -193,7 +245,7 @@ export default function VotingCard({ items, index, onClick }) {
           />
         </Box> */}
       </CardContent>
-      <Box className="voting-text lg-mt-30">
+      <Box className="voting-text lg-mt-20">
         <Box>
           {!isVotingEnded && (
             <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
@@ -210,7 +262,7 @@ export default function VotingCard({ items, index, onClick }) {
             </Button>
           )}
         </Box>
-        <Box className="xs-hide">
+        <Box className="lg-hide xs-m">
           <FacebookShareButton
             url={shareUrl}
             className="pr-5"
