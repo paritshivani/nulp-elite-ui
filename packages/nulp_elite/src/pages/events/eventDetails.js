@@ -76,6 +76,9 @@ const EventDetails = () => {
 
   const [isEnrolled, setIsEnrolled] = useState();
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
+  const [showUnEnrollmentSnackbar, setUnShowEnrollmentSnackbar] =
+    useState(false);
+
   const [isRegStart, setIsRegStart] = useState();
   const [regEnd, setRegEnd] = useState();
   const [isConsentModalOpen, setIsConsentModalOpen] = useState(false);
@@ -130,8 +133,13 @@ const EventDetails = () => {
       return;
     }
 
-    enrollEvent();
-    handleCloseConsentModal();
+    if (eventVisibility && eventVisibility === "Public") {
+      enrollEvent();
+      handleCloseConsentModal();
+    } else if (eventVisibility && eventVisibility === "Private") {
+      updateRegisterEvent();
+      handleCloseConsentModal();
+    }
   };
 
   const handleChange = (event) => {
@@ -261,8 +269,8 @@ const EventDetails = () => {
       "Content-Type": "application/json",
     };
     try {
-      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
-      const url = `https://devnulp.niua.org/event/enrollment-list`;
+      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
+      const url = `https://devnulp.niua.org/custom-event/enrollment-list`;
       const response = await getAllContents(url, data, headers);
       console.log("My data  ---", response.data.result.event);
       setUserCourseData(response.data.result.event);
@@ -382,6 +390,7 @@ const EventDetails = () => {
       return;
     }
     setShowEnrollmentSnackbar(false);
+    setUnShowEnrollmentSnackbar(false);
   };
 
   const formatDate = (dateString) => {
@@ -529,12 +538,6 @@ const EventDetails = () => {
 
   const registerEvent = async (formData) => {
     const url = `${urlConfig.URLS.CUSTOM_EVENT.REGISTER}`;
-    console.log("------------------url", url);
-    console.log("------------------urlConfig.URLS.EVENT", urlConfig.URLS.CUSTOM_EVENT);
-    console.log(
-      "------------------urlConfig.URLS.CUSTOM_EVENT.REGISTER",
-      urlConfig.URLS.CUSTOM_EVENT.REGISTER
-    );
 
     const RequestBody = {
       event_id: detailData.identifier,
@@ -556,6 +559,26 @@ const EventDetails = () => {
       // Handle the error if needed
     }
   };
+
+  const updateRegisterEvent = async (formData) => {
+    const url = `${urlConfig.URLS.CUSTOM_EVENT.REGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`;
+
+    const RequestBody = {
+      email: formData.email,
+      designation: formData.designation,
+      organisation: formData.organisation,
+      // certificate: formData.certificate,
+      user_consent: "true",
+      consentForm: consent?.consent,
+    };
+
+    try {
+      await axios.put(url, RequestBody);
+      console.log("update tegister successfull");
+    } catch (error) {
+      console.error("Error updating vote", error);
+    }
+  };
   const unEnroll = async (formData) => {
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.UNENROLL_USER_COURSE}`;
@@ -571,7 +594,25 @@ const EventDetails = () => {
         setIsEnrolled(false);
         console.log("check unenrol API-----", isEnrolled);
 
-        setShowEnrollmentSnackbar(true);
+        try {
+          const response = await axios.delete(
+            `${urlConfig.URLS.CUSTOM_EVENT.UNREGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`
+          );
+          if (response.status === 200) {
+            setToasterMessage("Poll deleted successfully");
+            fetchPolls();
+            setPoll((prevPolls) => {
+              const updatedPolls = prevPolls.filter(
+                (poll) => poll.poll_id !== pollId
+              );
+              return updatedPolls;
+            });
+          }
+        } catch (error) {
+          console.error("Error deleting poll", error);
+        }
+
+        setUnShowEnrollmentSnackbar(true);
         registerEvent(formData, detailData);
       } else {
         console.log("err-----", response);
@@ -599,6 +640,22 @@ const EventDetails = () => {
           sx={{ mt: 2 }}
         >
           {t("ENROLLMENT_SUCCESS_MESSAGE")}
+        </MuiAlert>
+      </Snackbar>
+      <Snackbar
+        open={showUnEnrollmentSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ mt: 2 }}
+        >
+          {t("UNENROLLMENT_SUCCESS_MESSAGE")}
         </MuiAlert>
       </Snackbar>
       {detailData && (

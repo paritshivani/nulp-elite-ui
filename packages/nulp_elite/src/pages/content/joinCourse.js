@@ -100,6 +100,10 @@ const JoinCourse = () => {
   const [ConsumedContents, setConsumedContents] = useState();
   const [TotalContents, setTotalContents] = useState();
   const [IsUnitCompleted, setIsUnitCompleted] = useState();
+  const [isNotStarted, setIsNotStarted] = useState(false);
+  const [ContinueLearning, setContinueLearning] = useState();
+  const [allContents, setAllContents] = useState();
+  const [NotConsumedContent, setNotConsumedContent] = useState();
 
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
@@ -148,10 +152,26 @@ const JoinCourse = () => {
         setCreatorId(data?.result?.content?.createdBy);
         setCourseData(data);
         setUserData(data);
+
         const identifiers =
-          data?.result?.content?.children?.map((child) => child.identifier) ||
-          [];
+          data?.result?.content?.children[0]?.children[0]?.identifier;
         setChildNode(identifiers);
+
+        let allContents = [];
+
+        if (data?.result?.content?.children) {
+          data.result.content.children.forEach((parent) => {
+            if (parent.children) {
+              parent.children.forEach((child) => {
+                if (child.identifier) {
+                  allContents.push(child.identifier);
+                }
+              });
+            }
+          });
+        }
+        setAllContents(allContents);
+        console.log("allContents-------", allContents);
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -365,14 +385,51 @@ const JoinCourse = () => {
             fields: ["progress", "score"],
           },
         };
+
         try {
           const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_READ}`;
           const response = await axios.post(url, request);
           const data = response.data;
+
+          console.log("API Response Data:", data);
+
           setCourseProgress(data);
+
           const contentIds =
             data?.result?.contentList?.map((item) => item.contentId) || [];
+          if (contentIds.length === 0) {
+            setIsNotStarted(true);
+          }
           setConsumedContents(contentIds);
+
+          for (let content of data?.result?.contentList) {
+            if (content.status === 1) {
+              setContinueLearning(content.contentId);
+              break;
+            }
+          }
+
+          const contentList = data.result.contentList;
+
+          let allFound = true;
+          let notConsumedContent;
+
+          for (let identifier of allContents) {
+            const found = contentList.find(
+              (item) => item.contentId === identifier && item.status === 2
+            );
+            if (!found) {
+              notConsumedContent = identifier;
+              allFound = false;
+              break;
+            }
+          }
+
+          if (allFound) {
+            notConsumedContent = allContent[0];
+          }
+
+          setNotConsumedContent(notConsumedContent);
         } catch (error) {
           console.error("Error while fetching courses:", error);
           showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -381,7 +438,7 @@ const JoinCourse = () => {
     };
     fetchChats();
     getCourseProgress();
-  }, [batchDetails, creatorId]);
+  }, [batchDetails, creatorId, allContents]);
 
   const handleDirectConnect = () => {
     if (chat.length === 0) {
@@ -428,20 +485,19 @@ const JoinCourse = () => {
   };
 
   const isEnrolled = () => {
+    console.log("userCourseData?.courses", userCourseData?.courses);
+    console.log(
+      "userCourseData?.courses",
+      userCourseData?.courses?.map((course) => course.contentId)
+    );
+    console.log(
+      "userCourseData?.courses?.some",
+      userCourseData?.courses?.some((course) => course.contentId === contentId)
+    );
     return (
       userCourseData &&
       userCourseData.courses &&
-      userCourseData.courses.some((course) => course.contentId === contentId)
-    );
-  };
-
-  const isIncomplete = () => {
-    return (
-      progress &&
-      progress.result &&
-      progress.result.contentList &&
-      (progress.result.contentList.length === 0 ||
-        progress.result.contentList.some((content) => content.status !== 2))
+      userCourseData?.courses?.some((course) => course.contentId === contentId)
     );
   };
 
@@ -476,12 +532,14 @@ const JoinCourse = () => {
   };
 
   const renderActionButton = () => {
+    console.log("ConsumedContents", ConsumedContents);
+    console.log("allContents", allContents);
     if (isEnrolled() || enrolled) {
-      if (isIncomplete()) {
+      if (isNotStarted) {
         return (
           <Box>
             <Button
-              // onClick={handleLinkClick}
+              onClick={() => handleLinkClick(childnode)}
               className="custom-btn-primary  mr-5"
             >
               {t("START_LEARNING")}
@@ -523,12 +581,51 @@ const JoinCourse = () => {
         );
       } else {
         return (
-          <Button
-            // onClick={handleLinkClick}
-            className="custom-btn-primary"
-          >
-            {t("START_LEARNING")}
-          </Button>
+          <Box>
+            <Button
+              onClick={() =>
+                handleLinkClick(
+                  ContinueLearning ?? NotConsumedContent ?? childnode
+                )
+              }
+              className="custom-btn-primary mr-5"
+            >
+              {t("Continue Learning")}
+            </Button>
+            <Button
+              onClick={handleLeaveCourseClick} // Open confirmation dialog
+              className="custom-btn-danger"
+            >
+              {t("LEAVE_COURSE")}
+            </Button>
+            {showConfirmation && (
+              <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
+                <DialogTitle>
+                  {t("LEAVE_COURSE_CONFIRMATION_TITLE")}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    {t("LEAVE_COURSE_CONFIRMATION_MESSAGE")}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={handleConfirmationClose}
+                    className="custom-btn-default"
+                  >
+                    {t("CANCEL")}
+                  </Button>
+                  <Button
+                    onClick={handleLeaveConfirmed}
+                    className="custom-btn-primary"
+                    autoFocus
+                  >
+                    {t("LEAVE_COURSE")}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            )}
+          </Box>
         );
       }
     } else {
