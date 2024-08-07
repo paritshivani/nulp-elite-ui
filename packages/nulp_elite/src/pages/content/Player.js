@@ -109,11 +109,11 @@ const Player = () => {
               contentId: contentId,
               courseId: courseId,
               batchId: batchId,
+<<<<<<< HEAD
+              status: 2,
+=======
               status: status,
-            },
-          ],
         },
-      });
     }
   };
 
@@ -174,7 +174,7 @@ const Player = () => {
             {t("BACK")}
           </Link>
         </Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className="mt-10">
           <Grid item xs={8}>
             <Box>
               {lesson && (
@@ -200,7 +200,7 @@ const Player = () => {
             </Box>
           </Grid>
           <Grid item xs={4}>
-            <Link
+            {/* <Link
               href="#"
               style={{
                 textAlign: "right",
@@ -209,7 +209,7 @@ const Player = () => {
               }}
             >
               <ShareOutlinedIcon />
-            </Link>
+            </Link> */}
           </Grid>
           <Grid>
             {lesson &&
