@@ -109,9 +109,11 @@ const Player = () => {
               contentId: contentId,
               courseId: courseId,
               batchId: batchId,
-              status: 2,
               status: status,
+            },
+          ],
         },
+      });
     }
   };
 
