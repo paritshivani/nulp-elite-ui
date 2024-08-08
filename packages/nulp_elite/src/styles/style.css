@@ -2086,6 +2086,7 @@ button {
     position: fixed !important;
     width: 100%;
     z-index: 99999;
+    top: 80px;
   }
   .domain-fixed .mt-180 {
     margin-top: 180px !important;
