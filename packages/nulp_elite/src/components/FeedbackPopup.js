@@ -1,0 +1,289 @@
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Rating,
+  Typography,
+  Box,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+
+const FeedbackPopup = ({ open, onClose }) => {
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const [additionalFeedback, setAdditionalFeedback] = useState("");
+  const [showTextBox, setShowTextBox] = useState(false);
+  const [checkboxes, setCheckboxes] = useState({});
+
+  // Mapping of checkbox names to labels
+  const checkboxLabels = {
+    conceptWell: "Understood the concept well",
+    learningNeed: "Content responds to my learning need",
+    interesting: "Content is interesting and fun",
+    replicable: "Content is easily replicable in my city",
+    inaccurate: "Content is inaccurate",
+    displayed: "Content is not displayed properly",
+    relevant: "Content is not relevant",
+    understand: "Did not help me understand the concept",
+    technical: "There is a technical problem",
+    insufficient: "Content is insufficient or not there",
+    other: "Other",
+  };
+
+  const ratingMessages = {
+    1: "Poor",
+    2: "Fair",
+    3: "Good",
+    4: "Very Good",
+    5: "Excellent",
+  };
+
+  const handleRatingChange = (event, newValue) => {
+    const wholeNumberValue = Math.round(newValue);
+    setRating(wholeNumberValue);
+    setCheckboxes({});
+    setAdditionalFeedback("");
+    setShowTextBox(false);
+  };
+
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setCheckboxes((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+    if (name === "other" && checked) {
+      setShowTextBox(true);
+    } else if (name === "other" && !checked) {
+      setShowTextBox(false);
+    }
+  };
+
+  const handleFeedbackChange = (event) => {
+    setFeedback(event.target.value);
+  };
+
+  const handleAdditionalFeedbackChange = (event) => {
+    setAdditionalFeedback(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    console.log("Rating:", rating);
+    console.log("Selected Checkboxes:");
+    Object.keys(checkboxes).forEach((key) => {
+      if (checkboxes[key]) {
+        console.log(checkboxLabels[key]);
+      }
+    });
+    console.log("Additional Feedback:", additionalFeedback);
+    onClose();
+  };
+
+  const renderCheckboxes = () => {
+    if (rating >= 5) {
+      return (
+        <Box>
+          <Typography variant="h6" style={{ marginTop: "20px" }}>
+            Would you like to tell us more?
+          </Typography>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["conceptWell"]}
+                onChange={handleCheckboxChange}
+                name="conceptWell"
+              />
+            }
+            label="Understood the concept well"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["learningNeed"]}
+                onChange={handleCheckboxChange}
+                name="learningNeed"
+              />
+            }
+            label="Content responds to my learning need"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["interesting"]}
+                onChange={handleCheckboxChange}
+                name="interesting"
+              />
+            }
+            label="Content is interesting and fun"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["replicable"]}
+                onChange={handleCheckboxChange}
+                name="replicable"
+              />
+            }
+            label="Content is easily replicable in my city"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["other"]}
+                onChange={handleCheckboxChange}
+                name="other"
+              />
+            }
+            label="Other"
+          />
+          {showTextBox && (
+            <TextField
+              value={additionalFeedback}
+              onChange={handleAdditionalFeedbackChange}
+              placeholder="Please specify..."
+              fullWidth
+              multiline
+              rows={4}
+              style={{ marginTop: "10px" }}
+            />
+          )}
+        </Box>
+      );
+    } else if (rating <= 4 && rating !== 0) {
+      return (
+        <Box>
+          <Typography variant="h6" style={{ marginTop: "20px" }}>
+            What issues did you face?
+          </Typography>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["inaccurate"]}
+                onChange={handleCheckboxChange}
+                name="inaccurate"
+              />
+            }
+            label="Content is inaccurate"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["displayed"]}
+                onChange={handleCheckboxChange}
+                name="displayed"
+              />
+            }
+            label="Content is not displayed properly"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["relevant"]}
+                onChange={handleCheckboxChange}
+                name="relevant"
+              />
+            }
+            label="Content is not relevant"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["understand"]}
+                onChange={handleCheckboxChange}
+                name="understand"
+              />
+            }
+            label="Did not help me understand the concept"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["technical"]}
+                onChange={handleCheckboxChange}
+                name="technical"
+              />
+            }
+            label="There is a technical problem"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["insufficient"]}
+                onChange={handleCheckboxChange}
+                name="insufficient"
+              />
+            }
+            label="Content is insufficient or not there"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkboxes["other"]}
+                onChange={handleCheckboxChange}
+                name="other"
+              />
+            }
+            label="Other"
+          />
+          {showTextBox && (
+            <TextField
+              value={additionalFeedback}
+              onChange={handleAdditionalFeedbackChange}
+              placeholder="Please specify..."
+              fullWidth
+              multiline
+              rows={4}
+              style={{ marginTop: "10px" }}
+            />
+          )}
+        </Box>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Feedback</DialogTitle>
+      <DialogContent>
+        <Typography variant="h6">Rate Us</Typography>
+        <Box display="flex" alignItems="center">
+          <Rating
+            name="feedback-rating"
+            value={rating}
+            onChange={handleRatingChange}
+            icon={<StarIcon style={{ color: "gold" }} />}
+            emptyIcon={<StarIcon style={{ color: "grey" }} />}
+            precision={1}
+          />
+          <Typography variant="body1" style={{ marginLeft: "10px" }}>
+            {rating} {rating === 1 ? "star" : "stars"}
+          </Typography>
+        </Box>
+        <Typography
+          variant="body2"
+          style={{ marginTop: "10px", fontStyle: "italic" }}
+        >
+          {ratingMessages[rating]}
+        </Typography>
+        {renderCheckboxes()}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit} color="primary">
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default FeedbackPopup;
