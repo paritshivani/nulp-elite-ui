@@ -355,13 +355,13 @@ export default function VotingCard({ items, index, onClick }) {
                   </span>
                 </Box>
               </Grid>
-              <Grid item xs={3} md={6} lg={3}>
+              {/* <Grid item xs={3} md={6} lg={3}>
                 <img
                   src={require("assets/default.png")}
                   className="appicon"
                   alt="App Icon"
                 />
-              </Grid>
+              </Grid> */}
               <Box style={{ paddingLeft: "18px", width: "100%" }}>
                 <Box sx={{ width: "100%" }}>
                   {pollResult?.map((option, index) => (
