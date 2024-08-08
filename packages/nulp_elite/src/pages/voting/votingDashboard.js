@@ -408,7 +408,7 @@ const votingDashboard = () => {
                           {items.title && (
                             <Typography
                               gutterBottom
-                              className="mt-10  event-title"
+                              className="mt-10  event-title width-inherit"
                             >
                               {items.title}
                             </Typography>
@@ -486,7 +486,7 @@ const votingDashboard = () => {
                         style={{ marginBottom: "10px" }}
                         key={items.poll_id}
                       >
-                        <Box className="xs-hide text-right pl-10">
+                        <Box className="xs-hide text-right">
                           <FacebookShareButton
                             url={shareUrl}
                             className="pr-4"
@@ -692,14 +692,14 @@ const votingDashboard = () => {
                             {items.title && (
                               <Typography
                                 gutterBottom
-                                className="mt-10  event-title"
+                                className="mt-10  event-title width-inherit"
                               >
                                 {items.title}
                               </Typography>
                             )}
                           </Box>
                           <Box>
-                            <Box className="xs-hide text-right pl-10">
+                            <Box className="xs-hide text-right">
                               <FacebookShareButton
                                 url={shareUrl}
                                 className="pr-5"
@@ -955,14 +955,14 @@ const votingDashboard = () => {
                             {items.title && (
                               <Typography
                                 gutterBottom
-                                className="mt-10  event-title"
+                                className="mt-10  event-title width-inherit"
                               >
                                 {items.title}
                               </Typography>
                             )}
                           </Box>
                           <Box>
-                            <Box className="xs-hide text-right pl-10">
+                            <Box className="xs-hide text-right">
                               <FacebookShareButton
                                 url={shareUrl}
                                 className="pr-5"

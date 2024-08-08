@@ -1315,7 +1315,7 @@ button {
   }
   .custom-event-container .cardBox,
   .votingDashboard .cardBox {
-    height: inherit !important;
+    height: 100% !important;
   }
   .lg-left {
     text-align: right;
@@ -3706,6 +3706,6 @@ input:required::after {
 .d-inline-block {
   display: inline-block !important;
 }
-.MuiChartsAxis-tickContainer {
+/* .MuiChartsAxis-tickContainer {
   transform: rotate(0.1turn);
-}
+} */
