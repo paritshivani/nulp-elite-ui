@@ -129,7 +129,7 @@ const pollsDetailes = () => {
           <Container
             maxWidth="xl"
             role="main"
-            className="xs-pb-20 lg-pt-20 min-"
+            className="xs-pb-20 lg-pt-20 votingDashboard"
           >
             <Box
               display="flex"
@@ -178,7 +178,7 @@ const pollsDetailes = () => {
                     key={items.poll_id}
                   >
                     <Card
-                      className="cardBox1 pb-20"
+                      className="cardBox1 pb-10"
                       sx={{
                         position: "relative",
                         cursor: "pointer",

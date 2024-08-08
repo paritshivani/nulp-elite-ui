@@ -13,6 +13,9 @@ import {
   TextField,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const FeedbackPopup = ({ open, onClose }) => {
   const [rating, setRating] = useState(0);
@@ -21,6 +24,14 @@ const FeedbackPopup = ({ open, onClose }) => {
   const [showTextBox, setShowTextBox] = useState(false);
   const [checkboxes, setCheckboxes] = useState({});
 
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+  }));
   // Mapping of checkbox names to labels
   const checkboxLabels = {
     conceptWell: "Understood the concept well",
@@ -83,6 +94,9 @@ const FeedbackPopup = ({ open, onClose }) => {
     });
     console.log("Additional Feedback:", additionalFeedback);
     onClose();
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const renderCheckboxes = () => {
@@ -249,11 +263,25 @@ const FeedbackPopup = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Feedback</DialogTitle>
-      <DialogContent>
-        <Typography variant="h6">Rate Us</Typography>
-        <Box display="flex" alignItems="center">
+    <BootstrapDialog open={open} onClose={onClose} className="feedback-popup">
+      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        Feedback
+      </DialogTitle>
+      <IconButton
+        aria-label="close"
+        onClick={onClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+      <DialogContent dividers>
+        <Box className="h5-title">Rate Us</Box>
+        <Box>
           <Rating
             name="feedback-rating"
             value={rating}
@@ -267,7 +295,7 @@ const FeedbackPopup = ({ open, onClose }) => {
           </Typography>
         </Box>
         <Typography
-          variant="body2"
+          className="h6-title"
           style={{ marginTop: "10px", fontStyle: "italic" }}
         >
           {ratingMessages[rating]}
@@ -275,14 +303,49 @@ const FeedbackPopup = ({ open, onClose }) => {
         {renderCheckboxes()}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onClose} className="custom-btn-default">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={handleSubmit} className="custom-btn-primary">
           Submit
         </Button>
       </DialogActions>
-    </Dialog>
+    </BootstrapDialog>
+
+    // <Dialog open={open} onClose={onClose}>
+    //   <DialogTitle>Feedback</DialogTitle>
+    //   <DialogContent>
+    //     <Typography variant="h6">Rate Us</Typography>
+    //     <Box>
+    //       <Rating
+    //         name="feedback-rating"
+    //         value={rating}
+    //         onChange={handleRatingChange}
+    //         icon={<StarIcon style={{ color: "gold" }} />}
+    //         emptyIcon={<StarIcon style={{ color: "grey" }} />}
+    //         precision={1}
+    //       />
+    //       <Typography variant="body1" style={{ marginLeft: "10px" }}>
+    //         {rating} {rating === 1 ? "star" : "stars"}
+    //       </Typography>
+    //     </Box>
+    //     <Typography
+    //       variant="body2"
+    //       style={{ marginTop: "10px", fontStyle: "italic" }}
+    //     >
+    //       {ratingMessages[rating]}
+    //     </Typography>
+    //     {renderCheckboxes()}
+    //   </DialogContent>
+    //   <DialogActions>
+    //     <Button onClick={onClose} color="primary">
+    //       Cancel
+    //     </Button>
+    //     <Button onClick={handleSubmit} color="primary">
+    //       Submit
+    //     </Button>
+    //   </DialogActions>
+    // </Dialog>
   );
 };
 
