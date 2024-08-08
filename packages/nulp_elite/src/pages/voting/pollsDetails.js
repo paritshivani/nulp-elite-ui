@@ -268,7 +268,7 @@ const pollsDetailes = () => {
                             className="d-flex h6-title mt-30"
                             style={{ color: "#484848" }}
                           >
-                            <Box className="d-flex jc-bw alignItems-start fs-14">
+                            <Box className="d-flex jc-bw alignItems-center fs-13">
                               <TodayOutlinedIcon className="fs-14 pr-5" />
                               {formatDate(items.start_date)}
                             </Box>

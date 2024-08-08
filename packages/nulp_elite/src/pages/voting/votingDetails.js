@@ -281,8 +281,7 @@ const VotingDetails = () => {
             {/* </Grid> */}
             {(userVote && userVote?.length > 0 && timeDifference > 15) ||
             isVotingEnded ? (
-              <Grid item xs={9} md={6} lg={6}>
-                <Box width="100%"></Box>
+              <Grid item xs={9} md={6} lg={8}>
                 <Typography
                   gutterBottom
                   className="mt-10  h1-title mb-20 ellsp"
@@ -310,7 +309,7 @@ const VotingDetails = () => {
                   <Box className="pr-5 my-20">
                     <span className=" h3-custom-title"> Your Vote</span>
                     <VerifiedIcon
-                      className="h3-custom-title pl-10 mt-10 icon-blue fs-18"
+                      className="h3-custom-title pl-10  icon-blue fs-18"
                       style={{
                         verticalAlign: "-webkit-baseline-middle",
                         paddingLeft: "10px",
@@ -412,7 +411,7 @@ const VotingDetails = () => {
                       <Box className="pr-5 my-20">
                         <span className=" h3-custom-title"> Your Vote</span>
                         <VerifiedIcon
-                          className="h3-custom-title pl-10 mt-10 icon-blue"
+                          className="h3-custom-title pl-10  icon-blue"
                           style={{ verticalAlign: "-webkit-baseline-middle" }}
                         />
                         <span className="h3-custom-title ">
