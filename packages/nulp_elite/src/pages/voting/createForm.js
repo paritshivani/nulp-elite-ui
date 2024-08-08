@@ -211,7 +211,7 @@ const createForm = () => {
         visibility,
         poll_options: pollOptions,
         poll_keywords: chips,
-        status: "Draft",
+        status: "Live",
         start_date: startDate,
         end_date: endDate,
         user_list: userListFinal,
