@@ -551,7 +551,7 @@ const DomainList = ({ globalSearchQuery }) => {
                   display: "inline-block",
                 }}
               >
-                {"Popular Courses"}{" "}
+                {"Latest Courses"}{" "}
               </Box>{" "}
             </Box>
           </p>
