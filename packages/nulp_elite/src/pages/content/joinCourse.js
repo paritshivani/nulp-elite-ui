@@ -51,6 +51,7 @@ import {
 } from "react-share";
 import AddConnections from "pages/connections/AddConnections";
 // import speakerOne from "./../assets/speakerOne.png";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const routeConfig = require("../../configs/routeConfig.json");
 const processString = (str) => {
@@ -104,6 +105,8 @@ const JoinCourse = () => {
   const [ContinueLearning, setContinueLearning] = useState();
   const [allContents, setAllContents] = useState();
   const [NotConsumedContent, setNotConsumedContent] = useState();
+  const [isContentConsumed, setIsContentConsumed] = useState();
+  const [completedContents, setCompletedContents] = useState([]);
 
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
@@ -380,7 +383,7 @@ const JoinCourse = () => {
           request: {
             userId: _userId,
             courseId: contentId,
-            contentIds: childnode,
+            contentIds: allContents,
             batchId: batchDetails.batchId,
             fields: ["progress", "score"],
           },
@@ -409,6 +412,22 @@ const JoinCourse = () => {
             }
           }
 
+          const newCompletedContents = [];
+
+          for (let content of data?.result?.contentList) {
+            if (content.status === 2) {
+              newCompletedContents.push(content.contentId);
+            }
+          }
+
+          if (newCompletedContents.length > 0) {
+            setCompletedContents((prevContents) => [
+              ...prevContents,
+              ...newCompletedContents,
+            ]);
+            setIsContentConsumed(true);
+          }
+
           const contentList = data.result.contentList;
 
           let allFound = true;
@@ -426,7 +445,19 @@ const JoinCourse = () => {
           }
 
           if (allFound) {
-            notConsumedContent = allContent[0];
+            notConsumedContent = allContents[0];
+            try {
+              const url = "/content/course/v1/content/state/update";
+              const response = await axios.patch(url, {
+                request: {
+                  userId: _userId,
+                  courseId: contentId,
+                  batchId: batchDetails?.batchId,
+                },
+              });
+            } catch (error) {
+              console.error("Error while fetching courses:", error);
+            }
           }
 
           setNotConsumedContent(notConsumedContent);
@@ -1445,17 +1476,16 @@ const JoinCourse = () => {
                     </AccordionSummary>
                     {faqIndex?.children?.map((faqIndexname) => (
                       <AccordionDetails
+                        key={faqIndexname.identifier} // Ensure a unique key
                         className="border-bottom"
                         style={{ paddingLeft: "35px" }}
                       >
                         <SummarizeOutlinedIcon
                           style={{ fontSize: "17px", paddingRight: "10px" }}
                         />
-
                         <Link
                           href="#"
                           underline="none"
-                          key={faqIndexname.identifier}
                           style={{ verticalAlign: "super" }}
                           onClick={() =>
                             handleLinkClick(faqIndexname.identifier)
@@ -1463,6 +1493,18 @@ const JoinCourse = () => {
                           className="h6-title"
                         >
                           {faqIndexname.name}
+                          {completedContents.includes(
+                            faqIndexname.identifier
+                          ) && (
+                            <CheckCircleIcon
+                              style={{
+                                color: "green",
+                                fontSize: "24px",
+                                paddingLeft: "10px",
+                                float: "right",
+                              }}
+                            />
+                          )}
                         </Link>
                       </AccordionDetails>
                     ))}
