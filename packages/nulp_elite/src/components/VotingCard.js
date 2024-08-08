@@ -207,7 +207,7 @@ export default function VotingCard({ items, index, onClick }) {
           <Box className="fs-14">
             {items?.poll_keywords && (
               <>
-                {items.poll_keywords.slice(0, 3).map((keyword, index) => (
+                {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                   <Tooltip
                     key={index}
                     title={keyword}
@@ -217,7 +217,7 @@ export default function VotingCard({ items, index, onClick }) {
                     <Button className="d-inline-block">
                       {index < 2
                         ? keyword
-                        : `${keyword} + ${items.poll_keywords.length - 3}`}
+                        : `${keyword} + ${items.poll_keywords.length - 2}`}
                     </Button>
                   </Tooltip>
                 ))}

@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import { Button, Card, CardContent } from "@mui/material";
+import { Button, Card, CardContent, Tooltip } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -207,6 +207,45 @@ const pollsDetailes = () => {
                               {formatDate(items.start_date)}
                             </Box>
                           </Box>
+
+                          <Box className="fs-14">
+                            {items?.poll_keywords && (
+                              <>
+                                {items.poll_keywords
+                                  .slice(0, 2)
+                                  .map((keyword, index) => (
+                                    <Tooltip
+                                      key={index}
+                                      title={keyword}
+                                      placement="right"
+                                      className="customlabeltwo cardLabelEllips"
+                                    >
+                                      <Button className="d-inline-block">
+                                        {index < 2
+                                          ? keyword
+                                          : `${keyword} + ${
+                                              items.poll_keywords.length - 2
+                                            }`}
+                                      </Button>
+                                    </Tooltip>
+                                  ))}
+                                {items.poll_keywords.length > 3 && (
+                                  <Tooltip
+                                    title={items.poll_keywords
+                                      .slice(3)
+                                      .join(", ")}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button>
+                                      {items.poll_keywords[2]} +{" "}
+                                      {items.poll_keywords.length - 3}
+                                    </Button>
+                                  </Tooltip>
+                                )}
+                              </>
+                            )}
+                          </Box>
                         </Box>
                         {/* <Box
                           className="card-img-container"
@@ -255,6 +294,25 @@ const pollsDetailes = () => {
                               }
                             >
                               View Stats{" "}
+                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                            <Button
+                              onClick={(event) => handleEdit(event, items)}
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20"
+                            >
+                              Edit{" "}
+                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+
+                            <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20"
+                              onClick={(event) =>
+                                deletePoll(items.poll_id, event)
+                              }
+                            >
+                              Delete{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
