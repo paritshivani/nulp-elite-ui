@@ -94,7 +94,7 @@ const VotingDetails = () => {
   const [currentTime, setCurrentTime] = useState(moment());
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
-  const [updateFlag, setUpdateFlag] = useState({ live: false, closed: false });
+  const [updateFlag, setUpdateFlag] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -124,13 +124,13 @@ const VotingDetails = () => {
   useEffect(() => {
     // Ensure startDate is parsed as UTC and then converted to local time
     const startDateLocal = moment.utc(startDate).local();
-
+    console.log("startDate:----", startDateLocal);
     // Check if the current time has passed the start date
     if (moment().isAfter(startDateLocal)) {
       if (!updateFlag) {
         setUpdateFlag(true);
         // Send update to the backend
-        fetch(`http://localhost:3000/polls/update?poll_id=${pollId}`, {
+        fetch(`${urlConfig.URLS.POLL.UPDATE}?poll_id=${pollId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
