@@ -447,7 +447,7 @@ const JoinCourse = () => {
           if (allFound) {
             notConsumedContent = allContents[0];
             try {
-              const url = "/content/course/v1/content/state/update";
+              const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
               const response = await axios.patch(url, {
                 request: {
                   userId: _userId,
@@ -621,7 +621,7 @@ const JoinCourse = () => {
               }
               className="custom-btn-primary mr-5"
             >
-              {t("Continue Learning")}
+              {t("CONTINUE LEARNING")}
             </Button>
             <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
