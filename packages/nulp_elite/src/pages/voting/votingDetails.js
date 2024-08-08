@@ -91,6 +91,10 @@ const VotingDetails = () => {
   const userId = util.userId();
   const [pollResult, setPollResult] = useState([]);
   const [timeDifference, setTimeDifference] = useState(0);
+  const [currentTime, setCurrentTime] = useState(moment());
+  const [startDate, setStartDate] = useState(moment());
+  const [endDate, setEndDate] = useState(moment());
+  const [updateFlag, setUpdateFlag] = useState({ live: false, closed: false });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -104,8 +108,42 @@ const VotingDetails = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Update the current time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(moment());
+    }, 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   const queryString = location.search;
   const pollId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+
+  useEffect(() => {
+    // Ensure startDate is parsed as UTC and then converted to local time
+    const startDateLocal = moment.utc(startDate).local();
+
+    // Check if the current time has passed the start date
+    if (moment().isAfter(startDateLocal)) {
+      if (!updateFlag) {
+        setUpdateFlag(true);
+        // Send update to the backend
+        fetch(`http://localhost:3000/polls/update?poll_id=${pollId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ status: "Live" }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log("Success:", data))
+          .catch((error) => console.error("Error:", error));
+      }
+    }
+  }, [currentTime, startDate, pollId, updateFlag]);
 
   useEffect(() => {
     if (pollId) {
@@ -121,6 +159,8 @@ const VotingDetails = () => {
       );
       setPoll(response.data.result.poll);
       setPollResult(response.data.result.result);
+      setStartDate(response.data.result.poll.start_date);
+      setEndDate(response.data.result.poll.end_date);
     } catch (error) {
       console.error("Error fetching poll", error);
     }
