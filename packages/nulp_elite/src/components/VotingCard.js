@@ -133,10 +133,10 @@ export default function VotingCard({ items, index, onClick }) {
       sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
       onClick={onClick}
     >
-      <CardContent className="d-flex jc-bw">
+      <CardContent>
         <Box>
           <Box className="d-flex jc-bw">
-            <Box>
+            <Grid item xs={12} md={8} lg={8}>
               {items.title && (
                 <Typography
                   gutterBottom
@@ -146,9 +146,16 @@ export default function VotingCard({ items, index, onClick }) {
                   {items.title}
                 </Typography>
               )}
-            </Box>
-            <Box>
-              <Box className="xs-hide">
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              lg={4}
+              style={{ marginBottom: "10px" }}
+              key={items.poll_id}
+            >
+              <Box className="xs-hide text-right">
                 <FacebookShareButton
                   url={shareUrl}
                   className="pr-5"
@@ -194,7 +201,7 @@ export default function VotingCard({ items, index, onClick }) {
                   />
                 </TwitterShareButton>
               </Box>
-            </Box>
+            </Grid>
           </Box>
           <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
             <Box className="d-flex jc-bw alignItems-center">
@@ -227,7 +234,7 @@ export default function VotingCard({ items, index, onClick }) {
                     placement="right"
                     className="customlabeltwo cardLabelEllips"
                   >
-                    <Button>
+                    <Button className="d-inline-block">
                       {items.poll_keywords[2]} +{" "}
                       {items.poll_keywords.length - 3}
                     </Button>
@@ -343,7 +350,7 @@ export default function VotingCard({ items, index, onClick }) {
                 </Typography>
 
                 <Box className="pr-5">
-                  <span className=" h3-custom-title"> Voting Ended On</span>
+                  <span className=" h3-custom-title"> Poll Ended On</span>
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 mt-10"
                     style={{ verticalAlign: "middle" }}
