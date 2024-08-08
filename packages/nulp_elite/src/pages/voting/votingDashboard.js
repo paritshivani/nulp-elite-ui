@@ -424,30 +424,44 @@ const votingDashboard = () => {
                               )}
                             </Box>
                           </Box>
-                          {items?.poll_keywords && (
-                            <Box className="d-flex jc-bw alignItems-center fs-14">
-                              <Tooltip
-                                title={
-                                  Array.isArray(items?.poll_keywords) &&
-                                  items?.poll_keywords?.length > 1
-                                    ? items?.poll_keywords.join(", ")
-                                    : items?.poll_keywords?.[0]
-                                }
-                                placement="right"
-                                className="labeltwo cardLabelEllips"
-                              >
-                                <Button className="ml-0">
-                                  {Array.isArray(items?.poll_keywords) &&
-                                  items?.poll_keywords.length === 1
-                                    ? items?.poll_keywords[0]
-                                    : Array.isArray(items?.poll_keywords) &&
-                                      `${items?.poll_keywords[0]} + ${
-                                        items?.poll_keywords.length - 1
-                                      }`}
-                                </Button>
-                              </Tooltip>
-                            </Box>
-                          )}
+                          <Box className="fs-14">
+                            {items?.poll_keywords && (
+                              <>
+                                {items.poll_keywords
+                                  .slice(0, 2)
+                                  .map((keyword, index) => (
+                                    <Tooltip
+                                      key={index}
+                                      title={keyword}
+                                      placement="right"
+                                      className="customlabeltwo cardLabelEllips"
+                                    >
+                                      <Button className="d-inline-block">
+                                        {index < 2
+                                          ? keyword
+                                          : `${keyword} + ${
+                                              items.poll_keywords.length - 2
+                                            }`}
+                                      </Button>
+                                    </Tooltip>
+                                  ))}
+                                {items.poll_keywords.length > 3 && (
+                                  <Tooltip
+                                    title={items.poll_keywords
+                                      .slice(3)
+                                      .join(", ")}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button>
+                                      {items.poll_keywords[2]} +{" "}
+                                      {items.poll_keywords.length - 3}
+                                    </Button>
+                                  </Tooltip>
+                                )}
+                              </>
+                            )}
+                          </Box>
                         </Box>
                         {/* <Box
                         className="card-img-container"
@@ -644,30 +658,44 @@ const votingDashboard = () => {
                             )}
                           </Box>
                         </Box>
-                        {items?.poll_keywords && (
-                          <Box className="d-flex jc-bw alignItems-center fs-14">
-                            <Tooltip
-                              title={
-                                Array.isArray(items?.poll_keywords) &&
-                                items?.poll_keywords?.length > 1
-                                  ? items?.poll_keywords.join(", ")
-                                  : items?.poll_keywords?.[0]
-                              }
-                              placement="right"
-                              className="labeltwo cardLabelEllips"
-                            >
-                              <Button>
-                                {Array.isArray(items?.poll_keywords) &&
-                                items?.poll_keywords.length === 1
-                                  ? items?.poll_keywords[0]
-                                  : Array.isArray(items?.poll_keywords) &&
-                                    `${items?.poll_keywords[0]} + ${
-                                      items?.poll_keywords.length - 1
-                                    }`}
-                              </Button>
-                            </Tooltip>
-                          </Box>
-                        )}
+                        <Box className="fs-14">
+                          {items?.poll_keywords && (
+                            <>
+                              {items.poll_keywords
+                                .slice(0, 2)
+                                .map((keyword, index) => (
+                                  <Tooltip
+                                    key={index}
+                                    title={keyword}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button className="d-inline-block">
+                                      {index < 2
+                                        ? keyword
+                                        : `${keyword} + ${
+                                            items.poll_keywords.length - 2
+                                          }`}
+                                    </Button>
+                                  </Tooltip>
+                                ))}
+                              {items.poll_keywords.length > 3 && (
+                                <Tooltip
+                                  title={items.poll_keywords
+                                    .slice(3)
+                                    .join(", ")}
+                                  placement="right"
+                                  className="customlabeltwo cardLabelEllips"
+                                >
+                                  <Button>
+                                    {items.poll_keywords[2]} +{" "}
+                                    {items.poll_keywords.length - 3}
+                                  </Button>
+                                </Tooltip>
+                              )}
+                            </>
+                          )}
+                        </Box>
                       </Box>
                       {/* <Box
                         className="card-img-container"
@@ -835,30 +863,44 @@ const votingDashboard = () => {
                             )}
                           </Box>
                         </Box>
-                        {items?.poll_keywords && (
-                          <Box className="d-flex jc-bw alignItems-start fs-14">
-                            <Tooltip
-                              title={
-                                Array.isArray(items?.poll_keywords) &&
-                                items?.poll_keywords?.length > 1
-                                  ? items?.poll_keywords.join(", ")
-                                  : items?.poll_keywords?.[0]
-                              }
-                              placement="right"
-                              className="labeltwo cardLabelEllips"
-                            >
-                              <Button>
-                                {Array.isArray(items?.poll_keywords) &&
-                                items?.poll_keywords.length === 1
-                                  ? items?.poll_keywords[0]
-                                  : Array.isArray(items?.poll_keywords) &&
-                                    `${items?.poll_keywords[0]} + ${
-                                      items?.poll_keywords.length - 1
-                                    }`}
-                              </Button>
-                            </Tooltip>
-                          </Box>
-                        )}
+                        <Box className="fs-14">
+                          {items?.poll_keywords && (
+                            <>
+                              {items.poll_keywords
+                                .slice(0, 2)
+                                .map((keyword, index) => (
+                                  <Tooltip
+                                    key={index}
+                                    title={keyword}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button className="d-inline-block">
+                                      {index < 2
+                                        ? keyword
+                                        : `${keyword} + ${
+                                            items.poll_keywords.length - 2
+                                          }`}
+                                    </Button>
+                                  </Tooltip>
+                                ))}
+                              {items.poll_keywords.length > 3 && (
+                                <Tooltip
+                                  title={items.poll_keywords
+                                    .slice(3)
+                                    .join(", ")}
+                                  placement="right"
+                                  className="customlabeltwo cardLabelEllips"
+                                >
+                                  <Button>
+                                    {items.poll_keywords[2]} +{" "}
+                                    {items.poll_keywords.length - 3}
+                                  </Button>
+                                </Tooltip>
+                              )}
+                            </>
+                          )}
+                        </Box>
                       </Box>
                       {/* <Box
                         className="card-img-container"
