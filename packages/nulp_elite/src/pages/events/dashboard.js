@@ -613,7 +613,7 @@ const Dashboard = () => {
                   ]}
                   series={[{ data: eventTopUser }]}
                   height={300}
-                  barSize={10}
+                  barSize={2}
                 />
                 <Box className="brYlabel">No. of Participants</Box>
                 <Box sx={{ textAlign: "center" }}>Events</Box>
