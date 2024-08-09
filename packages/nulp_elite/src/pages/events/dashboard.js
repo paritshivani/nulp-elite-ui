@@ -608,7 +608,11 @@ const Dashboard = () => {
                       scaleType: "band",
                       data: eventNames,
                       tickSize: 5,
-                      tickRotation: -45,
+                      tickLabelStyle: {
+                        angle: -65,
+                        textAnchor: "end",
+                        fontSize: 12,
+                      },
                     },
                   ]}
                   series={[{ data: eventTopUser }]}
