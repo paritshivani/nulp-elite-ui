@@ -296,7 +296,11 @@ const Player = () => {
         </Box>
       </Container>
       {openFeedBack && (
-        <FeedbackPopup open={openFeedBack} onClose={handleClose} />
+        <FeedbackPopup
+          open={openFeedBack}
+          onClose={handleClose}
+          className="feedback-popup"
+        />
       )}
       <FloatingChatIcon />
       <Footer />

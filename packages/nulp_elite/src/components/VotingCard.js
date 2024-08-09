@@ -129,7 +129,7 @@ export default function VotingCard({ items, index, onClick }) {
 
   return (
     <Card
-      className="cardBox pb-20"
+      className="cardBox pb-10"
       sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
       onClick={onClick}
     >

@@ -293,7 +293,11 @@ const votingDashboard = () => {
       {toasterMessage && <Toast response={toasterMessage} type="success" />}
 
       {contentCreator || admin ? (
-        <Container maxWidth="xl" role="main" className="xs-pb-20 lg-pt-20 min-">
+        <Container
+          maxWidth="xl"
+          role="main"
+          className="xs-pb-20 lg-pt-20 votingDashboard"
+        >
           <Box mb={2} mt={2}>
             <Box className="p-15">
               <Grid container spacing={2} alignItems="center">
@@ -387,7 +391,7 @@ const votingDashboard = () => {
                   key={items.poll_id}
                 >
                   <Card
-                    className="pb-20"
+                    className="pb-10"
                     sx={{
                       position: "relative",
                       cursor: "pointer",
@@ -410,7 +414,7 @@ const votingDashboard = () => {
                           {items.title && (
                             <Typography
                               gutterBottom
-                              className="mt-10  event-title"
+                              className="mt-10  event-title width-inherit"
                             >
                               {items.title}
                             </Typography>
@@ -488,7 +492,7 @@ const votingDashboard = () => {
                         style={{ marginBottom: "10px" }}
                         key={items.poll_id}
                       >
-                        <Box className="xs-hide text-right pl-10">
+                        <Box className="xs-hide text-right">
                           <FacebookShareButton
                             url={shareUrl}
                             className="pr-4"
@@ -677,7 +681,7 @@ const votingDashboard = () => {
                   key={items.poll_id}
                 >
                   <Card
-                    className="pb-20"
+                    className="pb-10"
                     sx={{
                       position: "relative",
                       cursor: "pointer",
@@ -694,14 +698,14 @@ const votingDashboard = () => {
                             {items.title && (
                               <Typography
                                 gutterBottom
-                                className="mt-10  event-title"
+                                className="mt-10  event-title width-inherit"
                               >
                                 {items.title}
                               </Typography>
                             )}
                           </Box>
                           <Box>
-                            <Box className="xs-hide text-right pl-10">
+                            <Box className="xs-hide text-right">
                               <FacebookShareButton
                                 url={shareUrl}
                                 className="pr-5"
@@ -940,7 +944,7 @@ const votingDashboard = () => {
                   key={items.poll_id}
                 >
                   <Card
-                    className="pb-20"
+                    className="pb-10"
                     sx={{
                       position: "relative",
                       cursor: "pointer",
@@ -957,14 +961,14 @@ const votingDashboard = () => {
                             {items.title && (
                               <Typography
                                 gutterBottom
-                                className="mt-10  event-title"
+                                className="mt-10  event-title width-inherit"
                               >
                                 {items.title}
                               </Typography>
                             )}
                           </Box>
                           <Box>
-                            <Box className="xs-hide text-right pl-10">
+                            <Box className="xs-hide text-right">
                               <FacebookShareButton
                                 url={shareUrl}
                                 className="pr-5"
