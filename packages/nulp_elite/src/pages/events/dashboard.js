@@ -521,6 +521,18 @@ const Dashboard = () => {
     setSearchQuery("");
   };
 
+  const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
+  const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
+  const xLabels = [
+    "Expenditure",
+    "Expenditure ExpenditureExpenditure",
+    "Page C",
+    "Page D",
+    "Page E",
+    "Page F",
+    "Page G",
+  ];
+
   return (
     <div>
       <Header />
@@ -599,6 +611,7 @@ const Dashboard = () => {
                 </LocalizationProvider>
               </Box>
             </Box>
+            
 
             {eventNames && eventTopUser && (
               <>
@@ -608,8 +621,11 @@ const Dashboard = () => {
                       scaleType: "band",
                       data: eventNames,
                       tickSize: 5,
-                      tickRotation: -45,
-                    },
+                      tickLabelStyle: {
+                        angle: -65,
+                        textAnchor: "end",
+                        fontSize: 12,
+                      },                    },
                   ]}
                   series={[{ data: eventTopUser }]}
                   height={300}
