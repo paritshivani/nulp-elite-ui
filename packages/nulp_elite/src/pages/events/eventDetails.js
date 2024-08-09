@@ -36,6 +36,7 @@ import {
 const consenttext = require("../../configs/consent.json");
 const urlConfig = require("../../configs/urlConfig.json");
 const designations = require("../../configs/designations.json");
+const recording = require("../../assets/eventRecording.json")
 
 import {
   FacebookShareButton,
@@ -206,6 +207,7 @@ const EventDetails = () => {
   useEffect(() => {
     getUserData(_userId, "loggedIn");
     fetchMyEvents();
+    getEventRecording();
     // checkEnrolledCourse();
   }, [_userId, eventId]);
 
@@ -622,6 +624,18 @@ const EventDetails = () => {
       showErrorMessage(t("FAILED_TO_ENROLL_INTO_COURSE"));
     }
   };
+
+  const getEventRecording = async () => {
+  try {
+    const url = "/custom_event/fetch_recordings?event_id=" + eventId;
+    const response = await axios.get(url); // Use axios.get instead of axios.fetch
+    console.log("---------------Recording Link", response.data);
+    console.log("Recording Hardcoded Data",recording);
+  } catch (error) {
+    console.error("Error fetching recording:", error);
+  }
+};
+
   return (
     <div>
       <Header />
