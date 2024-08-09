@@ -953,24 +953,6 @@ const EventDetails = () => {
               )} */}
             </Grid>
             <Box className="xs-hide">
-              <Button
-                type="button"
-                className="custom-btn-success"
-                style={{
-                  borderRadius: "10px",
-                  color: "#fff",
-                  padding: "10px 35px",
-                  fontWeight: "500",
-                  fontSize: "12px",
-                  border: "solid 1px #0e7a9c",
-                  background: "#0e7a9c",
-                  marginTop: "10px",
-                }}
-                startIcon={<AdjustOutlinedIcon />}
-                onClick={handleClickOpen}
-              >
-                {t("VIEW_WEBINAR_RECORDING")}
-              </Button>
               {
                 // detailData.recording == undefined &&
                 <Box
