@@ -45,13 +45,19 @@ const VotingList = () => {
   const [finalFilters, setFinalFilters] = useState({});
 
   const handleFilterChange = (newFilters) => {
+    const formatDateToISO = (dateStr) => {
+      const localDate = new Date(dateStr);
+      localDate.setUTCHours(0, 0, 0, 0);
+      return localDate.toISOString();
+    };
+
     const formattedFilters = {
       ...newFilters,
       selectedStartDate: newFilters.selectedStartDate
-        ? new Date(newFilters.selectedStartDate).toLocaleDateString()
+        ? formatDateToISO(newFilters.selectedStartDate)
         : null,
       selectedEndDate: newFilters.selectedEndDate
-        ? new Date(newFilters.selectedEndDate).toLocaleDateString()
+        ? formatDateToISO(newFilters.selectedEndDate)
         : null,
     };
     setFilters(formattedFilters);
