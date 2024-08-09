@@ -190,16 +190,18 @@ const votingDashboard = () => {
     });
   };
 
+  const handleDateToISO = (dateStr) => {
+    if (!dateStr) return null;
+    const localDate = new Date(dateStr);
+    localDate.setUTCHours(0, 0, 0, 0);
+    return localDate.toISOString();
+  };
+
   useEffect(() => {
-    console.log("set--------", searchTerm, selectedStartDate, selectedEndDate);
     setFilters({
       searchTerm,
-      selectedStartDate: selectedStartDate
-        ? new Date(selectedStartDate).toISOString()
-        : null,
-      selectedEndDate: selectedEndDate
-        ? new Date(selectedEndDate).toISOString()
-        : null,
+      selectedStartDate: handleDateToISO(selectedStartDate),
+      selectedEndDate: handleDateToISO(selectedEndDate),
     });
   }, [searchTerm, selectedStartDate, selectedEndDate]);
 

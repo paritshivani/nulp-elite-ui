@@ -417,6 +417,7 @@ const EventList = (props) => {
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
               renderedPage="eventList"
+              domainCode={domain}
             />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="pb-20 pt-0 event-list ">

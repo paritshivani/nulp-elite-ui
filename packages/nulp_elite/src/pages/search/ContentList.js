@@ -512,6 +512,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
               renderedPage="contentlist"
+              domainCode={domain}
             />
           </Grid>
           <Grid
