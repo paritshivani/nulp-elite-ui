@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import { Button, Card, CardContent } from "@mui/material";
+import { Button, Card, CardContent, Tooltip } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -129,7 +129,7 @@ const pollsDetailes = () => {
           <Container
             maxWidth="xl"
             role="main"
-            className="xs-pb-20 lg-pt-20 min-"
+            className="xs-pb-20 lg-pt-20 votingDashboard"
           >
             <Box
               display="flex"
@@ -140,17 +140,17 @@ const pollsDetailes = () => {
             >
               <Box display="flex" alignItems="center" className="h3-title">
                 {type === "live" ? (
-                  <Box>
+                  <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
                     Live Polls
                   </Box>
                 ) : type === "closed" ? (
-                  <Box>
+                  <Box display="flex">
                     <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />{" "}
                     Closed Polls
                   </Box>
                 ) : (
-                  <Box>
+                  <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
                     Draft Polls
                   </Box>
@@ -178,7 +178,7 @@ const pollsDetailes = () => {
                     key={items.poll_id}
                   >
                     <Card
-                      className="cardBox1 pb-20"
+                      className="cardBox1 pb-10"
                       sx={{
                         position: "relative",
                         cursor: "pointer",
@@ -188,24 +188,130 @@ const pollsDetailes = () => {
                       }}
                       onClick={() => handleCardClick(items.poll_id)}
                     >
-                      <CardContent className="d-flex jc-bw">
+                      <CardContent>
                         <Box>
-                          {items.title && (
-                            <Typography
-                              gutterBottom
-                              className="mt-10 event-title"
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} md={8} lg={8}>
+                              {items.title && (
+                                <Typography
+                                  gutterBottom
+                                  className="mt-10 event-title"
+                                >
+                                  {items.title}
+                                </Typography>
+                              )}
+                            </Grid>
+
+                            <Grid
+                              item
+                              xs={12}
+                              md={4}
+                              lg={4}
+                              style={{ marginBottom: "10px" }}
+                              key={items.poll_id}
+                              className="pl-0"
                             >
-                              {items.title}
-                            </Typography>
-                          )}
+                              <Box className="xs-hide text-right">
+                                <FacebookShareButton
+                                  url={shareUrl}
+                                  className="pr-5"
+                                  quote={`Check out this poll: ${items.title}`}
+                                  onClick={(event) => {
+                                    openSocialMediaLink(event, shareUrl);
+                                  }}
+                                >
+                                  <FacebookIcon
+                                    url={shareUrl}
+                                    size={32}
+                                    round={true}
+                                  />
+                                </FacebookShareButton>
+                                <WhatsappShareButton
+                                  url={shareUrl}
+                                  title={`Check out this poll: ${items.title}`}
+                                  separator=":: "
+                                  className="pr-5"
+                                  onClick={(event) =>
+                                    openSocialMediaLink(event, shareUrl)
+                                  }
+                                >
+                                  <WhatsappIcon size={32} round />
+                                </WhatsappShareButton>
+                                <LinkedinShareButton
+                                  url={shareUrl}
+                                  className="pr-5"
+                                  title={items.title}
+                                  summary={`Participate in this poll: ${items.title}`}
+                                  onClick={(event) => {
+                                    openSocialMediaLink(event, shareUrl);
+                                  }}
+                                >
+                                  <LinkedinIcon size={32} round={true} />
+                                </LinkedinShareButton>
+                                <TwitterShareButton
+                                  url={shareUrl}
+                                  className="pr-5"
+                                  title={`Check out this poll: ${items.title}`}
+                                  onClick={(event) => {
+                                    openSocialMediaLink(event, shareUrl);
+                                  }}
+                                >
+                                  <img
+                                    src={require("../../assets/twitter.png")}
+                                    alt="Twitter"
+                                    style={{ width: 32, height: 32 }}
+                                  />
+                                </TwitterShareButton>
+                              </Box>
+                            </Grid>
+                          </Grid>
                           <Box
                             className="d-flex h6-title mt-30"
                             style={{ color: "#484848" }}
                           >
-                            <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <Box className="d-flex jc-bw alignItems-center fs-13">
                               <TodayOutlinedIcon className="fs-14 pr-5" />
                               {formatDate(items.start_date)}
                             </Box>
+                          </Box>
+
+                          <Box className="fs-14">
+                            {items?.poll_keywords && (
+                              <>
+                                {items.poll_keywords
+                                  .slice(0, 2)
+                                  .map((keyword, index) => (
+                                    <Tooltip
+                                      key={index}
+                                      title={keyword}
+                                      placement="right"
+                                      className="customlabeltwo cardLabelEllips"
+                                    >
+                                      <Button className="d-inline-block">
+                                        {index < 2
+                                          ? keyword
+                                          : `${keyword} + ${
+                                              items.poll_keywords.length - 2
+                                            }`}
+                                      </Button>
+                                    </Tooltip>
+                                  ))}
+                                {items.poll_keywords.length > 3 && (
+                                  <Tooltip
+                                    title={items.poll_keywords
+                                      .slice(3)
+                                      .join(", ")}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button className="d-inline-block">
+                                      {items.poll_keywords[2]} +{" "}
+                                      {items.poll_keywords.length - 3}
+                                    </Button>
+                                  </Tooltip>
+                                )}
+                              </>
+                            )}
                           </Box>
                         </Box>
                         {/* <Box
@@ -249,12 +355,31 @@ const pollsDetailes = () => {
                           <Box>
                             <Button
                               type="button"
-                              className="custom-btn-primary ml-20 lg-mt-20"
+                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
                               onClick={(event) =>
                                 handleOpenModal(items.poll_id, event)
                               }
                             >
                               View Stats{" "}
+                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                            <Button
+                              onClick={(event) => handleEdit(event, items)}
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                            >
+                              Edit{" "}
+                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+
+                            <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                              onClick={(event) =>
+                                deletePoll(items.poll_id, event)
+                              }
+                            >
+                              Delete{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
@@ -272,7 +397,7 @@ const pollsDetailes = () => {
                             </Button>
                           </Box>
                         ) : null}
-                        <Box className="xs-hide">
+                        <Box className="lg-hide">
                           <FacebookShareButton
                             url={shareUrl}
                             className="pr-5"
@@ -419,7 +544,7 @@ const pollsDetailes = () => {
                     {formatDate(signlePOll.created_at)}
                   </Box>
                   <Box className="mt-9 h5-title">
-                    Voting Ended On:
+                    Poll Ended On:
                     <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
                     {formatDate(signlePOll.end_date)}
                   </Box>

@@ -96,7 +96,7 @@ const createForm = () => {
   // Check if startDate is in the past
   let isStartDateInPast;
   if (editData) {
-    startDate && new Date(startDate) < currentDateTime;
+    isStartDateInPast = startDate && new Date(startDate) < currentDateTime;
   }
 
   const handleAddChip = useCallback(
@@ -114,7 +114,6 @@ const createForm = () => {
   const handleDeleteChip = (chipToDelete) => () => {
     setChips(chips.filter((chip) => chip !== chipToDelete));
   };
-  console.log("--------=================", pollType);
   useEffect(() => {
     const initialOrg = orgList.find((org) => org.orgName === organisationName);
     setSelectedOrg(initialOrg || null);

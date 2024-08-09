@@ -91,6 +91,10 @@ const VotingDetails = () => {
   const userId = util.userId();
   const [pollResult, setPollResult] = useState([]);
   const [timeDifference, setTimeDifference] = useState(0);
+  const [currentTime, setCurrentTime] = useState(moment());
+  const [startDate, setStartDate] = useState(moment());
+  const [endDate, setEndDate] = useState(moment());
+  const [updateFlag, setUpdateFlag] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -104,8 +108,42 @@ const VotingDetails = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Update the current time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(moment());
+    }, 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   const queryString = location.search;
   const pollId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+
+  useEffect(() => {
+    // Ensure startDate is parsed as UTC and then converted to local time
+    const startDateLocal = moment.utc(startDate).local();
+    console.log("startDate:----", startDateLocal);
+    // Check if the current time has passed the start date
+    if (moment().isAfter(startDateLocal)) {
+      if (!updateFlag) {
+        setUpdateFlag(true);
+        // Send update to the backend
+        fetch(`${urlConfig.URLS.POLL.UPDATE}?poll_id=${pollId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ status: "Live" }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log("Success:", data))
+          .catch((error) => console.error("Error:", error));
+      }
+    }
+  }, [currentTime, startDate, pollId, updateFlag]);
 
   useEffect(() => {
     if (pollId) {
@@ -121,6 +159,8 @@ const VotingDetails = () => {
       );
       setPoll(response.data.result.poll);
       setPollResult(response.data.result.result);
+      setStartDate(response.data.result.poll.start_date);
+      setEndDate(response.data.result.poll.end_date);
     } catch (error) {
       console.error("Error fetching poll", error);
     }
@@ -222,7 +262,7 @@ const VotingDetails = () => {
           >
             <Link
               underline="hover"
-              style={{ maxHeight: "inherit" }}
+              style={{ maxHeight: "inherit", cursor: "pointer" }}
               color="#004367"
               onClick={handleGoBack}
             >
@@ -281,8 +321,7 @@ const VotingDetails = () => {
             {/* </Grid> */}
             {(userVote && userVote?.length > 0 && timeDifference > 15) ||
             isVotingEnded ? (
-              <Grid item xs={9} md={6} lg={6}>
-                <Box width="100%"></Box>
+              <Grid item xs={9} md={6} lg={8}>
                 <Typography
                   gutterBottom
                   className="mt-10  h1-title mb-20 ellsp"
@@ -292,12 +331,12 @@ const VotingDetails = () => {
 
                 <Box className="pr-5">
                   {isVotingEnded ? (
-                    <span className=" h3-custom-title"> Voting Ended On</span>
+                    <span className=" h3-custom-title"> Poll Ended On</span>
                   ) : (
                     <span className=" h3-custom-title"> Live until</span>
                   )}
                   <TodayOutlinedIcon
-                    className="h3-custom-title pl-10 mt-10"
+                    className="h3-custom-title pl-10 pt-10"
                     style={{ verticalAlign: "middle" }}
                   />
                   <span className="h3-custom-title ">
@@ -310,7 +349,7 @@ const VotingDetails = () => {
                   <Box className="pr-5 my-20">
                     <span className=" h3-custom-title"> Your Vote</span>
                     <VerifiedIcon
-                      className="h3-custom-title pl-10 mt-10 icon-blue fs-18"
+                      className="h3-custom-title pl-10  icon-blue fs-18"
                       style={{
                         verticalAlign: "middle",
                         paddingLeft: "10px",
@@ -363,7 +402,7 @@ const VotingDetails = () => {
                 </Box>
               </Grid>
             ) : (
-              <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
+              <Grid item xs={9} md={6} lg={8}>
                 <Typography
                   gutterBottom
                   className="mt-10  h1-title mb-20 xs-pl-15"
@@ -373,14 +412,17 @@ const VotingDetails = () => {
                 <Box className="pr-5 h3-custom-title">
                   <span className=" h3-custom-title"> Live until</span>
                   <TodayOutlinedIcon
-                    className="h3-custom-title pl-10 mt-10"
-                    style={{ verticalAlign: "middle", paddingRight: "10px" }}
+                    className="h3-custom-title pl-10 mb-10 pt-10"
+                    style={{
+                      verticalAlign: "middle",
+                      paddingRight: "10px",
+                    }}
                   />
                   {moment(poll.end_date).format(
                     "dddd, MMMM Do YYYY, h:mm:ss a"
                   )}
                 </Box>
-                <Box className="pr-5">
+                <Box className="pr-5 my-10">
                   {poll?.poll_keywords &&
                     poll?.poll_keywords?.map((item, index) => (
                       <Button
@@ -409,7 +451,7 @@ const VotingDetails = () => {
                       <Box className="pr-5 my-20">
                         <span className=" h3-custom-title"> Your Vote</span>
                         <VerifiedIcon
-                          className="h3-custom-title pl-10 mt-10 icon-blue"
+                          className="h3-custom-title pl-10  icon-blue"
                           style={{ verticalAlign: "middle" }}
                         />
                         <span className="h3-custom-title ">
@@ -495,9 +537,9 @@ const VotingDetails = () => {
                     </Typography>
 
                     <Box className="pr-5">
-                      <span className=" h3-custom-title"> Voting Ended On</span>
+                      <span className=" h3-custom-title"> Poll Ended On</span>
                       <TodayOutlinedIcon
-                        className="h3-custom-title pl-10 mt-10"
+                        className="h3-custom-title pl-10 pt-10"
                         style={{
                           verticalAlign: "middle",
                           paddingRight: "10px",
