@@ -300,6 +300,7 @@ const Player = () => {
           open={openFeedBack}
           onClose={handleClose}
           className="feedback-popup"
+          contentId={contentId}
         />
       )}
       <FloatingChatIcon />
