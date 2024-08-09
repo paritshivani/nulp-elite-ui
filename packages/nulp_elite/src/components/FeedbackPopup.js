@@ -94,7 +94,6 @@ const FeedbackPopup = ({ open, onClose,contentId }) => {
   try {
     let selectedCheckboxes = [];
 
-    // Loop through the checkboxes and add only the selected ones to the array
     Object.keys(checkboxes).forEach((key) => {
       if (checkboxes[key] && checkboxLabels[key] !== 'Other') {
         selectedCheckboxes.push(checkboxLabels[key]);
@@ -106,7 +105,7 @@ const FeedbackPopup = ({ open, onClose,contentId }) => {
       content_id: contentId,
       user_id: _userId,
       rating: rating,
-      default_feedback: selectedCheckboxes, // Array of selected checkboxes, excluding "Other"
+      default_feedback: selectedCheckboxes, 
       other_feedback: additionalFeedback,
     };
 
