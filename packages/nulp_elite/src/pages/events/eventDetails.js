@@ -303,7 +303,6 @@ const EventDetails = () => {
   //     if (data.result.courses.length > 0) {
   //       data.result.courses.map((event) => {
   //         console.log("check enrollment list API 1-----", event);
-
   //         if (event.identifier === eventId) {
   //           alert("list match");
   //           setIsEnrolled(true);
@@ -599,7 +598,7 @@ const EventDetails = () => {
             `${urlConfig.URLS.CUSTOM_EVENT.UNREGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`
           );
           if (response.status === 200) {
-            setToasterMessage("Poll deleted successfully");
+            setToasterMessage("Unregisterd successfully");
             fetchPolls();
             setPoll((prevPolls) => {
               const updatedPolls = prevPolls.filter(
