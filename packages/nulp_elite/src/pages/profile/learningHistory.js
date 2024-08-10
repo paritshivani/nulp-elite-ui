@@ -126,6 +126,7 @@ const LearningHistory = () => {
                         `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
                       )
                     }
+                    continueLearning={true}
                   />
                 </Box>
               ))}

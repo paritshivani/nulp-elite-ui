@@ -156,11 +156,11 @@ const ContinueLearning = () => {
           </Alert>
         )}
         <Box style={{ margin: "20px 0 20px -12px" }}>
-          <Filter
+          {/* <Filter
             options={gradeLevels}
             label="Filter by Sub-Domain"
             onChange={handleFilterChange}
-          />
+          /> */}
         </Box>
         <Box textAlign="center" padding="10" className="mt-30">
           <Box>
@@ -169,7 +169,7 @@ const ContinueLearning = () => {
                 {paginatedCourses.map((items) => (
                   <Box className="custom-card-box" key={items.contentId}>
                     <BoxCard
-                      items={items.content}
+                      items={items}
                       index={filteredCourses.length}
                       onClick={() =>
                         handleCardClick(
@@ -177,6 +177,7 @@ const ContinueLearning = () => {
                           items.content.primaryCategory
                         )
                       }
+                      continueLearning={false}
                     ></BoxCard>
                   </Box>
                 ))}

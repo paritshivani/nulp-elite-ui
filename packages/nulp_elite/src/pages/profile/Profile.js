@@ -626,6 +626,19 @@ const Profile = () => {
     !finalCertData.certificatesReceived && !finalCertData.courseWithCertificate;
   const isCourseDataEmpty =
     !finalCourseData.enrolledThisMonth && !finalCourseData.enrolledLastMonth;
+  // Create a lookup object for role ID to name mapping
+  const roleList = userData?.result?.response?.roleList || [];
+  const roleLookup = roleList.reduce((acc, role) => {
+    acc[role.id] = role.name;
+    return acc;
+  }, {});
+
+  // Map role IDs to names
+  const roles = userData?.result?.response?.roles || [];
+  const roleNames = roles
+    .map((role) => roleLookup[role.role]) // Convert role ID to role name
+    .filter((name) => name) // Remove undefined names
+    .join(", "); // Join names with comma
 
   return (
     <div>
@@ -715,10 +728,7 @@ const Profile = () => {
                               )}
                               <Typography className="h6-title d-flex">
                                 <Box className="h6-title d-flex">
-                                  Role :{" "}
-                                  {userData?.result?.response?.roles
-                                    ?.map((role) => role.role)
-                                    .join(", ")}
+                                  Role : {roleNames}
                                 </Box>
                               </Typography>
                             </Box>
