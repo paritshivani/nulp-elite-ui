@@ -18,6 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import * as util from "../../src/services/utilService";
 import axios from "axios";
+const urlConfig = require("../configs/urlConfig.json");
 
 
 
@@ -100,7 +101,7 @@ const FeedbackPopup = ({ open, onClose,contentId }) => {
       }
     });
 
-    const url = "/custom_feedback/create";
+    const url = `${urlConfig.URLS.FEEDBACK.CREATE}`;
     const request = {
       content_id: contentId,
       user_id: _userId,

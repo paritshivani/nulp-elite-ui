@@ -78,7 +78,7 @@ const Player = () => {
 
   const CheckfeedBackSubmitted =async()=>{
     try{
-      const url = "/custom_feedback/list";
+      const url = `${urlConfig.URLS.FEEDBACK.LIST}`;
       const RequestBody={
         request:{
           filters:{
@@ -120,7 +120,7 @@ const Player = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/content/v1/read/${contentId}`, {
+        const response = await fetch(`${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.GET}/${contentId}`, {
           headers: { "Content-Type": "application/json" },
         });
         if (!response.ok) throw new Error("Failed to fetch course data");
