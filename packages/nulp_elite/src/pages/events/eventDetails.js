@@ -36,7 +36,7 @@ import {
 const consenttext = require("../../configs/consent.json");
 const urlConfig = require("../../configs/urlConfig.json");
 const designations = require("../../configs/designations.json");
-const recording = require("../../assets/eventRecording.json")
+const recording = require("../../assets/eventRecording.json");
 
 import {
   FacebookShareButton,
@@ -167,12 +167,10 @@ const EventDetails = () => {
     fetchUserData();
     const fetchData = async () => {
       try {
-        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.READ}/${eventId}`;
+        const url = `${urlConfig.URLS.CUSTOM_EVENT.READ_BY_ID}?eventId=${eventId}`;
         const response = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
           },
         });
         if (!response.ok) {
@@ -626,15 +624,15 @@ const EventDetails = () => {
   };
 
   const getEventRecording = async () => {
-  try {
-    const url = "/custom_event/fetch_recordings?event_id=" + eventId;
-    const response = await axios.get(url); // Use axios.get instead of axios.fetch
-    console.log("---------------Recording Link", response.data);
-    console.log("Recording Hardcoded Data",recording);
-  } catch (error) {
-    console.error("Error fetching recording:", error);
-  }
-};
+    try {
+      const url = "/custom_event/fetch_recordings?event_id=" + eventId;
+      const response = await axios.get(url); // Use axios.get instead of axios.fetch
+      console.log("---------------Recording Link", response.data);
+      console.log("Recording Hardcoded Data", recording);
+    } catch (error) {
+      console.error("Error fetching recording:", error);
+    }
+  };
 
   return (
     <div>
