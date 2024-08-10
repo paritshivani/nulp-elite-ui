@@ -438,6 +438,10 @@
       "GET_USER_POLL": "/polls/user/get_user_poll",
       "USER_CREATE": "/polls/user/create",
       "USER_UPDATE": "/polls/user/update"
+    },
+    "FEEDBACK": {
+      "CREATE" : "/custom_feedback/create",
+      "LIST" : "/custom_feedback/list"
     }
   }
 }
