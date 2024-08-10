@@ -693,20 +693,20 @@ const EventDetails = () => {
             className="bg-whitee custom-event-container mb-20 custom-container mb-38"
           >
             <Grid item xs={3} md={6} lg={2}>
-              {/* <img
-              src={
-                EventDetailResponse.appIcon
-                  ? EventDetailResponse.appIcon
-                  : require("assets/default.png")
-              }
-              className="event-card-img"
-              alt="App Icon"
-            /> */}
               <img
-                src={require("assets/default.png")}
+                src={
+                  detailData.appIcon
+                    ? detailData.appIcon
+                    : require("assets/default.png")
+                }
                 className="eventCardImg"
                 alt="App Icon"
               />
+              {/* <img
+                src={require("assets/default.png")}
+                className="eventCardImg"
+                alt="App Icon"
+              /> */}
             </Grid>
             <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
               <Typography
