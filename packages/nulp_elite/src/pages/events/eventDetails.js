@@ -598,7 +598,7 @@ const EventDetails = () => {
             `${urlConfig.URLS.CUSTOM_EVENT.UNREGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`
           );
           if (response.status === 200) {
-            setToasterMessage("Poll deleted successfully");
+            setToasterMessage("Unregisterd successfully");
             fetchPolls();
             setPoll((prevPolls) => {
               const updatedPolls = prevPolls.filter(
