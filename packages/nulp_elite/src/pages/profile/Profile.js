@@ -128,7 +128,7 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [orgId, setOrgId] = useState();
-  const userTypesList = ["State Governments / Parastatal Bodies", "Urban Local Bodies / Special Purpose Vehicles", "Academia and Research Organisations", "Multilateral / Bilateral Agencies", "Industries","Others"];
+  const userTypesList = ["State Governments / Parastatal Bodies", "Urban Local Bodies / Special Purpose Vehicles", "Academia and Research Organisations", "Multilateral / Bilateral Agencies", "Industries","Any Other Government Entities","Others"];
 
 
   // for bar charts
