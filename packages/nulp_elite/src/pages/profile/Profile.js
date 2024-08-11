@@ -128,7 +128,7 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [orgId, setOrgId] = useState();
-  const userTypesList = ["State Governments / Parastatal Bodies", "Urban Local Bodies / Special Purpose Vehicles", "Academia and Research Organisations", "Multilateral / Bilateral Agencies", "Industries","Others"];
+  const userTypesList = ["State Governments / Parastatal Bodies", "Urban Local Bodies / Special Purpose Vehicles", "Academia and Research Organisations", "Multilateral / Bilateral Agencies", "Industries","Any Other Government Entities","Others"];
 
 
   // for bar charts
@@ -285,9 +285,9 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
-        userType:userInfo[0].user_type,
+        userType:userInfo[0]?.user_type,
         otherUserType:"",
-        organisation:userInfo[0].organisation
+        organisation:userInfo[0]?.organisation
       });
       setOriginalUserInfo({
         firstName: userData?.result?.response.firstName,
@@ -295,9 +295,9 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
-        userType:userInfo[0].user_type,
+        userType:userInfo[0]?.user_type,
         otherUserType:"",
-        organisation:userInfo[0].organisation
+        organisation:userInfo[0]?.organisation
 
       });
     }
