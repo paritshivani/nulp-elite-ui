@@ -24,13 +24,14 @@ const routeConfig = require("../../configs/routeConfig.json");
 
 const LearningHistory = () => {
   const { t } = useTranslation();
-  const [courseData, setCourseData] = useState(null);
+  const [courseData, setCourseData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [error, setError] = useState(null);
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(16); // Number of items per page
+  const [itemsPerPage] = useState(10); // Number of items per page
   const navigate = useNavigate();
 
   const showErrorMessage = (msg) => {
@@ -55,7 +56,7 @@ const LearningHistory = () => {
           },
         });
         const data = await response.json();
-        setCourseData(data);
+        setCourseData(data.result.courses);
       } catch (error) {
         console.error("Error fetching user data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -64,8 +65,30 @@ const LearningHistory = () => {
     fetchData();
   }, [_userId, t]);
 
+  useEffect(() => {
+    const filterData = () => {
+      let newFilteredData = courseData;
+
+      if (selectedStatus.length > 0) {
+        newFilteredData = courseData.filter((course) => {
+          return selectedStatus.some((option) => {
+            if (option.value === 2) return course.status === 2;
+            if (option.value === 1)
+              return course.batch.status === 1 && course.status !== 2;
+            if (option.value === 0)
+              return course.batch.status === 2 && course.status !== 2;
+            return false;
+          });
+        });
+      }
+
+      setFilteredData(newFilteredData);
+    };
+
+    filterData();
+  }, [courseData, selectedStatus]);
+
   const handleFilterChange = (selectedOptions) => {
-    console.log("Selected filter options:", selectedOptions); // Debug: Check selected filter options
     setSelectedStatus(selectedOptions);
     setCurrentPage(1); // Reset to first page when filters change
   };
@@ -74,20 +97,11 @@ const LearningHistory = () => {
     setCurrentPage(newPage);
   };
 
-  // Paginate the course data first
-  const paginatedCourseData = courseData?.result?.courses?.slice(
+  // Paginate the filtered data
+  const paginatedFilteredData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  // Then apply filters on the paginated data
-  const filteredCourses = paginatedCourseData?.filter((course) => {
-    if (selectedStatus.length > 0) {
-      const selectedValues = selectedStatus.map((option) => option.value);
-      return selectedValues.includes(course.status);
-    }
-    return true; // Show all if no filter selected
-  });
 
   return (
     <div>
@@ -116,35 +130,32 @@ const LearningHistory = () => {
           </Box>
           <Box>
             <Box className="custom-card">
-              {filteredCourses?.map((course) => (
-                <Box className="custom-card-box" key={course.courseName}>
-                  <BoxCard
-                    items={course}
-                    index={courseData.result.courses.length}
-                    onClick={() =>
-                      navigate(
-                        `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
-                      )
-                    }
-                    continueLearning={true}
-                  />
-                </Box>
-              ))}
-              <div className="blankCard"></div>
-            </Box>
-            {filteredCourses?.length === 0 && (
-              <>
+              {paginatedFilteredData.length > 0 ? (
+                paginatedFilteredData.map((course) => (
+                  <Box className="custom-card-box" key={course.courseName}>
+                    <BoxCard
+                      items={course}
+                      index={courseData.length}
+                      onClick={() =>
+                        navigate(
+                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
+                        )
+                      }
+                      continueLearning={true}
+                    />
+                  </Box>
+                ))
+              ) : (
                 <Box style={{ width: "100%" }}>
                   <NoResult className="center-no-result " />
                   <Box className="h5-title">Explore Content</Box>
                 </Box>
-              </>
-            )}
+              )}
+              <div className="blankCard"></div>
+            </Box>
 
             <Pagination
-              count={Math.ceil(
-                courseData?.result?.courses?.length / itemsPerPage
-              )}
+              count={Math.ceil(filteredData.length / itemsPerPage)}
               page={currentPage}
               onChange={handlePageChange}
             />

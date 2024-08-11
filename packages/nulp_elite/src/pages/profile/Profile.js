@@ -649,12 +649,11 @@ const Profile = () => {
     return acc;
   }, {});
 
-  // Map role IDs to names
+  // Map role IDs to names, and filter out the role named "Public"
   const roles = userData?.result?.response?.roles || [];
   const roleNames = roles
     .map((role) => roleLookup[role.role]) // Convert role ID to role name
-    .filter((name) => name) // Remove undefined names
-    .join(", "); // Join names with comma
+    .filter((name) => name && name !== "Public"); // Remove undefined names and "Public"
 
   return (
     <div>
@@ -720,33 +719,51 @@ const Profile = () => {
                               </Typography>
                               <Typography className="h6-title d-flex">
                                 {userInfo?.length &&
-                                  userInfo?.[0]?.designation && (
-                                    <>{userInfo[0].designation} </>
-                                  )}
+                                userInfo[0]?.designation ? (
+                                  <>{userInfo[0].designation}</>
+                                ) : (
+                                  "Designation: NA"
+                                )}
                                 <Box className="cardLabelEllips">
-                                  {userInfo?.length &&
-                                    userInfo?.[0]?.designation &&
-                                    "   | "}{" "}
-                                  ID: {userData?.result?.response?.userName}{" "}
-                                  {
-                                    userData?.result?.response?.organisations
-                                      ?.orgName
-                                  }
+                                  {userInfo?.length && userInfo[0]?.designation
+                                    ? "   |  "
+                                    : " "}
+                                  ID:{" "}
+                                  {userData?.result?.response?.userName || "NA"}
+                                  {userData?.result?.response?.organisations
+                                    ?.orgName || "NA"}
                                 </Box>
                               </Typography>
-                              {userInfo && userInfo?.length && (
+                              {userInfo?.length ? (
                                 <Typography className="h6-title d-flex">
                                   <Box className="h6-title d-flex">
-                                    Organization Name :
-                                    {userInfo?.[0]?.organisation || "NA"}
+                                    Organization Name:{" "}
+                                    {userInfo[0]?.organisation || "NA"}
+                                  </Box>
+                                </Typography>
+                              ) : null}
+
+                              {roleNames && roleNames.length > 0 && (
+                                <Typography className="h6-title d-flex">
+                                  <Box className="h6-title d-flex">
+                                    Role:{" "}
+                                    {roleNames?.map((roleName, index) => (
+                                      <Button
+                                        key={index}
+                                        size="small"
+                                        style={{
+                                          color: "#424242",
+                                          fontSize: "10px",
+                                          margin: "0 10px 3px 6px",
+                                          background: "#e3f5ff",
+                                        }}
+                                      >
+                                        {roleName}
+                                      </Button>
+                                    ))}
                                   </Box>
                                 </Typography>
                               )}
-                              <Typography className="h6-title d-flex">
-                                <Box className="h6-title d-flex">
-                                  Role : {roleNames}
-                                </Box>
-                              </Typography>
                             </Box>
 
                             <ModeEditIcon
