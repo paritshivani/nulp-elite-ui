@@ -285,9 +285,9 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
-        userType:userInfo[0].user_type,
+        userType:userInfo[0]?.user_type,
         otherUserType:"",
-        organisation:userInfo[0].organisation
+        organisation:userInfo[0]?.organisation
       });
       setOriginalUserInfo({
         firstName: userData?.result?.response.firstName,
@@ -295,9 +295,9 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
-        userType:userInfo[0].user_type,
+        userType:userInfo[0]?.user_type,
         otherUserType:"",
-        organisation:userInfo[0].organisation
+        organisation:userInfo[0]?.organisation
 
       });
     }
