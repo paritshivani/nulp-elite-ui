@@ -121,29 +121,29 @@ const VotingDetails = () => {
   const queryString = location.search;
   const pollId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
 
-  useEffect(() => {
-    // Ensure startDate is parsed as UTC and then converted to local time
-    const startDateLocal = moment.utc(startDate).local();
-    console.log("startDate:----", startDateLocal);
-    // Check if the current time has passed the start date
-    if (moment().isAfter(startDateLocal)) {
-      if (!updateFlag) {
-        setUpdateFlag(true);
-        // Send update to the backend
-        fetch(`${urlConfig.URLS.POLL.UPDATE}?poll_id=${pollId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ status: "Live" }),
-        })
-          .then((response) => response.json())
-          .then((data) => console.log("Success:", data))
-          .catch((error) => console.error("Error:", error));
-      }
-    }
-  }, [currentTime, startDate, pollId, updateFlag]);
+  // useEffect(() => {
+  //   // Ensure startDate is parsed as UTC and then converted to local time
+  //   const startDateLocal = moment.utc(startDate).local();
+  //   console.log("startDate:----", startDateLocal);
+  //   // Check if the current time has passed the start date
+  //   if (moment().isAfter(startDateLocal)) {
+  //     if (!updateFlag) {
+  //       setUpdateFlag(true);
+  //       // Send update to the backend
+  //       fetch(`${urlConfig.URLS.POLL.UPDATE}?poll_id=${pollId}`, {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         credentials: "include",
+  //         body: JSON.stringify({ status: "Live" }),
+  //       })
+  //         .then((response) => response.json())
+  //         .then((data) => console.log("Success:", data))
+  //         .catch((error) => console.error("Error:", error));
+  //     }
+  //   }
+  // }, [currentTime, startDate, pollId, updateFlag]);
 
   useEffect(() => {
     if (pollId) {

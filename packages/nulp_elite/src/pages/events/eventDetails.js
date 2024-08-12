@@ -192,12 +192,10 @@ const EventDetails = () => {
     fetchUserData();
     const fetchData = async () => {
       try {
-        const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.READ}/${eventId}`;
+        const url = `${urlConfig.URLS.CUSTOM_EVENT.READ_BY_ID}?eventId=${eventId}`;
         const response = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
           },
         });
         if (!response.ok) {
@@ -330,7 +328,6 @@ const EventDetails = () => {
   //     if (data.result.courses.length > 0) {
   //       data.result.courses.map((event) => {
   //         console.log("check enrollment list API 1-----", event);
-
   //         if (event.identifier === eventId) {
   //           alert("list match");
   //           setIsEnrolled(true);
@@ -626,7 +623,7 @@ const EventDetails = () => {
             `${urlConfig.URLS.CUSTOM_EVENT.UNREGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`
           );
           if (response.status === 200) {
-            setToasterMessage("Poll deleted successfully");
+            setToasterMessage("Unregisterd successfully");
             fetchPolls();
             setPoll((prevPolls) => {
               const updatedPolls = prevPolls.filter(
@@ -653,7 +650,7 @@ const EventDetails = () => {
   const getEventRecording = async () => {
     try {
       const url = "/custom_event/fetch_recordings?event_id=" + eventId;
-      const response = await axios.get(url); // Use axios.get instead of axios.fetch
+      const response = await axios.get(url);
       console.log("---------------Recording Link", response.data);
       console.log("Recording Hardcoded Data", recording);
     } catch (error) {
@@ -733,20 +730,20 @@ const EventDetails = () => {
             className="bg-whitee custom-event-container mb-20 custom-container mb-38"
           >
             <Grid item xs={3} md={6} lg={2}>
-              {/* <img
-              src={
-                EventDetailResponse.appIcon
-                  ? EventDetailResponse.appIcon
-                  : require("assets/default.png")
-              }
-              className="event-card-img"
-              alt="App Icon"
-            /> */}
               <img
-                src={require("assets/default.png")}
+                src={
+                  detailData.appIcon
+                    ? detailData.appIcon
+                    : require("assets/default.png")
+                }
                 className="eventCardImg"
                 alt="App Icon"
               />
+              {/* <img
+                src={require("assets/default.png")}
+                className="eventCardImg"
+                alt="App Icon"
+              /> */}
             </Grid>
             <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
               <Typography

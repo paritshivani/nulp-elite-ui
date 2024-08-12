@@ -419,14 +419,14 @@ function Header({ globalSearchQuery }) {
                 />
               </Tooltip>
             </Link>
-            {/* <Tooltip
+            <Tooltip
               title={t("Language")}
               placement="bottom"
               arrow
               open={show}
               onMouseEnter={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
-            > */}
+            >
             <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
               <FormControl
                 fullWidth
@@ -463,7 +463,7 @@ function Header({ globalSearchQuery }) {
                 </Select>
               </FormControl>
             </Box>
-            {/* </Tooltip> */}
+            </Tooltip> 
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 <Tooltip>
@@ -798,14 +798,14 @@ function Header({ globalSearchQuery }) {
                   />
                 </Link>
               </Box>
-              <Tooltip
+              {/* <Tooltip
                 title={t("Language")}
                 placement="bottom"
                 arrow
                 open={show}
                 onMouseEnter={() => setShow(true)}
                 onMouseLeave={() => setShow(false)}
-              >
+              > */}
                 <Box className="lg-hide  translate">
                   {/* Language Select */}
                   <Box>
@@ -840,7 +840,7 @@ function Header({ globalSearchQuery }) {
                     </FormControl>
                   </Box>
                 </Box>
-              </Tooltip>
+              {/* </Tooltip> */}
               <Box className="d-flex">
                 <Tooltip title={t("Notification")} placement="bottom" arrow>
                   <Box className="notification-circle lg-hide">
