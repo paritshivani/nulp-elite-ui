@@ -24,14 +24,14 @@ const FeedbackPopup = ({ open, onClose }) => {
   const [showTextBox, setShowTextBox] = useState(false);
   const [checkboxes, setCheckboxes] = useState({});
 
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-  }));
+  // const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  //   "& .MuiDialogContent-root": {
+  //     padding: theme.spacing(2),
+  //   },
+  //   "& .MuiDialogActions-root": {
+  //     padding: theme.spacing(1),
+  //   },
+  // }));
   // Mapping of checkbox names to labels
   const checkboxLabels = {
     conceptWell: "Understood the concept well",
@@ -95,9 +95,9 @@ const FeedbackPopup = ({ open, onClose }) => {
     console.log("Additional Feedback:", additionalFeedback);
     onClose();
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const renderCheckboxes = () => {
     if (rating >= 5) {
@@ -263,13 +263,11 @@ const FeedbackPopup = ({ open, onClose }) => {
   };
 
   return (
-    <BootstrapDialog open={open} onClose={onClose} className="feedback-popup">
-      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Feedback
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} className="feedback-popup">
+      <DialogTitle sx={{ m: 0, p: 2 }}>Feedback</DialogTitle>
       <IconButton
-        aria-label="close"
         onClick={onClose}
+        aria-label="close"
         sx={{
           position: "absolute",
           right: 8,
@@ -310,7 +308,7 @@ const FeedbackPopup = ({ open, onClose }) => {
           Submit
         </Button>
       </DialogActions>
-    </BootstrapDialog>
+    </Dialog>
 
     // <Dialog open={open} onClose={onClose}>
     //   <DialogTitle>Feedback</DialogTitle>

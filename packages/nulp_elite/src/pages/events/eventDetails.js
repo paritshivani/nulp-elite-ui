@@ -32,6 +32,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+
 import {
   FormControl,
   InputLabel,
@@ -1368,15 +1370,18 @@ const EventDetails = () => {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {recording.result.map((item) => (
-            <Box key={item.id} className="my-20 h5-title">
-              {item.id}
+          {recording.result.map((item, index) => (
+            <Box key={item.id} className="my-20">
               <Link
                 href={item.recording_url}
                 target="_blank"
-                className="ml-10 h5-title"
+                className="ml-10 h4-title"
+                underline="none"
               >
-                URL
+                Recording {index + 1}
+                <PlayCircleIcon
+                  style={{ verticalAlign: "middle", paddingLeft: "15px" }}
+                />
               </Link>
             </Box>
           ))}

@@ -602,6 +602,8 @@ const Dashboard = () => {
 
             {eventNames && eventTopUser && (
               <>
+                <Box sx={{ textAlign: "center" }}>Events</Box>
+
                 <BarChart
                   xAxis={[
                     {
@@ -620,7 +622,6 @@ const Dashboard = () => {
                   barSize={2}
                 />
                 <Box className="brYlabel">No. of Participants</Box>
-                <Box sx={{ textAlign: "center" }}>Events</Box>
               </>
             )}
           </Grid>
@@ -654,7 +655,7 @@ const Dashboard = () => {
 
             {listOfDesignation && countOfTopDesignationUser && (
               <>
-                {" "}
+                <Box sx={{ textAlign: "center" }}>Designation</Box>{" "}
                 <LineChart
                   height={300}
                   series={[
@@ -665,7 +666,6 @@ const Dashboard = () => {
                   xAxis={[{ scaleType: "point", data: listOfDesignation }]}
                 />
                 <Box className="yLabel">Participants</Box>
-                <Box sx={{ textAlign: "center" }}>Designation</Box>
               </>
             )}
           </Grid>
