@@ -125,8 +125,8 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
                 marginTop: "10px",
                 color: (() => {
                   if (items.status === 2) return "#065872";
-                  if (items.batch.status === 2) return "#FF0000";
-                  if (items.batch.status === 1) return "#579b00";
+                  else if (items.batch.status === 2) return "#FF0000";
+                  else if (items.batch.status === 1) return "#579b00";
                 })(),
                 fontSize: "12px",
                 padding: "10px 0",
@@ -136,8 +136,8 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
             >
               {(() => {
                 if (items.status === 2) return t("Completed");
-                if (items.batch.status === 2) return t("Expired");
-                if (items.batch.status === 1) return t("Ongoing");
+                else if (items.batch.status === 2) return t("Expired");
+                else if (items.batch.status === 1) return t("Ongoing");
               })()}
             </Typography>
           </Box>

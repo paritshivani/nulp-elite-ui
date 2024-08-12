@@ -20,6 +20,7 @@ import Pagination from "@mui/material/Pagination";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
+import { TextField } from "@mui/material";
 const routeConfig = require("../../configs/routeConfig.json");
 const ContinueLearning = () => {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ const ContinueLearning = () => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(16); // Number of items per page
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const [orgId, setOrgId] = useState();
@@ -87,7 +89,6 @@ const ContinueLearning = () => {
     }
   }, [orgId, framework]);
   const fetchGradeLevels = async () => {
-    const defaultFramework = localStorage.getItem("defaultFramework");
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
       const response = await fetch(url);
@@ -117,15 +118,26 @@ const ContinueLearning = () => {
     const selectedValues = selectedOptions.map((option) => option.value);
     setCourseStatus(selectedValues);
   };
-  // Filtered courses based on selected course status
+
   const filteredCourses = useMemo(() => {
-    if (!courseStatus.length) {
-      return data;
+    let filtered = data;
+
+    if (courseStatus.length) {
+      filtered = filtered.filter((course) =>
+        courseStatus.includes(course.contents.status)
+      );
     }
-    return data.filter((courses) =>
-      courseStatus.includes(courses.contents.status)
-    );
-  }, [courseStatus, data]);
+
+    if (searchQuery) {
+      filtered = filtered.filter((course) => {
+        const title = course.content?.name || "";
+        return title.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+    }
+
+    return filtered;
+  }, [courseStatus, data, searchQuery]);
+
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
       navigate(
@@ -138,7 +150,7 @@ const ContinueLearning = () => {
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
-  // Calculate the courses to display based on current page
+
   const paginatedCourses = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredCourses.slice(startIndex, startIndex + itemsPerPage);
@@ -155,12 +167,22 @@ const ContinueLearning = () => {
             {error}
           </Alert>
         )}
-        <Box style={{ margin: "20px 0 20px -12px" }}>
-          {/* <Filter
+        {/* <Box style={{ margin: "20px 0 20px -12px" }}>
+          <Filter
             options={gradeLevels}
             label="Filter by Sub-Domain"
             onChange={handleFilterChange}
-          /> */}
+          />
+        </Box> */}
+        <Box style={{ margin: "20px 0 20px -12px" }}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="Search"
+            style={{ width: "100%", background: "#fff" }}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </Box>
         <Box textAlign="center" padding="10" className="mt-30">
           <Box>
@@ -206,4 +228,5 @@ const ContinueLearning = () => {
     </div>
   );
 };
+
 export default ContinueLearning;

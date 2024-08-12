@@ -109,6 +109,9 @@ const Profile = () => {
     bio: "",
     designation: "",
     otherDesignation: "",
+    userType: '',
+    otherUserType: '',
+    organisation:""
   });
   const [originalUserInfo, setOriginalUserInfo] = useState({});
   const [isFormDirty, setIsFormDirty] = useState(false);
@@ -125,6 +128,8 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [orgId, setOrgId] = useState();
+  const userTypesList = ["State Governments / Parastatal Bodies", "Urban Local Bodies / Special Purpose Vehicles", "Academia and Research Organisations", "Multilateral / Bilateral Agencies", "Industries","Any Other Government Entities","Others"];
+
 
   // for bar charts
   const defaultCertData = {
@@ -280,6 +285,9 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
+        userType:userInfo[0]?.user_type,
+        otherUserType:"",
+        organisation:userInfo[0]?.organisation
       });
       setOriginalUserInfo({
         firstName: userData?.result?.response.firstName,
@@ -287,6 +295,10 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
+        userType:userInfo[0]?.user_type,
+        otherUserType:"",
+        organisation:userInfo[0]?.organisation
+
       });
     }
     setDomain(userData?.result?.response.framework.board);
@@ -450,6 +462,10 @@ const Profile = () => {
           : editedUserInfo.designation,
       bio: editedUserInfo.bio,
       created_by: _userId,
+      user_type:editedUserInfo.userType === "Other"
+          ? editedUserInfo.otherUserType
+          : editedUserInfo.userType, 
+          organisation:editedUserInfo.organisation
     };
     try {
       const url = `${urlConfig.URLS.POFILE_PAGE.USER_UPDATE}?user_id=${_userId}`;
@@ -633,12 +649,11 @@ const Profile = () => {
     return acc;
   }, {});
 
-  // Map role IDs to names
+  // Map role IDs to names, and filter out the role named "Public"
   const roles = userData?.result?.response?.roles || [];
   const roleNames = roles
     .map((role) => roleLookup[role.role]) // Convert role ID to role name
-    .filter((name) => name) // Remove undefined names
-    .join(", "); // Join names with comma
+    .filter((name) => name && name !== "Public"); // Remove undefined names and "Public"
 
   return (
     <div>
@@ -704,33 +719,51 @@ const Profile = () => {
                               </Typography>
                               <Typography className="h6-title d-flex">
                                 {userInfo?.length &&
-                                  userInfo?.[0]?.designation && (
-                                    <>{userInfo[0].designation} </>
-                                  )}
+                                userInfo[0]?.designation ? (
+                                  <>{userInfo[0].designation}</>
+                                ) : (
+                                  "Designation: NA"
+                                )}
                                 <Box className="cardLabelEllips">
-                                  {userInfo?.length &&
-                                    userInfo?.[0]?.designation &&
-                                    "   | "}{" "}
-                                  ID: {userData?.result?.response?.userName}{" "}
-                                  {
-                                    userData?.result?.response?.organisations
-                                      ?.orgName
-                                  }
+                                  {userInfo?.length && userInfo[0]?.designation
+                                    ? "   |  "
+                                    : " "}
+                                  ID:{" "}
+                                  {userData?.result?.response?.userName || "NA"}
+                                  {userData?.result?.response?.organisations
+                                    ?.orgName || "NA"}
                                 </Box>
                               </Typography>
-                              {userInfo && userInfo?.length && (
+                              {userInfo?.length ? (
                                 <Typography className="h6-title d-flex">
                                   <Box className="h6-title d-flex">
-                                    Organization Name :
-                                    {userInfo?.[0]?.organisation || "NA"}
+                                    Organization Name:{" "}
+                                    {userInfo[0]?.organisation || "NA"}
+                                  </Box>
+                                </Typography>
+                              ) : null}
+
+                              {roleNames && roleNames.length > 0 && (
+                                <Typography className="h6-title d-flex">
+                                  <Box className="h6-title d-flex">
+                                    Role:{" "}
+                                    {roleNames?.map((roleName, index) => (
+                                      <Button
+                                        key={index}
+                                        size="small"
+                                        style={{
+                                          color: "#424242",
+                                          fontSize: "10px",
+                                          margin: "0 10px 3px 6px",
+                                          background: "#e3f5ff",
+                                        }}
+                                      >
+                                        {roleName}
+                                      </Button>
+                                    ))}
                                   </Box>
                                 </Typography>
                               )}
-                              <Typography className="h6-title d-flex">
-                                <Box className="h6-title d-flex">
-                                  Role : {roleNames}
-                                </Box>
-                              </Typography>
                             </Box>
 
                             <ModeEditIcon
@@ -1020,7 +1053,83 @@ const Profile = () => {
                                 }
                               />
                             </Box>
+                            
                           )}
+                           <Box py={1}>
+                            <FormControl
+                              fullWidth
+                              style={{ marginTop: "10px" }}
+                            >
+                              <InputLabel
+                                id="designation-label"
+                                className="year-select"
+                              >
+                                {" "}
+                                {t("userType")}{" "}
+                              </InputLabel>
+                              <Select
+                                labelId="designation-label"
+                                id="designation"
+                                value={editedUserInfo.userType}
+                                onChange={(e) =>
+                                  setEditedUserInfo({
+                                    ...editedUserInfo,
+                                    userType: e.target.value,
+                                  })
+                                }
+                              >
+                                {userTypesList.map((desig, index) => (
+                                  <MenuItem key={index} value={desig}>
+                                    {desig}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Box>
+                           {editedUserInfo.userType === "Others" && (
+                            <Box py={1}>
+                              <CssTextField
+                                id="otherDesignation"
+                                name="otherDesignation"
+                                label={
+                                  <span>
+                                    {t("UserType")}{" "}
+                                    <span className="required">*</span>
+                                  </span>
+                                }
+                                variant="outlined"
+                                size="small"
+                                value={editedUserInfo.otherUserType}
+                                onChange={(e) =>
+                                  setEditedUserInfo({
+                                    ...editedUserInfo,
+                                    otherUserType: e.target.value,
+                                  })
+                                }
+                              />
+                            </Box>
+                            
+                          )}
+                           <Box py={2}>
+                            <TextField
+                              id="bio"
+                              name="bio"
+                              label={<span>{t("Organisation")}</span>}
+                              multiline
+                              rows={3}
+                              variant="outlined"
+                              fullWidth
+                              value={editedUserInfo.organisation}
+                              onChange={(e) =>
+                                setEditedUserInfo({
+                                  ...editedUserInfo,
+                                  organisation: e.target.value,
+                                })
+                              }
+                              inputProps={{ maxLength: MAX_CHARS }}
+                            />
+                          </Box>
+                           
                           <Box py={2}>
                             <TextField
                               id="bio"
