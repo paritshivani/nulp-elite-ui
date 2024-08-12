@@ -46,6 +46,7 @@ const Player = () => {
   const [openFeedBack, setOpenFeedBack] = useState(false);
 
   const _userId = util.userId();
+
   const queryString = location.search;
   const contentId = queryString.startsWith("?do_")
     ? queryString.slice(1)
