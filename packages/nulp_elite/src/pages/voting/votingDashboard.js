@@ -286,7 +286,7 @@ const votingDashboard = () => {
   }, [pieData, userData, filters]);
 
   const hasPollData = pieData.some((d) => d.count > 0);
-  
+
   const sizing = {
     width: 400,
     height: 400,
@@ -1177,100 +1177,113 @@ const votingDashboard = () => {
       <FloatingChatIcon />
       <Footer />
       {signlePOll && (
-      <Dialog
-        fullWidth={true}
-        maxWidth="lg"
-        open={openModal}
-        onClose={handleCloseModal}
-      >
-        <IconButton
-          aria-label="close"
-          onClick={handleCloseModal}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-          }}
+        <Dialog
+          fullWidth={true}
+          maxWidth="lg"
+          open={openModal}
+          onClose={handleCloseModal}
         >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent>
-          <Grid container>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              lg={4}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                width: "100%",
-                order: { xs: 2, lg: 1 },
-              }}
-            >
-              <Box sx={{ marginLeft: "25%" }}>
-                {hasPollData ? ( 
-                <PieChart
-                  series={[
-                    {
-                      data: pieData.map((d) => ({
-                        value: d.count,
-                        label: d.poll_option,
-                      })),
-                      arcLabel: (item) => (
-                        <>
-                          ({getProgressValue(item.value)})
-                        </>
-                      ),
-                      arcLabelMinAngle: 45,
-                    },
-                  ]}
-                  sx={{
-                    [`& .${pieArcLabelClasses.root}`]: {
-                      fill: 'white',
-                      fontSize: 14,
-                    },
-                  }}
-                  {...sizing}
-                />
-                ) : (
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseModal}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent>
+            <Grid container>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                lg={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                  width: "100%",
+                  order: { xs: 2, lg: 1 },
+                }}
+              >
+                <Box sx={{ marginLeft: "25%" }}>
+                  {hasPollData ? (
+                    <PieChart
+                      series={[
+                        {
+                          data: pieData.map((d) => ({
+                            value: d.count,
+                            label: d.poll_option,
+                          })),
+                          arcLabel: (item) => (
+                            <>
+                              ({getProgressValue(item.value)})
+                            </>
+                          ),
+                          arcLabelMinAngle: 45,
+                        },
+                      ]}
+                      sx={{
+                        [`& .${pieArcLabelClasses.root}`]: {
+                          fill: 'white',
+                          fontSize: 14,
+                        },
+                      }}
+                      {...sizing}
+                    />
+                  ) : (
                     <Box>No data available</Box>
-                  )}  
-              </Box>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              lg={8}
-              sx={{
-                p: 2,
-                order: { xs: 1, lg: 2 },
-              }}
-            >
-              <Box className="h1-title fw-600 lg-mt-20">
-                {signlePOll.title}
-              </Box>
-              <Box>
-                <Box className="mt-9 h5-title">
-                  Poll Created On:
-                  <TodayOutlinedIcon className="fs-14 pr-5" />
-                  {formatDate(signlePOll.created_at)}
+                  )}
                 </Box>
-                <Box className="mt-9 h5-title">
-                  Poll Ended On:
-                  <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
-                  {formatDate(signlePOll.end_date)}
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                lg={8}
+                sx={{
+                  p: 2,
+                  order: { xs: 1, lg: 2 },
+                }}
+              >
+                <Box className="h1-title fw-600 lg-mt-20">
+                  {signlePOll.title}
                 </Box>
-                <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
-              </Box>
+                <Box>
+
+                  <Box>
+                    <Box className="mt-9 h5-title">
+                      Poll Created On:
+                      <TodayOutlinedIcon
+                        className="fs-14 pr-5"
+                        style={{ verticalAlign: "middle" }}
+                      />
+                      {moment(signlePOll.created_at).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Box>
+                    <Box className="mt-9 h5-title">
+                      Poll Ended On:
+                      <TodayOutlinedIcon
+                        className="fs-14 pr-5"
+                        style={{ verticalAlign: "middle" }}
+                      />{" "}
+                      {moment(signlePOll.end_date).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Box>
+                    <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
+                  </Box>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </DialogContent>
-      </Dialog>
-      )} 
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

@@ -76,29 +76,28 @@ const Player = () => {
     []
   );
 
-  const CheckfeedBackSubmitted =async()=>{
-    try{
+  const CheckfeedBackSubmitted = async () => {
+    try {
       const url = `${urlConfig.URLS.FEEDBACK.LIST}`;
-      const RequestBody={
-        request:{
-          filters:{
-          content_id:contentId,
-          user_id:_userId,
-          }
-         
-        }
-      }
-      const response=await axios.post(url,RequestBody);
+      const RequestBody = {
+        request: {
+          filters: {
+            content_id: contentId,
+            user_id: _userId,
+          },
+        },
+      };
+      const response = await axios.post(url, RequestBody);
       console.log(response.data);
-      if(response.data?.result?.totalCount===0){
-      setOpenFeedBack(true);
-      }else{
-       setOpenFeedBack(false);
+      if (response.data?.result?.totalCount === 0) {
+        setOpenFeedBack(true);
+      } else {
+        setOpenFeedBack(false);
       }
-    }catch(error){
+    } catch (error) {
       console.error("Error fetching course data:", error);
     }
-  }
+  };
 
   const updateContentState = useCallback(
     async (status) => {
@@ -120,9 +119,12 @@ const Player = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.GET}/${contentId}`, {
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await fetch(
+          `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.GET}/${contentId}`,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
         if (!response.ok) throw new Error("Failed to fetch course data");
         const data = await response.json();
         setLesson(data.result.content);
@@ -213,7 +215,7 @@ const Player = () => {
                     {lesson.board}
                   </Button>
                 )}
-                {lesson.se_boards &&
+                {!lesson.board && lesson.se_boards &&
                   lesson.se_boards.map((item, index) => (
                     <Button
                       key={`se_boards-${index}`}
@@ -243,7 +245,7 @@ const Player = () => {
                       {item}
                     </Button>
                   ))}
-                {lesson.se_gradeLevels &&
+                {!lesson.gradeLevel && lesson.se_gradeLevels &&
                   lesson.se_gradeLevels.map((item, index) => (
                     <Button
                       key={`se_gradeLevels-${index}`}

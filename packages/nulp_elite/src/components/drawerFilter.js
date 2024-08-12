@@ -163,10 +163,19 @@ const fetchDataFramework = async () => {
     setEventSearch(event.target.value);
   };
 
+   const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   const handleSearch = (event) => {
     setEventSearch(event.target.value);
     setEventSearch(searchTerm);
   };
+  const filteredSubCategories = searchTerm
+    ? subCategory.filter((item) =>
+        item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : subCategory;
 
    
 
@@ -372,17 +381,15 @@ const fetchDataFramework = async () => {
       )}
 
       <Box className="filter-text mt-15">{t("SUB_DOMAIN")}</Box>
-      <FormControl
-        sx={{ m: 1, width: "25ch" }}
-        variant="outlined"
-        className="w-100"
-      >
+       <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined" className="w-100">
         <InputLabel htmlFor="outlined-adornment-password">
           {t("SEARCH_SUB_DOMAIN")}
         </InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
           type="text"
+          value={searchTerm}
+          onChange={handleChange}
           endAdornment={
             <InputAdornment position="end">
               <IconButton aria-label="toggle password visibility">
@@ -393,8 +400,8 @@ const fetchDataFramework = async () => {
           label={t("SEARCH_SUB_DOMAIN")}
         />
       </FormControl>
-      <List>
-        {subCategory.map((item) => (
+       <List>
+        {filteredSubCategories.map((item) => (
           <ListItem className="filter-ul-text" key={item.code}>
             <FormControlLabel
               control={
@@ -546,23 +553,25 @@ const fetchDataFramework = async () => {
             </div>
           )}
           <Box className="filter-text lg-mt-12 mb-20">{t("SUB_DOMAIN")}</Box>
-          <FormControl>
-            <InputLabel htmlFor="outlined-adornment-password">
-              {t("SEARCH_SUB_DOMAIN")}
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type="text"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility">
-                    {<SearchOutlinedIcon />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label={t("SEARCH_SUB_DOMAIN")}
-            />
-          </FormControl>
+         <FormControl>
+        <InputLabel htmlFor="outlined-adornment-password">
+          {t("SEARCH_SUB_DOMAIN")}
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type="text"
+          value={searchTerm}
+          onChange={handleChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton aria-label="toggle password visibility">
+                <SearchOutlinedIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+          label={t("SEARCH_SUB_DOMAIN")}
+        />
+      </FormControl>
           {/* <Autocomplete
       multiple
       disablePortal
@@ -571,22 +580,21 @@ const fetchDataFramework = async () => {
       renderInput={(params) => <TextField  label="search" />}
     />             */}
           <List>
-            {subCategory &&
-              subCategory.map((item) => (
-                <ListItem className="filter-ul-text" key={item.code}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={selectedSubDomain.includes(item.code)}
-                        onChange={(event) =>
-                          handleCheckboxChange(event, { item }, "subCategory")
-                        }
-                      />
-                    }
-                    label={item.name}
-                  />
-                </ListItem>
-              ))}
+           {filteredSubCategories.map((item) => (
+          <ListItem className="filter-ul-text" key={item.code}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedSubDomain.includes(item.code)}
+                  onChange={(event) =>
+                    handleCheckboxChange(event, { item }, "subCategory")
+                  }
+                />
+              }
+              label={item.name}
+            />
+          </ListItem>
+        ))}
           </List>
         </Box>
       )}

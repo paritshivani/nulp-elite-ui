@@ -25,6 +25,15 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+
 import {
   FormControl,
   InputLabel,
@@ -95,7 +104,14 @@ const EventDetails = () => {
   const [error, setError] = useState(null);
   const [designationsList, setDesignationsList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
   };
@@ -162,6 +178,15 @@ const EventDetails = () => {
       console.error("Error fetching user data:", error);
     }
   };
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+  }));
 
   useEffect(() => {
     fetchUserData();
@@ -902,6 +927,7 @@ const EventDetails = () => {
                     }}
                     startIcon={<AdjustOutlinedIcon />}
                     disabled={true}
+                    onClick={handleClickOpen}
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
@@ -925,6 +951,17 @@ const EventDetails = () => {
                 </Box>
               )} */}
             </Grid>
+            <Box className="xs-hide">
+              {
+                // detailData.recording == undefined &&
+                <Box
+                  className="h5-title mb-20 xs-hide"
+                  style={{ fontWeight: "400" }}
+                >
+                  Recording will be available soon
+                </Box>
+              }
+            </Box>
             <Grid item xs={12} md={6} lg={6} className="lg-pl-60 lg-hide">
               <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
                 National Urban Learning Platform{" "}
@@ -1082,6 +1119,7 @@ const EventDetails = () => {
                     }}
                     disabled={true}
                     startIcon={<AdjustOutlinedIcon />}
+                    onClick={handleClickOpen}
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
@@ -1306,6 +1344,51 @@ const EventDetails = () => {
           </Box>
         </Box>
       </Modal>
+
+      <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+        className="recording"
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+          Recording List
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          {recording.result.map((item, index) => (
+            <Box key={item.id} className="my-20">
+              <Link
+                href={item.recording_url}
+                target="_blank"
+                className="ml-10 h4-title"
+                underline="none"
+              >
+                Recording {index + 1}
+                <PlayCircleIcon
+                  style={{ verticalAlign: "middle", paddingLeft: "15px" }}
+                />
+              </Link>
+            </Box>
+          ))}
+        </DialogContent>
+        {/* <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Save changes
+          </Button>
+        </DialogActions> */}
+      </BootstrapDialog>
 
       <Footer />
     </div>
