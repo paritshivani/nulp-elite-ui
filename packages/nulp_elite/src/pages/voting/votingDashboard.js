@@ -287,6 +287,12 @@ const votingDashboard = () => {
 
   const hasPollData = pieData.some((d) => d.count > 0);
 
+  const sizing = {
+    width: 400,
+    height: 400,
+    legend: { hidden: true },
+  };
+
   return (
     <div>
       <Header />
@@ -445,9 +451,8 @@ const votingDashboard = () => {
                                       <Button className="d-inline-block">
                                         {index < 2
                                           ? keyword
-                                          : `${keyword} + ${
-                                              items.poll_keywords.length - 2
-                                            }`}
+                                          : `${keyword} + ${items.poll_keywords.length - 2
+                                          }`}
                                       </Button>
                                     </Tooltip>
                                   ))}
@@ -785,9 +790,8 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                        : `${keyword} + ${items.poll_keywords.length - 2
+                                        }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -1048,9 +1052,8 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                        : `${keyword} + ${items.poll_keywords.length - 2
+                                        }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -1213,13 +1216,12 @@ const votingDashboard = () => {
                       series={[
                         {
                           data: pieData.map((d) => ({
-                            id: d.poll_option,
                             value: d.count,
+                            label: d.poll_option,
                           })),
                           arcLabel: (item) => (
                             <>
-                              {item.id}
-                              <br />({getProgressValue(item.value)})
+                              ({getProgressValue(item.value)})
                             </>
                           ),
                           arcLabelMinAngle: 45,
@@ -1227,12 +1229,11 @@ const votingDashboard = () => {
                       ]}
                       sx={{
                         [`& .${pieArcLabelClasses.root}`]: {
-                          fill: "white",
-                          fontWeight: "500",
+                          fill: 'white',
+                          fontSize: 14,
                         },
                       }}
-                      width={350}
-                      height={350}
+                      {...sizing}
                     />
                   ) : (
                     <Box>No data available</Box>
@@ -1253,23 +1254,30 @@ const votingDashboard = () => {
                   {signlePOll.title}
                 </Box>
                 <Box>
-                  <Box className="mt-9 h5-title">
-                    Poll Created On:
-                    <TodayOutlinedIcon
-                      className="fs-14 pr-5"
-                      style={{ verticalAlign: "middle" }}
-                    />
-                    {formatDate(signlePOll.created_at)}
+
+                  <Box>
+                    <Box className="mt-9 h5-title">
+                      Poll Created On:
+                      <TodayOutlinedIcon
+                        className="fs-14 pr-5"
+                        style={{ verticalAlign: "middle" }}
+                      />
+                      {moment(signlePOll.created_at).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Box>
+                    <Box className="mt-9 h5-title">
+                      Poll Ended On:
+                      <TodayOutlinedIcon
+                        className="fs-14 pr-5"
+                        style={{ verticalAlign: "middle" }}
+                      />{" "}
+                      {moment(signlePOll.end_date).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Box>
+                    <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
                   </Box>
-                  <Box className="mt-9 h5-title">
-                    Poll Ended On:
-                    <TodayOutlinedIcon
-                      className="fs-14 pr-5"
-                      style={{ verticalAlign: "middle" }}
-                    />{" "}
-                    {formatDate(signlePOll.end_date)}
-                  </Box>
-                  <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
                 </Box>
               </Grid>
             </Grid>
