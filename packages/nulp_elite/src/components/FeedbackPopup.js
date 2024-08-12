@@ -20,25 +20,22 @@ import * as util from "../../src/services/utilService";
 import axios from "axios";
 const urlConfig = require("../configs/urlConfig.json");
 
-
-
-const FeedbackPopup = ({ open, onClose,contentId }) => {
+const FeedbackPopup = ({ open, onClose, contentId }) => {
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [additionalFeedback, setAdditionalFeedback] = useState("");
   const [showTextBox, setShowTextBox] = useState(false);
   const [checkboxes, setCheckboxes] = useState({});
-    const _userId = util.userId();
+  const _userId = util.userId();
 
-
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-  }));
+  // const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  //   "& .MuiDialogContent-root": {
+  //     padding: theme.spacing(2),
+  //   },
+  //   "& .MuiDialogActions-root": {
+  //     padding: theme.spacing(1),
+  //   },
+  // }));
   // Mapping of checkbox names to labels
   const checkboxLabels = {
     conceptWell: "Understood the concept well",
@@ -91,43 +88,41 @@ const FeedbackPopup = ({ open, onClose,contentId }) => {
     setAdditionalFeedback(event.target.value);
   };
 
- const handleSubmit = async () => {
-  try {
-    let selectedCheckboxes = [];
+  const handleSubmit = async () => {
+    try {
+      let selectedCheckboxes = [];
 
-    Object.keys(checkboxes).forEach((key) => {
-      if (checkboxes[key] && checkboxLabels[key] !== 'Other') {
-        selectedCheckboxes.push(checkboxLabels[key]);
-      }
-    });
+      Object.keys(checkboxes).forEach((key) => {
+        if (checkboxes[key] && checkboxLabels[key] !== "Other") {
+          selectedCheckboxes.push(checkboxLabels[key]);
+        }
+      });
 
-    const url = `${urlConfig.URLS.FEEDBACK.CREATE}`;
-    const request = {
-      content_id: contentId,
-      user_id: _userId,
-      rating: rating,
-      default_feedback: selectedCheckboxes, 
-      other_feedback: additionalFeedback,
-    };
+      const url = `${urlConfig.URLS.FEEDBACK.CREATE}`;
+      const request = {
+        content_id: contentId,
+        user_id: _userId,
+        rating: rating,
+        default_feedback: selectedCheckboxes,
+        other_feedback: additionalFeedback,
+      };
 
-    const response = await axios.post(url, request);
-    console.log("response.data", response.data);
+      const response = await axios.post(url, request);
+      console.log("response.data", response.data);
 
-    console.log("Rating:", rating);
-    console.log("Selected Checkboxes:", selectedCheckboxes);
-    console.log("Additional Feedback:", additionalFeedback);
+      console.log("Rating:", rating);
+      console.log("Selected Checkboxes:", selectedCheckboxes);
+      console.log("Additional Feedback:", additionalFeedback);
 
-    onClose();
-  } catch (error) {
-    console.error("Error submitting feedback:", error);
-  }
-};
-
-
-
-  const handleClose = () => {
-    setOpen(false);
+      onClose();
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
   };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const renderCheckboxes = () => {
     if (rating >= 5) {
@@ -293,13 +288,11 @@ const FeedbackPopup = ({ open, onClose,contentId }) => {
   };
 
   return (
-    <BootstrapDialog open={open} onClose={onClose} className="feedback-popup">
-      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Feedback
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} className="feedback-popup">
+      <DialogTitle sx={{ m: 0, p: 2 }}>Feedback</DialogTitle>
       <IconButton
-        aria-label="close"
         onClick={onClose}
+        aria-label="close"
         sx={{
           position: "absolute",
           right: 8,
@@ -340,7 +333,7 @@ const FeedbackPopup = ({ open, onClose,contentId }) => {
           Submit
         </Button>
       </DialogActions>
-    </BootstrapDialog>
+    </Dialog>
 
     // <Dialog open={open} onClose={onClose}>
     //   <DialogTitle>Feedback</DialogTitle>
