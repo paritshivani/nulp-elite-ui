@@ -43,7 +43,7 @@ const FloatingChatIcon = () => {
         }}
       >
         <iframe
-          src="https://nulp.niua.org/chatbot"
+          src="https://devnulp.niua.org/chatbot"
           width="350"
           height="500"
           title="ChatBot"
