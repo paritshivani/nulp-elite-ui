@@ -286,6 +286,12 @@ const votingDashboard = () => {
   }, [pieData, userData, filters]);
 
   const hasPollData = pieData.some((d) => d.count > 0);
+  
+  const sizing = {
+    width: 400,
+    height: 400,
+    legend: { hidden: true },
+  };
 
   return (
     <div>
@@ -445,9 +451,8 @@ const votingDashboard = () => {
                                       <Button className="d-inline-block">
                                         {index < 2
                                           ? keyword
-                                          : `${keyword} + ${
-                                              items.poll_keywords.length - 2
-                                            }`}
+                                          : `${keyword} + ${items.poll_keywords.length - 2
+                                          }`}
                                       </Button>
                                     </Tooltip>
                                   ))}
@@ -785,9 +790,8 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                        : `${keyword} + ${items.poll_keywords.length - 2
+                                        }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -1048,9 +1052,8 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                        : `${keyword} + ${items.poll_keywords.length - 2
+                                        }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -1174,102 +1177,100 @@ const votingDashboard = () => {
       <FloatingChatIcon />
       <Footer />
       {signlePOll && (
-        <Dialog
-          fullWidth={true}
-          maxWidth="lg"
-          open={openModal}
-          onClose={handleCloseModal}
+      <Dialog
+        fullWidth={true}
+        maxWidth="lg"
+        open={openModal}
+        onClose={handleCloseModal}
+      >
+        <IconButton
+          aria-label="close"
+          onClick={handleCloseModal}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+          }}
         >
-          <IconButton
-            aria-label="close"
-            onClick={handleCloseModal}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <DialogContent>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                lg={4}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                  width: "100%",
-                  order: { xs: 2, lg: 1 },
-                }}
-              >
-                <Box sx={{ marginLeft: "25%" }}>
-                  {hasPollData ? (
-                    <PieChart
-                      series={[
-                        {
-                          data: pieData.map((d) => ({
-                            id: d.poll_option,
-                            value: d.count,
-                          })),
-                          arcLabel: (item) => (
-                            <>
-                              {item.id}
-                              <br />({getProgressValue(item.value)})
-                            </>
-                          ),
-                          arcLabelMinAngle: 45,
-                        },
-                      ]}
-                      sx={{
-                        [`& .${pieArcLabelClasses.root}`]: {
-                          fill: "white",
-                          fontWeight: "500",
-                        },
-                      }}
-                      width={350}
-                      height={350}
-                    />
-                  ) : (
+          <CloseIcon />
+        </IconButton>
+        <DialogContent>
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              lg={4}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+                order: { xs: 2, lg: 1 },
+              }}
+            >
+              <Box sx={{ marginLeft: "25%" }}>
+                {hasPollData ? ( 
+                <PieChart
+                  series={[
+                    {
+                      data: pieData.map((d) => ({
+                        value: d.count,
+                        label: d.poll_option,
+                      })),
+                      arcLabel: (item) => (
+                        <>
+                          ({getProgressValue(item.value)})
+                        </>
+                      ),
+                      arcLabelMinAngle: 45,
+                    },
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontSize: 14,
+                    },
+                  }}
+                  {...sizing}
+                />
+                ) : (
                     <Box>No data available</Box>
-                  )}
-                </Box>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                lg={8}
-                sx={{
-                  p: 2,
-                  order: { xs: 1, lg: 2 },
-                }}
-              >
-                <Box className="h1-title fw-600 lg-mt-20">
-                  {signlePOll.title}
-                </Box>
-                <Box>
-                  <Box className="mt-9 h5-title">
-                    Poll Created On:
-                    <TodayOutlinedIcon className="fs-14 pr-5" />
-                    {formatDate(signlePOll.created_at)}
-                  </Box>
-                  <Box className="mt-9 h5-title">
-                    Poll Ended On:
-                    <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
-                    {formatDate(signlePOll.end_date)}
-                  </Box>
-                  <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
-                </Box>
-              </Grid>
+                  )}  
+              </Box>
             </Grid>
-          </DialogContent>
-        </Dialog>
-      )}
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              lg={8}
+              sx={{
+                p: 2,
+                order: { xs: 1, lg: 2 },
+              }}
+            >
+              <Box className="h1-title fw-600 lg-mt-20">
+                {signlePOll.title}
+              </Box>
+              <Box>
+                <Box className="mt-9 h5-title">
+                  Poll Created On:
+                  <TodayOutlinedIcon className="fs-14 pr-5" />
+                  {formatDate(signlePOll.created_at)}
+                </Box>
+                <Box className="mt-9 h5-title">
+                  Poll Ended On:
+                  <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
+                  {formatDate(signlePOll.end_date)}
+                </Box>
+                <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
+      )} 
     </div>
   );
 };
