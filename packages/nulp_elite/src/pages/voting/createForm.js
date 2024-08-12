@@ -473,8 +473,8 @@ const createForm = () => {
                 onChange={(e) => setPollType(e.target.value)}
                 onKeyDown={handleAddChip}
                 label="Poll Keywords"
-                placeholder="Type and press Enter to add"
                 variant="outlined"
+                placeholder="Type and Press Enter to Add"
                 fullWidth
                 InputProps={{
                   startAdornment: (
