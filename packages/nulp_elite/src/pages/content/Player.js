@@ -213,7 +213,7 @@ const Player = () => {
                     {lesson.board}
                   </Button>
                 )}
-                {lesson.se_boards &&
+                {/* {lesson.se_boards &&
                   lesson.se_boards.map((item, index) => (
                     <Button
                       key={`se_boards-${index}`}
@@ -227,7 +227,7 @@ const Player = () => {
                     >
                       {item}
                     </Button>
-                  ))}
+                  ))} */}
                 {lesson.gradeLevel &&
                   lesson.gradeLevel.map((item, index) => (
                     <Button
@@ -243,7 +243,7 @@ const Player = () => {
                       {item}
                     </Button>
                   ))}
-                {lesson.se_gradeLevels &&
+                {/* {lesson.se_gradeLevels &&
                   lesson.se_gradeLevels.map((item, index) => (
                     <Button
                       key={`se_gradeLevels-${index}`}
@@ -257,7 +257,7 @@ const Player = () => {
                     >
                       {item}
                     </Button>
-                  ))}
+                  ))} */}
               </Box>
             )}
           </Grid>
