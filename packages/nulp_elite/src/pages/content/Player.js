@@ -77,28 +77,29 @@ const Player = () => {
     []
   );
 
-  const CheckfeedBackSubmitted = async () => {
-    try {
+  const CheckfeedBackSubmitted =async()=>{
+    try{
       const url = `${urlConfig.URLS.FEEDBACK.LIST}`;
-      const RequestBody = {
-        request: {
-          filters: {
-            content_id: contentId,
-            user_id: _userId,
-          },
-        },
-      };
-      const response = await axios.post(url, RequestBody);
-      console.log(response.data);
-      if (response.data?.result?.totalCount === 0) {
-        setOpenFeedBack(true);
-      } else {
-        setOpenFeedBack(false);
+      const RequestBody={
+        request:{
+          filters:{
+          content_id:contentId,
+          user_id:_userId,
+          }
+         
+        }
       }
-    } catch (error) {
+      const response=await axios.post(url,RequestBody);
+      console.log(response.data);
+      if(response.data?.result?.totalCount===0){
+      setOpenFeedBack(true);
+      }else{
+       setOpenFeedBack(false);
+      }
+    }catch(error){
       console.error("Error fetching course data:", error);
     }
-  };
+  }
 
   const updateContentState = useCallback(
     async (status) => {
@@ -120,12 +121,9 @@ const Player = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.GET}/${contentId}`,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        const response = await fetch(`${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.GET}/${contentId}`, {
+          headers: { "Content-Type": "application/json" },
+        });
         if (!response.ok) throw new Error("Failed to fetch course data");
         const data = await response.json();
         setLesson(data.result.content);
@@ -317,7 +315,7 @@ const Player = () => {
                   setTrackData(data);
                 }
               }}
-              public_url="https://nulp.niua.org/newplayer"
+              public_url="https://devnulp.niua.org/newplayer"
             />
           )}
         </Box>
