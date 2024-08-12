@@ -215,7 +215,7 @@ const Player = () => {
                     {lesson.board}
                   </Button>
                 )}
-                {lesson.se_boards &&
+                {!lesson.board && lesson.se_boards &&
                   lesson.se_boards.map((item, index) => (
                     <Button
                       key={`se_boards-${index}`}
@@ -245,7 +245,7 @@ const Player = () => {
                       {item}
                     </Button>
                   ))}
-                {lesson.se_gradeLevels &&
+                {!lesson.gradeLevel && lesson.se_gradeLevels &&
                   lesson.se_gradeLevels.map((item, index) => (
                     <Button
                       key={`se_gradeLevels-${index}`}
