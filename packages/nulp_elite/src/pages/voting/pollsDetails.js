@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import { Button, Card, CardContent, Tooltip } from "@mui/material";
+import { Button, Card, CardContent, DialogActions, Tooltip } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -35,8 +35,11 @@ const pollsDetailes = () => {
   const [openModal, setOpenModal] = useState(false);
   const [signlePOll, setSinglePoll] = useState([]);
   const [pollResult, setPollResult] = useState([]);
+  const [toasterMessage, setToasterMessage] = useState("");
   const { polls, type } = location.state || { polls: [], type: "" };
   const [pieData, setPieData] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedPollId, setSelectedPollId] = useState(null);
   const shareUrl = window.location.href;
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -75,18 +78,30 @@ const pollsDetailes = () => {
     navigate("/webapp/pollDashboard");
   };
 
-  const deletePoll = async (pollId, event) => {
+  const handleDialogOpen = (id, event) => {
+    event.stopPropagation();
+    setDialogOpen(true);
+    setSelectedPollId(id);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleDeletePollConfirmed = async (event) => {
     event.stopPropagation();
     try {
       const response = await axios.delete(
-        `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`
+        `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${selectedPollId}`
       );
       if (response.status === 200) {
+        setDialogOpen(false);
+        // console.log(response.params.status);
         setToasterMessage("Poll deleted successfully");
         fetchPolls();
         setPoll((prevPolls) => {
           const updatedPolls = prevPolls.filter(
-            (poll) => poll.poll_id !== pollId
+            (poll) => poll.poll_id !== selectedPollId
           );
           return updatedPolls;
         });
@@ -116,6 +131,12 @@ const pollsDetailes = () => {
   const handleEdit = (event, item) => {
     event.stopPropagation();
     navigate("/webapp/createform", { state: item });
+  };
+
+  const sizing = {
+    width: 400,
+    height: 400,
+    legend: { hidden: true },
   };
 
   return (
@@ -290,9 +311,8 @@ const pollsDetailes = () => {
                                       <Button className="d-inline-block">
                                         {index < 2
                                           ? keyword
-                                          : `${keyword} + ${
-                                              items.poll_keywords.length - 2
-                                            }`}
+                                          : `${keyword} + ${items.poll_keywords.length - 2
+                                          }`}
                                       </Button>
                                     </Tooltip>
                                   ))}
@@ -343,9 +363,10 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={(event) =>
-                                deletePoll(items.poll_id, event)
-                              }
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handleDialogOpen(items.poll_id, event);
+                              }}
                             >
                               Delete{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
@@ -375,12 +396,12 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20 mb-10"
-                              onClick={(event) =>
-                                deletePoll(items.poll_id, event)
-                              }
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handleDialogOpen(items.poll_id, event);
+                              }}
                             >
-                              Delete{" "}
-                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                              Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
                         ) : type === "closed" ? (
@@ -395,6 +416,7 @@ const pollsDetailes = () => {
                               View Results{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
+
                           </Box>
                         ) : null}
                         <Box className="lg-hide">
@@ -498,13 +520,12 @@ const pollsDetailes = () => {
                       series={[
                         {
                           data: pieData.map((d) => ({
-                            id: d.poll_option,
                             value: d.count,
+                            label: d.poll_option,
                           })),
                           arcLabel: (item) => (
                             <>
-                              {item.id}
-                              <br />({getProgressValue(item.value)})
+                              ({getProgressValue(item.value)})
                             </>
                           ),
                           arcLabelMinAngle: 45,
@@ -512,13 +533,11 @@ const pollsDetailes = () => {
                       ]}
                       sx={{
                         [`& .${pieArcLabelClasses.root}`]: {
-                          fill: "white",
-                          fontWeight: "500",
+                          fill: 'white',
+                          fontSize: 14,
                         },
                       }}
-                      width={350}
-                      height={350}
-                    />
+                      {...sizing} />
                   ) : (
                     <Box>No data available</Box>
                   )}
@@ -555,6 +574,30 @@ const pollsDetailes = () => {
           </DialogContent>
         </Dialog>
       )}
+      <Dialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        maxWidth="md"
+      >
+        <DialogContent>
+          <Box className="h5-title">
+            Are you sure you want to delere this poll?
+          </Box>
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} className="custom-btn-default">
+            No
+          </Button>
+          <Button
+            onClick={(event) => handleDeletePollConfirmed(event)}
+            className="custom-btn-primary"
+
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Footer />
     </div>
   );
