@@ -48,6 +48,7 @@ export default function DomainCarousel({
   domains,
   onSelectDomain,
   selectedDomainCode,
+  keepOpen,
 }) {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true); // Initial loading state
@@ -66,12 +67,16 @@ export default function DomainCarousel({
   // const navigate = useNavigate();
   const [userDomain, setUserDomain] = useState(null);
 
-  const [isBoxVisible, setIsBoxVisible] = useState(false);
+  const [isBoxVisible, setIsBoxVisible] = useState(keepOpen ? keepOpen : false);
 
   const handleClick = () => {
     // setIsBoxVisible(true);
     setIsBoxVisible(!isBoxVisible);
-    document.body.classList.add("domain-fixed");
+    if (!isBoxVisible) {
+      document.body.classList.add("domain-fixed");
+    } else {
+      document.body.classList.remove("domain-fixed");
+    }
   };
   useEffect(() => {
     // Simulate loading completion after a delay
@@ -84,6 +89,7 @@ export default function DomainCarousel({
 
   useEffect(() => {
     const domain = sessionStorage.getItem("userDomain");
+
     setUserDomain(domain);
   }, []);
 

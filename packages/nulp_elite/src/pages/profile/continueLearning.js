@@ -179,6 +179,7 @@ const ContinueLearning = () => {
             fullWidth
             variant="outlined"
             label="Search"
+            className="w-33"
             style={{ width: "100%", background: "#fff" }}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

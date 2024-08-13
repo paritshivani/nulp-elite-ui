@@ -1303,6 +1303,9 @@ button {
 }
 
 @media (min-width: 769px) {
+  .MuiFormControl-root.MuiTextField-root.w-33 {
+    width: 33% !important;
+  }
   .custom-event-container .MuiTabs-flexContainer {
     justify-content: center !important;
   }
@@ -1952,6 +1955,15 @@ button {
 }
 
 @media (min-width: 769px) {
+  .addConnection .MuiTabs-flexContainer {
+    justify-content: space-between !important;
+  }
+  .addConnection .MuiTabs-scroller button:nth-child(3) {
+    max-width: 100px !important;
+  }
+  .addConnection .MuiTabs-scroller button:nth-child(1) {
+    max-width: 129px !important;
+  }
   .lg-pr-20 {
     padding-right: 20px !important;
   }
@@ -2887,7 +2899,6 @@ button {
   transition: top 0.3s ease;
 }
 
-
 .css-aq68c9 {
   height: 262px !important;
 }
@@ -3439,6 +3450,9 @@ header .MuiContainer-maxWidthLg {
 .profile .MuiButtonBase-root:hover {
   background: rgb(14, 122, 156) !important;
 }
+.profile .profile-cardContent .MuiButtonBase-root:hover {
+  background: #e3f5ff !important;
+}
 
 .searchField fieldset {
   border-radius: 10px !important;
@@ -3713,4 +3727,10 @@ input:required::after {
 }
 .recording .MuiDialog-paper {
   width: 300px !important;
+}
+.MuiBreadcrumbs-ol .oneLineEllipsis {
+  padding-top: 0 !important;
+}
+.css-1nmdiqf5-menu {
+  z-index: 9999999 !important;
 }
