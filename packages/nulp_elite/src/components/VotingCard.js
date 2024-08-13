@@ -129,21 +129,80 @@ export default function VotingCard({ items, index, onClick }) {
 
   return (
     <Card
-      className="cardBox pb-20"
+      className="cardBox pb-10"
       sx={{ position: "relative", cursor: "pointer", textAlign: "left" }}
       onClick={onClick}
     >
-      <CardContent className="d-flex jc-bw">
+      <CardContent>
         <Box>
-          {items.title && (
-            <Typography
-              gutterBottom
-              className="mt-10  event-title"
-              style={{ height: "inherit" }}
+          <Box className="d-flex jc-bw">
+            <Grid item xs={12} md={8} lg={8}>
+              {items.title && (
+                <Typography
+                  gutterBottom
+                  className="mt-10  event-title"
+                  style={{ height: "inherit" }}
+                >
+                  {items.title}
+                </Typography>
+              )}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              lg={4}
+              style={{ marginBottom: "10px" }}
+              key={items.poll_id}
             >
-              {items.title}
-            </Typography>
-          )}
+              <Box className="xs-hide text-right">
+                <FacebookShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  quote={`Check out this poll: ${items.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <FacebookIcon url={shareUrl} size={32} round={true} />
+                </FacebookShareButton>
+                <WhatsappShareButton
+                  url={shareUrl}
+                  title={`Check out this poll: ${items.title}`}
+                  separator=":: "
+                  className="pr-5"
+                  onClick={(event) => openSocialMediaLink(event, shareUrl)}
+                >
+                  <WhatsappIcon size={32} round />
+                </WhatsappShareButton>
+                <LinkedinShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  title={items.title}
+                  summary={`Participate in this poll: ${items.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <LinkedinIcon size={32} round={true} />
+                </LinkedinShareButton>
+                <TwitterShareButton
+                  url={shareUrl}
+                  className="pr-5"
+                  title={`Check out this poll: ${items.title}`}
+                  onClick={(event) => {
+                    openSocialMediaLink(event, shareUrl);
+                  }}
+                >
+                  <img
+                    src={require("../assets/twitter.png")}
+                    alt="Twitter"
+                    style={{ width: 32, height: 32 }}
+                  />
+                </TwitterShareButton>
+              </Box>
+            </Grid>
+          </Box>
           <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
             <Box className="d-flex jc-bw alignItems-center">
               <TodayOutlinedIcon className="fs-12 pr-5" />
@@ -152,20 +211,20 @@ export default function VotingCard({ items, index, onClick }) {
               )}
             </Box>
           </Box>
-          <Box className="d-flex jc-bw alignItems-center fs-14">
+          <Box className="fs-14">
             {items?.poll_keywords && (
               <>
-                {items.poll_keywords.slice(0, 3).map((keyword, index) => (
+                {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                   <Tooltip
                     key={index}
                     title={keyword}
                     placement="right"
-                    className="labeltwo cardLabelEllips"
+                    className="customlabeltwo cardLabelEllips"
                   >
-                    <Button>
+                    <Button className="d-inline-block">
                       {index < 2
                         ? keyword
-                        : `${keyword} + ${items.poll_keywords.length - 3}`}
+                        : `${keyword} + ${items.poll_keywords.length - 2}`}
                     </Button>
                   </Tooltip>
                 ))}
@@ -173,9 +232,9 @@ export default function VotingCard({ items, index, onClick }) {
                   <Tooltip
                     title={items.poll_keywords.slice(3).join(", ")}
                     placement="right"
-                    className="labeltwo cardLabelEllips"
+                    className="customlabeltwo cardLabelEllips"
                   >
-                    <Button>
+                    <Button className="d-inline-block">
                       {items.poll_keywords[2]} +{" "}
                       {items.poll_keywords.length - 3}
                     </Button>
@@ -193,7 +252,7 @@ export default function VotingCard({ items, index, onClick }) {
           />
         </Box> */}
       </CardContent>
-      <Box className="voting-text lg-mt-30">
+      <Box className="voting-text lg-mt-20">
         <Box>
           {!isVotingEnded && (
             <Button type="button" className="custom-btn-primary ml-20 lg-mt-20">
@@ -210,7 +269,7 @@ export default function VotingCard({ items, index, onClick }) {
             </Button>
           )}
         </Box>
-        <Box className="xs-hide">
+        <Box className="lg-hide xs-m">
           <FacebookShareButton
             url={shareUrl}
             className="pr-5"
@@ -291,7 +350,7 @@ export default function VotingCard({ items, index, onClick }) {
                 </Typography>
 
                 <Box className="pr-5">
-                  <span className=" h3-custom-title"> Voting Ended On</span>
+                  <span className=" h3-custom-title"> Poll Ended On</span>
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 mt-10"
                     style={{ verticalAlign: "middle" }}
@@ -303,13 +362,13 @@ export default function VotingCard({ items, index, onClick }) {
                   </span>
                 </Box>
               </Grid>
-              <Grid item xs={3} md={6} lg={3}>
+              {/* <Grid item xs={3} md={6} lg={3}>
                 <img
                   src={require("assets/default.png")}
                   className="appicon"
                   alt="App Icon"
                 />
-              </Grid>
+              </Grid> */}
               <Box style={{ paddingLeft: "18px", width: "100%" }}>
                 <Box sx={{ width: "100%" }}>
                   {pollResult?.map((option, index) => (

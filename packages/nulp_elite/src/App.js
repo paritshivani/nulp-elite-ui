@@ -53,6 +53,8 @@ import votingDashboard from "pages/voting/votingDashboard";
 import pollsDetails from "pages/voting/pollsDetails";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
+import PopupForm from "pages/profileData";
+import axios from "axios";
 
 function App() {
   // const [t] = useTranslation();
@@ -64,6 +66,7 @@ function App() {
   const [checkPref, setCheckPref] = React.useState(true);
   const _userId = util.userId();
   const [orgId, setOrgId] = useState();
+  const [userData, setUserData] = React.useState(false);
 
   const routes = [
     {
@@ -238,6 +241,25 @@ function App() {
         console.error("Error fetching user data:", error);
       }
     };
+    const UserData = async () => {
+      const url = `${urlConfig.URLS.POFILE_PAGE.USER_READ}`;
+      const requestBody = {
+        user_ids: [_userId],
+      };
+      const response = await axios.post(url, requestBody);
+      const Data = response.data;
+      console.log("Data of user----------- ", Data);
+      if (
+        (Array.isArray(Data?.result) && Data.result.length === 0) ||
+        (Array.isArray(Data?.result) &&
+          Data.result.length > 0 &&
+          (Data.result[0]?.designation === null ||
+            Data.result[0]?.user_type === null ||
+            Data.result[0]?.organisation === null))
+      ) {
+        setUserData(true);
+      }
+    };
     const fetchData = async () => {
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}`;
@@ -278,6 +300,7 @@ function App() {
     };
 
     fetchData();
+    UserData();
   }, []);
 
   return (
@@ -287,11 +310,17 @@ function App() {
       {/* <I18nextProvider i18n={i18n}> */}
       {/* <ChakraProvider> */}
       <React.Suspense>
-        {!checkPref && (
+        {!checkPref && !userData && (
           <SelectPreference
             isOpen={!checkPref}
             onClose={() => setCheckPref(true)}
           />
+        )}
+        {userData && (
+          <PopupForm
+            open={userData}
+            handleClose={() => setUserData(false)}
+          ></PopupForm>
         )}
 
         <Router>

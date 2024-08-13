@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import { Button, Card, CardContent } from "@mui/material";
+import { Button, Card, CardContent, DialogActions, Tooltip } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -35,8 +35,11 @@ const pollsDetailes = () => {
   const [openModal, setOpenModal] = useState(false);
   const [signlePOll, setSinglePoll] = useState([]);
   const [pollResult, setPollResult] = useState([]);
+  const [toasterMessage, setToasterMessage] = useState("");
   const { polls, type } = location.state || { polls: [], type: "" };
   const [pieData, setPieData] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedPollId, setSelectedPollId] = useState(null);
   const shareUrl = window.location.href;
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -75,18 +78,30 @@ const pollsDetailes = () => {
     navigate("/webapp/pollDashboard");
   };
 
-  const deletePoll = async (pollId, event) => {
+  const handleDialogOpen = (id, event) => {
+    event.stopPropagation();
+    setDialogOpen(true);
+    setSelectedPollId(id);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleDeletePollConfirmed = async (event) => {
     event.stopPropagation();
     try {
       const response = await axios.delete(
-        `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`
+        `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${selectedPollId}`
       );
       if (response.status === 200) {
+        setDialogOpen(false);
+        // console.log(response.params.status);
         setToasterMessage("Poll deleted successfully");
         fetchPolls();
         setPoll((prevPolls) => {
           const updatedPolls = prevPolls.filter(
-            (poll) => poll.poll_id !== pollId
+            (poll) => poll.poll_id !== selectedPollId
           );
           return updatedPolls;
         });
@@ -118,6 +133,12 @@ const pollsDetailes = () => {
     navigate("/webapp/createform", { state: item });
   };
 
+  const sizing = {
+    width: 400,
+    height: 400,
+    legend: { hidden: true },
+  };
+
   return (
     <div>
       <Header />
@@ -129,7 +150,7 @@ const pollsDetailes = () => {
           <Container
             maxWidth="xl"
             role="main"
-            className="xs-pb-20 lg-pt-20 min-"
+            className="xs-pb-20 lg-pt-20 votingDashboard"
           >
             <Box
               display="flex"
@@ -140,17 +161,17 @@ const pollsDetailes = () => {
             >
               <Box display="flex" alignItems="center" className="h3-title">
                 {type === "live" ? (
-                  <Box>
+                  <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
                     Live Polls
                   </Box>
                 ) : type === "closed" ? (
-                  <Box>
+                  <Box display="flex">
                     <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />{" "}
                     Closed Polls
                   </Box>
                 ) : (
-                  <Box>
+                  <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
                     Draft Polls
                   </Box>
@@ -178,7 +199,7 @@ const pollsDetailes = () => {
                     key={items.poll_id}
                   >
                     <Card
-                      className="cardBox1 pb-20"
+                      className="cardBox1 pb-10"
                       sx={{
                         position: "relative",
                         cursor: "pointer",
@@ -188,24 +209,129 @@ const pollsDetailes = () => {
                       }}
                       onClick={() => handleCardClick(items.poll_id)}
                     >
-                      <CardContent className="d-flex jc-bw">
+                      <CardContent>
                         <Box>
-                          {items.title && (
-                            <Typography
-                              gutterBottom
-                              className="mt-10 event-title"
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} md={8} lg={8}>
+                              {items.title && (
+                                <Typography
+                                  gutterBottom
+                                  className="mt-10 event-title"
+                                >
+                                  {items.title}
+                                </Typography>
+                              )}
+                            </Grid>
+
+                            <Grid
+                              item
+                              xs={12}
+                              md={4}
+                              lg={4}
+                              style={{ marginBottom: "10px" }}
+                              key={items.poll_id}
+                              className="pl-0"
                             >
-                              {items.title}
-                            </Typography>
-                          )}
+                              <Box className="xs-hide text-right">
+                                <FacebookShareButton
+                                  url={shareUrl}
+                                  className="pr-5"
+                                  quote={`Check out this poll: ${items.title}`}
+                                  onClick={(event) => {
+                                    openSocialMediaLink(event, shareUrl);
+                                  }}
+                                >
+                                  <FacebookIcon
+                                    url={shareUrl}
+                                    size={32}
+                                    round={true}
+                                  />
+                                </FacebookShareButton>
+                                <WhatsappShareButton
+                                  url={shareUrl}
+                                  title={`Check out this poll: ${items.title}`}
+                                  separator=":: "
+                                  className="pr-5"
+                                  onClick={(event) =>
+                                    openSocialMediaLink(event, shareUrl)
+                                  }
+                                >
+                                  <WhatsappIcon size={32} round />
+                                </WhatsappShareButton>
+                                <LinkedinShareButton
+                                  url={shareUrl}
+                                  className="pr-5"
+                                  title={items.title}
+                                  summary={`Participate in this poll: ${items.title}`}
+                                  onClick={(event) => {
+                                    openSocialMediaLink(event, shareUrl);
+                                  }}
+                                >
+                                  <LinkedinIcon size={32} round={true} />
+                                </LinkedinShareButton>
+                                <TwitterShareButton
+                                  url={shareUrl}
+                                  className="pr-5"
+                                  title={`Check out this poll: ${items.title}`}
+                                  onClick={(event) => {
+                                    openSocialMediaLink(event, shareUrl);
+                                  }}
+                                >
+                                  <img
+                                    src={require("../../assets/twitter.png")}
+                                    alt="Twitter"
+                                    style={{ width: 32, height: 32 }}
+                                  />
+                                </TwitterShareButton>
+                              </Box>
+                            </Grid>
+                          </Grid>
                           <Box
                             className="d-flex h6-title mt-30"
                             style={{ color: "#484848" }}
                           >
-                            <Box className="d-flex jc-bw alignItems-center fs-14">
+                            <Box className="d-flex jc-bw alignItems-center fs-13">
                               <TodayOutlinedIcon className="fs-14 pr-5" />
                               {formatDate(items.start_date)}
                             </Box>
+                          </Box>
+
+                          <Box className="fs-14">
+                            {items?.poll_keywords && (
+                              <>
+                                {items.poll_keywords
+                                  .slice(0, 2)
+                                  .map((keyword, index) => (
+                                    <Tooltip
+                                      key={index}
+                                      title={keyword}
+                                      placement="right"
+                                      className="customlabeltwo cardLabelEllips"
+                                    >
+                                      <Button className="d-inline-block">
+                                        {index < 2
+                                          ? keyword
+                                          : `${keyword} + ${items.poll_keywords.length - 2
+                                          }`}
+                                      </Button>
+                                    </Tooltip>
+                                  ))}
+                                {items.poll_keywords.length > 3 && (
+                                  <Tooltip
+                                    title={items.poll_keywords
+                                      .slice(3)
+                                      .join(", ")}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button className="d-inline-block">
+                                      {items.poll_keywords[2]} +{" "}
+                                      {items.poll_keywords.length - 3}
+                                    </Button>
+                                  </Tooltip>
+                                )}
+                              </>
+                            )}
                           </Box>
                         </Box>
                         {/* <Box
@@ -237,9 +363,10 @@ const pollsDetailes = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20"
-                              onClick={(event) =>
-                                deletePoll(items.poll_id, event)
-                              }
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handleDialogOpen(items.poll_id, event);
+                              }}
                             >
                               Delete{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
@@ -249,13 +376,32 @@ const pollsDetailes = () => {
                           <Box>
                             <Button
                               type="button"
-                              className="custom-btn-primary ml-20 lg-mt-20"
+                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
                               onClick={(event) =>
                                 handleOpenModal(items.poll_id, event)
                               }
                             >
                               View Stats{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+                            <Button
+                              onClick={(event) => handleEdit(event, items)}
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                            >
+                              Edit{" "}
+                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
+
+                            <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handleDialogOpen(items.poll_id, event);
+                              }}
+                            >
+                              Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
                         ) : type === "closed" ? (
@@ -270,9 +416,10 @@ const pollsDetailes = () => {
                               View Results{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
+
                           </Box>
                         ) : null}
-                        <Box className="xs-hide">
+                        <Box className="lg-hide">
                           <FacebookShareButton
                             url={shareUrl}
                             className="pr-5"
@@ -373,13 +520,12 @@ const pollsDetailes = () => {
                       series={[
                         {
                           data: pieData.map((d) => ({
-                            id: d.poll_option,
                             value: d.count,
+                            label: d.poll_option,
                           })),
                           arcLabel: (item) => (
                             <>
-                              {item.id}
-                              <br />({getProgressValue(item.value)})
+                              ({getProgressValue(item.value)})
                             </>
                           ),
                           arcLabelMinAngle: 45,
@@ -387,13 +533,11 @@ const pollsDetailes = () => {
                       ]}
                       sx={{
                         [`& .${pieArcLabelClasses.root}`]: {
-                          fill: "white",
-                          fontWeight: "500",
+                          fill: 'white',
+                          fontSize: 14,
                         },
                       }}
-                      width={350}
-                      height={350}
-                    />
+                      {...sizing} />
                   ) : (
                     <Box>No data available</Box>
                   )}
@@ -419,7 +563,7 @@ const pollsDetailes = () => {
                     {formatDate(signlePOll.created_at)}
                   </Box>
                   <Box className="mt-9 h5-title">
-                    Voting Ended On:
+                    Poll Ended On:
                     <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
                     {formatDate(signlePOll.end_date)}
                   </Box>
@@ -430,6 +574,30 @@ const pollsDetailes = () => {
           </DialogContent>
         </Dialog>
       )}
+      <Dialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        maxWidth="md"
+      >
+        <DialogContent>
+          <Box className="h5-title">
+            Are you sure you want to delere this poll?
+          </Box>
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} className="custom-btn-default">
+            No
+          </Button>
+          <Button
+            onClick={(event) => handleDeletePollConfirmed(event)}
+            className="custom-btn-primary"
+
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Footer />
     </div>
   );

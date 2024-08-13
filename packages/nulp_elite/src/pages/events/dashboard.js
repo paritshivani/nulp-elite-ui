@@ -75,7 +75,19 @@ const Dashboard = () => {
   const [endDateFilter, setEndDateFilter] = useState(dayjs());
 
   const handleDomainChange = (event) => {
-    setSelectedDomain(event.target.value);
+    const selectedBoard = event.target.value;
+    setSelectedDomain(selectedBoard);
+    const selectedIndex = domainList.findIndex(
+      (category) => category.name === selectedBoard
+    );
+    if (selectedIndex !== -1) {
+
+      setSubCategory(domainList[selectedIndex]?.associations || []);
+    } else {
+      setSubCategory([]);
+    }
+
+    setSelectedSubDomain([]);
   };
   const [selectedUser, setSelectedUser] = useState("");
   const handleUserChange = (event) => {
@@ -383,9 +395,9 @@ const Dashboard = () => {
             const domainList =
               responseData?.result?.framework?.categories[3].terms;
             setDomainList(domainList || []);
-            setSubCategory(
-              responseData?.result?.framework?.categories[1]?.terms || []
-            );
+            // setSubCategory(
+            //   responseData?.result?.framework?.categories[1]?.terms || []
+            // );
           }
         } else {
           throw new Error(t("FAILED_TO_FETCH_DATA"));
@@ -602,21 +614,26 @@ const Dashboard = () => {
 
             {eventNames && eventTopUser && (
               <>
+                <Box sx={{ textAlign: "center" }}>Events</Box>
+
                 <BarChart
                   xAxis={[
                     {
                       scaleType: "band",
                       data: eventNames,
                       tickSize: 5,
-                      tickRotation: -45,
+                      tickLabelStyle: {
+                        angle: -65,
+                        textAnchor: "end",
+                        fontSize: 12,
+                      },
                     },
                   ]}
                   series={[{ data: eventTopUser }]}
                   height={300}
-                  barSize={10}
+                  barSize={2}
                 />
                 <Box className="brYlabel">No. of Participants</Box>
-                <Box sx={{ textAlign: "center" }}>Events</Box>
               </>
             )}
           </Grid>
@@ -650,7 +667,7 @@ const Dashboard = () => {
 
             {listOfDesignation && countOfTopDesignationUser && (
               <>
-                {" "}
+                <Box sx={{ textAlign: "center" }}>Designation</Box>{" "}
                 <LineChart
                   height={300}
                   series={[
@@ -661,7 +678,6 @@ const Dashboard = () => {
                   xAxis={[{ scaleType: "point", data: listOfDesignation }]}
                 />
                 <Box className="yLabel">Participants</Box>
-                <Box sx={{ textAlign: "center" }}>Designation</Box>
               </>
             )}
           </Grid>

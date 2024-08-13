@@ -90,6 +90,7 @@ const ContentList = (props) => {
   const [orgId, setOrgId] = useState();
   const [framework, setFramework] = useState();
   const [headerSearch, setHeaderSearch] = useState("");
+  const [isDomain, setIsDomain] = useState(false);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -100,6 +101,9 @@ const ContentList = (props) => {
   };
 
   useEffect(() => {
+    if (location.state?.domain) {
+      setIsDomain(true);
+    }
     fetchData();
     fetchUserData();
     const random = getRandomValue();
@@ -151,8 +155,8 @@ const ContentList = (props) => {
   };
 
   const fetchData = async () => {
-     const newPath = location.pathname + "?" + currentPage;
-sessionStorage.setItem('previousRoutes', newPath)
+    const newPath = location.pathname + "?" + currentPage;
+    sessionStorage.setItem("previousRoutes", newPath);
     setIsLoading(true);
     setError(null);
 
@@ -281,7 +285,7 @@ sessionStorage.setItem('previousRoutes', newPath)
     try {
       const uservData = await util.userData();
       setOrgId(uservData?.data?.result?.response?.rootOrgId);
-setFramework(uservData?.data?.result?.response?.framework?.id[0])
+      setFramework(uservData?.data?.result?.response?.framework?.id[0]);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -432,6 +436,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
             onSelectDomain={handleDomainFilter}
             selectedDomainCode={domain}
             domains={domainList}
+            keepOpen={isDomain}
           />
         ) : (
           <SkeletonLoader />
@@ -441,7 +446,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
 
       <Container
         maxWidth="xl"
-        className="allContent xs-pb-20  pb-30 content-list eventTab"
+        className="allContent xs-pb-20  pb-30 content-list eventTab mt-180"
       >
         {/* <Box style={{ margin: "20px 0" }}> */}
         {/* <domainCarousel></domainCarousel> */}
@@ -512,6 +517,7 @@ setFramework(uservData?.data?.result?.response?.framework?.id[0])
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
               renderedPage="contentlist"
+              domainCode={domain}
             />
           </Grid>
           <Grid

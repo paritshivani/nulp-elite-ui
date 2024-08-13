@@ -120,7 +120,7 @@ const Chat = ({
   const [toasterMessage, setToasterMessage] = useState("");
   const [receiverData, setReceiverData] = useState([]);
   const [prefilledMessage, setPrefilledMessage] = useState(
-    "Hello, I would like to connect with you regarding some queries I have about your course."
+    "Hello! I’d like to connect with you."
   );
   const [textValue, setTextValue] = useState("");
 
@@ -328,9 +328,7 @@ const Chat = ({
           setMessages(response.data.result || []);
 
           if (response.data.result.length === 0) {
-            setTextValue(
-              "Hello, I would like to connect with you regarding some queries I have about your course."
-            );
+            setTextValue("Hello! I’d like to connect with you.");
           }
         }
       }

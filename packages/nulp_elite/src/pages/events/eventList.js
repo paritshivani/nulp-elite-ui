@@ -233,13 +233,11 @@ const EventList = (props) => {
 
     const headers = {
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIzVGRIUkFpTUFiRHN1SUhmQzFhYjduZXFxbjdyQjZrWSJ9.MotRsgyrPzt8O2jp8QZfWw0d9iIcZz-cfNYbpifx5vs",
     };
     // console.log(data.result.content)
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.COMPOSITE.SEARCH}`;
+      const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_COMPOSITE_SEARCH}`;
       const response = await getAllContents(url, data, headers);
       console.log("All Event ----", response.data.result.Event);
       setData(response.data.result.Event);
@@ -417,6 +415,7 @@ const EventList = (props) => {
             <DrawerFilter
               SelectedFilters={handlefilterChanges}
               renderedPage="eventList"
+              domainCode={domain}
             />
           </Grid>
           <Grid item xs={12} md={8} lg={9} className="pb-20 pt-0 event-list ">

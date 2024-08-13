@@ -96,7 +96,7 @@ const createForm = () => {
   // Check if startDate is in the past
   let isStartDateInPast;
   if (editData) {
-    startDate && new Date(startDate) < currentDateTime;
+    isStartDateInPast = startDate && new Date(startDate) < currentDateTime;
   }
 
   const handleAddChip = useCallback(
@@ -114,7 +114,6 @@ const createForm = () => {
   const handleDeleteChip = (chipToDelete) => () => {
     setChips(chips.filter((chip) => chip !== chipToDelete));
   };
-  console.log("--------=================", pollType);
   useEffect(() => {
     const initialOrg = orgList.find((org) => org.orgName === organisationName);
     setSelectedOrg(initialOrg || null);
@@ -212,7 +211,7 @@ const createForm = () => {
         visibility,
         poll_options: pollOptions,
         poll_keywords: chips,
-        status: "Live",
+        status: "Draft",
         start_date: startDate,
         end_date: endDate,
         user_list: userListFinal,
@@ -224,7 +223,7 @@ const createForm = () => {
         visibility,
         poll_options: pollOptions,
         poll_keywords: chips,
-        status: "Live",
+        status: "Draft",
         start_date: startDate,
         end_date: endDate,
         user_list: userList,
@@ -474,8 +473,8 @@ const createForm = () => {
                 onChange={(e) => setPollType(e.target.value)}
                 onKeyDown={handleAddChip}
                 label="Poll Keywords"
-                placeholder="Type and press Enter to add"
                 variant="outlined"
+                placeholder="Type and Press Enter to Add"
                 fullWidth
                 InputProps={{
                   startAdornment: (

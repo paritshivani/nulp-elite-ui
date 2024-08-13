@@ -51,6 +51,7 @@ import {
 } from "react-share";
 import AddConnections from "pages/connections/AddConnections";
 // import speakerOne from "./../assets/speakerOne.png";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const routeConfig = require("../../configs/routeConfig.json");
 const processString = (str) => {
@@ -100,6 +101,12 @@ const JoinCourse = () => {
   const [ConsumedContents, setConsumedContents] = useState();
   const [TotalContents, setTotalContents] = useState();
   const [IsUnitCompleted, setIsUnitCompleted] = useState();
+  const [isNotStarted, setIsNotStarted] = useState(false);
+  const [ContinueLearning, setContinueLearning] = useState();
+  const [allContents, setAllContents] = useState();
+  const [NotConsumedContent, setNotConsumedContent] = useState();
+  const [isContentConsumed, setIsContentConsumed] = useState();
+  const [completedContents, setCompletedContents] = useState([]);
 
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
@@ -123,6 +130,11 @@ const JoinCourse = () => {
     }, 2000);
     setToasterOpen(true);
   };
+
+  const showOpenContenErrorMessage =(msg) =>{
+    setToasterMessage(msg);        
+     setToasterOpen(true); 
+  }
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 767);
     window.addEventListener("resize", handleResize);
@@ -148,10 +160,26 @@ const JoinCourse = () => {
         setCreatorId(data?.result?.content?.createdBy);
         setCourseData(data);
         setUserData(data);
+
         const identifiers =
-          data?.result?.content?.children?.map((child) => child.identifier) ||
-          [];
+          data?.result?.content?.children[0]?.children[0]?.identifier;
         setChildNode(identifiers);
+
+        let allContents = [];
+
+        if (data?.result?.content?.children) {
+          data.result.content.children.forEach((parent) => {
+            if (parent.children) {
+              parent.children.forEach((child) => {
+                if (child.identifier) {
+                  allContents.push(child.identifier);
+                }
+              });
+            }
+          });
+        }
+        setAllContents(allContents);
+        console.log("allContents-------", allContents);
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -360,19 +388,84 @@ const JoinCourse = () => {
           request: {
             userId: _userId,
             courseId: contentId,
-            contentIds: childnode,
+            contentIds: allContents,
             batchId: batchDetails.batchId,
             fields: ["progress", "score"],
           },
         };
+
         try {
           const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_READ}`;
           const response = await axios.post(url, request);
           const data = response.data;
+
+          console.log("API Response Data:", data);
+
           setCourseProgress(data);
+
           const contentIds =
             data?.result?.contentList?.map((item) => item.contentId) || [];
+          if (contentIds.length === 0) {
+            setIsNotStarted(true);
+          }
           setConsumedContents(contentIds);
+
+          for (let content of data?.result?.contentList) {
+            if (content.status === 1) {
+              setContinueLearning(content.contentId);
+              break;
+            }
+          }
+
+          const newCompletedContents = [];
+
+          for (let content of data?.result?.contentList) {
+            if (content.status === 2) {
+              newCompletedContents.push(content.contentId);
+            }
+          }
+
+          if (newCompletedContents.length > 0) {
+            setCompletedContents((prevContents) => [
+              ...prevContents,
+              ...newCompletedContents,
+            ]);
+            setIsContentConsumed(true);
+          }
+
+          const contentList = data.result.contentList;
+
+          let allFound = true;
+          let notConsumedContent;
+
+          for (let identifier of allContents) {
+            const found = contentList.find(
+              (item) => item.contentId === identifier && item.status === 2
+            );
+            if (!found) {
+              notConsumedContent = identifier;
+              allFound = false;
+              break;
+            }
+          }
+
+          if (allFound) {
+            notConsumedContent = allContents[0];
+            try {
+              const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
+              const response = await axios.patch(url, {
+                request: {
+                  userId: _userId,
+                  courseId: contentId,
+                  batchId: batchDetails?.batchId,
+                },
+              });
+            } catch (error) {
+              console.error("Error while fetching courses:", error);
+            }
+          }
+
+          setNotConsumedContent(notConsumedContent);
         } catch (error) {
           console.error("Error while fetching courses:", error);
           showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -381,7 +474,7 @@ const JoinCourse = () => {
     };
     fetchChats();
     getCourseProgress();
-  }, [batchDetails, creatorId]);
+  }, [batchDetails, creatorId, allContents]);
 
   const handleDirectConnect = () => {
     if (chat.length === 0) {
@@ -408,7 +501,8 @@ const JoinCourse = () => {
     });
   };
 
-  const handleLinkClick = (id) => {
+ const handleLinkClick = (id) => {
+  if (isEnroll) {
     navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
       state: {
         coursename: userData?.result?.content?.name,
@@ -418,7 +512,10 @@ const JoinCourse = () => {
         consumedcontents: ConsumedContents,
       },
     });
-  };
+  } else {
+    showOpenContenErrorMessage("You must join the course to get complete access to content.");
+  }
+};
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -428,20 +525,19 @@ const JoinCourse = () => {
   };
 
   const isEnrolled = () => {
+    console.log("userCourseData?.courses", userCourseData?.courses);
+    console.log(
+      "userCourseData?.courses",
+      userCourseData?.courses?.map((course) => course.contentId)
+    );
+    console.log(
+      "userCourseData?.courses?.some",
+      userCourseData?.courses?.some((course) => course.contentId === contentId)
+    );
     return (
       userCourseData &&
       userCourseData.courses &&
-      userCourseData.courses.some((course) => course.contentId === contentId)
-    );
-  };
-
-  const isIncomplete = () => {
-    return (
-      progress &&
-      progress.result &&
-      progress.result.contentList &&
-      (progress.result.contentList.length === 0 ||
-        progress.result.contentList.some((content) => content.status !== 2))
+      userCourseData?.courses?.some((course) => course.contentId === contentId)
     );
   };
 
@@ -476,12 +572,14 @@ const JoinCourse = () => {
   };
 
   const renderActionButton = () => {
+    console.log("ConsumedContents", ConsumedContents);
+    console.log("allContents", allContents);
     if (isEnrolled() || enrolled) {
-      if (isIncomplete()) {
+      if (isNotStarted) {
         return (
           <Box>
             <Button
-              // onClick={handleLinkClick}
+              onClick={() => handleLinkClick(childnode)}
               className="custom-btn-primary  mr-5"
             >
               {t("START_LEARNING")}
@@ -523,12 +621,51 @@ const JoinCourse = () => {
         );
       } else {
         return (
-          <Button
-            // onClick={handleLinkClick}
-            className="custom-btn-primary"
-          >
-            {t("START_LEARNING")}
-          </Button>
+          <Box>
+            <Button
+              onClick={() =>
+                handleLinkClick(
+                  ContinueLearning ?? NotConsumedContent ?? childnode
+                )
+              }
+              className="custom-btn-primary mr-5"
+            >
+              {t("CONTINUE LEARNING")}
+            </Button>
+            <Button
+              onClick={handleLeaveCourseClick} // Open confirmation dialog
+              className="custom-btn-danger"
+            >
+              {t("LEAVE_COURSE")}
+            </Button>
+            {showConfirmation && (
+              <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
+                <DialogTitle>
+                  {t("LEAVE_COURSE_CONFIRMATION_TITLE")}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    {t("LEAVE_COURSE_CONFIRMATION_MESSAGE")}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={handleConfirmationClose}
+                    className="custom-btn-default"
+                  >
+                    {t("CANCEL")}
+                  </Button>
+                  <Button
+                    onClick={handleLeaveConfirmed}
+                    className="custom-btn-primary"
+                    autoFocus
+                  >
+                    {t("LEAVE_COURSE")}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            )}
+          </Box>
         );
       }
     } else {
@@ -1348,17 +1485,16 @@ const JoinCourse = () => {
                     </AccordionSummary>
                     {faqIndex?.children?.map((faqIndexname) => (
                       <AccordionDetails
+                        key={faqIndexname.identifier} // Ensure a unique key
                         className="border-bottom"
                         style={{ paddingLeft: "35px" }}
                       >
                         <SummarizeOutlinedIcon
                           style={{ fontSize: "17px", paddingRight: "10px" }}
                         />
-
                         <Link
                           href="#"
                           underline="none"
-                          key={faqIndexname.identifier}
                           style={{ verticalAlign: "super" }}
                           onClick={() =>
                             handleLinkClick(faqIndexname.identifier)
@@ -1366,6 +1502,18 @@ const JoinCourse = () => {
                           className="h6-title"
                         >
                           {faqIndexname.name}
+                          {completedContents.includes(
+                            faqIndexname.identifier
+                          ) && (
+                            <CheckCircleIcon
+                              style={{
+                                color: "green",
+                                fontSize: "24px",
+                                paddingLeft: "10px",
+                                float: "right",
+                              }}
+                            />
+                          )}
                         </Link>
                       </AccordionDetails>
                     ))}

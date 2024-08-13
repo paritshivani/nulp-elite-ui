@@ -28,10 +28,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { useTranslation } from "react-i18next";
 import * as util from "../services/utilService";
 
-
 // const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
-const DrawerFilter = ({SelectedFilters, renderedPage }) => {
-  const contentTypeList = ["Course", "Manuals and SOPs", "Reports","Good Practices"];
+const DrawerFilter = ({ SelectedFilters, renderedPage, domain,domainName,domainCode }) => {
+  const contentTypeList = [
+    "Course",
+    "Manuals and SOPs",
+    "Reports",
+    "Good Practices",
+  ];
   const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
@@ -41,15 +45,27 @@ const DrawerFilter = ({SelectedFilters, renderedPage }) => {
   const [eventSearch, setEventSearch] = useState(null);
   const [selectedStartDate, setStartDate] = useState();
   const [selectedEndDate, setEndDate] = useState();
+  const [selectedDomain, setSelectedDomain] = useState(domain);
+  const [selectedDomainName, setSelectedDomainName] = useState(domainName);
+  const [selectedDomainCode, setSelectedDomainCode] = useState(domainCode);
+  const [framework, setFramework] = useState()
+  const [categories,setCategories] = useState()
   const { t } = useTranslation();
-  const [orgId, setOrgId]=useState();
+  const [orgId, setOrgId] = useState();
+  const [userPreferanceSubCategories, setUserPreferanceSubCategories] = useState([])
 
   useEffect(() => {
     fetchUserData();
-    
   }, []);
 
   useEffect(() => {
+    setSelectedDomain(domain);
+    setSelectedDomainName(domainName);
+    setSelectedDomainCode(domainCode);
+  }, [domain, domainName, domainCode]);
+
+  useEffect(() => {
+
     SelectedFilters({
       startDate: selectedStartDate,
       endDate: selectedEndDate,
@@ -91,52 +107,77 @@ const DrawerFilter = ({SelectedFilters, renderedPage }) => {
   };
 
   const fetchUserData = async () => {
-  try {
-   const uservData = await util.userData();
-setOrgId(uservData?.data?.result?.response?.rootOrgId);
-
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
- useEffect(() => {
-  if (orgId) {
-    fetchDataFramework();
-  }
-}, [orgId]);
-
-  const fetchDataFramework = async () => {
-    const rootOrgId = sessionStorage.getItem("rootOrgId");
-    const defaultFramework = localStorage.getItem("defaultFramework");
 
     try {
+      const uservData = await util.userData();
+      setOrgId(uservData?.data?.result?.response?.rootOrgId);
+      setFramework(uservData?.data?.result?.response?.framework?.id[0])
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    if(selectedDomainCode){
+      setSubCategory([]);
+    }
+    if (orgId && framework) {
+      fetchDataFramework();
+    }
+  }, [orgId, selectedDomainCode,framework]);
+
+const fetchDataFramework = async () => {
+    try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
-      const response = await frameworkService.getChannel(url);
+      await frameworkService.getChannel(url);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
 
     try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/nulp-domain?categories=${urlConfig.params.framework}`;
-      const response = await frameworkService.getSelectedFrameworkCategories(
-        url
-      );
-      setSubCategory(
-        response?.data?.result?.framework?.categories[1]?.terms || []
-      );
+      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
+      const response = await frameworkService.getSelectedFrameworkCategories(url);
+
+      const fetchedCategories = response?.data?.result?.framework?.categories[3]?.terms;
+      setCategories(fetchedCategories);
+
+      if (fetchedCategories && selectedDomainCode) {
+        const selectedIndex = fetchedCategories.findIndex(
+          (category) => category.code === selectedDomainCode
+        );
+        if (selectedIndex !== -1) {
+          setSubCategory(fetchedCategories[selectedIndex]?.associations || []);
+        } else {
+          setSubCategory([]);
+        }
+      } else {
+        setSubCategory(response?.data?.result?.framework?.categories[1]?.terms || []);
+      }
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
 
+   
+
   const handleInputChange = (event) => {
     setEventSearch(event.target.value);
+  };
+
+   const handleChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleSearch = (event) => {
     setEventSearch(event.target.value);
     setEventSearch(searchTerm);
   };
+  const filteredSubCategories = searchTerm
+    ? subCategory.filter((item) =>
+        item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : subCategory;
+
+   
 
   const handleCheckboxChange = (event, item, filterType) => {
     if (filterType === "contentType") {
@@ -171,8 +212,11 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
     setEventSearch("");
     setStartDate(null);
     setEndDate(null);
+    if (isMobile) {
+      setEventSearch(null);
+    }
   };
-
+  
   const list = (anchor) => (
     <Box
       className="header-bg-blue p-20 filter-bx w-100"
@@ -337,17 +381,15 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       )}
 
       <Box className="filter-text mt-15">{t("SUB_DOMAIN")}</Box>
-      <FormControl
-        sx={{ m: 1, width: "25ch" }}
-        variant="outlined"
-        className="w-100"
-      >
+       <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined" className="w-100">
         <InputLabel htmlFor="outlined-adornment-password">
           {t("SEARCH_SUB_DOMAIN")}
         </InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
           type="text"
+          value={searchTerm}
+          onChange={handleChange}
           endAdornment={
             <InputAdornment position="end">
               <IconButton aria-label="toggle password visibility">
@@ -358,8 +400,8 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
           label={t("SEARCH_SUB_DOMAIN")}
         />
       </FormControl>
-      <List>
-        {subCategory.map((item) => (
+       <List>
+        {filteredSubCategories.map((item) => (
           <ListItem className="filter-ul-text" key={item.code}>
             <FormControlLabel
               control={
@@ -511,23 +553,25 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
             </div>
           )}
           <Box className="filter-text lg-mt-12 mb-20">{t("SUB_DOMAIN")}</Box>
-          <FormControl>
-            <InputLabel htmlFor="outlined-adornment-password">
-              {t("SEARCH_SUB_DOMAIN")}
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type="text"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility">
-                    {<SearchOutlinedIcon />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label={t("SEARCH_SUB_DOMAIN")}
-            />
-          </FormControl>
+         <FormControl>
+        <InputLabel htmlFor="outlined-adornment-password">
+          {t("SEARCH_SUB_DOMAIN")}
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type="text"
+          value={searchTerm}
+          onChange={handleChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton aria-label="toggle password visibility">
+                <SearchOutlinedIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+          label={t("SEARCH_SUB_DOMAIN")}
+        />
+      </FormControl>
           {/* <Autocomplete
       multiple
       disablePortal
@@ -536,22 +580,21 @@ setOrgId(uservData?.data?.result?.response?.rootOrgId);
       renderInput={(params) => <TextField  label="search" />}
     />             */}
           <List>
-            {subCategory &&
-              subCategory.map((item) => (
-                <ListItem className="filter-ul-text" key={item.code}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={selectedSubDomain.includes(item.code)}
-                        onChange={(event) =>
-                          handleCheckboxChange(event, { item }, "subCategory")
-                        }
-                      />
-                    }
-                    label={item.name}
-                  />
-                </ListItem>
-              ))}
+           {filteredSubCategories.map((item) => (
+          <ListItem className="filter-ul-text" key={item.code}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedSubDomain.includes(item.code)}
+                  onChange={(event) =>
+                    handleCheckboxChange(event, { item }, "subCategory")
+                  }
+                />
+              }
+              label={item.name}
+            />
+          </ListItem>
+        ))}
           </List>
         </Box>
       )}

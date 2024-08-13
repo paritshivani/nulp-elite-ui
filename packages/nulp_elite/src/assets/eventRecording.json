@@ -1,0 +1,50 @@
+{
+    "ts": "2024-08-09T11:10:41.358Z",
+    "params": {
+        "resmsgid": "03cf2ee0-5640-11ef-8880-17788a09b648",
+        "msgid": "03cf2ee1-5640-11ef-8880-17788a09b648",
+        "status": "successful",
+        "message": "Event recording fetched successfully",
+        "err": null,
+        "errmsg": null
+    },
+    "responseCode": "OK",
+    "result": [
+        {
+            "id": 37,
+            "recording_url": "https://devnewnulp.blob.core.windows.net/events-recordings/5e811ae0-549e-11ef-8d13-c559ff3d9ede-1FQpAO5EviZlH8yMCZPg89avOR4Wk7oU6.mp4",
+            "event_id": "do_114096512463298560143",
+            "created_on": "2024-08-07T09:21:21.243Z"
+        },
+        {
+            "id": 38,
+            "recording_url": "https://devnewnulp.blob.core.windows.net/events-recordings/60eee690-549e-11ef-8d13-c559ff3d9ede-16pQ_jl1K0KRqmVz9BVlCAhuAqmBhPiO9.mp4",
+            "event_id": "do_114096512463298560143",
+            "created_on": "2024-08-07T09:21:25.164Z"
+        },
+        {
+            "id": 39,
+            "recording_url": "https://devnewnulp.blob.core.windows.net/events-recordings/3033a940-549f-11ef-851d-83e05ef3faa6-1FQpAO5EviZlH8yMCZPg89avOR4Wk7oU6.mp4",
+            "event_id": "do_114096512463298560143",
+            "created_on": "2024-08-07T09:27:01.677Z"
+        },
+        {
+            "id": 40,
+            "recording_url": "https://devnewnulp.blob.core.windows.net/events-recordings/33b5f230-549f-11ef-851d-83e05ef3faa6-16pQ_jl1K0KRqmVz9BVlCAhuAqmBhPiO9.mp4",
+            "event_id": "do_114096512463298560143",
+            "created_on": "2024-08-07T09:27:04.318Z"
+        },
+        {
+            "id": 41,
+            "recording_url": "https://devnewnulp.blob.core.windows.net/events-recordings/f87a19a0-54b5-11ef-bbc4-13b5d2feba26-1FQpAO5EviZlH8yMCZPg89avOR4Wk7oU6.mp4",
+            "event_id": "do_114096512463298560143",
+            "created_on": "2024-08-07T12:10:06.046Z"
+        },
+        {
+            "id": 42,
+            "recording_url": "https://devnewnulp.blob.core.windows.net/events-recordings/fc33ed50-54b5-11ef-bbc4-13b5d2feba26-16pQ_jl1K0KRqmVz9BVlCAhuAqmBhPiO9.mp4",
+            "event_id": "do_114096512463298560143",
+            "created_on": "2024-08-07T12:10:13.319Z"
+        }
+    ]
+}

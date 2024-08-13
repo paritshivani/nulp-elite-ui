@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 const processString = (str) => {
   return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 };
-export default function BoxCard({ items, index, onClick }) {
+export default function BoxCard({ items, index, onClick, continueLearning }) {
   const [imgUrl, setImgUrl] = useState();
   const [subdomain, setSubdomain] = useState();
   const { t } = useTranslation();
@@ -83,11 +83,37 @@ export default function BoxCard({ items, index, onClick }) {
               {items.content.name}
             </Typography>
           )}
+
+          {items.content.organisation &&
+            items.content.organisation.length > 0 && (
+              <Typography
+                variant="body2"
+                color="#5B5B5B"
+                style={{
+                  fontSize: "11px",
+                  padding: "10px 0 0 0",
+                  textAlign: "left",
+                }}
+              >
+                <Box className="cardLabelEllips">
+                  {items.content.organisation.length === 1
+                    ? items.content.organisation[0]
+                    : `${items.content.organisation[0]} + ${
+                        items.content.organisation.length - 1
+                      }`}
+                </Box>
+              </Typography>
+            )}
+
           {items.enrolledDate && (
             <Typography
               variant="body2"
               color="#5B5B5B"
-              style={{ fontSize: "11px", padding: "10px 0", textAlign: "left" }}
+              style={{
+                fontSize: "11px",
+                padding: "10px 0 0 0",
+                textAlign: "left",
+              }}
             >
               <Box>
                 {t("ENROLLED_ON")} :{" "}
@@ -96,28 +122,28 @@ export default function BoxCard({ items, index, onClick }) {
             </Typography>
           )}
         </CardContent>
-        <Box className="my-10 pl-20">
-          <Typography
-            style={{
-              marginTop: "10px",
-              color: (() => {
-                if (items.status === 2) return "#065872";
-                if (items.batch.status === 2) return "#FF0000";
-                if (items.batch.status === 1) return "#579b00";
-              })(),
-              fontSize: "12px",
-              padding: "10px 0",
-              textAlign: "left",
-              fontWeight: "500",
-            }}
-          >
-            {(() => {
-              if (items.status === 2) return t("Completed");
-              if (items.batch.status === 2) return t("Expired");
-              if (items.batch.status === 1) return t("Ongoing");
-            })()}
-          </Typography>
-        </Box>
+        {continueLearning === true && (
+          <Box className="my-10 pl-20">
+            <Typography
+              style={{
+                color: (() => {
+                  if (items.status === 2) return "#065872";
+                  else if (items.batch.status === 2) return "#FF0000";
+                  else if (items.batch.status === 1) return "#579b00";
+                })(),
+                fontSize: "12px",
+                textAlign: "left",
+                fontWeight: "500",
+              }}
+            >
+              {(() => {
+                if (items.status === 2) return t("Completed");
+                else if (items.batch.status === 2) return t("Expired");
+                else if (items.batch.status === 1) return t("Ongoing");
+              })()}
+            </Typography>
+          </Box>
+        )}
       </Card>
     );
   }
