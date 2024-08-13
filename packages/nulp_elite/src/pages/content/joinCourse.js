@@ -130,6 +130,11 @@ const JoinCourse = () => {
     }, 2000);
     setToasterOpen(true);
   };
+
+  const showOpenContenErrorMessage =(msg) =>{
+    setToasterMessage(msg);        
+     setToasterOpen(true); 
+  }
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 767);
     window.addEventListener("resize", handleResize);
@@ -496,7 +501,8 @@ const JoinCourse = () => {
     });
   };
 
-  const handleLinkClick = (id) => {
+ const handleLinkClick = (id) => {
+  if (isEnroll) {
     navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
       state: {
         coursename: userData?.result?.content?.name,
@@ -506,7 +512,10 @@ const JoinCourse = () => {
         consumedcontents: ConsumedContents,
       },
     });
-  };
+  } else {
+    showOpenContenErrorMessage("You must join the course to get complete access to content.");
+  }
+};
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
