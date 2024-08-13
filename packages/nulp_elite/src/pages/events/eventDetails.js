@@ -45,7 +45,7 @@ import {
 const consenttext = require("../../configs/consent.json");
 const urlConfig = require("../../configs/urlConfig.json");
 const designations = require("../../configs/designations.json");
-const recording = require("../../assets/eventRecording.json");
+// const recording = require("../../assets/eventRecording.json");
 
 import {
   FacebookShareButton,
@@ -105,7 +105,7 @@ const EventDetails = () => {
   const [designationsList, setDesignationsList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [open, setOpen] = React.useState(false);
-
+  const [recording , setRecording] = useState();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -652,6 +652,7 @@ const EventDetails = () => {
       const url = "/custom_event/fetch_recordings?event_id=" + eventId;
       const response = await axios.get(url);
       console.log("---------------Recording Link", response.data);
+      setRecording(response.data)
       console.log("Recording Hardcoded Data", recording);
     } catch (error) {
       console.error("Error fetching recording:", error);
@@ -1367,7 +1368,7 @@ const EventDetails = () => {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {recording.result.map((item, index) => (
+          {recording?.result?.map((item, index) => (
             <Box key={item.id} className="my-20">
               <Link
                 href={item.recording_url}

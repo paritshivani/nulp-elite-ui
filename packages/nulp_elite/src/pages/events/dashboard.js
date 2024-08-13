@@ -75,7 +75,19 @@ const Dashboard = () => {
   const [endDateFilter, setEndDateFilter] = useState(dayjs());
 
   const handleDomainChange = (event) => {
-    setSelectedDomain(event.target.value);
+    const selectedBoard = event.target.value;
+    setSelectedDomain(selectedBoard);
+    const selectedIndex = domainList.findIndex(
+      (category) => category.name === selectedBoard
+    );
+    if (selectedIndex !== -1) {
+
+      setSubCategory(domainList[selectedIndex]?.associations || []);
+    } else {
+      setSubCategory([]);
+    }
+
+    setSelectedSubDomain([]);
   };
   const [selectedUser, setSelectedUser] = useState("");
   const handleUserChange = (event) => {
@@ -383,9 +395,9 @@ const Dashboard = () => {
             const domainList =
               responseData?.result?.framework?.categories[3].terms;
             setDomainList(domainList || []);
-            setSubCategory(
-              responseData?.result?.framework?.categories[1]?.terms || []
-            );
+            // setSubCategory(
+            //   responseData?.result?.framework?.categories[1]?.terms || []
+            // );
           }
         } else {
           throw new Error(t("FAILED_TO_FETCH_DATA"));
