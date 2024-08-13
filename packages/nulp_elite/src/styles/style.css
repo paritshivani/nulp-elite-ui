@@ -1303,6 +1303,9 @@ button {
 }
 
 @media (min-width: 769px) {
+  .MuiFormControl-root.MuiTextField-root.w-33 {
+    width: 33% !important;
+  }
   .custom-event-container .MuiTabs-flexContainer {
     justify-content: center !important;
   }
@@ -3446,6 +3449,9 @@ header .MuiContainer-maxWidthLg {
 
 .profile .MuiButtonBase-root:hover {
   background: rgb(14, 122, 156) !important;
+}
+.profile .profile-cardContent .MuiButtonBase-root:hover {
+  background: #e3f5ff !important;
 }
 
 .searchField fieldset {
