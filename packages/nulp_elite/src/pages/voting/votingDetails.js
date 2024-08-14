@@ -528,7 +528,7 @@ const VotingDetails = () => {
                   className="custom-event-container mb-20 mt-15"
                   style={{ paddingRight: "10px" }}
                 >
-                  <Grid item xs={9} md={6} lg={9}>
+                  <Grid item xs={12} md={6} lg={9}>
                     <Typography
                       gutterBottom
                       className="mt-10  h1-title mb-20 xs-pl-15 ellsp"
@@ -539,7 +539,7 @@ const VotingDetails = () => {
                     <Box className="pr-5">
                       <span className=" h3-custom-title"> Poll Ended On</span>
                       <TodayOutlinedIcon
-                        className="h3-custom-title pl-10 pt-10"
+                        className="h3-custom-title pl-10"
                         style={{
                           verticalAlign: "middle",
                           paddingRight: "10px",
