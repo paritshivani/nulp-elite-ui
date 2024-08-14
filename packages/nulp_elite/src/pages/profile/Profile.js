@@ -109,9 +109,9 @@ const Profile = () => {
     bio: "",
     designation: "",
     otherDesignation: "",
-    userType: '',
-    otherUserType: '',
-    organisation:""
+    userType: "",
+    otherUserType: "",
+    organisation: "",
   });
   const [originalUserInfo, setOriginalUserInfo] = useState({});
   const [isFormDirty, setIsFormDirty] = useState(false);
@@ -128,8 +128,15 @@ const Profile = () => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [orgId, setOrgId] = useState();
-  const userTypesList = ["State Governments / Parastatal Bodies", "Urban Local Bodies / Special Purpose Vehicles", "Academia and Research Organisations", "Multilateral / Bilateral Agencies", "Industries","Any Other Government Entities","Others"];
-
+  const userTypesList = [
+    "State Governments / Parastatal Bodies",
+    "Urban Local Bodies / Special Purpose Vehicles",
+    "Academia and Research Organisations",
+    "Multilateral / Bilateral Agencies",
+    "Industries",
+    "Any Other Government Entities",
+    "Others",
+  ];
 
   // for bar charts
   const defaultCertData = {
@@ -285,9 +292,9 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
-        userType:userInfo[0]?.user_type,
-        otherUserType:"",
-        organisation:userInfo[0]?.organisation
+        userType: userInfo[0]?.user_type,
+        otherUserType: "",
+        organisation: userInfo[0]?.organisation,
       });
       setOriginalUserInfo({
         firstName: userData?.result?.response.firstName,
@@ -295,10 +302,9 @@ const Profile = () => {
         bio: userInfo[0]?.bio,
         designation: userInfo[0]?.designation,
         otherDesignation: "",
-        userType:userInfo[0]?.user_type,
-        otherUserType:"",
-        organisation:userInfo[0]?.organisation
-
+        userType: userInfo[0]?.user_type,
+        otherUserType: "",
+        organisation: userInfo[0]?.organisation,
       });
     }
     setDomain(userData?.result?.response.framework.board);
@@ -462,10 +468,11 @@ const Profile = () => {
           : editedUserInfo.designation,
       bio: editedUserInfo.bio,
       created_by: _userId,
-      user_type:editedUserInfo.userType === "Other"
+      user_type:
+        editedUserInfo.userType === "Other"
           ? editedUserInfo.otherUserType
-          : editedUserInfo.userType, 
-          organisation:editedUserInfo.organisation
+          : editedUserInfo.userType,
+      organisation: editedUserInfo.organisation,
     };
     try {
       const url = `${urlConfig.URLS.POFILE_PAGE.USER_UPDATE}?user_id=${_userId}`;
@@ -807,7 +814,7 @@ const Profile = () => {
                       </Box>
                     </Box>
                     <Grid container spacing={2}>
-                      <Grid item xs={6} md={12} lg={12} className="chartOne">
+                      <Grid item xs={12} md={12} lg={12} className="chartOne">
                         {!isCertDataEmpty ? (
                           <>
                             <Box className="h6-title pl-20">
@@ -1053,9 +1060,8 @@ const Profile = () => {
                                 }
                               />
                             </Box>
-                            
                           )}
-                           <Box py={1}>
+                          <Box py={1}>
                             <FormControl
                               fullWidth
                               style={{ marginTop: "10px" }}
@@ -1086,7 +1092,7 @@ const Profile = () => {
                               </Select>
                             </FormControl>
                           </Box>
-                           {editedUserInfo.userType === "Others" && (
+                          {editedUserInfo.userType === "Others" && (
                             <Box py={1}>
                               <CssTextField
                                 id="otherDesignation"
@@ -1108,9 +1114,8 @@ const Profile = () => {
                                 }
                               />
                             </Box>
-                            
                           )}
-                           <Box py={2}>
+                          <Box py={2}>
                             <TextField
                               id="bio"
                               name="bio"
@@ -1129,7 +1134,7 @@ const Profile = () => {
                               inputProps={{ maxLength: MAX_CHARS }}
                             />
                           </Box>
-                           
+
                           <Box py={2}>
                             <TextField
                               id="bio"
