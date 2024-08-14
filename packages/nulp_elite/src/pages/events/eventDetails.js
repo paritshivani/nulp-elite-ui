@@ -105,7 +105,7 @@ const EventDetails = () => {
   const [designationsList, setDesignationsList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [recording , setRecording] = useState();
+  const [recording, setRecording] = useState();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -652,7 +652,7 @@ const EventDetails = () => {
       const url = "/custom_event/fetch_recordings?event_id=" + eventId;
       const response = await axios.get(url);
       console.log("---------------Recording Link", response.data);
-      setRecording(response.data)
+      setRecording(response.data);
       console.log("Recording Hardcoded Data", recording);
     } catch (error) {
       console.error("Error fetching recording:", error);
@@ -788,12 +788,14 @@ const EventDetails = () => {
 
                   {formatTimeToIST(detailData.startTime)}
                 </Box>
+              </Box>
+              <Box className="d-flex">
                 <Box className="mx-10">To</Box>
                 {/* <Box className="d-flex jc-bw alignItems-center">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
                 </Box> */}
-                <Box className="d-flex jc-bw alignItems-center pl-10 pr-5">
+                <Box className="d-flex alignItems-center pl-10 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
 
                   {formatTimeToIST(detailData.endTime)}
@@ -901,6 +903,17 @@ const EventDetails = () => {
                   {formatDate(detailData.registrationStartDate)}
                 </Box>
               )}
+              <Box className="xs-hide">
+                {
+                  // detailData.recording == undefined &&
+                  <Box
+                    className="h5-title mb-20 xs-hide"
+                    style={{ fontWeight: "400" }}
+                  >
+                    Recording will be available soon
+                  </Box>
+                }
+              </Box>
               {regEnd && isRecorded && (
                 <Box
                   className="h5-title mb-20 xs-hide"
@@ -952,17 +965,27 @@ const EventDetails = () => {
                 </Box>
               )} */}
             </Grid>
-            <Box className="xs-hide">
-              {
-                // detailData.recording == undefined &&
-                <Box
-                  className="h5-title mb-20 xs-hide"
-                  style={{ fontWeight: "400" }}
-                >
-                  Recording will be available soon
-                </Box>
-              }
-            </Box>
+            <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
+              <Box className="xs-hide">
+                <FacebookShareButton url={shareUrl} className="pr-5">
+                  <FacebookIcon size={32} round={true} />
+                </FacebookShareButton>
+                <WhatsappShareButton url={shareUrl} className="pr-5">
+                  <WhatsappIcon size={32} round={true} />
+                </WhatsappShareButton>
+                <LinkedinShareButton url={shareUrl} className="pr-5">
+                  <LinkedinIcon size={32} round={true} />
+                </LinkedinShareButton>
+                <TwitterShareButton url={shareUrl} className="pr-5">
+                  <img
+                    src={require("../../assets/twitter.png")}
+                    alt="Twitter"
+                    style={{ width: 32, height: 32 }}
+                  />
+                </TwitterShareButton>
+              </Box>
+            </Grid>
+
             <Grid item xs={12} md={6} lg={6} className="lg-pl-60 lg-hide">
               <Box className="h5-title mb-20" style={{ fontWeight: "400" }}>
                 National Urban Learning Platform{" "}
@@ -1136,26 +1159,7 @@ const EventDetails = () => {
                 </Box>
               )}
             </Grid>
-            <Grid item xs={6} md={6} lg={4} className="text-right xs-hide">
-              <Box className="xs-hide">
-                <FacebookShareButton url={shareUrl} className="pr-5">
-                  <FacebookIcon size={32} round={true} />
-                </FacebookShareButton>
-                <WhatsappShareButton url={shareUrl} className="pr-5">
-                  <WhatsappIcon size={32} round={true} />
-                </WhatsappShareButton>
-                <LinkedinShareButton url={shareUrl} className="pr-5">
-                  <LinkedinIcon size={32} round={true} />
-                </LinkedinShareButton>
-                <TwitterShareButton url={shareUrl} className="pr-5">
-                  <img
-                    src={require("../../assets/twitter.png")}
-                    alt="Twitter"
-                    style={{ width: 32, height: 32 }}
-                  />
-                </TwitterShareButton>
-              </Box>
-            </Grid>
+
             {/* <Box
               className="h2-title lg-event-margin"
               style={{ fontWeight: "600", width: "100%" }}

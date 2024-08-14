@@ -160,41 +160,41 @@ const ContentList = (props) => {
     setIsLoading(true);
     setError(null);
 
-    let requestData = {
-      request: {
+   let requestData = {
+    request: {
         filters: {
-          status: ["Live"],
-          contentType:
-            contentTypeFilter && contentTypeFilter.length > 0
-              ? contentTypeFilter
-              : [
-                  "Collection",
-                  "TextBook",
-                  "Course",
-                  "LessonPlan",
-                  "Resource",
-                  "SelfAssess",
-                  "PracticeResource",
-                  "LearningOutcomeDefinition",
-                  "ExplanationResource",
-                  "ExperientialResource",
-                  "eTextBook",
-                  "TVLesson",
-                ],
-          se_boards: domainfilter.se_board || [domainName],
-          se_gradeLevels:
-            subDomainFilter && subDomainFilter.length > 0
-              ? subDomainFilter
-              : [],
+            status: ["Live"],
+            ...(contentTypeFilter.length > 0
+                ? { primaryCategory: contentTypeFilter }
+                : { contentType: [
+                    "Collection",
+                    "TextBook",
+                    "Course",
+                    "LessonPlan",
+                    "Resource",
+                    "SelfAssess",
+                    "PracticeResource",
+                    "LearningOutcomeDefinition",
+                    "ExplanationResource",
+                    "ExperientialResource",
+                    "eTextBook",
+                    "TVLesson",
+                ]}),
+            se_boards: domainfilter.se_board || [domainName],
+            se_gradeLevels:
+                subDomainFilter && subDomainFilter.length > 0
+                    ? subDomainFilter
+                    : [],
         },
         limit: 20,
         query: search.query || globalSearchQuery,
         offset: 20 * (currentPage - 1),
         sort_by: {
-          lastUpdatedOn: "desc",
+            lastUpdatedOn: "desc",
         },
-      },
-    };
+    },
+};
+
 
     let req = JSON.stringify(requestData);
 
