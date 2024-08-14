@@ -1130,6 +1130,9 @@ button {
   .xs-mb-10 {
     margin-bottom: 10px;
   }
+  .xs-mb-20 {
+    margin-bottom: 20px;
+  }
 
   .react-multiple-carousel__arrow:before {
     font-size: 13px !important;
@@ -1297,9 +1300,9 @@ button {
     min-height: 100vh;
     padding-bottom: 55px;
   }
-  /* .custom-event-container .MuiStack-root {
-    display: block !important;
-  } */
+  .votingList .MuiTab-root {
+    width: 42% !important;
+  }
 }
 
 @media (min-width: 769px) {
@@ -3728,7 +3731,7 @@ input:required::after {
 .recording .MuiDialog-paper {
   width: 300px !important;
 }
-.MuiBreadcrumbs-ol .oneLineEllipsis {
+.joinCourse .MuiBreadcrumbs-ol .oneLineEllipsis {
   padding-top: 0 !important;
 }
 .css-1nmdiqf5-menu {
