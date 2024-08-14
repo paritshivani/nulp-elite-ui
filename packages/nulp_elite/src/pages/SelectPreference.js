@@ -49,7 +49,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const [frameworks, setFrameworks] = useState([]);
   const [defaultFramework, setDefaultFramework] = useState("");
   const [custodianOrgId, setCustodianOrgId] = useState("");
-  const [isEmptyPreference, setIsEmptyPreference] = useState(false);
+  const [isEmptyPreference, setIsEmptyPreference] = useState(true);
   const [domain, setDomain] = useState();
   const [subDomain, setSubDomain] = useState();
   const [language, setLanguage] = useState();
@@ -222,11 +222,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
-      if (responseData?.result?.response.framework?.id[0] === "nulp") {
-        setframworkname(true);
-      }
-      if (_.isEmpty(responseData?.result?.response.framework)) {
-        setIsEmptyPreference(true);
+      if (Object.entries(responseData?.result?.response.framework).length === 0) {
+        setIsEmptyPreference(false);
       } else {
         setSelectedCategory(
           responseData?.result?.response?.framework?.board[0]
@@ -249,6 +246,11 @@ const SelectPreference = ({ isOpen, onClose }) => {
           responseData?.result?.response?.framework?.gradeLevel
         );
       }
+      
+      if (responseData?.result?.response.framework?.id[0] === "nulp") {
+        setframworkname(true);
+      }
+      
     } catch (error) {
       console.error("Error fetching data:", error);
       showErrorMessage("Failed to fetch data. Please try again.");
@@ -442,7 +444,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        {!isEmptyPreference && (
+        {isEmptyPreference && (
           <Button onClick={handleClose} className="custom-btn-default">
             {t("CANCEL")}
           </Button>
