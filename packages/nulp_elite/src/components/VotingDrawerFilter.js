@@ -18,7 +18,6 @@ import { useTranslation } from "react-i18next";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-
 const VotingDrawerFilter = ({ onFilterChange }) => {
   const [status, setStatus] = useState(["Live"]);
   const [toasterMessage, setToasterMessage] = useState("");
@@ -129,139 +128,15 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
         <Box className="mt-9 dateRange">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Box className="mb-10">
-            <DatePicker
-              label={
-                <span>
-                  Select Date From<span className="red"> *</span>
-                </span>
-              }
-              value={selectedStartDate}
-              onChange={(newValue) => setStartDate(newValue)}
-              
-            />
-            </Box>
-            <DatePicker
-            label={
-              <span>
-                Select Date To<span className="red"> *</span>
-              </span>
-            }
-              value={selectedEndDate}
-              onChange={(newValue) => setEndDate(newValue)}
-            />
-          </LocalizationProvider>
-        </Box>
-        <Box>
-          <FormControl>
-            <Box className="filter-text mt-15">Poll Status</Box>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={status.includes("Live")}
-                    onChange={handleStatusChange}
-                  />
+              <DatePicker
+                label={
+                  <span>
+                    Select Date From<span className="red"> *</span>
+                  </span>
                 }
-                label="Live"
-                value="Live"
+                value={selectedStartDate}
+                onChange={(newValue) => setStartDate(newValue)}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={status.includes("Closed")}
-                    onChange={handleStatusChange}
-                  />
-                }
-                label="Closed"
-                value="Closed"
-              />
-            </RadioGroup>
-          </FormControl>
-        </Box>
-      </Box>
-     
-    </Box>
-  );
-
-  return (
-    <>
-      {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      {isMobile ? (
-        <Box>
-          <div>
-            {["left"].map((anchor) => (
-              <React.Fragment key={anchor}>
-                <Button
-                  onClick={toggleDrawer(anchor, true)}
-                  className="h6-title "
-                >
-                  Filters
-                  <ArrowForwardIosIcon
-                    sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
-                  />
-                </Button>
-
-                <SwipeableDrawer
-                  anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                  onOpen={toggleDrawer(anchor, true)}
-                >
-                  {list(anchor)}
-                </SwipeableDrawer>
-              </React.Fragment>
-            ))}
-          </div>
-        </Box>
-      ) : (
-      <Box className="header-bg-blue p-15 filter-bx xs-hide">
-        <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
-          <Box className="filter-title">Filter By:</Box>
-          <Button
-            type="button"
-            className="viewAll mb-20"
-            onClick={handleClearAll}
-          >
-            Clear all
-          </Button>
-        </Box>
-
-        <FormControl>
-          <InputLabel htmlFor="outlined-adornment-search">
-            Search for a Poll
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-search"
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton aria-label="toggle search visibility">
-                  <SearchOutlinedIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Search poll"
-          />
-        </FormControl>
-        <Box className="filter-text mt-15">Select Date Range</Box>
-        <Box className="mt-9 dateRange">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Box className="mb-10">
-            <DatePicker
-               label={
-                <span>
-                  Select Date From<span className="red"> *</span>
-                </span>
-              }
-              value={selectedStartDate}
-              onChange={(newValue) => setStartDate(newValue)}
-            />
             </Box>
             <DatePicker
               label={
@@ -306,8 +181,131 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
           </FormControl>
         </Box>
       </Box>
-            )}
+    </Box>
+  );
 
+  return (
+    <>
+      {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      {isMobile ? (
+        <Box>
+          <div>
+            {["left"].map((anchor) => (
+              <React.Fragment key={anchor}>
+                <Button
+                  onClick={toggleDrawer(anchor, true)}
+                  className="h6-title "
+                >
+                  Filters
+                  <ArrowForwardIosIcon
+                    sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
+                  />
+                </Button>
+
+                <SwipeableDrawer
+                  anchor={anchor}
+                  open={state[anchor]}
+                  onClose={toggleDrawer(anchor, false)}
+                  onOpen={toggleDrawer(anchor, true)}
+                >
+                  {list(anchor)}
+                </SwipeableDrawer>
+              </React.Fragment>
+            ))}
+          </div>
+        </Box>
+      ) : (
+        <Box className="header-bg-blue p-15 filter-bx xs-hide">
+          <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
+            <Box className="d-flex jc-bw">
+              <Box className="filter-title">Filter By:</Box>
+              <Button
+                type="button"
+                className="viewAll mb-20"
+                onClick={handleClearAll}
+              >
+                Clear all
+              </Button>
+            </Box>
+          </Box>
+
+          <FormControl>
+            <InputLabel htmlFor="outlined-adornment-search">
+              Search for a Poll
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-search"
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton aria-label="toggle search visibility">
+                    <SearchOutlinedIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Search poll"
+            />
+          </FormControl>
+          <Box className="filter-text mt-15">Select Date Range</Box>
+          <Box className="mt-9 dateRange">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Box className="mb-10">
+                <DatePicker
+                  label={
+                    <span>
+                      Select Date From<span className="red"> *</span>
+                    </span>
+                  }
+                  value={selectedStartDate}
+                  onChange={(newValue) => setStartDate(newValue)}
+                />
+              </Box>
+              <DatePicker
+                label={
+                  <span>
+                    Select Date To<span className="red"> *</span>
+                  </span>
+                }
+                value={selectedEndDate}
+                onChange={(newValue) => setEndDate(newValue)}
+              />
+            </LocalizationProvider>
+          </Box>
+          <Box>
+            <FormControl>
+              <Box className="filter-text mt-15">Poll Status</Box>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={status.includes("Live")}
+                      onChange={handleStatusChange}
+                    />
+                  }
+                  label="Live"
+                  value="Live"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={status.includes("Closed")}
+                      onChange={handleStatusChange}
+                    />
+                  }
+                  label="Closed"
+                  value="Closed"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </Box>
+      )}
     </>
   );
 };
