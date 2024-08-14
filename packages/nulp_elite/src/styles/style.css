@@ -3617,14 +3617,11 @@ thead th {
 /* .createForm .MuiButton-root:hover {
   background: none !important;
 } */
-.createForm .MuiInputBase-input {
-  padding-top: 0 !important;
-}
+
 .createForm .MuiInputBase-formControl {
   background: #fff !important;
   border: 2px solid #efefef;
-  height: 60px;
-  width: 100% !important;
+  width: 100%!important;
   display: inline-flex;
 }
 
