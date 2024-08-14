@@ -3615,10 +3615,11 @@ thead th {
   padding-top: 0 !important;
 }
 .createForm .MuiInputBase-formControl {
-  background: #fff !important;
-  width: 100% !important;
+  background: #fff!important;
   border: 2px solid #efefef;
-  display: block !important;
+  height: 60px;
+  width: 100%!important;
+  display: inline-flex;
 }
 
 .MuiRadioGroup-root svg {
