@@ -90,6 +90,7 @@ const createForm = () => {
   const [orgOffset, setOrgOffset] = useState(0);
   const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
   const currentDateTime = new Date();
+  const currentDayTime =  dayjs();
   const [chips, setChips] = useState(editData?.poll_keywords || []);
   const inputRef = useRef(null);
 
@@ -512,7 +513,7 @@ const createForm = () => {
                     required
                     value={startDate}
                     onChange={(newValue) => setStartDate(newValue)}
-                    disabled={isStartDateInPast} // Disable if startDate is in the past
+                    minDateTime={currentDayTime}
                   />
                 </LocalizationProvider>
               </Box>
@@ -527,6 +528,7 @@ const createForm = () => {
                     required
                     value={endDate}
                     onChange={(newValue) => setEndDate(newValue)}
+                    minDateTime={currentDayTime}
                   />
                 </LocalizationProvider>
               </Box>
