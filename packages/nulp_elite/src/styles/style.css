@@ -927,13 +927,13 @@ button {
     display: block !important;
   }
 
-  .joinCourse {
+  /* .joinCourse {
     position: absolute;
     top: 0 !important;
     left: 0 !important;
     width: inherit !important;
     transform: none !important;
-  }
+  } */
 
   .xs-p-0 {
     padding-top: 0 !important;
@@ -3621,7 +3621,7 @@ thead th {
 .createForm .MuiInputBase-formControl {
   background: #fff !important;
   border: 2px solid #efefef;
-  width: 100%!important;
+  width: 100% !important;
   display: inline-flex;
 }
 

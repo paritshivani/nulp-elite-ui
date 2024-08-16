@@ -993,7 +993,7 @@ const JoinCourse = () => {
       <Container
         maxWidth="xxl"
         role="main"
-        className="xs-pr-0 xs-pb-20 lg-mt-12 joinCourse"
+        className="xs-pb-20 lg-mt-12 joinCourse"
       >
         <Box className=" pos-relative xs-ml-15 pt-10">
           <Box>
