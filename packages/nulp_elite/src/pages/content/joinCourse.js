@@ -513,7 +513,7 @@ const JoinCourse = () => {
       },
     });
   } else {
-    showOpenContenErrorMessage("You must join the course to get complete access to content.");
+    showErrorMessage("You must join the course to get complete access to content.");
   }
 };
 
