@@ -176,7 +176,7 @@ sessionStorage.setItem('previousRoutes', newPath)
                     "eTextBook",
                     "TVLesson",
                 ]}),
-            se_boards: domainfilter.se_board || [domainName],
+            board: domainfilter.se_board || [domainName],
             se_gradeLevels:
                 subDomainFilter && subDomainFilter.length > 0
                     ? subDomainFilter
