@@ -461,7 +461,7 @@ const DomainList = ({ globalSearchQuery }) => {
       </Box>
 
       {isMobile ? (
-        <Container role="main" maxWidth="xxl">
+        <Container role="main" maxWidth="xxl" className="mt-180">
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ paddingTop: "30px" }}>
             <Box className="text-white h4-title">

@@ -165,7 +165,7 @@ const Player = () => {
           </Link>
         </Box>
         <Grid container spacing={2} className="mt-10">
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8} lg={8}>
             <Box>
               {lesson && (
                 <Breadcrumbs
@@ -189,12 +189,12 @@ const Player = () => {
               <Box className="h3-title my-10">{lesson?.name}</Box>
             </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={8} lg={8} className="xs-hide">
             {/* Placeholder for future features */}
           </Grid>
           <Grid>
             {lesson && (
-              <Box>
+              <Box className="xs-mb-20">
                 <Typography
                   className="h6-title pl-20 mb-20"
                   style={{ display: "inline-block", verticalAlign: "super" }}
@@ -215,7 +215,8 @@ const Player = () => {
                     {lesson.board}
                   </Button>
                 )}
-                {!lesson.board && lesson.se_boards &&
+                {!lesson.board &&
+                  lesson.se_boards &&
                   lesson.se_boards.map((item, index) => (
                     <Button
                       key={`se_boards-${index}`}
@@ -245,7 +246,8 @@ const Player = () => {
                       {item}
                     </Button>
                   ))}
-                {!lesson.gradeLevel && lesson.se_gradeLevels &&
+                {!lesson.gradeLevel &&
+                  lesson.se_gradeLevels &&
                   lesson.se_gradeLevels.map((item, index) => (
                     <Button
                       key={`se_gradeLevels-${index}`}
