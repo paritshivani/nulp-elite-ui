@@ -501,23 +501,23 @@ const JoinCourse = () => {
     });
   };
 
-  const handleLinkClick = (id) => {
-    if (isEnroll) {
-      navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
-        state: {
-          coursename: userData?.result?.content?.name,
-          batchid: batchDetails?.batchId,
-          courseid: contentId,
-          isenroll: isEnroll,
-          consumedcontents: ConsumedContents,
-        },
-      });
-    } else {
-      showOpenContenErrorMessage(
-        "You must join the course to get complete access to content."
-      );
-    }
-  };
+
+ const handleLinkClick = (id) => {
+  if (isEnroll) {
+    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
+      state: {
+        coursename: userData?.result?.content?.name,
+        batchid: batchDetails?.batchId,
+        courseid: contentId,
+        isenroll: isEnroll,
+        consumedcontents: ConsumedContents,
+      },
+    });
+  } else {
+    showErrorMessage("You must join the course to get complete access to content.");
+  }
+};
+
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
