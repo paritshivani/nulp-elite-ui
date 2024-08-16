@@ -90,7 +90,7 @@ const createForm = () => {
   const [orgOffset, setOrgOffset] = useState(0);
   const [isFetchingMoreOrgs, setIsFetchingMoreOrgs] = useState(false);
   const currentDateTime = new Date();
-  const currentDayTime =  dayjs();
+  const currentDayTime = dayjs();
   const [chips, setChips] = useState(editData?.poll_keywords || []);
   const inputRef = useRef(null);
 
@@ -395,7 +395,6 @@ const createForm = () => {
       getOrgDetail(userData?.result?.response?.rootOrg?.id);
     }
   }, [isContentCreator, isAdmin, userData]);
-
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -597,7 +596,7 @@ const createForm = () => {
                                 const listboxNode = event.currentTarget;
                                 if (
                                   listboxNode.scrollTop +
-                                    listboxNode.clientHeight ===
+                                  listboxNode.clientHeight ===
                                   listboxNode.scrollHeight
                                 ) {
                                   if (!isFetchingMoreOrgs) {
@@ -607,8 +606,8 @@ const createForm = () => {
                               },
                             }}
                           />
+                         
                         ) : null}
-
                         <RadioGroup
                           row
                           aria-labelledby="nested-radio-buttons-group-label"
@@ -637,27 +636,23 @@ const createForm = () => {
                               `${option.firstName} ${option.lastName || " "}`
                             }
                             value={userList}
-                            onChange={handleUserChange}
+                            onChange={(event, newValue) => setUserList(newValue)}
                             renderOption={(props, option, { selected }) => (
                               <li {...props}>
                                 <Checkbox
                                   checked={selected}
                                   onChange={() => {
-                                    const isSelected =
-                                      userList.includes(option);
+                                    const isSelected = userList.some(
+                                      (user) => user.userId === option.userId
+                                    );
                                     const newSelectedUsers = isSelected
-                                      ? userList.filter(
-                                          (user) =>
-                                            user.userId !== option.userId
-                                        )
+                                      ? userList.filter((user) => user.userId !== option.userId)
                                       : [...userList, option];
                                     setUserList(newSelectedUsers);
                                   }}
                                 />
                                 <ListItemText
-                                  primary={`${option.firstName} ${
-                                    option.lastName || " "
-                                  }`}
+                                  primary={`${option.firstName} ${option.lastName || " "}`}
                                 />
                               </li>
                             )}
@@ -671,15 +666,22 @@ const createForm = () => {
                             )}
                             renderTags={(selected, getTagProps) =>
                               selected.map((user, index) => (
-                                <ListItemText
+                                <Chip
                                   key={user.userId}
-                                  primary={`${user.firstName} ${user.lastName}`}
+                                  label={`${user.firstName} ${user.lastName}`}
                                   {...getTagProps({ index })}
+                                  onDelete={() => {
+                                    const newSelectedUsers = userList.filter(
+                                      (u) => u.userId !== user.userId
+                                    );
+                                    setUserList(newSelectedUsers);
+                                  }}
                                 />
                               ))
                             }
                           />
                         )}
+
                       </div>
                     </Box>
                   )}
