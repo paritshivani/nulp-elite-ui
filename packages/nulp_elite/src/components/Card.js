@@ -91,7 +91,7 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
                 color="#5B5B5B"
                 style={{
                   fontSize: "11px",
-                  padding: "10px 0",
+                  padding: "10px 0 0 0",
                   textAlign: "left",
                 }}
               >
@@ -109,7 +109,11 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
             <Typography
               variant="body2"
               color="#5B5B5B"
-              style={{ fontSize: "11px", padding: "10px 0", textAlign: "left" }}
+              style={{
+                fontSize: "11px",
+                padding: "10px 0 0 0",
+                textAlign: "left",
+              }}
             >
               <Box>
                 {t("ENROLLED_ON")} :{" "}
@@ -122,14 +126,12 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
           <Box className="my-10 pl-20">
             <Typography
               style={{
-                marginTop: "10px",
                 color: (() => {
                   if (items.status === 2) return "#065872";
                   else if (items.batch.status === 2) return "#FF0000";
                   else if (items.batch.status === 1) return "#579b00";
                 })(),
                 fontSize: "12px",
-                padding: "10px 0",
                 textAlign: "left",
                 fontWeight: "500",
               }}

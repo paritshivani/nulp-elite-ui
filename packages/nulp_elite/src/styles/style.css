@@ -467,7 +467,7 @@ button {
   .MuiCardContent-root.profile-cardContent {
     text-align: left;
     padding: 0px 8px !important;
-    width: 88%;
+    width: 77%;
   }
 
   .profile {
@@ -1130,6 +1130,9 @@ button {
   .xs-mb-10 {
     margin-bottom: 10px;
   }
+  .xs-mb-20 {
+    margin-bottom: 20px;
+  }
 
   .react-multiple-carousel__arrow:before {
     font-size: 13px !important;
@@ -1297,12 +1300,18 @@ button {
     min-height: 100vh;
     padding-bottom: 55px;
   }
-  /* .custom-event-container .MuiStack-root {
-    display: block !important;
-  } */
+  .votingList .MuiTab-root {
+    width: 42% !important;
+  }
 }
 
 @media (min-width: 769px) {
+  .MuiCardContent-root.profile-cardContent {
+    width: 88%;
+  }
+  .MuiFormControl-root.MuiTextField-root.w-33 {
+    width: 33% !important;
+  }
   .custom-event-container .MuiTabs-flexContainer {
     justify-content: center !important;
   }
@@ -1952,6 +1961,15 @@ button {
 }
 
 @media (min-width: 769px) {
+  .addConnection .MuiTabs-flexContainer {
+    justify-content: space-between !important;
+  }
+  .addConnection .MuiTabs-scroller button:nth-child(3) {
+    max-width: 100px !important;
+  }
+  .addConnection .MuiTabs-scroller button:nth-child(1) {
+    max-width: 129px !important;
+  }
   .lg-pr-20 {
     padding-right: 20px !important;
   }
@@ -2887,7 +2905,6 @@ button {
   transition: top 0.3s ease;
 }
 
-
 .css-aq68c9 {
   height: 262px !important;
 }
@@ -3439,6 +3456,9 @@ header .MuiContainer-maxWidthLg {
 .profile .MuiButtonBase-root:hover {
   background: rgb(14, 122, 156) !important;
 }
+.profile .profile-cardContent .MuiButtonBase-root:hover {
+  background: #e3f5ff !important;
+}
 
 .searchField fieldset {
   border-radius: 10px !important;
@@ -3597,14 +3617,12 @@ thead th {
 /* .createForm .MuiButton-root:hover {
   background: none !important;
 } */
-.createForm .MuiInputBase-input {
-  padding-top: 0 !important;
-}
+
 .createForm .MuiInputBase-formControl {
   background: #fff !important;
-  width: 100% !important;
   border: 2px solid #efefef;
-  display: block !important;
+  width: 100%!important;
+  display: inline-flex;
 }
 
 .MuiRadioGroup-root svg {
@@ -3713,4 +3731,10 @@ input:required::after {
 }
 .recording .MuiDialog-paper {
   width: 300px !important;
+}
+.joinCourse .MuiBreadcrumbs-ol .oneLineEllipsis {
+  padding-top: 0 !important;
+}
+.css-1nmdiqf5-menu {
+  z-index: 9999999 !important;
 }
