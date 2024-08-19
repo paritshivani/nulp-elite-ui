@@ -126,7 +126,7 @@ const AllContent = () => {
     let data = JSON.stringify({
       request: {
         filters: {
-          se_boards: [domainName],
+          board: [domainName],
           primaryCategory: [
             "Collection",
             "Resource",
