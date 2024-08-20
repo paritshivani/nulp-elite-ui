@@ -130,6 +130,11 @@ const JoinCourse = () => {
     }, 2000);
     setToasterOpen(true);
   };
+
+  const showOpenContenErrorMessage = (msg) => {
+    setToasterMessage(msg);
+    setToasterOpen(true);
+  };
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 767);
     window.addEventListener("resize", handleResize);
@@ -496,7 +501,9 @@ const JoinCourse = () => {
     });
   };
 
-  const handleLinkClick = (id) => {
+
+ const handleLinkClick = (id) => {
+  if (isEnroll) {
     navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
       state: {
         coursename: userData?.result?.content?.name,
@@ -506,7 +513,11 @@ const JoinCourse = () => {
         consumedcontents: ConsumedContents,
       },
     });
-  };
+  } else {
+    showErrorMessage("You must join the course to get complete access to content.");
+  }
+};
+
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -982,7 +993,7 @@ const JoinCourse = () => {
       <Container
         maxWidth="xxl"
         role="main"
-        className="xs-pr-0 xs-pb-20 lg-mt-12"
+        className="xs-pb-20 lg-mt-12 joinCourse"
       >
         <Box className=" pos-relative xs-ml-15 pt-10">
           <Box>
@@ -1078,7 +1089,7 @@ const JoinCourse = () => {
               courseData?.result?.content?.se_boards ||
               courseData?.result?.content?.gradeLevel ||
               courseData?.result?.content?.se_gradeLevels) && (
-              <Box>
+              <Box className="xs-mb-20">
                 <Typography
                   className="h6-title"
                   style={{ display: "inline-block" }}

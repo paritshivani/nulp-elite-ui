@@ -63,6 +63,7 @@ export default function VotingCard({ items, index, onClick }) {
   const [pollResult, setPollResult] = useState([]);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(10);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
   const handleClickOpen = (event) => {
     event.stopPropagation();
@@ -203,7 +204,7 @@ export default function VotingCard({ items, index, onClick }) {
               </Box>
             </Grid>
           </Box>
-          <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
+          <Box className="d-flex h6-title mt-10" style={{ color: "#484848" }}>
             <Box className="d-flex jc-bw alignItems-center">
               <TodayOutlinedIcon className="fs-12 pr-5" />
               {moment(items?.start_date).format(
@@ -211,14 +212,19 @@ export default function VotingCard({ items, index, onClick }) {
               )}
             </Box>
           </Box>
-          <Box className="fs-14">
+          <Box className="fs-14 mt-10">
             {items?.poll_keywords && (
               <>
                 {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                   <Tooltip
                     key={index}
                     title={keyword}
-                    placement="right"
+                    arrow
+                    placement="bottom"
+                    disableHoverListener={isMobile}
+                    disableFocusListener={isMobile}
+                    disableTouchListener={!isMobile}
+                    interactive
                     className="customlabeltwo cardLabelEllips"
                   >
                     <Button className="d-inline-block">

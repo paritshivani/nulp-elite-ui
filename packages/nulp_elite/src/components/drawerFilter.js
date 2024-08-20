@@ -30,12 +30,14 @@ import * as util from "../services/utilService";
 
 // const DrawerFilter = ({ SelectedFilters, renderedPage }) => {
 const DrawerFilter = ({ SelectedFilters, renderedPage, domain,domainName,domainCode }) => {
-  const contentTypeList = [
-    "Course",
-    "Manuals and SOPs",
-    "Reports",
-    "Good Practices",
-  ];
+const contentTypeList = [
+  { key: 'Course', value: 'Course' },
+  { key: 'Manuals/SOPs', value: 'Manuals and SOPs' },
+  { key: 'Reports', value: 'Reports' },
+  { key: 'Good Practices', value: 'Good Practices' },
+];
+
+
   const [subCategory, setSubCategory] = useState([]);
   const [selectedContentType, setSelectedContentType] = useState([]);
   const [selectedSubDomain, setSelectedSubDomain] = useState([]);
@@ -163,10 +165,19 @@ const fetchDataFramework = async () => {
     setEventSearch(event.target.value);
   };
 
+   const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   const handleSearch = (event) => {
     setEventSearch(event.target.value);
     setEventSearch(searchTerm);
   };
+  const filteredSubCategories = searchTerm
+    ? subCategory.filter((item) =>
+        item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : subCategory;
 
    
 
@@ -179,10 +190,10 @@ const fetchDataFramework = async () => {
       }
     } else if (filterType === "subCategory") {
       if (event.target.checked) {
-        setSelectedSubDomain((prev) => [...prev, item.item.code]);
+        setSelectedSubDomain((prev) => [...prev, item.item.name]);
       } else {
         setSelectedSubDomain((prev) =>
-          prev.filter((i) => i !== item.item.code)
+          prev.filter((i) => i !== item.item.name)
         );
       }
     } else if (filterType === "eventSearch") {
@@ -348,41 +359,40 @@ const fetchDataFramework = async () => {
         </div>
       )}
 
-      {renderedPage === "contentlist" && (
-        <div>
-          <Box className="filter-text mt-15">{t("CONTENT_TYPE")}e</Box>
-          <List>
-            {contentTypeList.map((contentType) => (
-              <ListItem className="filter-ul-text" key={contentType}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedContentType.includes(contentType)}
-                      onChange={(event) =>
-                        handleCheckboxChange(event, contentType, "contentType")
-                      }
-                    />
-                  }
-                  label={contentType}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      )}
+     {renderedPage === "contentlist" && (
+  <div>
+    <Box className="filter-text mt-15">{t("CONTENT_TYPE")}</Box>
+    <List>
+      {contentTypeList.map((contentType) => (
+        <ListItem className="filter-ul-text" key={contentType.key}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectedContentType.includes(contentType.key)}
+                onChange={(event) =>
+                  handleCheckboxChange(event, contentType.key, "contentType")
+                }
+              />
+            }
+            label={contentType.value}
+          />
+        </ListItem>
+      ))}
+    </List>
+  </div>
+)}
+
 
       <Box className="filter-text mt-15">{t("SUB_DOMAIN")}</Box>
-      <FormControl
-        sx={{ m: 1, width: "25ch" }}
-        variant="outlined"
-        className="w-100"
-      >
+       <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined" className="w-100">
         <InputLabel htmlFor="outlined-adornment-password">
           {t("SEARCH_SUB_DOMAIN")}
         </InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
           type="text"
+          value={searchTerm}
+          onChange={handleChange}
           endAdornment={
             <InputAdornment position="end">
               <IconButton aria-label="toggle password visibility">
@@ -393,13 +403,13 @@ const fetchDataFramework = async () => {
           label={t("SEARCH_SUB_DOMAIN")}
         />
       </FormControl>
-      <List>
-        {subCategory.map((item) => (
-          <ListItem className="filter-ul-text" key={item.code}>
+       <List>
+        {filteredSubCategories.map((item) => (
+          <ListItem className="filter-ul-text" key={item.name}>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={selectedSubDomain.includes(item.code)}
+                  checked={selectedSubDomain.includes(item.name)}
                   onChange={(event) =>
                     handleCheckboxChange(event, { item }, "subCategory")
                   }
@@ -519,50 +529,52 @@ const fetchDataFramework = async () => {
           )}
 
           {renderedPage == "contentlist" && (
-            <div>
-              <Box className="filter-text mt-15">{t("CONTENT_TYPE")}</Box>
-              <List>
-                {contentTypeList &&
-                  contentTypeList.map((contentType) => (
-                    <ListItem className="filter-ul-text" key={contentType}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedContentType.includes(contentType)}
-                            onChange={(event) =>
-                              handleCheckboxChange(
-                                event,
-                                contentType,
-                                "contentType"
-                              )
-                            }
-                          />
-                        }
-                        label={contentType}
-                      />
-                    </ListItem>
-                  ))}
-              </List>
-            </div>
-          )}
-          <Box className="filter-text lg-mt-12 mb-20">{t("SUB_DOMAIN")}</Box>
-          <FormControl>
-            <InputLabel htmlFor="outlined-adornment-password">
-              {t("SEARCH_SUB_DOMAIN")}
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type="text"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility">
-                    {<SearchOutlinedIcon />}
-                  </IconButton>
-                </InputAdornment>
+  <div>
+    <Box className="filter-text mt-15">{t("CONTENT_TYPE")}</Box>
+    <List>
+      {contentTypeList &&
+        contentTypeList.map((contentType) => (
+          <ListItem className="filter-ul-text" key={contentType.key}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedContentType.includes(contentType.key)}
+                  onChange={(event) =>
+                    handleCheckboxChange(
+                      event,
+                      contentType.key,
+                      "contentType"
+                    )
+                  }
+                />
               }
-              label={t("SEARCH_SUB_DOMAIN")}
+              label={contentType.value}
             />
-          </FormControl>
+          </ListItem>
+        ))}
+    </List>
+  </div>
+)}
+          <Box className="filter-text lg-mt-12 mb-20">{t("SUB_DOMAIN")}</Box>
+         <FormControl>
+        <InputLabel htmlFor="outlined-adornment-password">
+          {t("SEARCH_SUB_DOMAIN")}
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type="text"
+          value={searchTerm}
+          onChange={handleChange}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton aria-label="toggle password visibility">
+                <SearchOutlinedIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+          label={t("SEARCH_SUB_DOMAIN")}
+        />
+      </FormControl>
           {/* <Autocomplete
       multiple
       disablePortal
@@ -571,22 +583,21 @@ const fetchDataFramework = async () => {
       renderInput={(params) => <TextField  label="search" />}
     />             */}
           <List>
-            {subCategory &&
-              subCategory.map((item) => (
-                <ListItem className="filter-ul-text" key={item.code}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={selectedSubDomain.includes(item.code)}
-                        onChange={(event) =>
-                          handleCheckboxChange(event, { item }, "subCategory")
-                        }
-                      />
-                    }
-                    label={item.name}
-                  />
-                </ListItem>
-              ))}
+           {filteredSubCategories.map((item) => (
+          <ListItem className="filter-ul-text" key={item.name}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedSubDomain.includes(item.name)}
+                  onChange={(event) =>
+                    handleCheckboxChange(event, { item }, "subCategory")
+                  }
+                />
+              }
+              label={item.name}
+            />
+          </ListItem>
+        ))}
           </List>
         </Box>
       )}

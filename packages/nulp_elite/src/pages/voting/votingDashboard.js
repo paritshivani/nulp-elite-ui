@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import { Alert, Button, Card, CardContent, Tooltip } from "@mui/material";
+import { Alert, Button, Card, CardContent, DialogActions, DialogTitle, Tooltip } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -80,6 +80,43 @@ const votingDashboard = () => {
   const [admin, setAdmin] = useState(false);
   const [contentCreator, setContentCreator] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedPollId, setSelectedPollId] = useState(null);
+
+
+
+  const handleDialogOpen = (id, event) => {
+    event.stopPropagation(); 
+    setDialogOpen(true);
+    setSelectedPollId(id); 
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+    const handleDeletePollConfirmed = async (event) => {
+      event.stopPropagation();
+      try {
+        const response = await axios.delete(
+          `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${selectedPollId}`
+        );
+        if (response.status === 200) {
+          setDialogOpen(false);
+          // console.log(response.params.status);
+          setToasterMessage("Poll deleted successfully");
+          fetchPolls();
+          setPoll((prevPolls) => {
+            const updatedPolls = prevPolls.filter(
+              (poll) => poll.poll_id !== selectedPollId
+            );
+            return updatedPolls;
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting poll", error);
+      }
+    };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -217,27 +254,7 @@ const votingDashboard = () => {
     fetchPolls();
   };
 
-  const deletePoll = async (pollId, event) => {
-    event.stopPropagation();
-    try {
-      const response = await axios.delete(
-        `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${pollId}`
-      );
-      if (response.status === 200) {
-        // console.log(response.params.status);
-        setToasterMessage("Poll deleted successfully");
-        fetchPolls();
-        setPoll((prevPolls) => {
-          const updatedPolls = prevPolls.filter(
-            (poll) => poll.poll_id !== pollId
-          );
-          return updatedPolls;
-        });
-      }
-    } catch (error) {
-      console.error("Error deleting poll", error);
-    }
-  };
+ 
 
   const openSocialMediaLink = (event, url) => {
     event.stopPropagation();
@@ -286,6 +303,12 @@ const votingDashboard = () => {
   }, [pieData, userData, filters]);
 
   const hasPollData = pieData.some((d) => d.count > 0);
+
+  const sizing = {
+    width: 400,
+    height: 400,
+    legend: { hidden: true },
+  };
 
   return (
     <div>
@@ -445,9 +468,8 @@ const votingDashboard = () => {
                                       <Button className="d-inline-block">
                                         {index < 2
                                           ? keyword
-                                          : `${keyword} + ${
-                                              items.poll_keywords.length - 2
-                                            }`}
+                                          : `${keyword} + ${items.poll_keywords.length - 2
+                                          }`}
                                       </Button>
                                     </Tooltip>
                                   ))}
@@ -570,9 +592,10 @@ const votingDashboard = () => {
                             <Button
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20 mb-10"
-                              onClick={(event) =>
-                                deletePoll(items.poll_id, event)
-                              }
+                              onClick={(event) => {
+                                event.stopPropagation(); 
+                                handleDialogOpen(items.poll_id, event);
+                              }}
                             >
                               Delete{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
@@ -657,7 +680,7 @@ const votingDashboard = () => {
               <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
               Draft Polls
             </Box>
-            {!showAllDraft && visibleDraftPolls.length >= 1 && (
+            {!showAllDraft && visibleDraftPolls.length >= 3 && (
               <Box>
                 <Button
                   type="button"
@@ -785,9 +808,8 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                        : `${keyword} + ${items.poll_keywords.length - 2
+                                        }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -834,13 +856,15 @@ const votingDashboard = () => {
                           Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                         <Button
-                          type="button"
-                          className="custom-btn-primary ml-20 lg-mt-20 mb-10"
-                          onClick={(event) => deletePoll(items.poll_id, event)}
-                        >
-                          Delete{" "}
-                          <ArrowForwardIosOutlinedIcon className="fs-12" />
-                        </Button>
+                        type="button"
+                        className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                        onClick={(event) => {
+                          event.stopPropagation(); 
+                          handleDialogOpen(items.poll_id, event);
+                        }}
+                      >
+                        Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
+                      </Button>
                       </Box>
                       <Box className="lg-hide pl-20">
                         <FacebookShareButton
@@ -920,7 +944,7 @@ const votingDashboard = () => {
               <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />
               Closed Polls
             </Box>
-            {!showAllClosed && visibleClosedPolls.length >= 1 && (
+            {!showAllClosed && visibleClosedPolls.length >= 3 && (
               <Box>
                 <Button
                   type="button"
@@ -1048,9 +1072,8 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                        : `${keyword} + ${items.poll_keywords.length - 2
+                                        }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -1089,6 +1112,17 @@ const votingDashboard = () => {
                     </CardContent>
                     <Box className="voting-text lg-mt-30">
                       <Box>
+                        <Button
+                              type="button"
+                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                              onClick={(event) => {
+                                event.stopPropagation(); 
+                                handleDialogOpen(items.poll_id, event);
+                              }}
+                            >
+                              Delete{" "}
+                              <ArrowForwardIosOutlinedIcon className="fs-12" />
+                            </Button>
                         <Button
                           type="button"
                           className="custom-btn-primary ml-20 lg-mt-20 mb-10"
@@ -1174,7 +1208,7 @@ const votingDashboard = () => {
       <FloatingChatIcon />
       <Footer />
       {signlePOll && (
-        <Dialog
+        <><Dialog
           fullWidth={true}
           maxWidth="lg"
           open={openModal}
@@ -1213,13 +1247,12 @@ const votingDashboard = () => {
                       series={[
                         {
                           data: pieData.map((d) => ({
-                            id: d.poll_option,
                             value: d.count,
+                            label: d.poll_option,
                           })),
                           arcLabel: (item) => (
                             <>
-                              {item.id}
-                              <br />({getProgressValue(item.value)})
+                              ({getProgressValue(item.value)})
                             </>
                           ),
                           arcLabelMinAngle: 45,
@@ -1227,13 +1260,11 @@ const votingDashboard = () => {
                       ]}
                       sx={{
                         [`& .${pieArcLabelClasses.root}`]: {
-                          fill: "white",
-                          fontWeight: "500",
+                          fill: 'white',
+                          fontSize: 14,
                         },
                       }}
-                      width={350}
-                      height={350}
-                    />
+                      {...sizing} />
                   ) : (
                     <Box>No data available</Box>
                   )}
@@ -1253,22 +1284,56 @@ const votingDashboard = () => {
                   {signlePOll.title}
                 </Box>
                 <Box>
-                  <Box className="mt-9 h5-title">
-                    Poll Created On:
-                    <TodayOutlinedIcon className="fs-14 pr-5" />
-                    {formatDate(signlePOll.created_at)}
+
+                  <Box>
+                    <Box className="mt-9 h5-title">
+                      Poll Created On:
+                      <TodayOutlinedIcon
+                        className="fs-14 pr-5"
+                        style={{ verticalAlign: "middle" }} />
+                      {moment(signlePOll.created_at).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Box>
+                    <Box className="mt-9 h5-title">
+                      Poll Ended On:
+                      <TodayOutlinedIcon
+                        className="fs-14 pr-5"
+                        style={{ verticalAlign: "middle" }} />{" "}
+                      {moment(signlePOll.end_date).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Box>
+                    <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
                   </Box>
-                  <Box className="mt-9 h5-title">
-                    Poll Ended On:
-                    <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
-                    {formatDate(signlePOll.end_date)}
-                  </Box>
-                  <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
                 </Box>
               </Grid>
             </Grid>
           </DialogContent>
         </Dialog>
+        <Dialog
+          open={dialogOpen}
+          onClose={handleDialogClose}
+        >
+            <DialogContent>
+              <Box className="h5-title">
+                Are you sure you want to delere this poll?
+              </Box>
+        
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleDialogClose} className="custom-btn-default">
+               No
+              </Button>
+              <Button
+               onClick={(event) => handleDeletePollConfirmed(event)}
+                className="custom-btn-primary"
+               
+              >
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog></>
       )}
     </div>
   );

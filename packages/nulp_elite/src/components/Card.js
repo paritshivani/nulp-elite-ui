@@ -10,7 +10,7 @@ import { Divider } from "native-base";
 import RandomImage from "../assets/cardRandomImgs.json";
 import { useTranslation } from "react-i18next";
 const processString = (str) => {
-  return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+  return str?.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 };
 export default function BoxCard({ items, index, onClick, continueLearning }) {
   const [imgUrl, setImgUrl] = useState();
@@ -91,7 +91,7 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
                 color="#5B5B5B"
                 style={{
                   fontSize: "11px",
-                  padding: "10px 0",
+                  padding: "10px 0 0 0",
                   textAlign: "left",
                 }}
               >
@@ -109,7 +109,11 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
             <Typography
               variant="body2"
               color="#5B5B5B"
-              style={{ fontSize: "11px", padding: "10px 0", textAlign: "left" }}
+              style={{
+                fontSize: "11px",
+                padding: "10px 0 0 0",
+                textAlign: "left",
+              }}
             >
               <Box>
                 {t("ENROLLED_ON")} :{" "}
@@ -122,14 +126,12 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
           <Box className="my-10 pl-20">
             <Typography
               style={{
-                marginTop: "10px",
                 color: (() => {
                   if (items.status === 2) return "#065872";
                   else if (items.batch.status === 2) return "#FF0000";
                   else if (items.batch.status === 1) return "#579b00";
                 })(),
                 fontSize: "12px",
-                padding: "10px 0",
                 textAlign: "left",
                 fontWeight: "500",
               }}
@@ -210,34 +212,34 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
         items?.se_gradeLevels) && (
         <>
           <Box className="textLeft mb-15 d-flex">
-            {(items?.board || items?.se_boards) && (
-              <Tooltip
-                title={
-                  Array.isArray(items?.board) && items.board.length === 1
-                    ? items.board.join(", ")
-                    : Array.isArray(items?.se_boards) &&
-                      items.se_boards.length > 1
-                    ? items.se_boards.join(", ")
-                    : items?.se_boards?.[0] || ""
-                }
-                placement="top"
-                className="labelOne cardLabelEllips"
-              >
-                <Button>
-                  {Array.isArray(items?.board) && items.board.length === 1
-                    ? items.board[0]
-                    : Array.isArray(items?.board) && items.board.length > 1
-                    ? `${items.board[0]} + ${items.board.length - 1}`
-                    : Array.isArray(items?.se_boards) &&
-                      items.se_boards.length === 1
-                    ? items.se_boards[0]
-                    : Array.isArray(items?.se_boards) &&
-                      items.se_boards.length > 1
-                    ? `${items.se_boards[0]} + ${items.se_boards.length - 1}`
-                    : ""}
-                </Button>
-              </Tooltip>
-            )}
+           {items?.board ? (
+    <Tooltip
+        title={items.board}
+        placement="top"
+        className="labelOne cardLabelEllips"
+    >
+        <Button>
+            {items.board}
+        </Button>
+    </Tooltip>
+) : (
+    <Tooltip
+        title={
+            Array.isArray(items?.se_boards) && items.se_boards.length > 0
+                ? items.se_boards.join(", ")
+                : ""
+        }
+        placement="top"
+        className="labelOne cardLabelEllips"
+    >
+        <Button>
+            {Array.isArray(items?.se_boards) && items.se_boards.length > 0
+                ? `${items.se_boards[0]}${items.se_boards.length > 1 ? ` + ${items.se_boards.length - 1}` : ''}`
+                : ""
+            }
+        </Button>
+    </Tooltip>
+)}
             {(items.gradeLevel || items.se_gradeLevels) && (
               <Tooltip
                 title={
