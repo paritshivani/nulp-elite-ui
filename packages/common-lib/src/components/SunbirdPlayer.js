@@ -22,7 +22,7 @@ const SunbirdPlayer = ({
     } else if (['application/vnd.sunbird.questionset'].includes(mimeType)) {
       setUrl(`/quml`)
     } else if (
-      [
+      [        
         'application/vnd.ekstep.ecml-archive',
         'application/vnd.ekstep.html-archive',
         'application/vnd.ekstep.content-collection',
@@ -32,7 +32,7 @@ const SunbirdPlayer = ({
       ].includes(mimeType)
     ) {
       setUrl(`/content-player`)
-    }
+    } 
   }, [mimeType])
 
   React.useEffect(() => {

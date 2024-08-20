@@ -183,7 +183,7 @@ const ContentList = (props) => {
             ...(domainfilter.se_board
                 ? { board: domainfilter.se_board }
                 : domainName ? { board: [domainName] } : {}),
-            se_gradeLevels:
+            gradeLevel:
                 subDomainFilter && subDomainFilter.length > 0
                     ? subDomainFilter
                     : [],
