@@ -17,6 +17,16 @@ import axios from "axios";
 import Link from "@mui/material/Link";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import FeedbackPopup from "components/FeedbackPopup";
+import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  LinkedinIcon,
+  TwitterIcon,
+} from "react-share";
 
 const urlConfig = require("../../configs/urlConfig.json");
 
@@ -35,6 +45,7 @@ const Player = () => {
   const [courseName, setCourseName] = useState(location.state?.coursename);
   const [batchId, setBatchId] = useState(location.state?.batchid);
   const [courseId, setCourseId] = useState(location.state?.courseid);
+  const shareUrl = window.location.href; // Current page URL
   const [isEnrolled, setIsEnrolled] = useState(
     location.state?.isenroll || undefined
   );
@@ -164,14 +175,13 @@ const Player = () => {
             {t("BACK")}
           </Link>
         </Box>
-        <Grid container spacing={2} className="mt-10">
-          <Grid item xs={12} md={8} lg={8}>
+        <Grid container spacing={2} className="mt-10 mb-30">
+          <Grid item xs={12} md={9} lg={9}>
             <Box>
               {lesson && (
                 <Breadcrumbs
                   aria-label="breadcrumb"
                   style={{
-                    padding: "5px 0",
                     fontSize: "16px",
                     fontWeight: "600",
                   }}
@@ -186,18 +196,14 @@ const Player = () => {
                   </Link>
                 </Breadcrumbs>
               )}
-              <Box className="h3-title my-10">{lesson?.name}</Box>
+              <Box className="h3-title">{lesson?.name}</Box>
             </Box>
-          </Grid>
-          <Grid item xs={12} md={8} lg={8} className="xs-hide">
-            {/* Placeholder for future features */}
-          </Grid>
-          <Grid>
+            <Box>
             {lesson && (
-              <Box className="xs-mb-20">
+              <Box className="xs-mb-20 mt-20">
                 <Typography
-                  className="h6-title pl-20 mb-20"
-                  style={{ display: "inline-block", verticalAlign: "super" }}
+                  className="h6-title mb-20"
+                  style={{ display: "inline-block", verticalAlign: "text-top" }}
                 >
                   {t("CONTENT_TAGS")}:{" "}
                 </Typography>
@@ -264,7 +270,28 @@ const Player = () => {
                   ))}
               </Box>
             )}
+            </Box>
           </Grid>
+          
+          <Grid item xs={12} md={3} lg={3}>
+          <FacebookShareButton url={shareUrl} className="pr-5">
+                  <FacebookIcon size={32} round={true} />
+                </FacebookShareButton>
+                <WhatsappShareButton url={shareUrl} className="pr-5">
+                  <WhatsappIcon size={32} round={true} />
+                </WhatsappShareButton>
+                <LinkedinShareButton url={shareUrl} className="pr-5">
+                  <LinkedinIcon size={32} round={true} />
+                </LinkedinShareButton>
+                <TwitterShareButton url={shareUrl} className="pr-5">
+                  <img
+                    src={require("../../assets/twitter.png")}
+                    alt="Twitter"
+                    style={{ width: 32, height: 32 }}
+                  />
+                </TwitterShareButton>
+          </Grid>
+
         </Grid>
         <Box
           className="lg-mx-90"
