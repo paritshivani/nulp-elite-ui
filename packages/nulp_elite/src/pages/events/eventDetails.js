@@ -64,7 +64,11 @@ const EventDetails = () => {
   // const { eventId } = useParams();
   const location = useLocation();
   const queryString = location.search;
-  const eventId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  let eventId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if eventId ends with '=' and remove it
+  if (eventId && eventId.endsWith("=")) {
+    eventId = eventId.slice(0, -1);
+  }
   const _userId = util.userId();
 
   const shareUrl = window.location.href; // Current page URL
@@ -770,8 +774,8 @@ const EventDetails = () => {
                           {creatorInfo.firstName
                             ? creatorInfo.firstName
                             : "" + " " + creatorInfo.lastName
-                              ? creatorInfo.lastName
-                              : ""}
+                            ? creatorInfo.lastName
+                            : ""}
                         </Box>
                       </Box>
                     </Box>
@@ -940,15 +944,14 @@ const EventDetails = () => {
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
-                  {
-                    detailData.recording == undefined &&
+                  {detailData.recording == undefined && (
                     <Box
                       className="h5-title mb-20 xs-hide"
                       style={{ fontWeight: "400" }}
                     >
                       Recording will be available soon
                     </Box>
-                  }
+                  )}
                 </Box>
               )}
               {/* {eventEnded && regEnd && (
@@ -995,8 +998,8 @@ const EventDetails = () => {
                         {creatorInfo.firstName
                           ? creatorInfo.firstName
                           : "" + " " + creatorInfo.lastName
-                            ? creatorInfo.lastName
-                            : ""}
+                          ? creatorInfo.lastName
+                          : ""}
                       </Box>
                     </Box>
                   </Box>
@@ -1051,7 +1054,7 @@ const EventDetails = () => {
                         marginTop: "10px",
                       }}
                       onClick={handleOpenConsentModal}
-                    // onClick={handleOpenConsentModal}
+                      // onClick={handleOpenConsentModal}
                     >
                       {t("REGISTER_WEBINAR")}
                     </Button>
@@ -1142,15 +1145,14 @@ const EventDetails = () => {
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
-                  {
-                    detailData.recording == undefined &&
+                  {detailData.recording == undefined && (
                     <Box
                       className="h5-title mb-20 xs-hide"
                       style={{ fontWeight: "400" }}
                     >
                       Recording will be available soon
                     </Box>
-                  }
+                  )}
                 </Box>
               )}
             </Grid>
