@@ -1355,7 +1355,7 @@ button {
     padding-top: 0 !important;
   } */
   .lg-mx-90 {
-    margin: 0 140px !important;
+    margin: 0 10px !important;
   }
 
   .dashboard .MuiFormControl-root {
@@ -3289,6 +3289,7 @@ custom-chip {
   font-size: 16px !important;
   color: #000;
   font-weight: 400 !important;
+  margin-top:5px;
 }
 
 .filter-text {
@@ -3737,4 +3738,7 @@ input:required::after {
 }
 .css-1nmdiqf5-menu {
   z-index: 9999999 !important;
+}
+.ai-center {
+  align-items: center;
 }

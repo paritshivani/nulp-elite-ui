@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { SunbirdPlayer } from "@shiksha/common-lib";
@@ -25,9 +23,11 @@ import {
   FacebookIcon,
   WhatsappIcon,
   LinkedinIcon,
-  TwitterIcon,
 } from "react-share";
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const urlConfig = require("../../configs/urlConfig.json");
 
 const Player = () => {
@@ -59,10 +59,11 @@ const Player = () => {
   const _userId = util.userId();
 
   const queryString = location.search;
-  const contentId = queryString.startsWith("?do_")
-    ? queryString.slice(1)
-    : null;
-
+  let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if contentId ends with '=' and remove it
+  if (contentId && contentId.endsWith("=")) {
+    contentId = contentId.slice(0, -1);
+  }
   const fetchUserData = useCallback(async () => {
     try {
       const userData = await util.userData();
@@ -160,23 +161,40 @@ const Player = () => {
 
   const handleClose = () => setOpenFeedBack(false);
   const handleGoBack = () => navigate(sessionStorage.getItem("previousRoutes"));
+  const handleBackNavigation = () => {
+    navigate(-1); // Navigate back in history
+  };
 
   return (
     <div>
       <Header />
       <Container maxWidth="xl" role="main" className="player mt-15">
-        <Box style={{ textAlign: "right" }}>
-          <Link
-            underline="hover"
-            onClick={handleGoBack}
-            color="#004367"
-            href={previousRoute}
-            className="viewAll"
-          >
-            {t("BACK")}
-          </Link>
-        </Box>
         <Grid container spacing={2} className="mt-10 mb-30">
+          <Grid item xs={12} md={12} lg={12}>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              className="h6-title mt-15 pl-28 xss-pb-0"
+              style={{ padding: "0 0 10px 0px" }}
+            >
+              <Link
+                underline="hover"
+                style={{ maxHeight: "inherit", cursor: "pointer" }}
+                onClick={handleBackNavigation}
+                color="#004367"
+              >
+                {t("ALL_PLAYER")}
+              </Link>
+              <Link
+                underline="hover"
+                href=""
+                aria-current="page"
+                className="h6-title oneLineEllipsis"
+               
+              >
+                {lesson?.name}
+              </Link>
+            </Breadcrumbs>
+          </Grid>
           <Grid item xs={12} md={9} lg={9}>
             <Box>
               {lesson && (
@@ -200,33 +218,17 @@ const Player = () => {
               <Box className="h3-title">{lesson?.name}</Box>
             </Box>
             <Box>
-            {lesson && (
-              <Box className="xs-mb-20 mt-20">
-                <Typography
-                  className="h6-title mb-20"
-                  style={{ display: "inline-block", verticalAlign: "text-top" }}
-                >
-                  {t("CONTENT_TAGS")}:{" "}
-                </Typography>
-                {lesson.board && (
-                  <Button
-                    key={`board`}
-                    size="small"
-                    style={{
-                      color: "#424242",
-                      fontSize: "10px",
-                      margin: "0 10px 3px 6px",
-                    }}
-                    className="bg-blueShade3"
+              {lesson && (
+                <Box className="xs-mb-20 mt-10">
+                  <Typography
+                    className="h6-title mb-20"
+                    style={{ display: "inline-block", verticalAlign: "text-top" }}
                   >
-                    {lesson.board}
-                  </Button>
-                )}
-                {!lesson.board &&
-                  lesson.se_boards &&
-                  lesson.se_boards.map((item, index) => (
+                    {t("CONTENT_TAGS")}:{" "}
+                  </Typography>
+                  {lesson.board && (
                     <Button
-                      key={`se_boards-${index}`}
+                      key={`board`}
                       size="small"
                       style={{
                         color: "#424242",
@@ -235,62 +237,78 @@ const Player = () => {
                       }}
                       className="bg-blueShade3"
                     >
-                      {item}
+                      {lesson.board}
                     </Button>
-                  ))}
-                {lesson.gradeLevel &&
-                  lesson.gradeLevel.map((item, index) => (
-                    <Button
-                      key={`gradeLevel-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {!lesson.gradeLevel &&
-                  lesson.se_gradeLevels &&
-                  lesson.se_gradeLevels.map((item, index) => (
-                    <Button
-                      key={`se_gradeLevels-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-              </Box>
-            )}
+                  )}
+                  {!lesson.board &&
+                    lesson.se_boards &&
+                    lesson.se_boards.map((item, index) => (
+                      <Button
+                        key={`se_boards-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {lesson.gradeLevel &&
+                    lesson.gradeLevel.map((item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {!lesson.gradeLevel &&
+                    lesson.se_gradeLevels &&
+                    lesson.se_gradeLevels.map((item, index) => (
+                      <Button
+                        key={`se_gradeLevels-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                </Box>
+              )}
             </Box>
           </Grid>
-          
-          <Grid item xs={12} md={3} lg={3}>
-          <FacebookShareButton url={shareUrl} className="pr-5">
-                  <FacebookIcon size={32} round={true} />
-                </FacebookShareButton>
-                <WhatsappShareButton url={shareUrl} className="pr-5">
-                  <WhatsappIcon size={32} round={true} />
-                </WhatsappShareButton>
-                <LinkedinShareButton url={shareUrl} className="pr-5">
-                  <LinkedinIcon size={32} round={true} />
-                </LinkedinShareButton>
-                <TwitterShareButton url={shareUrl} className="pr-5">
-                  <img
-                    src={require("../../assets/twitter.png")}
-                    alt="Twitter"
-                    style={{ width: 32, height: 32 }}
-                  />
-                </TwitterShareButton>
+
+          <Grid item xs={12} md={3} lg={3}  style={{ textAlign: "right" }}>
+            <FacebookShareButton url={shareUrl} className="pr-5">
+              <FacebookIcon size={32} round={true} />
+            </FacebookShareButton>
+            <WhatsappShareButton url={shareUrl} className="pr-5">
+              <WhatsappIcon size={32} round={true} />
+            </WhatsappShareButton>
+            <LinkedinShareButton url={shareUrl} className="pr-5">
+              <LinkedinIcon size={32} round={true} />
+            </LinkedinShareButton>
+            <TwitterShareButton url={shareUrl} className="pr-5">
+              <img
+                src={require("../../assets/twitter.png")}
+                alt="Twitter"
+                style={{ width: 32, height: 32 }}
+              />
+            </TwitterShareButton>
           </Grid>
 
         </Grid>
@@ -349,6 +367,58 @@ const Player = () => {
               public_url="https://devnulp.niua.org/newplayer"
             />
           )}
+        </Box>
+        <Box style={{
+          paddingBottom: "2%",
+          marginTop: '2%'
+        }}>
+          <Accordion defaultExpanded
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              <Typography>{t("DESCRIPTION")}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                {lesson?.name}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2-content"
+              id="panel2-header"
+            >
+              <Typography>{t("ABOUTTHECONTENT")}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box sx={{ fontWeight: 'bold' }}>{t("LICENSEDETAILS")} : </Box>
+              {lesson?.licenseDetails && (
+                <Typography className="mb-10">
+                  <Box>
+                    {lesson?.licenseDetails.name} - {lesson?.licenseDetails.description}
+                  </Box>
+                  <Box>
+                    <a href={lesson?.licenseDetails.url} target="_blank" rel="noopener noreferrer">
+                      {lesson?.licenseDetails.url}
+                    </a>
+                  </Box>
+                  <Box>{lesson?.copyright} </Box>
+                </Typography>
+              )}
+
+              <Typography className="mb-10">
+                <Box sx={{ fontWeight: 'bold' }}>{t("COPYRIGHT")} :</Box>
+                <Box>{lesson?.copyright}</Box>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+        <Box>
         </Box>
       </Container>
       {openFeedBack && (

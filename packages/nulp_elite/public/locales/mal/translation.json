@@ -262,5 +262,9 @@
   "BLOCKED_USERS": "അടച്ച ഉപയോക്താക്കൾ",
   "What do you want to learn today?  ": "ഇന്ന് നിങ്ങൾ എന്താണ് പഠിക്കാൻ ആഗ്രഹിക്കുന്നത്?",
   "REGISTRATION_FORM": "ഇവെന്റിനായി രജിസ്റ്റർ ചെയ്യുക",
-  "COURSE & CERTIFICATES": "കോഴ്സും സർട്ടിഫിക്കറ്റുകളും"
+  "COURSE & CERTIFICATES": "കോഴ്സും സർട്ടിഫിക്കറ്റുകളും",
+  "ALL_PLAYER":"എല്ലാ കളിക്കാരും",
+  "LICENSEDETAILS":"ലൈസൻസ് വിശദാംശങ്ങൾ",
+  "ABOUTTHECONTENT":"ഉള്ളടക്കത്തെ കുറിച്ച്",
+  "COPYRIGHT":"പകർപ്പവകാശം"
 }

@@ -64,7 +64,11 @@ const EventDetails = () => {
   // const { eventId } = useParams();
   const location = useLocation();
   const queryString = location.search;
-  const eventId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  let eventId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if eventId ends with '=' and remove it
+  if (eventId && eventId.endsWith("=")) {
+    eventId = eventId.slice(0, -1);
+  }
   const _userId = util.userId();
 
   const shareUrl = window.location.href; // Current page URL
@@ -294,15 +298,14 @@ const EventDetails = () => {
       "Content-Type": "application/json",
     };
     try {
-      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
-      const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
+      const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
       const response = await getAllContents(url, data, headers);
-      console.log("My data  ---", response.data.result.event);
-      setUserCourseData(response.data.result.event);
-      if (response.data.result.event.length > 0) {
-        response.data.result.event.map((event) => {
+      console.log("My data  ---", response.data.result.userRegistration);
+      setUserCourseData(response.data.result.userRegistration);
+      if (response.data.result.userRegistration.length > 0) {
+        response.data.result.userRegistration.map((event) => {
           console.log("check enrollment list API 1-----", event);
-          if (event.identifier === eventId) {
+          if (event.event_id === eventId) {
             setIsEnrolled(true);
           }
         });
@@ -770,8 +773,8 @@ const EventDetails = () => {
                           {creatorInfo.firstName
                             ? creatorInfo.firstName
                             : "" + " " + creatorInfo.lastName
-                              ? creatorInfo.lastName
-                              : ""}
+                            ? creatorInfo.lastName
+                            : ""}
                         </Box>
                       </Box>
                     </Box>
@@ -940,15 +943,14 @@ const EventDetails = () => {
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
-                  {
-                    detailData.recording == undefined &&
+                  {detailData.recording == undefined && (
                     <Box
                       className="h5-title mb-20 xs-hide"
                       style={{ fontWeight: "400" }}
                     >
                       Recording will be available soon
                     </Box>
-                  }
+                  )}
                 </Box>
               )}
               {/* {eventEnded && regEnd && (
@@ -995,8 +997,8 @@ const EventDetails = () => {
                         {creatorInfo.firstName
                           ? creatorInfo.firstName
                           : "" + " " + creatorInfo.lastName
-                            ? creatorInfo.lastName
-                            : ""}
+                          ? creatorInfo.lastName
+                          : ""}
                       </Box>
                     </Box>
                   </Box>
@@ -1051,7 +1053,7 @@ const EventDetails = () => {
                         marginTop: "10px",
                       }}
                       onClick={handleOpenConsentModal}
-                    // onClick={handleOpenConsentModal}
+                      // onClick={handleOpenConsentModal}
                     >
                       {t("REGISTER_WEBINAR")}
                     </Button>
@@ -1142,15 +1144,14 @@ const EventDetails = () => {
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
-                  {
-                    detailData.recording == undefined &&
+                  {detailData.recording == undefined && (
                     <Box
                       className="h5-title mb-20 xs-hide"
                       style={{ fontWeight: "400" }}
                     >
                       Recording will be available soon
                     </Box>
-                  }
+                  )}
                 </Box>
               )}
             </Grid>

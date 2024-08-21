@@ -119,7 +119,11 @@ const VotingDetails = () => {
   }, []);
 
   const queryString = location.search;
-  const pollId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  let pollId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if pollId ends with '=' and remove it
+  if (pollId && pollId.endsWith("=")) {
+    pollId = pollId.slice(0, -1);
+  }
 
   // useEffect(() => {
   //   // Ensure startDate is parsed as UTC and then converted to local time
@@ -337,7 +341,7 @@ const VotingDetails = () => {
                   )}
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 pt-10"
-                    style={{ verticalAlign: "middle" }}
+                    style={{ verticalAlign: 'sub',marginRight: '10px'}}
                   />
                   <span className="h3-custom-title ">
                     {moment(poll.end_date).format(
@@ -345,7 +349,7 @@ const VotingDetails = () => {
                     )}
                   </span>
                 </Box>
-                {userVote && userVote?.length > 0 && (
+                {userVote && userVote?.length > 0 && ( 
                   <Box className="pr-5 my-20">
                     <span className=" h3-custom-title"> Your Vote</span>
                     <VerifiedIcon
@@ -358,10 +362,11 @@ const VotingDetails = () => {
                       }}
                     />
                     <span className="h3-custom-title ">
-                      {userVote[0]?.poll_result}
+                      {userVote[0]?.poll_result} 
+                      
                     </span>
                   </Box>
-                )}
+                )} 
                 <Box sx={{ width: "100%" }}>
                   {pollResult && (
                     <div>
