@@ -119,7 +119,11 @@ const VotingDetails = () => {
   }, []);
 
   const queryString = location.search;
-  const pollId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  let pollId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if pollId ends with '=' and remove it
+  if (pollId && pollId.endsWith("=")) {
+    pollId = pollId.slice(0, -1);
+  }
 
   // useEffect(() => {
   //   // Ensure startDate is parsed as UTC and then converted to local time

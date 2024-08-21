@@ -87,9 +87,12 @@ const JoinCourse = () => {
   const [showChat, setShowChat] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const queryString = location.search;
-  const contentId = queryString.startsWith("?do_")
-    ? queryString.slice(1)
-    : null;
+  let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if contentId ends with '=' and remove it
+  if (contentId && contentId.endsWith("=")) {
+    contentId = contentId.slice(0, -1);
+  }
+
   // const { contentId } = location.state || {};
   // const { contentId } = useParams();
   const _userId = util.userId(); // Assuming util.userId() is defined
@@ -501,23 +504,23 @@ const JoinCourse = () => {
     });
   };
 
-
- const handleLinkClick = (id) => {
-  if (isEnroll) {
-    navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
-      state: {
-        coursename: userData?.result?.content?.name,
-        batchid: batchDetails?.batchId,
-        courseid: contentId,
-        isenroll: isEnroll,
-        consumedcontents: ConsumedContents,
-      },
-    });
-  } else {
-    showErrorMessage("You must join the course to get complete access to content.");
-  }
-};
-
+  const handleLinkClick = (id) => {
+    if (isEnroll) {
+      navigate(`${routeConfig.ROUTES.PLAYER_PAGE.PLAYER}?${id}`, {
+        state: {
+          coursename: userData?.result?.content?.name,
+          batchid: batchDetails?.batchId,
+          courseid: contentId,
+          isenroll: isEnroll,
+          consumedcontents: ConsumedContents,
+        },
+      });
+    } else {
+      showErrorMessage(
+        "You must join the course to get complete access to content."
+      );
+    }
+  };
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {

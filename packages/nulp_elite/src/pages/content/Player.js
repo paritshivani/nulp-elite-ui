@@ -58,10 +58,11 @@ const Player = () => {
 
   const _userId = util.userId();
   const queryString = location.search;
-  const contentId = queryString.startsWith("?do_")
-    ? queryString.slice(1)
-    : null;
-
+  let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if contentId ends with '=' and remove it
+  if (contentId && contentId.endsWith("=")) {
+    contentId = contentId.slice(0, -1);
+  }
   const fetchUserData = useCallback(async () => {
     try {
       const userData = await util.userData();
