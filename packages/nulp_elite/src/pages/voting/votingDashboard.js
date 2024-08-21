@@ -1252,7 +1252,7 @@ const votingDashboard = () => {
                           })),
                           arcLabel: (item) => (
                             <>
-                              ({getProgressValue(item.value)})
+                              ({getProgressValue(item.value).toFixed(2)})
                             </>
                           ),
                           arcLabelMinAngle: 45,
