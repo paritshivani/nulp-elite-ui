@@ -93,7 +93,7 @@ const createForm = () => {
   const currentDayTime = dayjs();
   const [chips, setChips] = useState(editData?.poll_keywords || []);
   const inputRef = useRef(null);
-
+const [searchUser , setSearchUser]= useState("");
   // Check if startDate is in the past
   let isStartDateInPast;
   if (editData) {
@@ -160,6 +160,8 @@ const createForm = () => {
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
+
+  
   useEffect(() => {
     // Ensure selectedOrg is updated when organisationName changes
     const initialOrg = orgList.find((org) => org.orgName === organisationName);
@@ -307,6 +309,19 @@ const createForm = () => {
     }
   };
 
+  const handleChange = (event) => {
+    setSearchUser(event.target.value);
+  };
+  
+  const clearSearch = () =>{
+    setSearchUser("")
+    userList
+  }
+  useEffect(() => {
+    clearSearch();
+  }, [userList]);
+
+ 
   const getOrgUser = async (rootOrgId) => {
     const requestBody = {
       request: {
@@ -314,6 +329,7 @@ const createForm = () => {
           status: "1",
           rootOrgId: rootOrgId,
         },
+        query:  searchUser,
         sort_by: {
           lastUpdatedOn: "desc",
         },
@@ -394,7 +410,7 @@ const createForm = () => {
     } else if (isAdmin) {
       getOrgDetail(userData?.result?.response?.rootOrg?.id);
     }
-  }, [isContentCreator, isAdmin, userData]);
+  }, [isContentCreator, isAdmin, userData,searchUser]);
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -662,6 +678,7 @@ const createForm = () => {
                                 variant="outlined"
                                 label="Select Users"
                                 placeholder="Search users"
+                                onChange={handleChange}
                               />
                             )}
                             renderTags={(selected, getTagProps) =>
@@ -671,6 +688,7 @@ const createForm = () => {
                                   label={`${user.firstName} ${user.lastName}`}
                                   {...getTagProps({ index })}
                                   onDelete={() => {
+                                    clearSearch();
                                     const newSelectedUsers = userList.filter(
                                       (u) => u.userId !== user.userId
                                     );
