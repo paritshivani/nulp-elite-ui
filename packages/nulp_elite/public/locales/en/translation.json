@@ -282,5 +282,9 @@
   "UPDATE_VOTE": "Update Vote",
   "What do you want to learn today?  ": "What do you want to learn today?  ",
   "REGISTRATION_FORM": "Register For Event",
-  "COURSE & CERTIFICATES":"Course & Certificates"
+  "COURSE & CERTIFICATES":"Course & Certificates",
+  "ALL_PLAYER":"All Player",
+  "LICENSEDETAILS":"license Details",
+  "ABOUTTHECONTENT":"About The Content",
+  "COPYRIGHT":"Copyright"
 }
