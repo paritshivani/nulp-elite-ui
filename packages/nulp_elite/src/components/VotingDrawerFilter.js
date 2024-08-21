@@ -94,7 +94,7 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
       onClick={(event) => {
         event.stopPropagation();
       }}
-      // onKeyDown={toggleDrawer(anchor, false)}
+    // onKeyDown={toggleDrawer(anchor, false)}
     >
       <Box>
         <Box className="filter-title">{t("FILTER_BY")} : </Box>
@@ -216,19 +216,16 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
         </Box>
       ) : (
         <Box className="header-bg-blue p-15 filter-bx xs-hide">
-          <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
-            <Box className="d-flex jc-bw">
-              <Box className="filter-title">Filter By:</Box>
-              <Button
-                type="button"
-                className="viewAll mb-20"
-                onClick={handleClearAll}
-              >
-                Clear all
-              </Button>
-            </Box>
+          <Box style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px' }}>
+            <Box className="filter-title">Filter By:</Box>
+            <Button
+              type="button"
+              className="viewAll mb-20"
+              onClick={handleClearAll}
+            >
+              Clear all
+            </Button>
           </Box>
-
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-search">
               Search for a Poll

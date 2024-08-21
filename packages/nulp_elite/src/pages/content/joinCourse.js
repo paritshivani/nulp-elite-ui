@@ -786,7 +786,7 @@ const JoinCourse = () => {
           consent: {
             status: status,
             userId: _userId,
-            consumerId: userInfo?.rootOrgId,
+            consumerId: courseData.result.content.channel,
             objectId: contentId,
             objectType: "Collection",
           },
@@ -800,7 +800,7 @@ const JoinCourse = () => {
             consent: {
               filters: {
                 userId: _userId,
-                consumerId: userInfo?.rootOrgId,
+                consumerId: courseData.result.content.channel,
                 objectId: contentId,
               },
             },

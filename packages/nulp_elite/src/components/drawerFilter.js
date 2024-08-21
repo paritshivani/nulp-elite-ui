@@ -173,13 +173,18 @@ const fetchDataFramework = async () => {
     setEventSearch(event.target.value);
     setEventSearch(searchTerm);
   };
-  const filteredSubCategories = searchTerm
+
+const filteredSubCategories = searchTerm
     ? subCategory.filter((item) =>
         item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : subCategory;
 
-   
+const uniqueFilteredSubCategories = [...new Set(filteredSubCategories.map(item => item.name))].map(name => 
+  subCategory.find(item => item.name === name)
+);
+
+   console.log(uniqueFilteredSubCategories,"uniqueFilteredSubCategories---------");
 
   const handleCheckboxChange = (event, item, filterType) => {
     if (filterType === "contentType") {
@@ -404,7 +409,7 @@ const fetchDataFramework = async () => {
         />
       </FormControl>
        <List>
-        {filteredSubCategories.map((item) => (
+        {uniqueFilteredSubCategories.map((item) => (
           <ListItem className="filter-ul-text" key={item.name}>
             <FormControlLabel
               control={
@@ -583,7 +588,7 @@ const fetchDataFramework = async () => {
       renderInput={(params) => <TextField  label="search" />}
     />             */}
           <List>
-           {filteredSubCategories.map((item) => (
+           {uniqueFilteredSubCategories.map((item) => (
           <ListItem className="filter-ul-text" key={item.name}>
             <FormControlLabel
               control={
