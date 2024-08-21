@@ -217,6 +217,7 @@ const EventList = (props) => {
       filters = {
         objectType: ["Event"],
         startDate: startDate || {},
+        status: "Live"
       };
     }
 
