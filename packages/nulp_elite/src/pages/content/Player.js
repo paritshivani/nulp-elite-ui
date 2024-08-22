@@ -28,6 +28,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import md5 from 'md5';
 const urlConfig = require("../../configs/urlConfig.json");
 
 const Player = () => {
@@ -55,7 +56,8 @@ const Player = () => {
   const [lesson, setLesson] = useState();
   const [isCompleted, setIsCompleted] = useState(false);
   const [openFeedBack, setOpenFeedBack] = useState(false);
-
+const [assessEvents, setAssessEvents] =useState ([]);
+const [propLength, setPropLength] =useState(0);
   const _userId = util.userId();
   const queryString = location.search;
   const contentId = queryString.startsWith("?do_")
@@ -72,20 +74,45 @@ const Player = () => {
     }
   }, []);
 
-  const handleTrackData = useCallback(
-    ({ score, trackData, attempts, ...props }, playerType = "quml") => {
-      CheckfeedBackSubmitted();
-      if (
-        playerType === "pdf-video" &&
-        props.currentPage === props.totalPages
-      ) {
-        setIsCompleted(true);
-      } else if (playerType === "ecml") {
-        setIsCompleted(true);
-      }
-    },
-    []
-  );
+const handleTrackData = useCallback(
+  async ({ score, trackData, attempts, ...props }, playerType = "quml") => {
+    
+setPropLength(Object.keys(props).length);
+console.log(Object.keys(props).length,"Object.keys(props).length");
+    CheckfeedBackSubmitted();
+
+    if (
+      playerType === "pdf-video" &&
+      props.currentPage === props.totalPages
+    ) {
+      setIsCompleted(true);
+    } 
+    // else if (playerType === "ecml") {
+    //   await updateContentStateForAssessment();
+    // }
+  },
+  [assessEvents] // Dependency to ensure the latest assessEvents are used
+);
+const handleAssessmentData = async (data) => {
+  if (data.eid === "ASSESS") {
+    console.log(data, "Received assessment data");
+    
+    // Update the assessEvents state with the new data
+    setAssessEvents((prevAssessEvents) => {
+      const updatedAssessEvents = [...prevAssessEvents, data];
+      console.log("Updated assessEvents array:", updatedAssessEvents);
+      return updatedAssessEvents;
+    });
+  }
+};
+
+
+useEffect(() => {
+  if(propLength===assessEvents.length){
+updateContentStateForAssessment();
+  }
+  handleTrackData();
+}, [assessEvents,propLength]);
 
   const CheckfeedBackSubmitted = async () => {
     try {
@@ -109,6 +136,74 @@ const Player = () => {
       console.error("Error fetching course data:", error);
     }
   };
+
+  function formatDate() {
+  const now = new Date();
+
+ 
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+
+  
+  const offset = -now.getTimezoneOffset();
+  const offsetHours = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0');
+  const offsetMinutes = String(Math.abs(offset) % 60).padStart(2, '0');
+  const offsetSign = offset >= 0 ? '+' : '-';
+  
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}:${milliseconds}${offsetSign}${offsetHours}${offsetMinutes}`;
+}
+
+function getCurrentTimestamp() {
+  return Date.now();
+}
+
+const attemptid = ()=>{
+      const timestamp = new Date().getTime();
+      const string = [courseId, batchId, contentId, _userId, timestamp].join('-');
+       const hashValue = md5(string);
+       return hashValue;
+
+}
+
+
+  const updateContentStateForAssessment = async () => {
+  try {
+    const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
+    const requestBody = {
+      request: {
+        userId: _userId,
+        contents: [
+          {
+            contentId: contentId,
+            batchId: batchId,
+            status: 2,
+            courseId: courseId,
+            lastAccessTime:formatDate(),
+          },
+        ],
+        assessments: [
+          {
+            assessmentTs : getCurrentTimestamp(),
+            batchId: batchId,
+            courseId: courseId,
+            userId: _userId,
+            attemptId: attemptid(),
+            contentId: contentId,
+            events: assessEvents, 
+          },
+        ],
+      },
+    };
+    const response = await axios.patch(url, requestBody);
+  } catch (error) {
+    console.error("Error fetching course data:", error);
+  }
+};
 
   const updateContentState = useCallback(
     async (status) => {
@@ -327,6 +422,7 @@ const Player = () => {
                 firstName: userFirstName || "",
                 lastName: userLastName || "",
               }}
+               telemetryData={(data) => {handleAssessmentData(data)}}
               setTrackData={(data) => {
                 const type = lesson?.mimeType;
                 if (
