@@ -92,7 +92,7 @@ const CategoryPage = () => {
         filters: {
           primaryCategory: [category],
           visibility: [],
-          se_boards: [domainName],
+          board: [domainName],
         },
         limit: 20,
         sort_by: {
@@ -111,6 +111,7 @@ const CategoryPage = () => {
           "trackable",
           "gradeLevel",
           "se_boards",
+          "board",
           "se_subjects",
           "se_mediums",
           "se_gradeLevels",
