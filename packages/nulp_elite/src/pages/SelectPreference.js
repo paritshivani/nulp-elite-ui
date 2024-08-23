@@ -186,15 +186,27 @@ const SelectPreference = ({ isOpen, onClose }) => {
 
       const data = await response.json();
       setFrameworkData(data?.result?.framework?.categories);
-      setCategories(data?.result?.framework?.categories[3]?.terms);
-      setSubCategories(data?.result?.framework?.categories[1]?.terms);
-      setTopics(data?.result?.framework?.categories[0]?.terms);
-      setLanguages(data?.result?.framework?.categories[2]?.terms);
+      const Categoryindex = data?.result?.framework?.categories.findIndex(
+  (category) => category.code === "board"
+);
+      setCategories(data?.result?.framework?.categories[Categoryindex]?.terms);
+      const SubCategoryindex = data?.result?.framework?.categories.findIndex(
+  (category) => category.code === "gradeLevel"
+);
+      setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
+       const Topicsindex = data?.result?.framework?.categories.findIndex(
+  (category) => category.code === "subject"
+);
+      setTopics(data?.result?.framework?.categories[Topicsindex]?.terms);
+      const Languagesindex = data?.result?.framework?.categories.findIndex(
+  (category) => category.code === "medium"
+);
+      setLanguages(data?.result?.framework?.categories[Languagesindex]?.terms);
 
-      setDomain(data?.result?.framework?.categories[3]?.name);
-      setSubDomain(data?.result?.framework?.categories[1]?.name);
-      setTopic(data?.result?.framework?.categories[0]?.name);
-      setLanguage(data?.result?.framework?.categories[2]?.name);
+      setDomain(data?.result?.framework?.categories[Categoryindex]?.name);
+      setSubDomain(data?.result?.framework?.categories[SubCategoryindex]?.name);
+      setTopic(data?.result?.framework?.categories[Topicsindex]?.name);
+      setLanguage(data?.result?.framework?.categories[Languagesindex]?.name);
     } catch (error) {
       console.error("Error fetching data:", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -222,7 +234,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
-      if (Object.entries(responseData?.result?.response.framework).length === 0) {
+      if (Object.entries(responseData?.result?.response.framework).length === 0 ) {
         setIsEmptyPreference(false);
       } else {
         setSelectedCategory(
