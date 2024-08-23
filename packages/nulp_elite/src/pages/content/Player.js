@@ -29,6 +29,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import md5 from 'md5';
+import { TroubleshootRounded } from "@mui/icons-material";
 const urlConfig = require("../../configs/urlConfig.json");
 
 const Player = () => {
@@ -57,7 +58,7 @@ const Player = () => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [openFeedBack, setOpenFeedBack] = useState(false);
 const [assessEvents, setAssessEvents] =useState ([]);
-const [propLength, setPropLength] =useState(0);
+const [propLength, setPropLength] =useState();
   const _userId = util.userId();
 
   const queryString = location.search;
@@ -93,7 +94,7 @@ console.log(Object.keys(props).length,"Object.keys(props).length");
     //   await updateContentStateForAssessment();
     // }
   },
-  [assessEvents] // Dependency to ensure the latest assessEvents are used
+  [assessEvents] 
 );
 const handleAssessmentData = async (data) => {
   if (data.eid === "ASSESS") {
@@ -174,6 +175,7 @@ const attemptid = ()=>{
 
 
   const updateContentStateForAssessment = async () => {
+    await updateContentState(2);
   try {
     const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
     const requestBody = {
