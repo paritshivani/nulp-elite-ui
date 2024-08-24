@@ -724,19 +724,22 @@ const Profile = () => {
                                 {userData?.result?.response?.firstName}{" "}
                                 {userData?.result?.response?.lastName}
                               </Typography>
-                              <Typography className="h6-title d-flex">
+                              <Typography className="h6-title">
                                 {userInfo?.length &&
                                 userInfo[0]?.designation ? (
                                   <>{userInfo[0].designation}</>
                                 ) : (
                                   "Designation: NA"
                                 )}
-                                <Box className="cardLabelEllips">
+                                <Box className="cardLabelEllips1">
                                   {userInfo?.length && userInfo[0]?.designation
                                     ? "   |  "
                                     : " "}
                                   ID:{" "}
                                   {userData?.result?.response?.userName || "NA"}
+                                </Box>
+                                <Box className="cardLabelEllips1">
+                                  organisations:{" "}
                                   {userData?.result?.response?.organisations
                                     ?.orgName || "NA"}
                                 </Box>
