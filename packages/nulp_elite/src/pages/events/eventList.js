@@ -122,7 +122,7 @@ const EventList = (props) => {
     domainName,
     domain,
     currentPage,
-    subDomainFilter
+    subDomainFilter,
   ]);
   // useEffect(() => {
   //   fetchAllData();
@@ -168,12 +168,13 @@ const EventList = (props) => {
   const fetchAllData = async () => {
     console.log("searchQuery", searchQuery);
     let filters = {
-    objectType: ["Event"],
-    ...((domainfilter?.se_board != null || domainName !=null) && { board: domainfilter?.se_board || [domainName] }),
-    ...(subDomainFilter && { gradeLevel: subDomainFilter }),
-    ...(startDate && { startDate: startDate })
-};
-
+      objectType: ["Event"],
+      ...((domainfilter?.se_board != null || domainName != null) && {
+        board: domainfilter?.se_board || [domainName],
+      }),
+      ...(subDomainFilter && { gradeLevel: subDomainFilter }),
+      ...(startDate && { startDate: startDate }),
+    };
 
     setError(null);
     let data = JSON.stringify({
@@ -218,8 +219,8 @@ const EventList = (props) => {
       "Content-Type": "application/json",
     };
     try {
-      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
-      const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
+      // const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
       const response = await getAllContents(url, data, headers);
       console.log("My data  ---", response.data.result.event);
       setMyData(response.data.result.event);
