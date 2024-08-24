@@ -32,7 +32,7 @@ import * as util from "../services/utilService";
 const DrawerFilter = ({ SelectedFilters, renderedPage, domain,domainName,domainCode }) => {
 const contentTypeList = [
   { key: 'Course', value: 'Course' },
-  { key: 'Manuals/SOPs', value: 'Manuals and SOPs' },
+  { key: 'Manual/SOPs', value: 'Manuals and SOPs' },
   { key: 'Reports', value: 'Reports' },
   { key: 'Good Practices', value: 'Good Practices' },
 ];
@@ -135,26 +135,38 @@ const fetchDataFramework = async () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
 
-    try {
-      const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
-      const response = await frameworkService.getSelectedFrameworkCategories(url);
+      try {
+    const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
+    
+    const response = await frameworkService.getSelectedFrameworkCategories(url);
+    
+    const frameworkCategories = response?.data?.result?.framework?.categories;
 
-      const fetchedCategories = response?.data?.result?.framework?.categories[3]?.terms;
-      setCategories(fetchedCategories);
+    const boardCategoryIndex = frameworkCategories.findIndex(
+      (category) => category.code === "board"
+    );
 
-      if (fetchedCategories && selectedDomainCode) {
-        const selectedIndex = fetchedCategories.findIndex(
-          (category) => category.code === selectedDomainCode
-        );
-        if (selectedIndex !== -1) {
-          setSubCategory(fetchedCategories[selectedIndex]?.associations || []);
-        } else {
-          setSubCategory([]);
-        }
+    const fetchedCategories = frameworkCategories[boardCategoryIndex]?.terms || [];
+    setCategories(fetchedCategories);
+
+    if (fetchedCategories && selectedDomainCode) {
+      const selectedIndex = fetchedCategories.findIndex(
+        (category) => category.code === selectedDomainCode
+      );
+
+      if (selectedIndex !== -1) {
+        setSubCategory(fetchedCategories[selectedIndex]?.associations || []);
       } else {
-        setSubCategory(response?.data?.result?.framework?.categories[1]?.terms || []);
+        setSubCategory([]);
       }
-    } catch (error) {
+    } else {
+      const gradeLevelCategoryIndex = frameworkCategories.findIndex(
+        (category) => category.code === "gradeLevel"
+      );
+
+      setSubCategory(frameworkCategories[gradeLevelCategoryIndex]?.terms || []);
+    }
+  }  catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };

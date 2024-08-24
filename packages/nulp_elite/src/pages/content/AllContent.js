@@ -173,6 +173,7 @@ const AllContent = () => {
           "trackable",
           "gradeLevel",
           "se_boards",
+          "board",
           "se_subjects",
           "se_mediums",
           "se_gradeLevels",
