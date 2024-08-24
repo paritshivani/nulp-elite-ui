@@ -308,6 +308,7 @@ const JoinCourse = () => {
       "courseData?.result?.content?.children",
       courseData?.result?.content?.children
     );
+    let contentStatus = [];
     if (batchDetails?.batchId && courseData?.result?.content?.children) {
       let tempConsumedContents = 0;
       let tempTotalContents = 0;
@@ -323,10 +324,10 @@ const JoinCourse = () => {
                 item.mimeType !== "application/vnd.ekstep.content-collection"
             );
             console.log("flattenDeepContents", flattenDeepContents);
-            consumedContents = flattenDeepContents.filter((o) =>
-              contentStatus.some(
+            consumedContents = flattenDeepContents?.filter((o) =>
+              contentStatus?.some(
                 ({ contentId, status }) =>
-                  o.identifier === contentId && status === 2
+                  o?.identifier === contentId && status === 2
               )
             );
           }
@@ -361,15 +362,16 @@ const JoinCourse = () => {
       console.log("progress", progress);
       setConsumedContents(tempConsumedContents);
       setTotalContents(tempTotalContents);
+      let courseHierarchy = {};
       courseHierarchy.progress = progress;
       const unitCompleted = tempTotalContents === tempConsumedContents;
       setIsUnitCompleted(unitCompleted);
     }
   };
 
-  useEffect(() => {
-    calculateProgress();
-  }, [batchDetails, courseData]);
+  // useEffect(() => {
+  //   calculateProgress();
+  // }, [batchDetails, courseData]);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -443,30 +445,43 @@ const JoinCourse = () => {
           let allFound = true;
           let notConsumedContent;
 
-          for (let identifier of allContents) {
-            const found = contentList.find(
-              (item) => item.contentId === identifier && item.status === 2
-            );
-            if (!found) {
-              notConsumedContent = identifier;
-              allFound = false;
-              break;
+          if (Array.isArray(allContents)) {
+            for (let identifier of allContents) {
+              const found = Array.isArray(contentList)
+                ? contentList.find(
+                    (item) => item.contentId === identifier && item.status === 2
+                  )
+                : undefined;
+
+              if (!found) {
+                notConsumedContent = identifier;
+                allFound = false;
+                break;
+              }
             }
+          } else {
+            console.error("Error: allContents is not an array or is undefined");
           }
 
           if (allFound) {
-            notConsumedContent = allContents[0];
-            try {
-              const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
-              const response = await axios.patch(url, {
-                request: {
-                  userId: _userId,
-                  courseId: contentId,
-                  batchId: batchDetails?.batchId,
-                },
-              });
-            } catch (error) {
-              console.error("Error while fetching courses:", error);
+            if (Array.isArray(allContents) && allContents?.length > 0) {
+              notConsumedContent = allContents[0];
+              try {
+                const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
+                const response = await axios.patch(url, {
+                  request: {
+                    userId: _userId,
+                    courseId: contentId,
+                    batchId: batchDetails?.batchId,
+                  },
+                });
+              } catch (error) {
+                console.error("Error while fetching courses:", error);
+              }
+            } else {
+              console.error(
+                "Error: allContents is either not an array or it is empty."
+              );
             }
           }
 
