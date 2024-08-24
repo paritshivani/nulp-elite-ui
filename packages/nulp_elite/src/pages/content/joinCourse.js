@@ -569,7 +569,7 @@ const JoinCourse = () => {
       const response = await axios.post(url, requestBody);
       if (response.status === 200) {
         setEnrolled(true);
-        setShowEnrollmentSnackbar(true);
+        setShowUnEnrollmentSnackbar(true);
       }
     } catch (error) {
       console.error("Error enrolling in the course:", error);
