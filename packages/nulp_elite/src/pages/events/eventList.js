@@ -169,6 +169,7 @@ const EventList = (props) => {
     console.log("searchQuery", searchQuery);
     let filters = {
     objectType: ["Event"],
+    
     ...((domainfilter?.se_board != null || domainName !=null) && { board: domainfilter?.se_board || [domainName] }),
     ...(subDomainFilter && { gradeLevel: subDomainFilter }),
     ...(startDate && { startDate: startDate })
@@ -178,6 +179,7 @@ const EventList = (props) => {
     setError(null);
     let data = JSON.stringify({
       request: {
+        status: "Live",
         filters: filters,
         limit: 10,
         query: searchQuery,
@@ -208,7 +210,8 @@ const EventList = (props) => {
     const _userId = util.userId();
     let data = JSON.stringify({
       request: {
-        filters: { user_id: _userId },
+    status: "Live",
+    filters: { user_id: _userId },
         limit: 10,
         sort_by: { created_at: "desc" },
         offset: 0,

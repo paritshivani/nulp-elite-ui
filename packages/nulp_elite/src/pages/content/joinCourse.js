@@ -224,6 +224,7 @@ const JoinCourse = () => {
               batchId: batchDetails.batchId,
             });
             setBatchDetails(batchDetails);
+            console.log("batchDetail---",batchDetails)
           } else {
             console.error("Batch data not found in response");
           }
@@ -1167,6 +1168,8 @@ const JoinCourse = () => {
               </Box>
             )}
 
+
+
             <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
               style={{
@@ -1324,6 +1327,31 @@ const JoinCourse = () => {
                 </Typography>
               </AccordionDetails>
             </Accordion>
+           {/* {isEnrolled && batchDetails == 'undefined' && */}
+
+<Box
+style={{
+  background: "#F9FAFC",
+  padding: "10px",
+  borderRadius: "10px",
+  color: "#484848",
+}}
+className="accordionBoxShadow"
+>
+<Typography
+  variant="h7"
+  style={{
+    margin: "0 0 9px 0",
+    display: "block",
+    fontSize: "16px",
+  }}
+>
+  {t("CERT_NOT_ATTACHED")}:
+</Typography>
+
+</Box>
+            {/* } */}
+          
             <div className="xs-hide">
               <React.Fragment>
                 {chat.length === 0 && (
