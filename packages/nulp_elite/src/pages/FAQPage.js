@@ -23,7 +23,7 @@ const FAQPage = () => {
   const [faqData, setFaqData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Login");
   const [error, setError] = useState(null);
-  const setLanguage = localStorage.getItem('lang');
+  const setLanguage = localStorage.getItem('lang')|| 'en';
   let url;
   if (setLanguage === 'en') {
     url = "https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-en.json";
@@ -58,12 +58,12 @@ const FAQPage = () => {
         console.error("Error fetching FAQ data:", error);
         setError(error.message);
       });
-  }, [url]);
+  }, [url,setLanguage]);
 
   return (
     <div>
       <Header />
-      <Container maxWidth="xl" role="main" className="min-472 pb-30">
+     {setLanguage && url &&  <Container maxWidth="xl" role="main" className="min-472 pb-30">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -140,7 +140,7 @@ const FAQPage = () => {
               ))}
           </Grid>
         </Grid>
-      </Container>
+      </Container>}
       <Footer />
     </div>
   );

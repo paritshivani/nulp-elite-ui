@@ -191,6 +191,7 @@
   "YOUR_CHAT_REQUEST_IS_PENDING": "Your chat request is pending. Please wait for the creator to accept the chat invitation",
   "CHAT_WITH_CREATOR": "Chat with creator",
   "CONNECT_WITH_CREATOR": "Connect with creator",
+  "CERT_NOT_ATTACHED":"Currently, this course does not have a certificate. The course creator may attach a certificate later.",
   "FAILED_TO_FETCH_DATA": "Failed to fetch data. Please try again.",
   "FAILED_TO_VERIFY_OTP": "Failed to verify OTP. Please try again.",
   "FAILED_TO_GENERATE_OTP": "Failed to generate OTP. Please try again.",

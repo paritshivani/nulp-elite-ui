@@ -64,6 +64,7 @@ const JoinCourse = () => {
   const [batchDetails, setBatchDetails] = useState();
   const [userCourseData, setUserCourseData] = useState({});
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
+  const [showUnEnrollmentSnackbar, setShowUnEnrollmentSnackbar] = useState(false);
   const [showConsentForm, setShowConsentForm] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
   const [progress, setCourseProgress] = useState();
@@ -224,6 +225,7 @@ const JoinCourse = () => {
               batchId: batchDetails.batchId,
             });
             setBatchDetails(batchDetails);
+            console.log("batchDetail---",batchDetails)
           } else {
             console.error("Batch data not found in response");
           }
@@ -582,7 +584,7 @@ const JoinCourse = () => {
       const response = await axios.post(url, requestBody);
       if (response.status === 200) {
         setEnrolled(true);
-        setShowEnrollmentSnackbar(true);
+        setShowUnEnrollmentSnackbar(true);
       }
     } catch (error) {
       console.error("Error enrolling in the course:", error);
@@ -766,7 +768,7 @@ const JoinCourse = () => {
     try {
       await handleJoinCourse(); // Wait for the user to join the course
       setShowConsentForm(true); // Open the consent form after joining the course
-    } catch (error) {
+    } catch (error) {setShowEnrollmentSnackbar
       console.error("Error:", error);
     }
   };
@@ -943,6 +945,22 @@ const JoinCourse = () => {
           {t("ENROLLMENT_SUCCESS_MESSAGE")}
         </MuiAlert>
       </Snackbar>
+      <Snackbar
+        open={showUnEnrollmentSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ mt: 2 }}
+        >
+          {t("UNENROLLMENT_SUCCESS_MESSAGE")}
+        </MuiAlert>
+      </Snackbar>
 
       <Modal
         aria-labelledby="modal-modal-title"
@@ -1064,7 +1082,7 @@ const JoinCourse = () => {
             </Typography>
           </Breadcrumbs>  */}
             <Grid container spacing={2}>
-              <Breadcrumbs
+              {/* <Breadcrumbs
                 aria-label="breadcrumb"
                 className="h6-title mt-15 pl-18"
               >
@@ -1085,7 +1103,15 @@ const JoinCourse = () => {
                 >
                   {userData?.result?.content?.name}
                 </Link>
-              </Breadcrumbs>
+              </Breadcrumbs> */}
+                <Box
+            className="d-flex jc-bw mr-20 my-20 px-10"
+            style={{ alignItems: "center" }}
+          >
+            <Link onClick={handleGoBack} className="viewAll mr-17">
+              {t("BACK")}
+            </Link>
+          </Box>
 
               {/* <Grid item xs={4}>
                 <Link
@@ -1181,6 +1207,8 @@ const JoinCourse = () => {
                   )}
               </Box>
             )}
+
+
 
             <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
@@ -1339,6 +1367,31 @@ const JoinCourse = () => {
                 </Typography>
               </AccordionDetails>
             </Accordion>
+           {/* {isEnrolled && batchDetails == 'undefined' && */}
+
+<Box
+style={{
+  background: "#F9FAFC",
+  padding: "10px",
+  borderRadius: "10px",
+  color: "#484848",
+}}
+className="accordionBoxShadow"
+>
+<Typography
+  variant="h7"
+  style={{
+    margin: "0 0 9px 0",
+    display: "block",
+    fontSize: "16px",
+  }}
+>
+  {t("CERT_NOT_ATTACHED")}:
+</Typography>
+
+</Box>
+            {/* } */}
+          
             <div className="xs-hide">
               <React.Fragment>
                 {chat.length === 0 && (
