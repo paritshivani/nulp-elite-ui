@@ -164,6 +164,7 @@
   "LEAVE_COURSE_CONFIRMATION_TITLE": "బ్యాచ్ ఉన్స్క్రోల్మెంట్",
   "LEAVE_COURSE_CONFIRMATION_MESSAGE": "ఈ బ్యాచ్ నుండి ఉన్స్క్రోల్మెంట్ కావాలా?",
   "ENROLLMENT_SUCCESS_MESSAGE": "ఈ బ్యాచ్ కోసం కోర్సు విజయవంతంగా చేరింది",
+  "UNENROLLMENT_SUCCESS_MESSAGE": "విజయవంతంగా నమోదు తీసివేయబడింది",
   "YOUR_CHAT_REQUEST_IS_PENDING": "మీ చాట్ అభ్యర్థన పెండింగ్‌లో ఉంది. సృష్టికర్త చాట్ ఆహ్వానాన్ని ఆమోదించడానికి వేచి ఉండండి",
   "CHAT_WITH_CREATOR": "సృష్టికర్తతో చాట్",
   "CONNECT_WITH_CREATOR": "సృష్టికర్తతో కనెక్ట్",

@@ -64,6 +64,7 @@ const JoinCourse = () => {
   const [batchDetails, setBatchDetails] = useState();
   const [userCourseData, setUserCourseData] = useState({});
   const [showEnrollmentSnackbar, setShowEnrollmentSnackbar] = useState(false);
+  const [showUnEnrollmentSnackbar, setShowUnEnrollmentSnackbar] = useState(false);
   const [showConsentForm, setShowConsentForm] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
   const [progress, setCourseProgress] = useState();
@@ -752,7 +753,7 @@ const JoinCourse = () => {
     try {
       await handleJoinCourse(); // Wait for the user to join the course
       setShowConsentForm(true); // Open the consent form after joining the course
-    } catch (error) {
+    } catch (error) {setShowEnrollmentSnackbar
       console.error("Error:", error);
     }
   };
@@ -927,6 +928,22 @@ const JoinCourse = () => {
           sx={{ mt: 2 }}
         >
           {t("ENROLLMENT_SUCCESS_MESSAGE")}
+        </MuiAlert>
+      </Snackbar>
+      <Snackbar
+        open={showUnEnrollmentSnackbar}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ mt: 2 }}
+        >
+          {t("UNENROLLMENT_SUCCESS_MESSAGE")}
         </MuiAlert>
       </Snackbar>
 

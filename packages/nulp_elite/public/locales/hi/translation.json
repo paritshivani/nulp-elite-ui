@@ -169,6 +169,7 @@
   "LEAVE_COURSE_CONFIRMATION_TITLE": "बैच रद्दीकरण",
   "LEAVE_COURSE_CONFIRMATION_MESSAGE": "क्या आप इस बैच से नामांकन रद्द करना चाहते हैं?",
   "ENROLLMENT_SUCCESS_MESSAGE": "इस बैच के लिए कोर्स सफलतापूर्वक नामांकित किया गया",
+  "UNENROLLMENT_SUCCESS_MESSAGE": " सफलतापूर्वक नामांकन रद्द किया गया",
   "YOUR_CHAT_REQUEST_IS_PENDING": "आपका चैट अनुरोध लंबित है। कृपया रचनाकार के चैट निमंत्रण स्वीकार करने की प्रतीक्षा करें",
   "CHAT_WITH_CREATOR": "रचनाकार के साथ चैट करें",
   "CONNECT_WITH_CREATOR": "रचनाकार से कनेक्ट करें",
