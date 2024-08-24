@@ -64,7 +64,11 @@ const EventDetails = () => {
   // const { eventId } = useParams();
   const location = useLocation();
   const queryString = location.search;
-  const eventId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  let eventId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if eventId ends with '=' and remove it
+  if (eventId && eventId.endsWith("=")) {
+    eventId = eventId.slice(0, -1);
+  }
   const _userId = util.userId();
 
   const shareUrl = window.location.href; // Current page URL
@@ -294,15 +298,14 @@ const EventDetails = () => {
       "Content-Type": "application/json",
     };
     try {
-      // const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
-      const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
+      const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
       const response = await getAllContents(url, data, headers);
-      console.log("My data  ---", response.data.result.event);
-      setUserCourseData(response.data.result.event);
-      if (response.data.result.event.length > 0) {
-        response.data.result.event.map((event) => {
+      console.log("My data  ---", response.data.result.userRegistration);
+      setUserCourseData(response.data.result.userRegistration);
+      if (response.data.result.userRegistration.length > 0) {
+        response.data.result.userRegistration.map((event) => {
           console.log("check enrollment list API 1-----", event);
-          if (event.identifier === eventId) {
+          if (event.event_id === eventId) {
             setIsEnrolled(true);
           }
         });
@@ -779,29 +782,24 @@ const EventDetails = () => {
               </Box>
 
               <Box className="d-flex mb-20 h3-custom-title xs-hide">
-                <Box className="d-flex jc-bw alignItems-center  pr-5">
+                <Box className="d-flex jc-bw alignItems-center pr-5">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.startDate)}
                 </Box>
                 <Box className="d-flex jc-bw alignItems-center pl-10 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
-
                   {formatTimeToIST(detailData.startTime)}
                 </Box>
-              </Box>
-              <Box className="d-flex">
                 <Box className="mx-10">To</Box>
-                {/* <Box className="d-flex jc-bw alignItems-center">
+                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
-                </Box> */}
-                <Box className="d-flex alignItems-center pl-10 pr-5">
+                </Box>
+                <Box className="d-flex jc-bw alignItems-center pl-10 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
-
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
-
               {eventVisibility &&
                 canEnroll &&
                 !isEnrolled &&
@@ -903,9 +901,9 @@ const EventDetails = () => {
                   {formatDate(detailData.registrationStartDate)}
                 </Box>
               )}
-              <Box className="xs-hide">
+              {/* <Box className="xs-hide">
                 {
-                  // detailData.recording == undefined &&
+                  detailData.recording == undefined &&
                   <Box
                     className="h5-title mb-20 xs-hide"
                     style={{ fontWeight: "400" }}
@@ -913,7 +911,7 @@ const EventDetails = () => {
                     Recording will be available soon
                   </Box>
                 }
-              </Box>
+              </Box> */}
               {regEnd && isRecorded && (
                 <Box
                   className="h5-title mb-20 xs-hide"
@@ -945,15 +943,14 @@ const EventDetails = () => {
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
-                  {
-                    // detailData.recording == undefined &&
+                  {detailData.recording == undefined && (
                     <Box
                       className="h5-title mb-20 xs-hide"
                       style={{ fontWeight: "400" }}
                     >
                       Recording will be available soon
                     </Box>
-                  }
+                  )}
                 </Box>
               )}
               {/* {eventEnded && regEnd && (
@@ -1020,10 +1017,10 @@ const EventDetails = () => {
               </Box>
               <Box className="d-flex mb-20 h3-custom-title">
                 <Box className="mr-5">To</Box>
-                {/* <Box className="d-flex jc-bw alignItems-center">
+                <Box className="d-flex jc-bw alignItems-center">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
-                </Box> */}
+                </Box>
                 <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
 
@@ -1147,15 +1144,14 @@ const EventDetails = () => {
                   >
                     {t("VIEW_WEBINAR_RECORDING")}
                   </Button>
-                  {
-                    // detailData.recording == undefined &&
+                  {detailData.recording == undefined && (
                     <Box
                       className="h5-title mb-20 xs-hide"
                       style={{ fontWeight: "400" }}
                     >
                       Recording will be available soon
                     </Box>
-                  }
+                  )}
                 </Box>
               )}
             </Grid>

@@ -126,7 +126,7 @@ const AllContent = () => {
     let data = JSON.stringify({
       request: {
         filters: {
-          se_boards: [domainName],
+          board: [domainName],
           primaryCategory: [
             "Collection",
             "Resource",
@@ -173,6 +173,7 @@ const AllContent = () => {
           "trackable",
           "gradeLevel",
           "se_boards",
+          "board",
           "se_subjects",
           "se_mediums",
           "se_gradeLevels",

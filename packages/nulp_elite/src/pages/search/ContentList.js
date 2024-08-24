@@ -180,8 +180,10 @@ const ContentList = (props) => {
                     "eTextBook",
                     "TVLesson",
                 ]}),
-            se_boards: domainfilter.se_board || [domainName],
-            se_gradeLevels:
+            ...(domainfilter.se_board
+                ? { board: domainfilter.se_board }
+                : domainName ? { board: [domainName] } : {}),
+            gradeLevel:
                 subDomainFilter && subDomainFilter.length > 0
                     ? subDomainFilter
                     : [],

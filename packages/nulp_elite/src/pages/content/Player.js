@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { SunbirdPlayer } from "@shiksha/common-lib";
@@ -17,7 +15,21 @@ import axios from "axios";
 import Link from "@mui/material/Link";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import FeedbackPopup from "components/FeedbackPopup";
-
+import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  LinkedinIcon,
+} from "react-share";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import md5 from 'md5';
+import { TroubleshootRounded } from "@mui/icons-material";
 const urlConfig = require("../../configs/urlConfig.json");
 
 const Player = () => {
@@ -35,6 +47,7 @@ const Player = () => {
   const [courseName, setCourseName] = useState(location.state?.coursename);
   const [batchId, setBatchId] = useState(location.state?.batchid);
   const [courseId, setCourseId] = useState(location.state?.courseid);
+  const shareUrl = window.location.href; // Current page URL
   const [isEnrolled, setIsEnrolled] = useState(
     location.state?.isenroll || undefined
   );
@@ -44,13 +57,15 @@ const Player = () => {
   const [lesson, setLesson] = useState();
   const [isCompleted, setIsCompleted] = useState(false);
   const [openFeedBack, setOpenFeedBack] = useState(false);
-
+const [assessEvents, setAssessEvents] =useState ([]);
+const [propLength, setPropLength] =useState();
   const _userId = util.userId();
   const queryString = location.search;
-  const contentId = queryString.startsWith("?do_")
-    ? queryString.slice(1)
-    : null;
-
+  let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if contentId ends with '=' and remove it
+  if (contentId && contentId.endsWith("=")) {
+    contentId = contentId.slice(0, -1);
+  }
   const fetchUserData = useCallback(async () => {
     try {
       const userData = await util.userData();
@@ -61,20 +76,45 @@ const Player = () => {
     }
   }, []);
 
-  const handleTrackData = useCallback(
-    ({ score, trackData, attempts, ...props }, playerType = "quml") => {
-      CheckfeedBackSubmitted();
-      if (
-        playerType === "pdf-video" &&
-        props.currentPage === props.totalPages
-      ) {
-        setIsCompleted(true);
-      } else if (playerType === "ecml") {
-        setIsCompleted(true);
-      }
-    },
-    []
-  );
+const handleTrackData = useCallback(
+  async ({ score, trackData, attempts, ...props }, playerType = "quml") => {
+    
+setPropLength(Object.keys(props).length);
+console.log(Object.keys(props).length,"Object.keys(props).length");
+    CheckfeedBackSubmitted();
+
+    if (
+      playerType === "pdf-video" &&
+      props.currentPage === props.totalPages
+    ) {
+      setIsCompleted(true);
+    } 
+    // else if (playerType === "ecml") {
+    //   await updateContentStateForAssessment();
+    // }
+  },
+  [assessEvents] 
+);
+const handleAssessmentData = async (data) => {
+  if (data.eid === "ASSESS") {
+    console.log(data, "Received assessment data");
+    
+    // Update the assessEvents state with the new data
+    setAssessEvents((prevAssessEvents) => {
+      const updatedAssessEvents = [...prevAssessEvents, data];
+      console.log("Updated assessEvents array:", updatedAssessEvents);
+      return updatedAssessEvents;
+    });
+  }
+};
+
+
+useEffect(() => {
+  if(propLength===assessEvents.length){
+updateContentStateForAssessment();
+  }
+  handleTrackData();
+}, [assessEvents,propLength]);
 
   const CheckfeedBackSubmitted = async () => {
     try {
@@ -98,6 +138,75 @@ const Player = () => {
       console.error("Error fetching course data:", error);
     }
   };
+
+  function formatDate() {
+  const now = new Date();
+
+ 
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+
+  
+  const offset = -now.getTimezoneOffset();
+  const offsetHours = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0');
+  const offsetMinutes = String(Math.abs(offset) % 60).padStart(2, '0');
+  const offsetSign = offset >= 0 ? '+' : '-';
+  
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}:${milliseconds}${offsetSign}${offsetHours}${offsetMinutes}`;
+}
+
+function getCurrentTimestamp() {
+  return Date.now();
+}
+
+const attemptid = ()=>{
+      const timestamp = new Date().getTime();
+      const string = [courseId, batchId, contentId, _userId, timestamp].join('-');
+       const hashValue = md5(string);
+       return hashValue;
+
+}
+
+
+  const updateContentStateForAssessment = async () => {
+    await updateContentState(2);
+  try {
+    const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
+    const requestBody = {
+      request: {
+        userId: _userId,
+        contents: [
+          {
+            contentId: contentId,
+            batchId: batchId,
+            status: 2,
+            courseId: courseId,
+            lastAccessTime:formatDate(),
+          },
+        ],
+        assessments: [
+          {
+            assessmentTs : getCurrentTimestamp(),
+            batchId: batchId,
+            courseId: courseId,
+            userId: _userId,
+            attemptId: attemptid(),
+            contentId: contentId,
+            events: assessEvents, 
+          },
+        ],
+      },
+    };
+    const response = await axios.patch(url, requestBody);
+  } catch (error) {
+    console.error("Error fetching course data:", error);
+  }
+};
 
   const updateContentState = useCallback(
     async (status) => {
@@ -148,30 +257,46 @@ const Player = () => {
 
   const handleClose = () => setOpenFeedBack(false);
   const handleGoBack = () => navigate(sessionStorage.getItem("previousRoutes"));
+  const handleBackNavigation = () => {
+    navigate(-1); // Navigate back in history
+  };
 
   return (
     <div>
       <Header />
       <Container maxWidth="xl" role="main" className="player mt-15">
-        <Box style={{ textAlign: "right" }}>
-          <Link
-            underline="hover"
-            onClick={handleGoBack}
-            color="#004367"
-            href={previousRoute}
-            className="viewAll"
-          >
-            {t("BACK")}
-          </Link>
-        </Box>
-        <Grid container spacing={2} className="mt-10">
-          <Grid item xs={12} md={8} lg={8}>
+        <Grid container spacing={2} className="mt-10 mb-30">
+          <Grid item xs={12} md={12} lg={12}>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              className="h6-title mt-15 pl-28 xss-pb-0"
+              style={{ padding: "0 0 10px 0px" }}
+            >
+              <Link
+                underline="hover"
+                style={{ maxHeight: "inherit", cursor: "pointer" }}
+                onClick={handleBackNavigation}
+                color="#004367"
+              >
+                {t("ALL_PLAYER")}
+              </Link>
+              <Link
+                underline="hover"
+                href=""
+                aria-current="page"
+                className="h6-title oneLineEllipsis"
+               
+              >
+                {lesson?.name}
+              </Link>
+            </Breadcrumbs>
+          </Grid>
+          <Grid item xs={12} md={9} lg={9}>
             <Box>
               {lesson && (
                 <Breadcrumbs
                   aria-label="breadcrumb"
                   style={{
-                    padding: "5px 0",
                     fontSize: "16px",
                     fontWeight: "600",
                   }}
@@ -186,85 +311,102 @@ const Player = () => {
                   </Link>
                 </Breadcrumbs>
               )}
-              <Box className="h3-title my-10">{lesson?.name}</Box>
+              <Box className="h3-title">{lesson?.name}</Box>
+            </Box>
+            <Box>
+              {lesson && (
+                <Box className="xs-mb-20 mt-10">
+                  <Typography
+                    className="h6-title mb-20"
+                    style={{ display: "inline-block", verticalAlign: "text-top" }}
+                  >
+                    {t("CONTENT_TAGS")}:{" "}
+                  </Typography>
+                  {lesson.board && (
+                    <Button
+                      key={`board`}
+                      size="small"
+                      style={{
+                        color: "#424242",
+                        fontSize: "10px",
+                        margin: "0 10px 3px 6px",
+                      }}
+                      className="bg-blueShade3"
+                    >
+                      {lesson.board}
+                    </Button>
+                  )}
+                  {!lesson.board &&
+                    lesson.se_boards &&
+                    lesson.se_boards.map((item, index) => (
+                      <Button
+                        key={`se_boards-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {lesson.gradeLevel &&
+                    lesson.gradeLevel.map((item, index) => (
+                      <Button
+                        key={`gradeLevel-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                  {!lesson.gradeLevel &&
+                    lesson.se_gradeLevels &&
+                    lesson.se_gradeLevels.map((item, index) => (
+                      <Button
+                        key={`se_gradeLevels-${index}`}
+                        size="small"
+                        style={{
+                          color: "#424242",
+                          fontSize: "10px",
+                          margin: "0 10px 3px 6px",
+                        }}
+                        className="bg-blueShade3"
+                      >
+                        {item}
+                      </Button>
+                    ))}
+                </Box>
+              )}
             </Box>
           </Grid>
-          <Grid item xs={12} md={8} lg={8} className="xs-hide">
-            {/* Placeholder for future features */}
+
+          <Grid item xs={12} md={3} lg={3}  style={{ textAlign: "right" }}>
+            <FacebookShareButton url={shareUrl} className="pr-5">
+              <FacebookIcon size={32} round={true} />
+            </FacebookShareButton>
+            <WhatsappShareButton url={shareUrl} className="pr-5">
+              <WhatsappIcon size={32} round={true} />
+            </WhatsappShareButton>
+            <LinkedinShareButton url={shareUrl} className="pr-5">
+              <LinkedinIcon size={32} round={true} />
+            </LinkedinShareButton>
+            <TwitterShareButton url={shareUrl} className="pr-5">
+              <img
+                src={require("../../assets/twitter.png")}
+                alt="Twitter"
+                style={{ width: 32, height: 32 }}
+              />
+            </TwitterShareButton>
           </Grid>
-          <Grid>
-            {lesson && (
-              <Box className="xs-mb-20">
-                <Typography
-                  className="h6-title pl-20 mb-20"
-                  style={{ display: "inline-block", verticalAlign: "super" }}
-                >
-                  {t("CONTENT_TAGS")}:{" "}
-                </Typography>
-                {lesson.board && (
-                  <Button
-                    key={`board`}
-                    size="small"
-                    style={{
-                      color: "#424242",
-                      fontSize: "10px",
-                      margin: "0 10px 3px 6px",
-                    }}
-                    className="bg-blueShade3"
-                  >
-                    {lesson.board}
-                  </Button>
-                )}
-                {!lesson.board &&
-                  lesson.se_boards &&
-                  lesson.se_boards.map((item, index) => (
-                    <Button
-                      key={`se_boards-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {lesson.gradeLevel &&
-                  lesson.gradeLevel.map((item, index) => (
-                    <Button
-                      key={`gradeLevel-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {!lesson.gradeLevel &&
-                  lesson.se_gradeLevels &&
-                  lesson.se_gradeLevels.map((item, index) => (
-                    <Button
-                      key={`se_gradeLevels-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-              </Box>
-            )}
-          </Grid>
+
         </Grid>
         <Box
           className="lg-mx-90"
@@ -283,6 +425,7 @@ const Player = () => {
                 firstName: userFirstName || "",
                 lastName: userLastName || "",
               }}
+               telemetryData={(data) => {handleAssessmentData(data)}}
               setTrackData={(data) => {
                 const type = lesson?.mimeType;
                 if (
@@ -321,6 +464,58 @@ const Player = () => {
               public_url="https://devnulp.niua.org/newplayer"
             />
           )}
+        </Box>
+        <Box style={{
+          paddingBottom: "2%",
+          marginTop: '2%'
+        }}>
+          <Accordion defaultExpanded
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              <Typography>{t("DESCRIPTION")}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                {lesson?.name}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2-content"
+              id="panel2-header"
+            >
+              <Typography>{t("ABOUTTHECONTENT")}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box sx={{ fontWeight: 'bold' }}>{t("LICENSEDETAILS")} : </Box>
+              {lesson?.licenseDetails && (
+                <Typography className="mb-10">
+                  <Box>
+                    {lesson?.licenseDetails.name} - {lesson?.licenseDetails.description}
+                  </Box>
+                  <Box>
+                    <a href={lesson?.licenseDetails.url} target="_blank" rel="noopener noreferrer">
+                      {lesson?.licenseDetails.url}
+                    </a>
+                  </Box>
+                  <Box>{lesson?.copyright} </Box>
+                </Typography>
+              )}
+
+              <Typography className="mb-10">
+                <Box sx={{ fontWeight: 'bold' }}>{t("COPYRIGHT")} :</Box>
+                <Box>{lesson?.copyright}</Box>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+        <Box>
         </Box>
       </Container>
       {openFeedBack && (

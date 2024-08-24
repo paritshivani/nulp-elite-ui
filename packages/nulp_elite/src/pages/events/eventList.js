@@ -121,10 +121,12 @@ const EventList = (props) => {
     searchQuery,
     domainName,
     domain,
+    currentPage,
+    subDomainFilter
   ]);
-  useEffect(() => {
-    fetchAllData();
-  }, [currentPage]);
+  // useEffect(() => {
+  //   fetchAllData();
+  // }, [currentPage]);
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
@@ -143,7 +145,7 @@ const EventList = (props) => {
     setSubDomainFilter(selectedFilters.subDomainFilter);
     setSearchQuery(selectedFilters.eventSearch);
 
-    fetchAllData();
+    // fetchAllData();
   };
   const handleDomainFilter = (query, domainName) => {
     setDomain(query);
@@ -151,7 +153,7 @@ const EventList = (props) => {
     setCurrentPage(1);
     // setData({});
     setDomainName(domainName);
-    fetchAllData();
+    // fetchAllData();
   };
   const [value, setValue] = React.useState("1");
   let startDate = [];
@@ -165,61 +167,13 @@ const EventList = (props) => {
 
   const fetchAllData = async () => {
     console.log("searchQuery", searchQuery);
-    let filters = {};
-    if (searchQuery && domainfilter && subDomainFilter) {
-      filters = {
-        objectType: ["Event"],
-        // query: searchQuery ? searchQuery : "",
-        board: domainfilter.se_board || [domainName],
-        gradeLevel: subDomainFilter,
-        startDate: startDate,
-      };
-    } else if (searchQuery && domainfilter) {
-      filters = {
-        objectType: ["Event"],
-        // query: searchQuery ? searchQuery : "",
-        board: domainfilter.se_board || [domainName],
-        startDate: startDate,
-      };
-    } else if (searchQuery && subDomainFilter) {
-      filters = {
-        objectType: ["Event"],
-        // query: searchQuery ? searchQuery : "",
-        gradeLevel: subDomainFilter,
-        startDate: startDate,
-      };
-    } else if (domainfilter && subDomainFilter) {
-      filters = {
-        objectType: ["Event"],
-        board: domainfilter.se_board || [domainName],
-        gradeLevel: subDomainFilter,
-        startDate: startDate || {},
-      };
-    } else if (domainfilter) {
-      filters = {
-        objectType: ["Event"],
-        board: domainfilter.se_board || [domainName],
-        startDate: startDate || {},
-      };
-    } else if (subDomainFilter) {
-      filters = {
-        objectType: ["Event"],
-        gradeLevel: subDomainFilter,
-        startDate: startDate || {},
-      };
-    } else if (searchQuery) {
-      filters = {
-        objectType: ["Event"],
-        // query: searchQuery ? searchQuery : "",
-        startDate: startDate || {},
-      };
-    } else {
-      filters = {
-        objectType: ["Event"],
-        startDate: startDate || {},
-        status: "Live"
-      };
-    }
+    let filters = {
+    objectType: ["Event"],
+    ...((domainfilter?.se_board != null || domainName !=null) && { board: domainfilter?.se_board || [domainName] }),
+    ...(subDomainFilter && { gradeLevel: subDomainFilter }),
+    ...(startDate && { startDate: startDate })
+};
+
 
     setError(null);
     let data = JSON.stringify({

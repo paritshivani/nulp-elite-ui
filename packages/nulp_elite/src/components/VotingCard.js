@@ -63,6 +63,7 @@ export default function VotingCard({ items, index, onClick }) {
   const [pollResult, setPollResult] = useState([]);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(10);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
   const handleClickOpen = (event) => {
     event.stopPropagation();

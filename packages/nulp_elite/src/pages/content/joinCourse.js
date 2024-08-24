@@ -87,9 +87,12 @@ const JoinCourse = () => {
   const [showChat, setShowChat] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const queryString = location.search;
-  const contentId = queryString.startsWith("?do_")
-    ? queryString.slice(1)
-    : null;
+  let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  // Check if contentId ends with '=' and remove it
+  if (contentId && contentId.endsWith("=")) {
+    contentId = contentId.slice(0, -1);
+  }
+
   // const { contentId } = location.state || {};
   // const { contentId } = useParams();
   const _userId = util.userId(); // Assuming util.userId() is defined
@@ -513,7 +516,7 @@ const JoinCourse = () => {
         },
       });
     } else {
-      showOpenContenErrorMessage(
+      showErrorMessage(
         "You must join the course to get complete access to content."
       );
     }
@@ -783,7 +786,7 @@ const JoinCourse = () => {
           consent: {
             status: status,
             userId: _userId,
-            consumerId: userInfo?.rootOrgId,
+            consumerId: courseData.result.content.channel,
             objectId: contentId,
             objectType: "Collection",
           },
@@ -797,7 +800,7 @@ const JoinCourse = () => {
             consent: {
               filters: {
                 userId: _userId,
-                consumerId: userInfo?.rootOrgId,
+                consumerId: courseData.result.content.channel,
                 objectId: contentId,
               },
             },
@@ -993,7 +996,7 @@ const JoinCourse = () => {
       <Container
         maxWidth="xxl"
         role="main"
-        className="xs-pr-0 xs-pb-20 lg-mt-12 joinCourse"
+        className="xs-pb-20 lg-mt-12 joinCourse"
       >
         <Box className=" pos-relative xs-ml-15 pt-10">
           <Box>
@@ -1487,36 +1490,144 @@ const JoinCourse = () => {
                     </AccordionSummary>
                     {faqIndex?.children?.map((faqIndexname) => (
                       <AccordionDetails
-                        key={faqIndexname.identifier} // Ensure a unique key
+                        key={faqIndexname.identifier || faqIndexname.name}
                         className="border-bottom"
                         style={{ paddingLeft: "35px" }}
                       >
-                        <SummarizeOutlinedIcon
-                          style={{ fontSize: "17px", paddingRight: "10px" }}
-                        />
-                        <Link
-                          href="#"
-                          underline="none"
-                          style={{ verticalAlign: "super" }}
-                          onClick={() =>
-                            handleLinkClick(faqIndexname.identifier)
-                          }
-                          className="h6-title"
-                        >
-                          {faqIndexname.name}
-                          {completedContents.includes(
-                            faqIndexname.identifier
-                          ) && (
-                            <CheckCircleIcon
-                              style={{
-                                color: "green",
-                                fontSize: "24px",
-                                paddingLeft: "10px",
-                                float: "right",
-                              }}
-                            />
+                        {faqIndexname.children &&
+                        faqIndexname.children.length > 0 ? (
+                          <span
+                            className="h6-title"
+                            style={{ verticalAlign: "super" }}
+                          >
+                            {faqIndexname.name}
+                          </span>
+                        ) : (
+                          <Link
+                            href="#"
+                            underline="none"
+                            style={{ verticalAlign: "super" }}
+                            onClick={() =>
+                              handleLinkClick(faqIndexname.identifier)
+                            }
+                            className="h6-title"
+                          >
+                            {faqIndexname.name}
+                            {completedContents.includes(
+                              faqIndexname.identifier
+                            ) && (
+                              <CheckCircleIcon
+                                style={{
+                                  color: "green",
+                                  fontSize: "24px",
+                                  paddingLeft: "10px",
+                                  float: "right",
+                                }}
+                              />
+                            )}
+                          </Link>
+                        )}
+                        {faqIndexname.children &&
+                          faqIndexname.children.length > 0 && (
+                            <div style={{ paddingLeft: "20px" }}>
+                              {faqIndexname.children.map((child) => (
+                                <AccordionDetails
+                                  key={child.identifier || child.name}
+                                  className="border-bottom"
+                                  style={{ paddingLeft: "35px" }}
+                                >
+                                  {child.children &&
+                                  child.children.length > 0 ? (
+                                    <span
+                                      className="h6-title"
+                                      style={{ verticalAlign: "super" }}
+                                    >
+                                      {child.name}
+                                    </span>
+                                  ) : (
+                                    <Link
+                                      href="#"
+                                      underline="none"
+                                      style={{ verticalAlign: "super" }}
+                                      onClick={() =>
+                                        handleLinkClick(child.identifier)
+                                      }
+                                      className="h6-title"
+                                    >
+                                      {child.name}
+                                      {completedContents.includes(
+                                        child.identifier
+                                      ) && (
+                                        <CheckCircleIcon
+                                          style={{
+                                            color: "green",
+                                            fontSize: "24px",
+                                            paddingLeft: "10px",
+                                            float: "right",
+                                          }}
+                                        />
+                                      )}
+                                    </Link>
+                                  )}
+                                  {child.children &&
+                                    child.children.length > 0 && (
+                                      <div style={{ paddingLeft: "20px" }}>
+                                        {child.children.map((grandchild) => (
+                                          <AccordionDetails
+                                            key={
+                                              grandchild.identifier ||
+                                              grandchild.name
+                                            }
+                                            className="border-bottom"
+                                            style={{ paddingLeft: "35px" }}
+                                          >
+                                            {grandchild.children &&
+                                            grandchild.children.length > 0 ? (
+                                              <span
+                                                className="h6-title"
+                                                style={{
+                                                  verticalAlign: "super",
+                                                }}
+                                              >
+                                                {grandchild.name}
+                                              </span>
+                                            ) : (
+                                              <Link
+                                                href="#"
+                                                underline="none"
+                                                style={{
+                                                  verticalAlign: "super",
+                                                }}
+                                                onClick={() =>
+                                                  handleLinkClick(
+                                                    grandchild.identifier
+                                                  )
+                                                }
+                                                className="h6-title"
+                                              >
+                                                {grandchild.name}
+                                                {completedContents.includes(
+                                                  grandchild.identifier
+                                                ) && (
+                                                  <CheckCircleIcon
+                                                    style={{
+                                                      color: "green",
+                                                      fontSize: "24px",
+                                                      paddingLeft: "10px",
+                                                      float: "right",
+                                                    }}
+                                                  />
+                                                )}
+                                              </Link>
+                                            )}
+                                          </AccordionDetails>
+                                        ))}
+                                      </div>
+                                    )}
+                                </AccordionDetails>
+                              ))}
+                            </div>
                           )}
-                        </Link>
                       </AccordionDetails>
                     ))}
                   </Accordion>

@@ -9,6 +9,7 @@ const SunbirdPlayer = ({
   handleExitButton,
   width,
   height,
+  telemetryData,
   ...props
 }) => {
   const { mimeType } = props
@@ -65,6 +66,7 @@ const SunbirdPlayer = ({
     } else if (data?.eid) {
       telemetry = data
     }
+telemetryData(telemetry)
 
     if (telemetry?.eid === 'EXDATA') {
       try {
