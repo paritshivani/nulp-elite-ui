@@ -1050,7 +1050,7 @@ const JoinCourse = () => {
             </Typography>
           </Breadcrumbs>  */}
             <Grid container spacing={2}>
-              <Breadcrumbs
+              {/* <Breadcrumbs
                 aria-label="breadcrumb"
                 className="h6-title mt-15 pl-18"
               >
@@ -1071,7 +1071,15 @@ const JoinCourse = () => {
                 >
                   {userData?.result?.content?.name}
                 </Link>
-              </Breadcrumbs>
+              </Breadcrumbs> */}
+                <Box
+            className="d-flex jc-bw mr-20 my-20 px-10"
+            style={{ alignItems: "center" }}
+          >
+            <Link onClick={handleGoBack} className="viewAll mr-17">
+              {t("BACK")}
+            </Link>
+          </Box>
 
               {/* <Grid item xs={4}>
                 <Link
