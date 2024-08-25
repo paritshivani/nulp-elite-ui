@@ -106,6 +106,7 @@ const EventDetails = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [recording, setRecording] = useState();
+  const [isAllreadyFilledRegistation,setIsAlreadyFilledRegistration] = useState(true)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -154,7 +155,7 @@ const EventDetails = () => {
       enrollEvent();
       handleCloseConsentModal();
     } else if (eventVisibility && eventVisibility === "Private") {
-      updateRegisterEvent();
+      updateRegisterEvent(formData);
       handleCloseConsentModal();
     }
   };
@@ -235,41 +236,35 @@ const EventDetails = () => {
   }, [_userId, eventId]);
 
   const fetchBatchData = async () => {
+    let enrollmentType = eventVisibility === "public" ? "open" : "invite-only";
+
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.BATCH.GET_BATCHS}`;
       const response = await axios.post(url, {
         request: {
           filters: {
             courseId: eventId,
-            enrollmentType: "open",
+            enrollmentType,
           },
           sort_by: {
             createdDate: "desc",
           },
         },
       });
-      const responseData = response.data;
-      console.log("responseData------", responseData.result.response.content);
-      if (responseData.result.response) {
-        if (responseData.result.response.count === 0) {
-          // console.warn("This course has no active batches.");
-          showErrorMessage(t("This course has no active Batches")); // Assuming `showErrorMessage` is used to display messages to the user
-        } else if (
-          responseData.result.response.content &&
-          responseData.result.response.content.length >= 0
-        ) {
-          const batchDetails = responseData.result.response.content[0];
-          // setBatchData(responseData.result.response.content[0])
-          console.log("batchDetails-----", batchDetails);
-          setBatchData({
-            startDate: batchDetails.startDate,
-            endDate: batchDetails.endDate,
-            enrollmentEndDate: batchDetails.enrollmentEndDate,
-            batchId: batchDetails.batchId,
-          });
-        } else {
-          console.error("Batch data not found in response");
-        }
+
+      const { result } = response.data;
+      const { response: batchResponse } = result;
+
+      if (batchResponse && batchResponse.count === 0) {
+        showErrorMessage(t("This course has no active Batches"));
+      } else if (batchResponse?.content?.length > 0) {
+        const [batchDetails] = batchResponse.content;
+        setBatchData({
+          startDate: batchDetails.startDate,
+          endDate: batchDetails.endDate,
+          enrollmentEndDate: batchDetails.enrollmentEndDate,
+          batchId: batchDetails.batchId,
+        });
       } else {
         console.error("Batch data not found in response");
       }
@@ -278,6 +273,7 @@ const EventDetails = () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
+
   const fetchMyEvents = async () => {
     setIsLoading(true);
     setError(null);
@@ -294,19 +290,29 @@ const EventDetails = () => {
       "Content-Type": "application/json",
     };
     try {
-      const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
-      const response = await getAllContents(url, data, headers);
-      console.log("My data  ---", response.data.result.userRegistration);
-      setUserCourseData(response.data.result.userRegistration);
-      if (response.data.result.userRegistration.length > 0) {
-        response.data.result.userRegistration.map((event) => {
-          console.log("check enrollment list API 1-----", event);
-          if (event.event_id === eventId) {
-            setIsEnrolled(true);
-          }
-        });
+  const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
+  const response = await getAllContents(url, data, headers);
+  
+  const userRegistrationData = response.data.result.userRegistration;
+  console.log("My data ---", userRegistrationData);
+
+  setUserCourseData(userRegistrationData);
+
+  if (userRegistrationData.length > 0) {
+    userRegistrationData.forEach((event) => {
+      if (event.event_id === eventId) {
+        console.log("Check enrollment list API 1-----", event);
+        
+        setIsEnrolled(true);
+        
+        if (event.designation === null || event.organisation === null || event.user_consent === null) {
+          setIsAlreadyFilledRegistration(false);
+        }
       }
-    } catch (error) {
+    });
+  }
+} 
+ catch (error) {
       console.log("m data error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     } finally {
@@ -431,9 +437,15 @@ const EventDetails = () => {
     } else if (
       eventVisibility &&
       eventVisibility === "Private" &&
-      button === "join"
+      button === "join" && !isAllreadyFilledRegistation 
     ) {
       handleOpenConsentModal();
+    } else if (
+      eventVisibility &&
+      eventVisibility === "Private" &&
+      button === "join" && isEnrolled && isAllreadyFilledRegistation
+    ) {
+      attendWebinar();
     } else if (
       eventVisibility &&
       eventVisibility === "Public" &&
@@ -563,12 +575,12 @@ const EventDetails = () => {
     const url = `${urlConfig.URLS.CUSTOM_EVENT.REGISTER}`;
 
     const RequestBody = {
-      event_id: detailData.identifier,
-      name: formData.name,
+      event_id: detailData?.identifier,
+      name: formData?.name,
       user_id: _userId,
-      email: formData.email,
-      designation: formData.designation,
-      organisation: formData.organisation,
+      email: formData?.email,
+      designation: formData?.designation,
+      organisation: formData?.organisation,
       // certificate: formData.certificate,
       user_consent: "true",
       consentForm: consent?.consent,
@@ -584,15 +596,15 @@ const EventDetails = () => {
   };
 
   const updateRegisterEvent = async (formData) => {
-    const url = `${urlConfig.URLS.CUSTOM_EVENT.REGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`;
+    const url = `${urlConfig.URLS.CUSTOM_EVENT.UPDATE_REGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`;
 
     const RequestBody = {
-      email: formData.email,
-      designation: formData.designation,
-      organisation: formData.organisation,
+      email: formData?.email,
+      designation: formData?.designation,
+      organisation: formData?.organisation,
       // certificate: formData.certificate,
       user_consent: "true",
-      consentForm: consent?.consent,
+      consent_form: consent?.consent,
     };
 
     try {
@@ -615,6 +627,7 @@ const EventDetails = () => {
       const response = await axios.post(url, requestBody);
       if (response.status === 200) {
         setIsEnrolled(false);
+        setIsAlreadyFilledRegistration(true)
         console.log("check unenrol API-----", isEnrolled);
 
         try {
