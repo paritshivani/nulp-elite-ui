@@ -645,7 +645,8 @@ function Header({ globalSearchQuery }) {
                 style={{ background: "#f9fafc", color: "#1976d2" }}
                 className="lg-hide"
               >
-                Poll
+                
+                {t("POLL")}
                 <Link primary="Submenu" />
                 {openSubmenu ? <ExpandLess /> : <ExpandMore />}
               </MenuItem>

@@ -259,6 +259,8 @@
   "POLL_LIST": "Poll List",
   "CREATE_POLL": "Create Poll",
   "LIVE_POLLS": "Live Polls",
+  "POLL": "Poll",
+  "ALL_POLLS":"All Polls",
   "SUBMIT_VOTE": "Submit Vote",
   "CERTIFICATIONS RECEIVED": "Certifications Received",
   "DOWNLOAD CERTIFICATES": "Download Certificates",

@@ -111,7 +111,7 @@ const JoinCourse = () => {
   const [NotConsumedContent, setNotConsumedContent] = useState();
   const [isContentConsumed, setIsContentConsumed] = useState();
   const [completedContents, setCompletedContents] = useState([]);
-
+  const [isCompleted, setIsCompleted] = useState();
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -184,6 +184,7 @@ const JoinCourse = () => {
         }
         setAllContents(allContents);
         console.log("allContents-------", allContents);
+
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -283,6 +284,20 @@ const JoinCourse = () => {
     getUserData();
   }, []);
 
+  const checkCourseComplition = async(allContents, userProgress) =>{
+    // const contentlength = allContents.length
+    let completedCount= 0;
+    userProgress.result.contentList.map((content)=>{
+      if(content.status ){
+        completedCount = completedCount + 1 ;
+      }
+    })
+    if(allContents.length == completedCount){
+      setIsCompleted(true)
+    }
+   
+  }
+
   const flattenDeep = async (contents) => {
     if (contents) {
       let result = [];
@@ -308,6 +323,7 @@ const JoinCourse = () => {
       "courseData?.result?.content?.children",
       courseData?.result?.content?.children
     );
+
     if (batchDetails?.batchId && courseData?.result?.content?.children) {
       let tempConsumedContents = 0;
       let tempTotalContents = 0;
@@ -407,6 +423,7 @@ const JoinCourse = () => {
           console.log("API Response Data:", data);
 
           setCourseProgress(data);
+          checkCourseComplition(allContents, data);
 
           const contentIds =
             data?.result?.contentList?.map((item) => item.contentId) || [];
@@ -532,15 +549,15 @@ const JoinCourse = () => {
   };
 
   const isEnrolled = () => {
-    console.log("userCourseData?.courses", userCourseData?.courses);
-    console.log(
-      "userCourseData?.courses",
-      userCourseData?.courses?.map((course) => course.contentId)
-    );
-    console.log(
-      "userCourseData?.courses?.some",
-      userCourseData?.courses?.some((course) => course.contentId === contentId)
-    );
+    // console.log("userCourseData?.courses", userCourseData?.courses);
+    // console.log(
+    //   "userCourseData?.courses",
+    //   userCourseData?.courses?.map((course) => course.contentId)
+    // );
+    // console.log(
+    //   "userCourseData?.courses?.some",
+    //   userCourseData?.courses?.some((course) => course.contentId === contentId)
+    // );
     return (
       userCourseData &&
       userCourseData.courses &&
@@ -579,8 +596,8 @@ const JoinCourse = () => {
   };
 
   const renderActionButton = () => {
-    console.log("ConsumedContents", ConsumedContents);
-    console.log("allContents", allContents);
+    // console.log("ConsumedContents", ConsumedContents);
+    // console.log("allContents", allContents);
     if (isEnrolled() || enrolled) {
       if (isNotStarted) {
         return (
@@ -591,12 +608,14 @@ const JoinCourse = () => {
             >
               {t("START_LEARNING")}
             </Button>
-            <Button
+          {!isCompleted &&
+              <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
-            >
-              {t("LEAVE_COURSE")}
+            > {t("LEAVE_COURSE")}
             </Button>
+          }  
+             
             {showConfirmation && (
               <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
                 <DialogTitle>
@@ -614,13 +633,14 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  <Button
-                    onClick={handleLeaveConfirmed}
-                    className="custom-btn-primary"
-                    autoFocus
-                  >
-                    {t("LEAVE_COURSE")}
-                  </Button>
+                  {!isCompleted &&
+              <Button
+              onClick={handleLeaveCourseClick} // Open confirmation dialog
+              className="custom-btn-danger"
+            > {t("LEAVE_COURSE")}
+            </Button>
+          }  
+            
                 </DialogActions>
               </Dialog>
             )}
@@ -639,12 +659,14 @@ const JoinCourse = () => {
             >
               {t("CONTINUE LEARNING")}
             </Button>
-            <Button
+            {!isCompleted &&
+              <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
-            >
-              {t("LEAVE_COURSE")}
+            > {t("LEAVE_COURSE")}
             </Button>
+          }  
+            
             {showConfirmation && (
               <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
                 <DialogTitle>
@@ -662,13 +684,14 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  <Button
-                    onClick={handleLeaveConfirmed}
-                    className="custom-btn-primary"
-                    autoFocus
-                  >
-                    {t("LEAVE_COURSE")}
-                  </Button>
+                  {!isCompleted &&
+              <Button
+              onClick={handleLeaveCourseClick} // Open confirmation dialog
+              className="custom-btn-danger"
+            > {t("LEAVE_COURSE")}
+            </Button>
+          }  
+            
                 </DialogActions>
               </Dialog>
             )}
