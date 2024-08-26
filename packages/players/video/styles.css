@@ -249,7 +249,7 @@
     "Noto Sans Kannada", "Noto Sans Oriya", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
     sans-serif;
-  --blue: #065872;
+  --blue: #024f9d;
   --green: #008840;
   --orange: #e55a28;
   --red: #ff4558;
@@ -269,7 +269,7 @@
   --gray-300: hsl(var(--gray-hs), 59%);
   --gray-400: hsl(var(--gray-hs), 40%);
   --gray-800: var(--gray);
-  --primary-color: #065872;
+  --primary-color: #024f9d;
   --secondary-color: #008840;
   --tertiary-color: #e55a28;
   --primary-0: #f3f7fa;
@@ -518,7 +518,7 @@
 }
 */
 [class*=sb-icon-primary] {
-  background-color: #065872;
+  background-color: #024f9d;
   background-color: var(--primary-color);
 }
 [class*=sb-icon-secondary] {
@@ -606,7 +606,7 @@
   fill: var(--white);
 }
 .icon-svg--primary {
-  fill: #065872;
+  fill: #024f9d;
   fill: var(--primary-color);
 }
 .icon-svg--secondary {
@@ -987,11 +987,11 @@ template {
   color: var(--gray-800) !important;
 }
 .sb-bg-color-primary {
-  background: #065872 !important;
+  background: #024f9d !important;
   background: var(--primary-400) !important;
 }
 .sb-color-primary {
-  color: #065872 !important;
+  color: #024f9d !important;
   color: var(--primary-400) !important;
 }
 .sb-bg-color-primary-0 {
@@ -1035,11 +1035,11 @@ template {
   color: var(--primary-300) !important;
 }
 .sb-bg-color-primary-400 {
-  background: #065872 !important;
+  background: #024f9d !important;
   background: var(--primary-400) !important;
 }
 .sb-color-primary-400 {
-  color: #065872 !important;
+  color: #024f9d !important;
   color: var(--primary-400) !important;
 }
 .sb-bg-color-primary-600 {
@@ -1163,11 +1163,11 @@ template {
   color: var(--red-400) !important;
 }
 .sb-bg-color-info {
-  background: #065872 !important;
+  background: #024f9d !important;
   background: var(--primary-400) !important;
 }
 .sb-color-info {
-  color: #065872 !important;
+  color: #024f9d !important;
   color: var(--primary-400) !important;
 }
 .sb-bg-color-success {
@@ -1358,7 +1358,7 @@ template {
     "Noto Sans Kannada", "Noto Sans Oriya", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
     sans-serif;
-  --blue: #065872;
+  --blue: #024f9d;
   --green: #008840;
   --orange: #e55a28;
   --red: #ff4558;
@@ -1378,7 +1378,7 @@ template {
   --gray-300: hsl(var(--gray-hs), 59%);
   --gray-400: hsl(var(--gray-hs), 40%);
   --gray-800: var(--gray);
-  --primary-color: #065872;
+  --primary-color: #024f9d;
   --secondary-color: #008840;
   --tertiary-color: #e55a28;
   --primary-0: #f3f7fa;
@@ -1716,11 +1716,11 @@ p,
   font-style: italic;
 }
 a {
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-color);
 }
 a:hover {
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-color);
 }
 a:focus {
@@ -4331,9 +4331,9 @@ a.sb-btn {
   background-color: var(--gray-100);
 }
 .sb-btn-primary {
-  background-color: #065872;
+  background-color: #024f9d;
   background-color: var(--primary-400);
-  border-color: #065872;
+  border-color: #024f9d;
   border-color: var(--primary-400);
   color: #ffffff;
   color: var(--white);
@@ -4348,9 +4348,9 @@ a.sb-btn {
 .sb-btn-outline-primary {
   background-color: #ffffff;
   background-color: var(--white);
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
-  border-color: #065872;
+  border-color: #024f9d;
   border-color: var(--primary-400);
 }
 .sb-btn-outline-primary:hover, .sb-btn-outline-primary:active, .sb-btn-outline-primary.active {
@@ -4363,9 +4363,9 @@ a.sb-btn {
   border-style: dashed;
   border-width: 1px;
   background-color: #fff;
-  border-color: #065872;
+  border-color: #024f9d;
   border-color: var(--primary-400);
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
 }
 .sb-btn-dashed-primary:hover, .sb-btn-dashed-primary:active, .sb-btn-dashed-primary.active {
@@ -4375,7 +4375,7 @@ a.sb-btn {
 .sb-btn-link-primary {
   background: none;
   border: 0px;
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
 }
 .sb-btn-link-primary:hover, .sb-btn-link-primary:active, .sb-btn-link-primary.active {
@@ -4539,9 +4539,9 @@ a.sb-btn {
   background-color: var(--red-0);
 }
 .sb-btn-info {
-  background-color: #065872;
+  background-color: #024f9d;
   background-color: var(--primary-400);
-  border-color: #065872;
+  border-color: #024f9d;
   border-color: var(--primary-400);
   color: #ffffff;
   color: var(--white);
@@ -4556,9 +4556,9 @@ a.sb-btn {
 .sb-btn-outline-info {
   background-color: #ffffff;
   background-color: var(--white);
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
-  border-color: #065872;
+  border-color: #024f9d;
   border-color: var(--primary-400);
 }
 .sb-btn-outline-info:hover, .sb-btn-outline-info:active, .sb-btn-outline-info.active {
@@ -4571,9 +4571,9 @@ a.sb-btn {
   border-style: dashed;
   border-width: 1px;
   background-color: #fff;
-  border-color: #065872;
+  border-color: #024f9d;
   border-color: var(--primary-400);
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
 }
 .sb-btn-dashed-info:hover, .sb-btn-dashed-info:active, .sb-btn-dashed-info.active {
@@ -4583,7 +4583,7 @@ a.sb-btn {
 .sb-btn-link-info {
   background: none;
   border: 0px;
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
 }
 .sb-btn-link-info:hover, .sb-btn-link-info:active, .sb-btn-link-info.active {
@@ -4943,7 +4943,7 @@ html[dir=rtl] .sb-left-icon-btn i.icon {
   z-index: 3;
 }
 .ui.toggle.checkbox.sb-toggle input:focus:checked ~ label:before, .ui.toggle.checkbox.sb-toggle input:focus:checked ~ .box:before, .ui.toggle.checkbox.sb-toggle input:checked ~ .box:before, .ui.toggle.checkbox.sb-toggle input:checked ~ label:before {
-  background-color: #065872 !important;
+  background-color: #024f9d !important;
 }
 .ui.toggle.checkbox.sb-toggle label {
   min-height: 1rem;
@@ -4968,9 +4968,9 @@ html[dir=rtl] .sb-left-icon-btn i.icon {
   width: 4rem;
   height: 1.5rem;
   border-radius: 500rem;
-  border-color: #065872;
+  border-color: #024f9d;
   border-color: var(--primary-color);
-  background-color: #065872;
+  background-color: #024f9d;
   background-color: var(--primary-color);
   color: #ffffff;
   color: var(--white);
@@ -5018,7 +5018,7 @@ html[dir=rtl] .sb-left-icon-btn i.icon {
   border-radius: 0;
   margin: 0;
   border: 0;
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
   min-width: 2.5rem;
 }
@@ -5029,7 +5029,7 @@ html[dir=rtl] .sb-left-icon-btn i.icon {
 .btn-group .sb-btn:active, .btn-group .sb-btn.active {
   background-color: #edf4f9;
   background-color: var(--primary-100);
-  color: #065872;
+  color: #024f9d;
   color: var(--primary-400);
 }
 .btn-group .sb-btn .icon {

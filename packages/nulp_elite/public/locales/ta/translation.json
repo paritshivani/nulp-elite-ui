@@ -295,5 +295,9 @@
   "ALL_PLAYER":"அனைத்து வீரர்",
   "LICENSEDETAILS":"உரிம விவரங்கள்",
   "ABOUTTHECONTENT":"உள்ளடக்கம் பற்றி",
-  "COPYRIGHT":"காப்புரிமை"
+  "COPYRIGHT":"காப்புரிமை",
+  "SELECT_CATEGORY_FIRST":"முதலில் ஒரு வகையைத் தேர்ந்தெடுக்கவும்",
+  "SELECT_PREF":"Select Preferences",
+  "CHANGE_PREF_OLD_USER":"கட்டமைப்பில் சில மாற்றங்களைச் செய்துள்ளோம், உங்கள் விருப்பத்தைத் தேர்ந்தெடுக்கவும்"
+ 
 }
