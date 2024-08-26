@@ -168,7 +168,7 @@ const VotingList = () => {
                         style={{ justifyContent: "center" }}
                       >
                         <Tab
-                          label={t("LIVE_POLLS")}
+                          label={t("PRIVATE_POLLS")}
                           className="tab-text"
                           icon={<RecentActorsOutlinedIcon />}
                           value="1"

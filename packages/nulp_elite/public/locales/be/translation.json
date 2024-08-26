@@ -242,6 +242,7 @@
   "VOTING_LIST": "ভোটিং তালিকা",
   "CREATE_FORM": "ফর্ম তৈরি করুন",
   "LIVE_POLLS": "লাইভ পোলস",
+  "PRIVATE_POLLS":"ব্যক্তিগত পোলস",
   "POLL": "ভোট",
   "ALL_POLLS":"সব পোলস",
   "SUBMIT_VOTE": "ভোট জমা দিন",

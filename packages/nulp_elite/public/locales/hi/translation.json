@@ -241,6 +241,7 @@
   "VOTING_LIST": "वोटिंग सूची",
   "CREATE_FORM": "फॉर्म बनाएं",
   "LIVE_POLLS": "लाइव पोल्स",
+  "PRIVATE_POLLS":"निजी पोल्स",
   "POLL":"पोल",
   "ALL_POLLS":"सभी पोल्स",
   "SUBMIT_VOTE": "मतदान सबमिट करें",
