@@ -152,7 +152,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
 
   const handleSubCategoryChange = (event) => {
     if (!selectedCategory) {
-      showErrorMessage(t("Please select a category first"));
+      showErrorMessage(t("SELECT_CATEGORY_FIRST"));
       return;
     }
     setSelectedSubCategory(event.target.value);
@@ -364,12 +364,10 @@ const SelectPreference = ({ isOpen, onClose }) => {
       disableEscapeKeyDown
     >
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <DialogTitle>{t("Select Preferences")}</DialogTitle>
+      <DialogTitle>{t("SELECT_PREF")}</DialogTitle>
       {framworkname && (
         <DialogTitle onClick={handleClose}>
-          {t(
-            "We have made some changes in framework Please select your preferance"
-          )}
+          {t("CHANGE_PREF_OLD_USER")}
         </DialogTitle>
       )}
       <DialogContent>
