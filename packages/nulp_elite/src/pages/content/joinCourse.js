@@ -1579,6 +1579,15 @@ className="accordionBoxShadow"
                       {faqIndex.name}
                     </AccordionSummary>
                     {faqIndex?.children?.map((faqIndexname) => (
+                       <Link
+                       href="#"
+                       underline="none"
+                       style={{ verticalAlign: "super" }}
+                       onClick={() =>
+                         handleLinkClick(faqIndexname.identifier)
+                       }
+                       className="h6-title"
+                     >
                       <AccordionDetails
                         key={faqIndexname.identifier || faqIndexname.name}
                         className="border-bottom"
@@ -1593,29 +1602,21 @@ className="accordionBoxShadow"
                             {faqIndexname.name}
                           </span>
                         ) : (
-                          <Link
-                            href="#"
-                            underline="none"
-                            style={{ verticalAlign: "super" }}
-                            onClick={() =>
-                              handleLinkClick(faqIndexname.identifier)
-                            }
-                            className="h6-title"
-                          >
-                            {faqIndexname.name}
-                            {completedContents.includes(
-                              faqIndexname.identifier
-                            ) && (
-                              <CheckCircleIcon
-                                style={{
-                                  color: "green",
-                                  fontSize: "24px",
-                                  paddingLeft: "10px",
-                                  float: "right",
-                                }}
-                              />
-                            )}
-                          </Link>
+                         <Box> {faqIndexname.name}
+                         {completedContents.includes(
+                           faqIndexname.identifier
+                         ) && (
+                           <CheckCircleIcon
+                             style={{
+                               color: "green",
+                               fontSize: "24px",
+                               paddingLeft: "10px",
+                               float: "right",
+                             }}
+                           />
+                         )}</Box>
+                           
+                          
                         )}
                         {faqIndexname.children &&
                           faqIndexname.children.length > 0 && (
@@ -1719,6 +1720,7 @@ className="accordionBoxShadow"
                             </div>
                           )}
                       </AccordionDetails>
+                      </Link>
                     ))}
                   </Accordion>
                 ))}
