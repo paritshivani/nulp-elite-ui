@@ -267,29 +267,14 @@ const attemptid = ()=>{
       <Container maxWidth="xl" role="main" className="player mt-15">
         <Grid container spacing={2} className="mt-10 mb-30">
           <Grid item xs={12} md={12} lg={12}>
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              className="h6-title mt-15 pl-28 xss-pb-0"
-              style={{ padding: "0 0 10px 0px" }}
-            >
-              <Link
-                underline="hover"
-                style={{ maxHeight: "inherit", cursor: "pointer" }}
-                onClick={handleBackNavigation}
-                color="#004367"
-              >
-                {t("ALL_PLAYER")}
-              </Link>
-              <Link
-                underline="hover"
-                href=""
-                aria-current="page"
-                className="h6-title oneLineEllipsis"
-               
-              >
-                {lesson?.name}
-              </Link>
-            </Breadcrumbs>
+          <Box
+            className="d-flex jc-bw mr-20 my-20 px-10"
+            style={{ alignItems: "center" }}
+          >
+            <Link onClick={handleBackNavigation} className="viewAll mr-17">
+              {t("BACK")}
+            </Link>
+          </Box>
           </Grid>
           <Grid item xs={12} md={9} lg={9}>
             <Box>
