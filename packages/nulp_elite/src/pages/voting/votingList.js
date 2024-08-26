@@ -168,13 +168,13 @@ const VotingList = () => {
                         style={{ justifyContent: "center" }}
                       >
                         <Tab
-                          label="Private Polls"
+                          label={t("PRIVATE_POLLS")}
                           className="tab-text"
                           icon={<RecentActorsOutlinedIcon />}
                           value="1"
                         />
                         <Tab
-                          label="All Polls"
+                          label={t("ALL_POLLS")}
                           className="tab-text"
                           icon={<PublicOutlinedIcon />}
                           value="2"

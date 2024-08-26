@@ -170,6 +170,7 @@
   "LEAVE_COURSE_CONFIRMATION_MESSAGE": "আপনি কি এই ব্যাচ থেকে আনরোল করতে চান?",
   "ENROLLMENT_SUCCESS_MESSAGE": "এই ব্যাচের জন্য কোর্স সফলভাবে নিবন্ধিত হয়েছে",
   "UNENROLLMENT_SUCCESS_MESSAGE": " সফলভাবে নথিভুক্ত করা হয়েছে",
+  
   "YOUR_CHAT_REQUEST_IS_PENDING": "আপনার চ্যাট অনুরোধ পেন্ডিং। অনুগ্রহ করে স্রষ্টার চ্যাট আমন্ত্রণ গ্রহণের জন্য অপেক্ষা করুন",
   "CHAT_WITH_CREATOR": "স্রষ্টার সাথে চ্যাট করুন",
   "CERT_NOT_ATTACHED":"বর্তমানে, এই কোর্সের কোনো সার্টিফিকেট নেই। কোর্স নির্মাতা পরে একটি শংসাপত্র সংযুক্ত করতে পারেন।",
@@ -241,6 +242,9 @@
   "VOTING_LIST": "ভোটিং তালিকা",
   "CREATE_FORM": "ফর্ম তৈরি করুন",
   "LIVE_POLLS": "লাইভ পোলস",
+  "PRIVATE_POLLS":"ব্যক্তিগত পোলস",
+  "POLL": "ভোট",
+  "ALL_POLLS":"সব পোলস",
   "SUBMIT_VOTE": "ভোট জমা দিন",
   "COURSES MORE THAN LAST MONTH": "গত মাসের চেয়ে বেশি কোর্স",
   "CERTIFICATIONS RECEIVED": "প্রাপ্ত সার্টিফিকেশন",
