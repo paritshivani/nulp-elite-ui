@@ -480,7 +480,7 @@ const attemptid = ()=>{
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                {lesson?.name}
+                {lesson?.description}
               </Typography>
             </AccordionDetails>
           </Accordion>
