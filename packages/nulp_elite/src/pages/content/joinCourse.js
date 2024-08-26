@@ -111,7 +111,6 @@ const JoinCourse = () => {
   const [NotConsumedContent, setNotConsumedContent] = useState();
   const [isContentConsumed, setIsContentConsumed] = useState();
   const [completedContents, setCompletedContents] = useState([]);
-    const [hideLeaveCourseButton , setHideLeaveCourseButton] =useState(false)
   const [isCompleted, setIsCompleted] = useState();
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
@@ -486,7 +485,6 @@ const JoinCourse = () => {
           }
 
           if (allFound) {
-            setHideLeaveCourseButton(true)
             if (Array.isArray(allContents) && allContents?.length > 0) {
               notConsumedContent = allContents[0];
               try {
@@ -633,7 +631,6 @@ const JoinCourse = () => {
               <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
-              disabled={hideLeaveCourseButton}
             > {t("LEAVE_COURSE")}
             </Button>
           }  
@@ -685,7 +682,6 @@ const JoinCourse = () => {
               <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
-              disabled={hideLeaveCourseButton}
             > {t("LEAVE_COURSE")}
             </Button>
           }  
