@@ -111,6 +111,7 @@ const JoinCourse = () => {
   const [NotConsumedContent, setNotConsumedContent] = useState();
   const [isContentConsumed, setIsContentConsumed] = useState();
   const [completedContents, setCompletedContents] = useState([]);
+    const [hideLeaveCourseButton , setHideLeaveCourseButton] =useState(false)
   const [isCompleted, setIsCompleted] = useState();
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
@@ -165,23 +166,28 @@ const JoinCourse = () => {
         setCourseData(data);
         setUserData(data);
 
-        const identifiers =
-          data?.result?.content?.children[0]?.children[0]?.identifier;
+                const identifiers = data?.result?.content?.children[0]?.children[0]?.identifier;
+        console.log(identifiers, "setChildNode");
         setChildNode(identifiers);
 
         let allContents = [];
 
-        if (data?.result?.content?.children) {
-          data.result.content.children.forEach((parent) => {
-            if (parent.children) {
-              parent.children.forEach((child) => {
-                if (child.identifier) {
-                  allContents.push(child.identifier);
-                }
-              });
+        const getAllLeafIdentifiers = (nodes) => {
+          nodes.forEach((node) => {
+          if (!node?.children || node?.children.length === 0) {
+            if (node.identifier) {
+              allContents.push(node?.identifier);
+            }
+          } else {
+            getAllLeafIdentifiers(node?.children);
             }
           });
+        };
+
+        if (data?.result?.content?.children) {
+         getAllLeafIdentifiers(data?.result?.content?.children);
         }
+
         setAllContents(allContents);
         console.log("allContents-------", allContents);
 
@@ -480,6 +486,7 @@ const JoinCourse = () => {
           }
 
           if (allFound) {
+            setHideLeaveCourseButton(true)
             if (Array.isArray(allContents) && allContents?.length > 0) {
               notConsumedContent = allContents[0];
               try {
@@ -626,6 +633,7 @@ const JoinCourse = () => {
               <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
+              disabled={hideLeaveCourseButton}
             > {t("LEAVE_COURSE")}
             </Button>
           }  
@@ -677,6 +685,7 @@ const JoinCourse = () => {
               <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
+              disabled={hideLeaveCourseButton}
             > {t("LEAVE_COURSE")}
             </Button>
           }  
