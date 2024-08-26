@@ -382,18 +382,24 @@ const Dashboard = () => {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
 
         const response = await fetch(url);
+         const boardCategoryIndex = response?.data?.result?.framework?.categories.findIndex(
+      (category) => category.code === "board"
+    );
 
         if (response.ok) {
           const responseData = await response.json();
+           const boardCategoryIndex = responseData?.result?.framework?.categories.findIndex(
+      (category) => category.code === "board"
+    );
           if (
             responseData.result &&
             responseData.result.framework &&
             responseData.result.framework.categories &&
             responseData.result.framework.categories.length > 0 &&
-            responseData.result.framework.categories[3].terms
+            responseData.result.framework.categories[boardCategoryIndex].terms
           ) {
             const domainList =
-              responseData?.result?.framework?.categories[3].terms;
+              responseData?.result?.framework?.categories[boardCategoryIndex].terms;
             setDomainList(domainList || []);
             // setSubCategory(
             //   responseData?.result?.framework?.categories[1]?.terms || []
