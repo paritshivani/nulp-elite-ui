@@ -414,7 +414,7 @@ const votingDashboard = () => {
                   key={items.poll_id}
                 >
                   <Card
-                    className="pb-10"
+                    className="pb-10 cardBox1"
                     sx={{
                       position: "relative",
                       cursor: "pointer",
@@ -568,7 +568,7 @@ const votingDashboard = () => {
                         </Box>
                       </Grid>
                     </CardContent>
-                    <Box className="voting-text lg-mt-30">
+                    <Box className="voting-text">
                       <Box>
                         <Button
                           type="button"
@@ -704,7 +704,7 @@ const votingDashboard = () => {
                   key={items.poll_id}
                 >
                   <Card
-                    className="pb-10"
+                    className="pb-10 cardBox1"
                     sx={{
                       position: "relative",
                       cursor: "pointer",
@@ -846,7 +846,7 @@ const votingDashboard = () => {
                         />
                       </Box> */}
                     </CardContent>
-                    <Box className="voting-text lg-mt-30">
+                    <Box className="voting-text">
                       <Box>
                         <Button
                           onClick={(event) => handleEdit(event, items)}
@@ -968,7 +968,7 @@ const votingDashboard = () => {
                   key={items.poll_id}
                 >
                   <Card
-                    className="pb-10"
+                    className="pb-10 cardBox1"
                     sx={{
                       position: "relative",
                       cursor: "pointer",
@@ -1110,7 +1110,7 @@ const votingDashboard = () => {
                         />
                       </Box> */}
                     </CardContent>
-                    <Box className="voting-text lg-mt-30">
+                    <Box className="voting-text">
                       <Box>
                         <Button
                               type="button"

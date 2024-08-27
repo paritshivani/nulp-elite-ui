@@ -349,7 +349,7 @@ const pollsDetailes = () => {
                           />
                         </Box> */}
                       </CardContent>
-                      <Box className="voting-text lg-mt-30">
+                      <Box className="voting-text">
                         {type === "Draft" ? (
                           <Box>
                             <Button

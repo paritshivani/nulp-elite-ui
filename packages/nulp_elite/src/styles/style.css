@@ -3744,3 +3744,6 @@ input:required::after {
 .ai-center {
   align-items: center;
 }
+.cardBox1{
+min-height:300px;
+}
