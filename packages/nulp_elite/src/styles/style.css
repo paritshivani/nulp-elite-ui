@@ -2537,6 +2537,7 @@ Footer {
   font-size: 12px !important;
   border: solid 1px #004367 !important;
   background: #fff !important;
+  cursor:pointer;
 }
 
 .custom-btn-default:hover {
@@ -2719,6 +2720,7 @@ button {
   text-align: center !important;
   text-decoration: none !important;
   background: #057184 !important;
+  cursor: pointer;
 }
 
 .viewAll:hover {
@@ -3741,4 +3743,7 @@ input:required::after {
 }
 .ai-center {
   align-items: center;
+}
+.cardBox1{
+min-height:300px;
 }

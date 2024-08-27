@@ -425,7 +425,7 @@
       "REPORT": "/custom_event/reports",
       "CUSTOM_ENROLL_LIST": "/custom_event/enrollment-list",
       "UNREGISTER": "custom_event/unregister",
-      "UPDATE_REGISTER": "custom_event/registration/update",
+      "UPDATE_REGISTER": "/custom_event/registration/update",
       "CUSTOM_COMPOSITE_SEARCH": "/custom_event/composite/search",
       "READ_BY_ID": "/custom_event/read/event"
     },

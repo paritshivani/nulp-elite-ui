@@ -170,7 +170,7 @@ const playerConfig = {
     cdata: [],
     timeDiff: 0,
     objectRollup: {},
-    host: "https://alt-shiksha.uniteframework.io",
+    host: "https://devnulp.niua.org",
     endpoint: "",
     userData: metadata?.userData ? metadata?.userData : {},
     app: [""], // Genie tags

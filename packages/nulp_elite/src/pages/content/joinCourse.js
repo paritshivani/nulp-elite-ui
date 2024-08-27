@@ -111,7 +111,7 @@ const JoinCourse = () => {
   const [NotConsumedContent, setNotConsumedContent] = useState();
   const [isContentConsumed, setIsContentConsumed] = useState();
   const [completedContents, setCompletedContents] = useState([]);
-
+  const [isCompleted, setIsCompleted] = useState();
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -165,25 +165,31 @@ const JoinCourse = () => {
         setCourseData(data);
         setUserData(data);
 
-        const identifiers =
-          data?.result?.content?.children[0]?.children[0]?.identifier;
+                const identifiers = data?.result?.content?.children[0]?.children[0]?.identifier;
+        console.log(identifiers, "setChildNode");
         setChildNode(identifiers);
 
         let allContents = [];
 
-        if (data?.result?.content?.children) {
-          data.result.content.children.forEach((parent) => {
-            if (parent.children) {
-              parent.children.forEach((child) => {
-                if (child.identifier) {
-                  allContents.push(child.identifier);
-                }
-              });
+        const getAllLeafIdentifiers = (nodes) => {
+          nodes.forEach((node) => {
+          if (!node?.children || node?.children.length === 0) {
+            if (node.identifier) {
+              allContents.push(node?.identifier);
+            }
+          } else {
+            getAllLeafIdentifiers(node?.children);
             }
           });
+        };
+
+        if (data?.result?.content?.children) {
+         getAllLeafIdentifiers(data?.result?.content?.children);
         }
+
         setAllContents(allContents);
         console.log("allContents-------", allContents);
+
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -282,6 +288,20 @@ const JoinCourse = () => {
     checkEnrolledCourse();
     getUserData();
   }, []);
+
+  const checkCourseComplition = async(allContents, userProgress) =>{
+    // const contentlength = allContents.length
+    let completedCount= 0;
+    userProgress.result.contentList.map((content)=>{
+      if(content.status ){
+        completedCount = completedCount + 1 ;
+      }
+    })
+    if(allContents.length == completedCount){
+      setIsCompleted(true)
+    }
+   
+  }
 
   const flattenDeep = async (contents) => {
     if (contents) {
@@ -409,6 +429,7 @@ const JoinCourse = () => {
           console.log("API Response Data:", data);
 
           setCourseProgress(data);
+          checkCourseComplition(allContents, data);
 
           const contentIds =
             data?.result?.contentList?.map((item) => item.contentId) || [];
@@ -547,15 +568,15 @@ const JoinCourse = () => {
   };
 
   const isEnrolled = () => {
-    console.log("userCourseData?.courses", userCourseData?.courses);
-    console.log(
-      "userCourseData?.courses",
-      userCourseData?.courses?.map((course) => course.contentId)
-    );
-    console.log(
-      "userCourseData?.courses?.some",
-      userCourseData?.courses?.some((course) => course.contentId === contentId)
-    );
+    // console.log("userCourseData?.courses", userCourseData?.courses);
+    // console.log(
+    //   "userCourseData?.courses",
+    //   userCourseData?.courses?.map((course) => course.contentId)
+    // );
+    // console.log(
+    //   "userCourseData?.courses?.some",
+    //   userCourseData?.courses?.some((course) => course.contentId === contentId)
+    // );
     return (
       userCourseData &&
       userCourseData.courses &&
@@ -594,8 +615,8 @@ const JoinCourse = () => {
   };
 
   const renderActionButton = () => {
-    console.log("ConsumedContents", ConsumedContents);
-    console.log("allContents", allContents);
+    // console.log("ConsumedContents", ConsumedContents);
+    // console.log("allContents", allContents);
     if (isEnrolled() || enrolled) {
       if (isNotStarted) {
         return (
@@ -606,12 +627,14 @@ const JoinCourse = () => {
             >
               {t("START_LEARNING")}
             </Button>
-            <Button
+          {!isCompleted &&
+              <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
-            >
-              {t("LEAVE_COURSE")}
+            > {t("LEAVE_COURSE")}
             </Button>
+          }  
+             
             {showConfirmation && (
               <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
                 <DialogTitle>
@@ -629,13 +652,14 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  <Button
-                    onClick={handleLeaveConfirmed}
-                    className="custom-btn-primary"
-                    autoFocus
-                  >
-                    {t("LEAVE_COURSE")}
-                  </Button>
+                  {!isCompleted &&
+              <Button
+              onClick={handleLeaveCourseClick} // Open confirmation dialog
+              className="custom-btn-danger"
+            > {t("LEAVE_COURSE")}
+            </Button>
+          }  
+            
                 </DialogActions>
               </Dialog>
             )}
@@ -654,12 +678,14 @@ const JoinCourse = () => {
             >
               {t("CONTINUE LEARNING")}
             </Button>
-            <Button
+            {!isCompleted &&
+              <Button
               onClick={handleLeaveCourseClick} // Open confirmation dialog
               className="custom-btn-danger"
-            >
-              {t("LEAVE_COURSE")}
+            > {t("LEAVE_COURSE")}
             </Button>
+          }  
+            
             {showConfirmation && (
               <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
                 <DialogTitle>
@@ -677,13 +703,14 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  <Button
-                    onClick={handleLeaveConfirmed}
-                    className="custom-btn-primary"
-                    autoFocus
-                  >
-                    {t("LEAVE_COURSE")}
-                  </Button>
+                  {!isCompleted &&
+              <Button
+              onClick={handleLeaveCourseClick} // Open confirmation dialog
+              className="custom-btn-danger"
+            > {t("LEAVE_COURSE")}
+            </Button>
+          }  
+            
                 </DialogActions>
               </Dialog>
             )}
@@ -1082,7 +1109,7 @@ const JoinCourse = () => {
             </Typography>
           </Breadcrumbs>  */}
             <Grid container spacing={2}>
-              {/* <Breadcrumbs
+              <Breadcrumbs
                 aria-label="breadcrumb"
                 className="h6-title mt-15 pl-18"
               >
@@ -1103,15 +1130,15 @@ const JoinCourse = () => {
                 >
                   {userData?.result?.content?.name}
                 </Link>
-              </Breadcrumbs> */}
-                <Box
+              </Breadcrumbs>
+                {/* <Box
             className="d-flex jc-bw mr-20 my-20 px-10"
             style={{ alignItems: "center" }}
           >
             <Link onClick={handleGoBack} className="viewAll mr-17">
               {t("BACK")}
             </Link>
-          </Box>
+          </Box> */}
 
               {/* <Grid item xs={4}>
                 <Link
@@ -1557,6 +1584,15 @@ className="accordionBoxShadow"
                       {faqIndex.name}
                     </AccordionSummary>
                     {faqIndex?.children?.map((faqIndexname) => (
+                       <Link
+                       href="#"
+                       underline="none"
+                       style={{ verticalAlign: "super" }}
+                       onClick={() =>
+                         handleLinkClick(faqIndexname.identifier)
+                       }
+                       className="h6-title"
+                     >
                       <AccordionDetails
                         key={faqIndexname.identifier || faqIndexname.name}
                         className="border-bottom"
@@ -1571,29 +1607,21 @@ className="accordionBoxShadow"
                             {faqIndexname.name}
                           </span>
                         ) : (
-                          <Link
-                            href="#"
-                            underline="none"
-                            style={{ verticalAlign: "super" }}
-                            onClick={() =>
-                              handleLinkClick(faqIndexname.identifier)
-                            }
-                            className="h6-title"
-                          >
-                            {faqIndexname.name}
-                            {completedContents.includes(
-                              faqIndexname.identifier
-                            ) && (
-                              <CheckCircleIcon
-                                style={{
-                                  color: "green",
-                                  fontSize: "24px",
-                                  paddingLeft: "10px",
-                                  float: "right",
-                                }}
-                              />
-                            )}
-                          </Link>
+                         <Box> {faqIndexname.name}
+                         {completedContents.includes(
+                           faqIndexname.identifier
+                         ) && (
+                           <CheckCircleIcon
+                             style={{
+                               color: "green",
+                               fontSize: "24px",
+                               paddingLeft: "10px",
+                               float: "right",
+                             }}
+                           />
+                         )}</Box>
+                           
+                          
                         )}
                         {faqIndexname.children &&
                           faqIndexname.children.length > 0 && (
@@ -1697,6 +1725,7 @@ className="accordionBoxShadow"
                             </div>
                           )}
                       </AccordionDetails>
+                      </Link>
                     ))}
                   </Accordion>
                 ))}

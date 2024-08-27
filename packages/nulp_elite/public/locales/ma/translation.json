@@ -241,6 +241,9 @@
   "VOTING_LIST": "मतदान सूची",
   "CREATE_FORM": "फॉर्म तयार करा",
   "LIVE_POLLS": "लाइव्ह पोल्स",
+  "PRIVATE_POLLS":"खाजगी पोल्स",
+  "POLL":"पोल",
+  "ALL_POLLS": "सर्व पोल्स",
   "SUBMIT_VOTE": "मत सबमिट करा",
   "COURSES MORE THAN LAST MONTH": "मागील महिन्यापेक्षा अधिक कोर्सेस",
   "CERTIFICATIONS RECEIVED": "प्रमाणपत्रे प्राप्त झाली",
@@ -268,5 +271,8 @@
   "ALL_PLAYER":"सर्व प्लेयर",
   "LICENSEDETAILS":"परवाना तपशील",
   "ABOUTTHECONTENT":"सामग्री बद्दल",
-  "COPYRIGHT":"कॉपीराइट"
+  "COPYRIGHT":"कॉपीराइट",
+  "SELECT_CATEGORY_FIRST":"कृपया प्रथम श्रेणी निवडा",
+  "SELECT_PREF":"प्राधान्ये निवडा",
+  "CHANGE_PREF_OLD_USER":"आम्ही फ्रेमवर्कमध्ये काही बदल केले आहेत कृपया तुमचे प्राधान्य निवडा"
 }

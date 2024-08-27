@@ -241,6 +241,9 @@
   "VOTING_LIST": "वोटिंग सूची",
   "CREATE_FORM": "फॉर्म बनाएं",
   "LIVE_POLLS": "लाइव पोल्स",
+  "PRIVATE_POLLS":"निजी पोल्स",
+  "POLL":"पोल",
+  "ALL_POLLS":"सभी पोल्स",
   "SUBMIT_VOTE": "मतदान सबमिट करें",
   "CERTIFICATIONS RECEIVED": "प्रमाणपत्र प्राप्त किए",
   "DOWNLOAD CERTIFICATES": "प्रमाणपत्र डाउनलोड करें",
@@ -267,5 +270,9 @@
   "ALL_PLAYER":"सभी प्लेयर",
   "LICENSEDETAILS":"लाइसेंस विवरण",
   "ABOUTTHECONTENT":"सामग्री के बारे में",
-  "COPYRIGHT":"कॉपीराइट"
+  "COPYRIGHT":"कॉपीराइट",
+  "SELECT_CATEGORY_FIRST":"कृपया पहले एक श्रेणी चुनें",
+  "SELECT_PREF":"प्राथमिकताएँ चुनें",
+  "CHANGE_PREF_OLD_USER":"हमने ढांचे में कुछ बदलाव किए हैं कृपया अपनी प्राथमिकता चुनें"
+ 
 }

@@ -38,7 +38,7 @@ import * as util from "../../services/utilService";
 
 import FloatingChatIcon from "components/FloatingChatIcon";
 import SkeletonLoader from "components/skeletonLoader";
-const myEvents = require("./myEvents.json");
+// const myEvents = require("./myEvents.json");
 
 const responsive = {
   superLargeDesktop: {
@@ -65,7 +65,7 @@ const EventList = (props) => {
   const location = useLocation();
   const [pageNumber, setPageNumber] = useState(1);
   const [data, setData] = useState();
-  console.log("myEvents.result.events ---- ", myEvents.result.events);
+  // console.log("myEvents.result.events ---- ", myEvents.result.events);
   const [myData, setMyData] = useState();
   const [filters, setFilters] = useState({});
   const [domainfilter, setDomainfilter] = useState({});
@@ -222,7 +222,7 @@ const EventList = (props) => {
       "Content-Type": "application/json",
     };
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.EVENT.CUSTOM_ENROLL_LIST}`;
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
       // const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
       const response = await getAllContents(url, data, headers);
       console.log("My data  ---", response.data.result.event);
