@@ -652,13 +652,14 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  {!isCompleted &&
-              <Button
-              onClick={handleLeaveCourseClick} // Open confirmation dialog
-              className="custom-btn-danger"
-            > {t("LEAVE_COURSE")}
-            </Button>
-          }  
+                  <Button
+                    onClick={handleLeaveConfirmed}
+                    className="custom-btn-primary"
+                    autoFocus
+                  >
+                    {t("LEAVE_COURSE")}
+                  </Button>
+          
             
                 </DialogActions>
               </Dialog>
@@ -703,13 +704,13 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  {!isCompleted &&
-              <Button
-              onClick={handleLeaveCourseClick} // Open confirmation dialog
-              className="custom-btn-danger"
-            > {t("LEAVE_COURSE")}
-            </Button>
-          }  
+                  <Button
+                    onClick={handleLeaveConfirmed}
+                    className="custom-btn-primary"
+                    autoFocus
+                  >
+                    {t("LEAVE_COURSE")}
+                  </Button>
             
                 </DialogActions>
               </Dialog>
