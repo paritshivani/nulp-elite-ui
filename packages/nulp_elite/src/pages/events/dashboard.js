@@ -512,12 +512,12 @@ const Dashboard = () => {
   const handleVisibilityFilterChange = (event) => {
     setVisibilityFilter(event.target.value);
   };
-// const eventNames = topEvent?.map((event) => event.event_name);
-const eventNames = topEvent?.map((event) => {
-  return event?.event_name?.length > 10
-    ? event?.event_name.substring(0, 10) + "..."
-    : event?.event_name;
-});
+const eventNames = topEvent?.map((event) => event.event_name);
+// const eventNames = topEvent?.map((event) => {
+//   return event?.event_name?.length > 10
+//     ? event?.event_name.substring(0, 10) + "..."
+//     : event?.event_name;
+// });
   const eventTopUser = topEvent?.map((event) => parseInt(event.user_count));
 
   const listOfDesignation = topDesignation?.map(
