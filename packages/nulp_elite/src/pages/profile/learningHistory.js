@@ -130,31 +130,31 @@ const LearningHistory = () => {
           </Box>
           <Box>
             <Box className="custom-card">
-              <>
-                {paginatedFilteredData.length > 0 ? (
-                  paginatedFilteredData.map((course) => (
-                    <Box className="custom-card-box" key={course.courseName}>
-                      <BoxCard
-                        items={course}
-                        index={courseData.length}
-                        onClick={() =>
-                          navigate(
-                            `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
-                          )
-                        }
-                        continueLearning={true}
-                      />
-                    </Box>
-                  ))
-                ) : (
-                  <Box style={{ width: "100%" }}>
-                    <NoResult className="center-no-result " />
-                    <Box className="h5-title">Explore Content</Box>
+              {paginatedFilteredData.length > 0 ? (
+                paginatedFilteredData.map((course) => (
+                  <Box className="custom-card-box" key={course.courseName}>
+                    <BoxCard
+                      items={course}
+                      index={courseData.length}
+                      onClick={() =>
+                        navigate(
+                          `${routeConfig.ROUTES.JOIN_COURSE_PAGE.JOIN_COURSE}?${course.content.identifier}`
+                        )
+                      }
+                      continueLearning={true}
+                    />
                   </Box>
-                )}
-              </>
+                ))
+              ) : null}
             </Box>
-
+            <Box>
+              {paginatedFilteredData.length === 0 && (
+                <Box style={{ width: "100%" }}>
+                  <NoResult className="center-no-result" />
+                  <Box className="h5-title">Explore Content</Box>
+                </Box>
+              )}
+            </Box>
             <div className="blankCard"></div>
           </Box>
 

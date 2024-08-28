@@ -208,10 +208,12 @@ const EventDetails = () => {
           throw new Error(t("FAILED_TO_FETCH_DATA"));
         }
         const data = await response.json();
+       
         console.log("event data---", data);
         setEventVisibility(data.result.event.eventVisibility);
         setDetailDate(data.result.event);
         getUserData(data.result.event.owner, "creator");
+        fetchBatchData(data.result.event);
         handleEnrollUnenrollBtn(
           data.result.event.registrationStartDate,
           data.result.event.registrationEndDate
@@ -222,6 +224,7 @@ const EventDetails = () => {
           data.result.event.endDate,
           data.result.event.endTime
         );
+
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -229,7 +232,7 @@ const EventDetails = () => {
     };
 
     fetchData();
-    fetchBatchData();
+    // fetchBatchData();
   }, [eventId]);
 
   useEffect(() => {
@@ -239,8 +242,9 @@ const EventDetails = () => {
     // checkEnrolledCourse();
   }, [_userId, eventId]);
 
-  const fetchBatchData = async () => {
-    let enrollmentType = eventVisibility === "public" ? "open" : "invite-only";
+  const fetchBatchData = async (data) => {
+    console.log("detailData.eventVisibility---", data.eventVisibility)
+    let enrollmentType = data.eventVisibility === "Public" ? "open" : "invite-only";
 
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.BATCH.GET_BATCHS}`;

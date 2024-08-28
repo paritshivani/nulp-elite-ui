@@ -22,6 +22,7 @@ import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import FloatingChatIcon from "components/FloatingChatIcon";
 const urlConfig = require("../../configs/urlConfig.json");
+import { useTranslation } from "react-i18next";
 
 const VotingList = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -32,6 +33,7 @@ const VotingList = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const location = useLocation();
