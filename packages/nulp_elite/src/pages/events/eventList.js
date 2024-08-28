@@ -222,7 +222,7 @@ const EventList = (props) => {
       "Content-Type": "application/json",
     };
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
+      const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
       // const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
       const response = await getAllContents(url, data, headers);
       console.log("My data  ---", response.data.result.event);
