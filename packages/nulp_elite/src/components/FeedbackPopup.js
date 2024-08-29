@@ -85,6 +85,7 @@ const FeedbackPopup = ({ open, onClose, contentId }) => {
   };
 
   const handleAdditionalFeedbackChange = (event) => {
+    console.log("handleAdditionalFeedbackChange----",event)
     setAdditionalFeedback(event.target.value);
   };
 
@@ -95,8 +96,11 @@ const FeedbackPopup = ({ open, onClose, contentId }) => {
       Object.keys(checkboxes).forEach((key) => {
         if (checkboxes[key] && checkboxLabels[key] !== "Other") {
           selectedCheckboxes.push(checkboxLabels[key]);
+        }else if(checkboxLabels[key] == "Other" && additionalFeedback != "") {
+          selectedCheckboxes.push(checkboxLabels[key]);
         }
       });
+      console.log("selectedCheckboxes----",selectedCheckboxes)
 
       const url = `${urlConfig.URLS.FEEDBACK.CREATE}`;
       const request = {
