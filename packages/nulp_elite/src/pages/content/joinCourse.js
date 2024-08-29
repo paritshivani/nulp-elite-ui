@@ -1310,6 +1310,8 @@ const JoinCourse = () => {
                 </Typography>
               </Box>
             </Box>
+            {batchDetails && batchDetails.cert_templates &&
+
             <Accordion
               className="xs-hide accordionBoxShadow"
               style={{
@@ -1349,6 +1351,7 @@ const JoinCourse = () => {
                 )}
               </AccordionDetails>
             </Accordion>
+}
             <Accordion
               className="xs-hide accordionBoxShadow"
               style={{
@@ -1395,7 +1398,7 @@ const JoinCourse = () => {
                 </Typography>
               </AccordionDetails>
             </Accordion>
-           {/* {isEnrolled && batchDetails == 'undefined' && */}
+           {isEnrolled && batchDetails && batchDetails.cert_templates == null &&
 
 <Box
 style={{
@@ -1418,7 +1421,7 @@ className="accordionBoxShadow"
 </Typography>
 
 </Box>
-            {/* } */}
+             } 
           
             <div className="xs-hide">
               <React.Fragment>
@@ -1794,6 +1797,8 @@ className="accordionBoxShadow"
                 </Typography>
               </Box>
             </Box>
+            {batchDetails && batchDetails.cert_templates &&
+
             <Accordion
               className="lg-hide accordionBoxShadow"
               style={{
@@ -1833,6 +1838,7 @@ className="accordionBoxShadow"
                 )}
               </AccordionDetails>
             </Accordion>
+}
             <Accordion
               className="lg-hide accordionBoxShadow"
               style={{
