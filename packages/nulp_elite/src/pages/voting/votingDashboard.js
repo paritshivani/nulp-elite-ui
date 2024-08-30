@@ -9,7 +9,15 @@ import Box from "@mui/material/Box";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import { Alert, Button, Card, CardContent, DialogActions, DialogTitle, Tooltip } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Card,
+  CardContent,
+  DialogActions,
+  DialogTitle,
+  Tooltip,
+} from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import IconButton from "@mui/material/IconButton";
@@ -83,40 +91,38 @@ const votingDashboard = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedPollId, setSelectedPollId] = useState(null);
 
-
-
   const handleDialogOpen = (id, event) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
     setDialogOpen(true);
-    setSelectedPollId(id); 
+    setSelectedPollId(id);
   };
 
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
 
-    const handleDeletePollConfirmed = async (event) => {
-      event.stopPropagation();
-      try {
-        const response = await axios.delete(
-          `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${selectedPollId}`
-        );
-        if (response.status === 200) {
-          setDialogOpen(false);
-          // console.log(response.params.status);
-          setToasterMessage("Poll deleted successfully");
-          fetchPolls();
-          setPoll((prevPolls) => {
-            const updatedPolls = prevPolls.filter(
-              (poll) => poll.poll_id !== selectedPollId
-            );
-            return updatedPolls;
-          });
-        }
-      } catch (error) {
-        console.error("Error deleting poll", error);
+  const handleDeletePollConfirmed = async (event) => {
+    event.stopPropagation();
+    try {
+      const response = await axios.delete(
+        `${urlConfig.URLS.POLL.DELETE_POLL}?poll_id=${selectedPollId}`
+      );
+      if (response.status === 200) {
+        setDialogOpen(false);
+        // console.log(response.params.status);
+        setToasterMessage("Poll deleted successfully");
+        fetchPolls();
+        setPoll((prevPolls) => {
+          const updatedPolls = prevPolls.filter(
+            (poll) => poll.poll_id !== selectedPollId
+          );
+          return updatedPolls;
+        });
       }
-    };
+    } catch (error) {
+      console.error("Error deleting poll", error);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -177,13 +183,16 @@ const votingDashboard = () => {
     };
 
     try {
-      const response = await fetch(`${urlConfig.URLS.POLL.LIST}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await fetch(
+        `${urlConfig.URLS.POLL.LIST}?dashboard=true`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch polls");
@@ -253,8 +262,6 @@ const votingDashboard = () => {
     });
     fetchPolls();
   };
-
- 
 
   const openSocialMediaLink = (event, url) => {
     event.stopPropagation();
@@ -468,8 +475,9 @@ const votingDashboard = () => {
                                       <Button className="d-inline-block">
                                         {index < 2
                                           ? keyword
-                                          : `${keyword} + ${items.poll_keywords.length - 2
-                                          }`}
+                                          : `${keyword} + ${
+                                              items.poll_keywords.length - 2
+                                            }`}
                                       </Button>
                                     </Tooltip>
                                   ))}
@@ -593,7 +601,7 @@ const votingDashboard = () => {
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20 mb-10"
                               onClick={(event) => {
-                                event.stopPropagation(); 
+                                event.stopPropagation();
                                 handleDialogOpen(items.poll_id, event);
                               }}
                             >
@@ -808,8 +816,9 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${items.poll_keywords.length - 2
-                                        }`}
+                                        : `${keyword} + ${
+                                            items.poll_keywords.length - 2
+                                          }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -856,15 +865,16 @@ const votingDashboard = () => {
                           Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                         <Button
-                        type="button"
-                        className="custom-btn-primary ml-20 lg-mt-20 mb-10"
-                        onClick={(event) => {
-                          event.stopPropagation(); 
-                          handleDialogOpen(items.poll_id, event);
-                        }}
-                      >
-                        Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
-                      </Button>
+                          type="button"
+                          className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleDialogOpen(items.poll_id, event);
+                          }}
+                        >
+                          Delete{" "}
+                          <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        </Button>
                       </Box>
                       <Box className="lg-hide pl-20">
                         <FacebookShareButton
@@ -1072,8 +1082,9 @@ const votingDashboard = () => {
                                     <Button className="d-inline-block">
                                       {index < 2
                                         ? keyword
-                                        : `${keyword} + ${items.poll_keywords.length - 2
-                                        }`}
+                                        : `${keyword} + ${
+                                            items.poll_keywords.length - 2
+                                          }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -1113,16 +1124,16 @@ const votingDashboard = () => {
                     <Box className="voting-text">
                       <Box>
                         <Button
-                              type="button"
-                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
-                              onClick={(event) => {
-                                event.stopPropagation(); 
-                                handleDialogOpen(items.poll_id, event);
-                              }}
-                            >
-                              Delete{" "}
-                              <ArrowForwardIosOutlinedIcon className="fs-12" />
-                            </Button>
+                          type="button"
+                          className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleDialogOpen(items.poll_id, event);
+                          }}
+                        >
+                          Delete{" "}
+                          <ArrowForwardIosOutlinedIcon className="fs-12" />
+                        </Button>
                         <Button
                           type="button"
                           className="custom-btn-primary ml-20 lg-mt-20 mb-10"
@@ -1208,132 +1219,134 @@ const votingDashboard = () => {
       <FloatingChatIcon />
       <Footer />
       {signlePOll && (
-        <><Dialog
-          fullWidth={true}
-          maxWidth="lg"
-          open={openModal}
-          onClose={handleCloseModal}
-        >
-          <IconButton
-            aria-label="close"
-            onClick={handleCloseModal}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
+        <>
+          <Dialog
+            fullWidth={true}
+            maxWidth="lg"
+            open={openModal}
+            onClose={handleCloseModal}
           >
-            <CloseIcon />
-          </IconButton>
-          <DialogContent>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                lg={4}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                  width: "100%",
-                  order: { xs: 2, lg: 1 },
-                }}
-              >
-                <Box sx={{ marginLeft: "25%" }}>
-                  {hasPollData ? (
-                    <PieChart
-                      series={[
-                        {
-                          data: pieData.map((d) => ({
-                            value: d.count,
-                            label: d.poll_option,
-                          })),
-                          arcLabel: (item) => (
-                            <>
-                              ({getProgressValue(item.value).toFixed(2)})
-                            </>
-                          ),
-                          arcLabelMinAngle: 45,
-                        },
-                      ]}
-                      sx={{
-                        [`& .${pieArcLabelClasses.root}`]: {
-                          fill: 'white',
-                          fontSize: 14,
-                        },
-                      }}
-                      {...sizing} />
-                  ) : (
-                    <Box>No data available</Box>
-                  )}
-                </Box>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                lg={8}
-                sx={{
-                  p: 2,
-                  order: { xs: 1, lg: 2 },
-                }}
-              >
-                <Box className="h1-title fw-600 lg-mt-20">
-                  {signlePOll.title}
-                </Box>
-                <Box>
-
-                  <Box>
-                    <Box className="mt-9 h5-title">
-                      Poll Created On:
-                      <TodayOutlinedIcon
-                        className="fs-14 pr-5"
-                        style={{ verticalAlign: "middle" }} />
-                      {moment(signlePOll.created_at).format(
-                        "dddd, MMMM Do YYYY, h:mm:ss a"
-                      )}
-                    </Box>
-                    <Box className="mt-9 h5-title">
-                      Poll Ended On:
-                      <TodayOutlinedIcon
-                        className="fs-14 pr-5"
-                        style={{ verticalAlign: "middle" }} />{" "}
-                      {moment(signlePOll.end_date).format(
-                        "dddd, MMMM Do YYYY, h:mm:ss a"
-                      )}
-                    </Box>
-                    <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
+            <IconButton
+              aria-label="close"
+              onClick={handleCloseModal}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <DialogContent>
+              <Grid container>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  lg={4}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    width: "100%",
+                    order: { xs: 2, lg: 1 },
+                  }}
+                >
+                  <Box sx={{ marginLeft: "25%" }}>
+                    {hasPollData ? (
+                      <PieChart
+                        series={[
+                          {
+                            data: pieData.map((d) => ({
+                              value: d.count,
+                              label: d.poll_option,
+                            })),
+                            arcLabel: (item) => (
+                              <>({getProgressValue(item.value).toFixed(2)})</>
+                            ),
+                            arcLabelMinAngle: 45,
+                          },
+                        ]}
+                        sx={{
+                          [`& .${pieArcLabelClasses.root}`]: {
+                            fill: "white",
+                            fontSize: 14,
+                          },
+                        }}
+                        {...sizing}
+                      />
+                    ) : (
+                      <Box>No data available</Box>
+                    )}
                   </Box>
-                </Box>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  lg={8}
+                  sx={{
+                    p: 2,
+                    order: { xs: 1, lg: 2 },
+                  }}
+                >
+                  <Box className="h1-title fw-600 lg-mt-20">
+                    {signlePOll.title}
+                  </Box>
+                  <Box>
+                    <Box>
+                      <Box className="mt-9 h5-title">
+                        Poll Created On:
+                        <TodayOutlinedIcon
+                          className="fs-14 pr-5"
+                          style={{ verticalAlign: "middle" }}
+                        />
+                        {moment(signlePOll.created_at).format(
+                          "dddd, MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </Box>
+                      <Box className="mt-9 h5-title">
+                        Poll Ended On:
+                        <TodayOutlinedIcon
+                          className="fs-14 pr-5"
+                          style={{ verticalAlign: "middle" }}
+                        />{" "}
+                        {moment(signlePOll.end_date).format(
+                          "dddd, MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </Box>
+                      <Box className="mt-9 h5-title">
+                        Total Votes: {totalVotes}
+                      </Box>
+                    </Box>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </DialogContent>
-        </Dialog>
-        <Dialog
-          open={dialogOpen}
-          onClose={handleDialogClose}
-        >
+            </DialogContent>
+          </Dialog>
+          <Dialog open={dialogOpen} onClose={handleDialogClose}>
             <DialogContent>
               <Box className="h5-title">
                 Are you sure you want to delere this poll?
               </Box>
-        
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleDialogClose} className="custom-btn-default">
-               No
+              <Button
+                onClick={handleDialogClose}
+                className="custom-btn-default"
+              >
+                No
               </Button>
               <Button
-               onClick={(event) => handleDeletePollConfirmed(event)}
+                onClick={(event) => handleDeletePollConfirmed(event)}
                 className="custom-btn-primary"
-               
               >
                 Yes
               </Button>
             </DialogActions>
-          </Dialog></>
+          </Dialog>
+        </>
       )}
     </div>
   );
