@@ -111,7 +111,14 @@ const EventList = (props) => {
     // fetchAllData();
     fetchMyEvents();
     fetchUserData();
-  }, []);
+  }, [    subDomainFilter,
+    endDateFilter,
+    startDateFilter,
+    searchQuery,
+    domainName,
+    domain,
+    currentPage,
+    subDomainFilter,]);
   useEffect(() => {
     fetchAllData();
   }, [
@@ -168,7 +175,7 @@ const EventList = (props) => {
   const fetchAllData = async () => {
     console.log("searchQuery", searchQuery);
     let filters = {
-
+      eventVisibility:"Public",
       objectType: ["Event"],
       ...((domainfilter?.se_board != null || domainName != null) && {
         board: domainfilter?.se_board || [domainName],
@@ -212,7 +219,11 @@ const EventList = (props) => {
     let data = JSON.stringify({
       request: {
     status: "Live",
-    filters: { user_id: _userId },
+    filters: { user_id: _userId ,      ...((domainfilter?.se_board != null || domainName != null) && {
+        board: domainfilter?.se_board || [domainName],
+      }), ...(subDomainFilter && { gradeLevel: subDomainFilter }),
+      ...(startDate && { startDate: startDate }),},
+       query: searchQuery,
         limit: 10,
         sort_by: { created_at: "desc" },
         offset: 0,
