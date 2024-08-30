@@ -10,6 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
+import { Badge } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
 import DevicesIcon from "@mui/icons-material/Devices";
@@ -40,6 +41,7 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Collapse, List } from "@mui/material";
+import NotificationPopup from "./Notification";
 
 function Header({ globalSearchQuery }) {
   const { t } = useTranslation();
@@ -68,6 +70,10 @@ function Header({ globalSearchQuery }) {
   const [openSubmenu, setOpenSubmenu] = useState(false);
   const [open, setOpen] = useState(false);
   const [show, setShow] = React.useState(false);
+  const [openNotification, setOpenNotification] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
+
+
   const handleTooltipClose = () => {
     setOpen(false);
   };
@@ -122,6 +128,45 @@ function Header({ globalSearchQuery }) {
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { globalSearchQuery: searchQuery },
     });
+  };
+
+   const handleClickOpenNotification = () => {
+    setOpenNotification(true);
+  };
+
+    const fetchNotifications = async () => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.NOTIFICATION.READ}${_userId}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data?.result?.feeds) {
+        const unreadCount = data.result.feeds.filter(
+          (notif) => notif.status === "unread"
+        ).length;
+        setNotificationCount(unreadCount);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+
+    const intervalId = setInterval(() => {
+      fetchNotifications();
+    }, 20000);
+
+    return () => clearInterval(intervalId);
+  }, [_userId]);
+
+  const handleCloseNotification = () => {
+    setOpenNotification(false);
+  };
+
+    const updateNotificationCount = (count) => {
+    setNotificationCount(count);
   };
 
   const handleInputChange = (event) => {
@@ -467,7 +512,8 @@ function Header({ globalSearchQuery }) {
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 <Tooltip>
-                  <IconButton sx={{ p: 0 }}>
+                  <IconButton sx={{ p: 0 }} onClick={handleClickOpenNotification}>
+                    <Badge badgeContent={notificationCount} color="error"></Badge>
                     <NotificationsNoneOutlinedIcon />
                   </IconButton>
                 </Tooltip>
@@ -505,6 +551,7 @@ function Header({ globalSearchQuery }) {
                 </Menu> */}
               </Box>
             </Tooltip>
+             <NotificationPopup open={openNotification} handleClose={handleCloseNotification}  updateNotificationCount={updateNotificationCount} />
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 {/* <NotificationsNoneOutlinedIcon />
