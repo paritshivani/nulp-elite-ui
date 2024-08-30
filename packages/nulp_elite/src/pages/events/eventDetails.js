@@ -657,7 +657,7 @@ const EventDetails = () => {
         }
 
         setUnShowEnrollmentSnackbar(true);
-        registerEvent(formData, detailData);
+        // registerEvent(formData, detailData);
       } else {
         console.log("err-----", response);
       }

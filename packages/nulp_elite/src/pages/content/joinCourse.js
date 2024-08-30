@@ -652,13 +652,14 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  {!isCompleted &&
-              <Button
-              onClick={handleLeaveCourseClick} // Open confirmation dialog
-              className="custom-btn-danger"
-            > {t("LEAVE_COURSE")}
-            </Button>
-          }  
+                  <Button
+                    onClick={handleLeaveConfirmed}
+                    className="custom-btn-primary"
+                    autoFocus
+                  >
+                    {t("LEAVE_COURSE")}
+                  </Button>
+          
             
                 </DialogActions>
               </Dialog>
@@ -703,13 +704,13 @@ const JoinCourse = () => {
                   >
                     {t("CANCEL")}
                   </Button>
-                  {!isCompleted &&
-              <Button
-              onClick={handleLeaveCourseClick} // Open confirmation dialog
-              className="custom-btn-danger"
-            > {t("LEAVE_COURSE")}
-            </Button>
-          }  
+                  <Button
+                    onClick={handleLeaveConfirmed}
+                    className="custom-btn-primary"
+                    autoFocus
+                  >
+                    {t("LEAVE_COURSE")}
+                  </Button>
             
                 </DialogActions>
               </Dialog>
@@ -1309,6 +1310,8 @@ const JoinCourse = () => {
                 </Typography>
               </Box>
             </Box>
+            {batchDetails && batchDetails.cert_templates != null &&
+
             <Accordion
               className="xs-hide accordionBoxShadow"
               style={{
@@ -1321,7 +1324,7 @@ const JoinCourse = () => {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
                 id="panel1-header"
-                className="h4-title"
+                className="xs-hide h4-title"
               >
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
@@ -1348,6 +1351,33 @@ const JoinCourse = () => {
                 )}
               </AccordionDetails>
             </Accordion>
+}
+
+
+{isEnrolled && batchDetails && batchDetails.cert_templates == null &&
+
+<Box
+style={{
+  background: "#F9FAFC",
+  padding: "10px",
+  borderRadius: "10px",
+  color: "#424242",
+}}
+className="lg-hide accordionBoxShadow"
+>
+<Typography
+  variant="h7"
+  style={{
+    margin: "0 0 9px 0",
+    display: "block",
+    fontSize: "16px",
+  }}
+>
+  {t("CERT_NOT_ATTACHED")}:
+</Typography>
+
+</Box>
+             } 
             <Accordion
               className="xs-hide accordionBoxShadow"
               style={{
@@ -1394,30 +1424,7 @@ const JoinCourse = () => {
                 </Typography>
               </AccordionDetails>
             </Accordion>
-           {/* {isEnrolled && batchDetails == 'undefined' && */}
 
-<Box
-style={{
-  background: "#F9FAFC",
-  padding: "10px",
-  borderRadius: "10px",
-  color: "#484848",
-}}
-className="accordionBoxShadow"
->
-<Typography
-  variant="h7"
-  style={{
-    margin: "0 0 9px 0",
-    display: "block",
-    fontSize: "16px",
-  }}
->
-  {t("CERT_NOT_ATTACHED")}:
-</Typography>
-
-</Box>
-            {/* } */}
           
             <div className="xs-hide">
               <React.Fragment>
@@ -1793,6 +1800,8 @@ className="accordionBoxShadow"
                 </Typography>
               </Box>
             </Box>
+            {batchDetails && batchDetails.cert_templates != null &&
+
             <Accordion
               className="lg-hide accordionBoxShadow"
               style={{
@@ -1832,6 +1841,32 @@ className="accordionBoxShadow"
                 )}
               </AccordionDetails>
             </Accordion>
+}
+
+{isEnrolled && batchDetails && batchDetails.cert_templates == null &&
+
+<Box
+style={{
+  background: "#F9FAFC",
+  padding: "10px",
+  borderRadius: "10px",
+  color: "#424242",
+}}
+className="lg-hide accordionBoxShadow"
+>
+<Typography
+  variant="h7"
+  style={{
+    margin: "0 0 9px 0",
+    display: "block",
+    fontSize: "16px",
+  }}
+>
+  {t("CERT_NOT_ATTACHED")}:
+</Typography>
+
+</Box>
+             } 
             <Accordion
               className="lg-hide accordionBoxShadow"
               style={{
