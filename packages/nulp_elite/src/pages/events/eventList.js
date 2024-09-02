@@ -82,6 +82,7 @@ const EventList = (props) => {
   const [domainList, setDomainList] = useState([]);
   const { domainquery } = location.state || {};
   const [totalPages, setTotalPages] = useState(1);
+  const [totalPage, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -111,7 +112,14 @@ const EventList = (props) => {
     // fetchAllData();
     fetchMyEvents();
     fetchUserData();
-  }, []);
+  }, [    subDomainFilter,
+    endDateFilter,
+    startDateFilter,
+    searchQuery,
+    domainName,
+    domain,
+    currentPage,
+    subDomainFilter,]);
   useEffect(() => {
     fetchAllData();
   }, [
@@ -168,7 +176,7 @@ const EventList = (props) => {
   const fetchAllData = async () => {
     console.log("searchQuery", searchQuery);
     let filters = {
-
+      eventVisibility:"Public",
       objectType: ["Event"],
       ...((domainfilter?.se_board != null || domainName != null) && {
         board: domainfilter?.se_board || [domainName],
@@ -212,21 +220,25 @@ const EventList = (props) => {
     let data = JSON.stringify({
       request: {
     status: "Live",
-    filters: { user_id: _userId },
+    filters: { user_id: _userId ,      ...((domainfilter?.se_board != null || domainName != null) && {
+        board: domainfilter?.se_board || [domainName],
+      }), ...(subDomainFilter && { gradeLevel: subDomainFilter }),
+      ...(startDate && { startDate: startDate }),},
+       query: searchQuery,
         limit: 10,
         sort_by: { created_at: "desc" },
-        offset: 0,
+        offset: 10 * (currentPage - 1), // Use currentPage for pagination
       },
     });
     const headers = {
       "Content-Type": "application/json",
     };
     try {
-      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
-      // const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
+      const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
       const response = await getAllContents(url, data, headers);
       console.log("My data  ---", response.data.result.event);
       setMyData(response.data.result.event);
+      setTotalPage(Math.ceil(response.data.result.totalCount / 10));
     } catch (error) {
       console.log("m data error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -438,6 +450,11 @@ const EventList = (props) => {
                             <NoResult />
                           )}
                         </Grid>
+                        <Pagination
+                          count={totalPage}
+                          page={currentPage}
+                          onChange={handlePageChange}
+                        />
                       </TabPanel>
                       <TabPanel value="2" className="mt-15">
                         <Grid

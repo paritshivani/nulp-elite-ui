@@ -424,7 +424,7 @@
       "REGISTER": "/custom_event/registration",
       "REPORT": "/custom_event/reports",
       "CUSTOM_ENROLL_LIST": "/custom_event/enrollment-list",
-      "UNREGISTER": "custom_event/unregister",
+      "UNREGISTER": "/custom_event/unregister",
       "UPDATE_REGISTER": "/custom_event/registration/update",
       "CUSTOM_COMPOSITE_SEARCH": "/custom_event/composite/search",
       "READ_BY_ID": "/custom_event/read/event"
@@ -442,6 +442,11 @@
     "FEEDBACK": {
       "CREATE" : "/custom_feedback/create",
       "LIST" : "/custom_feedback/list"
+    },
+    "NOTIFICATION" : {
+      "READ": "notification/v1/feed/read/",
+      "UPDATE" : "notification/v1/feed/update",
+      "DELETE" : "notification/v1/feed/delete"
     }
   }
 }
