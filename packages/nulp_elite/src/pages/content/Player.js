@@ -60,6 +60,7 @@ const Player = () => {
 const [assessEvents, setAssessEvents] =useState ([]);
 const [propLength, setPropLength] =useState();
   const _userId = util.userId();
+
   const queryString = location.search;
   let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
   // Check if contentId ends with '=' and remove it
@@ -446,7 +447,7 @@ const attemptid = ()=>{
                   setTrackData(data);
                 }
               }}
-              public_url="https://devnulp.niua.org/newplayer"
+              public_url="https://nulp.niua.org/newplayer"
             />
           )}
         </Box>
