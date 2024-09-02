@@ -738,11 +738,11 @@ const Profile = () => {
                                   ID:{" "}
                                   {userData?.result?.response?.userName || "NA"}
                                 </Box>
-                                <Box className="cardLabelEllips1">
+                                {/* <Box className="cardLabelEllips1">
                                   organisations:{" "}
                                   {userData?.result?.response?.organisations
                                     ?.orgName || "NA"}
-                                </Box>
+                                </Box> */}
                               </Typography>
                               {userInfo?.length ? (
                                 <Typography className="h6-title d-flex">
