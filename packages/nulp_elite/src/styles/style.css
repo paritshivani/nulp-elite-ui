@@ -3757,3 +3757,6 @@ input:required::after {
 .cardBox1{
 min-height:300px;
 }
+.visibility-hidden {
+  visibility: hidden;
+}
