@@ -82,6 +82,7 @@ const EventList = (props) => {
   const [domainList, setDomainList] = useState([]);
   const { domainquery } = location.state || {};
   const [totalPages, setTotalPages] = useState(1);
+  const [totalPage, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -226,7 +227,7 @@ const EventList = (props) => {
        query: searchQuery,
         limit: 10,
         sort_by: { created_at: "desc" },
-        offset: 0,
+        offset: 10 * (currentPage - 1), // Use currentPage for pagination
       },
     });
     const headers = {
@@ -234,10 +235,10 @@ const EventList = (props) => {
     };
     try {
       const url = `${urlConfig.URLS.CUSTOM_EVENT.CUSTOM_ENROLL_LIST}`;
-      // const url = `https://devnulp.niua.org/custom_event/enrollment-list`;
       const response = await getAllContents(url, data, headers);
       console.log("My data  ---", response.data.result.event);
       setMyData(response.data.result.event);
+      setTotalPage(Math.ceil(response.data.result.totalCount / 10));
     } catch (error) {
       console.log("m data error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -449,6 +450,11 @@ const EventList = (props) => {
                             <NoResult />
                           )}
                         </Grid>
+                        <Pagination
+                          count={totalPage}
+                          page={currentPage}
+                          onChange={handlePageChange}
+                        />
                       </TabPanel>
                       <TabPanel value="2" className="mt-15">
                         <Grid
