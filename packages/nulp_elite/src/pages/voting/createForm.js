@@ -35,6 +35,7 @@ import dayjs from "dayjs";
 import Toast from "pages/Toast";
 import { Chip, Stack, InputAdornment } from "@mui/material";
 import { Cancel as CancelIcon } from "@mui/icons-material";
+import { t } from "i18next";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -435,7 +436,9 @@ const [searchUser , setSearchUser]= useState("");
               <PollOutlinedIcon
                 style={{ paddingRight: "10px", verticalAlign: "middle" }}
               />
-              {editData ? "Edit Poll" : "Poll Creation"}
+              {editData ? <div>  {t("EDIT_POLL")}</div>
+              :<div>  {t("CREATE_POLL")}</div>
+               }
             </Box>
           </Box>
 
@@ -515,7 +518,7 @@ const [searchUser , setSearchUser]= useState("");
                 className="mt-15"
                 sx={{ marginBottom: "30px" }}
               >
-                Poll will be published Based on Start Date
+                {t("POLL_PUBLISHED_BY_START_DATE")}
               </Alert>
               <Box className="mb-20">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
