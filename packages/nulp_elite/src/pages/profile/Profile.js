@@ -733,7 +733,7 @@ const Profile = () => {
                                 )}
                                 <Box className="cardLabelEllips1">
                                   {userInfo?.length && userInfo[0]?.designation
-                                    ? "   |  "
+                                    ? " "
                                     : " "}
                                   ID:{" "}
                                   {userData?.result?.response?.userName || "NA"}
@@ -754,7 +754,7 @@ const Profile = () => {
                               ) : null}
 
                               {roleNames && roleNames.length > 0 && (
-                                <Typography className="h6-title d-flex">
+                                <Typography className="h6-title">
                                   <Box className="h6-title d-flex">
                                     Role:{" "}
                                     {roleNames?.map((roleName, index) => (
