@@ -442,6 +442,11 @@
     "FEEDBACK": {
       "CREATE" : "/custom_feedback/create",
       "LIST" : "/custom_feedback/list"
+    },
+    "NOTIFICATION" : {
+      "READ": "notification/v1/feed/read/",
+      "UPDATE" : "notification/v1/feed/update",
+      "DELETE" : "notification/v1/feed/delete"
     }
   }
 }

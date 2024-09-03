@@ -697,7 +697,7 @@ button {
 
   .chatIcon {
     bottom: 162px;
-    width: 175px;
+    width: 65px;
     height: 46px;
     background: #484848;
     border-radius: 10px;
@@ -1546,6 +1546,15 @@ button {
 
   .addConnectChat .jss5 {
     position: inherit !important;
+    width: auto !important;
+    text-align: right !important;
+    font-size: 15px !important;
+  }
+
+  .addConnectChat.jss6.undefined {
+    width: auto !important;
+    text-align: left !important;
+    font-size: 15px !important;
   }
 
   .mr-13 {
@@ -2093,7 +2102,7 @@ button {
     position: fixed !important;
     width: 100%;
     z-index: 99999;
-    top: 80px;
+    overflow-y: scroll;
   }
   .domain-fixed .mt-180 {
     margin-top: 180px !important;
@@ -2104,7 +2113,8 @@ button {
     position: fixed !important;
     width: 100%;
     z-index: 99999;
-    top: 80px;
+    overflow-y: scroll;
+    padding: 0px 0px 0px 40px;
   }
   .domain-fixed .mt-180 {
     margin-top: 180px !important;
@@ -3746,4 +3756,7 @@ input:required::after {
 }
 .cardBox1{
 min-height:300px;
+}
+.visibility-hidden {
+  visibility: hidden;
 }
