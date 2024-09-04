@@ -334,7 +334,7 @@ const votingDashboard = () => {
                 <Grid item xs={12} md={3} className="lg-pl-0">
                   <FormControl fullWidth>
                     <InputLabel htmlFor="outlined-adornment-search">
-                      Search for a Poll
+                      {t(SEARCH_FOR_POLL)}
                     </InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-search"
@@ -348,7 +348,7 @@ const votingDashboard = () => {
                           </IconButton>
                         </InputAdornment>
                       }
-                      label="Search poll"
+                      label= {t(SEARCH_FOR_POLL)}
                     />
                   </FormControl>
                 </Grid>
@@ -356,7 +356,7 @@ const votingDashboard = () => {
                   {/* <Box className="ml-20">Select Date Range</Box> */}
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                      label="Select Date From"
+                      label={t(SELECT_DATE_FROM)}
                       value={selectedStartDate}
                       onChange={(newValue) => setSelectedStartDate(newValue)}
                     />
@@ -365,7 +365,7 @@ const votingDashboard = () => {
                 <Grid item xs={12} md={3}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                      label="Select Date To"
+                      label={t(SELECT_DATE_TO)}
                       value={selectedEndDate}
                       onChange={(newValue) => setSelectedEndDate(newValue)}
                     />
@@ -379,7 +379,7 @@ const votingDashboard = () => {
                     onClick={handleClearAll}
                     fullWidth
                   >
-                    Clear all
+                    {t(CLEAR_ALL)}
                   </Button>
                 </Grid>
               </Grid>
@@ -394,7 +394,7 @@ const votingDashboard = () => {
           >
             <Box display="flex" alignItems="center" className="h3-title">
               <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
-              Live Polls
+              {t(LIVE_POLLS)}
             </Box>
             {!showAllLive && visibleLivePolls.length >= 3 && (
               <Box>
@@ -403,7 +403,7 @@ const votingDashboard = () => {
                   className="custom-btn-primary ml-20"
                   onClick={() => handleViewAll(livePolls, "live")}
                 >
-                  View All
+                  {t(VIEW_ALL)}
                 </Button>
               </Box>
             )}
@@ -571,7 +571,7 @@ const votingDashboard = () => {
                             handleOpenModal(items.poll_id, event)
                           }
                         >
-                          View Stats{" "}
+                          {t(VIEW_STATUS)}{" "}
                           <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                         <Button
@@ -579,7 +579,7 @@ const votingDashboard = () => {
                           type="button"
                           className="custom-btn-primary ml-20 lg-mt-20 mb-10"
                         >
-                          Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
+                          {t(EDIT)} <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                         {admin ||
                           (contentCreator && (
@@ -591,7 +591,7 @@ const votingDashboard = () => {
                                 handleDialogOpen(items.poll_id, event);
                               }}
                             >
-                              Delete{" "}
+                              {t(DELETE)}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           ))}
@@ -658,7 +658,7 @@ const votingDashboard = () => {
                 className="h2-title mt-30"
               >
                 <Alert severity="info" style={{ margin: "10px 0" }}>
-                  It looks like there are no live polls at the moment.
+                 {t(NO_POLL_AVAILABLE_NOW)}
                 </Alert>
               </Grid>
             )}
@@ -672,7 +672,7 @@ const votingDashboard = () => {
           >
             <Box display="flex" alignItems="center" className="h3-title">
               <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
-              Draft Polls
+             {t(DRAFT_POLLS)}
             </Box>
             {!showAllDraft && visibleDraftPolls.length >= 3 && (
               <Box>
@@ -681,7 +681,7 @@ const votingDashboard = () => {
                   className="custom-btn-primary ml-20"
                   onClick={() => handleViewAll(draftPolls, "Draft")}
                 >
-                  View All
+                  {t(VIEW_ALL)}
                 </Button>
               </Box>
             )}
@@ -848,7 +848,7 @@ const votingDashboard = () => {
                           type="button"
                           className="custom-btn-primary ml-20 lg-mt-20 mb-10"
                         >
-                          Edit <ArrowForwardIosOutlinedIcon className="fs-12" />
+                          {t(EDIT)} <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                         <Button
                           type="button"
@@ -858,7 +858,7 @@ const votingDashboard = () => {
                             handleDialogOpen(items.poll_id, event);
                           }}
                         >
-                          Delete{" "}
+                          {t(DELETE)}{" "}
                           <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                       </Box>
@@ -924,7 +924,7 @@ const votingDashboard = () => {
                 className="h2-title mt-30"
               >
                 <Alert severity="info" style={{ margin: "10px 0" }}>
-                  It looks like there are no Draft polls at the moment.
+                  {t(NO_POLL_AVAILABLE_NOW)}
                 </Alert>
               </Grid>
             )}
@@ -947,7 +947,7 @@ const votingDashboard = () => {
                   className="custom-btn-primary ml-20"
                   onClick={() => handleViewAll(closedPolls, "closed")}
                 >
-                  View All
+                 {t(VIEW_ALL)}
                 </Button>
               </Box>
             )}
@@ -1117,7 +1117,7 @@ const votingDashboard = () => {
                             handleDialogOpen(items.poll_id, event);
                           }}
                         >
-                          Delete{" "}
+                          {t(DELETE)}{" "}
                           <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                         <Button
@@ -1127,7 +1127,7 @@ const votingDashboard = () => {
                             handleOpenModal(items.poll_id, event)
                           }
                         >
-                          View Results{" "}
+                          {t(VIEW_RESULT)}{" "}
                           <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
                       </Box>
@@ -1193,7 +1193,7 @@ const votingDashboard = () => {
                 className="h2-title mt-30"
               >
                 <Alert severity="info" style={{ margin: "10px 0" }}>
-                  It looks like there are no Closed polls at the moment.
+                  {t(NO_POLL_AVAILABLE_NOW)}
                 </Alert>
               </Grid>
             )}
@@ -1263,7 +1263,7 @@ const votingDashboard = () => {
                         {...sizing}
                       />
                     ) : (
-                      <Box>No data available</Box>
+                      <Box>{t(NO_DATA_FOUND)}</Box>
                     )}
                   </Box>
                 </Grid>
@@ -1283,7 +1283,7 @@ const votingDashboard = () => {
                   <Box>
                     <Box>
                       <Box className="mt-9 h5-title">
-                        Poll Created On:
+                        {t(CREATED_ON)}:
                         <TodayOutlinedIcon
                           className="fs-14 pr-5"
                           style={{ verticalAlign: "middle" }}
@@ -1293,7 +1293,7 @@ const votingDashboard = () => {
                         )}
                       </Box>
                       <Box className="mt-9 h5-title">
-                        Poll Ended On:
+                      {t(ENDED_ON)}:
                         <TodayOutlinedIcon
                           className="fs-14 pr-5"
                           style={{ verticalAlign: "middle" }}
@@ -1303,7 +1303,7 @@ const votingDashboard = () => {
                         )}
                       </Box>
                       <Box className="mt-9 h5-title">
-                        Total Votes: {totalVotes}
+                        {t(TOTAL_VOTES)}: {totalVotes}
                       </Box>
                     </Box>
                   </Box>
@@ -1314,7 +1314,7 @@ const votingDashboard = () => {
           <Dialog open={dialogOpen} onClose={handleDialogClose}>
             <DialogContent>
               <Box className="h5-title">
-                Are you sure you want to delere this poll?
+                {t(CONFIRM_POLL_DELETE)}
               </Box>
             </DialogContent>
             <DialogActions>
@@ -1322,13 +1322,14 @@ const votingDashboard = () => {
                 onClick={handleDialogClose}
                 className="custom-btn-default"
               >
-                No
+                {t(NO)}
               </Button>
               <Button
                 onClick={(event) => handleDeletePollConfirmed(event)}
                 className="custom-btn-primary"
               >
-                Yes
+                {t(YES)}
+
               </Button>
             </DialogActions>
           </Dialog>

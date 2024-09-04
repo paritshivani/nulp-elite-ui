@@ -296,5 +296,21 @@
   "ALL_PLAYER":"All Player",
   "LICENSEDETAILS":"license Details",
   "ABOUTTHECONTENT":"About The Content",
-  "COPYRIGHT":"Copyright"
+  "COPYRIGHT":"Copyright",
+  
+  "NO_POLL_AVAILABLE":"No polls available",
+  "CLOSED_POLLS":"Closed Polls",
+  "DRAFT_POLLS":"Draft Polls",
+  "ENDED_ON":"Ended on",
+  "YES":"Yes",
+  "NO":"No",
+  "CONFIRM_POLL_DELETE":"Are you sure you want to delere this poll?",
+  "TOTAL_VOTES":"Total Votes",
+  "NO_DATA_FOUND":"No data available",
+  "VIEW_RESULT":"View Results",
+  "DELETE":"Delete",
+  "EDIT":"Edit",
+  "VIEW_STATUS":"View Status",
+  "SEARCH_FOR_POLL":"Search for a Poll",
+  "NO_POLL_AVAILABLE_NOW":" It looks like there are no polls at the moment."
 }
