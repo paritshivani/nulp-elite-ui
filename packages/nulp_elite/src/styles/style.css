@@ -1546,15 +1546,18 @@ button {
 
   .addConnectChat .jss5 {
     position: inherit !important;
-    width: auto !important;
-    text-align: right !important;
+    text-align:left !important;
     font-size: 15px !important;
+    max-width: 85% !important;
   }
-
+  .jss6.undefined {
+    text-align: left !important;
+  }
   .addConnectChat.jss6.undefined {
     width: auto !important;
     text-align: left !important;
     font-size: 15px !important;
+    max-width: 80% !important;
   }
 
   .mr-13 {
