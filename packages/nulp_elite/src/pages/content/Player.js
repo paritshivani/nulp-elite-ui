@@ -97,6 +97,7 @@ console.log(Object.keys(props).length,"Object.keys(props).length");
   [assessEvents] 
 );
 const handleAssessmentData = async (data) => {
+  console.log ("telemetry data -------------", data)
   if (data.eid === "ASSESS") {
     console.log(data, "Received assessment data");
     
@@ -106,6 +107,13 @@ const handleAssessmentData = async (data) => {
       console.log("Updated assessEvents array:", updatedAssessEvents);
       return updatedAssessEvents;
     });
+  }
+  else if(data.eid === "END") {
+    await updateContentState(2)
+  }
+  else if (data.eid === "START"){
+    await updateContentState(1)
+
   }
 };
 
@@ -210,8 +218,10 @@ const attemptid = ()=>{
 };
 
   const updateContentState = useCallback(
+   
     async (status) => {
-      if (isEnrolled) {
+      // if (isEnrolled) {
+        console.log("enrolled true")
         const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
         await axios.patch(url, {
           request: {
@@ -219,7 +229,7 @@ const attemptid = ()=>{
             contents: [{ contentId, courseId, batchId, status }],
           },
         });
-      }
+      // }
     },
     [isEnrolled, _userId, contentId, courseId, batchId]
   );
@@ -447,7 +457,7 @@ const attemptid = ()=>{
                   setTrackData(data);
                 }
               }}
-              public_url="https://nulp.niua.org/newplayer"
+              public_url="https://devnulp.niua.org/newplayer"
             />
           )}
         </Box>
