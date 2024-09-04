@@ -83,6 +83,19 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+const modalstyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  width: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  height:"80%",
+  overflowX:"scroll"
+}
 const MAX_FILE_SIZE_MB = 1;
 const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 1 MB in bytes
 const SUPPORTED_FILE_TYPES = ["image/jpeg", "image/png"];
@@ -968,7 +981,7 @@ const Profile = () => {
                       open={isEditing}
                       onClose={handleCloseEditDialog}
                     >
-                      <Box sx={style}>
+                      <Box sx={modalstyle}>
                         <Typography
                           id="modal-modal-title"
                           className="h3-title"
