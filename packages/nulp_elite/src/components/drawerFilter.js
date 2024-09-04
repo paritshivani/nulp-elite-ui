@@ -352,7 +352,7 @@ const uniqueFilteredSubCategories = [...new Set(filteredSubCategories.map(item =
           <Box>
             <FormControl>
               <FormLabel id="demo-row-radio-buttons-group-label">
-                Poll Status
+                {t("POLL_STATUS")}
               </FormLabel>
               <RadioGroup
                 row

@@ -607,6 +607,7 @@ const EventDetails = () => {
     const url = `${urlConfig.URLS.CUSTOM_EVENT.UPDATE_REGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`;
 
     const RequestBody = {
+      name: formData?.name,
       email: formData?.email,
       designation: formData?.designation,
       organisation: formData?.organisation,
@@ -616,12 +617,20 @@ const EventDetails = () => {
     };
 
     try {
-      await axios.put(url, RequestBody);
-      console.log("update tegister successfull");
-    } catch (error) {
-      console.error("Error updating vote", error);
+      const response = await axios.put(url, RequestBody);
+    
+    if (response?.data?.responseCode === "OK") {
+      console.log("Update register successful");
+
+      setIsAlreadyFilledRegistration(true);
+    } else {
+      console.error("Failed to update registration", response.data);
     }
-  };
+  } catch (error) {
+    console.error("Error updating registration", error);
+  }
+};
+
   const unEnroll = async (formData) => {
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.UNENROLL_USER_COURSE}`;

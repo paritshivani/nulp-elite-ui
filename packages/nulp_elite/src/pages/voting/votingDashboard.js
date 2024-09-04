@@ -460,7 +460,7 @@ const votingDashboard = () => {
                               )}
                             </Box>
                           </Box>
-                          <Box className="fs-14">
+                          <Box className={`fs-14 ${items?.poll_keywords && items.poll_keywords.length <= 0 ? 'visibility-hidden' : ''}`}>
                             {items?.poll_keywords && (
                               <>
                                 {items.poll_keywords
@@ -499,20 +499,6 @@ const votingDashboard = () => {
                             )}
                           </Box>
                         </Box>
-                        {/* <Box
-                        className="card-img-container"
-                        style={{ position: "inherit" }}
-                      >
-                        <img
-                          src={
-                            items.image
-                              ? items.image
-                              : require("assets/default.png")
-                          }
-                          className="event-card-img"
-                          alt="App Icon"
-                        />
-                      </Box> */}
                       </Grid>
                       <Grid
                         item
