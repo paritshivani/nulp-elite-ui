@@ -35,6 +35,7 @@ import dayjs from "dayjs";
 import Toast from "pages/Toast";
 import { Chip, Stack, InputAdornment } from "@mui/material";
 import { Cancel as CancelIcon } from "@mui/icons-material";
+import { t } from "i18next";
 
 const createForm = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -44,6 +45,7 @@ const createForm = () => {
   const { state: editData } = location;
   const [title, setTitle] = useState(editData?.title || "");
   const [description, setDescription] = useState(editData?.description || "");
+  const [isDescriptionTouched, setIsDescriptionTouched] = useState(false);
   const [pollType, setPollType] = useState([]);
   const [startDate, setStartDate] = useState(
     editData?.start_date ? dayjs(editData.start_date) : null
@@ -93,7 +95,7 @@ const createForm = () => {
   const currentDayTime = dayjs();
   const [chips, setChips] = useState(editData?.poll_keywords || []);
   const inputRef = useRef(null);
-const [searchUser , setSearchUser]= useState("");
+  const [searchUser, setSearchUser] = useState("");
   // Check if startDate is in the past
   let isStartDateInPast;
   if (editData) {
@@ -161,7 +163,6 @@ const [searchUser , setSearchUser]= useState("");
     setSelectedOption(event.target.value);
   };
 
-  
   useEffect(() => {
     // Ensure selectedOrg is updated when organisationName changes
     const initialOrg = orgList.find((org) => org.orgName === organisationName);
@@ -198,7 +199,8 @@ const [searchUser , setSearchUser]= useState("");
   const isFormValid = () => {
     return (
       title.length >= 10 &&
-      description.length >= 100 &&
+      description.length >= 10 &&
+      description.length <= 100 &&
       startDate !== null &&
       endDate !== null
     );
@@ -312,16 +314,15 @@ const [searchUser , setSearchUser]= useState("");
   const handleChange = (event) => {
     setSearchUser(event.target.value);
   };
-  
-  const clearSearch = () =>{
-    setSearchUser("")
-    userList
-  }
+
+  const clearSearch = () => {
+    setSearchUser("");
+    userList;
+  };
   useEffect(() => {
     clearSearch();
   }, [userList]);
 
- 
   const getOrgUser = async (rootOrgId) => {
     const requestBody = {
       request: {
@@ -329,7 +330,7 @@ const [searchUser , setSearchUser]= useState("");
           status: "1",
           rootOrgId: rootOrgId,
         },
-        query:  searchUser,
+        query: searchUser,
         sort_by: {
           lastUpdatedOn: "desc",
         },
@@ -410,7 +411,14 @@ const [searchUser , setSearchUser]= useState("");
     } else if (isAdmin) {
       getOrgDetail(userData?.result?.response?.rootOrg?.id);
     }
+
   }, [isContentCreator, isAdmin, userData,searchUser]);
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+    setIsDescriptionTouched(true); // Mark the field as touched when the user types
+  };
+  
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -435,7 +443,9 @@ const [searchUser , setSearchUser]= useState("");
               <PollOutlinedIcon
                 style={{ paddingRight: "10px", verticalAlign: "middle" }}
               />
-              {editData ? "Edit Poll" : "Poll Creation"}
+              {editData ? <div>  {t("EDIT_POLL")}</div>
+              :<div>  {t("CREATE_POLL")}</div>
+               }
             </Box>
           </Box>
 
@@ -464,24 +474,24 @@ const [searchUser , setSearchUser]= useState("");
                     : ""
                 }
               />
-              <TextField
-                label={
-                  <span>
-                    Description<span className="red"> *</span>
-                  </span>
-                }
-                id="description"
-                multiline
-                rows={4}
-                className="mb-20"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                error={description.length > 0 && description.length < 100}
-                helperText={
-                  description.length > 0 && description.length < 100
-                    ? "Description must be at least 100 characters"
-                    : ""
-                }
+            <TextField
+              label={
+                <span>
+                  Description<span className="red"> *</span>
+                </span>
+              }
+              id="description"
+              multiline
+              rows={4}
+              className="mb-20"
+              value={description}
+              onChange={handleDescriptionChange}
+              error={isDescriptionTouched && (description.length < 10 || description.length > 100)} 
+              helperText={
+                isDescriptionTouched && (description.length < 10 || description.length > 100) 
+                  ? 'Description must be at least 10 characters and a maximum of 100 characters'
+                  : ''
+              }
               />
               <TextField
                 inputRef={inputRef}
@@ -515,7 +525,7 @@ const [searchUser , setSearchUser]= useState("");
                 className="mt-15"
                 sx={{ marginBottom: "30px" }}
               >
-                Poll will be published Based on Start Date
+                {t("POLL_PUBLISHED_BY_START_DATE")}
               </Alert>
               <Box className="mb-20">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -612,7 +622,7 @@ const [searchUser , setSearchUser]= useState("");
                                 const listboxNode = event.currentTarget;
                                 if (
                                   listboxNode.scrollTop +
-                                  listboxNode.clientHeight ===
+                                    listboxNode.clientHeight ===
                                   listboxNode.scrollHeight
                                 ) {
                                   if (!isFetchingMoreOrgs) {
@@ -622,7 +632,6 @@ const [searchUser , setSearchUser]= useState("");
                               },
                             }}
                           />
-                         
                         ) : null}
                         <RadioGroup
                           row
@@ -648,11 +657,17 @@ const [searchUser , setSearchUser]= useState("");
                           <Autocomplete
                             multiple
                             options={orgUserList}
-                            getOptionLabel={(option) =>
-                              `${option.firstName} ${option.lastName || " "}`
-                            }
+                            getOptionLabel={(option) => {
+                              const firstName = option.firstName?.trim() || "";
+                              const lastName = option.lastName?.trim() || "";
+                              return firstName || lastName
+                                ? `${firstName} ${lastName}`
+                                : "Unknown User";
+                            }}
                             value={userList}
-                            onChange={(event, newValue) => setUserList(newValue)}
+                            onChange={(event, newValue) =>
+                              setUserList(newValue)
+                            }
                             renderOption={(props, option, { selected }) => (
                               <li {...props}>
                                 <Checkbox
@@ -662,13 +677,23 @@ const [searchUser , setSearchUser]= useState("");
                                       (user) => user.userId === option.userId
                                     );
                                     const newSelectedUsers = isSelected
-                                      ? userList.filter((user) => user.userId !== option.userId)
+                                      ? userList.filter(
+                                          (user) =>
+                                            user.userId !== option.userId
+                                        )
                                       : [...userList, option];
                                     setUserList(newSelectedUsers);
                                   }}
                                 />
                                 <ListItemText
-                                  primary={`${option.firstName} ${option.lastName || " "}`}
+                                  primary={
+                                    option.firstName?.trim() ||
+                                    option.lastName?.trim()
+                                      ? `${option.firstName?.trim() || ""} ${
+                                          option.lastName?.trim() || ""
+                                        }`
+                                      : ""
+                                  }
                                 />
                               </li>
                             )}
@@ -685,7 +710,14 @@ const [searchUser , setSearchUser]= useState("");
                               selected.map((user, index) => (
                                 <Chip
                                   key={user.userId}
-                                  label={`${user.firstName} ${user.lastName}`}
+                                  label={
+                                    user.firstName?.trim() ||
+                                    user.lastName?.trim()
+                                      ? `${user.firstName?.trim() || ""} ${
+                                          user.lastName?.trim() || ""
+                                        }`
+                                      : ""
+                                  }
                                   {...getTagProps({ index })}
                                   onDelete={() => {
                                     clearSearch();
@@ -699,7 +731,6 @@ const [searchUser , setSearchUser]= useState("");
                             }
                           />
                         )}
-
                       </div>
                     </Box>
                   )}

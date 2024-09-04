@@ -1546,15 +1546,15 @@ button {
 
   .addConnectChat .jss5 {
     position: inherit !important;
-    width: auto !important;
-    text-align: right !important;
+    text-align:left !important;
     font-size: 15px !important;
+    max-width: 85% !important;
   }
-
-  .addConnectChat.jss6.undefined {
+  .addConnectChat .jss6.undefined {
     width: auto !important;
     text-align: left !important;
     font-size: 15px !important;
+    max-width: 80% !important;
   }
 
   .mr-13 {
@@ -1846,7 +1846,7 @@ button {
   }
 
   .chatIcon {
-    bottom: 173px;
+    bottom: 82px;
   }
 
   .card-img-container {

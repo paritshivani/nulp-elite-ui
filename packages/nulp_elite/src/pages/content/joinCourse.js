@@ -1358,12 +1358,12 @@ const JoinCourse = () => {
 
 <Box
 style={{
-  background: "#F9FAFC",
+  background: "#e3f5ff",
   padding: "10px",
   borderRadius: "10px",
   color: "#424242",
 }}
-className="lg-hide accordionBoxShadow"
+className="xs-hide accordionBoxShadow"
 >
 <Typography
   variant="h7"
@@ -1847,7 +1847,7 @@ className="lg-hide accordionBoxShadow"
 
 <Box
 style={{
-  background: "#F9FAFC",
+  background: "#e3f5ff",
   padding: "10px",
   borderRadius: "10px",
   color: "#424242",
