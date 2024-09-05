@@ -45,6 +45,7 @@ const createForm = () => {
   const { state: editData } = location;
   const [title, setTitle] = useState(editData?.title || "");
   const [description, setDescription] = useState(editData?.description || "");
+  const [isDescriptionTouched, setIsDescriptionTouched] = useState(false);
   const [pollType, setPollType] = useState([]);
   const [startDate, setStartDate] = useState(
     editData?.start_date ? dayjs(editData.start_date) : null
@@ -198,7 +199,8 @@ const createForm = () => {
   const isFormValid = () => {
     return (
       title.length >= 10 &&
-      description.length >= 100 &&
+      description.length >= 10 &&
+      description.length <= 100 &&
       startDate !== null &&
       endDate !== null
     );
@@ -409,7 +411,14 @@ const createForm = () => {
     } else if (isAdmin) {
       getOrgDetail(userData?.result?.response?.rootOrg?.id);
     }
-  }, [isContentCreator, isAdmin, userData, searchUser]);
+
+  }, [isContentCreator, isAdmin, userData,searchUser]);
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+    setIsDescriptionTouched(true); // Mark the field as touched when the user types
+  };
+  
   return (
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
@@ -465,24 +474,24 @@ const createForm = () => {
                     : ""
                 }
               />
-              <TextField
-                label={
-                  <span>
-                    Description<span className="red"> *</span>
-                  </span>
-                }
-                id="description"
-                multiline
-                rows={4}
-                className="mb-20"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                error={description.length > 0 && description.length < 100}
-                helperText={
-                  description.length > 0 && description.length < 100
-                    ? "Description must be at least 100 characters"
-                    : ""
-                }
+            <TextField
+              label={
+                <span>
+                  Description<span className="red"> *</span>
+                </span>
+              }
+              id="description"
+              multiline
+              rows={4}
+              className="mb-20"
+              value={description}
+              onChange={handleDescriptionChange}
+              error={isDescriptionTouched && (description.length < 10 || description.length > 100)} 
+              helperText={
+                isDescriptionTouched && (description.length < 10 || description.length > 100) 
+                  ? 'Description must be at least 10 characters and a maximum of 100 characters'
+                  : ''
+              }
               />
               <TextField
                 inputRef={inputRef}

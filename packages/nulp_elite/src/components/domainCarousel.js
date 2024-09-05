@@ -260,7 +260,8 @@ export default function DomainCarousel({
           )}
 
           {isBoxVisible && (
-            <Box style={{ position: "relative" }} className="bg-darkblue">
+            <>
+            <Box className="bg-darkblue1">
               <Box className="carousel-bx pt-12">
                 <Container
                   role="main"
@@ -318,7 +319,6 @@ export default function DomainCarousel({
                     style={{
                       textAlign: "center",
                       margin: "0 auto",
-                      marginTop: "-21px",
                     }}
                   >
                     <Button
@@ -333,6 +333,8 @@ export default function DomainCarousel({
                 </Container>
               </Box>
             </Box>
+            <Box className="height-200"></Box>
+            </>
           )}
         </>
       )}

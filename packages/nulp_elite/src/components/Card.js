@@ -180,6 +180,10 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
             src={items.appIcon ? items.appIcon : require("assets/default.png")}
             className="card-img"
             alt="App Icon"
+            onError={(e) => {
+              e.target.onerror = null; 
+              e.target.src = require("assets/default.png"); 
+            }}
           />
         </Box>
         {items.name && (

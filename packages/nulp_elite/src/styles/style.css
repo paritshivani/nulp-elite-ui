@@ -268,10 +268,14 @@ button {
     height: 50px;
   }
 
-  .bg-darkblue {
+  .bg-darkblue1 {
     background: #065872;
+    position: fixed;
+    top: 80px;
+    z-index: 1000;
+    width:100%;
   }
-
+  
   .profile-text-circle {
     align-items: center;
     border-radius: 100%;
@@ -1495,10 +1499,6 @@ button {
   .allContentProfile .custom-card-box {
     width: 214px !important;
   }
-
-  /* .carousel-bx .my-class {
-    margin: 0 45px !important;
-  } */
   .domainText {
     color: #484848;
     font-size: 11px !important;
@@ -1509,10 +1509,6 @@ button {
     text-align: center;
     /* width: 120px; */
   }
-  /* .carousel-active-ui {
-    padding: 8px 0 !important;
-    height: 92px;
-  } */
   .w-100 {
     width: 100% !important;
   }
@@ -1550,10 +1546,7 @@ button {
     font-size: 15px !important;
     max-width: 85% !important;
   }
-  .jss6.undefined {
-    text-align: left !important;
-  }
-  .addConnectChat.jss6.undefined {
+  .addConnectChat .jss6.undefined {
     width: auto !important;
     text-align: left !important;
     font-size: 15px !important;
@@ -1849,7 +1842,7 @@ button {
   }
 
   .chatIcon {
-    bottom: 173px;
+    bottom: 82px;
   }
 
   .card-img-container {
@@ -2117,11 +2110,11 @@ button {
     width: 100%;
     z-index: 99999;
     overflow-y: scroll;
-    padding: 0px 0px 0px 40px;
+    background: #065872;
   }
-  .domain-fixed .mt-180 {
+  /* .domain-fixed .mt-180 {
     margin-top: 180px !important;
-  }
+  } */
   .carousel-bx {
     transition: top 0.2s ease-in-out;
   }
@@ -2134,7 +2127,6 @@ button {
     display: block !important;
   }
   .carousel-bx {
-    box-shadow: 0 4px 4px 0 #00000040;
     justify-content: center;
   }
 }
@@ -2150,11 +2142,6 @@ button {
   .allContentProfile .custom-card-box {
     width: 214px !important;
   }
-  /* .custom-card {
-    display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
-    gap: 31px !important;
-  } */
 }
 @media (min-width: 1420px) {
   .custom-card {
@@ -2220,16 +2207,6 @@ button {
 .custom-dot-list-style {
   display: none !important;
 }
-
-/* .carousel-bx {
-  box-shadow: 0 4px 4px 0 #00000040;
-  justify-content: center;
-} */
-
-/* .carousel-bx .my-class:first-child {
-  margin-left: 0 !important;
-} */
-
 .lg-d-flex {
   display: flex;
 }
@@ -3762,4 +3739,7 @@ min-height:300px;
 }
 .visibility-hidden {
   visibility: hidden;
+}
+.height-200{
+  height:200px;
 }

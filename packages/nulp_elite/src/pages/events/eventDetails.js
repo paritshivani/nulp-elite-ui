@@ -1272,6 +1272,8 @@ const EventDetails = () => {
             border: "2px solid #000",
             boxShadow: 24,
             p: 4,
+            height:"80%",
+            overflowX:"scroll"
           }}
         >
           <Typography variant="h6" component="h2">
