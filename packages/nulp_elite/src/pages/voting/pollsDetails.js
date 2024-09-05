@@ -29,6 +29,7 @@ import { useLocation } from "react-router-dom";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useNavigate } from "react-router-dom";
+import { t } from "i18next";
 
 const pollsDetailes = () => {
   const location = useLocation();
@@ -145,7 +146,7 @@ const pollsDetailes = () => {
 
       <div>
         {polls.length === 0 ? (
-          <p>No polls available</p>
+          <p>{t("NO_POLL_AVAILABLE")}</p>
         ) : (
           <Container
             maxWidth="xl"
@@ -163,17 +164,17 @@ const pollsDetailes = () => {
                 {type === "live" ? (
                   <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
-                    Live Polls
+                     {t("LIVE_POLLS")}
                   </Box>
                 ) : type === "closed" ? (
                   <Box display="flex">
                     <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />{" "}
-                    Closed Polls
+                    {t("CLOSED_POLLS")}
                   </Box>
                 ) : (
                   <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
-                    Draft Polls
+                    {t("DRAFT_POLLS")}
                   </Box>
                 )}
               </Box>
@@ -183,7 +184,7 @@ const pollsDetailes = () => {
                   className="custom-btn-primary ml-20"
                   onClick={handleBackNavigate}
                 >
-                  Back
+                  {t("BACK")}
                 </Button>
               </Box>
             </Box>
@@ -357,7 +358,7 @@ const pollsDetailes = () => {
                               className="custom-btn-primary ml-20 lg-mt-20"
                               onClick={(event) => handleEdit(event, items)}
                             >
-                              Edit{" "}
+                              {t("EDIT")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                             <Button
@@ -368,7 +369,7 @@ const pollsDetailes = () => {
                                 handleDialogOpen(items.poll_id, event);
                               }}
                             >
-                              Delete{" "}
+                              {t("DELETE")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
@@ -381,7 +382,7 @@ const pollsDetailes = () => {
                                 handleOpenModal(items.poll_id, event)
                               }
                             >
-                              View Stats{" "}
+                             {t("VIEW_STATUS")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                             <Button
@@ -389,7 +390,7 @@ const pollsDetailes = () => {
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20 mb-10"
                             >
-                              Edit{" "}
+                              {t("EDIT")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
 
@@ -401,7 +402,7 @@ const pollsDetailes = () => {
                                 handleDialogOpen(items.poll_id, event);
                               }}
                             >
-                              Delete <ArrowForwardIosOutlinedIcon className="fs-12" />
+                              {t("DELETE")} <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
                         ) : type === "closed" ? (
@@ -413,7 +414,7 @@ const pollsDetailes = () => {
                                 handleOpenModal(items.poll_id, event)
                               }
                             >
-                              View Results{" "}
+                              {t("VIEW_RESULT")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
 
@@ -539,7 +540,7 @@ const pollsDetailes = () => {
                       }}
                       {...sizing} />
                   ) : (
-                    <Box>No data available</Box>
+                    <Box>{t("NO_DATA_FOUND")}</Box>
                   )}
                 </Box>
               </Grid>
@@ -558,16 +559,16 @@ const pollsDetailes = () => {
                 </Box>
                 <Box>
                   <Box className="mt-9 h5-title">
-                    Poll Created On:
+                    {t("CREATED_ON")}
                     <TodayOutlinedIcon className="fs-14 pr-5" />
                     {formatDate(signlePOll.created_at)}
                   </Box>
                   <Box className="mt-9 h5-title">
-                    Poll Ended On:
+                    {t("ENDED_ON")}
                     <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
                     {formatDate(signlePOll.end_date)}
                   </Box>
-                  <Box className="mt-9 h5-title">Total Votes: {totalVotes}</Box>
+                  <Box className="mt-9 h5-title">{t("TOTAL_VOTES")}: {totalVotes}</Box>
                 </Box>
               </Grid>
             </Grid>
@@ -581,20 +582,20 @@ const pollsDetailes = () => {
       >
         <DialogContent>
           <Box className="h5-title">
-            Are you sure you want to delere this poll?
+            {t("CONFIRM_POLL_DELETE")}
           </Box>
 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} className="custom-btn-default">
-            No
+            {t("NO")}
           </Button>
           <Button
             onClick={(event) => handleDeletePollConfirmed(event)}
             className="custom-btn-primary"
 
           >
-            Yes
+            {t("YES")}
           </Button>
         </DialogActions>
       </Dialog>

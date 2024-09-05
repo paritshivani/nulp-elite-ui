@@ -37,6 +37,7 @@ const moment = require("moment");
 const timezone = require("moment-timezone");
 import Picker from "emoji-picker-react";
 const routeConfig = require("../../configs/routeConfig.json");
+import CloseIcon from "@mui/icons-material/Close";
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
     display: "flex",
@@ -101,6 +102,7 @@ const Chat = ({
   senderUserId: propSenderUserId,
   receiverUserId: propReceiverUserId,
   onChatSent,
+  onClose
 }) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
@@ -540,7 +542,7 @@ const Chat = ({
                 <ArrowBackIcon />
               </IconButton>
             )}
-            {receiverData && receiverData?.length > 0 && (
+            {receiverData && receiverData?.length > 0 && ( 
               <Box
                 sx={{
                   fontSize: "20px",
@@ -550,15 +552,22 @@ const Chat = ({
                   textAlign: "left",
                 }}
               >
-                <div>
-                  <Typography className="h2-title chat-hed">
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Box>
+                    <Typography className="h2-title chat-hed">
                     {receiverData[0].firstName}{" "}
                     {receiverData[0].lastName && receiverData[0].lastName}
-                  </Typography>
-                  <Box className="h5-title">{receiverData[0].designation}</Box>
-                </div>
+                   </Typography>
+                   <Box className="h5-title">{receiverData[0].designation}</Box>
+                 </Box>
+                 <Box>
+                  <IconButton onClick={onClose}>
+                      <CloseIcon />
+                  </IconButton>
+                 </Box>
+                </Box>
               </Box>
-            )}
+            )} 
           </Box>
 
           {receiverData && receiverData?.length > 0 && messages.length > 0 && (
