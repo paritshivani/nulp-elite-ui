@@ -146,7 +146,7 @@ const pollsDetailes = () => {
 
       <div>
         {polls.length === 0 ? (
-          <p>{t(NO_POLL_AVAILABLE)}</p>
+          <p>{t("NO_POLL_AVAILABLE")}</p>
         ) : (
           <Container
             maxWidth="xl"
@@ -164,17 +164,17 @@ const pollsDetailes = () => {
                 {type === "live" ? (
                   <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
-                     {t(LIVE_POLLS)}
+                     {t("LIVE_POLLS")}
                   </Box>
                 ) : type === "closed" ? (
                   <Box display="flex">
                     <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />{" "}
-                    {t(CLOSED_POLLS)}
+                    {t("CLOSED_POLLS")}
                   </Box>
                 ) : (
                   <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
-                    {t(DRAFT_POLLS)}
+                    {t("DRAFT_POLLS")}
                   </Box>
                 )}
               </Box>
@@ -184,7 +184,7 @@ const pollsDetailes = () => {
                   className="custom-btn-primary ml-20"
                   onClick={handleBackNavigate}
                 >
-                  {t(BACK)}
+                  {t("BACK")}
                 </Button>
               </Box>
             </Box>
@@ -358,7 +358,7 @@ const pollsDetailes = () => {
                               className="custom-btn-primary ml-20 lg-mt-20"
                               onClick={(event) => handleEdit(event, items)}
                             >
-                              {t(EDIT)}{" "}
+                              {t("EDIT")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                             <Button
@@ -369,7 +369,7 @@ const pollsDetailes = () => {
                                 handleDialogOpen(items.poll_id, event);
                               }}
                             >
-                              {t(DELETE)}{" "}
+                              {t("DELETE")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
@@ -382,7 +382,7 @@ const pollsDetailes = () => {
                                 handleOpenModal(items.poll_id, event)
                               }
                             >
-                             {t(VIEW_STATUS)}{" "}
+                             {t("VIEW_STATUS")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                             <Button
@@ -390,7 +390,7 @@ const pollsDetailes = () => {
                               type="button"
                               className="custom-btn-primary ml-20 lg-mt-20 mb-10"
                             >
-                              {t(EDIT)}{" "}
+                              {t("EDIT")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
 
@@ -402,7 +402,7 @@ const pollsDetailes = () => {
                                 handleDialogOpen(items.poll_id, event);
                               }}
                             >
-                              {t(DELETE)} <ArrowForwardIosOutlinedIcon className="fs-12" />
+                              {t("DELETE")} <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                           </Box>
                         ) : type === "closed" ? (
@@ -414,7 +414,7 @@ const pollsDetailes = () => {
                                 handleOpenModal(items.poll_id, event)
                               }
                             >
-                              {t(VIEW_RESULT)}{" "}
+                              {t("VIEW_RESULT")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
 
@@ -540,7 +540,7 @@ const pollsDetailes = () => {
                       }}
                       {...sizing} />
                   ) : (
-                    <Box>{t(NO_DATA_FOUND)}</Box>
+                    <Box>{t("NO_DATA_FOUND")}</Box>
                   )}
                 </Box>
               </Grid>
@@ -559,16 +559,16 @@ const pollsDetailes = () => {
                 </Box>
                 <Box>
                   <Box className="mt-9 h5-title">
-                    {t(CREATED_ON)}
+                    {t("CREATED_ON")}
                     <TodayOutlinedIcon className="fs-14 pr-5" />
                     {formatDate(signlePOll.created_at)}
                   </Box>
                   <Box className="mt-9 h5-title">
-                    {t(ENDED_ON)}
+                    {t("ENDED_ON")}
                     <TodayOutlinedIcon className="fs-14 pr-5" />{" "}
                     {formatDate(signlePOll.end_date)}
                   </Box>
-                  <Box className="mt-9 h5-title">{t(TOTAL_VOTES)}: {totalVotes}</Box>
+                  <Box className="mt-9 h5-title">{t("TOTAL_VOTES")}: {totalVotes}</Box>
                 </Box>
               </Grid>
             </Grid>
@@ -582,20 +582,20 @@ const pollsDetailes = () => {
       >
         <DialogContent>
           <Box className="h5-title">
-            {t(CONFIRM_POLL_DELETE)}
+            {t("CONFIRM_POLL_DELETE")}
           </Box>
 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} className="custom-btn-default">
-            {t(NO)}
+            {t("NO")}
           </Button>
           <Button
             onClick={(event) => handleDeletePollConfirmed(event)}
             className="custom-btn-primary"
 
           >
-            {t(YES)}
+            {t("YES")}
           </Button>
         </DialogActions>
       </Dialog>
