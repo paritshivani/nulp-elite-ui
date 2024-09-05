@@ -1989,6 +1989,7 @@ className="lg-hide accordionBoxShadow"
                       senderUserId={_userId}
                       receiverUserId={creatorId}
                       onChatSent={handleClose}
+                      onClose={handleClose} 
                     />{" "}
                   </div>
                 </Modal>
