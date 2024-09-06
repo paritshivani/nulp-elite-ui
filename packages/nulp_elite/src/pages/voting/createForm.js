@@ -200,7 +200,7 @@ const createForm = () => {
     return (
       title.length >= 10 &&
       description.length >= 10 &&
-      description.length <= 100 &&
+      description.length <= 1000 &&
       startDate !== null &&
       endDate !== null
     );
@@ -486,12 +486,17 @@ const createForm = () => {
               className="mb-20"
               value={description}
               onChange={handleDescriptionChange}
-              error={isDescriptionTouched && (description.length < 10 || description.length > 100)} 
+              error={isDescriptionTouched && (description.length < 10 || description.length > 1000)} 
               helperText={
-                isDescriptionTouched && (description.length < 10 || description.length > 100) 
-                  ? 'Description must be at least 10 characters and a maximum of 100 characters'
+                isDescriptionTouched 
+                  ? description.length < 10 
+                    ? 'Description must be at least 10 characters'
+                    : description.length > 1000 
+                    ? 'Description must not exceed 1000 characters'
+                    : ''
                   : ''
               }
+              
               />
               <TextField
                 inputRef={inputRef}
