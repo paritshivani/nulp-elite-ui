@@ -2656,6 +2656,7 @@ Footer {
 
 .joinCourse div label {
   padding-right: 18px;
+  overflow-wrap: break-word;
 }
 
 button {

@@ -552,7 +552,7 @@ const Chat = ({
                   textAlign: "left",
                 }}
               >
-                <Box display="flex" justifyContent="space-between" alignItems="center">
+                {/* <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Box>
                     <Typography className="h2-title chat-hed">
                     {receiverData[0].firstName}{" "}
@@ -564,6 +564,15 @@ const Chat = ({
                   <IconButton onClick={onClose}>
                       <CloseIcon />
                   </IconButton>
+                 </Box>
+                </Box> */}
+                <Box>
+                  <Box>
+                    <Typography className="h2-title chat-hed">
+                    {receiverData[0].firstName}{" "}
+                    {receiverData[0].lastName && receiverData[0].lastName}
+                   </Typography>
+                   <Box className="h5-title">{receiverData[0].designation}</Box>
                  </Box>
                 </Box>
               </Box>

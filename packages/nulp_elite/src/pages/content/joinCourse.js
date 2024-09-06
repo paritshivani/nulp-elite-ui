@@ -1011,22 +1011,18 @@ const JoinCourse = () => {
           >
             {t("CONSENT_FORM_TITLE")}
           </Typography>
-          <div>
-            <label>{t("USERNAME")}:</label>
-            <span>{userInfo?.firstName}</span>
-          </div>
-          <div>
-            <label>{t("USER_ID")}:</label>
-            <span>{userInfo?.organisations[0]?.userId}</span>
-          </div>
-          <div>
-            <label>{t("MOBILENUMBER")}:</label>
-            <span>{userInfo?.phone}</span>
-          </div>
-          <div>
-            <label>{t("EMAIL_ADDRESS")}:</label>
-            <span>{userInfo?.email}</span>
-          </div>
+          <Box>
+            <label>{t("USERNAME")}: {userInfo?.firstName}</label>
+          </Box>
+          <Box>
+            <label>{t("USER_ID")}: {userInfo?.organisations[0]?.userId}</label>
+          </Box>
+          <Box>
+            <label>{t("MOBILENUMBER")}: {userInfo?.phone}</label>
+          </Box>
+          <Box>
+            <label>{t("EMAIL_ADDRESS")}: {userInfo?.email}</label>
+          </Box>
 
           <div>
             <input
