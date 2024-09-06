@@ -1024,14 +1024,14 @@ const JoinCourse = () => {
             <label>{t("EMAIL_ADDRESS")}: {userInfo?.email}</label>
           </Box>
 
-          <div>
+          <Box>
             <input
               type="checkbox"
               checked={consentChecked}
               onChange={handleCheckboxChange}
             />
             <label>{t("CONSENT_TEXT")}</label>
-          </div>
+          </Box>
           <Box className="d-flex jc-en">
             <Button
               onClick={handleDontShareClick}
