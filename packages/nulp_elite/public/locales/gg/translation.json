@@ -303,5 +303,7 @@
   "EDIT_":"સંપાદિત કરો",
   "VIEW_STATUS":"સ્થિતિ જુઓ",
   "SEARCH_FOR_POLL":"મતદાન માટે શોધો",
-  "NO_POLL_AVAILABLE_NOW":" એવું લાગે છે કે અત્યારે કોઈ મતદાન નથી."
+  "NO_POLL_AVAILABLE_NOW":" એવું લાગે છે કે અત્યારે કોઈ મતદાન નથી.",
+  "LEARNING_REPORT":"લર્નિંગ રિપોર્ટ",
+  "ADMIN":"એડમિન"
 }

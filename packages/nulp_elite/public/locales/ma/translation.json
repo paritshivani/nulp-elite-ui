@@ -295,5 +295,7 @@
   "EDIT":"संपादित करा",
   "VIEW_STATUS":"स्थिती पहा",
   "SEARCH_FOR_POLL":"पोल शोधा",
-  "NO_POLL_AVAILABLE_NOW":" असे दिसते की याक्षणी कोणतेही मतदान नाहीत."
+  "NO_POLL_AVAILABLE_NOW":" असे दिसते की याक्षणी कोणतेही मतदान नाहीत.",
+  "LEARNING_REPORT":"शिक्षण अहवाल",
+  "ADMIN":"प्रशासक"
 }
