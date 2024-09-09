@@ -131,11 +131,11 @@ const AllContent = () => {
         filters: {
           board: [domainName],
           primaryCategory: [
-            "course","Manuals/SOPs","Good Practices","Reports"
+            "course","Manuals/SOPs","Good Practices","Reports","Manual/SOPs"
           ],
-          visibility: ["Default", "Parent"],
+          // visibility: ["Default", "Parent"],   Commentent because not showing contents on prod
         },
-        limit: 100,
+        limit: 2000,
         sort_by: { lastPublishedOn: "desc" },
         fields: [
           "name",
@@ -172,7 +172,7 @@ const AllContent = () => {
 
       const filteredAndSortedData = response?.data?.result?.content
         ?.filter((item) =>
-          ["Manuals/SOPs", "Good Practices", "Reports", "Course"].includes(
+          ["Manuals/SOPs","Manual/SOPs", "Good Practices", "Reports", "Course"].includes(
             item.primaryCategory
           )
         )
