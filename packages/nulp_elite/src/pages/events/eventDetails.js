@@ -111,6 +111,7 @@ const EventDetails = () => {
   const [open, setOpen] = React.useState(false);
   const [recording, setRecording] = useState();
   const [isAllreadyFilledRegistation,setIsAlreadyFilledRegistration] = useState(true)
+  const [isExpired , setIsExpired] = useState(false)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -225,6 +226,9 @@ const EventDetails = () => {
           data.result.event.endTime
         );
 
+    const isExpired = checkIfExpired(data.result.event.endDate,data.result.event.endTime);
+    setIsExpired(isExpired);
+
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -234,6 +238,38 @@ const EventDetails = () => {
     fetchData();
     // fetchBatchData();
   }, [eventId]);
+
+const checkIfExpired = (registrationEndDate, endTime) => {
+  // Create Date object for registrationEndDate at the end of the day in UTC
+  const regEndDate = new Date(registrationEndDate + "T23:59:59Z"); 
+  const currentDate = new Date();
+
+  // Check if currentDate is after regEndDate
+  if (currentDate > regEndDate) {
+    return true; // Event is expired
+  }
+
+  // Check if registrationEndDate is today and compare endTime
+  if (currentDate.toDateString() === regEndDate.toDateString()) {
+    const [timePart] = endTime.split("+"); // e.g., "17:21:10"
+    const [endHours, endMinutes, endSeconds] = timePart.split(":").map(Number);
+
+    // Create a Date object for the end time of the event
+    const endDateTime = new Date(
+      currentDate.toDateString() + " " + endTime.split("+")[0]
+    );
+
+    if (currentDate > endDateTime) {
+      return true; // Event is expired
+    }
+  }
+
+  // Event is not expired
+  return false;
+};
+
+
+
 
   useEffect(() => {
     getUserData(_userId, "loggedIn");
@@ -826,7 +862,7 @@ const EventDetails = () => {
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
-              {eventVisibility &&
+              {!isExpired && eventVisibility &&
                 canEnroll &&
                 !isEnrolled &&
                 eventVisibility == "Public" && (
@@ -871,7 +907,7 @@ const EventDetails = () => {
                     </Alert>
                   </Box>
                 )}
-              {isEnrolled && (
+              {!isExpired && isEnrolled && (
                 <Box className="d-flex xs-hide">
                   <Button
                     type="button"
@@ -895,7 +931,7 @@ const EventDetails = () => {
                   >
                     {t("ATTEND_WEBINAR")}
                   </Button>
-                  {canEnroll && (
+                  {!isExpired && canEnroll && (
                     <Button
                       type="button"
                       onClick={() => {
@@ -938,7 +974,7 @@ const EventDetails = () => {
                   </Box>
                 }
               </Box> */}
-              {regEnd && isRecorded && (
+              {isExpired && (
                 <Box
                   className="h5-title mb-20 xs-hide"
                   style={{ fontWeight: "400" }}
@@ -1053,7 +1089,7 @@ const EventDetails = () => {
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
-              {canEnroll && !isEnrolled && (
+              {!isExpired && canEnroll && !isEnrolled && (
                 <div>
                   {" "}
                   <Box
@@ -1086,7 +1122,7 @@ const EventDetails = () => {
                   </Box>
                 </div>
               )}
-              {isEnrolled && (
+              {!isExpired && isEnrolled && (
                 <Box className="d-flex lg-hide">
                   <Button
                     type="button"
@@ -1110,7 +1146,7 @@ const EventDetails = () => {
                   >
                     {t("ATTEND_WEBINAR")}
                   </Button>
-                  {canEnroll && (
+                  {!isExpired && canEnroll && (
                     <Button
                       type="button"
                       onClick={() => {
@@ -1139,7 +1175,7 @@ const EventDetails = () => {
                   {formatDate(detailData.registrationStartDate)}
                 </Box>
               )}
-              {regEnd && isRecorded && (
+              {isExpired && (
                 <Box
                   className="h5-title mb-20 lg-hide"
                   style={{ fontWeight: "400" }}

@@ -181,8 +181,8 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
             className="card-img"
             alt="App Icon"
             onError={(e) => {
-              e.target.onerror = null; 
-              e.target.src = require("assets/default.png"); 
+              e.target.onerror = null;
+              e.target.src = require("assets/default.png");
             }}
           />
         </Box>
@@ -216,34 +216,35 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
         items?.se_gradeLevels) && (
         <>
           <Box className="textLeft mb-15 d-flex">
-           {items?.board ? (
-    <Tooltip
-        title={items.board}
-        placement="top"
-        className="labelOne cardLabelEllips"
-    >
-        <Button>
-            {items.board}
-        </Button>
-    </Tooltip>
-) : (
-    <Tooltip
-        title={
-            Array.isArray(items?.se_boards) && items.se_boards.length > 0
-                ? items.se_boards.join(", ")
-                : ""
-        }
-        placement="top"
-        className="labelOne cardLabelEllips"
-    >
-        <Button>
-            {Array.isArray(items?.se_boards) && items.se_boards.length > 0
-                ? `${items.se_boards[0]}${items.se_boards.length > 1 ? ` + ${items.se_boards.length - 1}` : ''}`
-                : ""
-            }
-        </Button>
-    </Tooltip>
-)}
+            {items?.board ? (
+              <Tooltip
+                title={items.board}
+                placement="top"
+                className="labelOne cardLabelEllips"
+              >
+                <Button>{items.board}</Button>
+              </Tooltip>
+            ) : (
+              <Tooltip
+                title={
+                  Array.isArray(items?.se_boards) && items.se_boards.length > 0
+                    ? items.se_boards.join(", ")
+                    : ""
+                }
+                placement="top"
+                className="labelOne cardLabelEllips"
+              >
+                <Button>
+                  {Array.isArray(items?.se_boards) && items.se_boards.length > 0
+                    ? `${items.se_boards[0]}${
+                        items.se_boards.length > 1
+                          ? ` + ${items.se_boards.length - 1}`
+                          : ""
+                      }`
+                    : ""}
+                </Button>
+              </Tooltip>
+            )}
             {(items.gradeLevel || items.se_gradeLevels) && (
               <Tooltip
                 title={

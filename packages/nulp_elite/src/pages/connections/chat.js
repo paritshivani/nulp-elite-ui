@@ -102,8 +102,11 @@ const Chat = ({
   senderUserId: propSenderUserId,
   receiverUserId: propReceiverUserId,
   onChatSent,
-  onClose
+  onClose,
+  showCloseIcon
 }) => {
+  console.log(showCloseIcon, 'showCloseIcon');
+
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -306,9 +309,8 @@ const Chat = ({
   const fetchChats = async () => {
     try {
       if (receiverUserId) {
-        const url = `${
-          urlConfig.URLS.DIRECT_CONNECT.GET_CHATS
-        }?sender_id=${_userId}&receiver_id=${receiverUserId}&is_accepted=${true}`;
+        const url = `${urlConfig.URLS.DIRECT_CONNECT.GET_CHATS
+          }?sender_id=${_userId}&receiver_id=${receiverUserId}&is_accepted=${true}`;
 
         // Check if the user is not blocked before fetching chats
         if (!isBlocked) {
@@ -542,7 +544,7 @@ const Chat = ({
                 <ArrowBackIcon />
               </IconButton>
             )}
-            {receiverData && receiverData?.length > 0 && ( 
+            {receiverData && receiverData?.length > 0 && (
               <Box
                 sx={{
                   fontSize: "20px",
@@ -552,301 +554,312 @@ const Chat = ({
                   textAlign: "left",
                 }}
               >
-                <Box display="flex" justifyContent="space-between" alignItems="center">
+                {showCloseIcon && (
+                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Box>
+                      <Typography className="h2-title chat-hed">
+                        {receiverData[0].firstName} {receiverData[0].lastName}
+                      </Typography>
+                      <Box className="h5-title">
+                        {receiverData[0].designation}
+                      </Box>
+                    </Box>
+                    <IconButton onClick={onClose}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
+                )}
+                {!showCloseIcon && (
                   <Box>
                     <Typography className="h2-title chat-hed">
-                    {receiverData[0].firstName}{" "}
-                    {receiverData[0].lastName && receiverData[0].lastName}
-                   </Typography>
-                   <Box className="h5-title">{receiverData[0].designation}</Box>
-                 </Box>
-                 <Box>
-                  <IconButton onClick={onClose}>
-                      <CloseIcon />
-                  </IconButton>
-                 </Box>
-                </Box>
+                      {receiverData[0].firstName} {receiverData[0].lastName}
+                    </Typography>
+                    <Box className="h5-title">
+                      {receiverData[0].designation}
+                    </Box>
+                  </Box>
+                )}
               </Box>
-            )} 
-          </Box>
+            )}
+        </Box>
 
-          {receiverData && receiverData?.length > 0 && messages.length > 0 && (
-            <Box
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "18px",
-                cursor: "pointer",
-              }}
+        {receiverData && receiverData?.length > 0 && messages.length > 0 && (
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "18px",
+              cursor: "pointer",
+            }}
+          >
+            {!isBlocked && (
+              <IconButton onClick={handleBlockUser} className="block-btn">
+                <BlockIcon
+                  style={{ fontSize: "16px", paddingRight: "8px" }}
+                />
+                {t("BLOCK")}
+              </IconButton>
+            )}
+            {showUnblockOption && (
+              <IconButton onClick={handleUnblockUser} className="unblock-btn">
+                <BlockIcon
+                  style={{ fontSize: "16px", paddingRight: "8px" }}
+                />
+                {t("UNBLOCK")}
+              </IconButton>
+            )}
+          </Box>
+        )}
+      </div>
+      <Dialog open={dialogOpen} onClose={handleDialogClose}>
+        <DialogTitle>
+          <Box className="h3-title">{t("BLOCK_USER")}</Box>
+        </DialogTitle>
+        <DialogContent>
+          <Box className="h5-title">
+            {t("ARE_YOU_SURE_YOU_WANT_TO_BLOCK_THIS_USER")}
+          </Box>
+          <Box py={2}>
+            <TextField
+              select
+              id="reason"
+              name="reason"
+              label={
+                <span>
+                  {t("REASON")}
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </span>
+              }
+              variant="outlined"
+              fullWidth
+              value={reason}
+              onChange={handleReasonChange}
             >
-              {!isBlocked && (
-                <IconButton onClick={handleBlockUser} className="block-btn">
-                  <BlockIcon
-                    style={{ fontSize: "16px", paddingRight: "8px" }}
-                  />
-                  {t("BLOCK")}
-                </IconButton>
-              )}
-              {showUnblockOption && (
-                <IconButton onClick={handleUnblockUser} className="unblock-btn">
-                  <BlockIcon
-                    style={{ fontSize: "16px", paddingRight: "8px" }}
-                  />
-                  {t("UNBLOCK")}
-                </IconButton>
-              )}
-            </Box>
-          )}
-        </div>
-        <Dialog open={dialogOpen} onClose={handleDialogClose}>
-          <DialogTitle>
-            <Box className="h3-title">{t("BLOCK_USER")}</Box>
-          </DialogTitle>
-          <DialogContent>
-            <Box className="h5-title">
-              {t("ARE_YOU_SURE_YOU_WANT_TO_BLOCK_THIS_USER")}
-            </Box>
-            <Box py={2}>
+              {reasons.map((option) => (
+                <MenuItem key={option.option} value={option.option}>
+                  {option.option}
+                  {option.option !== "Other" && (
+                    <Tooltip
+                      title={option.description}
+                      arrow
+                      placement="bottom"
+                      disableHoverListener={isMobile}
+                      disableFocusListener={isMobile}
+                      disableTouchListener={!isMobile}
+                      interactive
+                    >
+                      <IconButton size="small" style={{ marginLeft: "8px" }}>
+                        <InfoIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </MenuItem>
+              ))}
+            </TextField>
+            {reason === "Other" && (
               <TextField
-                select
-                id="reason"
-                name="reason"
+                id="customReason"
+                name="customReason"
                 label={
                   <span>
-                    {t("REASON")}
+                    {t("PLEASE_SPECIFY_REASON")}
                     <span style={{ color: "red", marginLeft: "2px" }}>*</span>
                   </span>
                 }
+                multiline
+                rows={3}
                 variant="outlined"
                 fullWidth
-                value={reason}
-                onChange={handleReasonChange}
-              >
-                {reasons.map((option) => (
-                  <MenuItem key={option.option} value={option.option}>
-                    {option.option}
-                    {option.option !== "Other" && (
-                      <Tooltip
-                        title={option.description}
-                        arrow
-                        placement="bottom"
-                        disableHoverListener={isMobile}
-                        disableFocusListener={isMobile}
-                        disableTouchListener={!isMobile}
-                        interactive
-                      >
-                        <IconButton size="small" style={{ marginLeft: "8px" }}>
-                          <InfoIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                  </MenuItem>
-                ))}
-              </TextField>
-              {reason === "Other" && (
-                <TextField
-                  id="customReason"
-                  name="customReason"
-                  label={
-                    <span>
-                      {t("PLEASE_SPECIFY_REASON")}
-                      <span style={{ color: "red", marginLeft: "2px" }}>*</span>
-                    </span>
-                  }
-                  multiline
-                  rows={3}
-                  variant="outlined"
-                  fullWidth
-                  value={customReason}
-                  onChange={(e) => setCustomReason(e.target.value)}
-                  style={{ marginTop: "16px" }}
-                />
-              )}
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleDialogClose} className="custom-btn-default">
-              {t("CANCEL")}
-            </Button>
-            <Button
-              onClick={handleConfirm}
-              className="custom-btn-primary"
-              disabled={!reason || (reason === "Other" && !customReason)}
-              style={{
-                background:
-                  !reason || (reason === "Other" && !customReason)
-                    ? "rgba(0, 67, 103, 0.5)"
-                    : "#004367",
-              }}
-            >
-              {t("BLOCK")}
-            </Button>
-          </DialogActions>
-        </Dialog>
+                value={customReason}
+                onChange={(e) => setCustomReason(e.target.value)}
+                style={{ marginTop: "16px" }}
+              />
+            )}
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} className="custom-btn-default">
+            {t("CANCEL")}
+          </Button>
+          <Button
+            onClick={handleConfirm}
+            className="custom-btn-primary"
+            disabled={!reason || (reason === "Other" && !customReason)}
+            style={{
+              background:
+                !reason || (reason === "Other" && !customReason)
+                  ? "rgba(0, 67, 103, 0.5)"
+                  : "#004367",
+            }}
+          >
+            {t("BLOCK")}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-        {receiverData && receiverData.length > 0 && !messages.length > 0 ? (
-          <div className={classes.chat}>
-            <Box
-              className="h5-title my-15"
-              style={{ color: "#484848", textAlign: "left" }}
-            >
-              {receiverData[0]?.bio}
-              <Box className="my-15">
-                {t("CONNECT_WITH_THEM_TO_GET_INSIGHTS")}
-              </Box>
+      {receiverData && receiverData.length > 0 && !messages.length > 0 ? (
+        <div className={classes.chat}>
+          <Box
+            className="h5-title my-15"
+            style={{ color: "#484848", textAlign: "left" }}
+          >
+            {receiverData[0]?.bio}
+            <Box className="my-15">
+              {t("CONNECT_WITH_THEM_TO_GET_INSIGHTS")}
             </Box>
-          </div>
-        ) : messages.length > 0 ? (
-          <div className={classes.chat}>
-            <Alert severity="info" style={{ margin: "10px 0" }}>
-              {t("YOUR_CHAT_WILL_DISAPPEAR")}
-            </Alert>
-            {messages.map((msg, index) => (
-              <div key={index} style={{ textAlign: "right" }}>
-                {index === 0 ||
+          </Box>
+        </div>
+      ) : messages.length > 0 ? (
+        <div className={classes.chat}>
+          <Alert severity="info" style={{ margin: "10px 0" }}>
+            {t("YOUR_CHAT_WILL_DISAPPEAR")}
+          </Alert>
+          {messages.map((msg, index) => (
+            <div key={index} style={{ textAlign: "right" }}>
+              {index === 0 ||
                 getTimeAgo(msg.timestamp) !==
-                  getTimeAgo(messages[index - 1].timestamp) ? (
-                  <div style={{ margin: "0 auto", textAlign: "center" }}>
-                    <Box className="dayDisplay">
-                      {getTimeAgo(msg.timestamp)}
-                    </Box>
-                  </div>
-                ) : null}
-                <div
-                  className={
-                    msg.sender_id === loggedInUserId
-                      ? `${classes.senderMessage} ${classes.message}`
-                      : `${classes.receiverMessage} ${classes.message}`
-                  }
-                >
-                  <div>{msg.message}</div>
-                  <Box
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: "10px",
-                        color: "#484848",
-                        fontWeight: "400",
-                      }}
-                    >
-                      {getTime(msg.timestamp)}
-                    </div>
-                    {msg.sender_id === loggedInUserId ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          fontSize: "13px",
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        {msg.is_read ? (
-                          <DoneAllIcon
-                            style={{
-                              color: "#00ebff",
-                              fontSize: "15px",
-                              paddingLeft: "6px",
-                            }}
-                          />
-                        ) : (
-                          <DoneAllIcon
-                            style={{
-                              color: "#bdbaba",
-                              fontSize: "18px",
-                              paddingRight: "10px",
-                            }}
-                          />
-                        )}
-                        {/* {msg.is_read ? "Read" : "Delivered"} */}
-                      </div>
-                    ) : null}
+                getTimeAgo(messages[index - 1].timestamp) ? (
+                <div style={{ margin: "0 auto", textAlign: "center" }}>
+                  <Box className="dayDisplay">
+                    {getTimeAgo(msg.timestamp)}
                   </Box>
                 </div>
-                {msg.is_accepted ? (
-                  <div style={{ textAlign: "center" }}>
-                    <Alert
-                      className="my-10"
-                      iconMapping={{
-                        success: <CheckCircleOutlineIcon fontSize="inherit" />,
-                      }}
-                    >
-                      {t("YOU_CHAT_ACCEPTED")}
-                    </Alert>
-                  </div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        ) : null}
-
-        {isBlocked ? (
-          <Alert severity="warning" style={{ marginBottom: "10px" }}>
-            {t("USER_BLOCKED_YOU_CANNOT")}
-          </Alert>
-        ) : (
-          <>
-            {receiverData &&
-              receiverData.length > 0 &&
-              !messages.length > 0 && (
-                <Alert severity="info" style={{ margin: "10px 0" }}>
-                  {t("SYSTEM_GENERATED_MESSAGE")}
-                </Alert>
-              )}
-            <div
-              className="d-flex sendMessag sendTextBox"
-              style={{ position: "relative" }}
-            >
-              {showEmojiPicker && (
-                <div
-                  ref={emojiPickerRef}
+              ) : null}
+              <div
+                className={
+                  msg.sender_id === loggedInUserId
+                    ? `${classes.senderMessage} ${classes.message}`
+                    : `${classes.receiverMessage} ${classes.message}`
+                }
+              >
+                <div>{msg.message}</div>
+                <Box
                   style={{
-                    position: "absolute",
-                    bottom: "50px",
-                    left: "14px",
-                    zIndex: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
                   }}
                 >
-                  <Picker
-                    onEmojiClick={onEmojiClick}
-                    pickerStyle={{ width: "100%" }}
-                  />
+                  <div
+                    style={{
+                      fontSize: "10px",
+                      color: "#484848",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {getTime(msg.timestamp)}
+                  </div>
+                  {msg.sender_id === loggedInUserId ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "13px",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      {msg.is_read ? (
+                        <DoneAllIcon
+                          style={{
+                            color: "#00ebff",
+                            fontSize: "15px",
+                            paddingLeft: "6px",
+                          }}
+                        />
+                      ) : (
+                        <DoneAllIcon
+                          style={{
+                            color: "#bdbaba",
+                            fontSize: "18px",
+                            paddingRight: "10px",
+                          }}
+                        />
+                      )}
+                      {/* {msg.is_read ? "Read" : "Delivered"} */}
+                    </div>
+                  ) : null}
+                </Box>
+              </div>
+              {msg.is_accepted ? (
+                <div style={{ textAlign: "center" }}>
+                  <Alert
+                    className="my-10"
+                    iconMapping={{
+                      success: <CheckCircleOutlineIcon fontSize="inherit" />,
+                    }}
+                  >
+                    {t("YOU_CHAT_ACCEPTED")}
+                  </Alert>
                 </div>
-              )}
-              <Button
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                style={{ color: "#484848", cursor: "pointer" }}
-              >
-                <InsertEmoticonIcon />
-              </Button>
-              <TextField
-                multiline
-                minRows={2}
-                maxRows={10}
-                value={textValue}
-                onChange={handleTextareaChange}
-                disabled={isBlocked}
-                placeholder="Enter your message here..."
-                fullWidth
-                sx={{ fontSize: "13px" }}
-              />
-
-              <Button
-                style={{ color: "#484848" }}
-                onClick={sendMessage}
-                disabled={isBlocked}
-              >
-                <SendIcon />
-              </Button>
+              ) : null}
             </div>
-          </>
-        )}
-      </div>
-      {/* <Footer /> */}
+          ))}
+        </div>
+      ) : null}
+
+      {isBlocked ? (
+        <Alert severity="warning" style={{ marginBottom: "10px" }}>
+          {t("USER_BLOCKED_YOU_CANNOT")}
+        </Alert>
+      ) : (
+        <>
+          {receiverData &&
+            receiverData.length > 0 &&
+            !messages.length > 0 && (
+              <Alert severity="info" style={{ margin: "10px 0" }}>
+                {t("SYSTEM_GENERATED_MESSAGE")}
+              </Alert>
+            )}
+          <div
+            className="d-flex sendMessag sendTextBox"
+            style={{ position: "relative" }}
+          >
+            {showEmojiPicker && (
+              <div
+                ref={emojiPickerRef}
+                style={{
+                  position: "absolute",
+                  bottom: "50px",
+                  left: "14px",
+                  zIndex: 1,
+                }}
+              >
+                <Picker
+                  onEmojiClick={onEmojiClick}
+                  pickerStyle={{ width: "100%" }}
+                />
+              </div>
+            )}
+            <Button
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              style={{ color: "#484848", cursor: "pointer" }}
+            >
+              <InsertEmoticonIcon />
+            </Button>
+            <TextField
+              multiline
+              minRows={2}
+              maxRows={10}
+              value={textValue}
+              onChange={handleTextareaChange}
+              disabled={isBlocked}
+              placeholder="Enter your message here..."
+              fullWidth
+              sx={{ fontSize: "13px" }}
+            />
+
+            <Button
+              style={{ color: "#484848" }}
+              onClick={sendMessage}
+              disabled={isBlocked}
+            >
+              <SendIcon />
+            </Button>
+          </div>
+        </>
+      )}
+    </div >
+      {/* <Footer /> */ }
     </>
   );
 };

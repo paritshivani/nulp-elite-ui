@@ -233,10 +233,10 @@
   "TOTAL_PARTICIPANTS": "કુલ ભાગ લેનારાઓ",
   "TOTAL_CREATORS": "કુલ સર્જક",
   "TOTAL_CERTIFIED_USERS": "કુલ પ્રમાણિત વપરાશકર્તાઓ",
-  "TOP_TRENDING_EVENT": "ટોપ ટ્રેન્ડિંગ ઇવેન્ટ",
+  "TOP_TRENDING_EVENT": "ટ્રેન્ડિંગ ઇવેન્ટ",
   "SELECT_YOUR_PREFERRED_DOMAIN": "તમારો પસંદગિત ડોમેન પસંદ કરો:",
   "THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS": "આ ઇવેન્ટ પૂર્ણ થઈ ગઈ છે, તમે આ રેકોર્ડિંગ લિંક ઍક્સેસ કરી શકો છો",
-  "TOP_TRENDING_DESIGNATIONS": "ટોપ ટ્રેન્ડિંગ હોદ્દા",
+  "TOP_TRENDING_DESIGNATIONS": "ટ્રેન્ડિંગ હોદ્દા",
   "UPCOMING_EVENTS": "આગામી ઇવેન્ટ્સ",
   "VOTING_LIST": "વોટિંગ યાદી",
   "POST_YOUR_VOTE": "તમારા મત પોસ્ટ કરો",
@@ -289,7 +289,6 @@
   "SELECT_CATEGORY_FIRST": "કૃપા કરીને પ્રથમ શ્રેણી પસંદ કરો",
   "SELECT_PREF": "પસંદગીઓ પસંદ કરો",
   "CHANGE_PREF_OLD_USER": "અમે ફ્રેમવર્કમાં કેટલાક ફેરફારો કર્યા છે કૃપા કરીને તમારી પસંદગી પસંદ કરો",
-
   "NO_POLL_AVAILABLE": "કોઈ મતદાન ઉપલબ્ધ નથી",
   "CLOSED_POLLS": "બંધ મતદાન",
   "DRAFT_POLLS": "ડ્રાફ્ટ મતદાન",
@@ -303,5 +302,8 @@
   "EDIT_": "સંપાદિત કરો",
   "VIEW_STATUS": "સ્થિતિ જુઓ",
   "SEARCH_FOR_POLL": "મતદાન માટે શોધો",
-  "NO_POLL_AVAILABLE_NOW": " એવું લાગે છે કે અત્યારે કોઈ મતદાન નથી."
+  "NO_POLL_AVAILABLE_NOW": " એવું લાગે છે કે અત્યારે કોઈ મતદાન નથી.",
+  "ADMIN":"એડમિન",
+  "LEARNING_REPORT":"લર્નિંગ રિપોર્ટ"
+  
 }

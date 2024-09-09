@@ -104,12 +104,15 @@ const AllContent = () => {
 
   useEffect(() => {
     fetchUserData();
-    fetchData();
+    // fetchData();
   }, []);
 
   useEffect(() => {
     fetchData();
   }, [selectedDomain, domainName]);
+  useEffect(() => {
+    fetchData();
+  }, [ domainName]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -128,33 +131,7 @@ const AllContent = () => {
         filters: {
           board: [domainName],
           primaryCategory: [
-            "Collection",
-            "Resource",
-            "Content Playlist",
-            "Course",
-            "Course Assessment",
-            "Digital Textbook",
-            "eTextbook",
-            "Explanation Content",
-            "Learning Resource",
-            "Lesson Plan Unit",
-            "Practice Question Set",
-            "Teacher Resource",
-            "Textbook Unit",
-            "LessonPlan",
-            "FocusSpot",
-            "Learning Outcome Definition",
-            "Curiosity Questions",
-            "MarkingSchemeRubric",
-            "ExplanationResource",
-            "ExperientialResource",
-            "Practice Resource",
-            "TVLesson",
-            "Course Unit",
-            "Exam Question",
-            "Manuals/SOPs",
-            "Good Practices",
-            "Reports",
+            "course","Manuals/SOPs","Good Practices","Reports"
           ],
           visibility: ["Default", "Parent"],
         },
@@ -304,6 +281,10 @@ const AllContent = () => {
     }
   };
 
+  const clearDomain = ()=>{
+    setDomainName(null)
+  }
+
   const pushData = (term) => {
     setItemsArray((prevData) => [...prevData, term]);
   };
@@ -357,22 +338,35 @@ const AllContent = () => {
             className="d-flex jc-bw my-20 px-10"
             style={{ alignItems: "center" }}
           >
-            <Box
-              sx={{ marginTop: "10px", alignItems: "center" }}
-              className="d-flex xs-d-none"
-            >
-              <Box className="h3-custom-title">
-                {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
-              </Box>
-              <Box
-                sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
-                className="text-blueShade2 h4-custom"
-              >
-                {domainName}
-              </Box>
-            </Box>
+          <Box
+            sx={{ marginTop: "10px", alignItems: "center" }}
+            className="d-flex xs-d-none"
+          >
+          <Box className="h3-custom-title">
+            {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
           </Box>
-        )}
+          <Box
+            sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
+            className="text-blueShade2 h4-custom"
+          >
+            {domainName}
+          </Box>
+          <Box
+            sx={{
+              fontSize: "16px",
+              fontWeight: "600",
+              color: "red",
+              paddingLeft: "10px",
+              cursor: "pointer"
+            }}
+            onClick={clearDomain}
+          >
+           &#x2716; 
+          </Box>
+        </Box>
+      </Box>
+    )}
+
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -413,16 +407,16 @@ const AllContent = () => {
                       }}
                       className="h3-title"
                     >
-                      {category}{" "}
+                    {category === "Course" ? "Courses" : category}
                     </Box>{" "}
                   </Box>
                   <Box>
                     {items?.length > 4 && (
                       <Link
-                        to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}?${category}`}
+                        to={`${routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL}?${category}?${domainName}`}
                         className="viewAll mr-22"
                       >
-                        {t("VIEW_ALL")}
+                        {t("VIEW_ALL")} {category === "Course" ? "Courses" : category}
                       </Link>
                     )}
                   </Box>

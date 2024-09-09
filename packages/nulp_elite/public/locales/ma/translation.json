@@ -233,10 +233,10 @@
   "TOTAL_PARTICIPANTS": "एकूण सहभाग",
   "TOTAL_CREATORS": "एकूण निर्माते",
   "TOTAL_CERTIFIED_USERS": "एकूण प्रमाणित वापरकर्ते",
-  "TOP_TRENDING_EVENT": "शीर्ष ट्रेंडिंग घटनाक्रम",
+  "TOP_TRENDING_EVENT": "ट्रेंडिंग घटनाक्रम",
   "SELECT_YOUR_PREFERRED_DOMAIN": "आपला प्राधान्य डोमेन निवडा:",
   "THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS": "हा घटनाक्रम संपला आहे, आपण रेकॉर्डिंग लिंकमध्ये प्रवेश करू शकता",
-  "TOP_TRENDING_DESIGNATIONS": "शीर्ष ट्रेंडिंग पद",
+  "TOP_TRENDING_DESIGNATIONS": "ट्रेंडिंग पद",
   "UPCOMING_EVENTS": "आगामी घटनाक्रम",
   "VOTING_LIST": "मतदान सूची",
   "CREATE_FORM": "फॉर्म ",
@@ -280,7 +280,6 @@
   "SELECT_CATEGORY_FIRST": "कृपया प्रथम श्रेणी निवडा",
   "SELECT_PREF": "प्राधान्ये निवडा",
   "CHANGE_PREF_OLD_USER": "आम्ही फ्रेमवर्कमध्ये काही बदल केले आहेत कृपया तुमचे प्राधान्य निवडा",
-
   "NO_POLL_AVAILABLE": "कोणतेही मतदान उपलब्ध नाही",
   "CLOSED_POLLS": "बंद मतदान",
   "DRAFT_POLLS": "मसुदा मतदान",
@@ -295,5 +294,7 @@
   "EDIT": "संपादित करा",
   "VIEW_STATUS": "स्थिती पहा",
   "SEARCH_FOR_POLL": "पोल शोधा",
-  "NO_POLL_AVAILABLE_NOW": " असे दिसते की याक्षणी कोणतेही मतदान नाहीत."
+  "NO_POLL_AVAILABLE_NOW": " असे दिसते की याक्षणी कोणतेही मतदान नाहीत.",
+  "ADMIN":"प्रशासक",
+  "LEARNING_REPORT":"शिकण्याचा अहवाल"
 }

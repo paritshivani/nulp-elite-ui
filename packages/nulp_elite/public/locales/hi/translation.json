@@ -233,10 +233,10 @@
   "TOTAL_PARTICIPANTS": "कुल प्रतिभागी",
   "TOTAL_CREATORS": "कुल निर्माता",
   "TOTAL_CERTIFIED_USERS": "कुल प्रमाणित उपयोगकर्ता",
-  "TOP_TRENDING_EVENT": "शीर्ष ट्रेंडिंग इवेंट",
+  "TOP_TRENDING_EVENT": "ट्रेंडिंग इवेंट",
   "SELECT_YOUR_PREFERRED_DOMAIN": "अपना पसंदीदा डोमेन चुनें:",
   "THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS": "यह इवेंट समाप्त हो चुका है, आप इस रिकॉर्डिंग लिंक तक पहुँच सकते हैं",
-  "TOP_TRENDING_DESIGNATIONS": "शीर्ष ट्रेंडिंग पद",
+  "TOP_TRENDING_DESIGNATIONS": "ट्रेंडिंग पद",
   "UPCOMING_EVENTS": "आगामी इवेंट्स",
   "VOTING_LIST": "वोटिंग सूची",
   "CREATE_FORM": "फॉर्म बनाएं",
@@ -294,5 +294,7 @@
   "EDIT": "संपादित करें",
   "VIEW_STATUS": "स्थिति देखें",
   "SEARCH_FOR_POLL": "पोल खोजें",
-  "NO_POLL_AVAILABLE_NOW": " ऐसा लगता है कि इस समय कोई मतदान नहीं है।"
+  "NO_POLL_AVAILABLE_NOW": " ऐसा लगता है कि इस समय कोई मतदान नहीं है।",
+  "ADMIN":"व्यवस्थापक",
+  "LEARNING_REPORT":"सीखने की रिपोर्ट"
 }

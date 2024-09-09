@@ -68,6 +68,7 @@ function Header({ globalSearchQuery }) {
   const [roles, setRoles] = useState([]);
   const [orgId, setOrgId] = useState();
   const [openSubmenu, setOpenSubmenu] = useState(false);
+  const [openDashboardmenu, setopenDashboardmenu] = useState(false);
   const [open, setOpen] = useState(false);
   const [show, setShow] = React.useState(false);
   const [openNotification, setOpenNotification] = useState(false);
@@ -87,7 +88,11 @@ function Header({ globalSearchQuery }) {
   };
   const handleSubmenuToggle = () => {
     setOpenSubmenu(!openSubmenu);
+
   };
+  const handleDashboardmenuToggle = () => {
+    setopenDashboardmenu(!openDashboardmenu);
+  }
   // Retrieve roles from sessionStorage
   const rolesJson = sessionStorage.getItem("roles");
   useEffect(() => {
@@ -130,11 +135,11 @@ function Header({ globalSearchQuery }) {
     });
   };
 
-   const handleClickOpenNotification = () => {
+  const handleClickOpenNotification = () => {
     setOpenNotification(true);
   };
 
-    const fetchNotifications = async () => {
+  const fetchNotifications = async () => {
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.NOTIFICATION.READ}${_userId}`;
       const response = await fetch(url);
@@ -165,7 +170,7 @@ function Header({ globalSearchQuery }) {
     setOpenNotification(false);
   };
 
-    const updateNotificationCount = (count) => {
+  const updateNotificationCount = (count) => {
     setNotificationCount(count);
   };
 
@@ -369,12 +374,11 @@ function Header({ globalSearchQuery }) {
               href={routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST}
               className={
                 activePath ===
-                `${
-                  routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
+                  `${routeConfig.ROUTES.DOMAINLIST_PAGE.DOMAINLIST ||
                   activePath.startsWith(
                     routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST
                   )
-                }`
+                  }`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -395,7 +399,7 @@ function Header({ globalSearchQuery }) {
               className={
                 activePath ===
                   routeConfig.ROUTES.ALL_CONTENT_PAGE.ALL_CONTENT ||
-                activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
+                  activePath.startsWith(routeConfig.ROUTES.VIEW_ALL_PAGE.VIEW_ALL)
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -414,7 +418,7 @@ function Header({ globalSearchQuery }) {
               href={routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}
               className={
                 activePath ===
-                `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
+                  `${routeConfig.ROUTES.ADDCONNECTION_PAGE.ADDCONNECTION}`
                   ? "Menuactive"
                   : "headerMenu"
               }
@@ -472,43 +476,43 @@ function Header({ globalSearchQuery }) {
               onMouseEnter={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
             >
-            <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
-              <FormControl
-                fullWidth
-                size="small"
-                className="translate xs-h-28"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "end",
-                }}
-              >
-                <GTranslateIcon />
-                <Select
-                  labelId="language-select-label"
-                  id="language-select"
-                  className="language"
-                  style={{ border: "none", color: "#4f4f4f" }}
-                  label={t("LANGUAGE")}
-                  value={language}
-                  startIcon={<LanguageIcon />}
-                  onChange={handleChangeLanguage}
-                  inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-                  onOpen={() => setShow(false)}
-                  onClose={() => setShow(true)}
+              <Box sx={{ minWidth: 102, padding: "0px 18px 0px 11px" }}>
+                <FormControl
+                  fullWidth
+                  size="small"
+                  className="translate xs-h-28"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "end",
+                  }}
                 >
-                  <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                  <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                  <MenuItem value="ma">{t("MARATHI")}</MenuItem>
-                  <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
-                  <MenuItem value="ta">{t("TAMIL")}</MenuItem>
-                  <MenuItem value="be">{t("BENGALI")}</MenuItem>
-                  <MenuItem value="mal">{t("MALAYALAM")}</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            </Tooltip> 
+                  <GTranslateIcon />
+                  <Select
+                    labelId="language-select-label"
+                    id="language-select"
+                    className="language"
+                    style={{ border: "none", color: "#4f4f4f" }}
+                    label={t("LANGUAGE")}
+                    value={language}
+                    startIcon={<LanguageIcon />}
+                    onChange={handleChangeLanguage}
+                    inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                    onOpen={() => setShow(false)}
+                    onClose={() => setShow(true)}
+                  >
+                    <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                    <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                    <MenuItem value="ma">{t("MARATHI")}</MenuItem>
+                    <MenuItem value="gg">{t("GUJARATI")}</MenuItem>
+                    <MenuItem value="ta">{t("TAMIL")}</MenuItem>
+                    <MenuItem value="be">{t("BENGALI")}</MenuItem>
+                    <MenuItem value="mal">{t("MALAYALAM")}</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </Tooltip>
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 <Tooltip>
@@ -551,7 +555,7 @@ function Header({ globalSearchQuery }) {
                 </Menu> */}
               </Box>
             </Tooltip>
-             <NotificationPopup open={openNotification} handleClose={handleCloseNotification}  updateNotificationCount={updateNotificationCount} />
+            <NotificationPopup open={openNotification} handleClose={handleCloseNotification} updateNotificationCount={updateNotificationCount} />
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
                 {/* <NotificationsNoneOutlinedIcon />
@@ -604,7 +608,7 @@ function Header({ globalSearchQuery }) {
               arrow
               className={
                 activePath === `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
+                  activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}`
                   ? "Menuactive"
                   : ""
               }
@@ -635,7 +639,7 @@ function Header({ globalSearchQuery }) {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: "45px"}}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -673,8 +677,8 @@ function Header({ globalSearchQuery }) {
 
               {/* Check if roles array is empty or contains "PUBLIC" */}
               {(roleNames && roleNames.length === 0) ||
-              (roleNames.length === 1 &&
-                roleNames.includes("PUBLIC")) ? null : (
+                (roleNames.length === 1 &&
+                  roleNames.includes("PUBLIC")) ? null : (
                 <MenuItem>
                   <Link
                     target="_blank"
@@ -692,7 +696,7 @@ function Header({ globalSearchQuery }) {
                 style={{ background: "#f9fafc", color: "#1976d2" }}
                 className="lg-hide"
               >
-                
+
                 {t("POLL")}
                 <Link primary="Submenu" />
                 {openSubmenu ? <ExpandLess /> : <ExpandMore />}
@@ -711,19 +715,19 @@ function Header({ globalSearchQuery }) {
                   {roleNames.some((role) =>
                     ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(role)
                   ) && (
-                    <MenuItem
-                      className="ml-10"
-                      style={{ background: "#f9fafc" }}
-                    >
-                      <Link
-                        href={routeConfig.ROUTES.POLL.POLL_FORM}
-                        underline="none"
-                        textAlign="center"
+                      <MenuItem
+                        className="ml-10"
+                        style={{ background: "#f9fafc" }}
                       >
-                        {t("CREATE_POLL")}
-                      </Link>
-                    </MenuItem>
-                  )}
+                        <Link
+                          href={routeConfig.ROUTES.POLL.POLL_FORM}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("CREATE_POLL")}
+                        </Link>
+                      </MenuItem>
+                    )}
                   <MenuItem className="ml-10">
                     <Link
                       href={routeConfig.ROUTES.POLL.POLL_LIST}
@@ -736,16 +740,16 @@ function Header({ globalSearchQuery }) {
                   {roleNames.some((role) =>
                     ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(role)
                   ) && (
-                    <MenuItem className="ml-10">
-                      <Link
-                        href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
-                        underline="none"
-                        textAlign="center"
-                      >
-                        {t("DASHBOARD")}
-                      </Link>
-                    </MenuItem>
-                  )}
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                          underline="none"
+                          textAlign="center"
+                        >
+                          {t("DASHBOARD")}
+                        </Link>
+                      </MenuItem>
+                    )}
                 </List>
               </Collapse>
               <MenuItem>
@@ -854,40 +858,40 @@ function Header({ globalSearchQuery }) {
                 onMouseEnter={() => setShow(true)}
                 onMouseLeave={() => setShow(false)}
               > */}
-                <Box className="lg-hide  translate">
-                  {/* Language Select */}
-                  <Box>
-                    <FormControl
-                      fullWidth
-                      size="small"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        flexDirection: "row",
-                        justifyContent: "end",
-                      }}
-                    >
-                      {/* <InputLabel id="language-select-label">
+              <Box className="lg-hide  translate">
+                {/* Language Select */}
+                <Box>
+                  <FormControl
+                    fullWidth
+                    size="small"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "end",
+                    }}
+                  >
+                    {/* <InputLabel id="language-select-label">
                   {t("LANGUAGE")}
                 </InputLabel> */}
-                      <GTranslateIcon style={{ color: "#000" }} />
-                      <Select
-                        labelId="language-select-label"
-                        id="language-select"
-                        className="language"
-                        style={{ border: "none" }}
-                        label={t("LANGUAGE")}
-                        value={language}
-                        startIcon={<LanguageIcon />}
-                        onChange={handleChangeLanguage}
-                        inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
-                      >
-                        <MenuItem value="en">{t("ENGLISH")}</MenuItem>
-                        <MenuItem value="hi">{t("HINDI")}</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
+                    <GTranslateIcon style={{ color: "#000" }} />
+                    <Select
+                      labelId="language-select-label"
+                      id="language-select"
+                      className="language"
+                      style={{ border: "none" }}
+                      label={t("LANGUAGE")}
+                      value={language}
+                      startIcon={<LanguageIcon />}
+                      onChange={handleChangeLanguage}
+                      inputProps={{ "aria-label": t("SELECT_LANGUAGE") }}
+                    >
+                      <MenuItem value="en">{t("ENGLISH")}</MenuItem>
+                      <MenuItem value="hi">{t("HINDI")}</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Box>
+              </Box>
               {/* </Tooltip> */}
               <Box className="d-flex">
                 <Tooltip title={t("Notification")} placement="bottom" arrow>
@@ -942,8 +946,8 @@ function Header({ globalSearchQuery }) {
                   className={
                     activePath ===
                       `${routeConfig.ROUTES.POFILE_PAGE.PROFILE}` ||
-                    activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
-                    activePath ===
+                      activePath === `${routeConfig.ROUTES.HELP_PAGE.HELP}` ||
+                      activePath ===
                       `${routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}`
                       ? "Menuactive"
                       : ""
@@ -975,7 +979,7 @@ function Header({ globalSearchQuery }) {
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
+                  sx={{ mt: "45px"}}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
                   anchorOrigin={{
@@ -989,6 +993,11 @@ function Header({ globalSearchQuery }) {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
+                  PaperProps={{
+                    sx: {
+                      width: '170px',
+                    },
+                  }}
                 >
                   <MenuItem>
                     <Link
@@ -999,6 +1008,132 @@ function Header({ globalSearchQuery }) {
                       {t("PROFILE")}
                     </Link>
                   </MenuItem>
+                  <MenuItem
+                    onClick={handleDashboardmenuToggle}
+                    style={{ background: "#f9fafc", color: "#1976d2" }}
+                  >
+                    {t("DASHBOARD")}
+                    <Link primary="Submenu" />
+                    {openDashboardmenu ? <ExpandLess /> : <ExpandMore />}
+                  </MenuItem>
+                  <Collapse
+                    in={openDashboardmenu}
+                    timeout="auto"
+                    unmountOnExit
+                    style={{ background: "#f9fafc" }}
+                  >
+                    <List
+                      component="div"
+                      disablePadding
+                      style={{ background: "#f9fafc" }}
+                    >
+                      {roleNames.some((role) =>
+                        ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
+                          role
+                        )
+                      ) && (
+                          <MenuItem className="ml-10">
+                            <Link
+                              href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                              underline="none"
+                              textAlign="center"
+                            >
+                               {t("POLL")} 
+                            </Link>
+                          </MenuItem>
+                        )}
+                      {roleNames.some((role) =>
+                        ["ORG_ADMIN", "SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
+                          role
+                        )
+                      ) && (
+                          <MenuItem className="ml-10">
+                            <Link
+                              href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                              underline="none"
+                              textAlign="center"
+                            >
+                              {t("EVENTS")}
+                            </Link>
+                          </MenuItem>
+                        )}
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.LEARNING_REPORT}
+                          underline="none"
+                          textAlign="center"
+                          target="_blank"
+                        >
+                          {t("LEARNING_REPORT")}
+                        </Link>
+                      </MenuItem>
+
+                    </List>
+                  </Collapse>
+                  <MenuItem
+                    onClick={handleDashboardmenuToggle}
+                    style={{ background: "#f9fafc", color: "#1976d2" }}
+                    className="lg-hide"
+                  >
+                    {t("DASHBOARD")}
+                    <Link primary="Submenu" />
+                    {openDashboardmenu ? <ExpandLess /> : <ExpandMore />}
+                  </MenuItem>
+                  <Collapse
+                    in={openDashboardmenu}
+                    timeout="auto"
+                    unmountOnExit
+                    style={{ background: "#f9fafc" }}
+                    className="lg-hide"
+                  >
+                    <List
+                      component="div"
+                      disablePadding
+                      style={{ background: "#f9fafc" }}
+                    >
+                      {roleNames.some((role) =>
+                        ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
+                          role
+                        )
+                      ) && (
+                          <MenuItem className="ml-10">
+                            <Link
+                              href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                              underline="none"
+                              textAlign="center"
+                            >
+                               {t("POLL")}
+                            </Link>
+                          </MenuItem>
+                        )}
+                      {roleNames.some((role) =>
+                        ["ORG_ADMIN", "SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
+                          role
+                        )
+                      ) && (
+                          <MenuItem className="ml-10">
+                            <Link
+                              href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
+                              underline="none"
+                              textAlign="center"
+                            >
+                              {t("EVENTS")}
+                            </Link>
+                          </MenuItem>
+                        )}
+                      <MenuItem className="ml-10">
+                        <Link
+                          href={routeConfig.ROUTES.LEARNING_REPORT}
+                          underline="none"
+                          textAlign="center"
+                          target="_blank"
+                        >
+                          {t("LEARNING_REPORT")}
+                        </Link>
+                      </MenuItem>
+
+                    </List>
+                  </Collapse>
                   {/* {userData &&
                       userData?.result?.response?.roles?.length === 1 &&
                       [
@@ -1019,27 +1154,26 @@ function Header({ globalSearchQuery }) {
                         </MenuItem>
                       )} */}
                   {roleNames.some((role) =>
-                    [
-                      "SYSTEM_ADMINISTRATION",
-                      "ORG_ADMIN",
-                      "CONTENT_CREATOR",
-                    ].includes(role)
+                    ["ORG_ADMIN", "SYSTEM_ADMINISTRATION"].includes(
+                      role
+                    )
                   ) && (
-                    <MenuItem>
-                      <Link
-                        href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
-                        underline="none"
-                        textAlign="center"
-                      >
-                        {t("DASHBOARD")}
-                      </Link>
-                    </MenuItem>
-                  )}
+                      <MenuItem>
+                        <Link
+                          href={routeConfig.ROUTES.ADMIN}
+                          underline="none"
+                          textAlign="center"
+                          target="_blank"
+                        >
+                          {t("ADMIN")}
+                        </Link>
+                      </MenuItem>
+                    )}
 
                   {/* Check if roles array is empty or contains "PUBLIC" */}
                   {(roleNames && roleNames?.length === 0) ||
-                  (roleNames.length === 1 &&
-                    roleNames.includes("PUBLIC")) ? null : (
+                    (roleNames.length === 1 &&
+                      roleNames.includes("PUBLIC")) ? null : (
                     <MenuItem>
                       <Link
                         target="_blank"
@@ -1079,16 +1213,16 @@ function Header({ globalSearchQuery }) {
                           role
                         )
                       ) && (
-                        <MenuItem className="ml-10">
-                          <Link
-                            href={routeConfig.ROUTES.POLL.POLL_FORM}
-                            underline="none"
-                            textAlign="center"
-                          >
-                            {t("CREATE_POLL")}
-                          </Link>
-                        </MenuItem>
-                      )}
+                          <MenuItem className="ml-10">
+                            <Link
+                              href={routeConfig.ROUTES.POLL.POLL_FORM}
+                              underline="none"
+                              textAlign="center"
+                            >
+                              {t("CREATE_POLL")}
+                            </Link>
+                          </MenuItem>
+                        )}
                       <MenuItem className="ml-10">
                         <Link
                           href={routeConfig.ROUTES.POLL.POLL_LIST}
@@ -1098,23 +1232,24 @@ function Header({ globalSearchQuery }) {
                           {t("POLL_LIST")}
                         </Link>
                       </MenuItem>
-                      {roleNames.some((role) =>
+                      {/* {roleNames.some((role) =>
                         ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
                           role
                         )
                       ) && (
-                        <MenuItem className="ml-10">
-                          <Link
-                            href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
-                            underline="none"
-                            textAlign="center"
-                          >
-                            {t("DASHBOARD")}
-                          </Link>
-                        </MenuItem>
-                      )}
+                          <MenuItem className="ml-10">
+                            <Link
+                              href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
+                              underline="none"
+                              textAlign="center"
+                            >
+                              {t("DASHBOARD")}
+                            </Link>
+                          </MenuItem>
+                        )} */}
                     </List>
                   </Collapse>
+
                   <MenuItem>
                     <Link
                       href={routeConfig.ROUTES.HELP_PAGE.HELP}
@@ -1123,8 +1258,7 @@ function Header({ globalSearchQuery }) {
                     >
                       {t("HELP")}
                     </Link>
-                  </MenuItem>
-
+                  </MenuItem> 
                   <MenuItem>
                     <Link href="/logoff" underline="none" textAlign="center">
                       {t("LOGOUT")}

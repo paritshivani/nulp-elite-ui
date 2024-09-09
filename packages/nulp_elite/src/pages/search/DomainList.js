@@ -206,13 +206,7 @@ const DomainList = ({ globalSearchQuery }) => {
       request: {
         filters: {
           se_boards: [null],
-          primaryCategory: [
-            "Good Practices",
-            "Reports",
-            "Manual/SOPs",
-            "Content",
-            "Quiz / Test"
-          ],
+          primaryCategory: ["Good Practices", "Reports", "Manual/SOPs"],
           visibility: ["Default", "Parent"],
         },
         limit: 100,

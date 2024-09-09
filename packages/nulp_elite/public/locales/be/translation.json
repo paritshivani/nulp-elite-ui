@@ -234,10 +234,10 @@
   "TOTAL_PARTICIPANTS": "মোট অংশগ্রহণকারী",
   "TOTAL_CREATORS": "মোট স্রষ্টা",
   "TOTAL_CERTIFIED_USERS": "মোট সার্টিফাইড ব্যবহারকারী",
-  "TOP_TRENDING_EVENT": "শীর্ষ ট্রেন্ডিং ইভেন্ট",
+  "TOP_TRENDING_EVENT": "ট্রেন্ডিং ইভেন্ট",
   "SELECT_YOUR_PREFERRED_DOMAIN": "আপনার পছন্দের ডোমেইন নির্বাচন করুন:",
   "THIS_EVENT_HAS_ENDED_YOU_CAN_ACCESS": "এই ইভেন্ট শেষ হয়েছে, আপনি এই রেকর্ডিং লিঙ্কটি অ্যাক্সেস করতে পারবেন",
-  "TOP_TRENDING_DESIGNATIONS": "শীর্ষ ট্রেন্ডিং পদবি",
+  "TOP_TRENDING_DESIGNATIONS": "ট্রেন্ডিং পদবি",
   "UPCOMING_EVENTS": "ভবিষ্যত ইভেন্ট",
   "VOTING_LIST": "ভোটিং তালিকা",
   "CREATE_FORM": "ফর্ম তৈরি করুন",
@@ -278,7 +278,6 @@
   "LICENSEDETAILS": "লাইসেন্সের বিবরণ",
   "ABOUTTHECONTENT": "বিষয়বস্তু সম্পর্কে",
   "COPYRIGHT": "কপিরাইট",
-
   "NO_POLL_AVAILABLE": "কোন পোল উপলব্ধ নেই",
   "CLOSED_POLLS": "বন্ধ পোল",
   "DRAFT_POLLS": "খসড়া পোল",
@@ -293,5 +292,7 @@
   "EDIT_": "সম্পাদনা করুন",
   "VIEW_STATUS": "স্থিতি দেখুন",
   "SEARCH_FOR_POLL": "একটি পোল অনুসন্ধান করুন",
-  "NO_POLL_AVAILABLE_NOW": " মনে হচ্ছে এই মুহূর্তে কোনো ভোট নেই৷"
+  "NO_POLL_AVAILABLE_NOW": " মনে হচ্ছে এই মুহূর্তে কোনো ভোট নেই৷",
+  "ADMIN":"অ্যাডমিন",
+  "LEARNING_REPORT":"লার্নিং রিপোর্ট"
 }

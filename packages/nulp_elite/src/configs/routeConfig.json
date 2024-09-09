@@ -6,6 +6,8 @@
     "DASHBOARD_PAGE": {
       "DASHBOARD": "/webapp/dashboard"
     },
+    "LEARNING_REPORT":"/dashBoard/allDashboard",
+    "ADMIN":"/dashBoard/addusess",
     "ALL_CONTENT_PAGE": {
       "ALL_CONTENT": "/webapp/all"
     },
