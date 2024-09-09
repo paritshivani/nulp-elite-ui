@@ -1419,7 +1419,7 @@ className="xs-hide accordionBoxShadow"
                     <Typography
                       className="h6-title"
                       onClick={handlecopyrightOpen}
-                      style={{ cursor: "pointer", color: "blue" }} 
+                      style={{ cursor: "pointer", color: "blue !important" }} 
                     >
                     {t("CREDITS")}
                   </Typography>
