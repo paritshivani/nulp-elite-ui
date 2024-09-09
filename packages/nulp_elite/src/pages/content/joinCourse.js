@@ -112,6 +112,7 @@ const JoinCourse = () => {
   const [isContentConsumed, setIsContentConsumed] = useState();
   const [completedContents, setCompletedContents] = useState([]);
   const [isCompleted, setIsCompleted] = useState();
+  const [copyrightOpen,setcopyrightOpen] = useState(false);
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -923,6 +924,16 @@ const JoinCourse = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  
+   const handlecopyrightOpen = () => {
+    setcopyrightOpen(true);
+  };
+
+  const handlecopyrightClose = () => {
+    setcopyrightOpen(false);
+  }
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -1405,7 +1416,43 @@ className="xs-hide accordionBoxShadow"
                       userData.result.content.children[0].lastUpdatedOn
                     )}
                 </Typography>
-                <Typography className="h6-title">{t("CREDITS")}:</Typography>
+                    <Typography
+                      className="h6-title"
+                      onClick={handlecopyrightOpen}
+                      style={{ cursor: "pointer", color: "blue" }} 
+                    >
+                    {t("CREDITS")}
+                  </Typography>
+                  <Dialog open={copyrightOpen} onClose={handlecopyrightClose} sx={{ "& .MuiDialog-paper": { width: "455px" } }} >
+                    <DialogTitle>{t("CREDITS")}</DialogTitle>
+                   <DialogContent>
+                    <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        COPYRIGHT
+                      </p>
+                      {userData?.result?.content?.copyright && userData?.result?.content?.copyrightYear
+                        ? `${userData.result.content.copyright}, ${userData.result.content.copyrightYear}`
+                        : userData?.result?.content?.copyright || userData?.result?.content?.copyrightYear
+                      }
+                      <h5>This content is derived from</h5>
+                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        CONTENT
+                      </p>
+                      {userData?.result?.content?.name}
+                     <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        LICENSE TERMS
+                      </p>
+                      {userData?.result?.content?.licenseDetails?.name}
+                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        PUBLISHED ON NULP BY
+                      </p>
+                      {userData?.result?.content?.copyright}
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color="primary">
+                        {t("CLOSE")}
+                      </Button>
+                    </DialogActions>
+                 </Dialog>
                 <Typography className="h6-title">
                   {t("LICENSE_TERMS")}:{" "}
                   {userData?.result?.content?.licenseDetails?.name}
