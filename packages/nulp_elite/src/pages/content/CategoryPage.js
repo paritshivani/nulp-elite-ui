@@ -97,7 +97,10 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
         filters: {
           primaryCategory: [category],
           visibility: [],
-          board: domainName ? [domainName] : [preselectedDomain],
+         board: domainName 
+          ? [domainName] 
+          : (preselectedDomain && preselectedDomain !== "null" ? [preselectedDomain] : undefined)
+
         },
         limit: 20,
         sort_by: {
@@ -249,7 +252,7 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
         role="main"
         className="allContent xs-pb-20 pb-30 domain-list"
       >
-        {(domainName || preselectedDomain) && (
+        {(domainName || (preselectedDomain && preselectedDomain !== "null")) && (
           <Box
             className="d-flex jc-bw mr-20 my-20"
             style={{ alignItems: "center" }}
@@ -280,7 +283,7 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
             className="d-flex jc-bw mr-20 my-20 px-10"
             style={{ alignItems: "center" }}
           >
-            <p className="h3-title">{category}</p>
+            <p className="h3-title">{category === "Course" ? "Courses" : category}</p>
             <Link onClick={handleGoBack} className="viewAll mr-17">
               {t("BACK")}
             </Link>
