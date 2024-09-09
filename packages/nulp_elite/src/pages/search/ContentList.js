@@ -104,19 +104,16 @@ const ContentList = (props) => {
     if (location.state?.domain) {
       setIsDomain(true);
     }
-    setCurrentPage(1)
     fetchData();
     fetchUserData();
     const random = getRandomValue();
   }, [filters, search, currentPage, domainfilter]);
 
   useEffect(() => {
-    setCurrentPage(1)
     fetchData();
   }, [domain]);
 
   useEffect(() => {
-    setCurrentPage(1)
     fetchData();
   }, [contentTypeFilter]);
   useEffect(() => {
@@ -124,7 +121,6 @@ const ContentList = (props) => {
   }, [subDomainFilter]);
 
   useEffect(() => {
-    setCurrentPage(1)
     fetchData();
     setHeaderSearch(globalSearchQuery);
     if (headerSearch) {
