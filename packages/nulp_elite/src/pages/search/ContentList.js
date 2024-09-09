@@ -114,9 +114,11 @@ const ContentList = (props) => {
   }, [domain]);
 
   useEffect(() => {
+    setCurrentPage(1)
     fetchData();
   }, [contentTypeFilter]);
   useEffect(() => {
+        setCurrentPage(1)
     fetchData();
   }, [subDomainFilter]);
 
@@ -129,6 +131,7 @@ const ContentList = (props) => {
   }, [globalSearchQuery]);
 
   useEffect(() => {
+    setCurrentPage(1)
     if (headerSearch) {
       setSearchQuery(headerSearch || "");
     }
@@ -399,7 +402,7 @@ const ContentList = (props) => {
   const handlefilterChanges = (selectedFilters) => {
     setContentTypeFilter(selectedFilters.contentFilter || []);
     setSubDomainFilter(selectedFilters.subDomainFilter || []);
-    fetchData();
+    // fetchData();
   };
 
   return (
