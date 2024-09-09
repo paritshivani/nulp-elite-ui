@@ -721,6 +721,10 @@ const Profile = () => {
                       padding: "20px 10px 0",
                     }}
                   >
+                   
+                    <CardContent className="profile-cardContent">
+                    <Grid container>
+                    <Grid item xs={2}>
                     {userData && (
                       <>
                         <div className="img-text-circle">
@@ -728,7 +732,8 @@ const Profile = () => {
                         </div>
                       </>
                     )}
-                    <CardContent className="profile-cardContent">
+                    </Grid>
+                    <Grid item xs={9}>
                       {userData && (
                         <>
                           <Box className="d-flex jc-bw mb-10 alignItems-center">
@@ -788,14 +793,17 @@ const Profile = () => {
                                 </Typography>
                               )}
                             </Box>
-
-                            <ModeEditIcon
-                              className="cursor-pointer"
-                              onClick={handleOpenEditDialog}
-                            />
                           </Box>
                         </>
                       )}
+                      </Grid>
+                      <Grid item xs={1}>
+                      <ModeEditIcon
+                              className="cursor-pointer"
+                              onClick={handleOpenEditDialog}
+                            />
+                      </Grid>
+                       </Grid>
                     </CardContent>
                   </Box>
                   {userData && userInfo?.length > 0 && (
