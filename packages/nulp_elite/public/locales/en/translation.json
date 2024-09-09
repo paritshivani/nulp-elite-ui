@@ -312,5 +312,7 @@
   "EDIT": "Edit",
   "VIEW_STATUS": "View Status",
   "SEARCH_FOR_POLL": "Search for a Poll",
-  "NO_POLL_AVAILABLE_NOW": " It looks like there are no polls at the moment."
+  "NO_POLL_AVAILABLE_NOW": " It looks like there are no polls at the moment.",
+  "ADMIN":"Admin",
+  "LEARNING_REPORT":"Learning Report"
 }

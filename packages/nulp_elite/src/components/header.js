@@ -639,7 +639,7 @@ function Header({ globalSearchQuery }) {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px",width:'170px' }}
+              sx={{ mt: "45px"}}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -979,7 +979,7 @@ function Header({ globalSearchQuery }) {
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
+                  sx={{ mt: "45px"}}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
                   anchorOrigin={{
@@ -993,6 +993,11 @@ function Header({ globalSearchQuery }) {
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
+                  PaperProps={{
+                    sx: {
+                      width: '170px',
+                    },
+                  }}
                 >
                   <MenuItem>
                     <Link
@@ -1033,7 +1038,7 @@ function Header({ globalSearchQuery }) {
                               underline="none"
                               textAlign="center"
                             >
-                               {t("POLL")} {t("DASHBOARD")}
+                               {t("POLL")} 
                             </Link>
                           </MenuItem>
                         )}
@@ -1057,6 +1062,7 @@ function Header({ globalSearchQuery }) {
                           href={routeConfig.ROUTES.LEARNING_REPORT}
                           underline="none"
                           textAlign="center"
+                          target="_blank"
                         >
                           {t("LEARNING_REPORT")}
                         </Link>
@@ -1096,7 +1102,7 @@ function Header({ globalSearchQuery }) {
                               underline="none"
                               textAlign="center"
                             >
-                               {t("POLL")} {t("DASHBOARD")}
+                               {t("POLL")}
                             </Link>
                           </MenuItem>
                         )}
@@ -1120,6 +1126,7 @@ function Header({ globalSearchQuery }) {
                           href={routeConfig.ROUTES.LEARNING_REPORT}
                           underline="none"
                           textAlign="center"
+                          target="_blank"
                         >
                           {t("LEARNING_REPORT")}
                         </Link>
@@ -1156,6 +1163,7 @@ function Header({ globalSearchQuery }) {
                           href={routeConfig.ROUTES.ADMIN}
                           underline="none"
                           textAlign="center"
+                          target="_blank"
                         >
                           {t("ADMIN")}
                         </Link>
@@ -1241,6 +1249,7 @@ function Header({ globalSearchQuery }) {
                         )} */}
                     </List>
                   </Collapse>
+
                   <MenuItem>
                     <Link
                       href={routeConfig.ROUTES.HELP_PAGE.HELP}
@@ -1249,8 +1258,7 @@ function Header({ globalSearchQuery }) {
                     >
                       {t("HELP")}
                     </Link>
-                  </MenuItem>
-
+                  </MenuItem> 
                   <MenuItem>
                     <Link href="/logoff" underline="none" textAlign="center">
                       {t("LOGOUT")}
