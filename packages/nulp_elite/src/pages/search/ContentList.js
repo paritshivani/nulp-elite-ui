@@ -114,9 +114,11 @@ const ContentList = (props) => {
   }, [domain]);
 
   useEffect(() => {
+    setCurrentPage(1)
     fetchData();
   }, [contentTypeFilter]);
   useEffect(() => {
+        setCurrentPage(1)
     fetchData();
   }, [subDomainFilter]);
 
