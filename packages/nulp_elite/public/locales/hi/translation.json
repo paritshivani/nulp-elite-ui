@@ -294,5 +294,7 @@
   "EDIT": "संपादित करें",
   "VIEW_STATUS": "स्थिति देखें",
   "SEARCH_FOR_POLL": "पोल खोजें",
-  "NO_POLL_AVAILABLE_NOW": " ऐसा लगता है कि इस समय कोई मतदान नहीं है।"
+  "NO_POLL_AVAILABLE_NOW": " ऐसा लगता है कि इस समय कोई मतदान नहीं है।",
+  "ADMIN":"व्यवस्थापक",
+  "LEARNING_REPORT":"सीखने की रिपोर्ट"
 }
