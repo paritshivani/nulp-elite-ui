@@ -43,9 +43,14 @@ const CategoryPage = () => {
 
   const location = useLocation();
   const queryString = location.search;
-  const category = queryString.startsWith("?")
-    ? decodeURIComponent(queryString.slice(1))
-    : null;
+const cleanQueryString = queryString.startsWith("?")
+  ? queryString.slice(1) 
+  : queryString;
+
+const [categoryRaw, preselectedDomainRaw] = cleanQueryString.split("?");
+
+const category = decodeURIComponent(categoryRaw || "");
+const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -62,17 +67,17 @@ const CategoryPage = () => {
   const handleDomainFilter = (query, domainName) => {
     setSelectedDomain(query);
     setDomainName(domainName);
-    fetchMoreItems(query, domainName);
+    fetchMoreItems( domainName);
   };
 
   useEffect(() => {
     if (selectedDomain) {
-      fetchMoreItems(category, selectedDomain);
+      fetchMoreItems( selectedDomain);
     }
   }, [selectedDomain]);
 
   useEffect(() => {
-    fetchMoreItems(category, selectedDomain);
+    fetchMoreItems( selectedDomain);
   }, [currentPage]);
 
   const handleGoBack = () => {
@@ -83,7 +88,7 @@ const CategoryPage = () => {
     setCurrentPage(newValue);
   };
 
-  const fetchMoreItems = async (category, selectedDomain) => {
+  const fetchMoreItems = async (selectedDomain) => {
     const newPath = location.pathname + "?" + category;
     sessionStorage.setItem("previousRoutes", newPath);
     setError(null);
@@ -92,7 +97,7 @@ const CategoryPage = () => {
         filters: {
           primaryCategory: [category],
           visibility: [],
-          board: [domainName],
+          board: domainName ? [domainName] : [preselectedDomain],
         },
         limit: 20,
         sort_by: {
@@ -215,7 +220,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     if (category) {
-      fetchMoreItems(category, selectedDomain);
+      fetchMoreItems( selectedDomain);
     }
     fetchUserData();
   }, [category]);
@@ -244,7 +249,7 @@ const CategoryPage = () => {
         role="main"
         className="allContent xs-pb-20 pb-30 domain-list"
       >
-        {domainName && (
+        {(domainName || preselectedDomain) && (
           <Box
             className="d-flex jc-bw mr-20 my-20"
             style={{ alignItems: "center" }}
@@ -260,7 +265,7 @@ const CategoryPage = () => {
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
                 className="text-blueShade2 h4-custom"
               >
-                {domainName}
+                {domainName ? domainName : preselectedDomain}
               </Box>
             </Box>
           </Box>
