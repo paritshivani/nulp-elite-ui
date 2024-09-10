@@ -3744,3 +3744,10 @@ min-height:300px;
 .height-200{
   height:200px;
 }
+.remove-box{
+  background: #e1f5ff !important;
+  display: flex;
+  margin-left: 10px;
+  padding: 3px 13px;
+  border-radius: 7px;
+}

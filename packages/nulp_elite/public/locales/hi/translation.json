@@ -296,5 +296,7 @@
   "SEARCH_FOR_POLL": "पोल खोजें",
   "NO_POLL_AVAILABLE_NOW": " ऐसा लगता है कि इस समय कोई मतदान नहीं है।",
   "ADMIN":"व्यवस्थापक",
-  "LEARNING_REPORT":"सीखने की रिपोर्ट"
+  "LEARNING_REPORT":"सीखने की रिपोर्ट",
+  "POPULAR_COURSES" : "लोकप्रिय पाठ्यक्रम",
+  "RECENTLY_ADDED":"हाल ही में जोड़ा"
 }
