@@ -1403,6 +1403,20 @@ className="xs-hide accordionBoxShadow"
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
                 <Typography className="h6-title">
+                  {t("Created By")}:{" "}
+                  {userData &&
+                    userData.result &&                    
+                      userData.result.content.creator
+                    }
+                </Typography>
+                <Typography className="h6-title">
+                  {t("Published on NULP by")}:{" "}
+                  {userData &&
+                    userData.result &&
+                      userData.result?.content?.orgDetails?.orgName
+                    }
+                </Typography>
+                <Typography className="h6-title">
                   {t("CREATED_ON")}:{" "}
                   {userData &&
                     userData.result &&
@@ -1416,10 +1430,11 @@ className="xs-hide accordionBoxShadow"
                       userData.result.content.children[0].lastUpdatedOn
                     )}
                 </Typography>
+                
                     <Typography
-                      className="h6-title"
+                      className=""
                       onClick={handlecopyrightOpen}
-                      style={{ cursor: "pointer", color: "blue !important" }} 
+                      style={{ cursor: "pointer",  color: "blue", textDecoration: "underline",fontSize: "small" }} 
                     >
                     {t("CREDITS")}
                   </Typography>
@@ -1429,9 +1444,9 @@ className="xs-hide accordionBoxShadow"
                     <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         COPYRIGHT
                       </p>
-                      {userData?.result?.content?.copyright && userData?.result?.content?.copyrightYear
-                        ? `${userData.result.content.copyright}, ${userData.result.content.copyrightYear}`
-                        : userData?.result?.content?.copyright || userData?.result?.content?.copyrightYear
+                      {userData?.result?.content?.orgDetails?.orgName && userData?.result?.content?.copyrightYear
+                        ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
+                        : userData?.result?.content?.orgDetails?.orgName || userData?.result?.content?.copyrightYear
                       }
                       <h5>This content is derived from</h5>
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
@@ -1445,7 +1460,7 @@ className="xs-hide accordionBoxShadow"
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         PUBLISHED ON NULP BY
                       </p>
-                      {userData?.result?.content?.copyright}
+                      {userData?.result?.content?.orgDetails?.orgName}
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleClose} color="primary">

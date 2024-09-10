@@ -314,5 +314,8 @@
   "SEARCH_FOR_POLL": "Search for a Poll",
   "NO_POLL_AVAILABLE_NOW": " It looks like there are no polls at the moment.",
   "ADMIN":"Admin",
-  "LEARNING_REPORT":"Learning Report"
+  "LEARNING_REPORT":"Learning Report",
+  "POPULAR_COURSES" : "Popular Courses",
+  "RECENTLY_ADDED":"Recently Added"
+
 }
