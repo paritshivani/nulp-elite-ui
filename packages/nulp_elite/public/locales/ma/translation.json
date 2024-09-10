@@ -296,5 +296,8 @@
   "SEARCH_FOR_POLL": "पोल शोधा",
   "NO_POLL_AVAILABLE_NOW": " असे दिसते की याक्षणी कोणतेही मतदान नाहीत.",
   "ADMIN":"प्रशासक",
-  "LEARNING_REPORT":"शिकण्याचा अहवाल"
+  "LEARNING_REPORT":"शिकण्याचा अहवाल",
+  "POPULAR_COURSES" : "लोकप्रिय अभ्यासक्रम",
+  "RECENTLY_ADDED":"अलीकडे जोडले"
+
 }

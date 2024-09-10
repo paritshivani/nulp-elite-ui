@@ -526,7 +526,7 @@ const DomainList = ({ globalSearchQuery }) => {
                   display: "inline-block",
                 }}
               >
-                {"Latest Courses"}{" "}
+                {t("POPULAR_COURSES")}{" "}
               </Box>{" "}
             </Box>
           </p>
@@ -628,7 +628,7 @@ const DomainList = ({ globalSearchQuery }) => {
                   display: "inline-block",
                 }}
               >
-                {"Recently Added"}{" "}
+                {t("RECENTLY_ADDED")}{" "}
               </Box>{" "}
             </Box>
           </p>

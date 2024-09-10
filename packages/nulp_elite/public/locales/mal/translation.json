@@ -296,5 +296,7 @@
   "SEARCH_FOR_POLL": "ഒരു വോട്ടെടുപ്പിനായി തിരയുക",
   "NO_POLL_AVAILABLE_NOW": " ഇപ്പോൾ വോട്ടെടുപ്പുകളൊന്നും ഇല്ലെന്ന് തോന്നുന്നു.",
   "ADMIN":"അഡ്മിൻ",
-  "LEARNING_REPORT":"പഠന റിപ്പോർട്ട്"
+  "LEARNING_REPORT":"പഠന റിപ്പോർട്ട്",
+  "POPULAR_COURSES" : "ജനപ്രിയ കോഴ്സുകൾ",
+  "RECENTLY_ADDED":"അടുത്തിടെ ചേർത്തത് "
 }
