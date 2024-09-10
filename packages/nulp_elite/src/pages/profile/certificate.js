@@ -207,7 +207,7 @@ const Certificate = () => {
           >
             {t("MY_PROFILE")}
           </Box>
-          <Box className="d-flex jc-bw alignItems-center lg-mb-20">
+          <Box className="d-flex jc-bw alignItems-center mb-20">
             <Box style={{ display: "flex", alignItems: "end" }}>
               <ReceiptLongIcon style={{ paddingRight: "10px" }} />{" "}
               {t("DOWNLOAD_CERTIFICATES")}
@@ -215,7 +215,7 @@ const Certificate = () => {
             <Link
               type="button"
               href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
-              className="viewAll xs-cert-btn"
+              className="viewAll xs-cert-btn "
               // onClick={handleGoBack}
             >
               {t("BACK_TO_LEARNNG")}
