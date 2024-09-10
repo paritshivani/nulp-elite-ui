@@ -294,5 +294,7 @@
   "SEARCH_FOR_POLL": "একটি পোল অনুসন্ধান করুন",
   "NO_POLL_AVAILABLE_NOW": " মনে হচ্ছে এই মুহূর্তে কোনো ভোট নেই৷",
   "ADMIN":"অ্যাডমিন",
-  "LEARNING_REPORT":"লার্নিং রিপোর্ট"
+  "LEARNING_REPORT":"লার্নিং রিপোর্ট",
+  "POPULAR_COURSES" : "জনপ্রিয় কোর্স",
+  "RECENTLY_ADDED":"সম্প্রতি যোগ করা হয়েছে"
 }

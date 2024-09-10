@@ -240,31 +240,29 @@ const EventDetails = () => {
   }, [eventId]);
 
 const checkIfExpired = (registrationEndDate, endTime) => {
-  // Create Date object for registrationEndDate at the end of the day in UTC
   const regEndDate = new Date(registrationEndDate + "T23:59:59Z"); 
+  console.log(regEndDate,"regEndDate--------");
   const currentDate = new Date();
 
-  // Check if currentDate is after regEndDate
   if (currentDate > regEndDate) {
-    return true; // Event is expired
+    return true; 
   }
 
-  // Check if registrationEndDate is today and compare endTime
   if (currentDate.toDateString() === regEndDate.toDateString()) {
-    const [timePart] = endTime.split("+"); // e.g., "17:21:10"
+    const [timePart] = endTime.split("+");
     const [endHours, endMinutes, endSeconds] = timePart.split(":").map(Number);
 
-    // Create a Date object for the end time of the event
     const endDateTime = new Date(
       currentDate.toDateString() + " " + endTime.split("+")[0]
     );
 
+    console.log(endDateTime,"endDateTime--------");
+
     if (currentDate > endDateTime) {
-      return true; // Event is expired
+      return true; 
     }
   }
 
-  // Event is not expired
   return false;
 };
 

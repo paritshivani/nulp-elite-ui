@@ -3784,11 +3784,13 @@ input:required::after {
 .visibility-hidden {
   visibility: hidden;
 }
-
-.height-200 {
-  height: 200px;
+.height-200{
+  height:200px;
 }
-
-.xs-hide.d-flex.bg-white {
-  height: 75px;
+.remove-box{
+  background: #e1f5ff !important;
+  display: flex;
+  margin-left: 10px;
+  padding: 3px 13px;
+  border-radius: 7px;
 }

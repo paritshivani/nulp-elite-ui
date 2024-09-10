@@ -345,8 +345,9 @@ const AllContent = () => {
           <Box className="h3-custom-title">
             {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
           </Box>
-          <Box
-            sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
+<Box className="remove-box">  
+            <Box
+            sx={{ fontWeight: "600", paddingLeft: "5px" }}
             className="text-blueShade2 h4-custom"
           >
             {domainName}
@@ -355,13 +356,14 @@ const AllContent = () => {
             sx={{
               fontSize: "16px",
               fontWeight: "600",
-              color: "red",
+              color: "#0e7a9c",
               paddingLeft: "10px",
               cursor: "pointer"
             }}
             onClick={clearDomain}
           >
            &#x2716; 
+          </Box>
           </Box>
         </Box>
       </Box>

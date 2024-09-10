@@ -304,6 +304,9 @@
   "SEARCH_FOR_POLL": "મતદાન માટે શોધો",
   "NO_POLL_AVAILABLE_NOW": " એવું લાગે છે કે અત્યારે કોઈ મતદાન નથી.",
   "ADMIN":"એડમિન",
-  "LEARNING_REPORT":"લર્નિંગ રિપોર્ટ"
+  "LEARNING_REPORT":"લર્નિંગ રિપોર્ટ",
+  "POPULAR_COURSES" : "લોકપ્રિય અભ્યાસક્રમો",
+  "RECENTLY_ADDED":"તાજેતરમાં ઉમેરાયેલ"
+
   
 }
