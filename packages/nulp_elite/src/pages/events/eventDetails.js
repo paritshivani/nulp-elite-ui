@@ -210,7 +210,6 @@ const EventDetails = () => {
         }
         const data = await response.json();
        
-        console.log("event data---", data);
         setEventVisibility(data.result.event.eventVisibility);
         setDetailDate(data.result.event);
         getUserData(data.result.event.owner, "creator");
@@ -226,7 +225,7 @@ const EventDetails = () => {
           data.result.event.endTime
         );
 
-    const isExpired = checkIfExpired(data.result.event.endDate,data.result.event.endTime);
+    const isExpired = checkIfExpired(data.result.event.registrationEndDate,data.result.event.endTime);
     setIsExpired(isExpired);
 
       } catch (error) {
@@ -240,8 +239,7 @@ const EventDetails = () => {
   }, [eventId]);
 
 const checkIfExpired = (registrationEndDate, endTime) => {
-  const regEndDate = new Date(registrationEndDate + "T23:59:59Z"); 
-  console.log(regEndDate,"regEndDate--------");
+  const regEndDate = new Date(registrationEndDate); 
   const currentDate = new Date();
 
   if (currentDate > regEndDate) {
@@ -277,7 +275,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
   }, [_userId, eventId]);
 
   const fetchBatchData = async (data) => {
-    console.log("detailData.eventVisibility---", data.eventVisibility)
     let enrollmentType = data.eventVisibility === "Public" ? "open" : "invite-only";
 
     try {
@@ -336,14 +333,12 @@ const checkIfExpired = (registrationEndDate, endTime) => {
   const response = await getAllContents(url, data, headers);
   
   const userRegistrationData = response.data.result.userRegistration;
-  console.log("My data ---", userRegistrationData);
 
   setUserCourseData(userRegistrationData);
 
   if (userRegistrationData.length > 0) {
     userRegistrationData.forEach((event) => {
       if (event.event_id === eventId) {
-        console.log("Check enrollment list API 1-----", event);
         
         setIsEnrolled(true);
         
@@ -355,7 +350,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
   }
 } 
  catch (error) {
-      console.log("m data error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     } finally {
       setIsLoading(false);
@@ -443,12 +437,10 @@ const checkIfExpired = (registrationEndDate, endTime) => {
       const response = await axios.post(url, requestBody);
       if (response.status === 200) {
         setIsEnrolled(true);
-        console.log("check enrol API-----", isEnrolled);
 
         setShowEnrollmentSnackbar(true);
         registerEvent(formData, detailData);
       } else {
-        console.log("err-----", response);
       }
     } catch (error) {
       console.error("Error enrolling in the course:", error);
@@ -511,24 +503,17 @@ const checkIfExpired = (registrationEndDate, endTime) => {
     const strippedTodayDate = stripTime(todayDate);
     const strippedEnrollmentStartDate = stripTime(new Date(enrollmentStart));
     const strippedEnrollmentEndDate = stripTime(new Date(enrollmentEnd));
-    console.log("todayDate----", strippedTodayDate);
-    console.log("enrollmentStart----", strippedEnrollmentStartDate);
-    console.log("enrollmentEnd----", strippedEnrollmentEndDate);
     if (
       strippedEnrollmentStartDate <= strippedTodayDate &&
       strippedEnrollmentEndDate >= strippedTodayDate
     ) {
-      console.log("can Enroll");
       setCanEnroll(true);
     } else {
-      console.log("cannot Enroll");
       setCanEnroll(false);
       if (strippedEnrollmentStartDate > strippedTodayDate) {
-        console.log("Registration not started");
         setIsRegStart(false);
       }
       if (strippedEnrollmentEndDate < strippedTodayDate) {
-        console.log("Registration ended");
         setRegEnd(true);
       }
     }
@@ -546,9 +531,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
     const startDateTime = combineDateTime(startDate, startTime);
     const endDateTime = combineDateTime(endDate, endTime);
 
-    console.log("todayDate----", todayDate);
-    console.log("startDateTime----", startDateTime);
-    console.log("endDateTime----", endDateTime);
 
     // Check if the current date and time is within the event period
     // if (startDateTime <= todayDate && endDateTime >= todayDate) {
@@ -564,17 +546,14 @@ const checkIfExpired = (registrationEndDate, endTime) => {
     const todayDateNew = new Date().getTime();
 
     const tenMinutesBeforeStart = startDateTimeNew - 10 * 60 * 1000;
-    console.log("tenMinutesBeforeStart-----", tenMinutesBeforeStart);
-    console.log("todayDateNew-----", todayDateNew);
+  
 
     if (
       todayDateNew >= tenMinutesBeforeStart &&
       todayDateNew <= endDateTimeNew
     ) {
-      console.log("can Join");
       setCanJoin(true);
     } else {
-      console.log("can not Join");
       setCanJoin(false);
     }
 
@@ -587,7 +566,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
 
   const attendWebinar = async () => {
     const url = detailData.onlineProviderData.meetingLink; // Replace with your URL
-    console.log("attend----", url, "  --   ", detailData);
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -631,7 +609,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
     try {
       const response = await axios.post(url, RequestBody);
       // Handle the response if needed
-      console.log("%%%%%%%%%%", response);
     } catch (error) {
       // Handle the error if needed
     }
@@ -654,7 +631,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
       const response = await axios.put(url, RequestBody);
     
     if (response?.data?.responseCode === "OK") {
-      console.log("Update register successful");
 
       setIsAlreadyFilledRegistration(true);
     } else {
@@ -679,7 +655,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
       if (response.status === 200) {
         setIsEnrolled(false);
         setIsAlreadyFilledRegistration(true)
-        console.log("check unenrol API-----", isEnrolled);
 
         try {
           const response = await axios.delete(
@@ -702,7 +677,6 @@ const checkIfExpired = (registrationEndDate, endTime) => {
         setUnShowEnrollmentSnackbar(true);
         // registerEvent(formData, detailData);
       } else {
-        console.log("err-----", response);
       }
     } catch (error) {
       console.error("Error enrolling in the course:", error);
@@ -714,9 +688,7 @@ const checkIfExpired = (registrationEndDate, endTime) => {
     try {
       const url = "/custom_event/fetch_recordings?event_id=" + eventId;
       const response = await axios.get(url);
-      console.log("---------------Recording Link", response.data);
       setRecording(response.data);
-      console.log("Recording Hardcoded Data", recording);
     } catch (error) {
       console.error("Error fetching recording:", error);
     }
