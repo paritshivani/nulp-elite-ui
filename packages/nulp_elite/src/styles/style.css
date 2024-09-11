@@ -2125,10 +2125,6 @@ button {
   }
 }
 
-.carousel-bx {
-  padding: 9px 0 !important;
-}
-
 .bg-darkblue {
   background: #065872;
   position: fixed;
@@ -2818,7 +2814,6 @@ button {
 }
 
 .header-bg {
-  padding: 15px;
   border-radius: 20px;
   background: #f9fafc;
   border: solid 1px #dddddd;
@@ -3804,4 +3799,10 @@ input:required::after {
   margin-left: 10px;
   padding: 3px 13px;
   border-radius: 7px;
+}
+.css-qiwgdb.MuiSelect-select {
+  white-space: initial;
+}
+.mb-20{
+  margin-bottom: 20px;
 }
