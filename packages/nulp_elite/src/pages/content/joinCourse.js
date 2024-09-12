@@ -1448,19 +1448,23 @@ className="xs-hide accordionBoxShadow"
                         ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
                         : userData?.result?.content?.orgDetails?.orgName || userData?.result?.content?.copyrightYear
                       }
-                      <h5>This content is derived from</h5>
+                      {userData?.result?.content?.originData && (
+                        <>
+                        <h5>This content is derived from</h5>
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         CONTENT
                       </p>
-                      {userData?.result?.content?.name}
+                      {userData?.result?.content?.originData?.name}
                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         LICENSE TERMS
                       </p>
-                      {userData?.result?.content?.licenseDetails?.name}
+                      {userData?.result?.content?.originData?.license}
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         PUBLISHED ON NULP BY
                       </p>
-                      {userData?.result?.content?.orgDetails?.orgName}
+                      {userData?.result?.content?.originData?.organisation[0]}
+                        </>
+                      )}
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleClose} color="primary">
