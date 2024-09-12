@@ -3458,10 +3458,6 @@ header .MuiContainer-maxWidthLg {
   outline: 0;
 }
 
-.MuiInputBase-adornedEnd {
-  background: #fff !important;
-}
-
 .profile .MuiButtonBase-root:hover {
   background: rgb(14, 122, 156) !important;
 }
