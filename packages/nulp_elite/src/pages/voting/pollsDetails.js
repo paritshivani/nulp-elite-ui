@@ -164,7 +164,7 @@ const pollsDetailes = () => {
                 {type === "live" ? (
                   <Box display="flex">
                     <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />{" "}
-                     {t("LIVE_POLLS")}
+                    {t("LIVE_POLLS")}
                   </Box>
                 ) : type === "closed" ? (
                   <Box display="flex">
@@ -298,42 +298,41 @@ const pollsDetailes = () => {
                           </Box>
 
                           <Box className="fs-14">
-                            {items?.poll_keywords && (
+                            {items?.poll_keywords && items.poll_keywords.length > 0 ? (
                               <>
-                                {items.poll_keywords
-                                  .slice(0, 2)
-                                  .map((keyword, index) => (
-                                    <Tooltip
-                                      key={index}
-                                      title={keyword}
-                                      placement="right"
-                                      className="customlabeltwo cardLabelEllips"
-                                    >
-                                      <Button className="d-inline-block">
-                                        {index < 2
-                                          ? keyword
-                                          : `${keyword} + ${items.poll_keywords.length - 2
-                                          }`}
-                                      </Button>
-                                    </Tooltip>
-                                  ))}
-                                {items.poll_keywords.length > 3 && (
+                                {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                                   <Tooltip
-                                    title={items.poll_keywords
-                                      .slice(3)
-                                      .join(", ")}
+                                    key={index}
+                                    title={keyword}
                                     placement="right"
                                     className="customlabeltwo cardLabelEllips"
                                   >
                                     <Button className="d-inline-block">
-                                      {items.poll_keywords[2]} +{" "}
-                                      {items.poll_keywords.length - 3}
+                                    {index < 2
+                                          ? keyword
+                                          : `${keyword} + ${items.poll_keywords.length - 2
+                                          }`}
+                                    </Button>
+                                  </Tooltip>
+                                ))}
+                                {items.poll_keywords.length > 3 && (
+                                  <Tooltip
+                                    title={items.poll_keywords.slice(3).join(", ")}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button className="d-inline-block">
+                                      {items.poll_keywords[2]} + {items.poll_keywords.length - 3}
                                     </Button>
                                   </Tooltip>
                                 )}
                               </>
+                            ) : (
+                              <Box style={{ height: "60px" }}>
+                              </Box>
                             )}
                           </Box>
+
                         </Box>
                         {/* <Box
                           className="card-img-container"
@@ -382,7 +381,7 @@ const pollsDetailes = () => {
                                 handleOpenModal(items.poll_id, event)
                               }
                             >
-                             {t("VIEW_STATUS")}{" "}
+                              {t("VIEW_STATUS")}{" "}
                               <ArrowForwardIosOutlinedIcon className="fs-12" />
                             </Button>
                             <Button
