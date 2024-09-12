@@ -1442,7 +1442,7 @@ className="xs-hide accordionBoxShadow"
                     <DialogTitle>{t("CREDITS")}</DialogTitle>
                    <DialogContent>
                     <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        COPYRIGHT
+                        {t("COPYRIGHT")}
                       </p>
                       {userData?.result?.content?.orgDetails?.orgName && userData?.result?.content?.copyrightYear
                         ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
@@ -1450,17 +1450,17 @@ className="xs-hide accordionBoxShadow"
                       }
                       {userData?.result?.content?.originData && (
                         <>
-                        <h5>This content is derived from</h5>
+                        <h5>{t("This content is derived from")}</h5>
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        CONTENT
+                        {t("CONTENT")}
                       </p>
                       {userData?.result?.content?.originData?.name}
                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        LICENSE TERMS
+                        {t("LICENSE TERMS")}
                       </p>
                       {userData?.result?.content?.originData?.license}
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        PUBLISHED ON NULP BY
+                        {t("PUBLISHED ON NULP BY")}
                       </p>
                       {userData?.result?.content?.originData?.organisation[0]}
                         </>
