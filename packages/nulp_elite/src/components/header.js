@@ -2,20 +2,14 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import { Badge } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
-import DevicesIcon from "@mui/icons-material/Devices";
-import WebIcon from "@mui/icons-material/Web";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -27,7 +21,6 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useNavigate } from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import * as util from "../services/utilService";
@@ -37,8 +30,6 @@ const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
-import Grid from "@mui/material/Grid";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Collapse, List } from "@mui/material";
 import NotificationPopup from "./Notification";
@@ -232,28 +223,15 @@ function Header({ globalSearchQuery }) {
   }, []);
   const roleNames =
     userData?.result?.response?.roles.map((role) => role.role) || [];
+
+    const textFieldStyle = {
+      fontSize: '12px',
+      backgroundColor: searchQuery ? '#065872' : 'transparent', 
+      boxShadow: searchQuery ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none', 
+      color:searchQuery? '#fff' :"#000"
+    };
   return (
     <>
-      {/* Sidebar Navigation */}
-
-      {/* <Box
-          className="d-flex jc-en lg-pr-20 xs-pr-16"
-          sx={{ background: "#484848" }}
-        >
-          <Box className="d-flex alignItems-center xs-hide">
-            <Link href="#" underline="none" className="font-sizer">
-              {" "}
-              +A
-            </Link>{" "}
-            <Link href="#" underline="none" className="font-sizer">
-              A -{" "}
-            </Link>
-            <Link href="#" underline="none" className="font-sizer">
-              A
-            </Link>{" "}
-          </Box>
-       
-        </Box> */}
       <Box
         className={
           scrolled
@@ -277,7 +255,7 @@ function Header({ globalSearchQuery }) {
           </Link>
 
           <Box
-            className="xs-hide d-flex explore explore-text"
+            className="xs-hide1 d-flex explore explore-text"
             style={{
               alignItems: "center",
               paddingLeft: "8px",
@@ -290,7 +268,7 @@ function Header({ globalSearchQuery }) {
                 placeholder={t("What do you want to learn today?  ")}
                 variant="outlined"
                 size="small"
-                style={{ fontSize: "12px" }}
+                style={textFieldStyle}
                 fullWidth
                 value={searchQuery}
                 onChange={handleInputChange}
@@ -302,9 +280,12 @@ function Header({ globalSearchQuery }) {
                       aria-label="search"
                       onClick={onGlobalSearch}
                     >
-                      <SearchIcon />
+                    <SearchIcon style={{ color: searchQuery ? '#fff' : '#000' }} /> 
                     </IconButton>
                   ),
+                  style: {
+                    color: searchQuery ? '#fff' : '#000', 
+                  },
                 }}
               />
             </Box>
@@ -316,49 +297,6 @@ function Header({ globalSearchQuery }) {
             alignItems: "space-between",
           }}
         >
-          {/* Navigation Links */}
-          {/* <Box style={{ padding: "10px" }}>
-            <DevicesIcon
-              style={{
-                padding: "0 10px",
-                verticalAlign: "middle",
-                color: "#424242",
-              }}
-            />
-
-            <Link
-              href="#"
-              underline="none"
-              style={{
-                color: "#424242",
-                fontSize: "16px",
-                borderRight: "solid 1px #424242",
-                paddingRight: "10px",
-              }}
-            >
-              {t("MAIN_CONTENT")}{" "}
-            </Link>
-          </Box> */}
-
-          {/* <Box
-            style={{
-              padding: "0 10px",
-              color: "#424242",
-              fontSize: "14px",
-              borderRight: "solid 1px #424242",
-            }}
-          >
-            <WebIcon style={{ padding: "0 10px", verticalAlign: "middle" }} />
-            <Link
-              href="#"
-              underline="none"
-              style={{ color: "#424242", fontSize: "16px" }}
-            >
-              {t("SCREEN_READER")}{" "}
-            </Link>
-          </Box> */}
-          {/* Language Select */}
-
           <Box
             className="xs-hide spacing-header"
             sx={{
@@ -521,83 +459,11 @@ function Header({ globalSearchQuery }) {
                     <NotificationsNoneOutlinedIcon />
                   </IconButton>
                 </Tooltip>
-                {/* <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElNotify}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElNotify)}
-                  onClose={handleCloseNotifyMenu}
-                >
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 1
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 2
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 3
-                    </Link>
-                  </MenuItem>
-                </Menu> */}
               </Box>
             </Tooltip>
             <NotificationPopup open={openNotification} handleClose={handleCloseNotification} updateNotificationCount={updateNotificationCount} />
             <Tooltip title={t("Notification")} placement="bottom" arrow>
               <Box className="notification-circle xs-hide">
-                {/* <NotificationsNoneOutlinedIcon />
-                    ekta */}
-
-                {/* <Tooltip>
-                  <IconButton onClick={handleOpenNotifyMenu} sx={{ p: 0 }}>
-                    <NotificationsNoneOutlinedIcon />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElNotify}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElNotify)}
-                  onClose={handleCloseNotifyMenu}
-                >
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 1
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 2
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link underline="none" textAlign="center">
-                      Text 3
-                    </Link>
-                  </MenuItem>
-                </Menu> */}
               </Box>
             </Tooltip>
 
@@ -623,16 +489,6 @@ function Header({ globalSearchQuery }) {
                     <div className="profile-text-circle">
                       {userData?.result?.response?.firstName[0]}
                     </div>
-                    {/* <div
-                        className="ellsp"
-                        style={{
-                          maxWidth: "50px",
-                          textAlign: "left",
-                          paddingTop: "0",
-                        }}
-                      >
-                        {userData?.result?.response?.firstName} 
-                      </div> */}
                   </>
                 )}
                 <ExpandMoreIcon />
@@ -794,17 +650,6 @@ function Header({ globalSearchQuery }) {
               className="lg-hide lg-mt-10"
             >
               <Box className="d-flex lg-hide">
-                {/* <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    color="inherit"
-                    className="lg-hide"
-                  >
-                    <SortOutlinedIcon />
-                  </IconButton> */}
                 <Box
                   className="xs-pl-5"
                   sx={{
@@ -919,38 +764,6 @@ function Header({ globalSearchQuery }) {
                         <NotificationsNoneOutlinedIcon />
                       </IconButton>
                     </Tooltip>
-                    {/* <Menu
-                    sx={{ mt: "45px" }}
-                    id="menu-appbar"
-                    anchorEl={anchorElNotify}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorElNotify)}
-                    onClose={handleCloseNotifyMenu}
-                  >
-                    <MenuItem>
-                      <Link underline="none" textAlign="center">
-                        Text 1
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link underline="none" textAlign="center">
-                        Text 2
-                      </Link>
-                    </MenuItem>
-                    <MenuItem>
-                      <Link underline="none" textAlign="center">
-                        Text 3
-                      </Link>
-                    </MenuItem>
-                  </Menu> */}
                   </Box>
                 </Tooltip>
                 <Tooltip
@@ -977,16 +790,6 @@ function Header({ globalSearchQuery }) {
                         <div className="profile-text-circle">
                           {userData?.result?.response?.firstName[0]}
                         </div>
-                        {/* <div
-                            className="ellsp xs-pl-5"
-                            style={{
-                              maxWidth: "52px",
-                              textAlign: "left",
-                              paddingTop: "0",
-                            }}
-                          >
-                            {userData?.result?.response?.firstName}
-                          </div> */}
                       </>
                     )}
                     {/* <ExpandMoreIcon /> */}
@@ -1160,25 +963,6 @@ function Header({ globalSearchQuery }) {
 
                     </List>
                   </Collapse>
-                  {/* {userData &&
-                      userData?.result?.response?.roles?.length === 1 &&
-                      [
-                        "SYSTEM_ADMINISTRATION",
-                        "ORG_ADMIN",
-                        "CONTENT_CREATOR",
-                      ].some((role) =>
-                        userData?.result?.response?.roles?.includes(role)
-                      ) && (
-                        <MenuItem>
-                          <Link
-                            href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
-                            underline="none"
-                            textAlign="center"
-                          >
-                            {t("DASHBOARD")}
-                          </Link>
-                        </MenuItem>
-                      )} */}
                   {roleNames.some((role) =>
                     ["ORG_ADMIN", "SYSTEM_ADMINISTRATION"].includes(
                       role
