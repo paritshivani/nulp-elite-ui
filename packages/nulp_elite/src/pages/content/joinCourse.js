@@ -1971,6 +1971,7 @@ className="lg-hide accordionBoxShadow"
                     href={courseData?.result?.content?.licenseDetails?.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    style={{wordWrap: 'break-word'}}
                   >
                     {courseData?.result?.content?.licenseDetails?.url}
                   </a>

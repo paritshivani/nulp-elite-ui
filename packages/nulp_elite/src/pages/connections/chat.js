@@ -564,9 +564,11 @@ const Chat = ({
                         {receiverData[0].designation}
                       </Box>
                     </Box>
-                    <IconButton onClick={onClose}>
-                      <CloseIcon />
-                    </IconButton>
+                    <Box>
+                      <IconButton onClick={onClose}>
+                        <CloseIcon />
+                      </IconButton>
+                    </Box>
                   </Box>
                 )}
                 {!showCloseIcon && (
