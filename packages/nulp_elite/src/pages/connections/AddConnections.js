@@ -1071,9 +1071,18 @@ const AddConnections = () => {
     };
     if (userDesignation && userDesignation?.length > 0) {
       filters.userId = userDesignation;
+      const responseUserData = await handleFilterChange(filters);
+      setUserSearchData(responseUserData);
+    }else if(event.length===0){
+      const responseUserData = await handleFilterChange(filters);
+      setUserSearchData(responseUserData);
     }
-    const responseUserData = await handleFilterChange(filters);
-    setUserSearchData(responseUserData);
+      else{
+      filters.userId = "";
+      const responseUserData = await handleFilterChange(filters);
+    }
+    
+    
   };
 
   const handleUserNameFilter = async (event) => {
@@ -1937,37 +1946,40 @@ const AddConnections = () => {
                     />
                   </Box>
                   <Box className="scroll">
-                    {userSearchData &&
-                      userSearchData?.map((item) => (
+                    {userSearchData && userSearchData.length > 0 ? (
+                       userSearchData?.map((item) => (
                         <List
-                          key={item.id} // Add key prop to each List element
-                          sx={{ fontSize: "14px" }}
-                          onClick={() => handleUserClick(item)}
+                        key={item.id} // Add key prop to each List element
+                        sx={{ fontSize: "14px" }}
+                        onClick={() => handleUserClick(item)}
                         >
-                          <ListItem>
-                            <ListItemText
-                              className="inviteText"
-                              primary={`${item.firstName}${
-                                item.lastName ? ` ${item.lastName}` : ""
-                              }`}
-                              secondary={`${item.designation}`}
-                            />
-                            {item.id !== loggedInUserId && ( // Conditionally render the link
-                              <Link
-                                className="invite-text"
-                                color="primary"
-                                // onClick={handleOpen}
-                                onClick={() => {
-                                  showMessages(item.userId);
-                                }}
-                              >
-                                {t("INVITE")}
-                              </Link>
-                            )}
-                          </ListItem>
-                          <Divider />
-                        </List>
-                      ))}
+                      <ListItem>
+                    <ListItemText
+                       className="inviteText"
+                       primary={`${item.firstName}${item.lastName ? ` ${item.lastName}` : ""}`}
+                       secondary={`${item.designation}`}
+                     />
+                    {item.id !== loggedInUserId && ( // Conditionally render the link
+                       <Link
+                        className="invite-text"
+                        color="primary"
+                        onClick={() => {
+                        showMessages(item.userId);
+                        }}
+                       >
+                       {t("INVITE")}
+                      </Link>
+                    )}
+                  </ListItem>
+                  <Divider />
+                   </List>
+                  ))
+                  ) : (
+                    <Typography variant="body1" align="center" sx={{ marginTop: 2 }}>
+                      {t("NO_USERS_FOUND")}
+                      </Typography>
+                  )}
+
                   </Box>
                   <Pagination
                     count={totalPages}

@@ -206,35 +206,12 @@ const DomainList = ({ globalSearchQuery }) => {
       request: {
         filters: {
           se_boards: [null],
-          primaryCategory: [
-            "Collection",
-            "Resource",
-            "Content Playlist",
-            "Course Assessment",
-            "Digital Textbook",
-            "eTextbook",
-            "Explanation Content",
-            "Learning Resource",
-            "Lesson Plan Unit",
-            "Practice Question Set",
-            "Teacher Resource",
-            "Textbook Unit",
-            "LessonPlan",
-            "FocusSpot",
-            "Learning Outcome Definition",
-            "Curiosity Questions",
-            "MarkingSchemeRubric",
-            "ExplanationResource",
-            "ExperientialResource",
-            "Practice Resource",
-            "TVLesson",
-            "Exam Question",
-          ],
+          primaryCategory: ["Good Practices", "Reports", "Manual/SOPs"],
           visibility: ["Default", "Parent"],
         },
         limit: 100,
         sort_by: {
-          lastPublishedOn: "desc",
+          createdOn: "desc",
         },
         fields: [
           "name",
@@ -346,7 +323,7 @@ const DomainList = ({ globalSearchQuery }) => {
         },
         limit: 100,
         sort_by: {
-          lastPublishedOn: "desc",
+          createdOn: "desc",
         },
         fields: [
           "name",
@@ -549,7 +526,7 @@ const DomainList = ({ globalSearchQuery }) => {
                   display: "inline-block",
                 }}
               >
-                {"Latest Courses"}{" "}
+                {t("POPULAR_COURSES")}{" "}
               </Box>{" "}
             </Box>
           </p>
@@ -651,7 +628,7 @@ const DomainList = ({ globalSearchQuery }) => {
                   display: "inline-block",
                 }}
               >
-                {"Recently Added"}{" "}
+                {t("RECENTLY_ADDED")}{" "}
               </Box>{" "}
             </Box>
           </p>

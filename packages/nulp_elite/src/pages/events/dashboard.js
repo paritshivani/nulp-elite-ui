@@ -314,9 +314,8 @@ const Dashboard = () => {
           params.append("toDate", dayjs(endDateFilter).format("YYYY-MM-DD"));
         }
 
-        const url = `${
-          urlConfig.URLS.CUSTOM_EVENT.TOP_TRENDING_EVENT
-        }?${params.toString()}`;
+        const url = `${urlConfig.URLS.CUSTOM_EVENT.TOP_TRENDING_EVENT
+          }?${params.toString()}`;
         // const url = `https://devnulp.niua.org/custom_event/get_top_trending?${params.toString()}`;
 
         const response = await fetch(url, {
@@ -352,9 +351,8 @@ const Dashboard = () => {
           );
         }
 
-        const url = `${
-          urlConfig.URLS.CUSTOM_EVENT.TOP_TRENDING_EVENT
-        }?${params.toString()}`;
+        const url = `${urlConfig.URLS.CUSTOM_EVENT.TOP_TRENDING_EVENT
+          }?${params.toString()}`;
         // const url = `https://devnulp.niua.org/custom_event/get_top_trending?${params.toString()}`;
         const response = await fetch(url, {
           method: "GET",
@@ -382,15 +380,15 @@ const Dashboard = () => {
         const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${defaultFramework}?orgdetails=${urlConfig.params.framework}`;
 
         const response = await fetch(url);
-         const boardCategoryIndex = response?.data?.result?.framework?.categories.findIndex(
-      (category) => category.code === "board"
-    );
+        const boardCategoryIndex = response?.data?.result?.framework?.categories.findIndex(
+          (category) => category.code === "board"
+        );
 
         if (response.ok) {
           const responseData = await response.json();
-           const boardCategoryIndex = responseData?.result?.framework?.categories.findIndex(
-      (category) => category.code === "board"
-    );
+          const boardCategoryIndex = responseData?.result?.framework?.categories.findIndex(
+            (category) => category.code === "board"
+          );
           if (
             responseData.result &&
             responseData.result.framework &&
@@ -512,12 +510,19 @@ const Dashboard = () => {
   const handleVisibilityFilterChange = (event) => {
     setVisibilityFilter(event.target.value);
   };
-// const eventNames = topEvent?.map((event) => event.event_name);
-const eventNames = topEvent?.map((event) => {
-  return event?.event_name?.length > 10
-    ? event?.event_name.substring(0, 10) + "..."
-    : event?.event_name;
-});
+  const eventNames = topEvent?.map((event) => event.event_name);
+
+  const eventXAxisNames = topEvent?.map((event) => {
+    const truncatedName =
+      event?.event_name?.length > 10
+        ? event?.event_name.substring(0, 10) + "..."
+        : event?.event_name;
+    return {
+      name: truncatedName,
+      fullName: event.event_name, // Store full name for hover
+    };
+  });
+
   const eventTopUser = topEvent?.map((event) => parseInt(event.user_count));
 
   const listOfDesignation = topDesignation?.map(
@@ -626,17 +631,44 @@ const eventNames = topEvent?.map((event) => {
             {eventNames && eventTopUser && (
               <>
                 <Box sx={{ textAlign: "center" }}>Events</Box>
-
-                <BarChart
+                {/* <BarChart
                   xAxis={[
                     {
                       scaleType: "band",
-                      data: eventNames,
+                      data: eventXAxisNames,
                       tickSize: 5,
                       tickLabelStyle: {
                         angle: -65,
                         textAnchor: "end",
                         fontSize: 12,
+                      },
+                    },
+                  ]}
+                  series={[{ data: eventTopUser }]}
+                  height={300}
+                  barSize={2}
+                /> */}
+                <BarChart
+                  xAxis={[
+                    {
+                      scaleType: "band",
+                      data: eventXAxisNames.map((event) => event.name), 
+                      tickSize: 5,
+                      tickLabelStyle: {
+                        angle: -65,
+                        textAnchor: "end",
+                        fontSize: 12,
+                      },
+                      tickComponent: (tickProps) => {
+                        const event = eventXAxisNames[tickProps.index]; // Find the corresponding event data
+                        return (
+                          <text
+                            {...tickProps}
+                            title={event.fullName} // Set the full name for hover
+                          >
+                            {tickProps.formattedValue}
+                          </text>
+                        );
                       },
                     },
                   ]}

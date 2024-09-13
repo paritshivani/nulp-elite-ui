@@ -112,6 +112,7 @@ const JoinCourse = () => {
   const [isContentConsumed, setIsContentConsumed] = useState();
   const [completedContents, setCompletedContents] = useState([]);
   const [isCompleted, setIsCompleted] = useState();
+  const [copyrightOpen,setcopyrightOpen] = useState(false);
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -923,6 +924,16 @@ const JoinCourse = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  
+   const handlecopyrightOpen = () => {
+    setcopyrightOpen(true);
+  };
+
+  const handlecopyrightClose = () => {
+    setcopyrightOpen(false);
+  }
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -1011,31 +1022,27 @@ const JoinCourse = () => {
           >
             {t("CONSENT_FORM_TITLE")}
           </Typography>
-          <div>
-            <label>{t("USERNAME")}:</label>
-            <span>{userInfo?.firstName}</span>
-          </div>
-          <div>
-            <label>{t("USER_ID")}:</label>
-            <span>{userInfo?.organisations[0]?.userId}</span>
-          </div>
-          <div>
-            <label>{t("MOBILENUMBER")}:</label>
-            <span>{userInfo?.phone}</span>
-          </div>
-          <div>
-            <label>{t("EMAIL_ADDRESS")}:</label>
-            <span>{userInfo?.email}</span>
-          </div>
+          <Box>
+            <label>{t("USERNAME")}: {userInfo?.firstName}</label>
+          </Box>
+          <Box>
+            <label>{t("USER_ID")}: {userInfo?.organisations[0]?.userId}</label>
+          </Box>
+          <Box>
+            <label>{t("MOBILENUMBER")}: {userInfo?.phone}</label>
+          </Box>
+          <Box>
+            <label>{t("EMAIL_ADDRESS")}: {userInfo?.email}</label>
+          </Box>
 
-          <div>
+          <Box>
             <input
               type="checkbox"
               checked={consentChecked}
               onChange={handleCheckboxChange}
             />
             <label>{t("CONSENT_TEXT")}</label>
-          </div>
+          </Box>
           <Box className="d-flex jc-en">
             <Button
               onClick={handleDontShareClick}
@@ -1310,6 +1317,8 @@ const JoinCourse = () => {
                 </Typography>
               </Box>
             </Box>
+            {batchDetails && batchDetails.cert_templates != null &&
+
             <Accordion
               className="xs-hide accordionBoxShadow"
               style={{
@@ -1322,7 +1331,7 @@ const JoinCourse = () => {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1-content"
                 id="panel1-header"
-                className="h4-title"
+                className="xs-hide h4-title"
               >
                 {t("CERTIFICATION_CRITERIA")}
               </AccordionSummary>
@@ -1349,6 +1358,33 @@ const JoinCourse = () => {
                 )}
               </AccordionDetails>
             </Accordion>
+}
+
+
+{isEnrolled && batchDetails && batchDetails.cert_templates == null &&
+
+<Box
+style={{
+  background: "#e3f5ff",
+  padding: "10px",
+  borderRadius: "10px",
+  color: "#424242",
+}}
+className="xs-hide accordionBoxShadow"
+>
+<Typography
+  variant="h7"
+  style={{
+    margin: "0 0 9px 0",
+    display: "block",
+    fontSize: "16px",
+  }}
+>
+  {t("CERT_NOT_ATTACHED")}:
+</Typography>
+
+</Box>
+             } 
             <Accordion
               className="xs-hide accordionBoxShadow"
               style={{
@@ -1367,6 +1403,20 @@ const JoinCourse = () => {
               </AccordionSummary>
               <AccordionDetails style={{ background: "#fff" }}>
                 <Typography className="h6-title">
+                  {t("Created By")}:{" "}
+                  {userData &&
+                    userData.result &&                    
+                      userData.result.content.creator
+                    }
+                </Typography>
+                <Typography className="h6-title">
+                  {t("Published on NULP by")}:{" "}
+                  {userData &&
+                    userData.result &&
+                      userData.result?.content?.orgDetails?.orgName
+                    }
+                </Typography>
+                <Typography className="h6-title">
                   {t("CREATED_ON")}:{" "}
                   {userData &&
                     userData.result &&
@@ -1380,7 +1430,44 @@ const JoinCourse = () => {
                       userData.result.content.children[0].lastUpdatedOn
                     )}
                 </Typography>
-                <Typography className="h6-title">{t("CREDITS")}:</Typography>
+                
+                    <Typography
+                      className=""
+                      onClick={handlecopyrightOpen}
+                      style={{ cursor: "pointer",  color: "blue", textDecoration: "underline",fontSize: "small" }} 
+                    >
+                    {t("CREDITS")}
+                  </Typography>
+                  <Dialog open={copyrightOpen} onClose={handlecopyrightClose} sx={{ "& .MuiDialog-paper": { width: "455px" } }} >
+                    <DialogTitle>{t("CREDITS")}</DialogTitle>
+                   <DialogContent>
+                    <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        COPYRIGHT
+                      </p>
+                      {userData?.result?.content?.orgDetails?.orgName && userData?.result?.content?.copyrightYear
+                        ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
+                        : userData?.result?.content?.orgDetails?.orgName || userData?.result?.content?.copyrightYear
+                      }
+                      <h5>This content is derived from</h5>
+                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        CONTENT
+                      </p>
+                      {userData?.result?.content?.name}
+                     <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        LICENSE TERMS
+                      </p>
+                      {userData?.result?.content?.licenseDetails?.name}
+                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                        PUBLISHED ON NULP BY
+                      </p>
+                      {userData?.result?.content?.orgDetails?.orgName}
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color="primary">
+                        {t("CLOSE")}
+                      </Button>
+                    </DialogActions>
+                 </Dialog>
                 <Typography className="h6-title">
                   {t("LICENSE_TERMS")}:{" "}
                   {userData?.result?.content?.licenseDetails?.name}
@@ -1395,30 +1482,7 @@ const JoinCourse = () => {
                 </Typography>
               </AccordionDetails>
             </Accordion>
-           {/* {isEnrolled && batchDetails == 'undefined' && */}
 
-<Box
-style={{
-  background: "#F9FAFC",
-  padding: "10px",
-  borderRadius: "10px",
-  color: "#484848",
-}}
-className="accordionBoxShadow"
->
-<Typography
-  variant="h7"
-  style={{
-    margin: "0 0 9px 0",
-    display: "block",
-    fontSize: "16px",
-  }}
->
-  {t("CERT_NOT_ATTACHED")}:
-</Typography>
-
-</Box>
-            {/* } */}
           
             <div className="xs-hide">
               <React.Fragment>
@@ -1794,6 +1858,8 @@ className="accordionBoxShadow"
                 </Typography>
               </Box>
             </Box>
+            {batchDetails && batchDetails.cert_templates != null &&
+
             <Accordion
               className="lg-hide accordionBoxShadow"
               style={{
@@ -1833,6 +1899,32 @@ className="accordionBoxShadow"
                 )}
               </AccordionDetails>
             </Accordion>
+}
+
+{isEnrolled && batchDetails && batchDetails.cert_templates == null &&
+
+<Box
+style={{
+  background: "#e3f5ff",
+  padding: "10px",
+  borderRadius: "10px",
+  color: "#424242",
+}}
+className="lg-hide accordionBoxShadow"
+>
+<Typography
+  variant="h7"
+  style={{
+    margin: "0 0 9px 0",
+    display: "block",
+    fontSize: "16px",
+  }}
+>
+  {t("CERT_NOT_ATTACHED")}:
+</Typography>
+
+</Box>
+             } 
             <Accordion
               className="lg-hide accordionBoxShadow"
               style={{
@@ -1955,6 +2047,8 @@ className="accordionBoxShadow"
                       senderUserId={_userId}
                       receiverUserId={creatorId}
                       onChatSent={handleClose}
+                      onClose={handleClose} 
+                      showCloseIcon={true}
                     />{" "}
                   </div>
                 </Modal>

@@ -83,6 +83,19 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+const modalstyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  width: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  height:"80%",
+  overflowX:"scroll"
+}
 const MAX_FILE_SIZE_MB = 1;
 const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 1 MB in bytes
 const SUPPORTED_FILE_TYPES = ["image/jpeg", "image/png"];
@@ -708,6 +721,10 @@ const Profile = () => {
                       padding: "20px 10px 0",
                     }}
                   >
+                   
+                    <CardContent className="profile-cardContent">
+                    <Grid container>
+                    <Grid item xs={2}>
                     {userData && (
                       <>
                         <div className="img-text-circle">
@@ -715,7 +732,8 @@ const Profile = () => {
                         </div>
                       </>
                     )}
-                    <CardContent className="profile-cardContent">
+                    </Grid>
+                    <Grid item xs={9}>
                       {userData && (
                         <>
                           <Box className="d-flex jc-bw mb-10 alignItems-center">
@@ -733,16 +751,16 @@ const Profile = () => {
                                 )}
                                 <Box className="cardLabelEllips1">
                                   {userInfo?.length && userInfo[0]?.designation
-                                    ? "   |  "
+                                    ? " "
                                     : " "}
                                   ID:{" "}
                                   {userData?.result?.response?.userName || "NA"}
                                 </Box>
-                                <Box className="cardLabelEllips1">
+                                {/* <Box className="cardLabelEllips1">
                                   organisations:{" "}
                                   {userData?.result?.response?.organisations
                                     ?.orgName || "NA"}
-                                </Box>
+                                </Box> */}
                               </Typography>
                               {userInfo?.length ? (
                                 <Typography className="h6-title d-flex">
@@ -754,7 +772,7 @@ const Profile = () => {
                               ) : null}
 
                               {roleNames && roleNames.length > 0 && (
-                                <Typography className="h6-title d-flex">
+                                <Typography className="h6-title">
                                   <Box className="h6-title d-flex">
                                     Role:{" "}
                                     {roleNames?.map((roleName, index) => (
@@ -775,14 +793,17 @@ const Profile = () => {
                                 </Typography>
                               )}
                             </Box>
-
-                            <ModeEditIcon
-                              className="cursor-pointer"
-                              onClick={handleOpenEditDialog}
-                            />
                           </Box>
                         </>
                       )}
+                      </Grid>
+                      <Grid item xs={1}>
+                      <ModeEditIcon
+                              className="cursor-pointer"
+                              onClick={handleOpenEditDialog}
+                            />
+                      </Grid>
+                       </Grid>
                     </CardContent>
                   </Box>
                   {userData && userInfo?.length > 0 && (
@@ -968,7 +989,7 @@ const Profile = () => {
                       open={isEditing}
                       onClose={handleCloseEditDialog}
                     >
-                      <Box sx={style}>
+                      <Box sx={modalstyle}>
                         <Typography
                           id="modal-modal-title"
                           className="h3-title"

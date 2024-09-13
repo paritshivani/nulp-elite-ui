@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Popover, Typography } from "@mui/material";
+import { Popover, Tooltip, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
@@ -49,6 +49,7 @@ const FloatingChatIcon = () => {
           title="ChatBot"
         />
       </Popover>
+      <Tooltip title={t("NULP_ASSIST")} placement="left">
       <Link
         onClick={handleOpenPopover}
         color="primary"
@@ -63,8 +64,9 @@ const FloatingChatIcon = () => {
             height: "3  2px", // Adjust the size as needed
           }}
         />
-        {t("NULP_ASSIST")}
+        
       </Link>
+      </Tooltip>
     </>
   );
 };

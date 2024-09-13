@@ -111,6 +111,7 @@ const EventDetails = () => {
   const [open, setOpen] = React.useState(false);
   const [recording, setRecording] = useState();
   const [isAllreadyFilledRegistation,setIsAlreadyFilledRegistration] = useState(true)
+  const [isExpired , setIsExpired] = useState(false)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -225,6 +226,9 @@ const EventDetails = () => {
           data.result.event.endTime
         );
 
+    const isExpired = checkIfExpired(data.result.event.endDate,data.result.event.endTime);
+    setIsExpired(isExpired);
+
       } catch (error) {
         console.error("Error fetching course data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -234,6 +238,36 @@ const EventDetails = () => {
     fetchData();
     // fetchBatchData();
   }, [eventId]);
+
+const checkIfExpired = (registrationEndDate, endTime) => {
+  const regEndDate = new Date(registrationEndDate + "T23:59:59Z"); 
+  console.log(regEndDate,"regEndDate--------");
+  const currentDate = new Date();
+
+  if (currentDate > regEndDate) {
+    return true; 
+  }
+
+  if (currentDate.toDateString() === regEndDate.toDateString()) {
+    const [timePart] = endTime.split("+");
+    const [endHours, endMinutes, endSeconds] = timePart.split(":").map(Number);
+
+    const endDateTime = new Date(
+      currentDate.toDateString() + " " + endTime.split("+")[0]
+    );
+
+    console.log(endDateTime,"endDateTime--------");
+
+    if (currentDate > endDateTime) {
+      return true; 
+    }
+  }
+
+  return false;
+};
+
+
+
 
   useEffect(() => {
     getUserData(_userId, "loggedIn");
@@ -607,6 +641,7 @@ const EventDetails = () => {
     const url = `${urlConfig.URLS.CUSTOM_EVENT.UPDATE_REGISTER}?event_id=${detailData.identifier}&user_id=${_userId}`;
 
     const RequestBody = {
+      name: formData?.name,
       email: formData?.email,
       designation: formData?.designation,
       organisation: formData?.organisation,
@@ -616,12 +651,20 @@ const EventDetails = () => {
     };
 
     try {
-      await axios.put(url, RequestBody);
-      console.log("update tegister successfull");
-    } catch (error) {
-      console.error("Error updating vote", error);
+      const response = await axios.put(url, RequestBody);
+    
+    if (response?.data?.responseCode === "OK") {
+      console.log("Update register successful");
+
+      setIsAlreadyFilledRegistration(true);
+    } else {
+      console.error("Failed to update registration", response.data);
     }
-  };
+  } catch (error) {
+    console.error("Error updating registration", error);
+  }
+};
+
   const unEnroll = async (formData) => {
     try {
       const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.UNENROLL_USER_COURSE}`;
@@ -657,7 +700,7 @@ const EventDetails = () => {
         }
 
         setUnShowEnrollmentSnackbar(true);
-        registerEvent(formData, detailData);
+        // registerEvent(formData, detailData);
       } else {
         console.log("err-----", response);
       }
@@ -817,7 +860,7 @@ const EventDetails = () => {
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
-              {eventVisibility &&
+              {!isExpired && eventVisibility &&
                 canEnroll &&
                 !isEnrolled &&
                 eventVisibility == "Public" && (
@@ -862,7 +905,7 @@ const EventDetails = () => {
                     </Alert>
                   </Box>
                 )}
-              {isEnrolled && (
+              {!isExpired && isEnrolled && (
                 <Box className="d-flex xs-hide">
                   <Button
                     type="button"
@@ -886,7 +929,7 @@ const EventDetails = () => {
                   >
                     {t("ATTEND_WEBINAR")}
                   </Button>
-                  {canEnroll && (
+                  {!isExpired && canEnroll && (
                     <Button
                       type="button"
                       onClick={() => {
@@ -929,7 +972,7 @@ const EventDetails = () => {
                   </Box>
                 }
               </Box> */}
-              {regEnd && isRecorded && (
+              {isExpired && (
                 <Box
                   className="h5-title mb-20 xs-hide"
                   style={{ fontWeight: "400" }}
@@ -1044,7 +1087,7 @@ const EventDetails = () => {
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
               </Box>
-              {canEnroll && !isEnrolled && (
+              {!isExpired && canEnroll && !isEnrolled && (
                 <div>
                   {" "}
                   <Box
@@ -1077,7 +1120,7 @@ const EventDetails = () => {
                   </Box>
                 </div>
               )}
-              {isEnrolled && (
+              {!isExpired && isEnrolled && (
                 <Box className="d-flex lg-hide">
                   <Button
                     type="button"
@@ -1101,7 +1144,7 @@ const EventDetails = () => {
                   >
                     {t("ATTEND_WEBINAR")}
                   </Button>
-                  {canEnroll && (
+                  {!isExpired && canEnroll && (
                     <Button
                       type="button"
                       onClick={() => {
@@ -1130,7 +1173,7 @@ const EventDetails = () => {
                   {formatDate(detailData.registrationStartDate)}
                 </Box>
               )}
-              {regEnd && isRecorded && (
+              {isExpired && (
                 <Box
                   className="h5-title mb-20 lg-hide"
                   style={{ fontWeight: "400" }}
@@ -1263,6 +1306,8 @@ const EventDetails = () => {
             border: "2px solid #000",
             boxShadow: 24,
             p: 4,
+            height:"80%",
+            overflowX:"scroll"
           }}
         >
           <Typography variant="h6" component="h2">
