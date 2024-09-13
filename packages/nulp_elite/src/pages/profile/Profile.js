@@ -5,25 +5,18 @@ import Header from "components/header";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
-import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import PersonIcon from "@mui/icons-material/Person";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
-import TimelapseOutlinedIcon from "@mui/icons-material/TimelapseOutlined";
 import Grid from "@mui/material/Grid";
-import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutlined";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
-import CircularProgressWithLabel from "../../components/CircularProgressWithLabel";
-import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import * as util from "../../services/utilService";
 import { useNavigate } from "react-router-dom";
-import SearchBox from "components/search";
 import ContinueLearning from "./continueLearning";
 import SelectPreference from "pages/SelectPreference";
-import { Dialog, DialogTitle, DialogContent, Alert } from "@mui/material";
+import { Alert } from "@mui/material";
 import _ from "lodash";
 import Modal from "@mui/material/Modal";
 const designations = require("../../configs/designations.json");
@@ -1302,37 +1295,6 @@ const Profile = () => {
                   <ReceiptLongIcon className="pr-5" />
                   {t("DOWNLOAD CERTIFICATES")}
                 </Button>
-
-                {/* <Modal
-                // open={open}
-                // onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                isableEscapeKeyDown={!isEmptyPreference}
-                open={openModal}
-                className="xs-w-300"
-                onClose={(event, reason) => {
-                  if (
-                    reason === "backdropClick" ||
-                    reason === "escapeKeyDown"
-                  ) {
-                    setOpenModal(true);
-                  } else {
-                    handleCloseModal();
-                  }
-                }}
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    className="h3-title"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    {t("SELECT_PREFERENCE")}
-                  </Typography>
-                  <SelectPreference onClose={handleCloseModal} />
-                </Box>
-              </Modal> */}
                 <SelectPreference
                   onClose={handleCloseModal}
                   isOpen={openModal}

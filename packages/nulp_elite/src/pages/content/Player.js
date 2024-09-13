@@ -29,7 +29,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import md5 from 'md5';
-import { TroubleshootRounded } from "@mui/icons-material";
 const urlConfig = require("../../configs/urlConfig.json");
 
 const Player = () => {

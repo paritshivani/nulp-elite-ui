@@ -6,13 +6,12 @@ import Container from "@mui/material/Container";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { getAllContents } from "services/contentService";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import AccessAlarmsOutlinedIcon from "@mui/icons-material/AccessAlarmsOutlined";
-import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
@@ -355,32 +354,7 @@ const checkIfExpired = (registrationEndDate, endTime) => {
       setIsLoading(false);
     }
   };
-  // const checkEnrolledCourse = async () => {
-  //   try {
-  //     const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
-  //     const response = await fetch(url);
-  //     if (!response.ok) {
-  //       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-  //       throw new Error(t("FAILED_TO_FETCH_DATA"));
-  //     }
-  //     const data = await response.json();
-  //     console.log("enrollment data ---", data.result.courses);
-  //     setUserCourseData(data.result.courses);
-  //     if (data.result.courses.length > 0) {
-  //       data.result.courses.map((event) => {
-  //         console.log("check enrollment list API 1-----", event);
-  //         if (event.identifier === eventId) {
-  //           alert("list match");
-  //           setIsEnrolled(true);
-  //         }
-  //       });
-  //     }
-  //     console.log("check enrollment list API 2-----", isEnrolled);
-  //   } catch (error) {
-  //     console.error("Error while fetching courses:", error);
-  //     showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-  //   }
-  // };
+
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
   };
@@ -686,7 +660,7 @@ const checkIfExpired = (registrationEndDate, endTime) => {
 
   const getEventRecording = async () => {
     try {
-      const url = "/custom_event/fetch_recordings?event_id=" + eventId;
+      const url= `${urlConfig.URLS.CUSTOM_EVENT_FETCH_RECORDINGS}` + eventId;
       const response = await axios.get(url);
       setRecording(response.data);
     } catch (error) {
