@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from "react";
-
 import "./App.css";
 import "./styles/style.css";
 import {
   NativeBaseProvider,
-  Box,
-  Stack,
-  VStack,
-  Text,
-  HStack,
-  Button,
-  extendTheme,
-  Actionsheet,
-  ScrollView,
 } from "native-base";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { DEFAULT_THEME, H2, initializeI18n } from "@shiksha/common-lib";
-import { useTranslation, initReactI18next } from "react-i18next";
-import i18n from "i18next";
+import { initializeI18n } from "@shiksha/common-lib";
 
 import * as util from "services/utilService";
-// import { ChakraProvider } from "@chakra-ui/react";
 import Profile from "pages/profile/Profile";
 import Certificate from "pages/profile/certificate";
 import FAQPage from "pages/FAQPage";
@@ -48,7 +35,6 @@ import Dashboard from "pages/events/dashboard";
 import VotingList from "pages/voting/votingList";
 import createForm from "pages/voting/createForm";
 import VotingDetails from "pages/voting/votingDetails";
-import { truncate } from "lodash";
 import votingDashboard from "pages/voting/votingDashboard";
 import pollsDetails from "pages/voting/pollsDetails";
 const urlConfig = require("./configs/urlConfig.json");

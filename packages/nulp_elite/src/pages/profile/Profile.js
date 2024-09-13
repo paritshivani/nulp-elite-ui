@@ -5,25 +5,18 @@ import Header from "components/header";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
-import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import PersonIcon from "@mui/icons-material/Person";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
-import TimelapseOutlinedIcon from "@mui/icons-material/TimelapseOutlined";
 import Grid from "@mui/material/Grid";
-import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutlined";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
-import CircularProgressWithLabel from "../../components/CircularProgressWithLabel";
-import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import * as util from "../../services/utilService";
 import { useNavigate } from "react-router-dom";
-import SearchBox from "components/search";
 import ContinueLearning from "./continueLearning";
 import SelectPreference from "pages/SelectPreference";
-import { Dialog, DialogTitle, DialogContent, Alert } from "@mui/material";
+import { Alert } from "@mui/material";
 import _ from "lodash";
 import Modal from "@mui/material/Modal";
 const designations = require("../../configs/designations.json");
@@ -476,13 +469,13 @@ const Profile = () => {
   const updateUserInfoInCustomDB = async () => {
     const requestBody = {
       designation:
-        editedUserInfo.designation === "Others"
+        editedUserInfo.designation === "Other"
           ? editedUserInfo.otherDesignation
           : editedUserInfo.designation,
       bio: editedUserInfo.bio,
       created_by: _userId,
       user_type:
-        editedUserInfo.userType === "Others"
+        editedUserInfo.userType === "Other"
           ? editedUserInfo.otherUserType
           : editedUserInfo.userType,
       organisation: editedUserInfo.organisation,
@@ -1032,18 +1025,21 @@ const Profile = () => {
                           </Box>
 
                           <Box py={1}>
-                            <FormControl fullWidth style={{ marginTop: "10px" }}>
-                              <InputLabel id="designation-label" className="year-select">
-                                {t("DESIGNATION")}
+                            <FormControl
+                              fullWidth
+                              style={{ marginTop: "10px" }}
+                            >
+                              <InputLabel
+                                id="designation-label"
+                                className="year-select"
+                              >
+                                {" "}
+                                {t("DESIGNATION")}{" "}
                               </InputLabel>
                               <Select
                                 labelId="designation-label"
                                 id="designation"
-                                value={
-                                  designationsList.includes(editedUserInfo.designation)
-                                  ? editedUserInfo.designation
-                                  : "Others"
-                                }
+                                value={editedUserInfo.designation}
                                 onChange={(e) =>
                                   setEditedUserInfo({
                                     ...editedUserInfo,
@@ -1056,26 +1052,23 @@ const Profile = () => {
                                     {desig}
                                   </MenuItem>
                                 ))}
-                                <MenuItem value="Others">{t("Others")}</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
-
-                          {!designationsList.includes(editedUserInfo.designation) && (
+                          {editedUserInfo.designation === "Others" && (
                             <Box py={1}>
                               <CssTextField
                                 id="otherDesignation"
                                 name="otherDesignation"
                                 label={
                                   <span>
-                                    {t("OTHER_DESIGNATION")} <span className="required">*</span>
+                                    {t("OTHER_DESIGNATION")}{" "}
+                                    <span className="required">*</span>
                                   </span>
-                                } 
+                                }
                                 variant="outlined"
                                 size="small"
-                                value={
-                                  editedUserInfo.otherDesignation || editedUserInfo.designation
-                                  }
+                                value={editedUserInfo.otherDesignation}
                                 onChange={(e) =>
                                   setEditedUserInfo({
                                     ...editedUserInfo,
@@ -1086,18 +1079,21 @@ const Profile = () => {
                             </Box>
                           )}
                           <Box py={1}>
-                            <FormControl fullWidth style={{ marginTop: "10px" }}>
-                              <InputLabel id="designation-label" className="year-select">
-                                {t("userType")}
+                            <FormControl
+                              fullWidth
+                              style={{ marginTop: "10px" }}
+                            >
+                              <InputLabel
+                                id="designation-label"
+                                className="year-select"
+                              >
+                                {" "}
+                                {t("userType")}{" "}
                               </InputLabel>
                               <Select
                                 labelId="designation-label"
                                 id="designation"
-                                value={
-                                  userTypesList.includes(editedUserInfo.userType)
-                                  ? editedUserInfo.userType
-                                  : "Others"
-                                }
+                                value={editedUserInfo.userType}
                                 onChange={(e) =>
                                   setEditedUserInfo({
                                     ...editedUserInfo,
@@ -1105,36 +1101,36 @@ const Profile = () => {
                                   })
                                 }
                               >
-                                {userTypesList.map((userType, index) => (
-                                  <MenuItem key={index} value={userType}>
-                                    {userType}
+                                {userTypesList.map((desig, index) => (
+                                  <MenuItem key={index} value={desig}>
+                                    {desig}
                                   </MenuItem>
                                 ))}
-                                  <MenuItem value="Others">{t("Others")}</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
-                        {!userTypesList.includes(editedUserInfo.userType) && (
-                          <Box py={1}>
-                            <CssTextField
-                              id="otherUserType"
-                              name="otherUserType"
-                              label={
-                                <span>
-                                  {t("UserType")} <span className="required">*</span>
-                                </span>
-                              }
-                              variant="outlined"
-                              size="small"
-                              value={editedUserInfo.otherUserType || editedUserInfo.userType}
-                              onChange={(e) =>
-                                setEditedUserInfo({
-                                  ...editedUserInfo,
-                                  otherUserType: e.target.value,
-                                })
-                              }
-                            />
-                          </Box>
+                          {editedUserInfo.userType === "Others" && (
+                            <Box py={1}>
+                              <CssTextField
+                                id="otherDesignation"
+                                name="otherDesignation"
+                                label={
+                                  <span>
+                                    {t("UserType")}{" "}
+                                    <span className="required">*</span>
+                                  </span>
+                                }
+                                variant="outlined"
+                                size="small"
+                                value={editedUserInfo.otherUserType}
+                                onChange={(e) =>
+                                  setEditedUserInfo({
+                                    ...editedUserInfo,
+                                    otherUserType: e.target.value,
+                                  })
+                                }
+                              />
+                            </Box>
                           )}
                           <Box py={2}>
                             <TextField
@@ -1299,37 +1295,6 @@ const Profile = () => {
                   <ReceiptLongIcon className="pr-5" />
                   {t("DOWNLOAD CERTIFICATES")}
                 </Button>
-
-                {/* <Modal
-                // open={open}
-                // onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                isableEscapeKeyDown={!isEmptyPreference}
-                open={openModal}
-                className="xs-w-300"
-                onClose={(event, reason) => {
-                  if (
-                    reason === "backdropClick" ||
-                    reason === "escapeKeyDown"
-                  ) {
-                    setOpenModal(true);
-                  } else {
-                    handleCloseModal();
-                  }
-                }}
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    className="h3-title"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    {t("SELECT_PREFERENCE")}
-                  </Typography>
-                  <SelectPreference onClose={handleCloseModal} />
-                </Box>
-              </Modal> */}
                 <SelectPreference
                   onClose={handleCloseModal}
                   isOpen={openModal}

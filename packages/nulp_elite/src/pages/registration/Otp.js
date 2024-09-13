@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Navigate } from "react-router-dom";
-import image from "../../assets/bg.png";
 import { useStore } from "configs/zustandStore";
 const axios = require("axios");
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -291,12 +290,11 @@ const Otp = () => {
   const tncText =
     age < 18 ? (
       <span>
-        As a parent/guardian I understand & accept the NULP Terms of Use agree
-        my child to register on NULP with the given information.
+        {t("As_A_PATENT_GUARDIAN_ACCEPT_THE_NULP_TERMS_OF_USE")}
       </span>
     ) : (
       <span>
-        I am 18+ years old and understand and accept the NULP Terms of Use
+       {t("ACCEPT_THE_NULP_TERMS_OF_USE")}
       </span>
     );
   const handleCheckboxChange = (event) => {
@@ -398,7 +396,7 @@ const Otp = () => {
           className="sm-w-700"
         >
           <DialogContent>
-            <h1 style={{ fontSize: "22px" }}>Terms and Conditions </h1>
+            <h1 style={{ fontSize: "22px" }}>{t("TERMS_CONDITIONS")}</h1>
             <iframe
               title="Terms and Conditions"
               src={tncConfig}

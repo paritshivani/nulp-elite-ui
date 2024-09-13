@@ -6,22 +6,18 @@ import Container from "@mui/material/Container";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import LinearProgress from "@mui/material/LinearProgress";
-
-import ToasterCommon from "../ToasterCommon";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import axios from "axios";
 const data = require("./polls-detail.json");
@@ -35,7 +31,6 @@ import {
   FacebookIcon,
   WhatsappIcon,
   LinkedinIcon,
-  TwitterIcon,
 } from "react-share";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -44,9 +39,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import AddConnections from "pages/connections/AddConnections";
-// import { Button } from "native-base";
-import { maxWidth } from "@shiksha/common-lib";
 import * as util from "../../services/utilService";
 import moment from "moment";
 import Alert from "@mui/material/Alert";
@@ -124,31 +116,6 @@ const VotingDetails = () => {
   if (pollId && pollId.endsWith("=")) {
     pollId = pollId.slice(0, -1);
   }
-
-  // useEffect(() => {
-  //   // Ensure startDate is parsed as UTC and then converted to local time
-  //   const startDateLocal = moment.utc(startDate).local();
-  //   console.log("startDate:----", startDateLocal);
-  //   // Check if the current time has passed the start date
-  //   if (moment().isAfter(startDateLocal)) {
-  //     if (!updateFlag) {
-  //       setUpdateFlag(true);
-  //       // Send update to the backend
-  //       fetch(`${urlConfig.URLS.POLL.UPDATE}?poll_id=${pollId}`, {
-  //         method: "PUT",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         credentials: "include",
-  //         body: JSON.stringify({ status: "Live" }),
-  //       })
-  //         .then((response) => response.json())
-  //         .then((data) => console.log("Success:", data))
-  //         .catch((error) => console.error("Error:", error));
-  //     }
-  //   }
-  // }, [currentTime, startDate, pollId, updateFlag]);
-
   useEffect(() => {
     if (pollId) {
       fetchPoll(pollId);
@@ -286,43 +253,6 @@ const VotingDetails = () => {
             spacing={2}
             className="bg-whitee custom-event-container mb-20 xs-container"
           >
-            {/* <Grid item xs={3} md={6} lg={2} className="lg-pl-5 xs-pl-0"> */}
-            {/* <img
-                src={require("assets/default.png")}
-                className="eventCardImg"
-                alt="App Icon"
-              /> */}
-            {/* <Box>
-              <FormControl>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="female"
-                  name="radio-buttons-group"
-                >
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="No"
-                  />
-                  <FormControlLabel
-                    value="other"
-                    control={<Radio />}
-                    label="Maybe"
-                  />
-                </RadioGroup>
-              </FormControl>
-              <Box>
-                <Button type="button" className="custom-btn-primary">
-                  {t("SUBMIT_VOTE")}
-                </Button>
-              </Box>
-            </Box> */}
-            {/* </Grid> */}
             {(userVote && userVote?.length > 0 && timeDifference > 15) ||
             isVotingEnded ? (
               <Grid item xs={12} md={6} lg={8}>
@@ -392,18 +322,6 @@ const VotingDetails = () => {
                       ))}
                     </div>
                   )}
-                  {/* <Box className="mt-20">
-                    <Button
-                      type="button"
-                      className="custom-btn-primary"
-                      onClick={handleClickOpen}
-                    >
-                      {t("SHARE_RESULTS")}
-                      <ShareOutlinedIcon
-                        style={{ color: "#fff", paddingLeft: "10px" }}
-                      />
-                    </Button>
-                  </Box> */}
                 </Box>
               </Grid>
             ) : (
@@ -586,18 +504,6 @@ const VotingDetails = () => {
                           </Grid>
                         </Box>
                       ))}
-                      {/* <Box className="mt-20">
-                          <Button
-                            type="button"
-                            className="custom-btn-primaryy"
-                            onClick={handleClickOpen}
-                          >
-                            {t("SHARE_RESULTS")}{" "}
-                            <ShareOutlinedIcon
-                              style={{ color: "#fff", paddingLeft: "10px" }}
-                            />
-                          </Button>
-                        </Box> */}
                     </Box>
                   </Box>
                 </Grid>
@@ -675,14 +581,6 @@ const VotingDetails = () => {
                     </Box>
                   ))}
                 </Box>
-                {/* <Box className="mt-20">
-    <Button type="button" className="custom-btn-primaryy">
-      {t("SHARE_RESULTS")}{" "}
-      <ShareOutlinedIcon
-        style={{ color: "#fff", paddingLeft: "10px" }}
-      />
-    </Button>
-  </Box> */}
               </Box>
             )}
 

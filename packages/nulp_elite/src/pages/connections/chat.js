@@ -491,7 +491,6 @@ const Chat = ({
   const handleBlockUserConfirmed = async (reason) => {
     try {
       const url = `${urlConfig.URLS.DIRECT_CONNECT.BLOCK}`;
-      console.log("Blocking User");
 
       await axios.post(
         url,
