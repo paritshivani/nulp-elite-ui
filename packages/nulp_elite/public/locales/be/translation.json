@@ -296,5 +296,8 @@
   "ADMIN":"অ্যাডমিন",
   "LEARNING_REPORT":"লার্নিং রিপোর্ট",
   "POPULAR_COURSES" : "জনপ্রিয় কোর্স",
-  "RECENTLY_ADDED":"সম্প্রতি যোগ করা হয়েছে"
+  "RECENTLY_ADDED":"সম্প্রতি যোগ করা হয়েছে",
+  "This content is derived from": "এই বিষয়বস্তু থেকে সংগৃহীত",
+  "LICENSE TERMS": "লাইসেন্সের শর্তাবলী",
+  "PUBLISHED ON NULP BY": "NULP দ্বারা প্রকাশিত"
 }

@@ -316,6 +316,8 @@
   "ADMIN":"Admin",
   "LEARNING_REPORT":"Learning Report",
   "POPULAR_COURSES" : "Popular Courses",
-  "RECENTLY_ADDED":"Recently Added"
-
+  "RECENTLY_ADDED":"Recently Added",
+  "This content is derived from": "This content is derived from",
+  "LICENSE TERMS": "LICENSE TERMS",
+  "PUBLISHED ON NULP BY": "PUBLISHED ON NULP BY"
 }
