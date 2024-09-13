@@ -298,5 +298,8 @@
   "ADMIN":"व्यवस्थापक",
   "LEARNING_REPORT":"सीखने की रिपोर्ट",
   "POPULAR_COURSES" : "लोकप्रिय पाठ्यक्रम",
-  "RECENTLY_ADDED":"हाल ही में जोड़ा"
+  "RECENTLY_ADDED":"हाल ही में जोड़ा",
+  "This content is derived from": "यह सामग्री से व्युत्पन्न है",
+  "LICENSE TERMS": "लाइसेंस की शर्तें",
+  "PUBLISHED ON NULP BY": "एनयूपीएलपी द्वारा प्रकाशित"
 }
