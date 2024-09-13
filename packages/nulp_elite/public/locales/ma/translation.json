@@ -298,6 +298,8 @@
   "ADMIN":"प्रशासक",
   "LEARNING_REPORT":"शिकण्याचा अहवाल",
   "POPULAR_COURSES" : "लोकप्रिय अभ्यासक्रम",
-  "RECENTLY_ADDED":"अलीकडे जोडले"
+  "RECENTLY_ADDED":"अलीकडे जोडले",
+  "CONTENT_DERIVED_FROM": "ही सामग्री यावरून घेतली आहे",
+  "PUBLISHED_ON_NULP_BY": "एनयूपीएलपीद्वारे प्रकाशित"
 
 }

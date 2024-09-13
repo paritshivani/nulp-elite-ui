@@ -261,5 +261,7 @@
   "ADMIN":"నిర్వాహకుడు",
   "LEARNING_REPORT":"లెర్నింగ్ రిపోర్ట్",
   "POPULAR_COURSES" : "జనాదరణ పొందిన కోర్సులు",
-  "RECENTLY_ADDED":"ఇటీవల జోడించబడింది"
+  "RECENTLY_ADDED":"ఇటీవల జోడించబడింది",
+  "CONTENT_DERIVED_FROM": "ఈ సాంఘికత నుండి పొందినది",
+  "PUBLISHED_ON_NULP_BY": "NULP ద్వారా ప్రచురించబడింది"
 }

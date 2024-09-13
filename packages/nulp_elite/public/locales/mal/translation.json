@@ -298,5 +298,7 @@
   "ADMIN":"അഡ്മിൻ",
   "LEARNING_REPORT":"പഠന റിപ്പോർട്ട്",
   "POPULAR_COURSES" : "ജനപ്രിയ കോഴ്സുകൾ",
-  "RECENTLY_ADDED":"അടുത്തിടെ ചേർത്തത് "
+  "RECENTLY_ADDED":"അടുത്തിടെ ചേർത്തത് ",
+  "CONTENT_DERIVED_FROM": "ഈ ഉള്ളടക്കം നിന്നു പ്രാപ്തമായതാണ്",
+  "PUBLISHED_ON_NULP_BY": "NULP വഴി പ്രസിദ്ധീകരിച്ചത്"
 }

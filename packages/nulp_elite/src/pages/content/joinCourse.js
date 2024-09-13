@@ -1442,25 +1442,29 @@ className="xs-hide accordionBoxShadow"
                     <DialogTitle>{t("CREDITS")}</DialogTitle>
                    <DialogContent>
                     <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        COPYRIGHT
+                        {t("COPYRIGHT")}
                       </p>
                       {userData?.result?.content?.orgDetails?.orgName && userData?.result?.content?.copyrightYear
                         ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
                         : userData?.result?.content?.orgDetails?.orgName || userData?.result?.content?.copyrightYear
                       }
-                      <h5>This content is derived from</h5>
+                      {userData?.result?.content?.originData && (
+                        <>
+                        <h5>{t("CONTENT_DERIVED_FROM")}</h5>
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        CONTENT
+                        {t("CONTENT")}
                       </p>
-                      {userData?.result?.content?.name}
+                      {userData?.result?.content?.originData?.name}
                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        LICENSE TERMS
+                        {t("LICENSE_TERMS")}
                       </p>
-                      {userData?.result?.content?.licenseDetails?.name}
+                      {userData?.result?.content?.originData?.license}
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        PUBLISHED ON NULP BY
+                        {t("PUBLISHED_ON_NULP_BY")}
                       </p>
-                      {userData?.result?.content?.orgDetails?.orgName}
+                      {userData?.result?.content?.originData?.organisation[0]}
+                        </>
+                      )}
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleClose} color="primary">
@@ -1971,6 +1975,7 @@ className="lg-hide accordionBoxShadow"
                     href={courseData?.result?.content?.licenseDetails?.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    style={{wordWrap: 'break-word'}}
                   >
                     {courseData?.result?.content?.licenseDetails?.url}
                   </a>

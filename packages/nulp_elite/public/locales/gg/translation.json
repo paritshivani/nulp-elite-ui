@@ -306,7 +306,8 @@
   "ADMIN":"એડમિન",
   "LEARNING_REPORT":"લર્નિંગ રિપોર્ટ",
   "POPULAR_COURSES" : "લોકપ્રિય અભ્યાસક્રમો",
-  "RECENTLY_ADDED":"તાજેતરમાં ઉમેરાયેલ"
-
+  "RECENTLY_ADDED":"તાજેતરમાં ઉમેરાયેલ",
+  "CONTENT_DERIVED_FROM": "આ સામગ્રીમાંથી ઉત્પન્ન છે",
+  "PUBLISHED_ON_NULP_BY": "NULP દ્વારા પ્રકાશિત"
   
 }

@@ -348,7 +348,7 @@ const votingDashboard = () => {
                           </IconButton>
                         </InputAdornment>
                       }
-                      label= {t("SEARCH_FOR_POLL")}
+                      label={t("SEARCH_FOR_POLL")}
                     />
                   </FormControl>
                 </Grid>
@@ -460,44 +460,43 @@ const votingDashboard = () => {
                               )}
                             </Box>
                           </Box>
-                          <Box className={`fs-14 ${items?.poll_keywords && items.poll_keywords.length <= 0 ? 'visibility-hidden' : ''}`}>
-                            {items?.poll_keywords && (
+                          <Box className="fs-14">
+                            {items?.poll_keywords && items.poll_keywords.length > 0 ? (
                               <>
-                                {items.poll_keywords
-                                  .slice(0, 2)
-                                  .map((keyword, index) => (
-                                    <Tooltip
-                                      key={index}
-                                      title={keyword}
-                                      placement="right"
-                                      className="customlabeltwo cardLabelEllips"
-                                    >
-                                      <Button className="d-inline-block">
-                                        {index < 2
-                                          ? keyword
-                                          : `${keyword} + ${
-                                              items.poll_keywords.length - 2
-                                            }`}
-                                      </Button>
-                                    </Tooltip>
-                                  ))}
-                                {items.poll_keywords.length > 3 && (
+                                {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                                   <Tooltip
-                                    title={items.poll_keywords
-                                      .slice(3)
-                                      .join(", ")}
+                                    key={index}
+                                    title={keyword}
                                     placement="right"
                                     className="customlabeltwo cardLabelEllips"
                                   >
                                     <Button className="d-inline-block">
-                                      {items.poll_keywords[2]} +{" "}
-                                      {items.poll_keywords.length - 3}
+                                    {index < 2
+                                          ? keyword
+                                          : `${keyword} + ${
+                                              items.poll_keywords.length - 2
+                                            }`}
+                                    </Button>
+                                  </Tooltip>
+                                ))}
+                                {items.poll_keywords.length > 3 && (
+                                  <Tooltip
+                                    title={items.poll_keywords.slice(3).join(", ")}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button className="d-inline-block">
+                                      {items.poll_keywords[2]} + {items.poll_keywords.length - 3}
                                     </Button>
                                   </Tooltip>
                                 )}
                               </>
+                            ) : (
+                              <Box style={{ height: "60px" }}>
+                              </Box>
                             )}
                           </Box>
+
                         </Box>
                       </Grid>
                       <Grid
@@ -658,7 +657,7 @@ const votingDashboard = () => {
                 className="h2-title mt-30"
               >
                 <Alert severity="info" style={{ margin: "10px 0" }}>
-                 {t("NO_POLL_AVAILABLE_NOW")}
+                  {t("NO_POLL_AVAILABLE_NOW")}
                 </Alert>
               </Grid>
             )}
@@ -672,7 +671,7 @@ const votingDashboard = () => {
           >
             <Box display="flex" alignItems="center" className="h3-title">
               <DashboardOutlinedIcon style={{ paddingRight: "10px" }} />
-             {t("DRAFT_POLLS")}
+              {t("DRAFT_POLLS")}
             </Box>
             {!showAllDraft && visibleDraftPolls.length >= 3 && (
               <Box>
@@ -788,43 +787,42 @@ const votingDashboard = () => {
                           </Box>
                         </Box>
                         <Box className="fs-14">
-                          {items?.poll_keywords && (
+                          {items?.poll_keywords && items.poll_keywords.length > 0 ? (
                             <>
-                              {items.poll_keywords
-                                .slice(0, 2)
-                                .map((keyword, index) => (
-                                  <Tooltip
-                                    key={index}
-                                    title={keyword}
-                                    placement="right"
-                                    className="customlabeltwo cardLabelEllips"
-                                  >
-                                    <Button className="d-inline-block">
-                                      {index < 2
-                                        ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
-                                    </Button>
-                                  </Tooltip>
-                                ))}
-                              {items.poll_keywords.length > 3 && (
+                              {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                                 <Tooltip
-                                  title={items.poll_keywords
-                                    .slice(3)
-                                    .join(", ")}
+                                  key={index}
+                                  title={keyword}
                                   placement="right"
                                   className="customlabeltwo cardLabelEllips"
                                 >
                                   <Button className="d-inline-block">
-                                    {items.poll_keywords[2]} +{" "}
-                                    {items.poll_keywords.length - 3}
+                                  {index < 2
+                                        ? keyword
+                                        : `${keyword} + ${
+                                            items.poll_keywords.length - 2
+                                          }`}
+                                  </Button>
+                                </Tooltip>
+                              ))}
+                              {items.poll_keywords.length > 3 && (
+                                <Tooltip
+                                  title={items.poll_keywords.slice(3).join(", ")}
+                                  placement="right"
+                                  className="customlabeltwo cardLabelEllips"
+                                >
+                                  <Button className="d-inline-block">
+                                    {items.poll_keywords[2]} + {items.poll_keywords.length - 3}
                                   </Button>
                                 </Tooltip>
                               )}
                             </>
+                          ) : (
+                            <Box style={{ height: "60px" }}>
+                            </Box>
                           )}
                         </Box>
+
                       </Box>
                       {/* <Box
                         className="card-img-container"
@@ -947,7 +945,7 @@ const votingDashboard = () => {
                   className="custom-btn-primary ml-20"
                   onClick={() => handleViewAll(closedPolls, "closed")}
                 >
-                 {t("VIEW_ALL")}
+                  {t("VIEW_ALL")}
                 </Button>
               </Box>
             )}
@@ -1054,11 +1052,10 @@ const votingDashboard = () => {
                           </Box>
                         </Box>
                         <Box className="fs-14">
-                          {items?.poll_keywords && (
-                            <>
-                              {items.poll_keywords
-                                .slice(0, 2)
-                                .map((keyword, index) => (
+                          <Box className="fs-14">
+                            {items?.poll_keywords && items.poll_keywords.length > 0 ? (
+                              <>
+                                {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                                   <Tooltip
                                     key={index}
                                     title={keyword}
@@ -1066,7 +1063,7 @@ const votingDashboard = () => {
                                     className="customlabeltwo cardLabelEllips"
                                   >
                                     <Button className="d-inline-block">
-                                      {index < 2
+                                    {index < 2
                                         ? keyword
                                         : `${keyword} + ${
                                             items.poll_keywords.length - 2
@@ -1074,38 +1071,25 @@ const votingDashboard = () => {
                                     </Button>
                                   </Tooltip>
                                 ))}
-                              {items.poll_keywords.length > 3 && (
-                                <Tooltip
-                                  title={items.poll_keywords
-                                    .slice(3)
-                                    .join(", ")}
-                                  placement="right"
-                                  className="customlabeltwo cardLabelEllips"
-                                >
-                                  <Button className="d-inline-block">
+                                {items.poll_keywords.length > 3 && (
+                                  <Tooltip
+                                    title={items.poll_keywords.slice(3).join(", ")}
+                                    placement="right"
+                                    className="customlabeltwo cardLabelEllips"
+                                  >
+                                    <Button className="d-inline-block">
                                     {items.poll_keywords[2]} +{" "}
                                     {items.poll_keywords.length - 3}
-                                  </Button>
-                                </Tooltip>
-                              )}
-                            </>
-                          )}
+                                    </Button>
+                                  </Tooltip>
+                                )}
+                              </>
+                            ) : (
+                              <Box className="d-inline-block" style={{ height: "60px" }} />
+                            )}
+                          </Box>
                         </Box>
                       </Box>
-                      {/* <Box
-                        className="card-img-container"
-                        style={{ position: "inherit" }}
-                      >
-                        <img
-                          src={
-                            items.image
-                              ? items.image
-                              : require("assets/default.png")
-                          }
-                          className="event-card-img"
-                          alt="App Icon"
-                        />
-                      </Box> */}
                     </CardContent>
                     <Box className="voting-text">
                       <Box>
@@ -1293,7 +1277,7 @@ const votingDashboard = () => {
                         )}
                       </Box>
                       <Box className="mt-9 h5-title">
-                      {t("ENDED_ON")}:
+                        {t("ENDED_ON")}:
                         <TodayOutlinedIcon
                           className="fs-14 pr-5"
                           style={{ verticalAlign: "middle" }}

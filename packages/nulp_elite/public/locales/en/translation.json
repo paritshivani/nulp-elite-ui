@@ -316,6 +316,7 @@
   "ADMIN":"Admin",
   "LEARNING_REPORT":"Learning Report",
   "POPULAR_COURSES" : "Popular Courses",
-  "RECENTLY_ADDED":"Recently Added"
-
+  "RECENTLY_ADDED":"Recently Added",
+  "CONTENT_DERIVED_FROM": "This content is derived from",
+  "PUBLISHED_ON_NULP_BY": "PUBLISHED ON NULP BY"
 }

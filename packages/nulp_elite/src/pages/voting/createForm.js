@@ -444,7 +444,7 @@ const createForm = () => {
                 style={{ paddingRight: "10px", verticalAlign: "middle" }}
               />
               {editData ? <div>  {t("EDIT_POLL")}</div>
-              :<div>  {t("CREATE_POLL")}</div>
+              :<div>{t("CREATE_POLL")}</div>
                }
             </Box>
           </Box>
@@ -524,7 +524,6 @@ const createForm = () => {
                   ),
                 }}
               />
-
               <Alert
                 severity="info"
                 className="mt-15"
