@@ -1450,17 +1450,17 @@ className="xs-hide accordionBoxShadow"
                       }
                       {userData?.result?.content?.originData && (
                         <>
-                        <h5>{t("This content is derived from")}</h5>
+                        <h5>{t("CONTENT_DERIVED_FROM")}</h5>
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         {t("CONTENT")}
                       </p>
                       {userData?.result?.content?.originData?.name}
                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        {t("LICENSE TERMS")}
+                        {t("LICENSE_TERMS")}
                       </p>
                       {userData?.result?.content?.originData?.license}
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        {t("PUBLISHED ON NULP BY")}
+                        {t("PUBLISHED_ON_NULP_BY")}
                       </p>
                       {userData?.result?.content?.originData?.organisation[0]}
                         </>
