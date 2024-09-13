@@ -213,8 +213,7 @@ const DomainList = ({ globalSearchQuery }) => {
             "Content",
             "Quiz / Test",
             "Course",
-            "Manuals/SOPs"
-           
+            "Manuals/SOPs"           
           ],
           visibility: ["Default", "Parent"],
         },

@@ -97,7 +97,6 @@ console.log(Object.keys(props).length,"Object.keys(props).length");
   [assessEvents] 
 );
 const handleAssessmentData = async (data) => {
-  console.log ("telemetry data -------------", data)
   if (data.eid === "ASSESS") {
     console.log(data, "Received assessment data");
     
@@ -113,7 +112,6 @@ const handleAssessmentData = async (data) => {
   }
   else if (data.eid === "START"){
     await updateContentState(1)
-
   }
 };
 
