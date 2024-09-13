@@ -476,13 +476,13 @@ const Profile = () => {
   const updateUserInfoInCustomDB = async () => {
     const requestBody = {
       designation:
-        editedUserInfo.designation === "Other"
+        editedUserInfo.designation === "Others"
           ? editedUserInfo.otherDesignation
           : editedUserInfo.designation,
       bio: editedUserInfo.bio,
       created_by: _userId,
       user_type:
-        editedUserInfo.userType === "Other"
+        editedUserInfo.userType === "Others"
           ? editedUserInfo.otherUserType
           : editedUserInfo.userType,
       organisation: editedUserInfo.organisation,
@@ -1032,21 +1032,18 @@ const Profile = () => {
                           </Box>
 
                           <Box py={1}>
-                            <FormControl
-                              fullWidth
-                              style={{ marginTop: "10px" }}
-                            >
-                              <InputLabel
-                                id="designation-label"
-                                className="year-select"
-                              >
-                                {" "}
-                                {t("DESIGNATION")}{" "}
+                            <FormControl fullWidth style={{ marginTop: "10px" }}>
+                              <InputLabel id="designation-label" className="year-select">
+                                {t("DESIGNATION")}
                               </InputLabel>
                               <Select
                                 labelId="designation-label"
                                 id="designation"
-                                value={editedUserInfo.designation}
+                                value={
+                                  designationsList.includes(editedUserInfo.designation)
+                                  ? editedUserInfo.designation
+                                  : "Others"
+                                }
                                 onChange={(e) =>
                                   setEditedUserInfo({
                                     ...editedUserInfo,
@@ -1059,23 +1056,26 @@ const Profile = () => {
                                     {desig}
                                   </MenuItem>
                                 ))}
+                                <MenuItem value="Others">{t("Others")}</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
-                          {editedUserInfo.designation === "Others" && (
+
+                          {!designationsList.includes(editedUserInfo.designation) && (
                             <Box py={1}>
                               <CssTextField
                                 id="otherDesignation"
                                 name="otherDesignation"
                                 label={
                                   <span>
-                                    {t("OTHER_DESIGNATION")}{" "}
-                                    <span className="required">*</span>
+                                    {t("OTHER_DESIGNATION")} <span className="required">*</span>
                                   </span>
-                                }
+                                } 
                                 variant="outlined"
                                 size="small"
-                                value={editedUserInfo.otherDesignation}
+                                value={
+                                  editedUserInfo.otherDesignation || editedUserInfo.designation
+                                  }
                                 onChange={(e) =>
                                   setEditedUserInfo({
                                     ...editedUserInfo,
@@ -1086,21 +1086,18 @@ const Profile = () => {
                             </Box>
                           )}
                           <Box py={1}>
-                            <FormControl
-                              fullWidth
-                              style={{ marginTop: "10px" }}
-                            >
-                              <InputLabel
-                                id="designation-label"
-                                className="year-select"
-                              >
-                                {" "}
-                                {t("userType")}{" "}
+                            <FormControl fullWidth style={{ marginTop: "10px" }}>
+                              <InputLabel id="designation-label" className="year-select">
+                                {t("userType")}
                               </InputLabel>
                               <Select
                                 labelId="designation-label"
                                 id="designation"
-                                value={editedUserInfo.userType}
+                                value={
+                                  userTypesList.includes(editedUserInfo.userType)
+                                  ? editedUserInfo.userType
+                                  : "Others"
+                                }
                                 onChange={(e) =>
                                   setEditedUserInfo({
                                     ...editedUserInfo,
@@ -1108,36 +1105,36 @@ const Profile = () => {
                                   })
                                 }
                               >
-                                {userTypesList.map((desig, index) => (
-                                  <MenuItem key={index} value={desig}>
-                                    {desig}
+                                {userTypesList.map((userType, index) => (
+                                  <MenuItem key={index} value={userType}>
+                                    {userType}
                                   </MenuItem>
                                 ))}
+                                  <MenuItem value="Others">{t("Others")}</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
-                          {editedUserInfo.userType === "Others" && (
-                            <Box py={1}>
-                              <CssTextField
-                                id="otherDesignation"
-                                name="otherDesignation"
-                                label={
-                                  <span>
-                                    {t("UserType")}{" "}
-                                    <span className="required">*</span>
-                                  </span>
-                                }
-                                variant="outlined"
-                                size="small"
-                                value={editedUserInfo.otherUserType}
-                                onChange={(e) =>
-                                  setEditedUserInfo({
-                                    ...editedUserInfo,
-                                    otherUserType: e.target.value,
-                                  })
-                                }
-                              />
-                            </Box>
+                        {!userTypesList.includes(editedUserInfo.userType) && (
+                          <Box py={1}>
+                            <CssTextField
+                              id="otherUserType"
+                              name="otherUserType"
+                              label={
+                                <span>
+                                  {t("UserType")} <span className="required">*</span>
+                                </span>
+                              }
+                              variant="outlined"
+                              size="small"
+                              value={editedUserInfo.otherUserType || editedUserInfo.userType}
+                              onChange={(e) =>
+                                setEditedUserInfo({
+                                  ...editedUserInfo,
+                                  otherUserType: e.target.value,
+                                })
+                              }
+                            />
+                          </Box>
                           )}
                           <Box py={2}>
                             <TextField
