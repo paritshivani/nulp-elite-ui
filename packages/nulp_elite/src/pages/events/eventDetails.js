@@ -239,29 +239,45 @@ const EventDetails = () => {
   }, [eventId]);
 
 const checkIfExpired = (registrationEndDate, endTime) => {
-  const regEndDate = new Date(registrationEndDate); 
+  const regEndDateTime = new Date(registrationEndDate);
+  const regEndDate = new Date(registrationEndDate);
+  regEndDate.setHours(0, 0, 0, 0); 
+
+  const currentDateTime = new Date();
   const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0); 
+
+  console.log(regEndDate.toDateString(), "regEndDate");
+  console.log(currentDate.toDateString(), "currentDate");
 
   if (currentDate > regEndDate) {
     return true; 
   }
 
-  if (currentDate.toDateString() === regEndDate.toDateString()) {
-    const [timePart] = endTime.split("+");
-    const [endHours, endMinutes, endSeconds] = timePart.split(":").map(Number);
-
-    const endDateTime = new Date(
-      currentDate.toDateString() + " " + endTime.split("+")[0]
-    );
-
-    console.log(endDateTime,"endDateTime--------");
-
-    if (currentDate > endDateTime) {
-      return true; 
+  if (currentDateTime.toDateString() === regEndDateTime.toDateString()) {
+     if (formatTimeWithTimezone(currentDateTime) > endTime) {
+      return true;
     }
+
+    console.log(regEndDate, "endDateTime with time");
+
   }
 
-  return false;
+  return false; 
+};
+
+const formatTimeWithTimezone = (date) => {
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+
+  const timezoneOffset = date.getTimezoneOffset(); // in minutes
+  const absOffset = Math.abs(timezoneOffset);
+  const offsetHours = String(Math.floor(absOffset / 60)).padStart(2, "0");
+  const offsetMinutes = String(absOffset % 60).padStart(2, "0");
+  const sign = timezoneOffset <= 0 ? "+" : "-"; // If negative, it's ahead of UTC, so use "+"
+
+  return `${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMinutes}`;
 };
 
 
@@ -802,11 +818,7 @@ const checkIfExpired = (registrationEndDate, endTime) => {
                       <Box className="d-flex alignItems-center pl-20">
                         <Box className="event-text-circle"></Box>
                         <Box className="h5-title">
-                          {creatorInfo.firstName
-                            ? creatorInfo.firstName
-                            : "" + " " + creatorInfo.lastName
-                            ? creatorInfo.lastName
-                            : ""}
+                          {detailData.eventOrganisedby}
                         </Box>
                       </Box>
                     </Box>
