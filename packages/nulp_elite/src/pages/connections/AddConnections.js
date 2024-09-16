@@ -91,7 +91,7 @@ const AddConnections = () => {
     useState();
   const [loggedInUserId, setLoggedInUserId] = useState();
   const location = useLocation();
-  const [invitationReceiverByUser, setInvitationReceivedUserByIds] = useState();
+  const [invitationReceiverByUser, setInvitationReceivedUserByIds] = useState([]);
   const [userChat, setUserChat] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -1587,6 +1587,12 @@ const AddConnections = () => {
                   </TabPanel>
                   <TabPanel value="2">
                     <Box className="scroll">
+                      {invitationReceiverByUser.length ===0 && (
+                        <Box marginTop="26px" marginLeft="163px">
+                          {t("NO Chat Request")}
+                        </Box>
+                         
+                      )}
                       {invitationReceiverByUser &&
                         invitationReceiverByUser.map((item) => (
                           <List
