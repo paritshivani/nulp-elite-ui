@@ -49,6 +49,7 @@ import Toast from "../Toast";
 import Loader from "pages/Loader";
 import Unauthorized from "pages/Unauthorized";
 import moment from "moment";
+import { Loading } from "@shiksha/common-lib";
 
 const votingDashboard = () => {
   const { t } = useTranslation();
@@ -408,8 +409,10 @@ const votingDashboard = () => {
           </Box>
 
           <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-            {visibleLivePolls && visibleLivePolls?.length >= 1 ? (
-              visibleLivePolls?.map((items, index) => (
+            {isLoading ? (
+              <Loading message={t("LOADING")} />
+            ) : visibleLivePolls && visibleLivePolls.length >= 1 ? (
+              visibleLivePolls.map((items, index) => (
                 <Grid
                   item
                   xs={12}
@@ -442,7 +445,7 @@ const votingDashboard = () => {
                           {items.title && (
                             <Typography
                               gutterBottom
-                              className="mt-10  event-title width-inherit"
+                              className="mt-10 event-title width-inherit"
                             >
                               {items.title}
                             </Typography>
@@ -453,13 +456,13 @@ const votingDashboard = () => {
                           >
                             <Box className="d-flex jc-bw alignItems-center fs-13">
                               <TodayOutlinedIcon className="fs-14 pr-5" />
-                              {moment(items?.start_date).format(
+                              {moment(items.start_date).format(
                                 "dddd, MMMM Do YYYY, h:mm:ss a"
                               )}
                             </Box>
                           </Box>
                           <Box className="fs-14">
-                            {items?.poll_keywords && items.poll_keywords.length > 0 ? (
+                            {items.poll_keywords && items.poll_keywords.length > 0 ? (
                               <>
                                 {items.poll_keywords.slice(0, 2).map((keyword, index) => (
                                   <Tooltip
@@ -490,11 +493,9 @@ const votingDashboard = () => {
                                 )}
                               </>
                             ) : (
-                              <Box style={{ height: "60px" }}>
-                              </Box>
+                              <Box style={{ height: "60px" }} />
                             )}
                           </Box>
-
                         </Box>
                       </Grid>
                       <Grid
@@ -514,20 +515,14 @@ const votingDashboard = () => {
                               openSocialMediaLink(event, shareUrl);
                             }}
                           >
-                            <FacebookIcon
-                              url={shareUrl}
-                              size={32}
-                              round={true}
-                            />
+                            <FacebookIcon url={shareUrl} size={32} round={true} />
                           </FacebookShareButton>
                           <WhatsappShareButton
                             url={shareUrl}
                             title={`Check out this poll: ${items.title}`}
                             separator=":: "
                             className="pr-4"
-                            onClick={(event) =>
-                              openSocialMediaLink(event, shareUrl)
-                            }
+                            onClick={(event) => openSocialMediaLink(event, shareUrl)}
                           >
                             <WhatsappIcon size={32} round />
                           </WhatsappShareButton>
@@ -536,9 +531,7 @@ const votingDashboard = () => {
                             className="pr-4"
                             title={items.title}
                             summary={`Participate in this poll: ${items.title}`}
-                            onClick={(event) => {
-                              openSocialMediaLink(event, shareUrl);
-                            }}
+                            onClick={(event) => openSocialMediaLink(event, shareUrl)}
                           >
                             <LinkedinIcon size={32} round={true} />
                           </LinkedinShareButton>
@@ -546,9 +539,7 @@ const votingDashboard = () => {
                             url={shareUrl}
                             className="pr-4"
                             title={`Check out this poll: ${items.title}`}
-                            onClick={(event) => {
-                              openSocialMediaLink(event, shareUrl);
-                            }}
+                            onClick={(event) => openSocialMediaLink(event, shareUrl)}
                           >
                             <img
                               src={require("../../assets/twitter.png")}
@@ -564,9 +555,7 @@ const votingDashboard = () => {
                         <Button
                           type="button"
                           className="custom-btn-primary ml-20 lg-mt-20 mb-10"
-                          onClick={(event) =>
-                            handleOpenModal(items.poll_id, event)
-                          }
+                          onClick={(event) => handleOpenModal(items.poll_id, event)}
                         >
                           {t("VIEW_STATUS")}{" "}
                           <ArrowForwardIosOutlinedIcon className="fs-12" />
@@ -578,20 +567,19 @@ const votingDashboard = () => {
                         >
                           {t("EDIT")} <ArrowForwardIosOutlinedIcon className="fs-12" />
                         </Button>
-                        {admin ||
-                          (contentCreator && (
-                            <Button
-                              type="button"
-                              className="custom-btn-primary ml-20 lg-mt-20 mb-10"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                handleDialogOpen(items.poll_id, event);
-                              }}
-                            >
-                              {t("DELETE")}{" "}
-                              <ArrowForwardIosOutlinedIcon className="fs-12" />
-                            </Button>
-                          ))}
+                        {(admin || contentCreator) && (
+                          <Button
+                            type="button"
+                            className="custom-btn-primary ml-20 lg-mt-20 mb-10"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              handleDialogOpen(items.poll_id, event);
+                            }}
+                          >
+                            {t("DELETE")}{" "}
+                            <ArrowForwardIosOutlinedIcon className="fs-12" />
+                          </Button>
+                        )}
                       </Box>
                     </Box>
                     <Box className="lg-hide pl-20">
@@ -599,9 +587,7 @@ const votingDashboard = () => {
                         url={shareUrl}
                         className="pr-4"
                         quote={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
+                        onClick={(event) => openSocialMediaLink(event, shareUrl)}
                       >
                         <FacebookIcon url={shareUrl} size={32} round={true} />
                       </FacebookShareButton>
@@ -610,9 +596,7 @@ const votingDashboard = () => {
                         title={`Check out this poll: ${items.title}`}
                         separator=":: "
                         className="pr-4"
-                        onClick={(event) =>
-                          openSocialMediaLink(event, shareUrl)
-                        }
+                        onClick={(event) => openSocialMediaLink(event, shareUrl)}
                       >
                         <WhatsappIcon size={32} round />
                       </WhatsappShareButton>
@@ -621,9 +605,7 @@ const votingDashboard = () => {
                         className="pr-4"
                         title={items.title}
                         summary={`Participate in this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
+                        onClick={(event) => openSocialMediaLink(event, shareUrl)}
                       >
                         <LinkedinIcon size={32} round={true} />
                       </LinkedinShareButton>
@@ -631,9 +613,7 @@ const votingDashboard = () => {
                         url={shareUrl}
                         className="pr-4"
                         title={`Check out this poll: ${items.title}`}
-                        onClick={(event) => {
-                          openSocialMediaLink(event, shareUrl);
-                        }}
+                        onClick={(event) => openSocialMediaLink(event, shareUrl)}
                       >
                         <img
                           src={require("../../assets/twitter.png")}
@@ -684,7 +664,9 @@ const votingDashboard = () => {
             )}
           </Box>
           <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-            {visibleDraftPolls && visibleDraftPolls?.length >= 1 ? (
+          {isLoading ? (
+              <Loading message={t("LOADING")} /> 
+            ) : visibleDraftPolls && visibleDraftPolls?.length >= 1 ? (
               visibleDraftPolls?.map((items, index) => (
                 <Grid
                   item
@@ -795,11 +777,10 @@ const votingDashboard = () => {
                                   className="customlabeltwo cardLabelEllips"
                                 >
                                   <Button className="d-inline-block">
-                                  {index < 2
-                                        ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                    {index < 2
+                                      ? keyword
+                                      : `${keyword} + ${items.poll_keywords.length - 2
+                                      }`}
                                   </Button>
                                 </Tooltip>
                               ))}
@@ -822,20 +803,6 @@ const votingDashboard = () => {
                         </Box>
 
                       </Box>
-                      {/* <Box
-                        className="card-img-container"
-                        style={{ position: "inherit" }}
-                      >
-                        <img
-                          src={
-                            items.image
-                              ? items.image
-                              : require("assets/default.png")
-                          }
-                          className="event-card-img"
-                          alt="App Icon"
-                        />
-                      </Box> */}
                     </CardContent>
                     <Box className="voting-text">
                       <Box>
@@ -910,7 +877,7 @@ const votingDashboard = () => {
                   </Card>
                 </Grid>
               ))
-            ) : (
+          ) : (
               <Grid
                 item
                 xs={12}
@@ -949,7 +916,9 @@ const votingDashboard = () => {
             )}
           </Box>
           <Grid container spacing={2} style={{ marginBottom: "30px" }}>
-            {visibleClosedPolls && visibleClosedPolls?.length >= 1 ? (
+          {isLoading ? (
+              <Loading message={t("LOADING")} /> 
+            ) : visibleClosedPolls && visibleClosedPolls?.length >= 1 ? (
               visibleClosedPolls?.map((items, index) => (
                 <Grid
                   item
@@ -1061,11 +1030,10 @@ const votingDashboard = () => {
                                     className="customlabeltwo cardLabelEllips"
                                   >
                                     <Button className="d-inline-block">
-                                    {index < 2
+                                      {index < 2
                                         ? keyword
-                                        : `${keyword} + ${
-                                            items.poll_keywords.length - 2
-                                          }`}
+                                        : `${keyword} + ${items.poll_keywords.length - 2
+                                        }`}
                                     </Button>
                                   </Tooltip>
                                 ))}
@@ -1076,8 +1044,8 @@ const votingDashboard = () => {
                                     className="customlabeltwo cardLabelEllips"
                                   >
                                     <Button className="d-inline-block">
-                                    {items.poll_keywords[2]} +{" "}
-                                    {items.poll_keywords.length - 3}
+                                      {items.poll_keywords[2]} +{" "}
+                                      {items.poll_keywords.length - 3}
                                     </Button>
                                   </Tooltip>
                                 )}

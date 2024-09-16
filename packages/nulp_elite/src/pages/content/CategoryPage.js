@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import BoxCard from "components/Card";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { getAllContents } from "services/contentService";
 import Header from "components/header";
 import Footer from "components/Footer";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Container from "@mui/material/Container";
 import Pagination from "@mui/material/Pagination";
 import Alert from "@mui/material/Alert";
@@ -15,13 +13,13 @@ import domainWithImage from "../../assets/domainImgForm.json";
 import DomainCarousel from "components/domainCarousel";
 import * as frameworkService from "../../services/frameworkService";
 import * as util from "../../services/utilService";
-import SearchBox from "components/search";
 import { t } from "i18next";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
 import SkeletonLoader from "components/skeletonLoader";
 import NoResult from "./noResultFound";
+import { Loading } from "@shiksha/common-lib";
 
 const CategoryPage = () => {
   const [domain, setDomain] = useState([]);
@@ -40,17 +38,18 @@ const CategoryPage = () => {
   const routeConfig = require("../../configs/routeConfig.json");
   const [orgId, setOrgId] = useState();
   const [framework, setFramework] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
   const queryString = location.search;
-const cleanQueryString = queryString.startsWith("?")
-  ? queryString.slice(1) 
-  : queryString;
+  const cleanQueryString = queryString.startsWith("?")
+    ? queryString.slice(1)
+    : queryString;
 
-const [categoryRaw, preselectedDomainRaw] = cleanQueryString.split("?");
+  const [categoryRaw, preselectedDomainRaw] = cleanQueryString.split("?");
 
-const category = decodeURIComponent(categoryRaw || "");
-const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
+  const category = decodeURIComponent(categoryRaw || "");
+  const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -60,24 +59,20 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
     setToasterOpen(true);
   };
 
-  const handleSearch = (query) => {
-    console.log("Search query:", query);
-  };
-
   const handleDomainFilter = (query, domainName) => {
     setSelectedDomain(query);
     setDomainName(domainName);
-    fetchMoreItems( domainName);
+    fetchMoreItems(domainName);
   };
 
   useEffect(() => {
     if (selectedDomain) {
-      fetchMoreItems( selectedDomain);
+      fetchMoreItems(selectedDomain);
     }
   }, [selectedDomain]);
 
   useEffect(() => {
-    fetchMoreItems( selectedDomain);
+    fetchMoreItems(selectedDomain);
   }, [currentPage]);
 
   const handleGoBack = () => {
@@ -89,6 +84,7 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
   };
 
   const fetchMoreItems = async (selectedDomain) => {
+    setIsLoading(true);
     const newPath = location.pathname + "?" + category;
     sessionStorage.setItem("previousRoutes", newPath);
     setError(null);
@@ -97,9 +93,9 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
         filters: {
           primaryCategory: [category],
           visibility: [],
-         board: domainName 
-          ? [domainName] 
-          : (preselectedDomain && preselectedDomain !== "null" ? [preselectedDomain] : undefined)
+          board: domainName
+            ? [domainName]
+            : (preselectedDomain && preselectedDomain !== "null" ? [preselectedDomain] : undefined)
 
         },
         limit: 20,
@@ -136,12 +132,16 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
     };
 
     try {
+
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
       const response = await getAllContents(url, data, headers);
       setData(response.data.result.content ?? []);
       setTotalPages(Math.ceil((response.data.result.count ?? 0) / 20));
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -223,7 +223,7 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
 
   useEffect(() => {
     if (category) {
-      fetchMoreItems( selectedDomain);
+      fetchMoreItems(selectedDomain);
     }
     fetchUserData();
   }, [category]);
@@ -289,33 +289,42 @@ const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
             </Link>
           </Box>
         )}
-        {data.length === 0 && !error && <NoResult />}
-        <Box textAlign="center">
-          <Box className="custom-card xs-pb-20">
-            {data &&
-              data.map((item) => (
-                <Box
-                  className="custom-card-box"
-                  key={item.id}
-                  style={{ marginBottom: "10px" }}
-                >
-                  <BoxCard
-                    items={item}
-                    index={item.count}
-                    onClick={() =>
-                      handleCardClick(item.identifier, item.contentType)
-                    }
-                  ></BoxCard>
-                </Box>
-              ))}
-            <div className="blankCard"></div>
-          </Box>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handlePageChange}
-          />
-        </Box>
+        {isLoading ? (
+          <Loading message={t("LOADING")} />
+        ) : (
+          <>
+            {data && data.length === 0 && !error && <NoResult />}
+            <Box textAlign="center">
+              <Box className="custom-card xs-pb-20">
+                {data &&
+                  data.map((item) => (
+                    <Box
+                      className="custom-card-box"
+                      key={item.id}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <BoxCard
+                        items={item}
+                        index={item.count}
+                        onClick={() =>
+                          handleCardClick(item.identifier, item.contentType)
+                        }
+                      />
+                    </Box>
+                  ))}
+                <div className="blankCard"></div>
+              </Box>
+              {totalPages > 1 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                />
+              )}
+            </Box>
+          </>
+        )}
+
       </Container>
       <Footer />
     </>
