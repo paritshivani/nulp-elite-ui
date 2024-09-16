@@ -10,7 +10,6 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import data from "../../assets/certificates.json";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Card from "@mui/material/Card";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
 import * as util from "../../services/utilService";
@@ -18,8 +17,7 @@ import axios from "axios";
 import NoResult from "pages/content/noResultFound";
 import Alert from "@mui/material/Alert";
 import ToasterCommon from "../ToasterCommon";
-import { Button } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js";
 const routeConfig = require("../../configs/routeConfig.json");
 

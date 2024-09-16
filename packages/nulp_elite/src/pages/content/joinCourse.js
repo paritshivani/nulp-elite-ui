@@ -20,12 +20,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import Grid from "@mui/material/Grid";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import SummarizeOutlinedIcon from "@mui/icons-material/SummarizeOutlined";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import * as util from "../../services/utilService";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -37,7 +34,6 @@ import Modal from "@mui/material/Modal";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
-import { TextField } from "@mui/material";
 import Chat from "pages/connections/chat";
 import {
   FacebookShareButton,
@@ -47,10 +43,7 @@ import {
   FacebookIcon,
   WhatsappIcon,
   LinkedinIcon,
-  TwitterIcon,
 } from "react-share";
-import AddConnections from "pages/connections/AddConnections";
-// import speakerOne from "./../assets/speakerOne.png";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const routeConfig = require("../../configs/routeConfig.json");
@@ -93,9 +86,6 @@ const JoinCourse = () => {
   if (contentId && contentId.endsWith("=")) {
     contentId = contentId.slice(0, -1);
   }
-
-  // const { contentId } = location.state || {};
-  // const { contentId } = useParams();
   const _userId = util.userId(); // Assuming util.userId() is defined
   const shareUrl = window.location.href; // Current page URL
   const [showMore, setShowMore] = useState(false);
@@ -320,10 +310,6 @@ const JoinCourse = () => {
   };
 
   const calculateProgress = async () => {
-    console.log("batchDetails?-------", batchDetails);
-
-    console.log("batchDetails?.batchId", batchDetails?.batchId);
-    console.log("courseData?-----", courseData);
 
     console.log(
       "courseData?.result?.content?.children",
@@ -426,9 +412,6 @@ const JoinCourse = () => {
           const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_READ}`;
           const response = await axios.post(url, request);
           const data = response.data;
-
-          console.log("API Response Data:", data);
-
           setCourseProgress(data);
           checkCourseComplition(allContents, data);
 
@@ -569,15 +552,6 @@ const JoinCourse = () => {
   };
 
   const isEnrolled = () => {
-    // console.log("userCourseData?.courses", userCourseData?.courses);
-    // console.log(
-    //   "userCourseData?.courses",
-    //   userCourseData?.courses?.map((course) => course.contentId)
-    // );
-    // console.log(
-    //   "userCourseData?.courses?.some",
-    //   userCourseData?.courses?.some((course) => course.contentId === contentId)
-    // );
     return (
       userCourseData &&
       userCourseData.courses &&
@@ -616,8 +590,6 @@ const JoinCourse = () => {
   };
 
   const renderActionButton = () => {
-    // console.log("ConsumedContents", ConsumedContents);
-    // console.log("allContents", allContents);
     if (isEnrolled() || enrolled) {
       if (isNotStarted) {
         return (
@@ -1083,14 +1055,6 @@ const JoinCourse = () => {
                 width: "100%",
               }}
             />
-            {/* <Box className="p-10 contentdetail-title content-ellipsis">
-              {" "}
-              {userData?.result?.content?.name}
-            </Box>
-            <Box className="p-10 contentdetail-desc threeLineEllipsis">
-              {" "}
-              {userData?.result?.content?.description}
-            </Box> */}
           </Box>
         </Box>
         <Grid container spacing={2} className="mt-9 m-0">
@@ -1101,21 +1065,6 @@ const JoinCourse = () => {
             lg={4}
             className="sm-p-25 left-container mt-9 xs-px-0 xs-pl-15 mb-20"
           >
-            {/* <Breadcrumbs
-            aria-label="breadcrumb"
-            style={{
-              padding: "25px 0",
-              fontSize: "16px",
-              fontWeight: "600",
-            }}
-          >
-            <Link underline="hover" color="#004367" href="/profile">
-              {t("ALL_CONTENT")}
-            </Link>
-            <Typography color="#484848" aria-current="page">
-              {t("LEARNING_HISTORY")}
-            </Typography>
-          </Breadcrumbs>  */}
             <Grid container spacing={2}>
               <Breadcrumbs
                 aria-label="breadcrumb"
@@ -1139,25 +1088,6 @@ const JoinCourse = () => {
                   {userData?.result?.content?.name}
                 </Link>
               </Breadcrumbs>
-                {/* <Box
-            className="d-flex jc-bw mr-20 my-20 px-10"
-            style={{ alignItems: "center" }}
-          >
-            <Link onClick={handleGoBack} className="viewAll mr-17">
-              {t("BACK")}
-            </Link>
-          </Box> */}
-
-              {/* <Grid item xs={4}>
-                <Link
-                  href="#"
-                  style={{
-                    textAlign: "right",
-                    marginTop: "20px",
-                    display: "block",
-                  }}
-                ></Link>
-              </Grid> */}
             </Grid>
             <Box className="h3-title my-10">
               {" "}
@@ -1448,23 +1378,19 @@ className="xs-hide accordionBoxShadow"
                         ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
                         : userData?.result?.content?.orgDetails?.orgName || userData?.result?.content?.copyrightYear
                       }
-                      {userData?.result?.content?.originData && (
-                        <>
-                        <h5>{t("CONTENT_DERIVED_FROM")}</h5>
+                      <h5>{t("THIS_CONTENT_IS_DERIVED_FROM")}</h5>
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         {t("CONTENT")}
                       </p>
-                      {userData?.result?.content?.originData?.name}
+                      {userData?.result?.content?.name}
                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         {t("LICENSE_TERMS")}
                       </p>
-                      {userData?.result?.content?.originData?.license}
+                      {userData?.result?.content?.licenseDetails?.name}
                       <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
                         {t("PUBLISHED_ON_NULP_BY")}
                       </p>
-                      {userData?.result?.content?.originData?.organisation[0]}
-                        </>
-                      )}
+                      {userData?.result?.content?.orgDetails?.orgName}
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleClose} color="primary">
@@ -1571,23 +1497,6 @@ className="xs-hide accordionBoxShadow"
               {" "}
               {renderActionButton()}
             </Box>
-
-            {/* <Box
-              sx={{
-                background: "#EEEEEE",
-                textAlign: "center",
-                color: "#464665",
-                fontSize: "18px",
-                height: "600px",
-              }}
-            >
-              <Box sx={{ transform: "translate(0%, 550%)" }}>
-                {t("START_LEARNING")}
-                <Box style={{ fontSize: "14px" }}>
-                  {t("JOIN_COURSE_MESSAGE")}
-                </Box>
-              </Box>
-            </Box> */}
             <Box>
               {courseData && courseData?.result?.content && (
                 <>

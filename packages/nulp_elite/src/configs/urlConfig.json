@@ -49,6 +49,7 @@
     "framework": "board,gradeLevel,medium,class,subject"
   },
   "URLS": {
+    "CUSTOM_EVENT_FETCH_RECORDINGS":"/custom_event/fetch_recordings?event_id=",
     "LEARNER_PREFIX": "/learner/",
     "DISCUSSIONS_FORUM_PREFIX": "/discussion/",
     "DEVICE_PREFIX": "/device/",

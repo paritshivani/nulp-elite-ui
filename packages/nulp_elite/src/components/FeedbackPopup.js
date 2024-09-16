@@ -13,7 +13,6 @@ import {
   TextField,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import * as util from "../../src/services/utilService";
@@ -28,14 +27,6 @@ const FeedbackPopup = ({ open, onClose, contentId }) => {
   const [checkboxes, setCheckboxes] = useState({});
   const _userId = util.userId();
 
-  // const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  //   "& .MuiDialogContent-root": {
-  //     padding: theme.spacing(2),
-  //   },
-  //   "& .MuiDialogActions-root": {
-  //     padding: theme.spacing(1),
-  //   },
-  // }));
   // Mapping of checkbox names to labels
   const checkboxLabels = {
     conceptWell: "Understood the concept well",
@@ -112,21 +103,12 @@ const FeedbackPopup = ({ open, onClose, contentId }) => {
       };
 
       const response = await axios.post(url, request);
-      console.log("response.data", response.data);
-
-      console.log("Rating:", rating);
-      console.log("Selected Checkboxes:", selectedCheckboxes);
-      console.log("Additional Feedback:", additionalFeedback);
-
       onClose();
     } catch (error) {
       console.error("Error submitting feedback:", error);
     }
   };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
 
   const renderCheckboxes = () => {
     if (rating >= 5) {
@@ -338,41 +320,6 @@ const FeedbackPopup = ({ open, onClose, contentId }) => {
         </Button>
       </DialogActions>
     </Dialog>
-
-    // <Dialog open={open} onClose={onClose}>
-    //   <DialogTitle>Feedback</DialogTitle>
-    //   <DialogContent>
-    //     <Typography variant="h6">Rate Us</Typography>
-    //     <Box>
-    //       <Rating
-    //         name="feedback-rating"
-    //         value={rating}
-    //         onChange={handleRatingChange}
-    //         icon={<StarIcon style={{ color: "gold" }} />}
-    //         emptyIcon={<StarIcon style={{ color: "grey" }} />}
-    //         precision={1}
-    //       />
-    //       <Typography variant="body1" style={{ marginLeft: "10px" }}>
-    //         {rating} {rating === 1 ? "star" : "stars"}
-    //       </Typography>
-    //     </Box>
-    //     <Typography
-    //       variant="body2"
-    //       style={{ marginTop: "10px", fontStyle: "italic" }}
-    //     >
-    //       {ratingMessages[rating]}
-    //     </Typography>
-    //     {renderCheckboxes()}
-    //   </DialogContent>
-    //   <DialogActions>
-    //     <Button onClick={onClose} color="primary">
-    //       Cancel
-    //     </Button>
-    //     <Button onClick={handleSubmit} color="primary">
-    //       Submit
-    //     </Button>
-    //   </DialogActions>
-    // </Dialog>
   );
 };
 

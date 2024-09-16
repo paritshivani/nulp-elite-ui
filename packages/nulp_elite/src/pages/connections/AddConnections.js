@@ -15,7 +15,6 @@ import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Search from "components/search";
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import * as util from "../../services/utilService";
 import Header from "components/header";
@@ -24,7 +23,6 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { useTranslation } from "react-i18next";
 import { useStore } from "configs/zustandStore";
-import { Link as RouterLink } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Popover from "@mui/material/Popover";
 import { Container } from "@mui/material";
@@ -35,14 +33,12 @@ const designations = require("../../configs/designations.json");
 const urlConfig = require("../../configs/urlConfig.json");
 import Autocomplete from "@mui/material/Autocomplete";
 import ToasterCommon from "../ToasterCommon";
-import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import Grid from "@mui/material/Grid";
 import Chat from "./chat";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import FloatingChatIcon from "components/FloatingChatIcon";
 const routeConfig = require("../../configs/routeConfig.json");
 // Define modal styles
@@ -1281,7 +1277,6 @@ const AddConnections = () => {
   const handleUnblockUser = async (receiverUserId) => {
     try {
       const url = `${urlConfig.URLS.DIRECT_CONNECT.UNBLOCK}`;
-      console.log("UnBlocking User");
 
       const data = await axios.post(
         url,
@@ -2045,15 +2040,6 @@ Backdrop.propTypes = {
   open: PropTypes.bool,
 };
 
-const blue = {
-  200: "#99CCFF",
-  300: "#66B2FF",
-  400: "#3399FF",
-  500: "#007FFF",
-  600: "#0072E5",
-  700: "#0066CC",
-};
-
 const grey = {
   50: "#F3F6F9",
   100: "#E5EAF2",
@@ -2074,14 +2060,6 @@ const Modal = styled(BaseModal)`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const StyledBackdrop = styled(Backdrop)`
-  z-index: -1;
-  position: fixed;
-  inset: 0;
-  background-color: rgb(0 0 0 / 0.5);
-  -webkit-tap-highlight-color: transparent;
 `;
 
 const style = {
@@ -2121,20 +2099,6 @@ const ModalContent = styled("div")(
       font-weight: 400;
       color: ${theme.palette.mode === "dark" ? grey[400] : grey[800]};
       margin-bottom: 4px;
-    }
-  `
-);
-
-const TriggerButton = styled(Button)(
-  ({ theme }) => css`
-    font-weight: 600;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: all 150ms ease;
-    cursor: pointer;
-
     }
   `
 );
