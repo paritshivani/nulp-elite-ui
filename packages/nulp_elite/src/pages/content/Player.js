@@ -488,11 +488,22 @@ const attemptid = ()=>{
               <Typography>{t("ABOUTTHECONTENT")}</Typography>
             </AccordionSummary>
             <AccordionDetails>
+              {lesson?.attributions && (
+                <>
+                  <Box sx={{ fontWeight: 'bold' }}>{t("ATTRIBUTIONS")}</Box>
+                  <Box>
+                    {lesson?.attributions.join(', ')}
+                  </Box>
+                </>               
+              )}
               <Box sx={{ fontWeight: 'bold' }}>{t("LICENSEDETAILS")} : </Box>
               {lesson?.licenseDetails && (
                 <Typography className="mb-10">
                   <Box>
-                    {lesson?.licenseDetails.name} - {lesson?.licenseDetails.description}
+                    {lesson?.licenseDetails.name}
+                  </Box>
+                  <Box>
+                    {lesson?.licenseDetails.name} {lesson?.licenseDetails.description}
                   </Box>
                   <Box>
                     <a href={lesson?.licenseDetails.url} target="_blank" rel="noopener noreferrer">

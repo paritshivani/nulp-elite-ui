@@ -234,7 +234,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
-      if (Object.entries(responseData?.result?.response.framework).length === 0 ) {
+      if (Object.entries(responseData?.result?.response?.framework).length === 0 ) {
         setIsEmptyPreference(false);
       } else {
         setSelectedCategory(
@@ -259,7 +259,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         );
       }
       
-      if (responseData?.result?.response.framework?.id[0] === "nulp") {
+      if (responseData?.result?.response?.framework?.id?.length > 0 && responseData.result.response.framework.id[0] === "nulp") {
         setframworkname(true);
       }
       
@@ -366,7 +366,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <DialogTitle>{t("SELECT_PREF")}</DialogTitle>
       {framworkname && (
-        <DialogTitle onClick={handleClose}>
+        <DialogTitle>
           {t("CHANGE_PREF_OLD_USER")}
         </DialogTitle>
       )}
