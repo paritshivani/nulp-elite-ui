@@ -853,6 +853,7 @@ const Chat = ({
               placeholder="Enter your message here..."
               fullWidth
               sx={{ fontSize: "13px" }}
+              inputProps={{ maxLength: charLimit }}
             />
             <Box mt={1} textAlign="right" sx={{ fontSize: "12px", color: "#484848" ,marginTop: "0px",backgroundColor:"#ffffff", padding: "25px"}}>
                 {`${textValue.length}/${charLimit}`}

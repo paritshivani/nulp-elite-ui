@@ -63,6 +63,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [orgId, setOrgId] = useState();
   const [framworkname, setframworkname] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -298,11 +300,22 @@ const SelectPreference = ({ isOpen, onClose }) => {
         },
         body: JSON.stringify(requestBody),
       });
-
-      if (!response.ok) {
-        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      if (response.ok) {
+        setToastMessage(t("Preferences updated successfully!"));
+        setShowToast(true);
+        onClose();
+      } else {
+         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
         throw new Error(t("FAILED_TO_FETCH_DATA"));
       }
+      // if (!response.ok) {
+      //   showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      //   throw new Error(t("FAILED_TO_FETCH_DATA"));
+      // }
+      // if(response.ok){
+      //   setToastMessage("Preferance Updated Successfully");
+      //   setShowToast(true);
+      // }
 
       const responseData = await response.json();
     } catch (error) {
@@ -315,6 +328,10 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const handleSavePreferences = () => {
     updateUserData();
     onClose();
+  };
+
+  const closeToast = () => {
+    setShowToast(false);
   };
 
   const handleClose = () => {
@@ -355,7 +372,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
   ]);
 
   return (
-    <Dialog
+    <>
+     <Dialog
       open={isOpen}
       // onClose={handleClose}
       maxWidth="sm"
@@ -468,6 +486,10 @@ const SelectPreference = ({ isOpen, onClose }) => {
         </Button>
       </DialogActions>
     </Dialog>
+    {showToast && (
+        <ToasterCommon response={toastMessage} onClose={closeToast} />
+      )}
+    </> 
   );
 };
 

@@ -43,6 +43,7 @@ const PopupForm = ({ open, handleClose }) => {
 
   const [initialFirstName, setInitialFirstName] = useState("");
   const [initialLastName, setInitialLastName] = useState("");
+  const maxChars = 500;
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -123,6 +124,12 @@ const PopupForm = ({ open, handleClose }) => {
     handleClose();
   };
 
+   const handleBioChange = (e) => {
+    if (e.target.value.length <= maxChars) {
+      setBio(e.target.value);
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -172,8 +179,12 @@ const PopupForm = ({ open, handleClose }) => {
             type="text"
             fullWidth
             value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            onChange={handleBioChange}
+            inputProps={{ maxLength: maxChars }}
           />
+          <Typography variant="body2" color="textSecondary">
+            {bio.length}/{maxChars}
+          </Typography>
           <FormControl fullWidth margin="dense">
             <Select
               options={designations}
