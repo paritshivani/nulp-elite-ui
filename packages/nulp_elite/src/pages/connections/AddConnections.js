@@ -1728,6 +1728,15 @@ const AddConnections = () => {
                     </Box>
                   </TabPanel>
                   <TabPanel value="3">
+                    <Box>
+                      {blockedUserList &&
+                        blockedUserList.length === 0 &&(
+                          <Box marginTop="26px" marginLeft="163px">
+                            {t("NO_USERS_FOUND")}
+                          </Box>
+                        )
+                        }
+                    </Box>
                     <Box className="scroll">
                       {blockedUserList &&
                         blockedUserList.length > 0 &&
