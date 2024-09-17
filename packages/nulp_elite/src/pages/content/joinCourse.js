@@ -1393,7 +1393,7 @@ className="xs-hide accordionBoxShadow"
                       {userData?.result?.content?.orgDetails?.orgName}
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleClose} color="primary">
+                      <Button onClick={handlecopyrightClose} color="primary">
                         {t("CLOSE")}
                       </Button>
                     </DialogActions>

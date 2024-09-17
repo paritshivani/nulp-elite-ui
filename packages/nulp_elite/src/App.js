@@ -272,7 +272,7 @@ function App() {
         );
         if (data.result.response.framework.id) {
           // setCheckPref(true);
-          if (data.result.response.framework.id[0] === "nulp") {
+          if (data.result.response.framework.id[0] !== "nulp-domain") {
             setCheckPref(false);
           } else {
             setCheckPref(true);
