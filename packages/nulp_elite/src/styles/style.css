@@ -228,9 +228,6 @@ button {
 
   .domainHover {
     cursor: pointer;
-    display: block;
-    height: 37px;
-    margin: auto;
   }
 
   .carousel-active-ui {
@@ -2112,7 +2109,6 @@ button {
 
 @media (min-width: 1201px) {
   .domainText {
-    width: 82px !important;
     margin: 0 20px !important;
   }
 
@@ -3327,13 +3323,6 @@ custom-chip {
   color: #0e7a9c !important;
 }
 
-/* .domainHover:hover {
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
- 
-  cursor: pointer;
-} */
-
 .searchUser {
   font-size: 13px !important;
 }
@@ -3580,6 +3569,7 @@ header .MuiContainer-maxWidthLg {
 }
 .my-class {
   margin: 20px 0px 10px 0px !important;
+  text-align: center;
 }
 thead th {
   font-weight: 600 !important;
