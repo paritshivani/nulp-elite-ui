@@ -15,7 +15,6 @@ import {
   Card,
   CardContent,
   DialogActions,
-  DialogTitle,
   Tooltip,
 } from "@mui/material";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
@@ -45,7 +44,6 @@ import {
 } from "react-share";
 const urlConfig = require("../../configs/urlConfig.json");
 import { useNavigate } from "react-router-dom";
-import ToasterCommon from "../ToasterCommon";
 import * as util from "../../services/utilService";
 import Toast from "../Toast";
 import Loader from "pages/Loader";

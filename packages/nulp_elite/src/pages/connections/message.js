@@ -8,7 +8,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextareaAutosize,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import * as util from "../../services/utilService";
@@ -17,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "configs/zustandStore";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import MenuIcon from "@mui/icons-material/Menu";
 import BlockIcon from "@mui/icons-material/Block";
 import SendIcon from "@mui/icons-material/Send";
 import { useTranslation } from "react-i18next";
@@ -26,7 +24,6 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Typography from "@mui/material/Typography";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
-import Modal from "@mui/material/Modal";
 
 const moment = require("moment");
 const timezone = require("moment-timezone");
@@ -178,7 +175,6 @@ const Message = (props) => {
     if (message.trim() !== "") {
       try {
         const url = `${urlConfig.URLS.DIRECT_CONNECT.SEND_CHAT}`;
-        console.log("Sending message:", message);
 
         await axios.post(
           url,
@@ -208,7 +204,6 @@ const Message = (props) => {
   const updateMessage = async () => {
     try {
       const url = `${urlConfig.URLS.DIRECT_CONNECT.UPDATE_CHAT}`;
-      console.log("updating message:", message);
 
       const data = await axios.put(
         url,
@@ -279,7 +274,6 @@ const Message = (props) => {
   const handleUnblockUser = async () => {
     try {
       const url = `${urlConfig.URLS.DIRECT_CONNECT.UNBLOCK}`;
-      console.log("UnBlocking User");
 
       const data = await axios.post(
         url,
@@ -295,7 +289,6 @@ const Message = (props) => {
         }
       );
 
-      console.log("User unblocked successfully!");
       // Reload the page after unblocking the user
       if (data) {
         window.location.reload();
@@ -309,7 +302,6 @@ const Message = (props) => {
   const handleBlockUserConfirmed = async () => {
     try {
       const url = `${urlConfig.URLS.DIRECT_CONNECT.BLOCK}`;
-      console.log("Blocking User");
 
       await axios.post(
         url,
@@ -399,7 +391,7 @@ const Message = (props) => {
         </DialogTitle>
         <DialogContent>
           <Box className="h5-title">
-            Are you sure you want to block this user?
+            {t("ARE_YOU_SURE_YOU_WANT_TO_BLOCK_THIS_USER")}
           </Box>
           <Box py={2}>
             <TextField
@@ -554,75 +546,6 @@ const Message = (props) => {
         </>
       )}
     </div>
-    //      <div className={classes.chatContainer}>
-    //      <div className={classes.chatHeader} style={{ display: "flex",alignItems:"center" ,justifyContent:"space-between"}}>
-    //        <Box  className="d-flex" style={{alignItems:"center"}}>
-    //          <IconButton onClick={handleGoBack}>
-    //            <ArrowBackIcon />
-    //          </IconButton>
-    //          <Box
-    //            sx={{ fontSize: "20px", fontWeight: "500", paddingLeft: "10px" ,color:"#484848",textAlign:"left"}}
-    //          >
-    //            <div>
-    //              <Typography
-    //               className="h2-title"
-    //              >
-    //               Anya Gupta
-    //            </Typography>
-    //            <Box  className="h5-title">Content creator, commisioner</Box>
-    //            </div>
-    //          </Box>
-    //          </Box>
-    //          <Box
-    //           style={{
-    //             display: "flex",
-    //             alignItems: "center",
-    //             fontSize: "18px",
-    //             cursor: "pointer",
-    //           }}
-    //         >
-    //           {!isBlocked && (
-    //             <IconButton
-    //               onClick={handleBlockUser}
-    //              className="block-btn"
-    //             >
-    //               <BlockIcon style={{fontSize:"16px",paddingRight:"8px"}}/>
-    //               {t("BLOCK")}
-    //             </IconButton>
-    //           )}
-    //           {showUnblockOption && (
-    //             <IconButton
-    //               onClick={handleUnblockUser}
-    //              className="unblock-btn"
-    //             >
-    //               <BlockIcon style={{fontSize:"16px",paddingRight:"8px"}}/>
-    //               {t("UNBLOCK")}
-    //             </IconButton>
-    //           )}
-    //         </Box>
-
-    //      </div>
-    //        <div className={classes.chat}>
-    //         <Box className="h5-title my-15" style={{color:"#484848"}}>
-    //        Anya Gupta is a manager with the department of Revenue and taxes and has actively contributed to the growth and authenticity of the knowledge curated for the betterment of the department.
-    // <Box className="my-15">Connect with them to get insights on what they do or simply answers to your question!</Box>
-    // </Box>
-    //        </div>
-    //            <TextField
-    //              variant="outlined"
-    //              placeholder="Hello Anya Gupta, I would like to connect with you regarding some queries i had in your course."
-    //              fullWidth
-    //              className="border-none"
-    //              style={{ background: "#fff", border: "none",borderRadius:"5px" }}
-
-    //            />
-    //            <Button
-    //              style={{color:"#484848"}}
-    //            >
-    //              <SendIcon />
-    //            </Button>
-
-    //    </div>
   );
 };
 
