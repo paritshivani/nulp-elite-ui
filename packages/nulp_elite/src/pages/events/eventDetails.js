@@ -765,11 +765,6 @@ const formatTimeWithTimezone = (date) => {
                 className="eventCardImg"
                 alt="App Icon"
               />
-              {/* <img
-                src={require("assets/default.png")}
-                className="eventCardImg"
-                alt="App Icon"
-              /> */}
             </Grid>
             <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
               <Typography

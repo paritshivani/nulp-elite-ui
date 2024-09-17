@@ -452,7 +452,7 @@ const uniqueFilteredSubCategories = [...new Set(filteredSubCategories.map(item =
                   onClick={toggleDrawer(anchor, true)}
                   className="h6-title "
                 >
-                  Filters
+                  {t("FILTERS")}
                   <ArrowForwardIosIcon
                     sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
                   />

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import VotingCard from "../../components/VotingCard";
-import Search from "components/search";
-import Filter from "components/filter";
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import Header from "components/header";
@@ -15,7 +13,6 @@ import ToasterCommon from "../ToasterCommon";
 import VotingDrawerFilter from "../../components/VotingDrawerFilter";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-// import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
@@ -23,6 +20,7 @@ import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
 import FloatingChatIcon from "components/FloatingChatIcon";
 const urlConfig = require("../../configs/urlConfig.json");
 import { useTranslation } from "react-i18next";
+import { Loading } from "@shiksha/common-lib";
 
 const VotingList = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -184,7 +182,7 @@ const VotingList = () => {
                       </TabList>
                     </Box>
                     {isLoading ? (
-                      <p>Loading...</p>
+                      <Loading message={t("LOADING")} />
                     ) : error ? (
                       <Alert severity="error">{error}</Alert>
                     ) : data && data?.length ? (

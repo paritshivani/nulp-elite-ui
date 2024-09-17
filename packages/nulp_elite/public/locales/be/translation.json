@@ -305,5 +305,6 @@
   "PUBLISHED_ON_NULP_BY":"NULP-এ প্রকাশিত",
   "ACCEPT_THE_NULP_TERMS_OF_USE" : "আমার বয়স 18+ বছর এবং আমি NULP ব্যবহারের শর্তাবলী বুঝি এবং স্বীকার করি",
   "As_A_PATENT_GUARDIAN_ACCEPT_THE_NULP_TERMS_OF_USE": "একজন পিতা-মাতা/অভিভাবক হিসাবে আমি NULP ব্যবহারের শর্তাবলী বুঝি এবং স্বীকার করি যে আমার সন্তান প্রদত্ত তথ্যের সাথে NULP-এ নিবন্ধন করতে সম্মত।",
-  "CONTENT_DERIVED_FROM": "এই বিষয়বস্তু থেকে সংগৃহীত"
+  "CONTENT_DERIVED_FROM": "এই বিষয়বস্তু থেকে সংগৃহীত",
+   "FILTERS":"ফিল্টার"
 }
