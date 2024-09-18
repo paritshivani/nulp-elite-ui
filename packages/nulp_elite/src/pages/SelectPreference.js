@@ -135,7 +135,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
     if (defaultFramework) {
       getFramework(defaultFramework);
     }
-  }, [defaultFramework]);
+  }, [defaultFramework,selectedCategory]);
 
   const handleCategoryChange = (event) => {
     const selectedBoard = event.target.value;
@@ -195,8 +195,19 @@ const SelectPreference = ({ isOpen, onClose }) => {
       const SubCategoryindex = data?.result?.framework?.categories.findIndex(
   (category) => category.code === "gradeLevel"
 );
-      setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
-       const Topicsindex = data?.result?.framework?.categories.findIndex(
+    if(selectedCategory){
+      const selectedIndex = data?.result?.framework?.categories[Categoryindex]?.terms.findIndex(
+      (category) => category.name === selectedCategory
+    );
+    if (selectedIndex !== -1) {
+      setSubCategories(data?.result?.framework?.categories[Categoryindex]?.terms[selectedIndex]?.associations || []);
+    } else {
+      setSubCategories([]);
+    }
+}else{
+setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
+}
+      const Topicsindex = data?.result?.framework?.categories.findIndex(
   (category) => category.code === "subject"
 );
       setTopics(data?.result?.framework?.categories[Topicsindex]?.terms);
