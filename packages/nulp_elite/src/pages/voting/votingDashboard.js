@@ -493,7 +493,7 @@ const votingDashboard = () => {
                                 )}
                               </>
                             ) : (
-                              <Box style={{ height: "60px" }} />
+                              <Box style={{ height: "40px" }} />
                             )}
                           </Box>
                         </Box>
@@ -797,7 +797,7 @@ const votingDashboard = () => {
                               )}
                             </>
                           ) : (
-                            <Box style={{ height: "60px" }}>
+                            <Box style={{ height: "40px" }}>
                             </Box>
                           )}
                         </Box>
@@ -1051,7 +1051,7 @@ const votingDashboard = () => {
                                 )}
                               </>
                             ) : (
-                              <Box className="d-inline-block" style={{ height: "60px" }} />
+                              <Box className="d-inline-block" style={{ height: "40px" }} />
                             )}
                           </Box>
                         </Box>
