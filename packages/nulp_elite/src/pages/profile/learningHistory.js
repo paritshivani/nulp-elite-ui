@@ -21,6 +21,7 @@ import ToasterCommon from "../ToasterCommon";
 import BoxCard from "components/Card";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 const routeConfig = require("../../configs/routeConfig.json");
+import { Loading } from "@shiksha/common-lib";
 
 const LearningHistory = () => {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ const LearningHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Number of items per page
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -47,6 +49,7 @@ const LearningHistory = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       setError(null);
       try {
         const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?orgdetails=${appConfig.Course.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.Course.contentApiQueryParams.licenseDetails}&fields=${urlConfig.params.enrolledCourses.fields}&batchDetails=${urlConfig.params.enrolledCourses.batchDetails}`;
@@ -60,6 +63,9 @@ const LearningHistory = () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      }
+      finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -130,7 +136,9 @@ const LearningHistory = () => {
           </Box>
           <Box>
             <Box className="custom-card">
-              {paginatedFilteredData.length > 0 ? (
+              {isLoading ? (
+                <Loading message={t("LOADING")} />
+              ) : paginatedFilteredData.length > 0 ? (
                 paginatedFilteredData.map((course) => (
                   <Box className="custom-card-box" key={course.courseName}>
                     <BoxCard
@@ -147,17 +155,15 @@ const LearningHistory = () => {
                 ))
               ) : null}
             </Box>
-            <Box>
-              {paginatedFilteredData.length === 0 && (
-                <Box style={{ width: "100%" }}>
-                  <NoResult className="center-no-result" />
-                  <Box className="h5-title">Explore Content</Box>
-                </Box>
-              )}
-            </Box>
+
+            {!isLoading && paginatedFilteredData.length === 0 && (
+              <Box width="100%">
+                <NoResult className="center-no-result" />
+                <Box className="h5-title">{t("EXPLORE_CONTENT")}</Box>
+              </Box>
+            )}
             <div className="blankCard"></div>
           </Box>
-
           <Pagination
             count={Math.ceil(filteredData.length / itemsPerPage)}
             page={currentPage}
