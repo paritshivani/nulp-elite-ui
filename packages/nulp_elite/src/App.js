@@ -6,7 +6,6 @@ import {
 } from "native-base";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { initializeI18n } from "@shiksha/common-lib";
-
 import * as util from "services/utilService";
 import Profile from "pages/profile/Profile";
 import Certificate from "pages/profile/certificate";
@@ -41,6 +40,7 @@ const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 import PopupForm from "pages/profileData";
 import axios from "axios";
+import ReactGA from 'react-ga4';
 
 function App() {
   // const [t] = useTranslation();
@@ -53,6 +53,9 @@ function App() {
   const _userId = util.userId();
   const [orgId, setOrgId] = useState();
   const [userData, setUserData] = React.useState(false);
+  ReactGA.initialize('G-QH3SHT9MTG');
+  console.log('google analytics' , ReactGA);
+  
 
   const routes = [
     {

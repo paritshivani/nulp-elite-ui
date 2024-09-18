@@ -41,24 +41,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import FloatingChatIcon from "components/FloatingChatIcon";
 const routeConfig = require("../../configs/routeConfig.json");
-// Define modal styles
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  modalContent: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    width: "100%",
-    maxWidth: 600, // Adjust as needed
-    borderRadius: 10, // Add rounded corners
-    borderTopLeftRadius: 0, // Ensure modal appears attached to the bottom
-    borderTopRightRadius: 0,
-  },
-}));
+import { Loading } from "@shiksha/common-lib";
 
 const AddConnections = () => {
   const [value, setValue] = React.useState("1");
@@ -1414,7 +1397,9 @@ const AddConnections = () => {
                             <p>{t("NO_USERS_FOUND")}</p>
                           </Box>
                         )}
-
+{isLoading ? (
+                  <Loading message={t("LOADING")} />) :
+                  <>
                       {invitationAcceptedUsers &&
                         invitationAcceptedUsers.map((item) => (
                           <List
@@ -1545,6 +1530,8 @@ const AddConnections = () => {
                             <Divider />
                           </List>
                         ))}
+                        </>
+              }
                       <div>
                         {showChatModal && (
                           <Modal
@@ -1588,7 +1575,9 @@ const AddConnections = () => {
                         </Box>
                          
                       )}
-                      {invitationReceiverByUser &&
+                      {isLoading ? (
+                  <Loading message={t("LOADING")} />) :
+                      invitationReceiverByUser &&
                         invitationReceiverByUser.map((item) => (
                           <List
                             key={item.userId}
@@ -1738,7 +1727,9 @@ const AddConnections = () => {
                         }
                     </Box>
                     <Box className="scroll">
-                      {blockedUserList &&
+                    {isLoading ? (
+                  <Loading message={t("LOADING")} />) :
+                      blockedUserList &&
                         blockedUserList.length > 0 &&
                         blockedUserList.map((item) => (
                           <List
@@ -1877,7 +1868,9 @@ const AddConnections = () => {
                       }}
                     >
                       <Typography sx={{ p: 2 }}>
-                        {userQuerySearchData &&
+                      {isLoading ? (
+                  <Loading message={t("LOADING")} />) :
+                        userQuerySearchData &&
                           userQuerySearchData?.length > 0 &&
                           userQuerySearchData?.map((item) => (
                             <List
@@ -2070,14 +2063,6 @@ const Modal = styled(BaseModal)`
   align-items: center;
   justify-content: center;
 `;
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80%",
-};
 
 const ModalContent = styled("div")(
   ({ theme }) => css`
