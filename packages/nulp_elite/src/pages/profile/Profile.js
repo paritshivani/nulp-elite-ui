@@ -66,16 +66,6 @@ const CssTextField = styled(TextField)({
     },
   },
 });
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  width: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
 
 const modalstyle = {
   position: "absolute",
@@ -191,83 +181,6 @@ const Profile = () => {
       },
     },
   };
-
-  // const dataset = [{ high: 0, low: -1, order: "0" }];
-  // const chartSettingsH = {
-  //   dataset,
-  //   height: 300,
-  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
-  //   sx: {
-  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-  //       transform: "translateX(-10px)",
-  //     },
-  //   },
-  //   slotProps: {
-  //     legend: {
-  //       direction: "row",
-  //       position: { vertical: "bottom", horizontal: "middle" },
-  //       padding: -5,
-  //     },
-  //   },
-  // };
-  // const dataset = [{ high: 0, low: -1, order: "0" }];
-  //   const chartSettingsH = {
-  //     dataset,
-  //     height: 300,
-  //     yAxis: [{ scaleType: "band", dataKey: "order" }],
-  //     sx: {
-  //       [& .${axisClasses.directionY} .${axisClasses.label}]: {
-  //         transform: "translateX(-10px)",
-  //       },
-  //     },
-  //     slotProps: {
-  //       legend: {
-  //         direction: "row",
-  //         position: { vertical: "bottom", horizontal: "middle" },
-  //         padding: -5,
-  //       },
-  //     },
-  //   };
-  // const dataset = [
-  //   { month: "Previous Month", courses: 7 },
-  //   { month: "Current Month", courses: 7 },
-  // ];
-  // const chartSettingsH = {
-  //   dataset,
-  //   height: 300,
-  //   yAxis: [{ scaleType: "band", dataKey: "month" }],
-  //   sx: {
-  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-  //       transform: "translateX(-10px)",
-  //     },
-  //   },
-  //   slotProps: {
-  //     legend: {
-  //       direction: "row",
-  //       position: { vertical: "bottom", horizontal: "middle" },
-  //       padding: -5,
-  //     },
-  //   },
-  // };
-  // const dataset = [{ high: 0, low: -1, order: "0" }];
-
-  // const chartSettingsH = {
-  //   dataset,
-  //   height: 300,
-  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
-  //   sx: {
-  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-  //       transform: "translateX(-10px)",
-  //     },
-  //   },
-  //   slotProps: {
-  //     legend: {
-  //       direction: "row",
-  //       position: { vertical: "bottom", horizontal: "middle" },
-  //       padding: -5,
-  //     },
-  //   },
-  // };
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
