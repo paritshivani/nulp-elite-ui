@@ -766,7 +766,7 @@ const Profile = () => {
 
                               {roleNames && roleNames.length > 0 && (
                                 <Typography className="h6-title">
-                                  <Box className="h6-title d-flex">
+                                  <Box className="h6-title mt-10">
                                     Role:{" "}
                                     {roleNames?.map((roleName, index) => (
                                       <Button
