@@ -328,26 +328,11 @@ const pollsDetailes = () => {
                                 )}
                               </>
                             ) : (
-                              <Box style={{ height: "60px" }}>
+                              <Box style={{ height: "40px" }}>
                               </Box>
                             )}
                           </Box>
-
                         </Box>
-                        {/* <Box
-                          className="card-img-container"
-                          style={{ position: "inherit" }}
-                        >
-                          <img
-                            src={
-                              items.image
-                                ? items.image
-                                : require("assets/default.png")
-                            }
-                            className="event-card-img"
-                            alt="App Icon"
-                          />
-                        </Box> */}
                       </CardContent>
                       <Box className="voting-text">
                         {type === "Draft" ? (
