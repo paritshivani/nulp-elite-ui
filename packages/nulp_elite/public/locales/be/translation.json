@@ -304,6 +304,7 @@
   "CONTENT_DERIVED_FROM": "এই বিষয়বস্তু থেকে সংগৃহীত",
   "FILTERS":"ফিল্টার",
   "EXPLORE_CONTENT":"কন্টেন্ট এক্সপ্লোর করুন",
+<<<<<<< HEAD
   "ID":"আইডি",
   "ORGANIZATION_NAME":"সংস্থার নাম",
   "ROLE":"ভূমিকা",
@@ -312,4 +313,7 @@
   "FIRST_NAME":"প্রথম নাম",
   "LAST_NAME":"শেষ নাম",
   "CLOSED_POLLS":"বন্ধ পোল"
+=======
+  "NO_CHAT_REQUEST": "কোনো চ্যাট অনুরোধ নেই"
+>>>>>>> 0de6f18f1b9323fb3f09647d75dea91f559a9692
 }
