@@ -323,5 +323,6 @@
   "As_A_PATENT_GUARDIAN_ACCEPT_THE_NULP_TERMS_OF_USE": "As a parent/guardian I understand & accept the NULP Terms of Use agree my child to register on NULP with the given information.",
   "CONTENT_DERIVED_FROM": "This content is derived from",
   "FILTERS":"Filters",
-  "EXPLORE_CONTENT":"Explore Content"
+  "EXPLORE_CONTENT":"Explore Content",
+  "NO_CHAT_REQUEST" : "No Chat Request"
 }
