@@ -678,7 +678,7 @@ const JoinCourse = () => {
               }
               className="custom-btn-primary mr-5"
             >
-              {t("CONTINUE LEARNING")}
+              {t("CONTINUE_LEARNNG")}
             </Button>
             {!isCompleted &&
               <Button

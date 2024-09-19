@@ -1384,7 +1384,7 @@ const Profile = () => {
                       aria-label="lab API tabs example"
                     >
                       <Tab
-                        label={t("CONTINUE LEARNING")}
+                        label={t("CONTINUE_LEARNNG")}
                         className="tab-text profile-tab"
                         icon={<DomainVerificationOutlinedIcon />}
                         value="1"
