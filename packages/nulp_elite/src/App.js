@@ -54,7 +54,6 @@ function App() {
   const [orgId, setOrgId] = useState();
   const [userData, setUserData] = React.useState(false);
   ReactGA.initialize('G-QH3SHT9MTG');
-  console.log('google analytics' , ReactGA);
   
 
   const routes = [

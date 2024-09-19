@@ -35,11 +35,7 @@ const Player = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [lessonId, setLessonId] = useState();
   const [trackData, setTrackData] = useState();
-  const [contentData, setContentData] = useState();
-  const [toasterMessage, setToasterMessage] = useState("");
-  const [toasterOpen, setToasterOpen] = useState(false);
   const [previousRoute, setPreviousRoute] = useState("");
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
@@ -88,19 +84,12 @@ console.log(Object.keys(props).length,"Object.keys(props).length");
       props.currentPage === props.totalPages
     ) {
       setIsCompleted(true);
-    } 
-    // else if (playerType === "ecml") {
-    //   await updateContentStateForAssessment();
-    // }
+    }
   },
   [assessEvents] 
 );
 const handleAssessmentData = async (data) => {
-  console.log ("telemetry data -------------", data)
   if (data.eid === "ASSESS") {
-    console.log(data, "Received assessment data");
-    
-    // Update the assessEvents state with the new data
     setAssessEvents((prevAssessEvents) => {
       const updatedAssessEvents = [...prevAssessEvents, data];
       console.log("Updated assessEvents array:", updatedAssessEvents);
@@ -177,11 +166,9 @@ const attemptid = ()=>{
       const string = [courseId, batchId, contentId, _userId, timestamp].join('-');
        const hashValue = md5(string);
        return hashValue;
-
 }
 
-
-  const updateContentStateForAssessment = async () => {
+const updateContentStateForAssessment = async () => {
     await updateContentState(2);
   try {
     const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
@@ -217,8 +204,7 @@ const attemptid = ()=>{
 };
 
   const updateContentState = useCallback(
-   
-    async (status) => {
+     async (status) => {
       // if (isEnrolled) {
         console.log("enrolled true")
         const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
@@ -235,7 +221,6 @@ const attemptid = ()=>{
 
   useEffect(() => {
     setPreviousRoute(sessionStorage.getItem("previousRoutes"));
-
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -281,7 +266,7 @@ const attemptid = ()=>{
             className="d-flex jc-bw mr-20 my-20 px-10"
             style={{ alignItems: "center" }}
           >
-            <Link onClick={handleBackNavigation} className="viewAll mr-17">
+            <Link onClick={handleBackNavigation} className="viewAll mr-17 mt-10">
               {t("BACK")}
             </Link>
           </Box>
@@ -502,8 +487,8 @@ const attemptid = ()=>{
                   <Box>
                     {lesson?.licenseDetails.name} - {lesson?.licenseDetails.description}
                   </Box>
-                  <Box>
-                    <a href={lesson?.licenseDetails.url} target="_blank" rel="noopener noreferrer">
+                  <Box className="url-class">
+                    <a href={lesson?.licenseDetails.url} target="_blank" rel="noopener noreferrer" >
                       {lesson?.licenseDetails.url}
                     </a>
                   </Box>

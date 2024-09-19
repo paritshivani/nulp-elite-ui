@@ -632,8 +632,6 @@ const JoinCourse = () => {
                   >
                     {t("LEAVE_COURSE")}
                   </Button>
-          
-            
                 </DialogActions>
               </Dialog>
             )}
@@ -643,7 +641,6 @@ const JoinCourse = () => {
         return (
           <Box>
             <Button
-              disabled={isExpired || !activeBatch || isCompleted}
               onClick={() =>
                 handleLinkClick(
                   ContinueLearning ?? NotConsumedContent ?? childnode
@@ -1173,9 +1170,6 @@ const JoinCourse = () => {
                   )}
               </Box>
             )}
-
-
-
             <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
               style={{
