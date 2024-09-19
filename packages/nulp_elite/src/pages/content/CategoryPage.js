@@ -50,6 +50,7 @@ const CategoryPage = () => {
 
   const category = decodeURIComponent(categoryRaw || "");
   const preselectedDomain = decodeURIComponent(preselectedDomainRaw || "");
+  const [clearDomains, setClearDomain] = useState(preselectedDomain);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -73,7 +74,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     fetchMoreItems(selectedDomain);
-  }, [currentPage]);
+  }, [currentPage,clearDomains]);
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
@@ -95,7 +96,7 @@ const CategoryPage = () => {
           visibility: [],
           board: domainName
             ? [domainName]
-            : (preselectedDomain && preselectedDomain !== "null" ? [preselectedDomain] : undefined)
+            : (clearDomains && clearDomains !== "null" ? [clearDomains] : undefined)
 
         },
         limit: 20,
@@ -221,6 +222,11 @@ const CategoryPage = () => {
     return "";
   };
 
+  const clearDomain = () => {
+    setDomainName(null)
+    setClearDomain(null);
+  }
+
   useEffect(() => {
     if (category) {
       fetchMoreItems(selectedDomain);
@@ -243,7 +249,7 @@ const CategoryPage = () => {
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       {domain.length > 0 ? (
-        <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
+        <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} selectedDomainCode={preselectedDomain}/>
       ) : (
         <SkeletonLoader />
       )}
@@ -252,7 +258,7 @@ const CategoryPage = () => {
         role="main"
         className="allContent xs-pb-20 pb-30 domain-list"
       >
-        {(domainName || (preselectedDomain && preselectedDomain !== "null")) && (
+        {(domainName || (clearDomains && clearDomains !== "null")) && (
           <Box
             className="d-flex jc-bw mr-20 my-20"
             style={{ alignItems: "center" }}
@@ -264,12 +270,32 @@ const CategoryPage = () => {
               <Box className="h3-custom-title">
                 {t("YOU_ARE_VIEWING_CONTENTS_FOR")}
               </Box>
-              <Box
+              <Box className="remove-box">
+                <Box
+                  sx={{ fontWeight: "600", paddingLeft: "5px" }}
+                  className="text-blueShade2 h4-custom"
+                >
+                  {domainName ? domainName : preselectedDomain}
+                </Box>
+                <Box
+                  sx={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    color: "#0e7a9c",
+                    paddingLeft: "10px",
+                    cursor: "pointer"
+                  }}
+                  onClick={clearDomain}
+                >
+                  &#x2716;
+                </Box>
+              </Box>
+              {/* <Box
                 sx={{ fontSize: "16px", fontWeight: "600", paddingLeft: "5px" }}
                 className="text-blueShade2 h4-custom"
               >
                 {domainName ? domainName : preselectedDomain}
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         )}
