@@ -5,25 +5,18 @@ import Header from "components/header";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
-import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import PersonIcon from "@mui/icons-material/Person";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
-import TimelapseOutlinedIcon from "@mui/icons-material/TimelapseOutlined";
 import Grid from "@mui/material/Grid";
-import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutlined";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
-import CircularProgressWithLabel from "../../components/CircularProgressWithLabel";
-import RestoreOutlinedIcon from "@mui/icons-material/RestoreOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import * as util from "../../services/utilService";
 import { useNavigate } from "react-router-dom";
-import SearchBox from "components/search";
 import ContinueLearning from "./continueLearning";
 import SelectPreference from "pages/SelectPreference";
-import { Dialog, DialogTitle, DialogContent, Alert } from "@mui/material";
+import { Alert } from "@mui/material";
 import _ from "lodash";
 import Modal from "@mui/material/Modal";
 const designations = require("../../configs/designations.json");
@@ -73,16 +66,6 @@ const CssTextField = styled(TextField)({
     },
   },
 });
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  width: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
 
 const modalstyle = {
   position: "absolute",
@@ -198,83 +181,6 @@ const Profile = () => {
       },
     },
   };
-
-  // const dataset = [{ high: 0, low: -1, order: "0" }];
-  // const chartSettingsH = {
-  //   dataset,
-  //   height: 300,
-  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
-  //   sx: {
-  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-  //       transform: "translateX(-10px)",
-  //     },
-  //   },
-  //   slotProps: {
-  //     legend: {
-  //       direction: "row",
-  //       position: { vertical: "bottom", horizontal: "middle" },
-  //       padding: -5,
-  //     },
-  //   },
-  // };
-  // const dataset = [{ high: 0, low: -1, order: "0" }];
-  //   const chartSettingsH = {
-  //     dataset,
-  //     height: 300,
-  //     yAxis: [{ scaleType: "band", dataKey: "order" }],
-  //     sx: {
-  //       [& .${axisClasses.directionY} .${axisClasses.label}]: {
-  //         transform: "translateX(-10px)",
-  //       },
-  //     },
-  //     slotProps: {
-  //       legend: {
-  //         direction: "row",
-  //         position: { vertical: "bottom", horizontal: "middle" },
-  //         padding: -5,
-  //       },
-  //     },
-  //   };
-  // const dataset = [
-  //   { month: "Previous Month", courses: 7 },
-  //   { month: "Current Month", courses: 7 },
-  // ];
-  // const chartSettingsH = {
-  //   dataset,
-  //   height: 300,
-  //   yAxis: [{ scaleType: "band", dataKey: "month" }],
-  //   sx: {
-  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-  //       transform: "translateX(-10px)",
-  //     },
-  //   },
-  //   slotProps: {
-  //     legend: {
-  //       direction: "row",
-  //       position: { vertical: "bottom", horizontal: "middle" },
-  //       padding: -5,
-  //     },
-  //   },
-  // };
-  // const dataset = [{ high: 0, low: -1, order: "0" }];
-
-  // const chartSettingsH = {
-  //   dataset,
-  //   height: 300,
-  //   yAxis: [{ scaleType: "band", dataKey: "order" }],
-  //   sx: {
-  //     [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-  //       transform: "translateX(-10px)",
-  //     },
-  //   },
-  //   slotProps: {
-  //     legend: {
-  //       direction: "row",
-  //       position: { vertical: "bottom", horizontal: "middle" },
-  //       padding: -5,
-  //     },
-  //   },
-  // };
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -773,7 +679,7 @@ const Profile = () => {
 
                               {roleNames && roleNames.length > 0 && (
                                 <Typography className="h6-title">
-                                  <Box className="h6-title d-flex">
+                                  <Box className="h6-title mt-10">
                                     Role:{" "}
                                     {roleNames?.map((roleName, index) => (
                                       <Button
@@ -1302,37 +1208,6 @@ const Profile = () => {
                   <ReceiptLongIcon className="pr-5" />
                   {t("DOWNLOAD CERTIFICATES")}
                 </Button>
-
-                {/* <Modal
-                // open={open}
-                // onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                isableEscapeKeyDown={!isEmptyPreference}
-                open={openModal}
-                className="xs-w-300"
-                onClose={(event, reason) => {
-                  if (
-                    reason === "backdropClick" ||
-                    reason === "escapeKeyDown"
-                  ) {
-                    setOpenModal(true);
-                  } else {
-                    handleCloseModal();
-                  }
-                }}
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    className="h3-title"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    {t("SELECT_PREFERENCE")}
-                  </Typography>
-                  <SelectPreference onClose={handleCloseModal} />
-                </Box>
-              </Modal> */}
                 <SelectPreference
                   onClose={handleCloseModal}
                   isOpen={openModal}

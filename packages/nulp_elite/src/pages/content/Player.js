@@ -29,7 +29,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import md5 from 'md5';
-import { TroubleshootRounded } from "@mui/icons-material";
 const urlConfig = require("../../configs/urlConfig.json");
 
 const Player = () => {
@@ -489,6 +488,14 @@ const attemptid = ()=>{
               <Typography>{t("ABOUTTHECONTENT")}</Typography>
             </AccordionSummary>
             <AccordionDetails>
+              {lesson?.attributions && (
+                <>
+                  <Box sx={{ fontWeight: 'bold' }}>{t("ATTRIBUTIONS")}</Box>
+                  <Box>
+                    {lesson?.attributions.join(', ')}
+                  </Box>
+                </>               
+              )}
               <Box sx={{ fontWeight: 'bold' }}>{t("LICENSEDETAILS")} : </Box>
               {lesson?.licenseDetails && (
                 <Typography className="mb-10">
@@ -500,7 +507,6 @@ const attemptid = ()=>{
                       {lesson?.licenseDetails.url}
                     </a>
                   </Box>
-                  <Box>{lesson?.copyright} </Box>
                 </Typography>
               )}
 

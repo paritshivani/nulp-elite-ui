@@ -197,6 +197,15 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
           </Typography>
         )}
         {items.organisation && items.organisation.length > 0 && (
+          <Tooltip
+            title={
+              items.organisation.length > 1 
+              ? items.organisation.join(', ')  
+              : items.organisation[0]           
+            }
+            arrow 
+            placement="top" 
+          >
           <Typography
             variant="body2"
             color="#5B5B5B"
@@ -208,6 +217,7 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
                 : `${items.organisation[0]} + ${items.organisation.length - 1}`}
             </Box>
           </Typography>
+        </Tooltip>
         )}
       </CardContent>
       {(items?.board ||

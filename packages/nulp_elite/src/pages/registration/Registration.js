@@ -1,9 +1,7 @@
 import TextField from "@mui/material/TextField";
-import image from "../../assets/bg.png";
 import Link from "@mui/material/Link";
-import { useTranslation } from "react-i18next";
 import { SITE_KEY } from "./Keys";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState} from "react";
 import { useFormik } from "formik";
 import ReCAPTCHA from "react-google-recaptcha";
 import styled from "styled-components";
@@ -262,9 +260,6 @@ const Registration = () => {
           textAlign: "center",
           backgroundPosition: "2px 426px",
           height: "100vh",
-          // backgroundImage: `url(${image})`,
-          // backgroundRepeat: "no-repeat",
-          // backgroundSize: "contain",
         }}
       >
         <Wrapper>

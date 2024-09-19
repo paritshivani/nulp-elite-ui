@@ -124,6 +124,8 @@ const Chat = ({
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [receiverData, setReceiverData] = useState([]);
+  const [eneteredtextValue, setEnteredTextValue] = useState("");
+  const charLimit = 700;
   const [prefilledMessage, setPrefilledMessage] = useState(
     "Hello! I’d like to connect with you."
   );
@@ -489,7 +491,6 @@ const Chat = ({
   const handleBlockUserConfirmed = async (reason) => {
     try {
       const url = `${urlConfig.URLS.DIRECT_CONNECT.BLOCK}`;
-      console.log("Blocking User");
 
       await axios.post(
         url,
@@ -520,6 +521,10 @@ const Chat = ({
   const handleTextareaChange = (event) => {
     setPrefilledMessage(event.target.value);
     setTextValue(event.target.value);
+     const value = event.target.value;
+    if (value.length <= charLimit) {
+      setEnteredTextValue(value);
+    }
   };
   const onEmojiClick = (event, emojiObject) => {
     const { emoji } = event;
@@ -564,9 +569,11 @@ const Chat = ({
                         {receiverData[0].designation}
                       </Box>
                     </Box>
-                    <IconButton onClick={onClose}>
-                      <CloseIcon />
-                    </IconButton>
+                    <Box>
+                      <IconButton onClick={onClose}>
+                        <CloseIcon />
+                      </IconButton>
+                    </Box>
                   </Box>
                 )}
                 {!showCloseIcon && (
@@ -846,8 +853,11 @@ const Chat = ({
               placeholder="Enter your message here..."
               fullWidth
               sx={{ fontSize: "13px" }}
+              inputProps={{ maxLength: charLimit }}
             />
-
+            <Box mt={1} textAlign="right" sx={{ fontSize: "12px", color: "#484848" ,marginTop: "0px",backgroundColor:"#ffffff", padding: "25px"}}>
+                {`${textValue.length}/${charLimit}`}
+            </Box>
             <Button
               style={{ color: "#484848" }}
               onClick={sendMessage}

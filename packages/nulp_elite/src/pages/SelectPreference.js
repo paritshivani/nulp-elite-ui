@@ -63,6 +63,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const [toasterMessage, setToasterMessage] = useState("");
   const [orgId, setOrgId] = useState();
   const [framworkname, setframworkname] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -133,7 +135,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
     if (defaultFramework) {
       getFramework(defaultFramework);
     }
-  }, [defaultFramework]);
+  }, [defaultFramework,selectedCategory]);
 
   const handleCategoryChange = (event) => {
     const selectedBoard = event.target.value;
@@ -193,8 +195,19 @@ const SelectPreference = ({ isOpen, onClose }) => {
       const SubCategoryindex = data?.result?.framework?.categories.findIndex(
   (category) => category.code === "gradeLevel"
 );
-      setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
-       const Topicsindex = data?.result?.framework?.categories.findIndex(
+    if(selectedCategory){
+      const selectedIndex = data?.result?.framework?.categories[Categoryindex]?.terms.findIndex(
+      (category) => category.name === selectedCategory
+    );
+    if (selectedIndex !== -1) {
+      setSubCategories(data?.result?.framework?.categories[Categoryindex]?.terms[selectedIndex]?.associations || []);
+    } else {
+      setSubCategories([]);
+    }
+}else{
+setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
+}
+      const Topicsindex = data?.result?.framework?.categories.findIndex(
   (category) => category.code === "subject"
 );
       setTopics(data?.result?.framework?.categories[Topicsindex]?.terms);
@@ -234,7 +247,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
       }
 
       const responseData = await response.json();
-      if (Object.entries(responseData?.result?.response.framework).length === 0 ) {
+      if (Object.entries(responseData?.result?.response?.framework).length === 0 ) {
         setIsEmptyPreference(false);
       } else {
         setSelectedCategory(
@@ -259,7 +272,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
         );
       }
       
-      if (responseData?.result?.response.framework?.id[0] === "nulp") {
+      if (responseData?.result?.response?.framework?.id?.length > 0 && responseData.result.response.framework.id[0] === "nulp") {
         setframworkname(true);
       }
       
@@ -298,11 +311,22 @@ const SelectPreference = ({ isOpen, onClose }) => {
         },
         body: JSON.stringify(requestBody),
       });
-
-      if (!response.ok) {
-        showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      if (response.ok) {
+        setToastMessage(t("Preferences updated successfully!"));
+        setShowToast(true);
+        onClose();
+      } else {
+         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
         throw new Error(t("FAILED_TO_FETCH_DATA"));
       }
+      // if (!response.ok) {
+      //   showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      //   throw new Error(t("FAILED_TO_FETCH_DATA"));
+      // }
+      // if(response.ok){
+      //   setToastMessage("Preferance Updated Successfully");
+      //   setShowToast(true);
+      // }
 
       const responseData = await response.json();
     } catch (error) {
@@ -315,6 +339,10 @@ const SelectPreference = ({ isOpen, onClose }) => {
   const handleSavePreferences = () => {
     updateUserData();
     onClose();
+  };
+
+  const closeToast = () => {
+    setShowToast(false);
   };
 
   const handleClose = () => {
@@ -355,7 +383,8 @@ const SelectPreference = ({ isOpen, onClose }) => {
   ]);
 
   return (
-    <Dialog
+    <>
+     <Dialog
       open={isOpen}
       // onClose={handleClose}
       maxWidth="sm"
@@ -366,7 +395,7 @@ const SelectPreference = ({ isOpen, onClose }) => {
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <DialogTitle>{t("SELECT_PREF")}</DialogTitle>
       {framworkname && (
-        <DialogTitle onClick={handleClose}>
+        <DialogTitle>
           {t("CHANGE_PREF_OLD_USER")}
         </DialogTitle>
       )}
@@ -468,6 +497,10 @@ const SelectPreference = ({ isOpen, onClose }) => {
         </Button>
       </DialogActions>
     </Dialog>
+    {showToast && (
+        <ToasterCommon response={toastMessage} onClose={closeToast} />
+      )}
+    </> 
   );
 };
 
