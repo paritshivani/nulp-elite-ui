@@ -507,7 +507,6 @@ const attemptid = ()=>{
                       {lesson?.licenseDetails.url}
                     </a>
                   </Box>
-                  <Box>{lesson?.copyright} </Box>
                 </Typography>
               )}
 

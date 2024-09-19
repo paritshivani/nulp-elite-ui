@@ -215,7 +215,7 @@ const ContentList = (props) => {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.SEARCH}?orgdetails=${appConfig.ContentPlayer.contentApiQueryParams.orgdetails}&licenseDetails=${appConfig.ContentPlayer.contentApiQueryParams.licenseDetails}`;
       const response = await contentService.getAllContents(url, req, headers);
 
-      if (response.data.result.content && response.data.result.count <= 20) {
+      if (response.data.result.count <= 20) {
         setTotalPages(1);
         if (response.data.result.count === 0) {
           setContentCount(0);

@@ -111,6 +111,7 @@ const ContinueLearning = () => {
   };
 
   const filteredCourses = useMemo(() => {
+
     let filtered = data;
 
     if (courseStatus.length) {
@@ -143,6 +144,7 @@ const ContinueLearning = () => {
   };
 
   const paginatedCourses = useMemo(() => {
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredCourses.slice(startIndex, startIndex + itemsPerPage);
   }, [currentPage, itemsPerPage, filteredCourses]);
@@ -174,32 +176,33 @@ const ContinueLearning = () => {
           <Box>
             <Grid container spacing={2}>
               <Box className="custom-card profile-card-view w-100">
-                {paginatedCourses.map((items) => (
-                  <Box className="custom-card-box" key={items.contentId}>
-                    <BoxCard
-                      items={items}
-                      index={filteredCourses.length}
-                      onClick={() =>
-                        handleCardClick(
-                          items.content.identifier,
-                          items.content.primaryCategory
-                        )
-                      }
-                      continueLearning={false}
-                    ></BoxCard>
-                  </Box>
-                ))}
+                {isLoading ? (
+                  <Loading message={t("LOADING")} />) : paginatedCourses.map((items) => (
+                    <Box className="custom-card-box" key={items.contentId}>
+                      <BoxCard
+                        items={items}
+                        index={filteredCourses.length}
+                        onClick={() =>
+                          handleCardClick(
+                            items.content.identifier,
+                            items.content.primaryCategory
+                          )
+                        }
+                        continueLearning={false}
+                      ></BoxCard>
+                    </Box>
+                  ))}
               </Box>
-              {paginatedCourses.length === 0 && (
+              <Box>
+              {!isLoading && paginatedCourses.length ===0 && (
                 <>
                   <Box style={{ width: "100%" }}>
                     <NoResult className="center-no-result " />
-
-                    <Box className="h5-title">Explore Content</Box>
+                    <Box className="h5-title">{t("EXPLORE_CONTENT")}</Box>
                   </Box>
                 </>
               )}
-
+              </Box>
               <div className="blankCard"></div>
             </Grid>
           </Box>
