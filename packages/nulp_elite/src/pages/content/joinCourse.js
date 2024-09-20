@@ -480,6 +480,11 @@ const JoinCourse = () => {
                     batchId: batchDetails?.batchId,
                   },
                 });
+                setToasterMessage(t("COURSE_SUCCESSFULLY_COMPLETED"));
+                setTimeout(() => {
+                  setToasterMessage("");
+                }, 2000);
+                setToasterOpen(true);
               } catch (error) {
                 console.error("Error while fetching courses:", error);
               }
@@ -641,9 +646,10 @@ const JoinCourse = () => {
         );
       } else {
         return (
+          <>
           <Box>
             <Button
-              // disabled={isExpired || !activeBatch || isCompleted}
+              disabled={ !activeBatch || isCompleted}
               onClick={() =>
                 handleLinkClick(
                   ContinueLearning ?? NotConsumedContent ?? childnode
@@ -690,6 +696,10 @@ const JoinCourse = () => {
               </Dialog>
             )}
           </Box>
+          <Box>
+            (t{"COURSE_SUCCESSFULLY_COMPLETED"})
+          </Box>
+          </>
         );
       }
     } else {
