@@ -323,5 +323,7 @@
   "FIRST_NAME":"પ્રથમ નામ",
   "LAST_NAME":"છેલ્લું નામ",
   "CLOSED_POLLS":"બંધ મતદાન",
-  "NO_CHAT_REQUEST": "કોઈ ચેટ વિનંતી નથી"
+  "NO_CHAT_REQUEST": "કોઈ ચેટ વિનંતી નથી",
+  "PHONE":"ફોન",
+  "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"
 }
