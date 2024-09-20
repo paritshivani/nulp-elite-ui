@@ -479,6 +479,11 @@ const JoinCourse = () => {
                     batchId: batchDetails?.batchId,
                   },
                 });
+                setToasterMessage(t("COURSE_SUCCESSFULLY_COMPLETED"));
+                setTimeout(() => {
+                  setToasterMessage("");
+                }, 2000);
+                setToasterOpen(true);
               } catch (error) {
                 console.error("Error while fetching courses:", error);
               }
@@ -637,40 +642,28 @@ const JoinCourse = () => {
           </Box>
         );
       } else {
-        return (
+       return (
+          <>
           <Box>
-            <Box style={{ display: "flex", justifyContent: "space-between" }}>
-              <Box >
-                <Button
-                  onClick={() =>
-                    handleGoBack()
-
-                  }
-                  className="custom-btn-primary mr-5"
-                >
-                  {t("BACK")}
-                </Button></Box>
-              <Box><Button
-                onClick={() =>
-                  handleLinkClick(
-                    ContinueLearning ?? NotConsumedContent ?? childnode
-                  )
-                }
-                className="custom-btn-primary mr-5"
-              >
-                {t("CONTINUE LEARNING")}
-              </Button>
-                {!isCompleted &&
-                  <Button
-                    onClick={handleLeaveCourseClick} // Open confirmation dialog
-                    className="custom-btn-danger"
-                  > {t("LEAVE_COURSE")}
-                  </Button>
-                }  </Box>
-
-            </Box>
-
-
+            <Button
+              disabled={ !activeBatch || isCompleted}
+              onClick={() =>
+                handleLinkClick(
+                  ContinueLearning ?? NotConsumedContent ?? childnode
+                )
+              }
+              className="custom-btn-primary mr-5"
+            >
+              {t("CONTINUE_LEARNNG")}
+            </Button>
+            {!isCompleted &&
+              <Button
+              onClick={handleLeaveCourseClick} // Open confirmation dialog
+              className="custom-btn-danger"
+            > {t("LEAVE_COURSE")}
+            </Button>
+          }  
+            
             {showConfirmation && (
               <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
                 <DialogTitle>
@@ -695,11 +688,15 @@ const JoinCourse = () => {
                   >
                     {t("LEAVE_COURSE")}
                   </Button>
-
+            
                 </DialogActions>
               </Dialog>
             )}
           </Box>
+          <Box>
+            (t{COURSE_SUCCESSFULLY_COMPLETED})
+          </Box>
+          </>
         );
       }
     } else {
