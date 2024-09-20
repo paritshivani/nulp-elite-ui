@@ -189,56 +189,12 @@ export default function EventCard({ items, index, onClick }) {
             alt="App Icon"
           />
         </Box>
-
-        {/* {items.organisation && items.organisation.length > 0 && (
-          <Typography
-            variant="body2"
-            color="#5B5B5B"
-            style={{ fontSize: "11px", padding: "10px 0", textAlign: "left" }}
-          >
-            <Box>
-              {items.organisation.length === 1
-                ? items.organisation[0]
-                : `${items.organisation[0]} + ${items.organisation.length - 1}`}
-            </Box>
-          </Typography>
-        )} */}
       </CardContent>
       <Box>
         <Button type="button" className="custom-btn-default ml-20 lg-mt-20">
           {t("VIEW DETAILS")} <ArrowForwardIosOutlinedIcon className="fs-12" />
         </Button>
       </Box>
-      {/* {(items.board ||
-        items.gradeLevel ||
-        items.se_boards ||
-        items.se_gradeLevels) && (
-        <>
-          <Box className="textLeft mb-15 d-flex">
-            {(items.board || items.se_boards) && (
-              <Tooltip
-                title={items.board || items.se_boards}
-                placement="top"
-                className="labelOne cardLabelEllips"
-              >
-                <Button> {items.board || items.se_boards}</Button>
-              </Tooltip>
-              // <Button type="button" size="small">
-              //   {items.board || items.se_boards}
-              // </Button>
-            )}
-            {(items.gradeLevel || items.se_gradeLevels) && (
-              <Tooltip
-                title={items.gradeLevel || items.se_gradeLevels}
-                placement="top"
-                className="labeltwo cardLabelEllips"
-              >
-                <Button> {items.gradeLevel || items.se_gradeLevels}</Button>
-              </Tooltip>
-            )}
-          </Box>
-        </>
-      )} */}
     </Card>
   );
 }

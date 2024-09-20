@@ -8,9 +8,7 @@ import Typography from "@mui/material/Typography";
 import SimCardDownloadOutlinedIcon from "@mui/icons-material/SimCardDownloadOutlined";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import data from "../../assets/certificates.json";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Card from "@mui/material/Card";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
 import * as util from "../../services/utilService";
@@ -18,10 +16,10 @@ import axios from "axios";
 import NoResult from "pages/content/noResultFound";
 import Alert from "@mui/material/Alert";
 import ToasterCommon from "../ToasterCommon";
-import { Button } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js";
 const routeConfig = require("../../configs/routeConfig.json");
+import { Loading } from "@shiksha/common-lib";
 
 const Certificate = () => {
   const { t } = useTranslation();
@@ -35,6 +33,7 @@ const Certificate = () => {
   const [svgData, setSvgData] = useState("");
   const [showSvgContainer, setShowSvgContainer] = useState(false);
   const svgContainerRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -45,6 +44,7 @@ const Certificate = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       setError(null);
       try {
@@ -78,8 +78,12 @@ const Certificate = () => {
         console.error("Error fetching user data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
       }
+      finally {
+        setIsLoading(false);
+      }
 
       try {
+        setIsLoading(true);
         const _userId = util.userId();
         const request = {
           filters: {
@@ -93,6 +97,9 @@ const Certificate = () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
         showErrorMessage(t("FAILED_TO_FETCH_DATA"));
+      }
+      finally {
+        setIsLoading(false);
       }
     };
 
@@ -207,7 +214,7 @@ const Certificate = () => {
           >
             {t("MY_PROFILE")}
           </Box>
-          <Box className="d-flex jc-bw alignItems-center lg-mb-20">
+          <Box className="d-flex jc-bw alignItems-center mb-20">
             <Box style={{ display: "flex", alignItems: "end" }}>
               <ReceiptLongIcon style={{ paddingRight: "10px" }} />{" "}
               {t("DOWNLOAD_CERTIFICATES")}
@@ -215,8 +222,8 @@ const Certificate = () => {
             <Link
               type="button"
               href={routeConfig.ROUTES.POFILE_PAGE.PROFILE}
-              className="viewAll xs-cert-btn"
-              // onClick={handleGoBack}
+              className="viewAll xs-cert-btn "
+            // onClick={handleGoBack}
             >
               {t("BACK_TO_LEARNNG")}
             </Link>
@@ -235,164 +242,171 @@ const Certificate = () => {
               style={{ textAlign: "left" }}
             >
               {(!certData || certData.result.response.content.length === 0) &&
-              otherCertData.length === 0 ? (
+                otherCertData.length === 0 && !isLoading ? (
                 <NoResult />
               ) : (
-                <>
-                  {certData &&
-                    certData.result.response.content &&
-                    certData.result.response.content.map((certificate) => (
-                      <Grid item xs={12} md={4} key={certificate._id}>
-                        <Card
-                          sx={{
-                            marginTop: "10px",
-                            padding: "10px",
-                            borderRadius: "10px",
-                            border: "solid 1px #EFEFEF",
-                            boxShadow: "none",
-                            color: "#484848",
-                          }}
-                        >
-                          <Typography
-                            className="twoLineEllipsis"
-                            variant="subtitle1"
-                            color="text.secondary"
-                            component="div"
-                            style={{
-                              fontSize: "14px",
-                              paddingBottom: "0",
-                              height: "42px",
-                              fontWeight: "600",
-                            }}
-                          >
-                            {certificate._source.data.badge.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="text.secondary"
-                            component="div"
-                            style={{ fontSize: "12px" }}
-                          >
-                            {t("CERTIFICATE_GIVEN_BY")}:{" "}
-                            {certificate._source.data.badge.issuer.name}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            color="text.secondary"
-                            component="div"
-                            style={{ fontSize: "12px" }}
-                          >
-                            {t("CERTIFICATE_ISSUE_DATE")}:{" "}
-                            {formatDate(certificate._source.data.issuedOn)}
-                          </Typography>
-                          <Box
-                            style={{
-                              display: "flex",
-                              alignItems: "end",
-                              color: "#1976d2",
-                            }}
-                            className="text-green cursor-pointer"
-                          >
-                            <SimCardDownloadOutlinedIcon />
-                            <Link
-                              href={certificate._source.pdfUrl} // Corrected usage of pdfUrl
-                              underline="none"
-                              style={{
-                                fontSize: "12px",
-                                marginTop: "15px",
-                                display: "block",
-                              }}
-                              key={certificate._id} // Add key prop
-                              onClick={() => {
-                                getCertificateReport(
-                                  certificate._id,
-                                  certificate._source.data.badge.name
-                                );
+                  <>
+                    {isLoading ? (
+                      <Box className="p-15">
+                      <Loading message={t("LOADING")} />
+                      </Box>
+                    ) : (
+                      <>
+                        {certData &&
+                          certData.result.response.content &&
+                          certData.result.response.content.map((certificate) => (
+                            <Grid item xs={12} md={4} key={certificate._id}>
+                              <Card
+                                sx={{
+                                  marginTop: "10px",
+                                  padding: "10px",
+                                  borderRadius: "10px",
+                                  border: "solid 1px #EFEFEF",
+                                  boxShadow: "none",
+                                  color: "#484848",
+                                }}
+                              >
+                                <Typography
+                                  className="twoLineEllipsis"
+                                  variant="subtitle1"
+                                  color="text.secondary"
+                                  component="div"
+                                  style={{
+                                    fontSize: "14px",
+                                    paddingBottom: "0",
+                                    height: "42px",
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  {certificate._source.data.badge.name}
+                                </Typography>
+                                <Typography
+                                  variant="subtitle1"
+                                  color="text.secondary"
+                                  component="div"
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  {t("CERTIFICATE_GIVEN_BY")}:{" "}
+                                  {certificate._source.data.badge.issuer.name}
+                                </Typography>
+                                <Typography
+                                  variant="subtitle1"
+                                  color="text.secondary"
+                                  component="div"
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  {t("CERTIFICATE_ISSUE_DATE")}:{" "}
+                                  {formatDate(certificate._source.data.issuedOn)}
+                                </Typography>
+                                <Box
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "end",
+                                    color: "#1976d2",
+                                    cursor: "pointer",
+                                  }}
+                                  className="text-green"
+                                >
+                                  <SimCardDownloadOutlinedIcon />
+                                  <Link
+                                    href={certificate._source.pdfUrl}
+                                    underline="none"
+                                    style={{
+                                      fontSize: "12px",
+                                      marginTop: "15px",
+                                      display: "block",
+                                    }}
+                                    onClick={() => {
+                                      getCertificateReport(
+                                        certificate._id,
+                                        certificate._source.data.badge.name
+                                      );
+                                    }}
+                                  >
+                                    {t("CERTIFICATES")}
+                                  </Link>
+                                </Box>
+                              </Card>
+                            </Grid>
+                          ))}
+                        {otherCertData.map((certificate) => (
+                          <Grid item xs={12} md={4} key={certificate.osid}>
+                            <Card
+                              sx={{
+                                marginTop: "10px",
+                                padding: "10px",
+                                borderRadius: "10px",
+                                border: "solid 1px #EFEFEF",
+                                boxShadow: "none",
+                                color: "#484848",
                               }}
                             >
-                              {t("CERTIFICATES")}
-                            </Link>
-                          </Box>
-                        </Card>
-                      </Grid>
-                    ))}
-                  {otherCertData.map((certificate) => (
-                    <Grid item xs={12} md={4} key={certificate.osid}>
-                      <Card
-                        sx={{
-                          marginTop: "10px",
-                          padding: "10px",
-                          borderRadius: "10px",
-                          border: "solid 1px #EFEFEF",
-                          boxShadow: "none",
-                          color: "#484848",
-                        }}
-                      >
-                        <Typography
-                          className="twoLineEllipsis"
-                          variant="subtitle1"
-                          color="text.secondary"
-                          component="div"
-                          style={{
-                            fontSize: "14px",
-                            paddingBottom: "0",
-                            height: "42px",
-                            fontWeight: "600",
-                          }}
-                        >
-                          {certificate.training.name}
-                        </Typography>
-                        <Typography
-                          variant="subtitle1"
-                          color="text.secondary"
-                          component="div"
-                          style={{ fontSize: "12px" }}
-                        >
-                          {t("CERTIFICATE_GIVEN_BY")}: {certificate.issuer.name}
-                        </Typography>
-                        <Typography
-                          variant="subtitle1"
-                          color="text.secondary"
-                          component="div"
-                          style={{ fontSize: "12px" }}
-                        >
-                          {t("CERTIFICATE_ISSUE_DATE")}:{" "}
-                          {formatDate(certificate.osCreatedAt)}
-                        </Typography>
-                        <Box
-                          style={{
-                            display: "flex",
-                            alignItems: "end",
-                            color: "#1976d2",
-                            cursor: "pointer",
-                          }}
-                          className="text-green"
-                          key={certificate.osid}
-                          onClick={() => {
-                            getCertificate(
-                              certificate.templateUrl,
-                              certificate.osid,
-                              certificate.training.name
-                            );
-                          }}
-                        >
-                          <SimCardDownloadOutlinedIcon />
-                          <Link
-                            href={certificate.pdfUrl}
-                            underline="none"
-                            style={{
-                              fontSize: "12px",
-                              marginTop: "15px",
-                              display: "block",
-                            }}
-                          >
-                            {t("CERTIFICATES")}
-                          </Link>
-                        </Box>
-                      </Card>
-                    </Grid>
-                  ))}
-                </>
+                              <Typography
+                                className="twoLineEllipsis"
+                                variant="subtitle1"
+                                color="text.secondary"
+                                component="div"
+                                style={{
+                                  fontSize: "14px",
+                                  paddingBottom: "0",
+                                  height: "42px",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {certificate.training.name}
+                              </Typography>
+                              <Typography
+                                variant="subtitle1"
+                                color="text.secondary"
+                                component="div"
+                                style={{ fontSize: "12px" }}
+                              >
+                                {t("CERTIFICATE_GIVEN_BY")}: {certificate.issuer.name}
+                              </Typography>
+                              <Typography
+                                variant="subtitle1"
+                                color="text.secondary"
+                                component="div"
+                                style={{ fontSize: "12px" }}
+                              >
+                                {t("CERTIFICATE_ISSUE_DATE")}:{" "}
+                                {formatDate(certificate.osCreatedAt)}
+                              </Typography>
+                              <Box
+                                style={{
+                                  display: "flex",
+                                  alignItems: "end",
+                                  color: "#1976d2",
+                                  cursor: "pointer",
+                                }}
+                                className="text-green"
+                                onClick={() => {
+                                  getCertificate(
+                                    certificate.templateUrl,
+                                    certificate.osid,
+                                    certificate.training.name
+                                  );
+                                }}
+                              >
+                                <SimCardDownloadOutlinedIcon />
+                                <Link
+                                  href={certificate.pdfUrl}
+                                  underline="none"
+                                  style={{
+                                    fontSize: "12px",
+                                    marginTop: "15px",
+                                    display: "block",
+                                  }}
+                                >
+                                  {t("CERTIFICATES")}
+                                </Link>
+                              </Box>
+                            </Card>
+                          </Grid>
+                        ))}
+                      </>
+                    )}
+                  </>
               )}
             </Grid>
           </Card>

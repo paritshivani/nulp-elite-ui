@@ -23,7 +23,7 @@ const FAQPage = () => {
   const [faqData, setFaqData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Login");
   const [error, setError] = useState(null);
-  const setLanguage = localStorage.getItem('lang')|| 'en';
+  const setLanguage = localStorage.getItem('lang') || 'en';
   let url;
   if (setLanguage === 'en') {
     url = "https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-en.json";
@@ -35,13 +35,12 @@ const FAQPage = () => {
     url = "https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-ta.json";
   } else if (setLanguage === 'be') {
     url = "https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-be.json";
-  }else if (setLanguage==='ma'){
+  } else if (setLanguage === 'ma') {
     url = "https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-mr.json";
-  }else if(setLanguage==='mal'){
-    url="https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-ml.json";
+  } else if (setLanguage === 'mal') {
+    url = "https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-ml.json";
   }
- 
-
+  
   useEffect(() => {
     setError(null);
     fetch(url)
@@ -58,12 +57,12 @@ const FAQPage = () => {
         console.error("Error fetching FAQ data:", error);
         setError(error.message);
       });
-  }, [url,setLanguage]);
+  }, [url, setLanguage]);
 
   return (
     <div>
       <Header />
-     {setLanguage && url &&  <Container maxWidth="xl" role="main" className="min-472 pb-30">
+      {setLanguage && url && <Container maxWidth="xl" role="main" className="min-472 pb-30">
         {error && (
           <Alert severity="error" className="my-10">
             {error}
@@ -74,26 +73,47 @@ const FAQPage = () => {
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={3}>
-            <ul className="bg-white h6-title" style={{ borderRadius: "5px" }}>
-              <Box
-                sx={{ fontSize: "18px", color: "#484848", paddingLeft: "18px" }}
+            <Accordion
+
+              style={{
+                background: "#f9fafc",
+                borderRadius: "10px",
+                marginTop: "10px",
+                maxHeight: "calc(100vh - 20px)",
+                overflow: "auto",
+              }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                style={{
+                  background: "#F9FAFC",
+                  borderRadius: "10px",
+                  position: "sticky",
+                  top: "0",
+                  zIndex: "1",
+                }}
                 className="h5-title"
               >
                 {t("SELECT_CATEGORY")}
-              </Box>
-              {faqData.map((category, index) => (
-                <li
-                  key={index}
-                  onClick={() => setSelectedCategory(category.name)}
-                  className={
-                    selectedCategory === category.name ? classes.active : ""
-                  } // Apply active class
-                  style={{ cursor: "pointer" }}
-                >
-                  {t(category.name.toUpperCase())}
-                 </li>
-              ))}
-            </ul>
+              </AccordionSummary>
+              <AccordionDetails
+                style={{ background: "#fff" }}
+                className="h6-title"
+              >
+                {faqData.map((category, index) => (
+                  <li
+                    key={index}
+                    onClick={() => setSelectedCategory(category.name)}
+                    className={
+                      selectedCategory === category.name ? classes.active : ""
+                    }
+                    style={{ cursor: "pointer", marginBottom: "10px" }}
+                  >
+                    {t(category.name.toUpperCase())}
+                  </li>
+                ))}
+              </AccordionDetails>
+            </Accordion>
           </Grid>
           <Grid item xs={12} lg={9}>
             {faqData

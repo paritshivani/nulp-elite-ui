@@ -23,10 +23,6 @@ button {
   font-family: "Poppins", sans-serif !important;
 }
 
-/* Registration */
-/* .css-132u4s-MuiFormControl-root-MuiTextField-root{
-  width: 100%;
-} */
 .MuiFormControl-root.MuiTextField-root {
   width: 100% !important;
 }
@@ -75,7 +71,6 @@ button {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  /* height: 26px; */
 }
 
 .ribbonCard {
@@ -103,7 +98,6 @@ button {
   -webkit-box-orient: vertical;
   display: -webkit-box;
   max-height: 53px;
-  /* border: solid; */
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
@@ -133,7 +127,6 @@ button {
 }
 
 .navigateActive {
-  /* background: #004367 !important; */
   margin: -10px 0 !important;
 }
 
@@ -167,11 +160,37 @@ button {
 .dateRange .MuiInputBase-formControl {
   overflow: hidden !important;
 }
+.bg-darkblue {
+  background: #065872;
+  position: fixed;
+  top: 78px;
+  width: 100%;
+  z-index: 1000;
+}
+
+.domain-btn {
+  background: #fff !important;
+  border-radius: 10px !important;
+  color: #004367 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 10px 15px !important;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.2) !important;
+}
+.domain-box {
+  text-align: center;
+  margin: 0 auto;
+  background: none !important;
+  margin-top: -9px !important;
+}
 
 @media (min-width: 320px) {
   .custom-event-container .MuiChip-filled {
     margin: 10px 5px !important;
   }
+
   .content-list.eventTab {
     background: none !important;
   }
@@ -200,7 +219,8 @@ button {
     height: 100%;
     border: 0;
   }
-  .lg-mx-90 > div {
+
+  .lg-mx-90>div {
     position: relative;
     padding-bottom: 56.25%;
     height: 0px;
@@ -233,9 +253,6 @@ button {
 
   .domainHover {
     cursor: pointer;
-    display: block;
-    height: 37px;
-    margin: auto;
   }
 
   .carousel-active-ui {
@@ -245,8 +262,7 @@ button {
   }
 
   .carousel-active-ui img {
-    filter: invert(68%) sepia(75%) saturate(1579%) hue-rotate(167deg)
-      brightness(92%) contrast(89%);
+    filter: invert(68%) sepia(75%) saturate(1579%) hue-rotate(167deg) brightness(92%) contrast(89%);
     /* filter: brightness(0) invert(1); */
   }
 
@@ -268,9 +284,7 @@ button {
     height: 50px;
   }
 
-  .bg-darkblue {
-    background: #065872;
-  }
+
 
   .profile-text-circle {
     align-items: center;
@@ -288,22 +302,6 @@ button {
     box-shadow: 0 4px 4px 0 #00000040 !important;
     font-size: 10px !important;
   }
-
-  /* .notification-circle {
-    align-items: center;
-    border-radius: 100%;
-    background: #fff;
-    display: flex;
-    font-size: 12px;
-    font-weight: 500;
-    height: 24px;
-    justify-content: center;
-    line-height: 1 !important;
-    width: 24px;
-    padding: 5px;
-    font-size: 10px !important;
-    margin: 0 10px;
-  } */
   .notification-circle {
     padding-right: 15px;
   }
@@ -467,7 +465,6 @@ button {
   .MuiCardContent-root.profile-cardContent {
     text-align: left;
     padding: 0px 8px !important;
-    width: 77%;
   }
 
   .profile {
@@ -505,11 +502,9 @@ button {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     position: relative;
-    background: linear-gradient(
-      45deg,
-      rgba(28, 25, 25, 0.46) 7%,
-      rgba(20, 18, 18, 0.57) 45%
-    );
+    background: linear-gradient(45deg,
+        rgba(28, 25, 25, 0.46) 7%,
+        rgba(20, 18, 18, 0.57) 45%);
   }
 
   .card-div {
@@ -519,11 +514,9 @@ button {
     right: 0px;
     width: 100%;
     height: 89px;
-    background: linear-gradient(
-      45deg,
-      rgba(28, 25, 25, 0.29) 7%,
-      rgba(20, 18, 18, 0.09) 45%
-    );
+    background: linear-gradient(45deg,
+        rgba(28, 25, 25, 0.29) 7%,
+        rgba(20, 18, 18, 0.09) 45%);
     z-index: 999;
     margin: 0px;
     border-top-left-radius: 10px;
@@ -547,6 +540,7 @@ button {
   .sendMessag button:hover {
     background: #fff !important;
   }
+
   .profile .cardLabelEllips {
     width: 94px;
     white-space: nowrap;
@@ -554,6 +548,7 @@ button {
     text-overflow: ellipsis;
     display: block !important;
   }
+
   .cardLabelEllips {
     max-width: 175px;
     white-space: nowrap;
@@ -590,6 +585,7 @@ button {
     border-radius: 5px !important;
     min-width: inherit !important;
   }
+
   .customlabeltwo {
     background: #e1f5ff !important;
     color: #212121 !important;
@@ -620,8 +616,6 @@ button {
   .jss1 .MuiButton-textPrimary {
     background: #fff !important;
     border: none !important;
-    /* padding: 25px 0; */
-    /* float: right; */
     width: 46px;
   }
 
@@ -714,9 +708,11 @@ button {
     align-items: center;
     justify-content: center;
   }
+
   .ml-10 {
     margin-left: 10px !important;
   }
+
   .ml-20 {
     margin-left: 20px !important;
   }
@@ -754,52 +750,64 @@ button {
     margin-bottom: 22px;
     padding-right: 10px;
   }
-
-  /* .dashboard .h1-title,
-  .dashboard .h2-title {
-    color: #fff !important;
-  } */
   .custom-card {
     justify-content: space-between !important;
   }
+
   .flter-btn .MuiButton-textPrimary {
     background: #fff;
   }
+
   button.Mui-disabled {
     background: #cacccc70 !important;
     border: none !important;
   }
-  /* .h6-title.pl-20 {
-    width: 139px;
-  } */
+
 }
 
 @media (max-width: 768px) {
+  .votingDashboard {
+    margin-top:55px;
+  }
+  .MuiTab-root{
+    width: 40%;
+  }
+  .viewAll{
+    font-size: 10px !important;
+    padding: 7px 4px;
+  }
   .d-flex-none {
     display: block !important;
   }
+
   .xs-m {
     margin: 10px 20px !important;
   }
+
   .primary-btn {
     margin-top: 20px !important;
   }
+
   .h1-title {
     line-height: 30px;
     margin-bottom: 25px;
   }
+
   .custom-btn-primary,
   .custom-btn-danger,
   .custom-btn-success,
   .custom-btn-default {
     padding: 0 20px !important;
   }
+
   .MuiGrid-container .custom-event-container {
     margin: -7px !important;
   }
+
   .custom-card {
     justify-content: space-between;
   }
+
   .certificate .MuiCard-root {
     background: #ffe8a975 !important;
     border: solid 1px #ffe8a975 !important;
@@ -808,6 +816,7 @@ button {
   .custom-card .cardBox {
     height: 276px;
   }
+
   .img-text-circle {
     align-items: center;
     background-color: #007b9d;
@@ -817,8 +826,9 @@ button {
     font-size: 31px;
     font-weight: 500;
     justify-content: center;
-    width: 53px;
+    width: 50px;
   }
+
   .dashboard {
     margin-bottom: 55px !important;
   }
@@ -831,6 +841,7 @@ button {
   .cardLabelEllips {
     width: 145px !important;
   }
+
   .votingList .cardLabelEllips {
     max-width: 145px !important;
   }
@@ -853,13 +864,16 @@ button {
     padding-top: 3px !important;
     padding-bottom: 3px !important;
   }
+
   .xs-py-10 {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
   }
+
   .allContentlearning {
     padding-right: 0 !important;
   }
+
   .allContentlearning .custom-card {
     justify-content: inherit !important;
   }
@@ -1026,6 +1040,8 @@ button {
 
   .domainHover {
     filter: brightness(0) invert(1);
+    width:30px;
+
   }
 
   /* .react-multi-carousel-list {
@@ -1130,6 +1146,7 @@ button {
   .xs-mb-10 {
     margin-bottom: 10px;
   }
+
   .xs-mb-20 {
     margin-bottom: 20px;
   }
@@ -1176,6 +1193,7 @@ button {
   .xs-pb-75 {
     padding-bottom: 75px !important;
   }
+
   /* .xs-shadow-none .scroll, */
   /* .xs-shadow-none .scroll-45 {
     height: 100vh !important;
@@ -1187,6 +1205,7 @@ button {
   .xs-pt-15 {
     padding-top: 15px;
   }
+
   .xs-pt-0 {
     padding-top: 0 !important;
   }
@@ -1262,32 +1281,41 @@ button {
   .custom-card {
     justify-content: space-between;
   }
+
   .MuiGrid-container.custom-container {
     margin-left: 1px !important;
     width: 99%;
   }
+
   .custom-container .custom-btn-danger {
     padding: 10px 10px !important;
   }
+
   .mb-38 {
     margin-bottom: 38px !important;
   }
+
   .xs-pb-20.mt-12 .oneLineEllipsis {
     height: 20px !important;
   }
+
   .my-custom {
     margin: 16px 0 20px 0 !important;
   }
+
   .certificate {
     margin-top: 10px !important;
   }
+
   .custom-pb-20 {
     padding: 0 20px 20px 20px !important;
   }
+
   .MuiGrid-container.xs-container {
     margin-left: 0px !important;
     width: 100%;
   }
+
   .appicon {
     width: 60px;
     height: 60px;
@@ -1296,46 +1324,54 @@ button {
   .lg-left {
     text-align: left;
   }
-  #root > div:first-child {
+
+  #root>div:first-child {
     min-height: 100vh;
     padding-bottom: 55px;
   }
+
   .votingList .MuiTab-root {
     width: 42% !important;
   }
 }
 
 @media (min-width: 769px) {
-  .MuiCardContent-root.profile-cardContent {
-    width: 88%;
-  }
+
   .MuiFormControl-root.MuiTextField-root.w-33 {
     width: 33% !important;
   }
+
   .custom-event-container .MuiTabs-flexContainer {
     justify-content: center !important;
   }
+
   .MuiFormControl-root.MuiTextField-root.w-86 {
     width: 86% !important;
   }
-  #root > div:first-child {
+
+  #root>div:first-child {
     min-height: 100vh;
     padding-bottom: 135px;
   }
+
   .custom-event-container .cardBox,
   .votingDashboard .cardBox {
     height: 100% !important;
   }
+
   .lg-left {
     text-align: right;
   }
+
   .appicon {
     width: 100px;
     height: 100px;
   }
+
   .custom-pb-20 {
     padding: 20px 20px 20px 20px !important;
   }
+
   .my-custom {
     margin: 33px 0 20px 0 !important;
   }
@@ -1343,9 +1379,11 @@ button {
   .m-0 {
     margin: 0 !important;
   }
+
   .profile .MuiAlert-message {
     width: 60% !important;
   }
+
   .certificate .MuiCard-root {
     background: #ffe8a975 !important;
     border: solid 1px #ffe8a975 !important;
@@ -1363,6 +1401,7 @@ button {
     margin-bottom: 22px;
     padding-right: 10px;
   }
+
   /* .MuiContainer-root.pt-121,
   .container-pb.player {
     padding-top: 121px !important;
@@ -1392,9 +1431,11 @@ button {
   .MuiContainer-root.xs-pb-20.mt-12.xss-p-0 {
     padding-top: 117px !important;
   }
+
   .lg-mb-70 {
     margin-bottom: 90px !important;
   }
+
   .lg-pr-10 {
     padding-right: 10px !important;
   }
@@ -1412,30 +1453,13 @@ button {
     box-shadow: 0px 4px 4px 0px #00000040 !important;
     background: "#f9fafc";
   }
-  /* .MuiContainer-root.container-pb.mb-20.xs-pb-75.lg-mt-12 {
-    padding-top: 0 !important;
-  }
 
-  .MuiContainer-root.allContent.xs-mb-75.domain-list {
-    padding-top: 0 !important;
-  }
-
-  .custom-event-container .center-box {
-    transform: translate(2%, 10px);
-  }
-
-  .event-list .MuiTabs-flexContainer {
-    justify-content: center !important;
-  } */
-
-  /* .css-u9086j {
-    width: 100% !important;
-  } */
 
   .left-container {
     /* box-shadow: 0px 4px 4px 0px #00000040 !important; */
     background: #f9fafc;
   }
+
   .MuiContainer-root.allContentlearning,
   .MuiContainer-root.profile.allContentProfile {
     padding-top: 0 !important;
@@ -1448,9 +1472,11 @@ button {
     width: 100%;
     z-index: 999999 !important;
   }
+
   .profile-btn svg {
     color: #484848 !important;
   }
+
   .Menuactive.profile-btn {
     align-items: center;
     /* background: #0e7a9c !important; */
@@ -1460,13 +1486,16 @@ button {
     padding: 5px !important;
     text-align: center;
   }
+
   .profile-btn.Menuactive:hover {
     background: #fff !important;
   }
+
   .Menuactive .profile-text-circle {
     color: #fff;
     background: #0e7a9c;
   }
+
   .notification-circle svg {
     color: #484848 !important;
   }
@@ -1496,9 +1525,6 @@ button {
     width: 214px !important;
   }
 
-  /* .carousel-bx .my-class {
-    margin: 0 45px !important;
-  } */
   .domainText {
     color: #484848;
     font-size: 11px !important;
@@ -1509,16 +1535,11 @@ button {
     text-align: center;
     /* width: 120px; */
   }
-  /* .carousel-active-ui {
-    padding: 8px 0 !important;
-    height: 92px;
-  } */
+
   .w-100 {
     width: 100% !important;
   }
-  /* .translate svg {
-    color: #fff !important;
-  } */
+
   .explore-text {
     width: 100% !important;
   }
@@ -1526,11 +1547,6 @@ button {
   .explore svg {
     font-size: 20px !important;
   }
-
-  /* .profile-card-view .custom-card-box {
-    width: 224px !important;
-    margin-right: 10px;
-  } */
 
   .flter-btn.left-container .MuiIconButton-sizeMedium:hover {
     background: none !important;
@@ -1546,10 +1562,11 @@ button {
 
   .addConnectChat .jss5 {
     position: inherit !important;
-    text-align:left !important;
+    text-align: left !important;
     font-size: 15px !important;
     max-width: 85% !important;
   }
+
   .addConnectChat .jss6.undefined {
     width: auto !important;
     text-align: left !important;
@@ -1560,12 +1577,15 @@ button {
   .mr-13 {
     margin-right: 13px !important;
   }
+
   .mr-17 {
     margin-right: 17px !important;
   }
+
   .mr-22 {
     margin-right: 22px !important;
   }
+
   .mr-30 {
     margin-right: 30px !important;
   }
@@ -1615,6 +1635,7 @@ button {
   .content-list .custom-card {
     justify-content: start;
   }
+
   .custom-card {
     justify-content: start !important;
   }
@@ -1666,6 +1687,7 @@ button {
   .cardCourses {
     width: 133px;
   }
+
   .cardBox {
     height: 314px;
   }
@@ -1706,6 +1728,7 @@ button {
   .Menuactive {
     display: flex;
   }
+
   /* .custom-card {
     justify-content: space-between;
   } */
@@ -1753,9 +1776,11 @@ button {
   .lg-ml-0 {
     margin-left: 0 !important;
   }
+
   .lg-pl-5 {
     padding-left: 5px !important;
   }
+
   .lg-pl-18 {
     padding-left: 18px;
   }
@@ -1767,6 +1792,7 @@ button {
   .lg-pl-12 {
     padding-left: 12px !important;
   }
+
   .lg-pl-0 {
     padding-left: 0 !important;
   }
@@ -1799,32 +1825,6 @@ button {
   .header-bg fieldset {
     border-radius: 10px;
   }
-
-  /* .allContent .cardBox {
-    flex: 1;
-    height: 300px;
-  }
-
-  .cardheight .cardBox {
-    flex: 1;
-    height: 300px;
-  } */
-
-  /* .allContent .MuiGrid-grid-lg-2 {
-    height: 319px;
-  }
-
-  .allContentProfile .MuiGrid-item {
-    height: 335px !important;
-  }
-
-  .allContentlearning .MuiGrid-item {
-    height: 318px !important;
-  } */
-
-  /* .allContentlearning .custom-card-box {
-    width: 234px !important;
-  } */
   .lg-mt-12 {
     margin-top: 12px !important;
   }
@@ -1897,24 +1897,6 @@ button {
     margin-top: 92px;
   }
 
-  /* .carousel-active-ui {
-    background: #0e7a9c;
-    width: 215px;
-  } */
-  /* .carousel-active-ui .imgBorder {
-    background: #0e7a9c !important;
-    border: solid 1px #0e7a9c;
-  } */
-  /* .carousel-active-ui img {
-    filter: brightness(0) invert(1);
-  } */
-
-  /* .react-multi-carousel-list {
-    background: #fff;
-    box-shadow: 0px 4px 4px 0px #00000040;
-    margin-top: 0;
-  } */
-
   .react-multi-carousel-list.carousel-container .MuiGrid-container {
     margin-left: -2px !important;
   }
@@ -1943,42 +1925,63 @@ button {
   .xs-p-0 {
     padding-top: 0 !important;
   }
+
   .addConnectChat .jss7 {
     margin-top: 21px !important;
   }
+
   .spacing-header a {
     margin: 0 23px !important;
-  }
-  .my-class {
-    margin: 0 10px !important;
   }
 }
 
 @media (max-width: 769px) {
+  .lg-hide.lg-mt-10{
+    position: fixed;
+    transition: top .3s ease;
+    width: 100%;
+    z-index: 99999;
+}
+.domain-box {
+  margin-top: 57px !important;
+}
+
+  .bg-darkblue {
+    margin-top: -18px;
+    position: fixed !important;
+    width: 100% !important;
+  }
+
   .voting-buttons {
     display: flex;
     justify-content: space-between;
     margin: 12px 8px 1px 0px;
   }
+
   .event-card-img {
     width: 75px !important;
     height: 75px !important;
   }
+
   .voting-text {
     margin-top: 15px;
   }
 }
 
 @media (min-width: 769px) {
+
   .addConnection .MuiTabs-flexContainer {
     justify-content: space-between !important;
   }
+
   .addConnection .MuiTabs-scroller button:nth-child(3) {
     max-width: 100px !important;
   }
+
   .addConnection .MuiTabs-scroller button:nth-child(1) {
     max-width: 129px !important;
   }
+
   .lg-pr-20 {
     padding-right: 20px !important;
   }
@@ -2013,6 +2016,7 @@ button {
     box-shadow: 0px 4px 4px 0px #00000040;
     background: #f9fafc;
   }
+
   /* .MuiContainer-root.createForm {
     padding-top: 134px !important;
   }
@@ -2054,89 +2058,32 @@ button {
     margin-left: 10px;
     width: 10%;
   }
-  .domain-box {
-    text-align: center;
-    margin: 0 auto;
-    background: none !important;
-    margin-top: -9px !important;
-  }
+
+ 
+
   SkeletonLoader {
     margin-top: 117px !important;
-  }
-  .domain-btn {
-    background: #fff !important;
-    /* border: 1px solid #004367 !important; */
-    border-radius: 10px !important;
-    color: #004367 !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    padding: 10px 15px !important;
-    /* box-shadow: 0 4px 4px 0 #00000040 !important; */
-    border: none;
-    cursor: pointer;
-    box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.2) !important;
   }
   .pos-fixed,
   .scrolledTop {
     transition: top 0.2s ease-in-out;
   }
-  /* @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  .custom-card {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 16px !important;
-  }
-} */
 }
 @media (min-width: 1201px) {
   .domainText {
-    width: 82px !important;
     margin: 0 20px !important;
   }
-}
-@media (min-width: 769px) and (max-width: 1208px) {
-  .carousel-bx {
-    padding: 9px 0 !important;
-  }
-  .domain-fixed .bg-darkblue {
-    position: fixed !important;
-    width: 100%;
-    z-index: 99999;
-    overflow-y: scroll;
-  }
-  .domain-fixed .mt-180 {
-    margin-top: 180px !important;
-  }
-}
-@media (min-width: 1209px) {
-  .domain-fixed .bg-darkblue {
-    position: fixed !important;
-    width: 100%;
-    z-index: 99999;
-    overflow-y: scroll;
-    padding: 0px 0px 0px 40px;
-  }
-  .domain-fixed .mt-180 {
-    margin-top: 180px !important;
-  }
-  .carousel-bx {
-    transition: top 0.2s ease-in-out;
-  }
-  .react-multi-carousel-list {
-    background: #fff;
-    box-shadow: 0px 4px 4px 0px #00000040;
-    margin-top: 0;
-  }
-  .react-multi-carousel-list {
-    display: block !important;
-  }
-  .carousel-bx {
-    box-shadow: 0 4px 4px 0 #00000040;
-    justify-content: center;
-  }
-}
 
+  .react-multiple-carousel__arrow--right {
+    display: none !important;
+  }
+
+  .react-multiple-carousel__arrow--left {
+    display: none !important;
+  }
+}
 @media (min-width: 1377px) {
+
   .allContentlearning .custom-card,
   .allContentProfile .custom-card {
     display: grid !important;
@@ -2147,12 +2094,8 @@ button {
   .allContentProfile .custom-card-box {
     width: 214px !important;
   }
-  /* .custom-card {
-    display: grid !important;
-    grid-template-columns: repeat(5, 1fr) !important;
-    gap: 31px !important;
-  } */
 }
+
 @media (min-width: 1420px) {
   .custom-card {
     display: grid !important;
@@ -2171,24 +2114,6 @@ button {
   }
 }
 
-/* @media (min-width: 1024px) {
-  .custom-card-box {
-    padding: 0 6px;
-  }
-}
-@media (min-width: 1366px) {
-  .custom-card-box {
-    padding: 0 6px;
-  }
-}
-@media (min-width: 1440px) {
-  .custom-card-box {
-    padding: 0 10px;
-  }
-} */
-/* .cardTitle {
-  height: 68px;
-} */
 .profile-btn {
   /* font-size: 17px !important; */
   color: rgb(66, 66, 66);
@@ -2217,15 +2142,6 @@ button {
 .custom-dot-list-style {
   display: none !important;
 }
-
-/* .carousel-bx {
-  box-shadow: 0 4px 4px 0 #00000040;
-  justify-content: center;
-} */
-
-/* .carousel-bx .my-class:first-child {
-  margin-left: 0 !important;
-} */
 
 .lg-d-flex {
   display: flex;
@@ -2376,11 +2292,9 @@ header {
   top: 10px;
   width: 270px;
   height: 88px;
-  background: linear-gradient(
-    269deg,
-    rgba(255, 255, 255, 0) 2.05%,
-    #ffffff 99.68%
-  );
+  background: linear-gradient(269deg,
+      rgba(255, 255, 255, 0) 2.05%,
+      #ffffff 99.68%);
   left: 0;
 }
 
@@ -2397,11 +2311,9 @@ header {
   width: 160px;
   height: 65px;
   right: 0;
-  background: linear-gradient(
-    269deg,
-    rgba(255, 255, 255, 0) 2.05%,
-    #ffffff 99.68%
-  );
+  background: linear-gradient(269deg,
+      rgba(255, 255, 255, 0) 2.05%,
+      #ffffff 99.68%);
 }
 
 .year-select {
@@ -2435,16 +2347,12 @@ Link,
   background: #fff !important;
 }
 
-.register
-  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+.register .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   background: #fff !important;
   text-align: left !important;
 }
 
-.register
-  .css-132u4s-MuiFormControl-root-MuiTextField-root
-  .MuiOutlinedInput-root
-  fieldset {
+.register .css-132u4s-MuiFormControl-root-MuiTextField-root .MuiOutlinedInput-root fieldset {
   width: 94.6% !important;
 }
 
@@ -2516,6 +2424,7 @@ Footer {
   font-size: 12px !important;
   border: solid 1px #0e7a9c !important;
 }
+
 .primary-btn {
   background: #0e7a9c !important;
   border-radius: 20px !important;
@@ -2524,9 +2433,11 @@ Footer {
   font-weight: 500 !important;
   border: solid 1px #0e7a9c;
 }
+
 .custom-btn-primary:hover {
   background: #0e7a9c !important;
 }
+
 .custom-btn-primaryy {
   background: #0e7a9c !important;
   border-radius: 10px !important;
@@ -2536,9 +2447,11 @@ Footer {
   font-size: 12px !important;
   border: solid 1px #0e7a9c;
 }
+
 .custom-btn-primaryy:hover {
   background: #0e7a9c !important;
 }
+
 .custom-btn-default {
   border-radius: 10px !important;
   color: #004367 !important;
@@ -2547,7 +2460,7 @@ Footer {
   font-size: 12px !important;
   border: solid 1px #004367 !important;
   background: #fff !important;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .custom-btn-default:hover {
@@ -2676,6 +2589,7 @@ Footer {
 
 .joinCourse div label {
   padding-right: 18px;
+  overflow-wrap: break-word;
 }
 
 button {
@@ -2702,10 +2616,13 @@ button {
 
 .jc-bw {
   justify-content: space-between !important;
+  margin-left: 35px;
 }
+
 .jc-center {
   justify-content: center !important;
 }
+
 .jc-center .MuiTabs-flexContainer {
   justify-content: center !important;
 }
@@ -2713,9 +2630,11 @@ button {
 .alignItems-center {
   align-items: center;
 }
+
 .alignItems-start {
   align-items: start !important;
 }
+
 .ml-0 {
   margin-left: 0 !important;
 }
@@ -2813,6 +2732,7 @@ button {
 .fs-12 {
   font-size: 12px !important;
 }
+
 .fs-18 {
   font-size: 18px !important;
 }
@@ -2824,7 +2744,6 @@ button {
 }
 
 .header-bg {
-  padding: 15px;
   border-radius: 20px;
   background: #f9fafc;
   border: solid 1px #dddddd;
@@ -2875,6 +2794,7 @@ button {
 .pr-28 {
   padding-right: 28px !important;
 }
+
 .pr-4 {
   padding-right: 4px !important;
 }
@@ -3009,7 +2929,7 @@ button {
 }
 
 .profile-tab.MuiTab-root {
-  width: 51% !important;
+  width: 54% !important;
   font-size: 12px !important;
 }
 
@@ -3041,9 +2961,11 @@ button {
 .pt-0 {
   padding-top: 0 !important;
 }
+
 .pt-12 {
   padding-top: 12px !important;
 }
+
 MuiDialog-paper .mt-15 {
   margin-top: 15px !important;
 }
@@ -3182,9 +3104,11 @@ custom-chip {
 .bg-blueShade3:hover {
   background: #e3f5ff !important;
 }
+
 .fs-13 {
   font-size: 13px !important;
 }
+
 .fs-14 {
   font-size: 14px !important;
 }
@@ -3301,7 +3225,7 @@ custom-chip {
   font-size: 16px !important;
   color: #000;
   font-weight: 400 !important;
-  margin-top:5px;
+  margin-top: 5px;
 }
 
 .filter-text {
@@ -3332,13 +3256,6 @@ custom-chip {
 .tab-text.Mui-selected {
   color: #0e7a9c !important;
 }
-
-/* .domainHover:hover {
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
- 
-  cursor: pointer;
-} */
 
 .searchUser {
   font-size: 13px !important;
@@ -3412,9 +3329,11 @@ custom-chip {
 .profile-btn.Menuactive {
   display: flex !important;
 }
+
 header .Menuactive:hover {
   background: transparent !important;
 }
+
 .Menuactive:hover {
   background: #0e7a9c !important;
 }
@@ -3462,13 +3381,6 @@ header .MuiContainer-maxWidthLg {
   outline: 0;
 }
 
-.MuiInputBase-adornedEnd {
-  background: #fff !important;
-}
-
-.profile .MuiButtonBase-root:hover {
-  background: rgb(14, 122, 156) !important;
-}
 .profile .profile-cardContent .MuiButtonBase-root:hover {
   background: #e3f5ff !important;
 }
@@ -3585,11 +3497,10 @@ header .MuiContainer-maxWidthLg {
   font-size: 14px;
   text-shadow: 1px 1px 2px #666e70;
 }
-
-/* .my-class.carousel-active-ui .cursor-pointer {
-  width: 104px;
-  margin-bottom: -12px;
-} */
+.my-class {
+  margin: 20px 0px 10px 0px !important;
+  text-align: center;
+}
 thead th {
   font-weight: 600 !important;
 }
@@ -3620,13 +3531,16 @@ thead th {
 .createForm {
   margin-bottom: 30px !important;
 }
+
 .createForm .MuiInputAdornment-positionStart {
   position: inherit !important;
 }
+
 .createForm .MuiInputAdornment-outlined {
   height: inherit !important;
   max-height: inherit !important;
 }
+
 /* .createForm .MuiButton-root:hover {
   background: none !important;
 } */
@@ -3641,52 +3555,67 @@ thead th {
 .MuiRadioGroup-root svg {
   color: #0e7a9c !important;
 }
+
 .MuiLinearProgress-root {
   display: block;
   width: 100%;
   height: 10px !important;
   border-radius: 10px;
 }
+
 .voting-option {
   display: flex;
   align-items: center;
 }
+
 .MuiBox-root.css-pazuet {
   margin-left: 40px;
 }
+
 .MuiLinearProgress-bar {
   width: 100% !important;
 }
+
 .progressOne .MuiLinearProgress-bar {
   background-color: #9aaef9;
 }
+
 .progressOne .MuiLinearProgress-root {
   background-color: #7995ff;
 }
+
 .progressTwo .MuiLinearProgress-bar {
   background-color: #fea49d;
 }
+
 .progressTwo .MuiLinearProgress-root {
   background-color: #ff928a;
 }
+
 .progressThree .MuiLinearProgress-bar {
   background-color: #60def8;
 }
+
 .progressThree .MuiLinearProgress-root {
   background-color: #3cc3df;
 }
+
 .voting-option .css-70qvj9 {
   width: 100% !important;
 }
+
 .icon-blue {
   color: #7995ff !important;
 }
+
 .bx-none {
   box-shadow: none !important;
 }
+
 .b-none {
   border: none !important;
 }
+
 .MuiDialog-paper .MuiListItemText-root {
   display: inline-block !important;
 }
@@ -3695,24 +3624,30 @@ thead th {
   min-height: 100vh;
 }
 
-.MuiDialogTitle-root + .css-1ty026z {
+.MuiDialogTitle-root+.css-1ty026z {
   padding-top: 20px !important;
 }
+
 .MuiListItemText-root span {
   font-family: Poppins, sans-serif !important;
 }
+
 input:required::after {
   content: "*";
   color: red;
-  margin-left: 5px; /* Adjust spacing as needed */
+  margin-left: 5px;
+  /* Adjust spacing as needed */
   font-weight: bold;
 }
+
 .red {
   color: red !important;
 }
+
 .MuiCheckbox-colorSecondary.Mui-checked {
   color: #007b9d !important;
 }
+
 .dashboard .MuiChip-label {
   overflow: hidden;
   white-space: nowrap;
@@ -3721,42 +3656,72 @@ input:required::after {
   text-overflow: ellipsis;
   width: 175px !important;
 }
+
 .subDomain legend {
   min-width: 90px !important;
 }
+
 .mt-15 {
   margin-top: 15px !important;
 }
+
 .height-inherit {
   height: inherit !important;
 }
+
 .mt-10 {
   margin-top: 10px !important;
 }
+
 .d-inline-block {
   display: inline-block !important;
 }
-/* .MuiChartsAxis-tickContainer {
-  transform: rotate(0.1turn);
-} */
 .feedback-popup .MuiDialog-paper {
   width: 434px !important;
 }
+
 .recording .MuiDialog-paper {
   width: 300px !important;
 }
+
 .joinCourse .MuiBreadcrumbs-ol .oneLineEllipsis {
   padding-top: 0 !important;
 }
+
 .css-1nmdiqf5-menu {
   z-index: 9999999 !important;
 }
+
 .ai-center {
   align-items: center;
 }
-.cardBox1{
-min-height:300px;
+
+.cardBox1 {
+  min-height: 300px;
 }
+
 .visibility-hidden {
   visibility: hidden;
+}
+.height-200{
+  height:200px;
+}
+.xs-hide.d-flex.bg-white {
+  height: 75px;
+}
+.remove-box{
+  background: #e1f5ff !important;
+  display: flex;
+  margin-left: 10px;
+  padding: 3px 13px;
+  border-radius: 7px;
+}
+.css-qiwgdb.MuiSelect-select {
+  white-space: initial;
+}
+.mb-20{
+  margin-bottom: 20px;
+}
+.url-class{
+  word-wrap: break-word;
 }

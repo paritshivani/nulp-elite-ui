@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Button from "@mui/material/Button";
@@ -7,7 +6,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
-import Autocomplete from "@mui/material/Autocomplete";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -23,7 +21,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ToasterCommon from "../pages/ToasterCommon";
 import dayjs from "dayjs";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useTranslation } from "react-i18next";
 import * as util from "../services/utilService";
@@ -196,7 +193,6 @@ const uniqueFilteredSubCategories = [...new Set(filteredSubCategories.map(item =
   subCategory.find(item => item.name === name)
 );
 
-   console.log(uniqueFilteredSubCategories,"uniqueFilteredSubCategories---------");
 
   const handleCheckboxChange = (event, item, filterType) => {
     if (filterType === "contentType") {
@@ -452,7 +448,7 @@ const uniqueFilteredSubCategories = [...new Set(filteredSubCategories.map(item =
                   onClick={toggleDrawer(anchor, true)}
                   className="h6-title "
                 >
-                  Filters
+                  {t("FILTERS")}
                   <ArrowForwardIosIcon
                     sx={{ mr: 1, fontSize: "13px", paddingLeft: "10px" }}
                   />
@@ -592,13 +588,6 @@ const uniqueFilteredSubCategories = [...new Set(filteredSubCategories.map(item =
           label={t("SEARCH_SUB_DOMAIN")}
         />
       </FormControl>
-          {/* <Autocomplete
-      multiple
-      disablePortal
-      id="combo-box-demo"
-      sx={{ width: "100%", background: "#fff" }}
-      renderInput={(params) => <TextField  label="search" />}
-    />             */}
           <List>
            {uniqueFilteredSubCategories.map((item) => (
           <ListItem className="filter-ul-text" key={item.name}>

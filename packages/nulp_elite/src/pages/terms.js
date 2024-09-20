@@ -4,9 +4,6 @@ import Footer from "components/Footer";
 import Header from "components/header";
 import { Container } from "@mui/material";
 import Box from '@mui/material/Box';
-
-
-
 const Terms = () => {
   const { t } = useTranslation();
 

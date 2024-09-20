@@ -4,13 +4,10 @@ import Typography from "@mui/joy/Typography";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import domainWithImage from "../assets/domainImgForm.json";
-import { Tooltip } from "@mui/material";
-import { MarginOutlined } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import { useTranslation } from "react-i18next";
 import SkeletonLoader from "components/skeletonLoader";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-// import { useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button } from "@mui/material";
 const styles = {
@@ -22,25 +19,27 @@ const styles = {
   },
 };
 const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    // breakpoint: { max: 4000, min: 3000 },
-    breakpoint: { max: 1280, min: 1024 },
-
-    items: 8,
-  },
   desktop: {
-    // breakpoint: { max: 3000, min: 1024 },
-    breakpoint: { max: 1024, min: 769 },
+    breakpoint: { max: 1920, min: 1240 },
+    items: 10,
+    arrows: false, 
+  },
+  mediumDesktop: {
+    breakpoint: { max: 1240, min: 768 },
     items: 8,
+    partialVisibilityGutter: 20,
+    arrows: true,
   },
   tablet: {
-    breakpoint: { max: 768, min: 464 },
+    breakpoint: { max: 768, min: 600 },
     items: 4,
+    partialVisibilityGutter: 30,
+    arrows: true,
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: { max: 600, min: 0 },
     items: 3,
+    arrows: true,
   },
 };
 
@@ -164,177 +163,97 @@ export default function DomainCarousel({
 
   return (
     <>
-      {isMobile ? (
-        <Box style={{ position: "relative" }} className="bg-darkblue">
-          <Carousel
-            swipeable={true}
-            draggable={true}
-            showDots={["mobile"]}
-            responsive={responsive}
-            ssr={true}
-            infinite={true}
-            autoPlaySpeed={1000}
-            keyBoardControl={true}
-            customTransition="all .5"
-            transitionDuration={500}
-            containerClass="carousel-container carousel-bx"
-            dotListClass="custom-dot-list-style-none"
-            itemClass="carousel-item-padding-40-px"
-          >
-            {itemsArray &&
-              itemsArray?.slice(0, 10).map((domain, index) => (
-                <Box
-                  className={`my-class ${
-                    activeStates === index
-                      ? "carousel-active-ui"
-                      : userDomain === domain.code
-                      ? "carousel-active-ui"
-                      : ""
-                  }`}
-                  onClick={(e) =>
-                    handleDomainClick(domain.code, index, domain.name)
-                  }
-                  key={index}
-                  orientation="horizontal"
-                  size="sm"
-                  variant="outlined"
-                >
-                  <Box
-                    // className="imgBorder cursor-pointer"
-                    className="cursor-pointer"
-                    // style={{
-                    //   background: "#fff",
-                    //   padding: "4px",
-                    //   borderRadius: "10px",
-                    //   height: "48px",
-                    //   width: "48px",
-                    // }}
-                  >
-                    {/* {(domain.image != undefined) && <img src={require(baseImgUrl+domain.image)}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />}
-                {(domain.image == undefined)&& <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} />} */}
-                    <img
-                      src={require(`../assets/domainImgs${domain.image}`)}
-                      alt={domain.name}
-                      className="domainHover"
-
-                      // style={{ transform: "translate(5px, 4px)" }}
-                    />
-                    {/* <img src={require("../assets/swm.png")}  style={{width:'40px',objectFit:'contain'}} alt={domain.name} /> */}
-                  </Box>
-                  <Box sx={{ alignSelf: "center" }} className="cursor-pointer">
-                    <Typography
-                      level="title-md"
-                      style={{ fontSize: "12px", textAlign: "center" }}
-                      className="domainText"
-                    >
-                      {domain.name}
-                    </Typography>
-                  </Box>
-                </Box>
-              ))}
-          </Carousel>
-        </Box>
-      ) : (
+      {isLoading && (
         <>
-          {isLoading && (
-            <>
-              <Box>
-                <SkeletonLoader />
-              </Box>
-            </>
-          )}
+          <Box>
+            <SkeletonLoader />
+          </Box>
+        </>
+      )}
 
-          {!isLoading && !isBoxVisible && (
-            <Box className="domain-box">
-              <button onClick={handleClick} className="domain-btn">
-                {t("SELECT_YOUR_PREFERRED_DOMAIN")}
-                <KeyboardArrowDownIcon
-                  style={{
-                    color: "#484848",
-                    fontSize: "24px",
-                    verticalAlign: "middle",
-                  }}
-                />
-              </button>
-            </Box>
-          )}
-
-          {isBoxVisible && (
-            <Box style={{ position: "relative" }} className="bg-darkblue">
-              <Box className="carousel-bx pt-12">
-                <Container
-                  role="main"
-                  maxWidth="xl"
-                  className="carousel"
-                  style={{ paddingTop: "0" }}
-                >
-                  <Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        width: "100%",
-                      }}
-                    >
-                      {itemsArray &&
-                        itemsArray?.slice(0, 10).map((domain, index) => (
-                          <Box
-                            className={`my-class ${
-                              activeStates === index
-                                ? "carousel-active-ui"
-                                : userDomain === domain.code
-                                ? "carousel-active-ui"
-                                : ""
-                            }`}
-                            onClick={(e) =>
-                              handleDomainClick(domain.code, index, domain.name)
-                            }
-                            key={index}
-                            orientation="horizontal"
-                            size="sm"
-                            variant="outlined"
-                            style={{ display: "flex", margin: "0 4px" }}
-                            onMouseEnter={(event) => handleMouseEnter(index)}
-                            onMouseLeave={handleMouseLeave}
-                          >
-                            <Box className="cursor-pointer">
-                              <Box className="cursor-pointer">
-                                <img
-                                  className="domainHover"
-                                  src={require(`../assets/domainImgs${domain.image}`)}
-                                  alt={domain.name}
-                                />
-                              </Box>
-                              <span className="cursor-pointer domainText">
-                                {domain.name}
-                              </span>
-                              {/* )} */}
-                            </Box>
-                          </Box>
-                        ))}
+      {!isLoading && !isBoxVisible && (
+        <Box className="domain-box">
+          <button onClick={handleClick} className="domain-btn">
+            {t("SELECT_YOUR_PREFERRED_DOMAIN")}
+            <KeyboardArrowDownIcon
+              style={{
+                color: "#484848",
+                fontSize: "24px",
+                verticalAlign: "middle",
+              }}
+            />
+          </button>
+        </Box>
+      )}
+      {isBoxVisible && (
+        <><Box className="bg-darkblue">
+          <Container
+            role="main"
+            maxWidth="xl"
+            className="carousel"
+            style={{ paddingTop: "0" }}
+          >
+            <Carousel
+              swipeable={true}
+              draggable={true}
+              showDots={false}
+              responsive={responsive}
+              ssr={true}
+              infinite={true}
+              autoPlaySpeed={1000}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              containerClass="carousel-container carousel-bx"
+              dotListClass="custom-dot-list-style-none"
+              itemClass="carousel-item-padding-40-px"
+            >
+              {itemsArray &&
+                itemsArray.slice(0, 10).map((domain, index) => (
+                  <Box
+                    className={`my-class ${activeStates === index || userDomain === domain.code
+                      ? "carousel-active-ui"
+                      : ""}`}
+                    onClick={() => handleDomainClick(domain.code, index, domain.name)}
+                    key={index}
+                    orientation="horizontal"
+                    size="sm"
+                    variant="outlined"
+                  >
+                    <Box className="cursor-pointer">
+                      <img
+                        src={require(`../assets/domainImgs${domain.image}`)}
+                        alt={domain.name}
+                        className="domainHover" />
+                    </Box>
+                    <Box sx={{ alignSelf: "center" }} className="cursor-pointer">
+                      <Typography
+                        level="title-md"
+                        style={{ fontSize: "12px", textAlign: "center" }}
+                        className="domainText"
+                      >
+                        {domain.name}
+                      </Typography>
                     </Box>
                   </Box>
-                  <Box
-                    style={{
-                      textAlign: "center",
-                      margin: "0 auto",
-                      marginTop: "-21px",
-                    }}
-                  >
-                    <Button
-                      onClick={handleClick}
-                      style={{ paddingTop: "0", marginTop: "20px" }}
-                    >
-                      <KeyboardArrowUpIcon
-                        style={{ color: "#fff", fontSize: "33px" }}
-                      />
-                    </Button>
-                  </Box>
-                </Container>
-              </Box>
+                ))}
+            </Carousel>
+            <Box
+              style={{
+                textAlign: "center",
+                margin: "0 auto",
+              }}
+            >
+              <Button
+                onClick={handleClick}
+                style={{ paddingTop: "0"}}
+              >
+                <KeyboardArrowUpIcon
+                  style={{ color: "#fff", fontSize: "33px" }} />
+              </Button>
             </Box>
-          )}
-        </>
+          </Container>
+        </Box><Box className="height-200"></Box></>
       )}
     </>
   );

@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Footer from "components/Footer";
-import Header from "components/header";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Filter from "components/filter";
 import BoxCard from "components/Card";
 import FloatingChatIcon from "../../components/FloatingChatIcon";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import * as util from "../../services/utilService";
-import Search from "components/search";
 import NoResult from "pages/content/noResultFound";
 import Alert from "@mui/material/Alert";
 import Pagination from "@mui/material/Pagination";
@@ -22,6 +15,7 @@ const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
 import { TextField } from "@mui/material";
 const routeConfig = require("../../configs/routeConfig.json");
+import { Loading } from "@shiksha/common-lib";
 const ContinueLearning = () => {
   const { t } = useTranslation();
   const [data, setData] = useState([]);
@@ -88,6 +82,7 @@ const ContinueLearning = () => {
       fetchGradeLevels();
     }
   }, [orgId, framework]);
+
   const fetchGradeLevels = async () => {
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.FRAMEWORK.READ}/${framework}?categories=${urlConfig.params.framework}`;
@@ -114,12 +109,9 @@ const ContinueLearning = () => {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     }
   };
-  const handleCourseStatusChange = (selectedOptions) => {
-    const selectedValues = selectedOptions.map((option) => option.value);
-    setCourseStatus(selectedValues);
-  };
 
   const filteredCourses = useMemo(() => {
+
     let filtered = data;
 
     if (courseStatus.length) {
@@ -152,9 +144,11 @@ const ContinueLearning = () => {
   };
 
   const paginatedCourses = useMemo(() => {
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredCourses.slice(startIndex, startIndex + itemsPerPage);
   }, [currentPage, itemsPerPage, filteredCourses]);
+
   return (
     <div>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
@@ -167,13 +161,6 @@ const ContinueLearning = () => {
             {error}
           </Alert>
         )}
-        {/* <Box style={{ margin: "20px 0 20px -12px" }}>
-          <Filter
-            options={gradeLevels}
-            label="Filter by Sub-Domain"
-            onChange={handleFilterChange}
-          />
-        </Box> */}
         <Box style={{ margin: "20px 0 20px -12px" }}>
           <TextField
             fullWidth
@@ -189,32 +176,33 @@ const ContinueLearning = () => {
           <Box>
             <Grid container spacing={2}>
               <Box className="custom-card profile-card-view w-100">
-                {paginatedCourses.map((items) => (
-                  <Box className="custom-card-box" key={items.contentId}>
-                    <BoxCard
-                      items={items}
-                      index={filteredCourses.length}
-                      onClick={() =>
-                        handleCardClick(
-                          items.content.identifier,
-                          items.content.primaryCategory
-                        )
-                      }
-                      continueLearning={false}
-                    ></BoxCard>
-                  </Box>
-                ))}
+                {isLoading ? (
+                  <Loading message={t("LOADING")} />) : paginatedCourses.map((items) => (
+                    <Box className="custom-card-box" key={items.contentId}>
+                      <BoxCard
+                        items={items}
+                        index={filteredCourses.length}
+                        onClick={() =>
+                          handleCardClick(
+                            items.content.identifier,
+                            items.content.primaryCategory
+                          )
+                        }
+                        continueLearning={false}
+                      ></BoxCard>
+                    </Box>
+                  ))}
               </Box>
-              {paginatedCourses.length === 0 && (
+              <Box>
+              {!isLoading && paginatedCourses.length ===0 && (
                 <>
                   <Box style={{ width: "100%" }}>
                     <NoResult className="center-no-result " />
-
-                    <Box className="h5-title">Explore Content</Box>
+                    <Box className="h5-title">{t("EXPLORE_CONTENT")}</Box>
                   </Box>
                 </>
               )}
-
+              </Box>
               <div className="blankCard"></div>
             </Grid>
           </Box>

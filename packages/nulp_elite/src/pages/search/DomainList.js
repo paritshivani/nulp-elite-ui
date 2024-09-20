@@ -1,41 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme} from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import domainWithImage from "../../assets/domainImgForm.json";
-import SearchBox from "components/search";
-import frameworkHardCodedData from "../../assets/framework.json";
 import Header from "../../components/header";
 import * as frameworkService from ".././../services/frameworkService";
-import { generatePath, useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Footer from "../../components/Footer";
 import { object } from "yup";
 import Alert from "@mui/material/Alert";
-// import { useTranslation } from "react-i18next";
 import appConfig from "../../configs/appConfig.json";
 const urlConfig = require("../../configs/urlConfig.json");
 import ToasterCommon from "../ToasterCommon";
-import Carousel from "react-multi-carousel";
 import DomainCarousel from "components/domainCarousel";
 import NoResult from "pages/content/noResultFound";
 import BoxCard from "../../components/Card";
-import SummarizeOutlinedIcon from "@mui/icons-material/SummarizeOutlined";
 import BookmarkAddedOutlinedIcon from "@mui/icons-material/BookmarkAddedOutlined";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
 const routeConfig = require("../../configs/routeConfig.json");
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import CircularProgress from "@mui/material/CircularProgress";
-import Skeleton from "@mui/material/Skeleton";
 import SkeletonLoader from "components/skeletonLoader";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import * as util from "../../services/utilService";
+import { Loading } from "@shiksha/common-lib";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -58,30 +51,8 @@ theme.typography.h3 = {
   },
 };
 
-const responsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 8,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
-};
-
 const DomainList = ({ globalSearchQuery }) => {
   const { t } = useTranslation();
-  // console.log(data.result.categories.terms.category);
-  // const [search, setSearch] = React.useState(true);
-  // const [searchState, setSearchState] = React.useState(false);
   const [data, setData] = React.useState();
   const [channelData, setChannelData] = React.useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -206,15 +177,7 @@ const DomainList = ({ globalSearchQuery }) => {
       request: {
         filters: {
           se_boards: [null],
-          primaryCategory: [
-            "Good Practices",
-            "Reports",
-            "Manual/SOPs",
-            "Content",
-            "Quiz / Test",
-            "Course",
-            "Manuals/SOPs"           
-          ],
+          primaryCategory: ["Good Practices", "Reports", "Manual/SOPs"],
           visibility: ["Default", "Parent"],
         },
         limit: 100,
@@ -419,11 +382,12 @@ const DomainList = ({ globalSearchQuery }) => {
 
       {/* Search Box */}
       <Box
-        className="lg-hide d-flex header-bg"
-        style={{ alignItems: "center", paddingLeft: "19px" }}
+        className="lg-hide d-flex"
+        style={{ alignItems: "center", padding: '15px',marginTop: '2px',background: '#fff',border: '2px solid #eee',
+          borderRadius: '10px'}}
       >
         <TextField
-          placeholder={t("What do you want to learn today?  ")}
+          placeholder={t("What do you want to learn today?")}
           variant="outlined"
           size="small"
           fullWidth
@@ -480,19 +444,10 @@ const DomainList = ({ globalSearchQuery }) => {
                         <img
                           className="domainHover"
                           src={require(`../../assets/domainImgs${term.image}`)}
-                          // style={{ transform: "translate(2px, 5px)" }}
                         />
                       </Box>
                       <h5
                         className=" cursor-pointer domainText"
-                        // style={{
-                        //   fontSize: "14px",
-                        //   fontWeight: "500",
-                        //   paddingLeft: "10px",
-                        //   margin: "0",
-                        //   width: "86px",
-                        //   wordWrap: "break-word",
-                        // }}
                       >
                         {term.name}
                       </h5>
@@ -534,29 +489,20 @@ const DomainList = ({ globalSearchQuery }) => {
                   display: "inline-block",
                 }}
               >
-                {"Latest Courses"}{" "}
+                {t("POPULAR_COURSES")}{" "}
               </Box>{" "}
             </Box>
           </p>
           {isMobile ? (
             <Box style={{ paddingTop: "0" }}>
               {isLoading ? (
-                <p>{t("LOADING")}</p>
+               <Loading message={t("LOADING")} />
               ) : error ? (
                 <Alert severity="error">{error}</Alert>
               ) : popularCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
                     {popularCourses.slice(0, 10).map((items, index) => (
-                      // <Grid
-                      //   item
-                      //   xs={6}
-                      //   sm={isMobile ? 6 : 12} // Show 2 courses per line on mobile view
-                      //   md={6}
-                      //   lg={2}
-                      //   key={items.identifier}
-                      //   style={{ marginBottom: "10px" }}
-                      // >
                       <Box className="custom-card-box" key={items.identifier}>
                         <BoxCard
                           items={items}
@@ -577,20 +523,12 @@ const DomainList = ({ globalSearchQuery }) => {
           ) : (
             <Box sx={{ paddingTop: "0" }}>
               {isLoading ? (
-                <p>{t("LOADING")}</p>
+                <Loading message={t("LOADING")} />
               ) : error ? (
                 <Alert severity="error">{error}</Alert>
               ) : popularCourses.length > 0 ? (
                 <Box className="custom-card">
                   {popularCourses.slice(0, 10).map((items) => (
-                    // <Grid
-                    //   item
-                    //   xs={6}
-                    //   md={6}
-                    //   lg={2}
-                    //   key={items.identifier}
-                    //   style={{ marginBottom: "10px" }}
-                    // >
                     <Box key={items.identifier} className="custom-card-box">
                       <BoxCard
                         items={items}
@@ -636,29 +574,20 @@ const DomainList = ({ globalSearchQuery }) => {
                   display: "inline-block",
                 }}
               >
-                {"Recently Added"}{" "}
+                {t("RECENTLY_ADDED")}{" "}
               </Box>{" "}
             </Box>
           </p>
           {isMobile ? (
             <Box sx={{ paddingTop: "0" }}>
               {isLoading ? (
-                <p>{t("LOADING")}</p>
+                 <Loading message={t("LOADING")} />
               ) : error ? (
                 <Alert severity="error">{error}</Alert>
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
                     {recentlyAddedCourses.slice(0, 10).map((items, index) => (
-                      // <Grid
-                      //   item
-                      //   xs={6}
-                      //   sm={isMobile ? 6 : 12} // Show 2 courses per line on mobile view
-                      //   md={6}
-                      //   lg={2}
-                      //   key={items.identifier}
-                      //   style={{ marginBottom: "10px" }}
-                      // >
                       <Box className="custom-card-box" key={items.identifier}>
                         <BoxCard
                           items={items}
@@ -678,21 +607,13 @@ const DomainList = ({ globalSearchQuery }) => {
           ) : (
             <Box sx={{ paddingTop: "0" }}>
               {isLoading ? (
-                <p>{t("LOADING")}</p>
+                <Loading message={t("LOADING")} />
               ) : error ? (
                 <Alert severity="error">{error}</Alert>
               ) : recentlyAddedCourses.length > 0 ? (
                 <div>
                   <Box className="custom-card">
                     {recentlyAddedCourses.slice(0, 10).map((items) => (
-                      // <Grid
-                      //   item
-                      //   xs={6}
-                      //   md={6}
-                      //   lg={2}
-                      //   key={items.identifier}
-                      //   style={{ marginBottom: "10px" }}
-                      // >
                       <Box className="custom-card-box" key={items.identifier}>
                         <BoxCard
                           items={items}
@@ -713,7 +634,6 @@ const DomainList = ({ globalSearchQuery }) => {
         </Box>
       </Container>
       <FloatingChatIcon />
-
       <Footer />
     </div>
   );

@@ -2,22 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import EventCard from "components/EventCard";
 import Box from "@mui/material/Box";
-
 import { getAllContents } from "services/contentService";
-
-import Search from "components/search";
-import SearchBox from "components/search";
-import Filter from "components/filter";
-import contentData from "../../assets/contentSerach.json";
-// import RandomImage from "../../assets/cardRandomImgs.json";
-
 import Grid from "@mui/material/Grid";
 import Footer from "components/Footer";
 import Header from "components/header";
 import Container from "@mui/material/Container";
 import Pagination from "@mui/material/Pagination";
 import NoResult from "pages/content/noResultFound";
-import { t } from "i18next";
 import Alert from "@mui/material/Alert";
 import { useTranslation } from "react-i18next";
 const urlConfig = require("../../configs/urlConfig.json");
@@ -32,63 +23,36 @@ import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import RecentActorsOutlinedIcon from "@mui/icons-material/RecentActorsOutlined";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import * as util from "../../services/utilService";
 
 import FloatingChatIcon from "components/FloatingChatIcon";
 import SkeletonLoader from "components/skeletonLoader";
-// const myEvents = require("./myEvents.json");
-
-const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 8,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
-};
+import { Loading } from "@shiksha/common-lib";
 
 const EventList = (props) => {
   const [search, setSearch] = useState(true);
   const location = useLocation();
   const [pageNumber, setPageNumber] = useState(1);
   const [data, setData] = useState();
-  // console.log("myEvents.result.events ---- ", myEvents.result.events);
   const [myData, setMyData] = useState();
   const [filters, setFilters] = useState({});
   const [domainfilter, setDomainfilter] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [gradeLevels, setGradeLevels] = useState([]);
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
-  // const { domain } = location.state || {};
   const [domain, setDomain] = useState(location.state?.domain || undefined);
   const [domainName, setDomainName] = useState(
     location.state?.domainName || undefined
   );
   const [domainList, setDomainList] = useState([]);
-  const { domainquery } = location.state || {};
   const [totalPages, setTotalPages] = useState(1);
   const [totalPage, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
-  const [channelData, setChannelData] = React.useState(true);
   const [globalSearchQuery, setGlobalSearchQuery] = useState(
     location.state?.globalSearchQuery || undefined
   );
@@ -132,9 +96,6 @@ const EventList = (props) => {
     currentPage,
     subDomainFilter,
   ]);
-  // useEffect(() => {
-  //   fetchAllData();
-  // }, [currentPage]);
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
@@ -246,39 +207,6 @@ const EventList = (props) => {
       setIsLoading(false);
     }
   };
-
-  // const fetchMyEvents = async () => {
-  //   setIsLoading(true);
-  //   setError(null);
-
-  //   const _userId = util.userId();
-
-  //   let data = JSON.stringify({
-  //     request: {
-  //       filters: { objectType: ["Event"] },
-  //       limit: 10,
-  //       sort_by: { lastPublishedOn: "desc" },
-  //       offset: 0,
-  //     },
-  //   });
-  //   const headers = {
-  //     "Content-Type": "application/json",
-  //   };
-
-  //   try {
-  //     const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.COURSE.GET_ENROLLED_COURSES}/${_userId}?contentType=Event`;
-  //     const response = await fetch(url, headers);
-  //     const responseData = await response.json();
-  //     console.log("My data  ---", responseData.result.courses);
-  //     // setMyData(responseData.result.courses);
-  //   } catch (error) {
-  //     console.log("m data error---", error);
-  //     showErrorMessage(t("FAILED_TO_FETCH_DATA"));
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const fetchUserData = async () => {
     try {
       const uservData = await util.userData();
@@ -393,7 +321,7 @@ const EventList = (props) => {
             <Box textAlign="center" padding="10">
               <Box>
                 {isLoading ? (
-                  <p>{t("LOADING")}</p>
+                   <Loading message={t("LOADING")} />
                 ) : error ? (
                   <Alert severity="error">{error}</Alert>
                 ) : data ? (
