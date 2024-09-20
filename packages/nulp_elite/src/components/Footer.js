@@ -156,9 +156,9 @@ export default function Footer() {
             />
             <BottomNavigationAction
               target="_blank"
-              onClick={() => navigate("/my-groups")}
+              onClick={() => navigate("/my-groups?selectedTab=myGroups")}
               className={
-                location.pathname === `/my-groups` ? "navigateActive" : ""
+                location.pathname === `/my-groups?selectedTab=myGroups` ? "navigateActive" : ""
               }
               // onClick={() => navigate(routeConfig.ROUTES.POFILE_PAGE.PROFILE)}
               label={t("DISCUSSIONS")}
