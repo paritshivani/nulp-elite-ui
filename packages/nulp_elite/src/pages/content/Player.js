@@ -111,7 +111,7 @@ const handleAssessmentData = async (data) => {
     await updateContentState(2)
   }
   else if (data.eid === "START"){
-    await updateContentState(1)
+    await updateContentState(2)
 
   }
 };
@@ -253,7 +253,7 @@ const attemptid = ()=>{
     };
 
     if (!consumedContent.includes(contentId)) {
-      updateContentState(1);
+      updateContentState(2);
     }
     fetchData();
     fetchUserData();
@@ -456,7 +456,7 @@ const attemptid = ()=>{
                   setTrackData(data);
                 }
               }}
-              public_url="https://nulp.niua.org/newplayer"
+              public_url="https://devnulp.niua.org/newplayer"
             />
           )}
         </Box>
