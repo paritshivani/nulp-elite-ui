@@ -3381,10 +3381,6 @@ header .MuiContainer-maxWidthLg {
   outline: 0;
 }
 
-.profile .MuiButtonBase-root:hover {
-  background: rgb(14, 122, 156) !important;
-}
-
 .profile .profile-cardContent .MuiButtonBase-root:hover {
   background: #e3f5ff !important;
 }
