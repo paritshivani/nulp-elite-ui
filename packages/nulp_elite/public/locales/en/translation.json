@@ -14,43 +14,26 @@
   "IMPROVE_SUBTITLE": "Improve on the go.",
   "MOBILENUMBER": "Mobile Number",
   "NAME": "Name",
-
   "DATEOFBIRTH": "Date of Birth",
-
   "EMAILID": "Email ID",
   "BIO": "Bio",
-
   "STATE": "State",
-
   "DISTRICT": "District",
-
   "BLOCK": "Block",
-
   "UNBLOCK": "Unblock",
-
   "SCHOOL": "School",
-
   "UDISE": "UDISE",
   "CLASS": "Class",
   "ENTER_MOBILE_NUMBER": "Enter Mobile Number",
   "ENTER_NAME": "Enter Name",
-
   "ENTER_DATEOFBIRTH": "Enter Date of Birth",
-
   "ENTER_EMAILID": "Enter Email ID",
-
   "ENTER_STATE": "Enter State",
-
   "ENTER_DISTRICT": "Enter District",
-
   "ENTER_BLOCK": "Enter Block",
-
   "ENTER_SCHOOL": "Enter School",
-
   "ENTER_UDISE": "Enter UDISE",
-
   "ENTER_CLASS": "Enter Class",
-
   "ENTER_USERNAME": "Enter Username",
   "ENTER_PASSWORD": "ENTER Password",
   "USERNAME": "Username",
@@ -297,7 +280,6 @@
   "LICENSEDETAILS": "license Details",
   "ABOUTTHECONTENT": "About The Content",
   "COPYRIGHT": "Copyright",
-
   "NO_POLL_AVAILABLE": "No polls available",
   "CLOSED_POLLS": "Closed Polls",
   "DRAFT_POLLS": "Draft Polls",
@@ -325,4 +307,13 @@
   "FILTERS":"Filters",
   "EXPLORE_CONTENT":"Explore Content",
   "COURSE_SUCCESSFULLY_COMPLETED": "Course completed Successfully"
+  "ID":"ID",
+  "ORGANIZATION_NAME":"Organization Name",
+  "ROLE":"Role",
+  "NO_CERTIFICATES_FOUND":"No certificates found",
+  "NOT_ENROLL_MESSAGE":"You are not enrolled in any course. Enroll now!",
+  "FIRST_NAME":"First Name",
+  "LAST_NAME":"Last Name",
+  "CLOSED_POLLS":"Closed Polls",
+  "NO_CHAT_REQUEST" : "No Chat Request"
 }

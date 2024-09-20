@@ -102,7 +102,7 @@ const JoinCourse = () => {
   const [isContentConsumed, setIsContentConsumed] = useState();
   const [completedContents, setCompletedContents] = useState([]);
   const [isCompleted, setIsCompleted] = useState();
-  const [copyrightOpen,setcopyrightOpen] = useState(false);
+  const [copyrightOpen, setcopyrightOpen] = useState(false);
   const toggleShowMore = () => {
     setShowMore((prevShowMore) => !prevShowMore);
   };
@@ -156,7 +156,7 @@ const JoinCourse = () => {
         setCourseData(data);
         setUserData(data);
 
-                const identifiers = data?.result?.content?.children[0]?.children[0]?.identifier;
+        const identifiers = data?.result?.content?.children[0]?.children[0]?.identifier;
         console.log(identifiers, "setChildNode");
         setChildNode(identifiers);
 
@@ -164,18 +164,18 @@ const JoinCourse = () => {
 
         const getAllLeafIdentifiers = (nodes) => {
           nodes.forEach((node) => {
-          if (!node?.children || node?.children.length === 0) {
-            if (node.identifier) {
-              allContents.push(node?.identifier);
-            }
-          } else {
-            getAllLeafIdentifiers(node?.children);
+            if (!node?.children || node?.children.length === 0) {
+              if (node.identifier) {
+                allContents.push(node?.identifier);
+              }
+            } else {
+              getAllLeafIdentifiers(node?.children);
             }
           });
         };
 
         if (data?.result?.content?.children) {
-         getAllLeafIdentifiers(data?.result?.content?.children);
+          getAllLeafIdentifiers(data?.result?.content?.children);
         }
 
         setAllContents(allContents);
@@ -222,7 +222,7 @@ const JoinCourse = () => {
               batchId: batchDetails.batchId,
             });
             setBatchDetails(batchDetails);
-            console.log("batchDetail---",batchDetails)
+            console.log("batchDetail---", batchDetails)
           } else {
             console.error("Batch data not found in response");
           }
@@ -280,18 +280,18 @@ const JoinCourse = () => {
     getUserData();
   }, []);
 
-  const checkCourseComplition = async(allContents, userProgress) =>{
+  const checkCourseComplition = async (allContents, userProgress) => {
     // const contentlength = allContents.length
-    let completedCount= 0;
-    userProgress.result.contentList.map((content)=>{
-      if(content.status ){
-        completedCount = completedCount + 1 ;
+    let completedCount = 0;
+    userProgress.result.contentList.map((content) => {
+      if (content.status) {
+        completedCount = completedCount + 1;
       }
     })
-    if(allContents.length == completedCount){
+    if (allContents.length == completedCount) {
       setIsCompleted(true)
     }
-   
+
   }
 
   const flattenDeep = async (contents) => {
@@ -383,9 +383,8 @@ const JoinCourse = () => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const url = `${
-          urlConfig.URLS.DIRECT_CONNECT.GET_CHATS
-        }?sender_id=${_userId}&receiver_id=${creatorId}&is_accepted=${true}`;
+        const url = `${urlConfig.URLS.DIRECT_CONNECT.GET_CHATS
+          }?sender_id=${_userId}&receiver_id=${creatorId}&is_accepted=${true}`;
 
         const response = await axios.get(url, {
           withCredentials: true,
@@ -454,8 +453,8 @@ const JoinCourse = () => {
             for (let identifier of allContents) {
               const found = Array.isArray(contentList)
                 ? contentList.find(
-                    (item) => item.contentId === identifier && item.status === 2
-                  )
+                  (item) => item.contentId === identifier && item.status === 2
+                )
                 : undefined;
 
               if (!found) {
@@ -605,14 +604,14 @@ const JoinCourse = () => {
             >
               {t("START_LEARNING")}
             </Button>
-          {!isCompleted &&
+            {!isCompleted &&
               <Button
-              onClick={handleLeaveCourseClick} // Open confirmation dialog
-              className="custom-btn-danger"
-            > {t("LEAVE_COURSE")}
-            </Button>
-          }  
-             
+                onClick={handleLeaveCourseClick} // Open confirmation dialog
+                className="custom-btn-danger"
+              > {t("LEAVE_COURSE")}
+              </Button>
+            }
+
             {showConfirmation && (
               <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
                 <DialogTitle>
@@ -637,15 +636,13 @@ const JoinCourse = () => {
                   >
                     {t("LEAVE_COURSE")}
                   </Button>
-          
-            
                 </DialogActions>
               </Dialog>
             )}
           </Box>
         );
       } else {
-        return (
+       return (
           <>
           <Box>
             <Button
@@ -697,7 +694,7 @@ const JoinCourse = () => {
             )}
           </Box>
           <Box>
-            (t{"COURSE_SUCCESSFULLY_COMPLETED"})
+            (t{COURSE_SUCCESSFULLY_COMPLETED})
           </Box>
           </>
         );
@@ -760,17 +757,26 @@ const JoinCourse = () => {
         }
 
         return (
-          <Button
-            onClick={handleJoinAndOpenModal}
-            // onClick={handleOpenModal}
-            disabled={isExpired || !activeBatch} // Only disable if expired (not on last day)
-            className="custom-btn-primary"
-            style={{
-              background: isExpired ? "#ccc" : "#004367",
-            }}
-          >
-            {t("JOIN_COURSE")}
-          </Button>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              onClick={() => handleGoBack()}
+              className="custom-btn-primary mr-5"
+            >
+              {t("BACK")}
+            </Button>
+
+            <Button
+              onClick={handleJoinAndOpenModal}
+              disabled={isExpired || !activeBatch}
+              className="custom-btn-primary"
+              style={{
+                background: isExpired ? "#ccc" : "#004367",
+              }}
+            >
+              {t("JOIN_COURSE")}
+            </Button>
+          </div>
+
         );
       }
     }
@@ -780,7 +786,8 @@ const JoinCourse = () => {
     try {
       await handleJoinCourse(); // Wait for the user to join the course
       setShowConsentForm(true); // Open the consent form after joining the course
-    } catch (error) {setShowEnrollmentSnackbar
+    } catch (error) {
+      setShowEnrollmentSnackbar
       console.error("Error:", error);
     }
   };
@@ -908,8 +915,8 @@ const JoinCourse = () => {
     }
   };
 
-  
-   const handlecopyrightOpen = () => {
+
+  const handlecopyrightOpen = () => {
     setcopyrightOpen(true);
   };
 
@@ -1055,8 +1062,8 @@ const JoinCourse = () => {
               src={
                 userData?.result?.content.se_gradeLevels
                   ? require(`../../assets/cardBanner/${processString(
-                      userData?.result?.content?.se_gradeLevels[0]
-                    )}.png`)
+                    userData?.result?.content?.se_gradeLevels[0]
+                  )}.png`)
                   : require("../../assets/cardBanner/management.png")
               }
               alt="Speaker One"
@@ -1109,83 +1116,84 @@ const JoinCourse = () => {
               courseData?.result?.content?.se_boards ||
               courseData?.result?.content?.gradeLevel ||
               courseData?.result?.content?.se_gradeLevels) && (
-              <Box className="xs-mb-20">
-                <Typography
-                  className="h6-title"
-                  style={{ display: "inline-block" }}
-                >
-                  {t("CONTENT_TAGS")}:{" "}
-                </Typography>
+                <Box className="xs-mb-20">
+                  <Typography
+                    className="h6-title"
+                    style={{ display: "inline-block" }}
+                  >
+                    {t("CONTENT_TAGS")}:{" "}
+                  </Typography>
 
-                {Array.isArray(courseData?.result?.content?.board) &&
-                  courseData?.result?.content?.board?.map((item, index) => (
-                    <Button
-                      key={`board-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {courseData?.result?.content?.se_boards &&
-                  courseData?.result?.content?.se_boards?.map((item, index) => (
-                    <Button
-                      key={`se_boards-${index}`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                      }}
-                      className="bg-blueShade3"
-                    >
-                      {item}
-                    </Button>
-                  ))}
-                {courseData?.result?.content?.gradeLevel &&
-                  courseData?.result?.content?.gradeLevel?.map(
-                    (item, index) => (
+                  {Array.isArray(courseData?.result?.content?.board) &&
+                    courseData?.result?.content?.board?.map((item, index) => (
                       <Button
-                        key={`gradeLevel-${index}`}
+                        key={`board-${index}`}
                         size="small"
                         style={{
                           color: "#424242",
                           fontSize: "10px",
                           margin: "0 10px 3px 6px",
+                          cursor: "auto"
                         }}
                         className="bg-blueShade3"
                       >
                         {item}
                       </Button>
-                    )
-                  )}
-                {courseData?.result?.content?.se_gradeLevels &&
-                  courseData?.result?.content?.se_gradeLevels?.map(
-                    (item, index) => (
+                    ))}
+                  {courseData?.result?.content?.se_boards &&
+                    courseData?.result?.content?.se_boards?.map((item, index) => (
                       <Button
-                        key={`se_gradeLevels-${index}`}
+                        key={`se_boards-${index}`}
                         size="small"
                         style={{
                           color: "#424242",
                           fontSize: "10px",
                           margin: "0 10px 3px 6px",
+                          cursor: "auto"
                         }}
                         className="bg-blueShade3"
                       >
                         {item}
                       </Button>
-                    )
-                  )}
-              </Box>
-            )}
-
-
-
+                    ))}
+                  {courseData?.result?.content?.gradeLevel &&
+                    courseData?.result?.content?.gradeLevel?.map(
+                      (item, index) => (
+                        <Button
+                          key={`gradeLevel-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px 3px 6px",
+                            cursor: "auto"
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      )
+                    )}
+                  {courseData?.result?.content?.se_gradeLevels &&
+                    courseData?.result?.content?.se_gradeLevels?.map(
+                      (item, index) => (
+                        <Button
+                          key={`se_gradeLevels-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px 3px 6px",
+                            cursor: "auto"
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      )
+                    )}
+                </Box>
+              )}
             <Box className="lg-hide"> {renderActionButton()}</Box>
             <Box
               style={{
@@ -1260,72 +1268,72 @@ const JoinCourse = () => {
             </Box>
             {batchDetails && batchDetails.cert_templates != null &&
 
-            <Accordion
-              className="xs-hide accordionBoxShadow"
-              style={{
-                background: "#F9FAFC",
-                borderRadius: "10px",
-                marginTop: "10px",
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-                className="xs-hide h4-title"
-              >
-                {t("CERTIFICATION_CRITERIA")}
-              </AccordionSummary>
-              <AccordionDetails
+              <Accordion
+                className="xs-hide accordionBoxShadow"
                 style={{
-                  background: "#fff",
-                  margin: "5px 10px",
+                  background: "#F9FAFC",
                   borderRadius: "10px",
+                  marginTop: "10px",
                 }}
               >
-                {batchDetail && (
-                  <ul>
-                    <li className="h6-title">
-                      {t("COMPLETION_CERTIFICATE_ISSUED")}
-                    </li>
-                    {score !== "no certificate" && (
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                  className="xs-hide h4-title"
+                >
+                  {t("CERTIFICATION_CRITERIA")}
+                </AccordionSummary>
+                <AccordionDetails
+                  style={{
+                    background: "#fff",
+                    margin: "5px 10px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  {batchDetail && (
+                    <ul>
                       <li className="h6-title">
-                        {t("CERT_ISSUED_SCORE")}
-                        {` ${score}% `}
-                        {t("ASSESSMENT")}
+                        {t("COMPLETION_CERTIFICATE_ISSUED")}
                       </li>
-                    )}
-                  </ul>
-                )}
-              </AccordionDetails>
-            </Accordion>
-}
+                      {score !== "no certificate" && (
+                        <li className="h6-title">
+                          {t("CERT_ISSUED_SCORE")}
+                          {` ${score}% `}
+                          {t("ASSESSMENT")}
+                        </li>
+                      )}
+                    </ul>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+            }
 
 
-{isEnrolled && batchDetails && batchDetails.cert_templates == null &&
+            {isEnrolled && batchDetails && batchDetails.cert_templates == null &&
 
-<Box
-style={{
-  background: "#e3f5ff",
-  padding: "10px",
-  borderRadius: "10px",
-  color: "#424242",
-}}
-className="xs-hide accordionBoxShadow"
->
-<Typography
-  variant="h7"
-  style={{
-    margin: "0 0 9px 0",
-    display: "block",
-    fontSize: "16px",
-  }}
->
-  {t("CERT_NOT_ATTACHED")}:
-</Typography>
+              <Box
+                style={{
+                  background: "#e3f5ff",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  color: "#424242",
+                }}
+                className="xs-hide accordionBoxShadow"
+              >
+                <Typography
+                  variant="h7"
+                  style={{
+                    margin: "0 0 9px 0",
+                    display: "block",
+                    fontSize: "16px",
+                  }}
+                >
+                  {t("CERT_NOT_ATTACHED")}:
+                </Typography>
 
-</Box>
-             } 
+              </Box>
+            }
             <Accordion
               className="xs-hide accordionBoxShadow"
               style={{
@@ -1346,16 +1354,16 @@ className="xs-hide accordionBoxShadow"
                 <Typography className="h6-title">
                   {t("Created By")}:{" "}
                   {userData &&
-                    userData.result &&                    
-                      userData.result.content.creator
-                    }
+                    userData.result &&
+                    userData.result.content.creator
+                  }
                 </Typography>
                 <Typography className="h6-title">
                   {t("Published on NULP by")}:{" "}
                   {userData &&
                     userData.result &&
-                      userData.result?.content?.orgDetails?.orgName
-                    }
+                    userData.result?.content?.orgDetails?.orgName
+                  }
                 </Typography>
                 <Typography className="h6-title">
                   {t("CREATED_ON")}:{" "}
@@ -1371,44 +1379,44 @@ className="xs-hide accordionBoxShadow"
                       userData.result.content.children[0].lastUpdatedOn
                     )}
                 </Typography>
-                
-                    <Typography
-                      className=""
-                      onClick={handlecopyrightOpen}
-                      style={{ cursor: "pointer",  color: "blue", textDecoration: "underline",fontSize: "small" }} 
-                    >
-                    {t("CREDITS")}
-                  </Typography>
-                  <Dialog open={copyrightOpen} onClose={handlecopyrightClose} sx={{ "& .MuiDialog-paper": { width: "455px" } }} >
-                    <DialogTitle>{t("CREDITS")}</DialogTitle>
-                   <DialogContent>
+
+                <Typography
+                  className=""
+                  onClick={handlecopyrightOpen}
+                  style={{ cursor: "pointer", color: "blue", textDecoration: "underline", fontSize: "small" }}
+                >
+                  {t("CREDITS")}
+                </Typography>
+                <Dialog open={copyrightOpen} onClose={handlecopyrightClose} sx={{ "& .MuiDialog-paper": { width: "455px" } }} >
+                  <DialogTitle>{t("CREDITS")}</DialogTitle>
+                  <DialogContent>
                     <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        {t("COPYRIGHT")}
-                      </p>
-                      {userData?.result?.content?.orgDetails?.orgName && userData?.result?.content?.copyrightYear
-                        ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
-                        : userData?.result?.content?.orgDetails?.orgName || userData?.result?.content?.copyrightYear
-                      }
-                      <h5>{t("THIS_CONTENT_IS_DERIVED_FROM")}</h5>
-                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        {t("CONTENT")}
-                      </p>
-                      {userData?.result?.content?.name}
-                     <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        {t("LICENSE_TERMS")}
-                      </p>
-                      {userData?.result?.content?.licenseDetails?.name}
-                      <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
-                        {t("PUBLISHED_ON_NULP_BY")}
-                      </p>
-                      {userData?.result?.content?.orgDetails?.orgName}
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handlecopyrightClose} color="primary">
-                        {t("CLOSE")}
-                      </Button>
-                    </DialogActions>
-                 </Dialog>
+                      {t("COPYRIGHT")}
+                    </p>
+                    {userData?.result?.content?.orgDetails?.orgName && userData?.result?.content?.copyrightYear
+                      ? `${userData.result.content.orgDetails.orgName}, ${userData.result.content.copyrightYear}`
+                      : userData?.result?.content?.orgDetails?.orgName || userData?.result?.content?.copyrightYear
+                    }
+                    <h5>{t("THIS_CONTENT_IS_DERIVED_FROM")}</h5>
+                    <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                      {t("CONTENT")}
+                    </p>
+                    {userData?.result?.content?.name}
+                    <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                      {t("LICENSE_TERMS")}
+                    </p>
+                    {userData?.result?.content?.licenseDetails?.name}
+                    <p style={{ color: "#4d4d4d", fontSize: "13px", fontWeight: "bold" }}>
+                      {t("PUBLISHED_ON_NULP_BY")}
+                    </p>
+                    {userData?.result?.content?.orgDetails?.orgName}
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handlecopyrightClose} color="primary">
+                      {t("CLOSE")}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
                 <Typography className="h6-title">
                   {t("LICENSE_TERMS")}:{" "}
                   {userData?.result?.content?.licenseDetails?.name}
@@ -1424,7 +1432,7 @@ className="xs-hide accordionBoxShadow"
               </AccordionDetails>
             </Accordion>
 
-          
+
             <div className="xs-hide">
               <React.Fragment>
                 {chat.length === 0 && (
@@ -1526,17 +1534,17 @@ className="xs-hide accordionBoxShadow"
                       ? showMore
                         ? courseData?.result?.content?.description
                         : courseData?.result?.content?.description
-                            .split(" ")
-                            .slice(0, 30)
-                            .join(" ") + "..."
+                          .split(" ")
+                          .slice(0, 30)
+                          .join(" ") + "..."
                       : courseData?.result?.content?.description}
                   </Typography>
                   {courseData?.result?.content?.description.split(" ").length >
                     100 && (
-                    <Button onClick={toggleShowMore}>
-                      {showMore ? t("Show Less") : t("Show More")}
-                    </Button>
-                  )}
+                      <Button onClick={toggleShowMore}>
+                        {showMore ? t("Show Less") : t("Show More")}
+                      </Button>
+                    )}
                 </>
               )}
             </Box>
@@ -1573,147 +1581,147 @@ className="xs-hide accordionBoxShadow"
                       {faqIndex.name}
                     </AccordionSummary>
                     {faqIndex?.children?.map((faqIndexname) => (
-                       <Link
-                       href="#"
-                       underline="none"
-                       style={{ verticalAlign: "super" }}
-                       onClick={() =>
-                         handleLinkClick(faqIndexname.identifier)
-                       }
-                       className="h6-title"
-                     >
-                      <AccordionDetails
-                        key={faqIndexname.identifier || faqIndexname.name}
-                        className="border-bottom"
-                        style={{ paddingLeft: "35px" }}
+                      <Link
+                        href="#"
+                        underline="none"
+                        style={{ verticalAlign: "super" }}
+                        onClick={() =>
+                          handleLinkClick(faqIndexname.identifier)
+                        }
+                        className="h6-title"
                       >
-                        {faqIndexname.children &&
-                        faqIndexname.children.length > 0 ? (
-                          <span
-                            className="h6-title"
-                            style={{ verticalAlign: "super" }}
-                          >
-                            {faqIndexname.name}
-                          </span>
-                        ) : (
-                         <Box> {faqIndexname.name}
-                         {completedContents.includes(
-                           faqIndexname.identifier
-                         ) && (
-                           <CheckCircleIcon
-                             style={{
-                               color: "green",
-                               fontSize: "24px",
-                               paddingLeft: "10px",
-                               float: "right",
-                             }}
-                           />
-                         )}</Box>
-                           
-                          
-                        )}
-                        {faqIndexname.children &&
-                          faqIndexname.children.length > 0 && (
-                            <div style={{ paddingLeft: "20px" }}>
-                              {faqIndexname.children.map((child) => (
-                                <AccordionDetails
-                                  key={child.identifier || child.name}
-                                  className="border-bottom"
-                                  style={{ paddingLeft: "35px" }}
-                                >
-                                  {child.children &&
-                                  child.children.length > 0 ? (
-                                    <span
-                                      className="h6-title"
-                                      style={{ verticalAlign: "super" }}
-                                    >
-                                      {child.name}
-                                    </span>
-                                  ) : (
-                                    <Link
-                                      href="#"
-                                      underline="none"
-                                      style={{ verticalAlign: "super" }}
-                                      onClick={() =>
-                                        handleLinkClick(child.identifier)
-                                      }
-                                      className="h6-title"
-                                    >
-                                      {child.name}
-                                      {completedContents.includes(
-                                        child.identifier
-                                      ) && (
-                                        <CheckCircleIcon
-                                          style={{
-                                            color: "green",
-                                            fontSize: "24px",
-                                            paddingLeft: "10px",
-                                            float: "right",
-                                          }}
-                                        />
-                                      )}
-                                    </Link>
-                                  )}
-                                  {child.children &&
-                                    child.children.length > 0 && (
-                                      <div style={{ paddingLeft: "20px" }}>
-                                        {child.children.map((grandchild) => (
-                                          <AccordionDetails
-                                            key={
-                                              grandchild.identifier ||
-                                              grandchild.name
-                                            }
-                                            className="border-bottom"
-                                            style={{ paddingLeft: "35px" }}
-                                          >
-                                            {grandchild.children &&
-                                            grandchild.children.length > 0 ? (
-                                              <span
-                                                className="h6-title"
-                                                style={{
-                                                  verticalAlign: "super",
-                                                }}
-                                              >
-                                                {grandchild.name}
-                                              </span>
-                                            ) : (
-                                              <Link
-                                                href="#"
-                                                underline="none"
-                                                style={{
-                                                  verticalAlign: "super",
-                                                }}
-                                                onClick={() =>
-                                                  handleLinkClick(
-                                                    grandchild.identifier
-                                                  )
-                                                }
-                                                className="h6-title"
-                                              >
-                                                {grandchild.name}
-                                                {completedContents.includes(
-                                                  grandchild.identifier
-                                                ) && (
-                                                  <CheckCircleIcon
-                                                    style={{
-                                                      color: "green",
-                                                      fontSize: "24px",
-                                                      paddingLeft: "10px",
-                                                      float: "right",
-                                                    }}
-                                                  />
-                                                )}
-                                              </Link>
-                                            )}
-                                          </AccordionDetails>
-                                        ))}
-                                      </div>
-                                    )}
-                                </AccordionDetails>
-                              ))}
-                            </div>
+                        <AccordionDetails
+                          key={faqIndexname.identifier || faqIndexname.name}
+                          className="border-bottom"
+                          style={{ paddingLeft: "35px" }}
+                        >
+                          {faqIndexname.children &&
+                            faqIndexname.children.length > 0 ? (
+                            <span
+                              className="h6-title"
+                              style={{ verticalAlign: "super" }}
+                            >
+                              {faqIndexname.name}
+                            </span>
+                          ) : (
+                            <Box> {faqIndexname.name}
+                              {completedContents.includes(
+                                faqIndexname.identifier
+                              ) && (
+                                  <CheckCircleIcon
+                                    style={{
+                                      color: "green",
+                                      fontSize: "24px",
+                                      paddingLeft: "10px",
+                                      float: "right",
+                                    }}
+                                  />
+                                )}</Box>
+
+
                           )}
-                      </AccordionDetails>
+                          {faqIndexname.children &&
+                            faqIndexname.children.length > 0 && (
+                              <div style={{ paddingLeft: "20px" }}>
+                                {faqIndexname.children.map((child) => (
+                                  <AccordionDetails
+                                    key={child.identifier || child.name}
+                                    className="border-bottom"
+                                    style={{ paddingLeft: "35px" }}
+                                  >
+                                    {child.children &&
+                                      child.children.length > 0 ? (
+                                      <span
+                                        className="h6-title"
+                                        style={{ verticalAlign: "super" }}
+                                      >
+                                        {child.name}
+                                      </span>
+                                    ) : (
+                                      <Link
+                                        href="#"
+                                        underline="none"
+                                        style={{ verticalAlign: "super" }}
+                                        onClick={() =>
+                                          handleLinkClick(child.identifier)
+                                        }
+                                        className="h6-title"
+                                      >
+                                        {child.name}
+                                        {completedContents.includes(
+                                          child.identifier
+                                        ) && (
+                                            <CheckCircleIcon
+                                              style={{
+                                                color: "green",
+                                                fontSize: "24px",
+                                                paddingLeft: "10px",
+                                                float: "right",
+                                              }}
+                                            />
+                                          )}
+                                      </Link>
+                                    )}
+                                    {child.children &&
+                                      child.children.length > 0 && (
+                                        <div style={{ paddingLeft: "20px" }}>
+                                          {child.children.map((grandchild) => (
+                                            <AccordionDetails
+                                              key={
+                                                grandchild.identifier ||
+                                                grandchild.name
+                                              }
+                                              className="border-bottom"
+                                              style={{ paddingLeft: "35px" }}
+                                            >
+                                              {grandchild.children &&
+                                                grandchild.children.length > 0 ? (
+                                                <span
+                                                  className="h6-title"
+                                                  style={{
+                                                    verticalAlign: "super",
+                                                  }}
+                                                >
+                                                  {grandchild.name}
+                                                </span>
+                                              ) : (
+                                                <Link
+                                                  href="#"
+                                                  underline="none"
+                                                  style={{
+                                                    verticalAlign: "super",
+                                                  }}
+                                                  onClick={() =>
+                                                    handleLinkClick(
+                                                      grandchild.identifier
+                                                    )
+                                                  }
+                                                  className="h6-title"
+                                                >
+                                                  {grandchild.name}
+                                                  {completedContents.includes(
+                                                    grandchild.identifier
+                                                  ) && (
+                                                      <CheckCircleIcon
+                                                        style={{
+                                                          color: "green",
+                                                          fontSize: "24px",
+                                                          paddingLeft: "10px",
+                                                          float: "right",
+                                                        }}
+                                                      />
+                                                    )}
+                                                </Link>
+                                              )}
+                                            </AccordionDetails>
+                                          ))}
+                                        </div>
+                                      )}
+                                  </AccordionDetails>
+                                ))}
+                              </div>
+                            )}
+                        </AccordionDetails>
                       </Link>
                     ))}
                   </Accordion>
@@ -1784,71 +1792,71 @@ className="xs-hide accordionBoxShadow"
             </Box>
             {batchDetails && batchDetails.cert_templates != null &&
 
-            <Accordion
-              className="lg-hide accordionBoxShadow"
-              style={{
-                background: "#F9FAFC",
-                borderRadius: "10px",
-                marginTop: "10px",
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-                className="h4-title"
-              >
-                {t("CERTIFICATION_CRITERIA")}
-              </AccordionSummary>
-              <AccordionDetails
+              <Accordion
+                className="lg-hide accordionBoxShadow"
                 style={{
-                  background: "#fff",
-                  padding: "5px 10px",
+                  background: "#F9FAFC",
                   borderRadius: "10px",
+                  marginTop: "10px",
                 }}
               >
-                {batchDetail && (
-                  <ul>
-                    <li className="h6-title">
-                      {t("COMPLETION_CERTIFICATE_ISSUED")}
-                    </li>
-                    {score !== "no certificate" && (
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                  className="h4-title"
+                >
+                  {t("CERTIFICATION_CRITERIA")}
+                </AccordionSummary>
+                <AccordionDetails
+                  style={{
+                    background: "#fff",
+                    padding: "5px 10px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  {batchDetail && (
+                    <ul>
                       <li className="h6-title">
-                        {t("CERT_ISSUED_SCORE")}
-                        {` ${score}% `}
-                        {t("ASSESSMENT")}
+                        {t("COMPLETION_CERTIFICATE_ISSUED")}
                       </li>
-                    )}
-                  </ul>
-                )}
-              </AccordionDetails>
-            </Accordion>
-}
+                      {score !== "no certificate" && (
+                        <li className="h6-title">
+                          {t("CERT_ISSUED_SCORE")}
+                          {` ${score}% `}
+                          {t("ASSESSMENT")}
+                        </li>
+                      )}
+                    </ul>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+            }
 
-{isEnrolled && batchDetails && batchDetails.cert_templates == null &&
+            {isEnrolled && batchDetails && batchDetails.cert_templates == null &&
 
-<Box
-style={{
-  background: "#e3f5ff",
-  padding: "10px",
-  borderRadius: "10px",
-  color: "#424242",
-}}
-className="lg-hide accordionBoxShadow"
->
-<Typography
-  variant="h7"
-  style={{
-    margin: "0 0 9px 0",
-    display: "block",
-    fontSize: "16px",
-  }}
->
-  {t("CERT_NOT_ATTACHED")}:
-</Typography>
+              <Box
+                style={{
+                  background: "#e3f5ff",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  color: "#424242",
+                }}
+                className="lg-hide accordionBoxShadow"
+              >
+                <Typography
+                  variant="h7"
+                  style={{
+                    margin: "0 0 9px 0",
+                    display: "block",
+                    fontSize: "16px",
+                  }}
+                >
+                  {t("CERT_NOT_ATTACHED")}:
+                </Typography>
 
-</Box>
-             } 
+              </Box>
+            }
             <Accordion
               className="lg-hide accordionBoxShadow"
               style={{
@@ -1895,7 +1903,7 @@ className="lg-hide accordionBoxShadow"
                     href={courseData?.result?.content?.licenseDetails?.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{wordWrap: 'break-word'}}
+                    style={{ wordWrap: 'break-word' }}
                   >
                     {courseData?.result?.content?.licenseDetails?.url}
                   </a>
@@ -1972,7 +1980,7 @@ className="lg-hide accordionBoxShadow"
                       senderUserId={_userId}
                       receiverUserId={creatorId}
                       onChatSent={handleClose}
-                      onClose={handleClose} 
+                      onClose={handleClose}
                       showCloseIcon={true}
                     />{" "}
                   </div>

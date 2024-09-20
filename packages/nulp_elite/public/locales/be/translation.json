@@ -305,4 +305,14 @@
   "FILTERS":"ফিল্টার",
   "EXPLORE_CONTENT":"কন্টেন্ট এক্সপ্লোর করুন",
   "COURSE_SUCCESSFULLY_COMPLETED": "কোর্সটি সফলভাবে সম্পন্ন হয়েছে"
+  "ID":"আইডি",
+  "ORGANIZATION_NAME":"সংস্থার নাম",
+  "ROLE":"ভূমিকা",
+  "NO_CERTIFICATES_FOUND":"কোন শংসাপত্র পাওয়া যায়নি",
+  "NOT_ENROLL_MESSAGE":"আপনি কোনো কোর্সে নথিভুক্ত নন। এখনই নথিভুক্ত করুন!",
+  "FIRST_NAME":"প্রথম নাম",
+  "LAST_NAME":"শেষ নাম",
+  "CLOSED_POLLS":"বন্ধ পোল"
+  "NO_CHAT_REQUEST": "কোনো চ্যাট অনুরোধ নেই"
+
 }

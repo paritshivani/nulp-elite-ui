@@ -40,7 +40,6 @@ import styled from "styled-components";
 import LearningHistory from "./learningHistory";
 import Certificate from "./certificate";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { axisClasses } from "@mui/x-charts/ChartsAxis";
 
 const routeConfig = require("../../configs/routeConfig.json");
 
@@ -76,8 +75,8 @@ const modalstyle = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  height:"80%",
-  overflowX:"scroll"
+  height: "80%",
+  overflowX: "scroll"
 }
 const MAX_FILE_SIZE_MB = 1;
 const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024; // 1 MB in bytes
@@ -143,43 +142,6 @@ const Profile = () => {
   const defaultCourseData = {
     enrolledLastMonth: 0,
     enrolledThisMonth: 0,
-  };
-  const chartSettingsH1 = {
-    dataset: [
-      { high: 1, low: 2, order: "1" },
-      { high: 1, low: 2, order: "1" },
-    ],
-    yAxis: [{ scaleType: "band", dataKey: "order" }],
-    sx: {
-      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {},
-    },
-    slotProps: {
-      legend: {
-        direction: "row",
-        position: { vertical: "bottom", horizontal: "middle" },
-      },
-    },
-  };
-
-  const chartSettingsH2 = {
-    dataset: [
-      { high: 3, low: 2, order: "1" },
-      { high: 3, low: 2, order: "1" },
-    ],
-    height: 300,
-    yAxis: [{ scaleType: "band", dataKey: "order" }],
-    sx: {
-      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
-        transform: "translateX(-20px,-10px)",
-      },
-    },
-    slotProps: {
-      legend: {
-        direction: "row",
-        position: { vertical: "bottom", horizontal: "middle" },
-        padding: -10,
-      },
-    },
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -328,14 +290,6 @@ const Profile = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedUserInfo({
-      ...editedUserInfo,
-      [name]: value,
-    });
-    setIsFormDirty(true);
-  };
   const handleOpenEditDialog = () => {
     setIsEditing(true);
   };
@@ -476,11 +430,6 @@ const Profile = () => {
     }
   };
 
-  const handleSearch = (query) => {
-    // Implement your search logic here
-    console.log("Search query:", query);
-  };
-
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -503,15 +452,6 @@ const Profile = () => {
     setFileError("");
     return true;
   };
-  const handleFileChangeWithValidation = (e) => {
-    const file = e.target.files[0];
-    if (file && validateFile(file)) {
-      handleFileChange(e);
-    } else {
-      // Clear the file input if validation fails
-      e.target.value = null;
-    }
-  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -524,43 +464,17 @@ const Profile = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleImageUpload = async () => {
-    if (!selectedFile) {
-      showErrorMessage("No file selected.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("userId", _userId);
-
-    try {
-      const url = `${urlConfig.URLS.POFILE_PAGE.UPLOAD_IMAGE}`;
-      await axios.post(url, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      setFileUploadMessage("Image uploaded successfully.");
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      showErrorMessage(t("FAILED_TO_UPLOAD_IMAGE"));
-    }
-  };
-
   // Use default data if certData or courseData is undefined or empty
   const finalCertData =
     certData &&
-    certData.certificatesReceived !== undefined &&
-    certData.courseWithCertificate !== undefined
+      certData.certificatesReceived !== undefined &&
+      certData.courseWithCertificate !== undefined
       ? certData
       : defaultCertData;
   const finalCourseData =
     courseData &&
-    courseData.enrolledLastMonth !== undefined &&
-    courseData.enrolledThisMonth !== undefined
+      courseData.enrolledLastMonth !== undefined &&
+      courseData.enrolledThisMonth !== undefined
       ? courseData
       : defaultCourseData;
   // Check if data is empty or zero
@@ -620,96 +534,86 @@ const Profile = () => {
                 className="mb-10"
               >
                 <Box className="grey-bx">
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      padding: "20px 10px 0",
-                    }}
-                  >
-                   
-                    <CardContent className="profile-cardContent">
-                    <Grid container>
-                    <Grid item xs={2}>
-                    {userData && (
-                      <>
-                        <div className="img-text-circle">
-                          {userData?.result?.response?.firstName[0]}
-                        </div>
-                      </>
-                    )}
-                    </Grid>
-                    <Grid item xs={9}>
-                      {userData && (
-                        <>
-                          <Box className="d-flex jc-bw mb-10 alignItems-center">
+                  <Box>
+                    <CardContent>
+                      <Grid container>
+                        <Grid item xs={11} md={11}>
+                          <Box className="d-flex">
                             <Box>
-                              <Typography className="h4-title">
-                                {userData?.result?.response?.firstName}{" "}
-                                {userData?.result?.response?.lastName}
-                              </Typography>
-                              <Typography className="h6-title">
-                                {userInfo?.length &&
-                                userInfo[0]?.designation ? (
-                                  <>{userInfo[0].designation}</>
-                                ) : (
-                                  "Designation: NA"
-                                )}
-                                <Box className="cardLabelEllips1">
-                                  {userInfo?.length && userInfo[0]?.designation
-                                    ? " "
-                                    : " "}
-                                  ID:{" "}
-                                  {userData?.result?.response?.userName || "NA"}
-                                </Box>
-                                {/* <Box className="cardLabelEllips1">
-                                  organisations:{" "}
-                                  {userData?.result?.response?.organisations
-                                    ?.orgName || "NA"}
-                                </Box> */}
-                              </Typography>
-                              {userInfo?.length ? (
-                                <Typography className="h6-title d-flex">
-                                  <Box className="h6-title d-flex">
-                                    Organization Name:{" "}
-                                    {userInfo[0]?.organisation || "NA"}
-                                  </Box>
-                                </Typography>
-                              ) : null}
+                              {userData && (
+                                <>
+                                  <div className="img-text-circle">
+                                    {userData?.result?.response?.firstName[0]}
+                                  </div>
+                                </>
+                              )}
+                            </Box>
+                            <Box>
+                              {userData && (
+                                <>
+                                  <Box className="ml-20">
+                                    <Typography className="h4-title">
+                                      {userData?.result?.response?.firstName}{" "}
+                                      {userData?.result?.response?.lastName}
+                                    </Typography>
+                                    <Typography className="h6-title">
+                                      {userInfo?.length &&
+                                        userInfo[0]?.designation ? (
+                                        <>{userInfo[0].designation}</>
+                                      ) : (
+                                        "Designation: NA"
+                                      )}
+                                      <Box className="cardLabelEllips1">
+                                        {userInfo?.length && userInfo[0]?.designation
+                                          ? " "
+                                          : " "}
+                                        {t("ID")}:{" "}
+                                        {userData?.result?.response?.userName || "NA"}
+                                      </Box>
+                                    </Typography>
+                                    {userInfo?.length ? (
+                                      <Typography className="h6-title d-flex">
+                                        <Box className="h6-title d-flex">
+                                          {t("ORGANIZATION_NAME")}:{" "}
+                                          {userInfo[0]?.organisation || "NA"}
+                                        </Box>
+                                      </Typography>
+                                    ) : null}
 
-                              {roleNames && roleNames.length > 0 && (
-                                <Typography className="h6-title">
-                                  <Box className="h6-title mt-10">
-                                    Role:{" "}
-                                    {roleNames?.map((roleName, index) => (
-                                      <Button
-                                        key={index}
-                                        size="small"
-                                        style={{
-                                          color: "#424242",
-                                          fontSize: "10px",
-                                          margin: "0 10px 3px 6px",
-                                          background: "#e3f5ff",
-                                        }}
-                                      >
-                                        {roleName}
-                                      </Button>
-                                    ))}
+                                    {roleNames && roleNames.length > 0 && (
+                                      <Typography className="h6-title">
+                                        <Box className="h6-title mt-10">
+                                          {t("ROLE")}:{" "}
+                                          {roleNames?.map((roleName, index) => (
+                                            <Button
+                                              key={index}
+                                              size="small"
+                                              style={{
+                                                color: "#424242",
+                                                fontSize: "10px",
+                                                margin: "0 10px 3px 6px",
+                                                background: "#e3f5ff",
+                                              }}
+                                            >
+                                              {roleName}
+                                            </Button>
+                                          ))}
+                                        </Box>
+                                      </Typography>
+                                    )}
                                   </Box>
-                                </Typography>
+                                </>
                               )}
                             </Box>
                           </Box>
-                        </>
-                      )}
+                        </Grid>
+                        <Grid item xs={1} md={1}>
+                          <ModeEditIcon
+                            className="cursor-pointer"
+                            onClick={handleOpenEditDialog}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item xs={1}>
-                      <ModeEditIcon
-                              className="cursor-pointer"
-                              onClick={handleOpenEditDialog}
-                            />
-                      </Grid>
-                       </Grid>
                     </CardContent>
                   </Box>
                   {userData && userInfo?.length > 0 && (
@@ -801,16 +705,7 @@ const Profile = () => {
                                   type: "category",
                                   data: ["Previous Month", "Current Month"],
                                 },
-                                // isCertDataEmpty
-                                // ? { hover: { enabled: false } }
-                                // : {};
                               }}
-                              // options={
-
-                              //   isCertDataEmpty
-                              //     ? { hover: { enabled: false } }
-                              //     : {}
-                              // }
                             />
                           </>
                         ) : (
@@ -825,7 +720,7 @@ const Profile = () => {
                                 color: "#0e7a9c",
                               }}
                             >
-                              No certificates found
+                              {t("NO_CERTIFICATES_FOUND")}
                             </Alert>
                           </>
                         )}
@@ -879,7 +774,7 @@ const Profile = () => {
                                 paddingRight: "20px",
                               }}
                             >
-                              You are not enrolled in any course. Enroll now!
+                              {t("NOT_ENROLL_MESSAGE")}
                             </Alert>
                           </>
                         )}
@@ -908,7 +803,7 @@ const Profile = () => {
                             <CssTextField
                               id="firstName"
                               name="firstName"
-                              label={<span>First Name</span>}
+                              label={<span>{t("FIRST_NAME")}</span>}
                               variant="outlined"
                               size="small"
                               value={editedUserInfo.firstName}
@@ -924,7 +819,7 @@ const Profile = () => {
                             <CssTextField
                               id="lastName"
                               name="lastName"
-                              label={<span>Last Name</span>}
+                              label={<span>{t("LAST_NAME")}</span>}
                               variant="outlined"
                               size="small"
                               value={editedUserInfo.lastName}
@@ -1097,81 +992,6 @@ const Profile = () => {
                               /{MAX_CHARS}
                             </Typography>
                           </Box>
-                          {/* <Typography className="h4-title">
-                          {t("Profile image")}
-                        </Typography> */}
-                          {/* <Box
-                          py={1}
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        > */}
-                          {/* <Box sx={{ flex: "0 0 auto" }}>
-                            {previewUrl && (
-                              <img
-                                src={previewUrl}
-                                alt="Profile"
-                                style={{
-                                  width: "80px",
-                                  height: "80px",
-                                  borderRadius: "50%",
-                                  marginRight: "20px",
-                                }}
-                              />
-                            )}
-                          </Box> */}
-                          {/* <Box
-                            sx={{
-                              flex: "1 1 auto",
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <Button
-                              variant="outlined"
-                              component="label"
-                              fullWidth
-                              sx={{ mt: 2 }}
-                              className="custom-btn-default mr-5"
-                            >
-                              {t("Select image")}
-                              <input
-                                type="file"
-                                hidden
-                                onChange={handleFileChangeWithValidation}
-                              />
-                            </Button>
-                            {fileError && (
-                              <Typography variant="caption" color="error">
-                                {fileError}
-                              </Typography>
-                            )}
-                            {fileUploadMessage && (
-                              <Typography
-                                variant="caption"
-                                style={{
-                                  color: "green",
-                                }}
-                              >
-                                {fileUploadMessage}
-                              </Typography>
-                            )}
-
-                            {selectedFile && (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleImageUpload}
-                                fullWidth
-                                sx={{ mt: 2 }}
-                                className="custom-btn-primary"
-                              >
-                                {t("upload")}
-                              </Button>
-                            )}
-                          </Box> */}
-                          {/* </Box> */}
                           <Box pt={4} className="d-flex jc-en">
                             <Button
                               className="custom-btn-default mr-5"
@@ -1269,7 +1089,6 @@ const Profile = () => {
                         className="tab-text profile-tab"
                         icon={<WatchLaterOutlinedIcon />}
                         value="2"
-                        // onClick={handleLearningHistoryClick}
                       />
                     </TabList>
                   </Box>

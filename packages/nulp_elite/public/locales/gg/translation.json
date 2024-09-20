@@ -315,4 +315,13 @@
   "FILTERS":"ફિલ્ટર્સ",
   "EXPLORE_CONTENT":"સામગ્રીનું અન્વેષણ કરો",
   "COURSE_SUCCESSFULLY_COMPLETED": "કોર્સ સફળતાપૂર્વક પૂર્ણ થયો"
+  "ID":"ID",
+  "ORGANIZATION_NAME":"સંસ્થાનું નામ",
+  "ROLE":"ભૂમિકા",
+  "NO_CERTIFICATES_FOUND":"કોઈ પ્રમાણપત્ર મળ્યા નથી",
+  "NOT_ENROLL_MESSAGE":"તમે કોઈપણ અભ્યાસક્રમમાં નોંધણી કરાવેલ નથી. હમણાં નોંધણી કરો!",
+  "FIRST_NAME":"પ્રથમ નામ",
+  "LAST_NAME":"છેલ્લું નામ",
+  "CLOSED_POLLS":"બંધ મતદાન",
+  "NO_CHAT_REQUEST": "કોઈ ચેટ વિનંતી નથી"
 }
