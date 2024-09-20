@@ -695,7 +695,7 @@ const JoinCourse = () => {
           </Box>
           {isCompleted &&
               <Box>
-              (t{"COURSE_SUCCESSFULLY_COMPLETED"})
+              {t("COURSE_SUCCESSFULLY_COMPLETED")}
             </Box>
           } 
          
