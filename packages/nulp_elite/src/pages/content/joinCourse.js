@@ -1332,7 +1332,7 @@ const JoinCourse = () => {
                     fontSize: "16px",
                   }}
                 >
-                  {t("CERT_NOT_ATTACHED")}:
+                  {t("CERT_NOT_ATTACHED")}
                 </Typography>
 
               </Box>
@@ -1852,7 +1852,7 @@ const JoinCourse = () => {
                   style={{
                     margin: "0 0 9px 0",
                     display: "block",
-                    fontSize: "16px",
+                    fontSize: "14px",
                   }}
                 >
                   {t("CERT_NOT_ATTACHED")}:
