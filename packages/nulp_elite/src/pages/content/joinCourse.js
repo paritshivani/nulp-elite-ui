@@ -646,7 +646,6 @@ const JoinCourse = () => {
           <>
           <Box>
             <Button
-              disabled={ !activeBatch || isCompleted}
               onClick={() =>
                 handleLinkClick(
                   ContinueLearning ?? NotConsumedContent ?? childnode
