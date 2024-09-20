@@ -305,7 +305,7 @@
   "FILTERS":"ফিল্টার",
   "EXPLORE_CONTENT":"কন্টেন্ট এক্সপ্লোর করুন",
 
-  "COURSE_SUCCESSFULLY_COMPLETED": "কোর্সটি সফলভাবে সম্পন্ন হয়েছে"
+  "COURSE_SUCCESSFULLY_COMPLETED": "কোর্সটি সফলভাবে সম্পন্ন হয়েছে",
 
   "ID":"আইডি",
   "ORGANIZATION_NAME":"সংস্থার নাম",
@@ -315,7 +315,6 @@
   "FIRST_NAME":"প্রথম নাম",
   "LAST_NAME":"শেষ নাম",
 
-  "CLOSED_POLLS":"বন্ধ পোল",
   "NO_CHAT_REQUEST": "কোনো চ্যাট অনুরোধ নেই",
   "PHONE":"ফোন",
   "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"

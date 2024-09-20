@@ -306,7 +306,7 @@
   "CONTENT_DERIVED_FROM": "This content is derived from",
   "FILTERS":"Filters",
   "EXPLORE_CONTENT":"Explore Content",
-  "COURSE_SUCCESSFULLY_COMPLETED": "Course completed Successfully"
+  "COURSE_SUCCESSFULLY_COMPLETED": "Course completed Successfully",
   "ID":"ID",
   "ORGANIZATION_NAME":"Organization Name",
   "ROLE":"Role",
@@ -314,7 +314,6 @@
   "NOT_ENROLL_MESSAGE":"You are not enrolled in any course. Enroll now!",
   "FIRST_NAME":"First Name",
   "LAST_NAME":"Last Name",
-  "CLOSED_POLLS":"Closed Polls",
   "NO_CHAT_REQUEST" : "No Chat Request",
   "PHONE":"Phone",
   "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"

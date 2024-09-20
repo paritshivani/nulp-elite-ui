@@ -306,7 +306,7 @@
   "CONTENT_DERIVED_FROM": "ही सामग्री यावरून घेतली आहे",
   "FILTERS":"फिल्टर",
   "EXPLORE_CONTENT":"सामग्री एक्सप्लोर करा",
-  "COURSE_SUCCESSFULLY_COMPLETED": "कोर्स यशस्वीरीत्या पूर्ण झाला"
+  "COURSE_SUCCESSFULLY_COMPLETED": "कोर्स यशस्वीरीत्या पूर्ण झाला",
   "ID":"आयडी",
   "ORGANIZATION_NAME":"संस्थेचे नाव",
   "ROLE":"भूमिका",
@@ -314,7 +314,6 @@
   "NOT_ENROLL_MESSAGE":"तुम्ही कोणत्याही कोर्समध्ये नावनोंदणी केलेले नाही. आता नावनोंदणी करा!",
   "FIRST_NAME":"नाव",
   "LAST_NAME":"आडनाव",
-  "CLOSED_POLLS":"बंद मतदान",
   "NO_CHAT_REQUEST": "चॅट विनंती नाही",
   "PHONE":"फोन",
   "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"
