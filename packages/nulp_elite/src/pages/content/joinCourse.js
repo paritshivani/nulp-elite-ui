@@ -693,9 +693,12 @@ const JoinCourse = () => {
               </Dialog>
             )}
           </Box>
-          <Box>
-            (t{COURSE_SUCCESSFULLY_COMPLETED})
-          </Box>
+          {!isCompleted &&
+              <Box>
+              (t{COURSE_SUCCESSFULLY_COMPLETED})
+            </Box>
+          } 
+         
           </>
         );
       }
