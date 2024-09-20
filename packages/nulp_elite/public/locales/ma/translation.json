@@ -314,6 +314,8 @@
   "FIRST_NAME":"नाव",
   "LAST_NAME":"आडनाव",
   "CLOSED_POLLS":"बंद मतदान",
-  "NO_CHAT_REQUEST": "चॅट विनंती नाही"
+  "NO_CHAT_REQUEST": "चॅट विनंती नाही",
+  "PHONE":"फोन",
+  "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"
 }
 

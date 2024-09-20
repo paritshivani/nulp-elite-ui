@@ -314,5 +314,7 @@
   "FIRST_NAME":"First Name",
   "LAST_NAME":"Last Name",
   "CLOSED_POLLS":"Closed Polls",
-  "NO_CHAT_REQUEST" : "No Chat Request"
+  "NO_CHAT_REQUEST" : "No Chat Request",
+  "PHONE":"Phone",
+  "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"
 }

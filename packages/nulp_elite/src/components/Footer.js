@@ -258,16 +258,16 @@ export default function Footer() {
                 {t("NATIONAL_URBAN_DIGITAL_MISSION")}
               </Link>
               <Box className="social-icons">
-                <Link href="#" underline="none">
+                <Link href="https://www.facebook.com/NIUA.India/" underline="none" target="_blank">
                   <FacebookIcon />
                 </Link>
-                <Link href="#" underline="none">
+                <Link href="https://www.instagram.com/niua_india/" underline="none" target="_blank">
                   <InstagramIcon />
                 </Link>
-                <Link href="#" underline="none">
+                <Link href="https://www.linkedin.com/school/national-institute-of-urban-affairs/" underline="none" target="_blank">
                   <LinkedInIcon />
                 </Link>
-                <Link href="#" underline="none">
+                <Link href="https://x.com/NIUA_India" underline="none" target="_blank">
                   <TwitterIcon />
                 </Link>
               </Box>
@@ -299,7 +299,7 @@ export default function Footer() {
               <br />
               {t("FIRST_FLOOR_CORE")}
               <br />
-              Phone: (+91 11) 24617517, 24617543, 24617595
+              {t("PHONE")}: {t("PHONE_NUMBER")}
             </Grid>
           </Grid>
         </Box>
