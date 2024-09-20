@@ -100,7 +100,7 @@ const handleAssessmentData = async (data) => {
     await updateContentState(2)
   }
   else if (data.eid === "START"){
-<
+
     await updateContentState(2)
 
 

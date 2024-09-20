@@ -269,7 +269,7 @@
   "CONTENT_DERIVED_FROM": "ఈ సాంఘికత నుండి పొందినది",
   "FILTERS":"ఫిల్టర్లు",
   "EXPLORE_CONTENT":"కంటెంట్‌ని అన్వేషించండి",
-  "COURSE_SUCCESSFULLY_COMPLETED": "కోర్సు విజయవంతంగా పూర్తయింది"
+  "COURSE_SUCCESSFULLY_COMPLETED": "కోర్సు విజయవంతంగా పూర్తయింది",
   "ID":"ID",
   "ORGANIZATION_NAME":"సంస్థ పేరు",
   "ROLE":"పాత్ర",
@@ -277,7 +277,6 @@
   "NOT_ENROLL_MESSAGE":"మీరు ఏ కోర్సులోనూ నమోదు చేసుకోలేదు. ఇప్పుడే నమోదు చేసుకోండి!",
   "FIRST_NAME":"మొదటి పేరు",
   "LAST_NAME":"చివరి పేరు",
-  "CLOSED_POLLS":"క్లోజ్డ్ పోల్స్",
   "NO_CHAT_REQUEST": "చాట్ అభ్యర్థన లేదు",
   "PHONE":"ఫోన్",
   "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"
