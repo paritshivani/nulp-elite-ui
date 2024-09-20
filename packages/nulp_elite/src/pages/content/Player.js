@@ -310,6 +310,7 @@ const updateContentStateForAssessment = async () => {
                         color: "#424242",
                         fontSize: "10px",
                         margin: "0 10px 3px 6px",
+                        cursor: "auto"
                       }}
                       className="bg-blueShade3"
                     >
@@ -326,6 +327,7 @@ const updateContentStateForAssessment = async () => {
                           color: "#424242",
                           fontSize: "10px",
                           margin: "0 10px 3px 6px",
+                          cursor: "auto"
                         }}
                         className="bg-blueShade3"
                       >
@@ -341,6 +343,7 @@ const updateContentStateForAssessment = async () => {
                           color: "#424242",
                           fontSize: "10px",
                           margin: "0 10px 3px 6px",
+                          cursor: "auto"
                         }}
                         className="bg-blueShade3"
                       >
@@ -357,6 +360,7 @@ const updateContentStateForAssessment = async () => {
                           color: "#424242",
                           fontSize: "10px",
                           margin: "0 10px 3px 6px",
+                          cursor: "auto"
                         }}
                         className="bg-blueShade3"
                       >
