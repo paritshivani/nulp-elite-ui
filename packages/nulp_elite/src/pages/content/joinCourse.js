@@ -646,6 +646,9 @@ const JoinCourse = () => {
           <>
           <Box>
             <Button
+
+              disabled={ isCompleted}
+
               onClick={() =>
                 handleLinkClick(
                   ContinueLearning ?? NotConsumedContent ?? childnode
@@ -692,9 +695,9 @@ const JoinCourse = () => {
               </Dialog>
             )}
           </Box>
-          {!isCompleted &&
+          {isCompleted &&
               <Box>
-              (t{COURSE_SUCCESSFULLY_COMPLETED})
+              (t{"COURSE_SUCCESSFULLY_COMPLETED"})
             </Box>
           } 
          
