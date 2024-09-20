@@ -465,7 +465,8 @@ setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
             </Select>
           </FormControl>
         </Box>
-        <FormControl fullWidth sx={{ marginBottom: 2 }}>
+        {/*Comment Topic from user Preferance popup because of costomer request */}
+        {/* <FormControl fullWidth sx={{ marginBottom: 2 }}>
           <InputLabel id="topic-label" className="year-select">
             {"Topic"}
           </InputLabel>
@@ -480,7 +481,7 @@ setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */} 
       </DialogContent>
       <DialogActions>
         {isEmptyPreference && (
