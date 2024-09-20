@@ -304,5 +304,16 @@
   "CONTENT_DERIVED_FROM": "এই বিষয়বস্তু থেকে সংগৃহীত",
   "FILTERS":"ফিল্টার",
   "EXPLORE_CONTENT":"কন্টেন্ট এক্সপ্লোর করুন",
+<<<<<<< HEAD
+  "ID":"আইডি",
+  "ORGANIZATION_NAME":"সংস্থার নাম",
+  "ROLE":"ভূমিকা",
+  "NO_CERTIFICATES_FOUND":"কোন শংসাপত্র পাওয়া যায়নি",
+  "NOT_ENROLL_MESSAGE":"আপনি কোনো কোর্সে নথিভুক্ত নন। এখনই নথিভুক্ত করুন!",
+  "FIRST_NAME":"প্রথম নাম",
+  "LAST_NAME":"শেষ নাম",
+  "CLOSED_POLLS":"বন্ধ পোল"
+=======
   "NO_CHAT_REQUEST": "কোনো চ্যাট অনুরোধ নেই"
+>>>>>>> 0de6f18f1b9323fb3f09647d75dea91f559a9692
 }

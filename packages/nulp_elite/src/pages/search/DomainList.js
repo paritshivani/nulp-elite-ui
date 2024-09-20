@@ -382,11 +382,12 @@ const DomainList = ({ globalSearchQuery }) => {
 
       {/* Search Box */}
       <Box
-        className="lg-hide d-flex header-bg"
-        style={{ alignItems: "center", paddingLeft: "19px" }}
+        className="lg-hide d-flex"
+        style={{ alignItems: "center", padding: '15px',marginTop: '2px',background: '#fff',border: '2px solid #eee',
+          borderRadius: '10px'}}
       >
         <TextField
-          placeholder={t("What do you want to learn today?  ")}
+          placeholder={t("What do you want to learn today?")}
           variant="outlined"
           size="small"
           fullWidth

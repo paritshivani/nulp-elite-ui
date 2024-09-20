@@ -901,7 +901,7 @@ const votingDashboard = () => {
           >
             <Box display="flex" alignItems="center" className="h3-title">
               <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />
-              Closed Polls
+             {t("CLOSED_POLLS")}
             </Box>
             {!showAllClosed && visibleClosedPolls.length >= 3 && (
               <Box>

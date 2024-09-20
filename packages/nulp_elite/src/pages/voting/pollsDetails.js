@@ -231,7 +231,6 @@ const pollsDetailes = () => {
                               lg={4}
                               style={{ marginBottom: "10px" }}
                               key={items.poll_id}
-                              className="pl-0"
                             >
                               <Box className="xs-hide text-right">
                                 <FacebookShareButton

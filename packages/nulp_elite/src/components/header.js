@@ -391,9 +391,9 @@ function Header({ globalSearchQuery }) {
             </Link>
             <Link
               target="_blank"
-              href="/my-groups"
+              href="/my-groups?selectedTab=myGroups"
               className={
-                activePath === `/my-groups` ? "Menuactive" : "headerMenu"
+                activePath === `/my-groups?selectedTab=myGroups` ? "Menuactive" : "headerMenu"
               }
               underline="none"
             >

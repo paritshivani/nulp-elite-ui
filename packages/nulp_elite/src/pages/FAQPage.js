@@ -40,8 +40,7 @@ const FAQPage = () => {
   } else if (setLanguage === 'mal') {
     url = "https://nulpstorage1.blob.core.windows.net/public/portal-faq/resources/res/faq-ml.json";
   }
-
-
+  
   useEffect(() => {
     setError(null);
     fetch(url)

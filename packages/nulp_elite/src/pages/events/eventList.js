@@ -35,16 +35,13 @@ const EventList = (props) => {
   const location = useLocation();
   const [pageNumber, setPageNumber] = useState(1);
   const [data, setData] = useState();
-  // console.log("myEvents.result.events ---- ", myEvents.result.events);
   const [myData, setMyData] = useState();
   const [filters, setFilters] = useState({});
   const [domainfilter, setDomainfilter] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [gradeLevels, setGradeLevels] = useState([]);
   const [category, setCategory] = useState([]);
   const navigate = useNavigate();
-  // const { domain } = location.state || {};
   const [domain, setDomain] = useState(location.state?.domain || undefined);
   const [domainName, setDomainName] = useState(
     location.state?.domainName || undefined
@@ -56,7 +53,6 @@ const EventList = (props) => {
   const { t } = useTranslation();
   const [toasterOpen, setToasterOpen] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [globalSearchQuery, setGlobalSearchQuery] = useState(
     location.state?.globalSearchQuery || undefined
   );
@@ -100,9 +96,6 @@ const EventList = (props) => {
     currentPage,
     subDomainFilter,
   ]);
-  // useEffect(() => {
-  //   fetchAllData();
-  // }, [currentPage]);
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
