@@ -314,6 +314,7 @@
   "CONTENT_DERIVED_FROM": "આ સામગ્રીમાંથી ઉત્પન્ન છે",
   "FILTERS":"ફિલ્ટર્સ",
   "EXPLORE_CONTENT":"સામગ્રીનું અન્વેષણ કરો",
+  "COURSE_SUCCESSFULLY_COMPLETED": "કોર્સ સફળતાપૂર્વક પૂર્ણ થયો",
   "ID":"ID",
   "ORGANIZATION_NAME":"સંસ્થાનું નામ",
   "ROLE":"ભૂમિકા",
@@ -321,7 +322,6 @@
   "NOT_ENROLL_MESSAGE":"તમે કોઈપણ અભ્યાસક્રમમાં નોંધણી કરાવેલ નથી. હમણાં નોંધણી કરો!",
   "FIRST_NAME":"પ્રથમ નામ",
   "LAST_NAME":"છેલ્લું નામ",
-  "CLOSED_POLLS":"બંધ મતદાન",
   "NO_CHAT_REQUEST": "કોઈ ચેટ વિનંતી નથી",
   "PHONE":"ફોન",
   "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"

@@ -100,7 +100,9 @@ const handleAssessmentData = async (data) => {
     await updateContentState(2)
   }
   else if (data.eid === "START"){
-    await updateContentState(1)
+
+    await updateContentState(2)
+
 
   }
 };
@@ -238,7 +240,7 @@ const updateContentStateForAssessment = async () => {
     };
 
     if (!consumedContent.includes(contentId)) {
-      updateContentState(1);
+      updateContentState(2);
     }
     fetchData();
     fetchUserData();

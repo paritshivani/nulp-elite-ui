@@ -63,18 +63,18 @@ const CategoryPage = () => {
   const handleDomainFilter = (query, domainName) => {
     setSelectedDomain(query);
     setDomainName(domainName);
-    fetchMoreItems(domainName);
+    // fetchMoreItems(domainName);
   };
 
   useEffect(() => {
-    if (selectedDomain) {
-      fetchMoreItems(selectedDomain);
-    }
-  }, [selectedDomain]);
+    
+      fetchMoreItems();
+    
+  }, [selectedDomain,domainName,clearDomains]);
 
   useEffect(() => {
     fetchMoreItems(selectedDomain);
-  }, [currentPage,clearDomains]);
+  }, [currentPage]);
 
   const handleGoBack = () => {
     navigate(-1); // Navigate back in history
@@ -223,8 +223,9 @@ const CategoryPage = () => {
   };
 
   const clearDomain = () => {
-    setDomainName(null)
+    setDomainName(null);
     setClearDomain(null);
+    setSelectedDomain(null)
   }
 
   useEffect(() => {
