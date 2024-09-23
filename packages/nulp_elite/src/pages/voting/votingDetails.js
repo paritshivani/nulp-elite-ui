@@ -513,7 +513,7 @@ const VotingDetails = () => {
               <Box className="xs-hide">
                 <FacebookShareButton
                   url={shareUrl}
-                  className="pr-5"
+                  className="pr-3"
                   quote={`Check out this poll: ${poll.title}`}
                   onClick={(event) => {
                     openSocialMediaLink(event, shareUrl);
@@ -525,14 +525,14 @@ const VotingDetails = () => {
                   url={shareUrl}
                   title={`Check out this poll: ${poll.title}`}
                   separator=":: "
-                  className="pr-5"
+                  className="pr-3"
                   onClick={(event) => openSocialMediaLink(event, shareUrl)}
                 >
                   <WhatsappIcon size={32} round />
                 </WhatsappShareButton>
                 <LinkedinShareButton
                   url={shareUrl}
-                  className="pr-5"
+                  className="pr-3"
                   title={poll.title}
                   summary={`Participate in this poll: ${poll.title}`}
                   onClick={(event) => {
@@ -543,7 +543,7 @@ const VotingDetails = () => {
                 </LinkedinShareButton>
                 <TwitterShareButton
                   url={shareUrl}
-                  className="pr-5"
+                  className="pr-3"
                   title={`Check out this poll: ${poll.title}`}
                   onClick={(event) => {
                     openSocialMediaLink(event, shareUrl);
@@ -598,16 +598,16 @@ const VotingDetails = () => {
               {poll.description}
             </Box>
             <Box className="lg-hide ml-20">
-              <FacebookShareButton url={shareUrl} className="pr-5">
+              <FacebookShareButton url={shareUrl} className="pr-3">
                 <FacebookIcon size={32} round={true} />
               </FacebookShareButton>
-              <WhatsappShareButton url={shareUrl} className="pr-5">
+              <WhatsappShareButton url={shareUrl} className="pr-3">
                 <WhatsappIcon size={32} round={true} />
               </WhatsappShareButton>
-              <LinkedinShareButton url={shareUrl} className="pr-5">
+              <LinkedinShareButton url={shareUrl} className="pr-3">
                 <LinkedinIcon size={32} round={true} />
               </LinkedinShareButton>
-              <TwitterShareButton url={shareUrl} className="pr-5">
+              <TwitterShareButton url={shareUrl} className="pr-3">
                 <img
                   src={require("../../assets/twitter.png")}
                   alt="Twitter"
