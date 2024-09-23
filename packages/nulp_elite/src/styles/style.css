@@ -766,6 +766,9 @@ button {
 }
 
 @media (max-width: 768px) {
+  .h3-title {
+    font-size: 15px !important;
+  }
   .votingDashboard {
     margin-top:55px;
   }
@@ -774,7 +777,7 @@ button {
   }
   .viewAll{
     font-size: 10px !important;
-    padding: 7px 4px;
+    padding: 9px 4px !important;
   }
   .d-flex-none {
     display: block !important;
@@ -2643,7 +2646,7 @@ button {
   border: none !important;
   border-radius: 10px !important;
   color: #fff !important;
-  font-size: 12px !important;
+  font-size: 12px;
   font-weight: 500 !important;
   padding: 9px 32px;
   text-align: center !important;
@@ -2682,7 +2685,7 @@ button {
 
 .h3-title {
   color: #484848 !important;
-  font-size: 18px !important;
+  font-size: 18px;
   font-weight: 600 !important;
 }
 
