@@ -1267,10 +1267,6 @@ button {
     gap: 55px;
   }
 
-  .react-multi-carousel-list.carousel-container.carousel-bx {
-    padding: 10px 0;
-  }
-
   .profile-card-view .custom-card-box {
     /* margin-left: 9px; */
     width: 48% !important;
@@ -2796,6 +2792,9 @@ button {
 
 .pr-28 {
   padding-right: 28px !important;
+}
+.pr-3{
+  padding-right: 3px !important;
 }
 
 .pr-4 {
