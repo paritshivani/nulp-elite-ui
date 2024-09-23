@@ -51,7 +51,6 @@ function Header({ globalSearchQuery }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElNotify, setAnchorElNotify] = React.useState(null);
-  const [anchorElPoll, setAnchorElPoll] = React.useState(null);
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
   const _userId = util.userId();
@@ -65,18 +64,6 @@ function Header({ globalSearchQuery }) {
   const [openNotification, setOpenNotification] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
 
-
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
-
-  const handleTooltipOpen = () => {
-    setOpen(true);
-  };
-
-  const handleSelectClick = () => {
-    setOpen(false);
-  };
   const handleSubmenuToggle = () => {
     setOpenSubmenu(!openSubmenu);
 
@@ -954,10 +941,13 @@ function Header({ globalSearchQuery }) {
                         href={routeConfig.ROUTES.LEARNING_REPORT}
                         underline="none"
                         textAlign="center"
-                        target="_blank"
                       >
-                        <MenuItem className="ml-10">
-
+                        <MenuItem className="ml-10"  
+                        onClick={() => {
+                            sessionStorage.setItem("urlPath", "learningreport");
+                            window.open(routeConfig.ROUTES.LEARNING_REPORT, "_blank");
+                          }}>
+                       
                           {t("LEARNING_REPORT")}
 
                         </MenuItem>
