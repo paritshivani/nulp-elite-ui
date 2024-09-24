@@ -787,7 +787,7 @@ const formatTimeWithTimezone = (date) => {
                       <Box className="d-flex alignItems-center pl-20">
                         <Box className="event-text-circle"></Box>
                         <Box className="h5-title">
-                          {detailData.eventOrganisedby}
+                          {detailData.eventOrganisedBy || detailData.eventOrganisedby}
                         </Box>
                       </Box>
                     </Box>
