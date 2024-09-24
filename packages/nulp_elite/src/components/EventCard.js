@@ -163,7 +163,9 @@ export default function EventCard({ items, index, onClick }) {
     >
       {/* <CardMedia className="card-media" title="green iguana" /> */}
       {/* <div onClick={onClick} className="card-div"></div> */}
-      <CardContent className="d-flex">
+      <CardContent className="d-flex" style={{
+                justifyContent: "space-between",
+              }}>
         <Box>
           {items.name && (
             <Typography gutterBottom className="mt-10  event-title" >

@@ -598,19 +598,29 @@ const JoinCourse = () => {
       if (isNotStarted) {
         return (
           <Box>
-            <Button
-              onClick={() => handleLinkClick(childnode)}
-              className="custom-btn-primary  mr-5"
-            >
-              {t("START_LEARNING")}
-            </Button>
-            {!isCompleted &&
-              <Button
-                onClick={handleLeaveCourseClick} // Open confirmation dialog
-                className="custom-btn-danger"
-              > {t("LEAVE_COURSE")}
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Box> <Button
+                onClick={() => handleGoBack()}
+                className="custom-btn-primary mr-5"
+              >
+                {t("BACK")}
               </Button>
-            }
+              </Box>
+              <Box> <Button
+                onClick={() => handleLinkClick(childnode)}
+                className="custom-btn-primary  mr-5"
+              >
+                {t("START_LEARNING")}
+              </Button>
+                {!isCompleted &&
+                  <Button
+                    onClick={handleLeaveCourseClick} // Open confirmation dialog
+                    className="custom-btn-danger"
+                  > {t("LEAVE_COURSE")}
+                  </Button>
+                }</Box>
+            </div>
+
 
             {showConfirmation && (
               <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
@@ -642,65 +652,74 @@ const JoinCourse = () => {
           </Box>
         );
       } else {
-       return (
+        return (
           <>
-          <Box>
-            <Button
+            <Box>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Box> <Button
+                  onClick={() => handleGoBack()}
+                  className="custom-btn-primary mr-5"
+                >
+                  {t("BACK")}
+                </Button>
+                </Box>
+                <Box> 
+                  <Button disabled={isCompleted}
 
-              disabled={ isCompleted}
+                  onClick={() =>
+                    handleLinkClick(
+                      ContinueLearning ?? NotConsumedContent ?? childnode
+                    )
+                  }
+                  className="custom-btn-primary mr-5"
+                >
+                  {t("CONTINUE_LEARNNG")}
+                </Button>
+                  {!isCompleted &&
+                    <Button
+                      onClick={handleLeaveCourseClick} // Open confirmation dialog
+                      className="custom-btn-danger"
+                    > {t("LEAVE_COURSE")}
+                    </Button>
+                  }  </Box>
+              </div>
 
-              onClick={() =>
-                handleLinkClick(
-                  ContinueLearning ?? NotConsumedContent ?? childnode
-                )
-              }
-              className="custom-btn-primary mr-5"
-            >
-              {t("CONTINUE_LEARNNG")}
-            </Button>
-            {!isCompleted &&
-              <Button
-              onClick={handleLeaveCourseClick} // Open confirmation dialog
-              className="custom-btn-danger"
-            > {t("LEAVE_COURSE")}
-            </Button>
-          }  
-            
-            {showConfirmation && (
-              <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
-                <DialogTitle>
-                  {t("LEAVE_COURSE_CONFIRMATION_TITLE")}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    {t("LEAVE_COURSE_CONFIRMATION_MESSAGE")}
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={handleConfirmationClose}
-                    className="custom-btn-default"
-                  >
-                    {t("CANCEL")}
-                  </Button>
-                  <Button
-                    onClick={handleLeaveConfirmed}
-                    className="custom-btn-primary"
-                    autoFocus
-                  >
-                    {t("LEAVE_COURSE")}
-                  </Button>
-            
-                </DialogActions>
-              </Dialog>
-            )}
-          </Box>
-          {isCompleted &&
-              <Box>
-              {t("COURSE_SUCCESSFULLY_COMPLETED")}
+
+              {showConfirmation && (
+                <Dialog open={showConfirmation} onClose={handleConfirmationClose}>
+                  <DialogTitle>
+                    {t("LEAVE_COURSE_CONFIRMATION_TITLE")}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      {t("LEAVE_COURSE_CONFIRMATION_MESSAGE")}
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={handleConfirmationClose}
+                      className="custom-btn-default"
+                    >
+                      {t("CANCEL")}
+                    </Button>
+                    <Button
+                      onClick={handleLeaveConfirmed}
+                      className="custom-btn-primary"
+                      autoFocus
+                    >
+                      {t("LEAVE_COURSE")}
+                    </Button>
+
+                  </DialogActions>
+                </Dialog>
+              )}
             </Box>
-          } 
-         
+            {isCompleted &&
+              <Box>
+                {t("COURSE_SUCCESSFULLY_COMPLETED")}
+              </Box>
+            }
+
           </>
         );
       }
