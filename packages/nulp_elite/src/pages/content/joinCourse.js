@@ -1993,7 +1993,7 @@ const JoinCourse = () => {
                       outline: "none",
                       borderRadius: 8,
                       width: "90%", // Relative width
-                      maxWidth: "500px", // Maximum width
+                      maxWidth: "700px", // Maximum width
                       height: "80%", // Relative height
                       maxHeight: "90vh", // Maximum height
                       overflowY: "auto", // Scroll if content overflows

@@ -1572,7 +1572,9 @@ button {
     font-size: 15px !important;
     max-width: 80% !important;
   }
-
+  .jss6{
+    text-align: left !important;
+  }
   .mr-13 {
     margin-right: 13px !important;
   }
@@ -3171,6 +3173,7 @@ custom-chip {
 
 .contentCreator .jss5 {
   position: inherit !important;
+  text-align: left !important;
 }
 
 .social-icons {
