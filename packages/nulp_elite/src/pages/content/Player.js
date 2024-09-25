@@ -55,7 +55,9 @@ const Player = () => {
 const [assessEvents, setAssessEvents] =useState ([]);
 const [propLength, setPropLength] =useState();
   const _userId = util.userId();
-
+const url = "https://nulp.niua.org/newplayer"
+  console.log("url", "https://nulp.niua.org/newplayer")
+  console.log("url11", url)
   const queryString = location.search;
   let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
   // Check if contentId ends with '=' and remove it
@@ -447,7 +449,7 @@ const updateContentStateForAssessment = async () => {
                   setTrackData(data);
                 }
               }}
-              public_url="https://nulp.niua.org/newplayer"
+              public_url= url 
             />
           )}
         </Box>
