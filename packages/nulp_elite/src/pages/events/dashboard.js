@@ -886,8 +886,8 @@ const Dashboard = () => {
                   <TableCell align="center">
                     {event.totalParticipants}
                   </TableCell>
-                  <TableCell align="center">{event.IssueCerificate}</TableCell>
-                  <TableCell align="center">{event.EventOrganisedby}</TableCell>
+                  <TableCell align="center">{event.IssueCerificate || event.issueCerificate}</TableCell>
+                  <TableCell align="center">{event.EventOrganisedby || event.eventOrganisedBy}</TableCell>
                   <TableCell align="center">
                     <FileDownloadOutlinedIcon
                       onClick={() => handleDownloadClick(event.identifier)}
