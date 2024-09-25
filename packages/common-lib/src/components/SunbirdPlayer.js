@@ -38,11 +38,14 @@ const SunbirdPlayer = ({
 
   React.useEffect(() => {
     const fetchData = () => {
+      console.log("url-------------------",url)
       if ([`/content-player`, `/quml`, `/pdf`, `/video`].includes(url)) {
         window.addEventListener(
           'message',
           (event) => {
             handleEvent(event)
+      console.log("event-------------------",event)
+
           },
           false
         )

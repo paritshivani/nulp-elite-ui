@@ -35,6 +35,7 @@ import { Collapse, List } from "@mui/material";
 import NotificationPopup from "./Notification";
 
 function Header({ globalSearchQuery }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [language, setLanguage] = useState(
     localStorage.getItem("lang") ? localStorage.getItem("lang") : "en"
@@ -50,10 +51,8 @@ function Header({ globalSearchQuery }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [anchorElNotify, setAnchorElNotify] = React.useState(null);
-  const [anchorElPoll, setAnchorElPoll] = React.useState(null);
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
-  const navigate = useNavigate();
   const _userId = util.userId();
   const [userData, setUserData] = useState(null);
   const [roles, setRoles] = useState([]);
@@ -65,18 +64,6 @@ function Header({ globalSearchQuery }) {
   const [openNotification, setOpenNotification] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
 
-
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
-
-  const handleTooltipOpen = () => {
-    setOpen(true);
-  };
-
-  const handleSelectClick = () => {
-    setOpen(false);
-  };
   const handleSubmenuToggle = () => {
     setOpenSubmenu(!openSubmenu);
 
@@ -202,7 +189,6 @@ function Header({ globalSearchQuery }) {
     }
   };
   const [scrolled, setScrolled] = useState(false);
-  // const navigate = useNavigate();
 
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 767);
@@ -224,12 +210,13 @@ function Header({ globalSearchQuery }) {
   const roleNames =
     userData?.result?.response?.roles.map((role) => role.role) || [];
 
-    const textFieldStyle = {
-      fontSize: '12px',
-      backgroundColor: searchQuery ? '#065872' : 'transparent', 
-      boxShadow: searchQuery ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none', 
-      color:searchQuery? '#fff' :"#000"
-    };
+  const textFieldStyle = {
+    fontSize: '12px',
+    backgroundColor: searchQuery ? '#065872' : 'transparent',
+    boxShadow: searchQuery ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
+    color: searchQuery ? '#fff' : "#000"
+  };
+
   return (
     <>
       <Box
@@ -280,11 +267,11 @@ function Header({ globalSearchQuery }) {
                       aria-label="search"
                       onClick={onGlobalSearch}
                     >
-                    <SearchIcon style={{ color: searchQuery ? '#fff' : '#000' }} /> 
+                      <SearchIcon style={{ color: searchQuery ? '#fff' : '#000' }} />
                     </IconButton>
                   ),
                   style: {
-                    color: searchQuery ? '#fff' : '#000', 
+                    color: searchQuery ? '#fff' : '#000',
                   },
                 }}
               />
@@ -391,9 +378,9 @@ function Header({ globalSearchQuery }) {
             </Link>
             <Link
               target="_blank"
-              href="/my-groups"
+              href="/my-groups?selectedTab=myGroups"
               className={
-                activePath === `/my-groups` ? "Menuactive" : "headerMenu"
+                activePath === `/my-groups?selectedTab=myGroups` ? "Menuactive" : "headerMenu"
               }
               underline="none"
             >
@@ -882,85 +869,17 @@ function Header({ globalSearchQuery }) {
                         href={routeConfig.ROUTES.LEARNING_REPORT}
                         underline="none"
                         textAlign="center"
-                        target="_blank"
                       >
-                        <MenuItem className="ml-10">
-
+                        <MenuItem
+                          className="ml-10"
+                          onClick={() => {
+                            sessionStorage.setItem("urlPath", "learningreport");
+                            window.open(routeConfig.ROUTES.LEARNING_REPORT, "_blank");
+                          }}
+                        >
                           {t("LEARNING_REPORT")}
-
                         </MenuItem>
                       </Link>
-
-                    </List>
-                  </Collapse>
-                  <MenuItem
-                    onClick={handleDashboardmenuToggle}
-                    style={{ background: "#f9fafc", color: "#1976d2" }}
-                    className="lg-hide"
-                  >
-                    {t("DASHBOARD")}
-                    <Link primary="Submenu" />
-                    {openDashboardmenu ? <ExpandLess /> : <ExpandMore />}
-                  </MenuItem>
-                  <Collapse
-                    in={openDashboardmenu}
-                    timeout="auto"
-                    unmountOnExit
-                    style={{ background: "#f9fafc" }}
-                    className="lg-hide"
-                  >
-                    <List
-                      component="div"
-                      disablePadding
-                      style={{ background: "#f9fafc" }}
-                    >
-                      {roleNames.some((role) =>
-                        ["SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
-                          role
-                        )
-                      ) && (
-                          <Link
-                            href={routeConfig.ROUTES.POLL.POLL_DASHBOARD}
-                            underline="none"
-                            textAlign="center"
-                          >
-                            <MenuItem className="ml-10">
-
-                              {t("POLL")}
-
-                            </MenuItem>
-                          </Link>
-                        )}
-                      {roleNames.some((role) =>
-                        ["ORG_ADMIN", "SYSTEM_ADMINISTRATION", "CONTENT_CREATOR"].includes(
-                          role
-                        )
-                      ) && (
-                          <Link
-                            href={routeConfig.ROUTES.DASHBOARD_PAGE.DASHBOARD}
-                            underline="none"
-                            textAlign="center"
-                          >
-                            <MenuItem className="ml-10">
-
-                              {t("EVENTS")}
-
-                            </MenuItem>
-                          </Link>
-                        )}
-                      <Link
-                        href={routeConfig.ROUTES.LEARNING_REPORT}
-                        underline="none"
-                        textAlign="center"
-                        target="_blank"
-                      >
-                        <MenuItem className="ml-10">
-
-                          {t("LEARNING_REPORT")}
-
-                        </MenuItem>
-                      </Link>
-
                     </List>
                   </Collapse>
                   {roleNames.some((role) =>

@@ -163,7 +163,9 @@ export default function EventCard({ items, index, onClick }) {
     >
       {/* <CardMedia className="card-media" title="green iguana" /> */}
       {/* <div onClick={onClick} className="card-div"></div> */}
-      <CardContent className="d-flex jc-bw">
+      <CardContent className="d-flex" style={{
+                justifyContent: "space-between",
+              }}>
         <Box>
           {items.name && (
             <Typography gutterBottom className="mt-10  event-title" >
@@ -171,11 +173,11 @@ export default function EventCard({ items, index, onClick }) {
             </Typography>
           )}
           <Box className="d-flex h6-title mt-30" style={{ color: "#484848" }}>
-            <Box className="d-flex jc-bw alignItems-center">
+            <Box className="d-flex alignItems-center">
               <TodayOutlinedIcon className="fs-12 pr-5" />
               {formatDate(items.startDate)}
             </Box>
-            <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+            <Box className="d-flex alignItems-center pl-5 pr-5">
               <AccessAlarmsOutlinedIcon className="fs-12 pr-5" />
 
               {formatTimeToIST(items.startTime)}

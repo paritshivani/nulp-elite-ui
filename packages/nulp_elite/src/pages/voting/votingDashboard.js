@@ -432,7 +432,7 @@ const votingDashboard = () => {
                     }}
                     onClick={() => handleCardClick(items.poll_id)}
                   >
-                    <CardContent className="d-flex jc-bw">
+                    <CardContent className="d-flex">
                       <Grid
                         item
                         xs={12}
@@ -454,7 +454,7 @@ const votingDashboard = () => {
                             className="d-flex h6-title mt-30"
                             style={{ color: "#484848" }}
                           >
-                            <Box className="d-flex jc-bw alignItems-center fs-13">
+                            <Box className="d-flex alignItems-center">
                               <TodayOutlinedIcon className="fs-14 pr-5" />
                               {moment(items.start_date).format(
                                 "dddd, MMMM Do YYYY, h:mm:ss a"
@@ -689,7 +689,7 @@ const votingDashboard = () => {
                   >
                     <CardContent>
                       <Box>
-                        <Box className="d-flex jc-bw">
+                        <Box className="d-flex">
                           <Box>
                             {items.title && (
                               <Typography
@@ -704,7 +704,7 @@ const votingDashboard = () => {
                             <Box className="xs-hide text-right">
                               <FacebookShareButton
                                 url={shareUrl}
-                                className="pr-5"
+                                className="pr-3"
                                 quote={`Check out this poll: ${items.title}`}
                                 onClick={(event) => {
                                   openSocialMediaLink(event, shareUrl);
@@ -720,7 +720,7 @@ const votingDashboard = () => {
                                 url={shareUrl}
                                 title={`Check out this poll: ${items.title}`}
                                 separator=":: "
-                                className="pr-5"
+                                className="pr-3"
                                 onClick={(event) =>
                                   openSocialMediaLink(event, shareUrl)
                                 }
@@ -729,7 +729,7 @@ const votingDashboard = () => {
                               </WhatsappShareButton>
                               <LinkedinShareButton
                                 url={shareUrl}
-                                className="pr-5"
+                                className="pr-3"
                                 title={items.title}
                                 summary={`Participate in this poll: ${items.title}`}
                                 onClick={(event) => {
@@ -740,7 +740,7 @@ const votingDashboard = () => {
                               </LinkedinShareButton>
                               <TwitterShareButton
                                 url={shareUrl}
-                                className="pr-5"
+                                className="pr-3"
                                 title={`Check out this poll: ${items.title}`}
                                 onClick={(event) => {
                                   openSocialMediaLink(event, shareUrl);
@@ -759,7 +759,7 @@ const votingDashboard = () => {
                           className="d-flex h6-title mt-30"
                           style={{ color: "#484848" }}
                         >
-                          <Box className="d-flex jc-bw alignItems-center fs-13">
+                          <Box className="d-flex alignItems-center">
                             <TodayOutlinedIcon className="fs-14 pr-5" />
                             {moment(items?.start_date).format(
                               "dddd, MMMM Do YYYY, h:mm:ss a"
@@ -828,7 +828,7 @@ const votingDashboard = () => {
                       <Box className="lg-hide pl-20">
                         <FacebookShareButton
                           url={shareUrl}
-                          className="pr-5"
+                          className="pr-3"
                           quote={`Check out this poll: ${items.title}`}
                           onClick={(event) => {
                             openSocialMediaLink(event, shareUrl);
@@ -840,7 +840,7 @@ const votingDashboard = () => {
                           url={shareUrl}
                           title={`Check out this poll: ${items.title}`}
                           separator=":: "
-                          className="pr-5"
+                          className="pr-3"
                           onClick={(event) =>
                             openSocialMediaLink(event, shareUrl)
                           }
@@ -849,7 +849,7 @@ const votingDashboard = () => {
                         </WhatsappShareButton>
                         <LinkedinShareButton
                           url={shareUrl}
-                          className="pr-5"
+                          className="pr-3"
                           title={items.title}
                           summary={`Participate in this poll: ${items.title}`}
                           onClick={(event) => {
@@ -860,7 +860,7 @@ const votingDashboard = () => {
                         </LinkedinShareButton>
                         <TwitterShareButton
                           url={shareUrl}
-                          className="pr-5"
+                          className="pr-3"
                           title={`Check out this poll: ${items.title}`}
                           onClick={(event) => {
                             openSocialMediaLink(event, shareUrl);
@@ -901,7 +901,7 @@ const votingDashboard = () => {
           >
             <Box display="flex" alignItems="center" className="h3-title">
               <WorkspacePremiumIcon style={{ paddingRight: "10px" }} />
-              Closed Polls
+             {t("CLOSED_POLLS")}
             </Box>
             {!showAllClosed && visibleClosedPolls.length >= 3 && (
               <Box>
@@ -941,7 +941,7 @@ const votingDashboard = () => {
                   >
                     <CardContent>
                       <Box>
-                        <Box className="d-flex jc-bw">
+                        <Box className="d-flex">
                           <Box>
                             {items.title && (
                               <Typography
@@ -956,7 +956,7 @@ const votingDashboard = () => {
                             <Box className="xs-hide text-right">
                               <FacebookShareButton
                                 url={shareUrl}
-                                className="pr-5"
+                                className="pr-3"
                                 quote={`Check out this poll: ${items.title}`}
                                 onClick={(event) => {
                                   openSocialMediaLink(event, shareUrl);
@@ -972,7 +972,7 @@ const votingDashboard = () => {
                                 url={shareUrl}
                                 title={`Check out this poll: ${items.title}`}
                                 separator=":: "
-                                className="pr-5"
+                                className="pr-3"
                                 onClick={(event) =>
                                   openSocialMediaLink(event, shareUrl)
                                 }
@@ -981,7 +981,7 @@ const votingDashboard = () => {
                               </WhatsappShareButton>
                               <LinkedinShareButton
                                 url={shareUrl}
-                                className="pr-5"
+                                className="pr-3"
                                 title={items.title}
                                 summary={`Participate in this poll: ${items.title}`}
                                 onClick={(event) => {
@@ -992,7 +992,7 @@ const votingDashboard = () => {
                               </LinkedinShareButton>
                               <TwitterShareButton
                                 url={shareUrl}
-                                className="pr-5"
+                                className="pr-3"
                                 title={`Check out this poll: ${items.title}`}
                                 onClick={(event) => {
                                   openSocialMediaLink(event, shareUrl);
@@ -1011,7 +1011,7 @@ const votingDashboard = () => {
                           className="d-flex h6-title mt-30"
                           style={{ color: "#484848" }}
                         >
-                          <Box className="d-flex jc-bw alignItems-center fs-13">
+                          <Box className="d-flex alignItems-center">
                             <TodayOutlinedIcon className="fs-14 pr-5" />
                             {moment(items?.start_date).format(
                               "dddd, MMMM Do YYYY, h:mm:ss a"
@@ -1084,7 +1084,7 @@ const votingDashboard = () => {
                       <Box className="lg-hide pl-20">
                         <FacebookShareButton
                           url={shareUrl}
-                          className="pr-5"
+                          className="pr-3"
                           quote={`Check out this poll: ${items.title}`}
                           onClick={(event) => {
                             openSocialMediaLink(event, shareUrl);
@@ -1096,7 +1096,7 @@ const votingDashboard = () => {
                           url={shareUrl}
                           title={`Check out this poll: ${items.title}`}
                           separator=":: "
-                          className="pr-5"
+                          className="pr-3"
                           onClick={(event) =>
                             openSocialMediaLink(event, shareUrl)
                           }
@@ -1105,7 +1105,7 @@ const votingDashboard = () => {
                         </WhatsappShareButton>
                         <LinkedinShareButton
                           url={shareUrl}
-                          className="pr-5"
+                          className="pr-3"
                           title={items.title}
                           summary={`Participate in this poll: ${items.title}`}
                           onClick={(event) => {
@@ -1116,7 +1116,7 @@ const votingDashboard = () => {
                         </LinkedinShareButton>
                         <TwitterShareButton
                           url={shareUrl}
-                          className="pr-5"
+                          className="pr-3"
                           title={`Check out this poll: ${items.title}`}
                           onClick={(event) => {
                             openSocialMediaLink(event, shareUrl);

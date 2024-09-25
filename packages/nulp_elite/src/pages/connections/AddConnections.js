@@ -1393,7 +1393,7 @@ const AddConnections = () => {
                         invitationAcceptedUsers.length === 0 &&
                         invitationNotAcceptedUsers &&
                         invitationNotAcceptedUsers.length === 0 && (
-                          <Box>
+                          <Box marginLeft="150px">
                             <p>{t("NO_USERS_FOUND")}</p>
                           </Box>
                         )}
@@ -1571,7 +1571,7 @@ const AddConnections = () => {
                     <Box className="scroll">
                       {invitationReceiverByUser.length ===0 && (
                         <Box marginTop="26px" marginLeft="163px">
-                          {t("NO Chat Request")}
+                          {t("NO_CHAT_REQUEST")}
                         </Box>
                          
                       )}

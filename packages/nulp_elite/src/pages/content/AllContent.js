@@ -85,14 +85,6 @@ const AllContent = () => {
   const [framework, setFramework] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleResize = () => {
-    setIsMobile(window.innerWidth <= 767);
-  };
-
-  const handleSearch = (query) => {
-    console.log("Search query:", query);
-  };
-
   const handleDomainFilter = (query, domainName) => {
     setSelectedDomain(query);
     setDomainName(domainName);
