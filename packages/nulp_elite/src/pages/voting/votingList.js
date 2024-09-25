@@ -21,6 +21,7 @@ import FloatingChatIcon from "components/FloatingChatIcon";
 const urlConfig = require("../../configs/urlConfig.json");
 import { useTranslation } from "react-i18next";
 import { Loading } from "@shiksha/common-lib";
+import dayjs from "dayjs";
 
 const VotingList = () => {
   const [toasterOpen, setToasterOpen] = useState(false);
@@ -42,22 +43,17 @@ const VotingList = () => {
     selectedEndDate: null,
     status: ["Live"],
   });
+
   const [finalFilters, setFinalFilters] = useState({});
 
   const handleFilterChange = (newFilters) => {
-    const formatDateToISO = (dateStr) => {
-      const localDate = new Date(dateStr);
-      localDate.setUTCHours(0, 0, 0, 0);
-      return localDate.toISOString();
-    };
-
     const formattedFilters = {
       ...newFilters,
       selectedStartDate: newFilters.selectedStartDate
-        ? formatDateToISO(newFilters.selectedStartDate)
+        ? dayjs(newFilters.selectedStartDate).format("YYYY-MM-DD")
         : null,
       selectedEndDate: newFilters.selectedEndDate
-        ? formatDateToISO(newFilters.selectedEndDate)
+        ? dayjs(newFilters.selectedEndDate).format("YYYY-MM-DD")
         : null,
     };
     setFilters(formattedFilters);
