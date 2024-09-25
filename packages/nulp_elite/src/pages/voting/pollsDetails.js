@@ -235,7 +235,7 @@ const pollsDetailes = () => {
                               <Box className="xs-hide text-right">
                                 <FacebookShareButton
                                   url={shareUrl}
-                                  className="pr-5"
+                                  className="pr-3"
                                   quote={`Check out this poll: ${items.title}`}
                                   onClick={(event) => {
                                     openSocialMediaLink(event, shareUrl);
@@ -251,7 +251,7 @@ const pollsDetailes = () => {
                                   url={shareUrl}
                                   title={`Check out this poll: ${items.title}`}
                                   separator=":: "
-                                  className="pr-5"
+                                  className="pr-3"
                                   onClick={(event) =>
                                     openSocialMediaLink(event, shareUrl)
                                   }
@@ -260,7 +260,7 @@ const pollsDetailes = () => {
                                 </WhatsappShareButton>
                                 <LinkedinShareButton
                                   url={shareUrl}
-                                  className="pr-5"
+                                  className="pr-3"
                                   title={items.title}
                                   summary={`Participate in this poll: ${items.title}`}
                                   onClick={(event) => {
@@ -271,7 +271,7 @@ const pollsDetailes = () => {
                                 </LinkedinShareButton>
                                 <TwitterShareButton
                                   url={shareUrl}
-                                  className="pr-5"
+                                  className="pr-3"
                                   title={`Check out this poll: ${items.title}`}
                                   onClick={(event) => {
                                     openSocialMediaLink(event, shareUrl);
@@ -406,7 +406,7 @@ const pollsDetailes = () => {
                         <Box className="lg-hide">
                           <FacebookShareButton
                             url={shareUrl}
-                            className="pr-5"
+                            className="pr-3"
                             quote={`Check out this poll: ${items.title}`}
                             onClick={(event) => {
                               openSocialMediaLink(event, shareUrl);
@@ -422,7 +422,7 @@ const pollsDetailes = () => {
                             url={shareUrl}
                             title={`Check out this poll: ${items.title}`}
                             separator=":: "
-                            className="pr-5"
+                            className="pr-3"
                             onClick={(event) =>
                               openSocialMediaLink(event, shareUrl)
                             }
@@ -431,7 +431,7 @@ const pollsDetailes = () => {
                           </WhatsappShareButton>
                           <LinkedinShareButton
                             url={shareUrl}
-                            className="pr-5"
+                            className="pr-3"
                             title={items.title}
                             summary={`Participate in this poll: ${items.title}`}
                             onClick={(event) => {
@@ -442,7 +442,7 @@ const pollsDetailes = () => {
                           </LinkedinShareButton>
                           <TwitterShareButton
                             url={shareUrl}
-                            className="pr-5"
+                            className="pr-3"
                             title={`Check out this poll: ${items.title}`}
                             onClick={(event) => {
                               openSocialMediaLink(event, shareUrl);
