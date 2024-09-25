@@ -865,21 +865,16 @@ function Header({ globalSearchQuery }) {
                             </MenuItem>
                           </Link>
                         )}
-                      <Link
-                        href={routeConfig.ROUTES.LEARNING_REPORT}
-                        underline="none"
-                        textAlign="center"
+                      <MenuItem
+                        className="ml-10"
+                        onClick={() => {
+                          sessionStorage.setItem("urlPath", "learningreport");
+                          window.open(routeConfig.ROUTES.LEARNING_REPORT, "_blank"); 
+                        }}
+                        style={{color:'#1976d2'}}
                       >
-                        <MenuItem
-                          className="ml-10"
-                          onClick={() => {
-                            sessionStorage.setItem("urlPath", "learningreport");
-                            window.open(routeConfig.ROUTES.LEARNING_REPORT, "_blank");
-                          }}
-                        >
-                          {t("LEARNING_REPORT")}
-                        </MenuItem>
-                      </Link>
+                        {t("LEARNING_REPORT")}
+                      </MenuItem>
                     </List>
                   </Collapse>
                   {roleNames.some((role) =>
