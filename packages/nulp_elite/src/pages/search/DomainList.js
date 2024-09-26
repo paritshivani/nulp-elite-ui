@@ -379,6 +379,7 @@ const DomainList = ({ globalSearchQuery }) => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
 
       {/* Search Box */}
       <Box
@@ -387,7 +388,7 @@ const DomainList = ({ globalSearchQuery }) => {
           borderRadius: '10px'}}
       >
         <TextField
-          placeholder={t("What_do_you_want_to_learn_today")}
+          placeholder={t("WHAT_DO_YOU_WANT_TO_LEARN_TODAY")}
           variant="outlined"
           size="small"
           fullWidth
@@ -634,6 +635,7 @@ const DomainList = ({ globalSearchQuery }) => {
         </Box>
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </div>
   );
