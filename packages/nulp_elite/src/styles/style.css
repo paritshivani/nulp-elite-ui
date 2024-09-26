@@ -766,6 +766,9 @@ button {
 }
 
 @media (max-width: 768px) {
+  .searchField .MuiInputBase-input::placeholder {
+    font-size: 12px;
+  }
   .h3-title {
     font-size: 15px !important;
   }
