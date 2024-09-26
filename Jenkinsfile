@@ -33,7 +33,7 @@ pipeline {
                     nvm use $NODE_VERSION
                     yarn install
                     yarn build
-                    cp -r /var/lib/jenkins/workspace/Build/Core/dist /var/lib/jenkins/workspace/Build/Core/elite-ui/ 
+                    cp -r /var/lib/jenkins/workspace/Build/Core/dist /var/lib/jenkins/workspace/Build/Core/elite-ui/prod/
                     #mkdir /var/lib/jenkins/workspace/Build/Core/elite-ui/webapp/ 
                     #cp -r /var/lib/jenkins/workspace/Build/Core/elite-ui/prod-build/* /var/lib/jenkins/workspace/Build/Core/elite-ui/webapp/
                 '''
