@@ -13,7 +13,8 @@ body {
   font-weight: 500;
   font-style: normal;
   background: #ffbc0154;
-  min-height: 100vh;
+  height: 100%;
+  margin: 0;
 }
 
 body,
@@ -1327,11 +1328,6 @@ button {
     text-align: left;
   }
 
-  #root>div:first-child {
-    min-height: 100vh;
-    padding-bottom: 55px;
-  }
-
   .votingList .MuiTab-root {
     width: 42% !important;
   }
@@ -1349,11 +1345,6 @@ button {
 
   .MuiFormControl-root.MuiTextField-root.w-86 {
     width: 86% !important;
-  }
-
-  #root>div:first-child {
-    min-height: 100vh;
-    padding-bottom: 135px;
   }
 
   .custom-event-container .cardBox,
@@ -2110,7 +2101,6 @@ button {
   .MuiContainer-root.allContent.content-list .custom-card {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
-    gap: 16px !important;
   }
 
   .custom-card-box {
@@ -2158,10 +2148,12 @@ button {
 }
 
 .scroll-45 {
-  height: 61vh;
+  height: 50vh;
   overflow-y: auto;
 }
-
+.header-bg-blue{
+  margin-bottom: 60px;
+}
 .scrolled {
   position: fixed !important;
   top: 117px;
@@ -2374,7 +2366,13 @@ Link,
 Footer {
   margin-top: 30px;
 }
-
+.footer{
+  background: rgb(6, 88, 114);
+  color: rgb(255, 255, 255);
+  padding: 15px 15px 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
 .MuiTabPanel-root {
   padding: 0 !important;
 }
@@ -3628,9 +3626,6 @@ thead th {
   display: inline-block !important;
 }
 
-#root {
-  min-height: 100vh;
-}
 
 .MuiDialogTitle-root+.css-1ty026z {
   padding-top: 20px !important;

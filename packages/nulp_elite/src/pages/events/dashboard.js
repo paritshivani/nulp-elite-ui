@@ -552,7 +552,7 @@ const Dashboard = () => {
   return (
     <div>
       <Header />
-
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       <Container
         maxWidth="xl"
         role="main"
@@ -908,6 +908,7 @@ const Dashboard = () => {
         />
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </div>
   );

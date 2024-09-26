@@ -982,6 +982,7 @@ const JoinCourse = () => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       <Snackbar
         open={showEnrollmentSnackbar}
         autoHideDuration={6000}
@@ -2033,6 +2034,7 @@ const JoinCourse = () => {
         </Grid>
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </div>
   );
