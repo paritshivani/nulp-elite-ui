@@ -295,7 +295,7 @@ setSubCategories(data?.result?.framework?.categories[SubCategoryindex]?.terms);
           board: [selectedCategory],
           medium: selectedLanguages,
           gradeLevel: selectedSubCategory,
-          subject: [selectedTopic],
+          // subject: [selectedTopic],
           id: "nulp-domain",
         },
         userId: _userId,
