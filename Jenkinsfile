@@ -8,7 +8,7 @@ pipeline {
                 deleteDir()
                 
                 // Clone repository
-                git branch: 'main', url: 'https://github.com/NIUANULP/nulp-elite-ui.git'
+                url: 'https://github.com/NIUANULP/nulp-elite-ui.git'
             }
         }
         stage('Build') {
