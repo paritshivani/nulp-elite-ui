@@ -2,15 +2,10 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import SearchSharpIcon from "@mui/icons-material/SearchSharp";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
-import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -23,14 +18,6 @@ const routeConfig = require("../configs/routeConfig.json");
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-
-// const styles = {
-//   BottomNavigation: {
-//     width: '100%',
-//     position: 'fixed',
-//     bottom: 0,
-//   },
-// };
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -174,21 +161,9 @@ export default function Footer() {
         </Box>
       </Box>
         <Box
-          className="xs-hide"
-          style={{
-            background: "#065872",
-            color: "#fff",
-            padding: "15px 15px 13px",
-            marginTop: "auto",
-            position: 'absolute',
-            bottom: '0px',
-            width:'100%',
-            boxSizing: 'border-box'
-          }}
+          className="xs-hide footer"
         >
-          {/* <Box>dfgdfgsg */}
-
-          <Grid container spacing={2} className="footer">
+          <Grid container spacing={2}>
             <Grid
               item
               xs={8}

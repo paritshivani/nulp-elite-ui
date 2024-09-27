@@ -196,6 +196,7 @@ const Certificate = () => {
       <Box className="lg-hide">
         <Header />
       </Box>
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       <Container
         maxWidth="xxl"
@@ -419,6 +420,7 @@ const Certificate = () => {
         )}
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Box className="lg-hide">
         <Footer />
       </Box>

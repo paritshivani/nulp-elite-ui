@@ -280,6 +280,7 @@ const EventList = (props) => {
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+     <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       <Box>
         {domainList && domainList.length > 0 ? (
           <DomainCarousel
@@ -430,6 +431,7 @@ const EventList = (props) => {
         </Grid>
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </div>
   );

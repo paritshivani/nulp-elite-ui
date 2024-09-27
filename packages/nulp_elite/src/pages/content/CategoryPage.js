@@ -248,6 +248,7 @@ const CategoryPage = () => {
   return (
     <>
       <Header />
+     <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       {domain.length > 0 ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} selectedDomainCode={preselectedDomain}/>
@@ -261,8 +262,8 @@ const CategoryPage = () => {
       >
         {(domainName || (clearDomains && clearDomains !== "null")) && (
           <Box
-            className="d-flex jc-bw mr-20 my-20"
-            style={{ alignItems: "center" }}
+            className="d-flex mr-20 my-20"
+            style={{ alignItems: "center",justifyContent:'space' }}
           >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
@@ -307,8 +308,8 @@ const CategoryPage = () => {
         )}
         {category && (
           <Box
-            className="d-flex jc-bw mr-20 my-20 px-10"
-            style={{ alignItems: "center" }}
+            className="d-flex mr-20 my-20 px-10"
+            style={{ alignItems: "center",justifyContent:'space-between'}}
           >
             <p className="h3-title">{category === "Course" ? "Courses" : category}</p>
             <Link onClick={handleGoBack} className="viewAll mr-17">
@@ -353,6 +354,7 @@ const CategoryPage = () => {
         )}
 
       </Container>
+      </Box>
       <Footer />
     </>
   );

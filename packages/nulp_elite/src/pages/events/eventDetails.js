@@ -688,6 +688,7 @@ const formatTimeWithTimezone = (date) => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       <Snackbar
         open={showEnrollmentSnackbar}
         autoHideDuration={6000}
@@ -1405,7 +1406,7 @@ const formatTimeWithTimezone = (date) => {
           </Button>
         </DialogActions> */}
       </BootstrapDialog>
-
+      </Box>
       <Footer />
     </div>
   );

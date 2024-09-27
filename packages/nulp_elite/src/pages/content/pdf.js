@@ -20,7 +20,7 @@ const PDFContent = () => {
   return (
     <div>
       <Header />
-
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       <Container maxWidth="md" role="main" className="container-pb">
         <Grid container spacing={2}>
           <Grid item xs={8}>
@@ -98,6 +98,7 @@ const PDFContent = () => {
         PDF will be intergrated Here
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </div>
   );
