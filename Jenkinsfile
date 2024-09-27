@@ -1,14 +1,18 @@
 pipeline {
     agent any
     
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'prod-main', description: 'Branch to build')
+    }
+    
     stages {
         stage('Clone Repository') {
             steps {
                 // Clean workspace before cloning
                 deleteDir()
-                
-                // Clone repository
-                git branch: 'prod-main', url: 'https://github.com/NIUANULP/nulp-elite-ui.git'
+
+                // Clone repository with the parameterized branch
+                git branch: "${BRANCH_NAME}", url: 'https://github.com/NIUANULP/nulp-elite-ui.git'
             }
         }
         stage('Build') {
@@ -34,8 +38,6 @@ pipeline {
                     yarn install
                     yarn build
                     cp -r /var/lib/jenkins/workspace/Build/Core/dist /var/lib/jenkins/workspace/Build/Core/elite-ui/prod/
-                    #mkdir /var/lib/jenkins/workspace/Build/Core/elite-ui/webapp/ 
-                    #cp -r /var/lib/jenkins/workspace/Build/Core/elite-ui/prod-build/* /var/lib/jenkins/workspace/Build/Core/elite-ui/webapp/
                 '''
             }
         }
