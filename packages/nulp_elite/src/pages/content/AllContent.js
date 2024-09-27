@@ -305,10 +305,13 @@ const AllContent = () => {
 
   return (
     <>
+    <Box>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
 
-      {domain ? (
+     <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}
+     >
+     {domain ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
       ) : (
         <SkeletonLoader />
@@ -320,8 +323,8 @@ const AllContent = () => {
       >
         {domainName && (
           <Box
-            className="d-flex jc-bw my-20 px-10"
-            style={{ alignItems: "center" }}
+            className="d-flex my-20 px-10"
+            style={{ alignItems: "center",justifyContent:'space-between' }}
           >
             <Box
               sx={{ marginTop: "10px", alignItems: "center" }}
@@ -466,7 +469,10 @@ const AllContent = () => {
 
       </Container>
       <FloatingChatIcon />
+     </Box>
       <Footer />
+      </Box>
+     
     </>
   );
 };

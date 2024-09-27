@@ -1289,6 +1289,7 @@ const AddConnections = () => {
     <Box>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       <Container maxWidth="xl" role="main" className="pt-0 xs-pb-62 pt-108">
         {error && (
           <Alert severity="error" className="my-10">
@@ -2024,6 +2025,7 @@ const AddConnections = () => {
         </Box> */}
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </Box>
   );

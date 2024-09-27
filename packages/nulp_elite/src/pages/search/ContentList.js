@@ -409,6 +409,7 @@ const ContentList = (props) => {
     <div>
       <Header globalSearchQuery={globalSearchQuery} />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
 
       <Box
         className="lg-hide header-bg"
@@ -478,8 +479,8 @@ const ContentList = (props) => {
           </Box> */}
         {/* </Box> */}
         <Box
-          className="d-flex jc-bw mr-20 my-20"
-          style={{ alignItems: "center" }}
+          className="d-flex mr-20 my-20"
+          style={{ alignItems: "center",justifyContent:'space-between' }}
         >
           {domainName || searchQuery ? (
             <Box
@@ -561,7 +562,7 @@ const ContentList = (props) => {
                         //   key={items.identifier}
                         // >
                         <Box
-                          className="custom-card-box jc-bw"
+                          className="custom-card-box"
                           key={items.identifier}
                         >
                           <BoxCard
@@ -596,6 +597,7 @@ const ContentList = (props) => {
         </Grid>
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </div>
   );

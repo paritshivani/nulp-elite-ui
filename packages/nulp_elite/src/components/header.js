@@ -223,7 +223,7 @@ function Header({ globalSearchQuery }) {
         className={
           scrolled
             ? "pos-fixed xs-hide d-flex bg-white"
-            : " xs-hide d-flex  bg-white"
+            : "xs-hide d-flex  bg-white"
         }
       >
         <Box
@@ -242,7 +242,7 @@ function Header({ globalSearchQuery }) {
           </Link>
 
           <Box
-            className="xs-hide1 d-flex explore explore-text"
+            className="d-flex explore explore-text"
             style={{
               alignItems: "center",
               paddingLeft: "8px",
@@ -252,7 +252,7 @@ function Header({ globalSearchQuery }) {
             <Box className="h5-title px-10">{t("EXPLORE")}</Box>
             <Box style={{ width: "100%" }}>
               <TextField
-                placeholder={t("What do you want to learn today?  ")}
+                placeholder={t("WHAT_DO_YOU_WANT_TO_LEARN_TODAY")}
                 variant="outlined"
                 size="small"
                 style={textFieldStyle}

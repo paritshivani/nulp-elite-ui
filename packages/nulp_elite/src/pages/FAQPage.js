@@ -62,6 +62,7 @@ const FAQPage = () => {
   return (
     <div>
       <Header />
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
       {setLanguage && url && <Container maxWidth="xl" role="main" className="min-472 pb-30">
         {error && (
           <Alert severity="error" className="my-10">
@@ -161,6 +162,7 @@ const FAQPage = () => {
           </Grid>
         </Grid>
       </Container>}
+      </Box>
       <Footer />
     </div>
   );
