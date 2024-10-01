@@ -450,7 +450,7 @@ const updateContentStateForAssessment = async () => {
                   setTrackData(data);
                 }
               }}
-              public_url="https://devnulp.niua.org/newplayer"
+              public_url= "https://nulp.niua.org/newplayer" 
             />
           )}
         </Box>
