@@ -271,7 +271,7 @@
   "MY_CONNECTION": "আমার সংযোগ",
   "CONNECTION_REQUEST": "সংযোগ অনুরোধ",
   "BLOCKED_USERS": "ব্লক করা ব্যবহারকারীরা",
-  "What do you want to learn today?  ": "আজ আপনি কী শিখতে চান?",
+  "WHAT_DO_YOU_WANT_TO_LEARN_TODAY": "আজ আপনি কী শিখতে চান?",
   "REGISTRATION_FORM": "ইভেন্টের জন্য নিবন্ধন করুন",
 
   "SELECT_CATEGORY_FIRST":"প্রথমে একটি বিভাগ নির্বাচন করুন",

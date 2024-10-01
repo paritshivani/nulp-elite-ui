@@ -593,6 +593,7 @@ const Profile = () => {
                                                 fontSize: "10px",
                                                 margin: "0 10px 3px 6px",
                                                 background: "#e3f5ff",
+                                                cursor: 'auto',
                                               }}
                                             >
                                               {roleName}

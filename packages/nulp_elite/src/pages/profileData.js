@@ -133,7 +133,11 @@ const PopupForm = ({ open, handleClose }) => {
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={(event, reason) => {
+        if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
+          handleClose();
+        }
+      }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

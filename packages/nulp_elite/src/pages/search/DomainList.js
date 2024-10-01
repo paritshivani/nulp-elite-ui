@@ -379,15 +379,16 @@ const DomainList = ({ globalSearchQuery }) => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
 
       {/* Search Box */}
       <Box
         className="lg-hide d-flex"
-        style={{ alignItems: "center", padding: '15px',marginTop: '2px',background: '#fff',border: '2px solid #eee',
+        style={{ alignItems: "center", padding: '15px',marginTop: '67px',background: '#fff',border: '2px solid #eee',
           borderRadius: '10px'}}
       >
         <TextField
-          placeholder={t("What do you want to learn today?")}
+          placeholder={t("WHAT_DO_YOU_WANT_TO_LEARN_TODAY")}
           variant="outlined"
           size="small"
           fullWidth
@@ -634,6 +635,7 @@ const DomainList = ({ globalSearchQuery }) => {
         </Box>
       </Container>
       <FloatingChatIcon />
+      </Box>
       <Footer />
     </div>
   );

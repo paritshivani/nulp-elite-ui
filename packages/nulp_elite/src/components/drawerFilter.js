@@ -468,7 +468,7 @@ const uniqueFilteredSubCategories = [...new Set(filteredSubCategories.map(item =
         </Box>
       ) : (
         <Box className="header-bg-blue p-15 filter-bx">
-          <Box className="d-flex jc-bw" style={{ paddingTop: "10px" }}>
+          <Box className="d-flex" style={{ paddingTop: "10px",justifyContent:"space-between" }}>
             <Box className="filter-title">{t("FILTER_BY")} :</Box>
             <Button
               type="button"
