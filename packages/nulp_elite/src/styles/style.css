@@ -3720,7 +3720,7 @@ input:required::after {
   border-radius: 7px;
 }
 .css-qiwgdb.MuiSelect-select {
-  white-space: initial;
+  white-space: initial !important;
 }
 .mb-20{
   margin-bottom: 20px;
