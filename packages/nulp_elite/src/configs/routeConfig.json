@@ -6,8 +6,8 @@
     "DASHBOARD_PAGE": {
       "DASHBOARD": "/webapp/dashboard"
     },
-    "LEARNING_REPORT":"/dashBoard/allDashboard",
-    "ADMIN":"/dashBoard/addusess",
+    "LEARNING_REPORT": "/dashBoard/allDashboard",
+    "ADMIN": "/dashBoard/addusess",
     "ALL_CONTENT_PAGE": {
       "ALL_CONTENT": "/webapp/all"
     },
@@ -83,6 +83,9 @@
       "POLL_FORM": "/webapp/createform",
       "POLL_DASHBOARD": "/webapp/pollDashboard",
       "POLLS_VIEW_ALL": "/webapp/pollsDetails"
+    },
+    "LEARNATHON": {
+      "CREATELEARNCONTENT": "/webapp/learnthon"
     }
   }
 }

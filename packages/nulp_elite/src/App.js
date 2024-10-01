@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./styles/style.css";
-import {
-  NativeBaseProvider,
-} from "native-base";
+import { NativeBaseProvider } from "native-base";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { initializeI18n } from "@shiksha/common-lib";
 import * as util from "services/utilService";
@@ -36,11 +34,12 @@ import createForm from "pages/voting/createForm";
 import VotingDetails from "pages/voting/votingDetails";
 import votingDashboard from "pages/voting/votingDashboard";
 import pollsDetails from "pages/voting/pollsDetails";
+import LernCreatorForm from "pages/learnathon/lernCreatorForm";
 const urlConfig = require("./configs/urlConfig.json");
 const routeConfig = require("./configs/routeConfig.json");
 import PopupForm from "pages/profileData";
 import axios from "axios";
-import ReactGA from 'react-ga4';
+import ReactGA from "react-ga4";
 
 function App() {
   // const [t] = useTranslation();
@@ -53,8 +52,7 @@ function App() {
   const _userId = util.userId();
   const [orgId, setOrgId] = useState();
   const [userData, setUserData] = React.useState(false);
-  ReactGA.initialize('G-QH3SHT9MTG');
-  
+  ReactGA.initialize("G-QH3SHT9MTG");
 
   const routes = [
     {
@@ -213,6 +211,11 @@ function App() {
       path: routeConfig.ROUTES.POLL.POLLS_VIEW_ALL,
       component: pollsDetails,
     },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT,
+      component: LernCreatorForm,
+    },
   ];
   createForm;
   initializeI18n(
@@ -286,7 +289,7 @@ function App() {
         console.error("Error fetching user data:", error);
       }
     };
-console.log("dev here")
+    console.log("dev here");
     fetchData();
     UserData();
   }, []);
