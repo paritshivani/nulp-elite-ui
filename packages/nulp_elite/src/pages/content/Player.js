@@ -424,6 +424,8 @@ const updateContentStateForAssessment = async () => {
                   ].includes(type)
                 ) {
                   handleTrackData(data);
+                }else if(["application/vnd.ekstep.html-archive","application/vnd.ekstep.html-archive","application/epub"].includes(type)){
+                  handleTrackData(data);
                 } else if (
                   ["application/vnd.sunbird.questionset"].includes(type)
                 ) {
