@@ -3720,11 +3720,18 @@ input:required::after {
   border-radius: 7px;
 }
 .css-qiwgdb.MuiSelect-select {
-  white-space: initial;
+  white-space: initial !important;
 }
 .mb-20{
   margin-bottom: 20px;
 }
 .url-class{
   word-wrap: break-word;
+}
+.lern-box{
+background-color: #fff;
+padding: 30px;
+border-radius: 4px;
+border: 1px solid #15353f;
+margin: 10px;
 }
