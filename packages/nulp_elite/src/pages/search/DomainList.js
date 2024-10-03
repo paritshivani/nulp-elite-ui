@@ -513,12 +513,12 @@ const DomainList = ({ globalSearchQuery }) => {
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={10} lg={10}>
-                  <Box className='lg-mt-20'>
+                  <Box className='mt-20'>
                     {t("LERN_MESSAGE")}
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={2} lg={2}>
-                  <Box className='lg-mt-20'>
+                  <Box className='mt-20'>
                     {lernUser === 'nulp-lern' ? (
                       <a class="viewAll">{t("CREATE_CONTENT")}</a>
                     ) : (
