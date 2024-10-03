@@ -216,7 +216,9 @@ function Header({ globalSearchQuery }) {
     boxShadow: searchQuery ? '0 2px 4px rgba(0, 0, 0, 0.2)' : 'none',
     color: searchQuery ? '#fff' : "#000"
   };
-
+const handleLogout =() => {
+  sessionStorage.setItem('isModalShown', 'false');
+}
   return (
     <>
       <Box
@@ -612,8 +614,10 @@ function Header({ globalSearchQuery }) {
 
                 </MenuItem>
               </Link>
-              <Link href="/logoff" underline="none" textAlign="center">
+              <Link href="/logoff" underline="none" textAlign="center"
+               onClick={handleLogout}>
                 <MenuItem>
+                
 
                   {t("LOGOUT")}
 
@@ -672,7 +676,7 @@ function Header({ globalSearchQuery }) {
 
                       </MenuItem>
                     </Link>
-                    <Link href="/logoff" textAlign="center" underline="none">
+                    <Link href="/logoff" textAlign="center" underline="none" onClick={handleLogout}>
                       <MenuItem>
 
                         <LogoutOutlinedIcon
@@ -971,7 +975,7 @@ function Header({ globalSearchQuery }) {
                       {t("HELP")}
                     </MenuItem>
                   </Link>
-                  <Link href="/logoff" underline="none" textAlign="center">
+                  <Link href="/logoff" underline="none" textAlign="center" onClick={handleLogout}>
                     <MenuItem>
                       {t("LOGOUT")}
                     </MenuItem>
