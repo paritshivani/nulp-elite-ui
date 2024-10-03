@@ -1605,16 +1605,31 @@ const JoinCourse = () => {
                     >
                       {faqIndex.name}
                     </AccordionSummary>
-                    {faqIndex?.children?.map((faqIndexname) => (
-                      <Link
-                        href="#"
-                        underline="none"
-                        style={{ verticalAlign: "super" }}
-                        onClick={() =>
-                          handleLinkClick(faqIndexname.identifier)
-                        }
-                        className="h6-title"
-                      >
+
+                      <AccordionDetails style={{ paddingLeft: "35px" }} className="border-bottom">
+                        {/* If it's not a content collection, render it like a clickable child */}
+                        {faqIndex.mimeType !== "application/vnd.ekstep.content-collection" ? (
+                          <Link
+                            href="#"
+                            underline="none"
+                            style={{ verticalAlign: "super" }}
+                            onClick={() => handleLinkClick(faqIndex.identifier)}
+                            className="h6-title"
+                          >
+                            {faqIndex.name}
+                            {completedContents.includes(faqIndex.identifier) && (
+                              <CheckCircleIcon
+                                style={{
+                                color: "green",
+                                fontSize: "24px",
+                                paddingLeft: "10px",
+                                float: "right",
+                              }}
+                              />
+                            )}
+                          </Link>
+                          ) : (
+                            faqIndex?.children?.map((faqIndexname) => (
                         <AccordionDetails
                           key={faqIndexname.identifier || faqIndexname.name}
                           className="border-bottom"
@@ -1629,10 +1644,15 @@ const JoinCourse = () => {
                               {faqIndexname.name}
                             </span>
                           ) : (
-                            <Box> {faqIndexname.name}
-                              {completedContents.includes(
-                                faqIndexname.identifier
-                              ) && (
+                            <Link
+                              href="#"
+                              underline="none"
+                              style={{ verticalAlign: "super" }}
+                              onClick={() => handleLinkClick(faqIndexname.identifier)}
+                              className="h6-title"
+                            >
+                            {faqIndexname.name}
+                              {completedContents.includes(faqIndexname.identifier) && (
                                   <CheckCircleIcon
                                     style={{
                                       color: "green",
@@ -1641,10 +1661,10 @@ const JoinCourse = () => {
                                       float: "right",
                                     }}
                                   />
-                                )}</Box>
-
-
+                                )}
+                            </Link>
                           )}
+
                           {faqIndexname.children &&
                             faqIndexname.children.length > 0 && (
                               <div style={{ paddingLeft: "20px" }}>
@@ -1747,10 +1767,14 @@ const JoinCourse = () => {
                               </div>
                             )}
                         </AccordionDetails>
-                      </Link>
-                    ))}
-                  </Accordion>
-                ))}
+                      ))
+                    )}
+                </AccordionDetails>
+              </Accordion>
+            ))}
+
+
+
               </AccordionDetails>
             </Accordion>
             <Box
