@@ -316,5 +316,9 @@
   "LAST_NAME":"Last Name",
   "NO_CHAT_REQUEST" : "No Chat Request",
   "PHONE":"Phone",
-  "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595"
+  "PHONE_NUMBER":"(+91 11) 24617517, 24617543, 24617595",
+  "LERN_title":"Learnathon 2.0",
+  "LERN_MESSAGE":"Learnathon 2.0 has started from 20/09/2024 to 20/10/2024. You can now create and share your submissions!",
+  "CREATE_CONTENT":"Create Content",
+  "REQUEST_TO_CREATE":"Request to Create"
 }

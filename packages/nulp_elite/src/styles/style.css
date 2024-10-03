@@ -3728,3 +3728,10 @@ input:required::after {
 .url-class{
   word-wrap: break-word;
 }
+.lern-box{
+background-color: #fff;
+padding: 30px;
+border-radius: 4px;
+border: 1px solid #15353f;
+margin: 10px;
+}
