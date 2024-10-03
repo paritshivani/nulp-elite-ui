@@ -424,6 +424,8 @@ const updateContentStateForAssessment = async () => {
                   ].includes(type)
                 ) {
                   handleTrackData(data);
+                }else if(["application/vnd.ekstep.html-archive","application/vnd.ekstep.html-archive","application/epub"].includes(type)){
+                  handleTrackData(data);
                 } else if (
                   ["application/vnd.sunbird.questionset"].includes(type)
                 ) {
@@ -448,7 +450,7 @@ const updateContentStateForAssessment = async () => {
                   setTrackData(data);
                 }
               }}
-              public_url="https://devnulp.niua.org/newplayer"
+              public_url= "https://nulp.niua.org/newplayer" 
             />
           )}
         </Box>
