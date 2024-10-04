@@ -289,13 +289,9 @@ const Otp = () => {
   const age = new Date().getFullYear() - birthYear;
   const tncText =
     age < 18 ? (
-      <span>
-        {t("As_A_PATENT_GUARDIAN_ACCEPT_THE_NULP_TERMS_OF_USE")}
-      </span>
+      <span>{t("As_A_PATENT_GUARDIAN_ACCEPT_THE_NULP_TERMS_OF_USE")}</span>
     ) : (
-      <span>
-       {t("ACCEPT_THE_NULP_TERMS_OF_USE")}
-      </span>
+      <span>{t("ACCEPT_THE_NULP_TERMS_OF_USE")}</span>
     );
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
