@@ -16,7 +16,6 @@ const LernModal = () => {
 
   const [lernUser, setLernUser] = useState([]);
   const _userId = util.userId();
-
   const handleClose = () => {
     setIsModalOpen(false);
     sessionStorage.setItem('isModalShown', 'true'); // Set flag to not show modal again
