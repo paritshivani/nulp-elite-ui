@@ -606,7 +606,8 @@ const JoinCourse = () => {
                 {t("BACK")}
               </Button>
               </Box>
-              <Box> <Button
+              <Box> 
+                <Button
                 onClick={() => handleLinkClick(childnode)}
                 className="custom-btn-primary  mr-5"
               >
@@ -615,7 +616,7 @@ const JoinCourse = () => {
                 {!isCompleted &&
                   <Button
                     onClick={handleLeaveCourseClick} // Open confirmation dialog
-                    className="custom-btn-danger"
+                    className="custom-btn-danger xs-mt-10"
                   > {t("LEAVE_COURSE")}
                   </Button>
                 }</Box>
@@ -678,7 +679,7 @@ const JoinCourse = () => {
                   {!isCompleted &&
                     <Button
                       onClick={handleLeaveCourseClick} // Open confirmation dialog
-                      className="custom-btn-danger"
+                      className="custom-btn-danger xs-mt-10"
                     > {t("LEAVE_COURSE")}
                     </Button>
                   }  </Box>
