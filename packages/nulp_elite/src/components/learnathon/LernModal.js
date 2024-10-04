@@ -53,7 +53,7 @@ const LernModal = () => {
     p: 4,
     overflow: "auto",
   };
-
+  console.log(lernUser,'lernUser form modal');
   return (
     <div>
       <Modal
@@ -84,7 +84,7 @@ const LernModal = () => {
             </Typography>
           </Box>
           <Box className='lg-mt-30'>
-            {lernUser === 'nulp-lern' ? (
+            {lernUser === 'nulp-learn' ? (
               <a class="viewAll">{t("CREATE_CONTENT")}</a>
             ) : (
               <a class="viewAll">{t("REQUEST_TO_CREATE")}</a>
