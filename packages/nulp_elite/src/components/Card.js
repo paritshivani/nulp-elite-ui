@@ -18,6 +18,7 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
   const { t } = useTranslation();
 
   useEffect(() => {
+    console.log("items-------", items);
     if (items.se_gradeLevels) {
       setSubdomain(processString(items.se_gradeLevels[0]));
     } else if (items.gradeLevel) {
@@ -196,29 +197,108 @@ export default function BoxCard({ items, index, onClick, continueLearning }) {
             {items.name}
           </Typography>
         )}
-        {items.organisation && items.organisation.length > 0 && (
-          <Tooltip
-            title={
-              items.organisation.length > 1 
-              ? items.organisation.join(', ')  
-              : items.organisation[0]           
-            }
-            arrow 
-            placement="top" 
-          >
-          <Typography
-            variant="body2"
-            color="#5B5B5B"
-            style={{ fontSize: "11px", padding: "10px 0", textAlign: "left" }}
-          >
-            <Box className="cardLabelEllips">
-              {items.organisation.length === 1
-                ? items.organisation[0]
-                : `${items.organisation[0]} + ${items.organisation.length - 1}`}
-            </Box>
-          </Typography>
-        </Tooltip>
-        )}
+        <Box
+          style={{
+            alignItems: "center",
+            justifyContent: "space-between",
+            display: "flex",
+          }}
+        >
+          <Box>
+            {" "}
+            {items.organisation && items.organisation.length > 0 && (
+              <Tooltip
+                title={
+                  items.organisation.length > 1
+                    ? items.organisation.join(", ")
+                    : items.organisation[0]
+                }
+                arrow
+                placement="top"
+              >
+                <Typography
+                  variant="body2"
+                  color="#5B5B5B"
+                  style={{
+                    fontSize: "11px",
+                    padding: "10px 0",
+                    textAlign: "left",
+                  }}
+                >
+                  <Box className="cardLabelEllips">
+                    {items.organisation.length === 1
+                      ? items.organisation[0]
+                      : `${items.organisation[0]} + ${
+                          items.organisation.length - 1
+                        }`}
+                  </Box>
+                </Typography>
+              </Tooltip>
+            )}
+          </Box>
+          <Box>
+            {items?.medium ||
+              (items?.se_mediums && (
+                <>
+                  {items?.medium && items.medium.length > 0 ? (
+                    <Tooltip
+                      title={
+                        items.medium.length > 1
+                          ? items.medium.join(", ")
+                          : items.medium[0]
+                      }
+                      arrow
+                      placement="top"
+                    >
+                      <Typography
+                        variant="body2"
+                        color="#5B5B5B"
+                        style={{
+                          fontSize: "11px",
+                          padding: "10px 0",
+                          textAlign: "right",
+                        }}
+                      >
+                        <Box className="cardLabelEllips">
+                          {items.medium.length === 1
+                            ? items.medium[0]
+                            : `${items.medium[0]} + ${items.medium.length - 1}`}
+                        </Box>
+                      </Typography>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip
+                      title={
+                        items.se_mediums.length > 1
+                          ? items.se_mediums.join(", ")
+                          : items.se_mediums[0]
+                      }
+                      arrow
+                      placement="top"
+                    >
+                      <Typography
+                        variant="body2"
+                        color="#5B5B5B"
+                        style={{
+                          fontSize: "11px",
+                          padding: "10px 0",
+                          textAlign: "right",
+                        }}
+                      >
+                        <Box className="cardLabelEllips">
+                          {items.se_mediums.length === 1
+                            ? items.se_mediums[0]
+                            : `${items.se_mediums[0]} + ${
+                                items.se_mediums.length - 1
+                              }`}
+                        </Box>
+                      </Typography>
+                    </Tooltip>
+                  )}
+                </>
+              ))}
+          </Box>
+        </Box>
       </CardContent>
       {(items?.board ||
         items?.gradeLevel ||
