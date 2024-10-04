@@ -307,6 +307,7 @@
   "FILTERS": "Filters",
   "EXPLORE_CONTENT": "Explore Content",
   "COURSE_SUCCESSFULLY_COMPLETED": "Course completed Successfully",
+
   "ID": "ID",
   "ORGANIZATION_NAME": "Organization Name",
   "ROLE": "Role",
@@ -317,5 +318,9 @@
   "NO_CHAT_REQUEST": "No Chat Request",
   "PHONE": "Phone",
   "PHONE_NUMBER": "(+91 11) 24617517, 24617543, 24617595",
-  "SESSION_TIMEOUT_MESSAGE": "Failed to fetch data.please try again."
+  "SESSION_TIMEOUT_MESSAGE": "Failed to fetch data.please try again.",
+  "LERN_title": "Learnathon 2.0",
+  "LERN_MESSAGE": "Learnathon 2.0 has started from 20/09/2024 to 20/10/2024. You can now create and share your submissions!",
+  "CREATE_CONTENT": "Create Content",
+  "REQUEST_TO_CREATE": "Request to Create"
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createTheme} from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import domainWithImage from "../../assets/domainImgForm.json";
 import Header from "../../components/header";
 import * as frameworkService from ".././../services/frameworkService";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import { object } from "yup";
 import Alert from "@mui/material/Alert";
@@ -29,6 +29,7 @@ import SkeletonLoader from "components/skeletonLoader";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import * as util from "../../services/utilService";
 import { Loading } from "@shiksha/common-lib";
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -71,6 +72,33 @@ const DomainList = ({ globalSearchQuery }) => {
   const [framework, setFramework] = useState();
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
+
+  const [isModalOpen, setIsModalOpen] = useState(() => {
+    // Check if the modal has been shown in the current session
+    const isModalShown = sessionStorage.getItem('isModalShown');
+    return isModalShown !== 'true'; // Show modal if not already shown
+  });
+
+  const [lernUser, setLernUser] = useState([]);
+  const _userId = util.userId();
+  const fetchData = async () => {
+    try {
+      const url = `${urlConfig.URLS.LEARNER_PREFIX}${urlConfig.URLS.USER.GET_PROFILE}${_userId}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      const rolesData = data.result.response.channel;
+      setLernUser(rolesData);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  // Fetch data when the component mounts or _userId changes
+  useEffect(() => {
+    if (_userId) {
+      fetchData();
+    }
+  }, [_userId]);
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -379,132 +407,187 @@ const DomainList = ({ globalSearchQuery }) => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
+      <Box sx={{ height: 'calc(100vh - 210px)', overflowY: 'auto' }}>
 
-      {/* Search Box */}
-      <Box
-        className="lg-hide d-flex"
-        style={{ alignItems: "center", padding: '15px',marginTop: '67px',background: '#fff',border: '2px solid #eee',
-          borderRadius: '10px'}}
-      >
-        <TextField
-          placeholder={t("WHAT_DO_YOU_WANT_TO_LEARN_TODAY")}
-          variant="outlined"
-          size="small"
-          fullWidth
-          className="searchField"
-          value={searchQuery}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-          InputProps={{
-            endAdornment: (
-              <IconButton
-                type="submit"
-                aria-label="search"
-                onClick={onMobileSearch}
-              >
-                <SearchIcon />
-              </IconButton>
-            ),
+        {/* Search Box */}
+        <Box
+          className="lg-hide d-flex"
+          style={{
+            alignItems: "center", padding: '15px', marginTop: '67px', background: '#fff', border: '2px solid #eee',
+            borderRadius: '10px'
           }}
-        />
-      </Box>
-
-      {isMobile ? (
-        <Container role="main" maxWidth="xxl" className="mt-180">
-          {error && <Alert severity="error">{error}</Alert>}
-          <Box sx={{ paddingTop: "30px" }}>
-            <Box className="text-white h4-title">
-              {t("SELECT_YOUR_PREFERRED_DOMAIN")}:
-            </Box>
-
-            <Grid
-              container
-              spacing={2}
-              style={{ margin: "20px 0", marginBottom: "10px" }}
-            >
-              {data &&
-                data.slice(0, 10).map((term) => (
-                  <Grid
-                    item
-                    xs={6}
-                    md={6}
-                    lg={2}
-                    style={{ marginBottom: "10px" }}
-                  >
-                    <Box
-                      onClick={() => loadContents(term)}
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                      }}
-                      className="domainlist-bx"
-                    >
-                      <Box>
-                        <img
-                          className="domainHover"
-                          src={require(`../../assets/domainImgs${term.image}`)}
-                        />
-                      </Box>
-                      <h5
-                        className=" cursor-pointer domainText"
-                      >
-                        {term.name}
-                      </h5>
-                    </Box>
-                  </Grid>
-                ))}
-            </Grid>
-          </Box>
-        </Container>
-      ) : domain ? (
-        <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
-      ) : (
-        <SkeletonLoader />
-        // <NoResult />
-      )}
-
-      <Container
-        maxWidth="xl"
-        className=" allContent allContentList domain-list mt-180"
-        role="main"
-      >
-        {error && <Alert severity="error">{error}</Alert>}
-
-        <Box textAlign="center">
-          <p
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
+        >
+          <TextField
+            placeholder={t("WHAT_DO_YOU_WANT_TO_LEARN_TODAY")}
+            variant="outlined"
+            size="small"
+            fullWidth
+            className="searchField"
+            value={searchQuery}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  type="submit"
+                  aria-label="search"
+                  onClick={onMobileSearch}
+                >
+                  <SearchIcon />
+                </IconButton>
+              ),
             }}
+          />
+        </Box>
+
+        {isMobile ? (
+          <Container role="main" maxWidth="xxl" className="mt-180">
+            {error && <Alert severity="error">{error}</Alert>}
+            <Box sx={{ paddingTop: "30px" }}>
+              <Box className="text-white h4-title">
+                {t("SELECT_YOUR_PREFERRED_DOMAIN")}:
+              </Box>
+
+              <Grid
+                container
+                spacing={2}
+                style={{ margin: "20px 0", marginBottom: "10px" }}
+              >
+                {data &&
+                  data.slice(0, 10).map((term) => (
+                    <Grid
+                      item
+                      xs={6}
+                      md={6}
+                      lg={2}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <Box
+                        onClick={() => loadContents(term)}
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
+                        className="domainlist-bx"
+                      >
+                        <Box>
+                          <img
+                            className="domainHover"
+                            src={require(`../../assets/domainImgs${term.image}`)}
+                          />
+                        </Box>
+                        <h5
+                          className=" cursor-pointer domainText"
+                        >
+                          {term.name}
+                        </h5>
+                      </Box>
+                    </Grid>
+                  ))}
+              </Grid>
+            </Box>
+          </Container>
+        ) : domain ? (
+          <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} />
+        ) : (
+          <SkeletonLoader />
+          // <NoResult />
+        )}
+
+        <Container
+          maxWidth="xl"
+          className=" allContent allContentList domain-list mt-180"
+          role="main"
+        >
+
+          {error && <Alert severity="error">{error}</Alert>}
+          <Box
+            className="lern-box"
           >
             <Box>
-              <VerifiedOutlinedIcon
-                className="text-grey"
-                style={{ verticalAlign: "top" }}
-              />{" "}
-              <Box
-                className="h3-title"
-                style={{
-                  display: "inline-block",
-                }}
-              >
-                {t("POPULAR_COURSES")}{" "}
-              </Box>{" "}
+              <Grid container>
+                <Grid item xs={12} md={12} lg={12}>
+                  <Box className="h1-title">
+                    {t("LERN_title")}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={10} lg={10}>
+                  <Box className='mt-20'>
+                    {t("LERN_MESSAGE")}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={2} lg={2}>
+                  <Box className='mt-20'>
+                    {lernUser === 'nulp-lern' ? (
+                      <a class="viewAll">{t("CREATE_CONTENT")}</a>
+                    ) : (
+                      <a class="viewAll">{t("REQUEST_TO_CREATE")}</a>
+                    )}
+                  </Box>
+                </Grid>
+              </Grid>
             </Box>
-          </p>
-          {isMobile ? (
-            <Box style={{ paddingTop: "0" }}>
-              {isLoading ? (
-               <Loading message={t("LOADING")} />
-              ) : error ? (
-                <Alert severity="error">{error}</Alert>
-              ) : popularCourses.length > 0 ? (
-                <div>
+          </Box>
+          <Box textAlign="center">
+            <p
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box>
+                <VerifiedOutlinedIcon
+                  className="text-grey"
+                  style={{ verticalAlign: "top" }}
+                />{" "}
+                <Box
+                  className="h3-title"
+                  style={{
+                    display: "inline-block",
+                  }}
+                >
+                  {t("POPULAR_COURSES")}{" "}
+                </Box>{" "}
+              </Box>
+            </p>
+            {isMobile ? (
+              <Box style={{ paddingTop: "0" }}>
+                {isLoading ? (
+                  <Loading message={t("LOADING")} />
+                ) : error ? (
+                  <Alert severity="error">{error}</Alert>
+                ) : popularCourses.length > 0 ? (
+                  <div>
+                    <Box className="custom-card">
+                      {popularCourses.slice(0, 10).map((items, index) => (
+                        <Box className="custom-card-box" key={items.identifier}>
+                          <BoxCard
+                            items={items}
+                            onClick={() =>
+                              handleCardClick(items.identifier, items.contentType)
+                            }
+                          />
+                        </Box>
+                        // </Grid>
+                      ))}
+                      <div className="blankCard"></div>
+                    </Box>
+                  </div>
+                ) : (
+                  <NoResult />
+                )}
+              </Box>
+            ) : (
+              <Box sx={{ paddingTop: "0" }}>
+                {isLoading ? (
+                  <Loading message={t("LOADING")} />
+                ) : error ? (
+                  <Alert severity="error">{error}</Alert>
+                ) : popularCourses.length > 0 ? (
                   <Box className="custom-card">
-                    {popularCourses.slice(0, 10).map((items, index) => (
-                      <Box className="custom-card-box" key={items.identifier}>
+                    {popularCourses.slice(0, 10).map((items) => (
+                      <Box key={items.identifier} className="custom-card-box">
                         <BoxCard
                           items={items}
                           onClick={() =>
@@ -516,125 +599,98 @@ const DomainList = ({ globalSearchQuery }) => {
                     ))}
                     <div className="blankCard"></div>
                   </Box>
-                </div>
-              ) : (
-                <NoResult />
-              )}
-            </Box>
-          ) : (
-            <Box sx={{ paddingTop: "0" }}>
-              {isLoading ? (
-                <Loading message={t("LOADING")} />
-              ) : error ? (
-                <Alert severity="error">{error}</Alert>
-              ) : popularCourses.length > 0 ? (
-                <Box className="custom-card">
-                  {popularCourses.slice(0, 10).map((items) => (
-                    <Box key={items.identifier} className="custom-card-box">
-                      <BoxCard
-                        items={items}
-                        onClick={() =>
-                          handleCardClick(items.identifier, items.contentType)
-                        }
-                      />
+                ) : (
+                  <NoResult />
+                )}
+              </Box>
+            )}
+          </Box>
+        </Container>
+        <Container
+          maxWidth="xl"
+          className="allContent xs-mb-75 domain-list"
+          role="main"
+        >
+          {error && <Alert severity="error">{error}</Alert>}
+
+          <Box textAlign="center">
+            <p
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box>
+                <BookmarkAddedOutlinedIcon
+                  className="text-grey"
+                  style={{ verticalAlign: "top" }}
+                />{" "}
+                <Box
+                  className="h3-title"
+                  style={{
+                    display: "inline-block",
+                  }}
+                >
+                  {t("RECENTLY_ADDED")}{" "}
+                </Box>{" "}
+              </Box>
+            </p>
+            {isMobile ? (
+              <Box sx={{ paddingTop: "0" }}>
+                {isLoading ? (
+                  <Loading message={t("LOADING")} />
+                ) : error ? (
+                  <Alert severity="error">{error}</Alert>
+                ) : recentlyAddedCourses.length > 0 ? (
+                  <div>
+                    <Box className="custom-card">
+                      {recentlyAddedCourses.slice(0, 10).map((items, index) => (
+                        <Box className="custom-card-box" key={items.identifier}>
+                          <BoxCard
+                            items={items}
+                            onClick={() =>
+                              handleCardClick(items.identifier, items.contentType)
+                            }
+                          />
+                        </Box>
+                      ))}
+                      <div className="blankCard"></div>
                     </Box>
-                    // </Grid>
-                  ))}
-                  <div className="blankCard"></div>
-                </Box>
-              ) : (
-                <NoResult />
-              )}
-            </Box>
-          )}
-        </Box>
-      </Container>
-
-      <Container
-        maxWidth="xl"
-        className="allContent xs-mb-75 domain-list"
-        role="main"
-      >
-        {error && <Alert severity="error">{error}</Alert>}
-
-        <Box textAlign="center">
-          <p
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box>
-              <BookmarkAddedOutlinedIcon
-                className="text-grey"
-                style={{ verticalAlign: "top" }}
-              />{" "}
-              <Box
-                className="h3-title"
-                style={{
-                  display: "inline-block",
-                }}
-              >
-                {t("RECENTLY_ADDED")}{" "}
-              </Box>{" "}
-            </Box>
-          </p>
-          {isMobile ? (
-            <Box sx={{ paddingTop: "0" }}>
-              {isLoading ? (
-                 <Loading message={t("LOADING")} />
-              ) : error ? (
-                <Alert severity="error">{error}</Alert>
-              ) : recentlyAddedCourses.length > 0 ? (
-                <div>
-                  <Box className="custom-card">
-                    {recentlyAddedCourses.slice(0, 10).map((items, index) => (
-                      <Box className="custom-card-box" key={items.identifier}>
-                        <BoxCard
-                          items={items}
-                          onClick={() =>
-                            handleCardClick(items.identifier, items.contentType)
-                          }
-                        />
-                      </Box>
-                    ))}
-                    <div className="blankCard"></div>
-                  </Box>
-                </div>
-              ) : (
-                <NoResult />
-              )}
-            </Box>
-          ) : (
-            <Box sx={{ paddingTop: "0" }}>
-              {isLoading ? (
-                <Loading message={t("LOADING")} />
-              ) : error ? (
-                <Alert severity="error">{error}</Alert>
-              ) : recentlyAddedCourses.length > 0 ? (
-                <div>
-                  <Box className="custom-card">
-                    {recentlyAddedCourses.slice(0, 10).map((items) => (
-                      <Box className="custom-card-box" key={items.identifier}>
-                        <BoxCard
-                          items={items}
-                          onClick={() =>
-                            handleCardClick(items.identifier, items.contentType)
-                          }
-                        />
-                      </Box>
-                    ))}
-                    <div className="blankCard"></div>
-                  </Box>
-                </div>
-              ) : (
-                <NoResult />
-              )}
-            </Box>
-          )}
-        </Box>
-      </Container>
-      <FloatingChatIcon />
+                  </div>
+                ) : (
+                  <NoResult />
+                )}
+              </Box>
+            ) : (
+              <Box sx={{ paddingTop: "0" }}>
+                {isLoading ? (
+                  <Loading message={t("LOADING")} />
+                ) : error ? (
+                  <Alert severity="error">{error}</Alert>
+                ) : recentlyAddedCourses.length > 0 ? (
+                  <div>
+                    <Box className="custom-card">
+                      {recentlyAddedCourses.slice(0, 10).map((items) => (
+                        <Box className="custom-card-box" key={items.identifier}>
+                          <BoxCard
+                            items={items}
+                            onClick={() =>
+                              handleCardClick(items.identifier, items.contentType)
+                            }
+                          />
+                        </Box>
+                      ))}
+                      <div className="blankCard"></div>
+                    </Box>
+                  </div>
+                ) : (
+                  <NoResult />
+                )}
+              </Box>
+            )}
+          </Box>
+        </Container>
+        <FloatingChatIcon />
       </Box>
       <Footer />
     </div>
