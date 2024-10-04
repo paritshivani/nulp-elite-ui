@@ -402,6 +402,8 @@ const DomainList = ({ globalSearchQuery }) => {
       onMobileSearch();
     }
   };
+  console.log(lernUser, 'lernUser from dashboard');
+
 
   return (
     <div>
@@ -503,8 +505,7 @@ const DomainList = ({ globalSearchQuery }) => {
 
           {error && <Alert severity="error">{error}</Alert>}
           <Box
-            className="lern-box"
-          >
+            className="lern-box">
             <Box>
               <Grid container>
                 <Grid item xs={12} md={12} lg={12}>
@@ -519,7 +520,7 @@ const DomainList = ({ globalSearchQuery }) => {
                 </Grid>
                 <Grid item xs={12} md={2} lg={2}>
                   <Box className='mt-20'>
-                    {lernUser === 'nulp-lern' ? (
+                    {lernUser === 'nulp-learn' ? (
                       <a class="viewAll">{t("CREATE_CONTENT")}</a>
                     ) : (
                       <a class="viewAll">{t("REQUEST_TO_CREATE")}</a>
