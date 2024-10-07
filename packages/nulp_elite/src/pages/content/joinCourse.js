@@ -160,8 +160,12 @@ const JoinCourse = () => {
         if (_userId == data?.result?.content?.createdBy) {
           setIsOwner(true);
         }
-        const identifiers =
-          data?.result?.content?.children[0]?.children[0]?.identifier;
+        let identifiers;
+        if(data?.result?.content?.children[0]?.children){
+          identifiers = data?.result?.content?.children[0]?.children[0]?.identifier;
+        }else{
+          identifiers = data?.result?.content?.children[0]?.identifier
+        }
         console.log(identifiers, "setChildNode");
         setChildNode(identifiers);
 
