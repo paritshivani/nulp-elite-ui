@@ -76,7 +76,7 @@ const JoinCourse = () => {
   const [open, setOpen] = useState(false);
   const [chat, setChat] = useState([]);
   const [childnode, setChildNode] = useState([]);
-  const [isOwner, setIsOwner] = useState([]);
+  const [isOwner, setIsOwner] = useState(false);
   const [formData, setFormData] = useState({
     message: "",
   });
@@ -158,6 +158,7 @@ const JoinCourse = () => {
         setCourseData(data);
         setUserData(data);
         if (_userId == data?.result?.content?.createdBy) {
+          console.log("here");
           setIsOwner(true);
         }
         const identifiers =
