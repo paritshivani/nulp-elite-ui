@@ -40,7 +40,6 @@ const routeConfig = require("./configs/routeConfig.json");
 import PopupForm from "pages/profileData";
 import axios from "axios";
 import ReactGA from "react-ga4";
-import LernModal from "components/learnathon/LernModal";
 
 function App() {
   // const [t] = useTranslation();
@@ -326,7 +325,6 @@ function App() {
             ))}
           </Routes>
         </Router>
-  
       </React.Suspense>
       {/* </ChakraProvider> */}
       {/* </ChakraProvider> */}
