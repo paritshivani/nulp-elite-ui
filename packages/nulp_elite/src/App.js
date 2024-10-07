@@ -326,7 +326,7 @@ function App() {
             ))}
           </Routes>
         </Router>
-        <LernModal />
+  
       </React.Suspense>
       {/* </ChakraProvider> */}
       {/* </ChakraProvider> */}
