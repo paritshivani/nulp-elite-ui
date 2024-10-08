@@ -402,6 +402,8 @@ const DomainList = ({ globalSearchQuery }) => {
       onMobileSearch();
     }
   };
+  console.log(lernUser, 'lernUser from dashboard');
+
 
   return (
     <div>
@@ -502,7 +504,32 @@ const DomainList = ({ globalSearchQuery }) => {
         >
 
           {error && <Alert severity="error">{error}</Alert>}
-
+          <Box
+            className="lern-box">
+            <Box>
+              <Grid container>
+                <Grid item xs={12} md={12} lg={12}>
+                  <Box className="h1-title">
+                    {t("LERN_title")}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={10} lg={10}>
+                  <Box className='mt-20'>
+                    {t("LERN_MESSAGE")}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={2} lg={2}>
+                  <Box className='mt-20'>
+                    {lernUser === 'nulp-learn' ? (
+                      <a class="viewAll">{t("CREATE_CONTENT")}</a>
+                    ) : (
+                      <a class="viewAll">{t("REQUEST_TO_CREATE")}</a>
+                    )}
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
           <Box textAlign="center">
             <p
               style={{
