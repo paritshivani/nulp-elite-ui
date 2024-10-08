@@ -770,7 +770,7 @@ const formatTimeWithTimezone = (date) => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
+      <Box>
       <Snackbar
         open={showEnrollmentSnackbar}
         autoHideDuration={6000}
@@ -838,7 +838,7 @@ const formatTimeWithTimezone = (date) => {
             spacing={2}
             className="bg-whitee custom-event-container mb-20 custom-container mb-38"
           >
-            <Grid item xs={3} md={6} lg={2}>
+            <Grid item xs={12} md={6} lg={2}>
               <img
                 src={
                   detailData.appIcon
@@ -849,10 +849,10 @@ const formatTimeWithTimezone = (date) => {
                 alt="App Icon"
               />
             </Grid>
-            <Grid item xs={9} md={6} lg={6} className="lg-pl-60 xs-pl-30">
+            <Grid item xs={12} md={6} lg={6} className="lg-pl-60">
               <Typography
                 gutterBottom
-                className="mt-10  h1-title mb-20 xs-pl-15"
+                className="mt-10  h1-title mb-20"
               >
                 {detailData.name}
               </Typography>
@@ -878,20 +878,20 @@ const formatTimeWithTimezone = (date) => {
               </Box>
 
               <Box className="d-flex mb-20 h3-custom-title xs-hide">
-                <Box className="d-flex jc-bw alignItems-center pr-5">
+                <Box className="d-flex alignItems-center pr-5">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.startDate)}
                 </Box>
-                <Box className="d-flex jc-bw alignItems-center pl-10 pr-5">
+                <Box className="d-flex alignItems-center pl-10 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
                   {formatTimeToIST(detailData.startTime)}
                 </Box>
                 <Box className="mx-10">To</Box>
-                <Box className="d-flex jc-bw alignItems-center pl-5 pr-5">
+                <Box className="d-flex alignItems-center pl-5 pr-5">
                   <TodayOutlinedIcon className="h3-custom-title pr-5" />
                   {formatDate(detailData.endDate)}
                 </Box>
-                <Box className="d-flex jc-bw alignItems-center pl-10 pr-5">
+                <Box className="d-flex alignItems-center pl-10 pr-5">
                   <AccessAlarmsOutlinedIcon className="h3-custom-title pr-5" />
                   {formatTimeToIST(detailData.endTime)}
                 </Box>
@@ -1341,7 +1341,6 @@ const formatTimeWithTimezone = (date) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 1000,
             bgcolor: "background.paper",
             border: "2px solid #000",
             boxShadow: 24,
@@ -1431,14 +1430,14 @@ const formatTimeWithTimezone = (date) => {
           />
           <Box sx={{ mt: 2 }} style={{ textAlign: "right" }}>
             <Button
-              className="custom-btn-primary"
+              className="custom-btn-primary xs-mb-10"
               onClick={handleSubmit}
               disabled={!isChecked}
             >
               {t("SUBMIT")}
             </Button>
             <Button
-              className="custom-btn-default"
+              className="custom-btn-default "
               onClick={handleCloseConsentModal}
               sx={{ ml: 2 }}
             >
