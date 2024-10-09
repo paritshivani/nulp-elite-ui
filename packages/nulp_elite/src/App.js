@@ -41,6 +41,7 @@ import PopupForm from "pages/profileData";
 import axios from "axios";
 import ReactGA from "react-ga4";
 import LernModal from "components/learnathon/LernModal";
+import SubmissionList from "components/learnathon/SubmissionList";
 
 function App() {
   // const [t] = useTranslation();
@@ -217,6 +218,11 @@ function App() {
       path: routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT,
       component: LernCreatorForm,
     },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.LEARNATHON.SUBMISSIONLIST,
+      component: SubmissionList,
+    },
   ];
   createForm;
   initializeI18n(
@@ -325,8 +331,8 @@ function App() {
               />
             ))}
           </Routes>
+          <LernModal />
         </Router>
-      <LernModal />
       </React.Suspense>
       {/* </ChakraProvider> */}
       {/* </ChakraProvider> */}

@@ -29,6 +29,7 @@ import SkeletonLoader from "components/skeletonLoader";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import * as util from "../../services/utilService";
 import { Loading } from "@shiksha/common-lib";
+import { Button} from '@mui/material';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -72,12 +73,6 @@ const DomainList = ({ globalSearchQuery }) => {
   const [framework, setFramework] = useState();
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
-
-  const [isModalOpen, setIsModalOpen] = useState(() => {
-    // Check if the modal has been shown in the current session
-    const isModalShown = sessionStorage.getItem('isModalShown');
-    return isModalShown !== 'true'; // Show modal if not already shown
-  });
 
   const [lernUser, setLernUser] = useState([]);
   const _userId = util.userId();
@@ -403,7 +398,14 @@ const DomainList = ({ globalSearchQuery }) => {
     }
   };
   console.log(lernUser, 'lernUser from dashboard');
-
+  const handleCheckUser = () => {
+    if (lernUser === 'nulp-learn') {
+      // Navigate to /webapp/learnthon if lernUser is 'nulp-learn'
+      navigate('/webapp/learnthon');
+    } else {
+      navigate('/webapp/SubmissionList');
+    }
+  };
 
   return (
     <div>
@@ -515,16 +517,20 @@ const DomainList = ({ globalSearchQuery }) => {
                 </Grid>
                 <Grid item xs={12} md={10} lg={10}>
                   <Box className='mt-20'>
-                    {t("LERN_MESSAGE")}
+                    {t("LERN_MESSAGE_LINE_TWO")}
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={2} lg={2}>
                   <Box className='mt-20'>
-                    {lernUser === 'nulp-learn' ? (
-                      <a class="viewAll">{t("CREATE_CONTENT")}</a>
-                    ) : (
-                      <a class="viewAll">{t("REQUEST_TO_CREATE")}</a>
-                    )}
+                  {lernUser === 'nulp-learn' ? (
+                  <Button className="viewAll" onClick={handleCheckUser}>
+                    {t("PARTICIPATE_NOW")}
+                  </Button>
+                ) : (
+                  <Button className="viewAll" onClick={handleCheckUser}>
+                    {t("PARTICIPATE_NOW")}
+                  </Button>
+                )}
                   </Box>
                 </Grid>
               </Grid>

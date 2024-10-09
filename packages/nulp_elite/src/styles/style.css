@@ -3740,6 +3740,19 @@ input:required::after {
 background-color: #fff;
 padding: 30px;
 border-radius: 4px;
-border: 1px solid #15353f;
+border: 3px solid #15353f;
 margin: 10px;
+animation: blink-border 1s infinite alternate;
+}
+
+@keyframes blink-border {
+  0% {
+    border-color: #15353f;
+  }
+  50% {
+    border-color: #0e7a9c;
+  }
+  100% {
+    border-color: #15353f;
+  }
 }
