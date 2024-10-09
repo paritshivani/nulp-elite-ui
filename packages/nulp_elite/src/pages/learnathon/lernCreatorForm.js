@@ -16,6 +16,12 @@ import {
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Footer from "components/Footer";
 import Header from "components/header";
+const urlConfig = require("../../configs/urlConfig.json");
+import * as util from "../../services/utilService";
+import { v4 as uuidv4 } from "uuid";
+import { navigate } from "@storybook/addon-links";
+import { useNavigate, useLocation } from "react-router-dom";
+
 // const [globalSearchQuery, setGlobalSearchQuery] = useState();
 // // location.state?.globalSearchQuery || undefined
 // const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
@@ -27,36 +33,91 @@ const categories = [
 ];
 
 const themes = [
-  "NULP Domain 1",
-  "NULP Domain 2",
-  "NULP Domain 3",
-  "NULP Domain 4",
-  "NULP Domain 5",
-  "NULP Domain 6",
-  "NULP Domain 7",
-  "NULP Domain 8",
-  "NULP Domain 9",
-  "NULP Domain 10",
-  "Others",
+  "Solid Waste Management",
+  "Environment and Climate",
+  "WASH - Water, Sanitation and Hygiene",
+  "Urban Planning and Housing",
+  "Transport and Mobility",
+  "Social Aspects",
+  "Municipal Finance",
+  "General Administration",
+  "Governance and Urban Management",
+  "Miscellaneous/ Others",
 ];
 
 const LernCreatorForm = () => {
-  const [formData, setFormData] = useState({
-    userName: "",
-    email: "",
-    mobileNumber: "",
-    submissionIcon: "",
-    category: "",
-    organisation: "",
-    department: "",
-    theme: "",
-    title: "",
-    description: "",
-    file: null,
-    consent: false,
-  });
+  const _userId = util.userId(); // Assuming util.userId() is defined
 
+  const [formData, setFormData] = useState({
+    user_name: "",
+    email: "",
+    mobile_number: "",
+    icon: "",
+    category_of_participation: "",
+    name_of_organisation: "",
+    name_of_department_group: "",
+    indicative_theme: "",
+    other_indicative_themes: "",
+    title_of_submission: "",
+    description: "",
+    content_id: null,
+    consent_checkbox: false,
+    status: "",
+    created_by: _userId,
+
+    // "link_to_guidelines": "https://demo.com/guideline",
+  });
   const [guidelineLink, setGuidelineLink] = useState("");
+  const location = useLocation();
+  const queryString = location.search;
+  let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  useEffect(() => {
+    fetchData();
+  }, [contentId]);
+
+  const fetchData = async () => {
+    const requestBody = {
+      request: {
+        filters: {
+          created_by: _userId,
+          learnthon_content_id: contentId,
+        },
+      },
+    };
+    try {
+      const response = await fetch(`${urlConfig.URLS.LEARNATHON.LIST}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      console.log("suceesss----", result);
+      console.log(result.result);
+    } catch (error) {
+      console.log("error---", error);
+      // setError(error.message);
+    } finally {
+      // setIsLoading(false);
+    }
+
+    // Example API endpoint with limit, offset, and search params
+    // const apiUrl = `https://api.example.com/submissions?limit=${rowsPerPage}&offset=${
+    //   page * rowsPerPage
+    // }&search=${search}`;
+    // const response = await fetch(apiUrl);
+
+    // const result = await response.json();
+    // console.log(submissions);
+    // setData(submissions.result.data);
+    // setTotalRows(result.totalCount);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,13 +127,154 @@ const LernCreatorForm = () => {
     });
   };
 
-  const handleFileChange = (e) => {
+  const handleIconChange = async (e) => {
+    const _uuid = uuidv4();
+    const assetBody = {
+      request: {
+        asset: {
+          primaryCategory: "asset",
+          language: ["English"],
+          code: _uuid,
+          name: e.target.files[0].name,
+          mediaType: "image",
+          mimeType: "image/png",
+          createdBy: _userId,
+        },
+      },
+    };
+    try {
+      const response = await fetch(`${urlConfig.URLS.ICON.CREATE}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(assetBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      console.log("suceesss----", result);
+
+      const uploadBody = {
+        request: {
+          content: {
+            name: e.target.files[0].name,
+          },
+        },
+      };
+      try {
+        const response = await fetch(
+          `${urlConfig.URLS.ICON.UPLOAD}${result.result.identifier}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(uploadBody),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch polls");
+        }
+
+        const uploadResult = await response.json();
+        console.log("upload suceesss------", uploadResult);
+        // setData(result.result.data);
+        // setTotalPages(Math.ceil(result.result.totalCount / 10));
+      } catch (error) {
+        console.log("error---", error);
+        // setError(error.message);
+      } finally {
+        // setIsLoading(false);
+      }
+    } catch (error) {
+      console.log("error---", error);
+      // setError(error.message);
+    } finally {
+      // setIsLoading(false);
+    }
+
     setFormData({
       ...formData,
-      file: e.target.files[0],
+      submissionIcon: e.target.files[0],
     });
   };
-  const handleIconChange = (e) => {
+  const handleFileChange = async (e) => {
+    console.log("e.target.files[0]----", e.target.files[0]);
+    const _uuid = uuidv4();
+    const assetBody = {
+      request: {
+        content: {
+          primaryCategory: "Good Practices",
+          contentType: "Resource",
+          language: ["English"],
+          code: _uuid,
+          name: e.target.files[0].name,
+          mediaType: "image",
+          mimeType: e.target.files[0].type,
+          createdBy: _userId,
+        },
+      },
+    };
+    try {
+      const response = await fetch(`${urlConfig.URLS.ASSET.CREATE}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(assetBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      console.log("suceesss----", result);
+
+      const uploadBody = {
+        request: {
+          content: {
+            name: formData.title_of_submission,
+          },
+        },
+      };
+      try {
+        const response = await fetch(
+          `${urlConfig.URLS.ASSET.UPLOAD}${result.result.identifier}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(uploadBody),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch polls");
+        }
+
+        const uploadResult = await response.json();
+        console.log("upload suceesss------", uploadResult);
+        // setData(result.result.data);
+        // setTotalPages(Math.ceil(result.result.totalCount / 10));
+      } catch (error) {
+        console.log("error---", error);
+        // setError(error.message);
+      } finally {
+        // setIsLoading(false);
+      }
+    } catch (error) {
+      console.log("error---", error);
+      // setError(error.message);
+    } finally {
+      // setIsLoading(false);
+    }
     setFormData({
       ...formData,
       submissionIcon: e.target.files[0],
@@ -82,38 +284,122 @@ const LernCreatorForm = () => {
   const handleCheckboxChange = (e) => {
     setFormData({
       ...formData,
-      consent: e.target.checked,
+      consent_checkbox: e.target.checked,
     });
   };
 
   const handleCategoryChange = (e) => {
-    const category = e.target.value;
-    setFormData({ ...formData, category });
+    const category_of_participation = e.target.value;
+    setFormData({ ...formData, category_of_participation });
 
-    // Set appropriate guideline link based on category
-    if (category === "State / UT / SPVs / ULBs / Any Other") {
+    // Set appropriate guideline link based on category_of_participation
+    if (category_of_participation === "State / UT / SPVs / ULBs / Any Other") {
       setGuidelineLink("link-to-state-guidelines.pdf");
-    } else if (category === "Industry") {
+    } else if (category_of_participation === "Industry") {
       setGuidelineLink("link-to-industry-guidelines.pdf");
-    } else if (category === "Academia") {
+    } else if (category_of_participation === "Academia") {
       setGuidelineLink("link-to-academia-guidelines.pdf");
     } else {
       setGuidelineLink("");
     }
   };
 
-  const handleSubmit = (action) => {
-    if (!formData.consent) {
+  const checkDraftValidations = (formData) => {};
+  const checkReviewValidations = (formData) => {};
+  const handleSubmit = async (action) => {
+    if (!formData.consent_checkbox) {
       alert("You must accept the terms and conditions.");
       return;
     }
 
+    formData.created_by = _userId;
     // Handle form submission (draft or review)
     console.log("Form submitted:", formData);
     if (action === "draft") {
-      alert("Saved as draft");
+      formData.status = "draft";
+      // Add validations
+      checkDraftValidations(formData);
+      try {
+        const response = await fetch(`${urlConfig.URLS.LEARNATHON.CREATE}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch polls");
+        }
+
+        const result = await response.json();
+        console.log("suceesss");
+        navigate("/webapp/mylernsubmissions");
+        // setData(result.result.data);
+        // setTotalPages(Math.ceil(result.result.totalCount / 10));
+      } catch (error) {
+        console.log("error---", error.message);
+        alert(error.message);
+        // setError(error.message);
+      } finally {
+        // setIsLoading(false);
+      }
+
+      console.log("Saved as draft");
     } else if (action === "review") {
-      alert("Sent for review");
+      formData.status = "review";
+      checkReviewValidations(formData);
+      if (isEdit != true) {
+        try {
+          const response = await fetch(`${urlConfig.URLS.LEARNATHON.CREATE}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch polls");
+          }
+
+          const result = await response.json();
+          console.log("suceesss");
+          // setData(result.result.data);
+          // setTotalPages(Math.ceil(result.result.totalCount / 10));
+        } catch (error) {
+          console.log("error---", error);
+          // setError(error.message);
+        } finally {
+          // setIsLoading(false);
+        }
+      } else {
+        try {
+          const response = await fetch(`${urlConfig.URLS.LEARNATHON.UPDATE}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch polls");
+          }
+
+          const result = await response.json();
+          console.log("suceesss");
+          // setData(result.result.data);
+          // setTotalPages(Math.ceil(result.result.totalCount / 10));
+        } catch (error) {
+          console.log("error---", error);
+          // setError(error.message);
+        } finally {
+          // setIsLoading(false);
+        }
+      }
+
+      console.log("Sent for review");
     }
   };
 
@@ -129,7 +415,13 @@ const LernCreatorForm = () => {
           <Box my={2}>
             <Button
               variant="contained"
-              onClick={() => (window.location.href = "/helpdesk")}
+              onClick={() =>
+                window.open(
+                  "https://helpdesknulp.niua.org/public/",
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
               style={{ float: "right" }}
             >
               Need Help
@@ -147,7 +439,7 @@ const LernCreatorForm = () => {
                 fullWidth
                 margin="normal"
                 label="User Name*"
-                name="userName"
+                name="user_name"
                 value={formData.userName}
                 onChange={handleChange}
                 required
@@ -172,7 +464,7 @@ const LernCreatorForm = () => {
                 fullWidth
                 margin="normal"
                 label="Mobile Number*"
-                name="mobileNumber"
+                name="mobile_number"
                 value={formData.mobileNumber}
                 onChange={handleChange}
                 required
@@ -209,8 +501,8 @@ const LernCreatorForm = () => {
                 fullWidth
                 margin="normal"
                 label="Category of Participation*"
-                name="category"
-                value={formData.category}
+                name="category_of_participation"
+                value={formData.category_of_participation}
                 onChange={handleCategoryChange}
                 required
               >
@@ -236,7 +528,7 @@ const LernCreatorForm = () => {
                 fullWidth
                 margin="normal"
                 label="Name of Organisation*"
-                name="organisation"
+                name="name_of_organisation"
                 value={formData.organisation}
                 onChange={handleChange}
                 required
@@ -248,7 +540,7 @@ const LernCreatorForm = () => {
                 fullWidth
                 margin="normal"
                 label="Name of Department/Group"
-                name="department"
+                name="name_of_department_group"
                 value={formData.department}
                 onChange={handleChange}
               />
@@ -260,7 +552,7 @@ const LernCreatorForm = () => {
                 fullWidth
                 margin="normal"
                 label="Indicative Theme*"
-                name="theme"
+                name="indicative_theme"
                 value={formData.theme}
                 onChange={handleChange}
                 required
@@ -278,7 +570,7 @@ const LernCreatorForm = () => {
                 fullWidth
                 margin="normal"
                 label="Title of Submission*"
-                name="title"
+                name="title_of_submission"
                 value={formData.title}
                 onChange={handleChange}
                 inputProps={{ maxLength: 20 }}
@@ -323,9 +615,9 @@ const LernCreatorForm = () => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={formData.consent}
+                checked={formData.consent_checkbox}
                 onChange={handleCheckboxChange}
-                name="consent"
+                name="consent_checkbox"
               />
             }
             label="I accept the terms and conditions"
