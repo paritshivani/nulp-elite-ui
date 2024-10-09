@@ -20,6 +20,8 @@ const urlConfig = require("../../configs/urlConfig.json");
 import * as util from "../../services/utilService";
 import { v4 as uuidv4 } from "uuid";
 import { navigate } from "@storybook/addon-links";
+import { useNavigate, useLocation } from "react-router-dom";
+
 // const [globalSearchQuery, setGlobalSearchQuery] = useState();
 // // location.state?.globalSearchQuery || undefined
 // const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
@@ -66,6 +68,56 @@ const LernCreatorForm = () => {
     // "link_to_guidelines": "https://demo.com/guideline",
   });
   const [guidelineLink, setGuidelineLink] = useState("");
+  const location = useLocation();
+  const queryString = location.search;
+  let contentId = queryString.startsWith("?do_") ? queryString.slice(1) : null;
+  useEffect(() => {
+    fetchData();
+  }, [contentId]);
+
+  const fetchData = async () => {
+    const requestBody = {
+      request: {
+        filters: {
+          created_by: _userId,
+          learnthon_content_id: contentId,
+        },
+      },
+    };
+    try {
+      const response = await fetch(`${urlConfig.URLS.LEARNATHON.LIST}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      console.log("suceesss----", result);
+      console.log(result.result);
+    } catch (error) {
+      console.log("error---", error);
+      // setError(error.message);
+    } finally {
+      // setIsLoading(false);
+    }
+
+    // Example API endpoint with limit, offset, and search params
+    // const apiUrl = `https://api.example.com/submissions?limit=${rowsPerPage}&offset=${
+    //   page * rowsPerPage
+    // }&search=${search}`;
+    // const response = await fetch(apiUrl);
+
+    // const result = await response.json();
+    // console.log(submissions);
+    // setData(submissions.result.data);
+    // setTotalRows(result.totalCount);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

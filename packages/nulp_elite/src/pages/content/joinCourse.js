@@ -632,7 +632,7 @@ const JoinCourse = () => {
                     {" "}
                     {t("LEAVE_COURSE")}
                   </Button>
-      }
+                )}
               </Box>
             </div>
 
