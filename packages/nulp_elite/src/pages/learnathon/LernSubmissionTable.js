@@ -38,6 +38,7 @@ const LernSubmissionTable = () => {
   const _userId = util.userId(); // Assuming util.userId() is defined
   const urlConfig = require("../../configs/urlConfig.json");
   const [dialogOpen, setDialogOpen] = useState(false);
+
   const handleDialogOpen = () => {
     setDialogOpen(true);
   };
