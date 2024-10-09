@@ -13,27 +13,80 @@ import {
   IconButton,
   Typography,
   Box,
+  DialogActions,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
+
+import * as util from "../../services/utilService";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 import { Edit, Visibility, Delete } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import submissions from "./lernSubmission.json";
 import { navigate } from "@storybook/addon-links";
 import Footer from "components/Footer";
 import Header from "components/header";
-const routeConfig = require("../../configs/routeConfig.json");
 
 const LernSubmissionTable = () => {
+  const { t } = useTranslation();
+
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [totalRows, setTotalRows] = useState(0);
   const [search, setSearch] = useState("");
+  const _userId = util.userId(); // Assuming util.userId() is defined
+  const urlConfig = require("../../configs/urlConfig.json");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const routeConfig = require("../../configs/routeConfig.json");
 
   useEffect(() => {
     fetchData();
   }, [page, rowsPerPage, search]);
 
   const fetchData = async () => {
+    const assetBody = {
+      request: {
+        filters: {
+          created_by: _userId,
+        },
+        sort_by: {
+          created_on: "desc",
+        },
+        limit: rowsPerPage,
+        offset: page * rowsPerPage,
+        search: search,
+      },
+    };
+    try {
+      const response = await fetch(`${urlConfig.URLS.LEARNATHON.LIST}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(assetBody),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      console.log("suceesss----", result);
+      console.log(result.result);
+      setData(result.result.data);
+      setTotalRows(result.result.totalCount);
+    } catch (error) {
+      console.log("error---", error);
+      // setError(error.message);
+    } finally {
+      // setIsLoading(false);
+    }
+
     // Example API endpoint with limit, offset, and search params
     // const apiUrl = `https://api.example.com/submissions?limit=${rowsPerPage}&offset=${
     //   page * rowsPerPage
@@ -41,14 +94,47 @@ const LernSubmissionTable = () => {
     // const response = await fetch(apiUrl);
 
     // const result = await response.json();
-    console.log(submissions);
-    setData(submissions.result.data);
-    setTotalRows(result.totalCount);
+    // console.log(submissions);
+    // setData(submissions.result.data);
+    // setTotalRows(result.totalCount);
   };
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setPage(0); // Reset to first page on search
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleDeletePollConfirmed = async (id) => {
+    event.stopPropagation();
+    try {
+      const response = await fetch(
+        `${urlConfig.URLS.LEARNATHON.DELETE}?id=${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch polls");
+      }
+
+      const result = await response.json();
+      console.log("suceesss----", result);
+      setDialogOpen(false);
+    } catch (error) {
+      console.log("error---", error);
+      // setError(error.message);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  const deleteContent = async (id) => {
+    // show confirmation popup
   };
 
   const handlePageChange = (event, newPage) => {
@@ -75,7 +161,8 @@ const LernSubmissionTable = () => {
             variant="contained"
             color="primary"
             onClick={() =>
-              navigate(`${routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT}`)
+              (window.location.href =
+                routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT)
             }
           >
             Upload Submission
@@ -115,9 +202,9 @@ const LernSubmissionTable = () => {
                   <TableCell
                     style={{
                       color:
-                        row.status === "Live"
+                        row.status === "live"
                           ? "green"
-                          : row.status === "Review"
+                          : row.status === "review"
                           ? "orange"
                           : "red",
                     }}
@@ -125,24 +212,40 @@ const LernSubmissionTable = () => {
                     {row.status}
                   </TableCell>
                   <TableCell>
-                    <IconButton
-                      color="primary"
-                      onClick={() => alert(`Edit ${row.name}`)}
-                    >
-                      <Edit />
-                    </IconButton>
-                    <IconButton
-                      color="primary"
-                      onClick={() => alert(`View ${row.name}`)}
-                    >
-                      <Visibility />
-                    </IconButton>
-                    <IconButton
-                      color="secondary"
-                      onClick={() => alert(`Delete ${row.name}`)}
-                    >
-                      <Delete />
-                    </IconButton>
+                    {row.status == "draft" && (
+                      <IconButton
+                        color="primary"
+                        onClick={() =>
+                          (window.location.href =
+                            routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
+                            "?" +
+                            row.learnathon_content_id)
+                        }
+                      >
+                        <Edit />
+                      </IconButton>
+                    )}
+                    {
+                      <IconButton
+                        color="primary"
+                        onClick={() =>
+                          (window.location.href =
+                            routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
+                            "?" +
+                            row.learnathon_content_id)
+                        }
+                      >
+                        <Visibility />
+                      </IconButton>
+                    }
+                    {(row.status == "draft" || row.status == "review") && (
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleDialogOpen()}
+                      >
+                        <Delete />
+                      </IconButton>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -159,6 +262,24 @@ const LernSubmissionTable = () => {
           onRowsPerPageChange={handleRowsPerPageChange}
         />
       </Paper>
+      <Dialog open={dialogOpen} onClose={handleDialogClose}>
+        <DialogContent>
+          <Box className="h5-title">
+            Are you sure you want to delete this submission
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} className="custom-btn-default">
+            {t("NO")}
+          </Button>
+          <Button
+            onClick={(event) => handleDeletePollConfirmed(row.content_id)}
+            className="custom-btn-primary"
+          >
+            {t("YES")}
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Footer />
     </>
   );
