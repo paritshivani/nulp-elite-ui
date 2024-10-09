@@ -17,6 +17,10 @@ import {
 import { Edit, Visibility, Delete } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import submissions from "./lernSubmission.json";
+import { navigate } from "@storybook/addon-links";
+import Footer from "components/Footer";
+import Header from "components/header";
+const routeConfig = require("../../configs/routeConfig.json");
 
 const LernSubmissionTable = () => {
   const [data, setData] = useState([]);
@@ -57,100 +61,106 @@ const LernSubmissionTable = () => {
   };
 
   return (
-    <Paper sx={{ padding: "20px", backgroundColor: "#f9f4eb" }}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={2}
-      >
-        <Typography variant="h6">Learnathon Submissions List</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => alert("Redirect to Upload Submission page")}
+    <>
+      <Header />
+      <Paper sx={{ padding: "20px", backgroundColor: "#f9f4eb" }}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={2}
         >
-          Upload Submission
-        </Button>
-      </Box>
+          <Typography variant="h6">Learnathon Submissions List</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              navigate(`${routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT}`)
+            }
+          >
+            Upload Submission
+          </Button>
+        </Box>
 
-      <Box display="flex" alignItems="center" mb={2}>
-        <TextField
-          variant="outlined"
-          placeholder="Search Submission"
-          value={search}
-          onChange={handleSearchChange}
-          InputProps={{
-            endAdornment: <SearchIcon />,
-          }}
-          size="small"
-        />
-      </Box>
+        <Box display="flex" alignItems="center" mb={2}>
+          <TextField
+            variant="outlined"
+            placeholder="Search Submission"
+            value={search}
+            onChange={handleSearchChange}
+            InputProps={{
+              endAdornment: <SearchIcon />,
+            }}
+            size="small"
+          />
+        </Box>
 
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Last Updated</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.title_of_submission}</TableCell>
-                <TableCell>
-                  {new Date(row.updated_on).toLocaleDateString()}
-                </TableCell>
-                <TableCell
-                  style={{
-                    color:
-                      row.status === "Live"
-                        ? "green"
-                        : row.status === "Review"
-                        ? "orange"
-                        : "red",
-                  }}
-                >
-                  {row.status}
-                </TableCell>
-                <TableCell>
-                  <IconButton
-                    color="primary"
-                    onClick={() => alert(`Edit ${row.name}`)}
-                  >
-                    <Edit />
-                  </IconButton>
-                  <IconButton
-                    color="primary"
-                    onClick={() => alert(`View ${row.name}`)}
-                  >
-                    <Visibility />
-                  </IconButton>
-                  <IconButton
-                    color="secondary"
-                    onClick={() => alert(`Delete ${row.name}`)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </TableCell>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Last Updated</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {data.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.title_of_submission}</TableCell>
+                  <TableCell>
+                    {new Date(row.updated_on).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      color:
+                        row.status === "Live"
+                          ? "green"
+                          : row.status === "Review"
+                          ? "orange"
+                          : "red",
+                    }}
+                  >
+                    {row.status}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="primary"
+                      onClick={() => alert(`Edit ${row.name}`)}
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      color="primary"
+                      onClick={() => alert(`View ${row.name}`)}
+                    >
+                      <Visibility />
+                    </IconButton>
+                    <IconButton
+                      color="secondary"
+                      onClick={() => alert(`Delete ${row.name}`)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <TablePagination
-        component="div"
-        count={totalRows}
-        page={page}
-        onPageChange={handlePageChange}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
-    </Paper>
+        <TablePagination
+          component="div"
+          count={totalRows}
+          page={page}
+          onPageChange={handlePageChange}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleRowsPerPageChange}
+        />
+      </Paper>
+      <Footer />
+    </>
   );
 };
 

@@ -114,12 +114,6 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path: "/webapp/mylernsubmissions",
-      component: LernSubmissionTable,
-    },
-
-    {
-      moduleName: "nulp_elite",
       path: routeConfig.ROUTES.PLAYER_PAGE.PLAYER,
       component: Player,
     },
@@ -218,8 +212,13 @@ function App() {
       path: routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT,
       component: LernCreatorForm,
     },
+    {
+      moduleName: "nulp_elite",
+      path: routeConfig.ROUTES.LEARNATHON.MYLERNSUBMISSION,
+      component: LernSubmissionTable,
+    },
   ];
-  createForm;
+
   initializeI18n(
     ["translation"],
     `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`
@@ -327,7 +326,7 @@ function App() {
             ))}
           </Routes>
         </Router>
-      <LernModal />
+        <LernModal />
       </React.Suspense>
       {/* </ChakraProvider> */}
       {/* </ChakraProvider> */}
