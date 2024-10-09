@@ -41,7 +41,6 @@ import PopupForm from "pages/profileData";
 import axios from "axios";
 import ReactGA from "react-ga4";
 import LernModal from "components/learnathon/LernModal";
-import SubmissionList from "components/learnathon/SubmissionList";
 import LernSubmissionTable from "pages/learnathon/LernSubmissionTable";
 
 function App() {
@@ -215,11 +214,6 @@ function App() {
     },
     {
       moduleName: "nulp_elite",
-      path: routeConfig.ROUTES.LEARNATHON.SUBMISSIONLIST,
-      component: SubmissionList,
-      },
-    {
-      moduleName: "nulp_elite",
       path: routeConfig.ROUTES.LEARNATHON.MYLERNSUBMISSION,
       component: LernSubmissionTable,
 
@@ -334,8 +328,6 @@ function App() {
           </Routes>
           <LernModal />
         </Router>
-        <LernModal />
-
       </React.Suspense>
       {/* </ChakraProvider> */}
       {/* </ChakraProvider> */}

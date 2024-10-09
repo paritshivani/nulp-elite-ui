@@ -65,10 +65,10 @@ const LernModal = () => {
   const handleCardClick = () => {
     if (lernUser === 'nulp-learn') {
       // Navigate to /webapp/learnthon if lernUser is 'nulp-learn'
-      navigate('/webapp/learnthon');
+      navigate('/webapp/mylernsubmissions');
       setIsModalOpen(false);
     } else {
-      navigate('/webapp/SubmissionList');
+      navigate('/webapp/mylernsubmissions');
       setIsModalOpen(false);
     }
   };
