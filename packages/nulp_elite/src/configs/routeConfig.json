@@ -86,7 +86,7 @@
     },
     "LEARNATHON": {
       "CREATELEARNCONTENT": "/webapp/learnthon",
-      "SUBMISSIONLIST":"webapp/SubmissionList"
+      "SUBMISSIONLIST": "webapp/SubmissionList",
       "MYLERNSUBMISSION": "/webapp/mylernsubmissions"
     }
   }
