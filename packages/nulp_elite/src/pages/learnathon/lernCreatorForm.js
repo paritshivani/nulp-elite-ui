@@ -19,6 +19,7 @@ import Header from "components/header";
 const urlConfig = require("../../configs/urlConfig.json");
 import * as util from "../../services/utilService";
 import { v4 as uuidv4 } from "uuid";
+import { navigate } from "@storybook/addon-links";
 // const [globalSearchQuery, setGlobalSearchQuery] = useState();
 // // location.state?.globalSearchQuery || undefined
 // const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
@@ -54,6 +55,7 @@ const LernCreatorForm = () => {
     name_of_organisation: "",
     name_of_department_group: "",
     indicative_theme: "",
+    other_indicative_themes: "",
     title_of_submission: "",
     description: "",
     content_id: null,
@@ -262,6 +264,7 @@ const LernCreatorForm = () => {
     // Handle form submission (draft or review)
     console.log("Form submitted:", formData);
     if (action === "draft") {
+      formData.status = "draft";
       // Add validations
       checkDraftValidations(formData);
       try {
@@ -279,10 +282,12 @@ const LernCreatorForm = () => {
 
         const result = await response.json();
         console.log("suceesss");
+        navigate("/webapp/mylernsubmissions");
         // setData(result.result.data);
         // setTotalPages(Math.ceil(result.result.totalCount / 10));
       } catch (error) {
-        console.log("error---", error);
+        console.log("error---", error.message);
+        alert(error.message);
         // setError(error.message);
       } finally {
         // setIsLoading(false);
@@ -290,6 +295,7 @@ const LernCreatorForm = () => {
 
       console.log("Saved as draft");
     } else if (action === "review") {
+      formData.status = "review";
       checkReviewValidations(formData);
       if (isEdit != true) {
         try {
