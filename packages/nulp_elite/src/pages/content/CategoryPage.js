@@ -248,7 +248,7 @@ const CategoryPage = () => {
   return (
     <>
       <Header />
-     <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
+     <Box>
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
       {domain.length > 0 ? (
         <DomainCarousel onSelectDomain={handleDomainFilter} domains={domain} selectedDomainCode={preselectedDomain}/>

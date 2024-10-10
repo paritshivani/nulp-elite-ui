@@ -409,7 +409,7 @@ const DomainList = ({ globalSearchQuery }) => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Box sx={{ height: 'calc(100vh - 210px)', overflowY: 'auto' }}>
+      <Box>
 
         {/* Search Box */}
         <Box
