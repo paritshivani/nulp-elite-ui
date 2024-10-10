@@ -319,10 +319,10 @@
   "PHONE": "Phone",
   "PHONE_NUMBER": "(+91 11) 24617517, 24617543, 24617595",
   "SESSION_TIMEOUT_MESSAGE": "Failed to fetch data.please try again.",
-  "LERN_title": "The Learnathon Has Begun!",
-  "LERN_MESSAGE": "Where cities and states share solutions to foster collaborating learning!",
-  "LERN_MESSAGE_LINE_TWO":"Learnathon 2.0 has started from 20/09/2024 to 20/10/2024. You can now create and share your submissions!",
   "CREATE_CONTENT": "Create Content",
   "REQUEST_TO_CREATE": "Request to Create",
-  "PARTICIPATE_NOW":"Participate Now"
+  "PARTICIPATE_NOW":"Participate Now",
+  "LERN_title": "The Learnathon 2.0 Has Begun!",
+  "LERN_MESSAGE": "Where urban practitioners share solutions to foster collaborative learning.",
+  "LERN_MESSAGE_LINE_TWO":"Learnathon 2.0 launched on 18th November 2024 and will continue until 20th December 2024. Submit your urban solutions now!"
 }

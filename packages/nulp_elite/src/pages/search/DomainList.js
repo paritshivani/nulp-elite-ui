@@ -29,7 +29,8 @@ import SkeletonLoader from "components/skeletonLoader";
 import FloatingChatIcon from "components/FloatingChatIcon";
 import * as util from "../../services/utilService";
 import { Loading } from "@shiksha/common-lib";
-import { Button} from '@mui/material';
+import { Button } from '@mui/material';
+import axios from "axios";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -94,6 +95,70 @@ const DomainList = ({ globalSearchQuery }) => {
       fetchData();
     }
   }, [_userId]);
+
+  const checkAccess = async () => {
+    try {
+      const url = `${urlConfig.URLS.CHECK_USER_ACCESS}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      
+      const userID = data.result.data;
+      const user = userID.find((user) => user.user_id === _userId);
+
+      if (!user) {
+        console.log("User ID not found. Calling fetchUserAccess...");
+        fetchUserAccess();
+      } else if (user.creator_access === true) {
+        navigate('/webapp/mylernsubmissions');
+        console.log("User ID found with creator access. No need to call fetchUserAccess.");
+      } else if (user.creator_access === false) {
+        console.log("User ID found but no creator access. Calling fetchUserAccess...");
+        fetchUserAccess();
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+ 
+  let responsecode;
+  const fetchUserAccess = async () => {
+    try {
+      const url = `${urlConfig.URLS.PROVIDE_ACCESS}`;
+
+      const response = await axios.post(
+        url,
+        {
+          request : {
+            organisationId: "0137506576041902087",
+            roles: [ "PUBLIC",
+            "CONTENT_CREATOR"],
+            userId: _userId,
+        }
+      },
+      );
+      const data = await response.data;
+      const result = data.result.data.responseCode;
+      responsecode = result;
+      setResponseCode(result);
+      if(result === "OK"){
+        navigate('webapp/mylernsubmissions');
+      }else{
+        setToasterMessage("Something went wrong ! Please try again later")
+      }
+    } catch (error) {
+      console.log('error' ,error);
+    }
+  };
+
+  const handleCheckUser =  async () => { 
+    if (lernUser === 'nulp-learn') {
+      navigate('/webapp/mylernsubmissions');
+    } else{
+      await checkAccess();
+    }
+  };
+
 
   const showErrorMessage = (msg) => {
     setToasterMessage(msg);
@@ -398,14 +463,7 @@ const DomainList = ({ globalSearchQuery }) => {
     }
   };
   console.log(lernUser, 'lernUser from dashboard');
-  const handleCheckUser = () => {
-    if (lernUser === 'nulp-learn') {
-      // Navigate to /webapp/learnthon if lernUser is 'nulp-learn'
-      navigate('/webapp/mylernsubmissions');
-    } else {
-      navigate('/webapp/mylernsubmissions');
-    }
-  };
+
 
   return (
     <div>
@@ -522,16 +580,24 @@ const DomainList = ({ globalSearchQuery }) => {
                 </Grid>
                 <Grid item xs={12} md={2} lg={2}>
                   <Box className='mt-20'>
-                  {lernUser === 'nulp-learn' ? (
-                  <Button className="viewAll" onClick={handleCheckUser}>
-                    {t("PARTICIPATE_NOW")}
-                  </Button>
-                ) : (
-                  <Button className="viewAll" onClick={handleCheckUser}>
-                    {t("PARTICIPATE_NOW")}
-                  </Button>
-                )}
+                    {lernUser === 'nulp-learn' ? (
+                      <Button className="viewAll" onClick={handleCheckUser}>
+                        {t("PARTICIPATE_NOW")}
+                      </Button>
+                    ) : (
+                      <Button className="viewAll" onClick={handleCheckUser}>
+                        {t("PARTICIPATE_NOW")}
+                      </Button>
+                    )}
                   </Box>
+                </Grid>
+                <Grid item xs={12} md={12} lg={12}>
+                  {toasterMessage && (
+                    <Box
+                    >
+                      <ToasterCommon response={toasterMessage} />
+                    </Box>
+                  )}
                 </Grid>
               </Grid>
             </Box>
