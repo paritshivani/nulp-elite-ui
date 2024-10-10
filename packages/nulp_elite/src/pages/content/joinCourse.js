@@ -158,6 +158,7 @@ const JoinCourse = () => {
         setCourseData(data);
         setUserData(data);
         if (_userId == data?.result?.content?.createdBy) {
+          console.log("here");
           setIsOwner(true);
         }
         let identifiers;
