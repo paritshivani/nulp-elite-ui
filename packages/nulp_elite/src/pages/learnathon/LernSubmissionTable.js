@@ -23,13 +23,14 @@ import DialogContent from "@mui/material/DialogContent";
 import { Edit, Visibility, Delete } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import submissions from "./lernSubmission.json";
-import { navigate } from "@storybook/addon-links";
+import { useNavigate, useLocation } from "react-router-dom";
+
 import Footer from "components/Footer";
 import Header from "components/header";
 
 const LernSubmissionTable = () => {
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
