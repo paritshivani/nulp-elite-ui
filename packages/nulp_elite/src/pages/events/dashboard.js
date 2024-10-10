@@ -552,7 +552,7 @@ const Dashboard = () => {
   return (
     <div>
       <Header />
-      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
+      <Box>
       <Container
         maxWidth="xl"
         role="main"

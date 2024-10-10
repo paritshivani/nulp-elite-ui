@@ -629,9 +629,8 @@ const JoinCourse = () => {
                     onClick={handleLeaveCourseClick} // Open confirmation dialog
                     className="custom-btn-danger xs-mt-10"
                   > {t("LEAVE_COURSE")}
-     
                   </Button>
-                )}
+                }
               </Box>
             </div>
 
