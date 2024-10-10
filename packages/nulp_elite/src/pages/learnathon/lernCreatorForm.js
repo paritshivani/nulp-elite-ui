@@ -183,6 +183,10 @@ const LernCreatorForm = () => {
 
         const uploadResult = await response.json();
         console.log("upload suceesss------", uploadResult);
+        setFormData({
+          ...formData,
+          icon: uploadResult.result.identifier,
+        });
         // setData(result.result.data);
         // setTotalPages(Math.ceil(result.result.totalCount / 10));
       } catch (error) {
@@ -197,11 +201,6 @@ const LernCreatorForm = () => {
     } finally {
       // setIsLoading(false);
     }
-
-    setFormData({
-      ...formData,
-      submissionIcon: e.target.files[0],
-    });
   };
   const handleFileChange = async (e) => {
     console.log("e.target.files[0]----", e.target.files[0]);
@@ -261,6 +260,10 @@ const LernCreatorForm = () => {
 
         const uploadResult = await response.json();
         console.log("upload suceesss------", uploadResult);
+        setFormData({
+          ...formData,
+          content_id: uploadResult.result.identifier,
+        });
         // setData(result.result.data);
         // setTotalPages(Math.ceil(result.result.totalCount / 10));
       } catch (error) {
@@ -275,10 +278,6 @@ const LernCreatorForm = () => {
     } finally {
       // setIsLoading(false);
     }
-    setFormData({
-      ...formData,
-      submissionIcon: e.target.files[0],
-    });
   };
 
   const handleCheckboxChange = (e) => {
