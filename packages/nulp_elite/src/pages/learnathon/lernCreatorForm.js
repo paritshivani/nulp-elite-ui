@@ -80,7 +80,7 @@ const LernCreatorForm = () => {
       request: {
         filters: {
           created_by: _userId,
-          learnthon_content_id: contentId,
+          learnathon_content_id: contentId,
         },
       },
     };
@@ -161,7 +161,7 @@ const LernCreatorForm = () => {
       const uploadBody = {
         request: {
           content: {
-            name: e.target.files[0].name,
+            fileName: e.target.files[0].name,
           },
         },
       };
@@ -239,13 +239,13 @@ const LernCreatorForm = () => {
       const uploadBody = {
         request: {
           content: {
-            name: formData.title_of_submission,
+            fileName: formData.title_of_submission,
           },
         },
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ASSET.UPLOAD}${result.result.identifier}`,
+          `${urlConfig.URLS.ASSET.UPDATE}${result.result.identifier}`,
           {
             method: "POST",
             headers: {
