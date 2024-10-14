@@ -14,6 +14,7 @@ const LernModal = () => {
   const navigate = useNavigate();
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterOpen, setToasterOpen] = useState(false);
+  const [roleList, setRoleList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(() => {
     // Check if the modal has been shown in the current session
     const isModalShown = sessionStorage.getItem('isModalShown');
@@ -22,7 +23,7 @@ const LernModal = () => {
 
   const [lernUser, setLernUser] = useState([]);
   const [responseCode,setResponseCode] = useState([]);
-  const [orgId,setOrgId] = useState();
+  const [orgId,setOrgId] = useState([]);
   const _userId = util.userId();
   const handleClose = () => {
     setIsModalOpen(false);
@@ -36,7 +37,12 @@ const LernModal = () => {
       const response = await fetch(url);
       const data = await response.json();
       const rolesData = data.result.response.channel;
-      const organizationId=data.result.response.organisations[0].organisationId;
+      const roles =data.result.response.roles;
+      console.log(roles,'roles array');
+      const organizationId=roles[0]?.scope[0]?.organisationId;
+      const extractedRoles = roles.map(roleObj => roleObj.role);
+      setRoleList(extractedRoles);
+      console.log(organizationId,'organizationId');
       setOrgId(organizationId);
       setLernUser(rolesData);
     } catch (error) {
@@ -71,33 +77,38 @@ const LernModal = () => {
 
 
   let responsecode;
+  const isCreator = roleList.includes("CONTENT_CREATOR");
   const fetchUserAccess = async () => {
     try {
       const url = `${urlConfig.URLS.PROVIDE_ACCESS}`;
-
-      const response = await axios.post(
-        url,
-        {
-          request : {
-            organisationId: "0137506576041902087",
-            roles: [ "PUBLIC",
-            "CONTENT_CREATOR"],
-            userId: _userId,
-        }
-      },
-      );
+      const role = isCreator ? roleList : ["CONTENT_CREATOR", ...roleList];
+      const requestPayload = {
+        request: {
+          organisationId: orgId,
+          roles: role,
+          userId: _userId,
+        },
+      };
+      
+      if (isCreator) {
+        requestPayload.isCreator = true;
+      }
+  
+      const response = await axios.post(url, requestPayload);
       const data = await response.data;
       const result = data.result.data.responseCode;
+      
       responsecode = result;
       setResponseCode(result);
-      if(result === "OK"){
+      
+      if (result === "OK") {
         navigate('webapp/mylernsubmissions');
-        setIsModalOpen(false)
-      }else{
-        setToasterMessage("Something went wrong ! Please try again later")
+        setIsModalOpen(false);
+      } else {
+        setToasterMessage("Something went wrong! Please try again later");
       }
     } catch (error) {
-      console.log('error' ,error);
+      console.log('error', error);
     }
   };
 
