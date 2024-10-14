@@ -158,6 +158,7 @@ const JoinCourse = () => {
         setCourseData(data);
         setUserData(data);
         if (_userId == data?.result?.content?.createdBy) {
+          console.log("here");
           setIsOwner(true);
         }
         let identifiers;
@@ -628,11 +629,11 @@ const JoinCourse = () => {
                   <Button
                     onClick={handleLeaveCourseClick} // Open confirmation dialog
                     className="custom-btn-danger xs-mt-10"
-                  >
-                    {" "}
-                    {t("LEAVE_COURSE")}
+
+                  > {t("LEAVE_COURSE")}
+
                   </Button>
-                )}
+                }
               </Box>
             </div>
 
@@ -995,7 +996,7 @@ const JoinCourse = () => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Box sx={{ height: "calc(100vh - 210px)", overflowY: "auto" }}>
+      <Box>
         <Snackbar
           open={showEnrollmentSnackbar}
           autoHideDuration={6000}
