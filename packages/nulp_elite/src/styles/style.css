@@ -3756,3 +3756,10 @@ animation: blink-border 1s infinite alternate;
     border-color: #15353f;
   }
 }
+.mandatory-symbol{
+  color: #8C1823;
+}
+.center-align{
+  display: flex;
+  justify-content: center;
+}
