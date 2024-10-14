@@ -49,8 +49,10 @@
     "framework": "board,gradeLevel,medium,class,subject"
   },
   "URLS": {
-    "CUSTOM_EVENT_FETCH_RECORDINGS":"/custom_event/fetch_recordings?event_id=",
+    "CUSTOM_EVENT_FETCH_RECORDINGS": "/custom_event/fetch_recordings?event_id=",
     "LEARNER_PREFIX": "/learner/",
+    "PROVIDE_ACCESS": "/learnathon/access/provide",
+    "CHECK_USER_ACCESS": "/learnathon/get/creators",
     "DISCUSSIONS_FORUM_PREFIX": "/discussion/",
     "DEVICE_PREFIX": "/device/",
     "CERT_REG_PREFIX": "/certreg/",
@@ -144,6 +146,9 @@
       "ATTACH_CERTIFICATE": "v1/template/add",
       "CREATE_CERT_TEMPLATE": "asset/v1/create",
       "UPLOAD_CERT_TEMPLATE": "asset/v1/upload"
+      "UPLOAD_CERT_TEMPLATE": "asset/v1/upload",
+      "CUSTOM_CERTIFICATE_CREATE": "/custom_event/certificate/create"
+
     },
     "COMPOSITE": {
       "SEARCH": "composite/v1/search",
@@ -441,13 +446,19 @@
       "USER_UPDATE": "/polls/user/update"
     },
     "FEEDBACK": {
-      "CREATE" : "/custom_feedback/create",
-      "LIST" : "/custom_feedback/list"
+      "CREATE": "/custom_feedback/create",
+      "LIST": "/custom_feedback/list"
     },
-    "NOTIFICATION" : {
+    "NOTIFICATION": {
       "READ": "notification/v1/feed/read/",
-      "UPDATE" : "notification/v1/feed/update",
-      "DELETE" : "notification/v1/feed/delete"
+      "UPDATE": "notification/v1/feed/update",
+      "DELETE": "notification/v1/feed/delete"
+    },
+    "LEARNATHON": {
+      "LIST": "/learnathon/content/list",
+      "CREATE": "/learnathon/content/create",
+      "UPDATE": "/learnathon/content/update",
+      "DELETE": "/learnathon/content/delete"
     }
   }
 }
