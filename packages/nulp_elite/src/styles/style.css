@@ -149,7 +149,7 @@ button {
 }
 
 .MuiIconButton-sizeMedium {
-  color: #484848 !important;
+  color: #484848;
   font-size: 16px !important;
   padding: 0 !important;
 }
@@ -3762,4 +3762,12 @@ animation: blink-border 1s infinite alternate;
 .center-align{
   display: flex;
   justify-content: center;
+}
+
+.table-icon{
+background:#6c666647 !important;
+width: 40px;
+height: 40px;
+border-radius: 4px !important;
+margin-right: 10px !important;
 }
