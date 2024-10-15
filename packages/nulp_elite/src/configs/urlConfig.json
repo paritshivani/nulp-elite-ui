@@ -145,10 +145,8 @@
       "ADD_CERTIFICATE": "v1/add/template",
       "ATTACH_CERTIFICATE": "v1/template/add",
       "CREATE_CERT_TEMPLATE": "asset/v1/create",
-      "UPLOAD_CERT_TEMPLATE": "asset/v1/upload"
       "UPLOAD_CERT_TEMPLATE": "asset/v1/upload",
       "CUSTOM_CERTIFICATE_CREATE": "/custom_event/certificate/create"
-
     },
     "COMPOSITE": {
       "SEARCH": "composite/v1/search",
@@ -346,8 +344,8 @@
       "RETIRE": "assessment/v3/itemsets/retire"
     },
     "ASSET": {
-      "CREATE": "content/v3/create",
-      "UPLOAD": "content/v3/upload/"
+      "CREATE": "/action/content/v3/create",
+      "UPLOAD": "/action/content/v3/upload/"
     },
     "ITEMSET": {
       "CREATE": "itemset/v3/create",
@@ -461,8 +459,8 @@
       "DELETE": "/learnathon/content/delete"
     },
     "ICON": {
-      "CREATE": "asset/v1/create",
-      "UPLOAD": "asset/v1/upload/"
+      "CREATE": "/action/asset/v1/create",
+      "UPLOAD": "/action/asset/v1/upload/"
     }
   }
 }
