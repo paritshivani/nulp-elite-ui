@@ -217,11 +217,13 @@ function App() {
       moduleName: "nulp_elite",
       path: routeConfig.ROUTES.LEARNATHON.MYLERNSUBMISSION,
       component: LernSubmissionTable,
+
     },
     {
       moduleName: "nulp_elite",
       path: routeConfig.ROUTES.LEARNATHON.LERNVOTINGLIST,
       component: LernVotingList,
+
     },
   ];
 
