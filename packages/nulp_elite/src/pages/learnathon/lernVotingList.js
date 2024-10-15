@@ -6,12 +6,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TablePagination,
-  Paper,
+  Pagination,
   TextField,
   Button,
   Typography,
   Box,
+
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "components/Footer";
 import Header from "components/header";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 
 const LernVotingList = () => {
   const { t } = useTranslation();
@@ -123,30 +125,34 @@ const LernVotingList = () => {
           alignItems="center"
           mb={2}
         >
-          <Typography variant="h6">Learnathon Votting List</Typography>
+          <Typography variant="h6" gutterBottom className="fw-600 mt-20">{t("VOTE_NOW_LEARNATHON_SUBMISSIONS")}</Typography>
         </Box>
+        <Grid container>
+          <Grid item xs={6}>
+            <Box display="flex" alignItems="center" mb={2}>
+              <TextField
+                variant="outlined"
+                placeholder={t("SEARCH_SUBMISSION")}
+                value={search}
+                onChange={handleSearchChange}
+                InputProps={{
+                  endAdornment: <SearchIcon />,
+                }}
+                size="small"
+                sx={{ background: '#fff' }}
+              />
+            </Box>
+          </Grid>
+        </Grid>
 
-        <Box display="flex" alignItems="center" mb={2}>
-          <TextField
-            variant="outlined"
-            placeholder="Search Submission"
-            value={search}
-            onChange={handleSearchChange}
-            InputProps={{
-              endAdornment: <SearchIcon />,
-            }}
-            size="small"
-          />
-        </Box>
-
-        <TableContainer>
-          <Table>
-            <TableHead>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead sx={{ background: "#D8F6FF" }}>
               <TableRow>
-                <TableCell>Submission Name</TableCell>
-                <TableCell>Voting Deadline</TableCell>
-                <TableCell>Vote Count</TableCell>
-                <TableCell>Vote Now</TableCell>
+                <TableCell>{t("SUBMISSION_NAME")}</TableCell>
+                <TableCell>{t("VOTING_DEADLINE")}</TableCell>
+                <TableCell>{t("VOTE_COUNT")}</TableCell>
+                <TableCell>{t("VOTE_NOW")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -162,19 +168,20 @@ const LernVotingList = () => {
                       src={require("assets/votting.png")}
                       alt="Voting"
                       style={{
-                        width: "108px",
-                        height: "42px",
+                        width: "100px",
+                        height: "40px",
+                        cursor: "pointer"
                       }}
                       onClick={() => handleClick(row.poll_id)}
                     />
                   </TableCell>
                 </TableRow>
-              ))}
+              ))} 
             </TableBody>
           </Table>
         </TableContainer>
 
-        <TablePagination
+        <Pagination
           component="div"
           count={totalRows}
           page={page}

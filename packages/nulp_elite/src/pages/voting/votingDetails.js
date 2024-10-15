@@ -409,7 +409,7 @@ const VotingDetails = () => {
                       value={selectedOption}
                       onChange={handleOptionChange}
                       name="radio-buttons-group"
-                      sx={{ marginTop: "24px" }}
+                      sx={{ marginBottom: "24px" }}
                     >
                       {poll?.poll_options?.map((option, index) => (
                         <FormControlLabel
@@ -620,8 +620,6 @@ const VotingDetails = () => {
                 </Box>
               </Box>
             )}
-
-            <Box style={{ display: "block", width: "100%" }}></Box>
             <Box
               className="h2-title pl-20 mb-20 mt-20"
               style={{ fontWeight: "600" }}
@@ -648,7 +646,9 @@ const VotingDetails = () => {
                   </Button>
                 </Box>
               )}
+              <Box className="mt-20">
               {poll.description}
+              </Box>
             </Box>
             <Box className="lg-hide ml-20">
               <FacebookShareButton url={shareUrl} className="pr-3">
