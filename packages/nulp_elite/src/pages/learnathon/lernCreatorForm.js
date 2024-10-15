@@ -82,6 +82,7 @@ const LernCreatorForm = () => {
     fetchData();
     getUserData();
   }, [contentId]);
+  const reader = new FileReader();
 
   const fetchData = async () => {
     const requestBody = {
@@ -198,6 +199,7 @@ const LernCreatorForm = () => {
   };
 
   const handleIconChange = async (e) => {
+    reader.readAsDataURL(e.target.files[0]);
     const _uuid = uuidv4();
     const assetBody = {
       request: {
@@ -238,7 +240,7 @@ const LernCreatorForm = () => {
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ICON.UPLOAD}${result.result.identifier}`,
+          `${urlConfig.URLS.ICON.UPLOAD}/${result.result.identifier}`,
           {
             method: "POST",
             headers: {
@@ -319,7 +321,7 @@ const LernCreatorForm = () => {
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ASSET.UPDATE}${result.result.identifier}`,
+          `${urlConfig.URLS.ASSET.UPLOAD}/${result.result.identifier}`,
           {
             method: "POST",
             headers: {
@@ -554,7 +556,15 @@ const LernCreatorForm = () => {
             </Box>
           </Grid>
         </Grid>
-        <Grid container sx={{ padding: "20px", backgroundColor: "#fff", boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
+        <Grid
+          container
+          sx={{
+            padding: "20px",
+            backgroundColor: "#fff",
+            boxShadow:
+              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          }}
+        >
           <Box p={3} mx="auto">
             <Typography variant="h6" gutterBottom>
               Participant Details
@@ -612,7 +622,7 @@ const LernCreatorForm = () => {
             <Divider sx={{ marginBottom: "20px" }} />
             <Grid item xs={12}>
               <div>
-                <Tooltip title="Supported formats: MP4, PDF, HTML5, YouTube links">
+                <Tooltip title="Supported formats:jpg, png">
                   <IconButton>
                     <HelpOutlineIcon />
                   </IconButton>
@@ -749,9 +759,10 @@ const LernCreatorForm = () => {
                     fullWidth
                     onChange={handleFileChange}
                     inputProps={{
-                      accept: "video/mp4,application/pdf,text/html,video/youtube",
+                      accept:
+                        "video/mp4,application/pdf,text/html,video/youtube",
                     }}
-                    sx={{border: '1px dashed'}}
+                    sx={{ border: "1px dashed" }}
                   />
                 </div>
               </Grid>
@@ -777,12 +788,13 @@ const LernCreatorForm = () => {
         xs={12}
         justifyContent="center"
         alignItems="center"
-        direction="column" 
+        direction="column"
         textAlign="center"
         className="mb-30"
       >
         <Box>
-          Your submission will be used for NULP purposes only and your personal details will not be disclosed to any entity.
+          Your submission will be used for NULP purposes only and your personal
+          details will not be disclosed to any entity.
         </Box>
 
         <Box mt={3}>
@@ -798,7 +810,7 @@ const LernCreatorForm = () => {
             disabled={isNotDraft}
             className="viewAll"
             onClick={() => handleSubmit("review")}
-            sx={{ ml: 2,padding:'9px 35px' }} // Adds spacing between the buttons
+            sx={{ ml: 2, padding: "9px 35px" }} // Adds spacing between the buttons
           >
             Submit
           </Button>
