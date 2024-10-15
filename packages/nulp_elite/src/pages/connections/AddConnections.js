@@ -1336,8 +1336,8 @@ const AddConnections = () => {
               ) : (
                 <Button
                   type="button"
-                  className="viewAll xs-mr-10"
                   onClick={handleBackClick}
+                  className="custom-btn-primary mr-5"
                 >
                   {t("BACK")}
                 </Button>
