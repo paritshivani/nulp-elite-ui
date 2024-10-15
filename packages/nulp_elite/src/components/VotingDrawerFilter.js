@@ -228,7 +228,7 @@ const VotingDrawerFilter = ({ onFilterChange }) => {
           </Box>
           <FormControl>
             <InputLabel htmlFor="outlined-adornment-search">
-            {t("SEARCH_FOR_A_POLL")}
+            {t("SEARCH_FOR_A_POLL")} 
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-search"

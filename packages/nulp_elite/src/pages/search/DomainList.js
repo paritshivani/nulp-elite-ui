@@ -70,8 +70,9 @@ const DomainList = ({ globalSearchQuery }) => {
   const [domain, setDomain] = useState();
   const [popularCourses, setPopularCourses] = useState([]);
   const [recentlyAddedCourses, setRecentlyAddedCourses] = useState([]);
-  const [orgId, setOrgId] = useState();
   const [framework, setFramework] = useState();
+  const [roleList, setRoleList] = useState([]);
+  const [orgId,setOrgId] = useState([]);
 
   const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
 
@@ -83,6 +84,11 @@ const DomainList = ({ globalSearchQuery }) => {
       const response = await fetch(url);
       const data = await response.json();
       const rolesData = data.result.response.channel;
+      const roles =data.result.response.roles;
+      const organizationId=roles[0]?.scope[0]?.organisationId;
+      const extractedRoles = roles.map(roleObj => roleObj.role);
+      setRoleList(extractedRoles);
+      setOrgId(organizationId);
       setLernUser(rolesData);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -122,34 +128,41 @@ const DomainList = ({ globalSearchQuery }) => {
 
  
   let responsecode;
+  const isCreator = roleList.includes("CONTENT_CREATOR");
   const fetchUserAccess = async () => {
     try {
       const url = `${urlConfig.URLS.PROVIDE_ACCESS}`;
-
-      const response = await axios.post(
-        url,
-        {
-          request : {
-            organisationId: "0137506576041902087",
-            roles: [ "PUBLIC",
-            "CONTENT_CREATOR"],
-            userId: _userId,
-        }
-      },
-      );
+      const role = isCreator ? roleList : ["CONTENT_CREATOR", ...roleList];
+      const requestPayload = {
+        request: {
+          organisationId: orgId,
+          roles: role,
+          userId: _userId,
+        },
+      };
+      
+      if (isCreator) {
+        requestPayload.isCreator = true;
+      }
+  
+      const response = await axios.post(url, requestPayload);
       const data = await response.data;
       const result = data.result.data.responseCode;
+      
       responsecode = result;
       setResponseCode(result);
-      if(result === "OK"){
+      
+      if (result === "OK") {
         navigate('webapp/mylernsubmissions');
-      }else{
-        setToasterMessage("Something went wrong ! Please try again later")
+        setIsModalOpen(false);
+      } else {
+        setToasterMessage("Something went wrong! Please try again later");
       }
     } catch (error) {
-      console.log('error' ,error);
+      console.log('error', error);
     }
   };
+
 
   const handleCheckUser =  async () => { 
     if (lernUser === 'nulp-learn') {
@@ -469,7 +482,7 @@ const DomainList = ({ globalSearchQuery }) => {
     <div>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Box sx={{ height: 'calc(100vh - 210px)', overflowY: 'auto' }}>
+      <Box>
 
         {/* Search Box */}
         <Box
@@ -564,6 +577,7 @@ const DomainList = ({ globalSearchQuery }) => {
         >
 
           {error && <Alert severity="error">{error}</Alert>}
+
           <Box
             className="lern-box">
             <Box>
@@ -602,6 +616,7 @@ const DomainList = ({ globalSearchQuery }) => {
               </Grid>
             </Box>
           </Box>
+
           <Box textAlign="center">
             <p
               style={{
