@@ -441,7 +441,8 @@
       "DELETE_POLL": "/polls/delete",
       "GET_USER_POLL": "/polls/user/get_user_poll",
       "USER_CREATE": "/polls/user/create",
-      "USER_UPDATE": "/polls/user/update"
+      "USER_UPDATE": "/polls/user/update",
+      "GET_VOTTING_LIST": "/polls/all/get_poll"
     },
     "FEEDBACK": {
       "CREATE": "/custom_feedback/create",

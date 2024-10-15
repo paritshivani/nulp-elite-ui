@@ -98,6 +98,7 @@ const EventList = (props) => {
   ]);
 
   const handleChangeTab = (event, newValue) => {
+    setCurrentPage(1);
     setValueTab(newValue);
   };
 
