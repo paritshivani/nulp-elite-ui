@@ -324,5 +324,12 @@
   "PARTICIPATE_NOW":"Participate Now",
   "LERN_title": "The Learnathon 2.0 Has Begun!",
   "LERN_MESSAGE": "Where urban practitioners share solutions to foster collaborative learning.",
-  "LERN_MESSAGE_LINE_TWO":"Learnathon 2.0 launched on 18th November 2024 and will continue until 20th December 2024. Submit your urban solutions now!"
+  "LERN_MESSAGE_LINE_TWO":"Learnathon 2.0 launched on 18th November 2024 and will continue until 20th December 2024. Submit your urban solutions now!",
+  "VOTE_NOW_LEARNATHON_SUBMISSIONS":"Vote Now: Learnathon Submissions",
+  "SUBMISSION_NAME":"Submission Name",
+  "VOTING_DEADLINE":"Voting Deadline",
+  "VOTE_COUNT":"Vote Count",
+  "VOTE_NOW":"Vote Now",
+  "SEARCH_SUBMISSION":"Search Submission",
+  "VIEW_SUBMISSIONS":"View Submissions"
 }
