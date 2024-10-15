@@ -577,6 +577,7 @@ const DomainList = ({ globalSearchQuery }) => {
         >
 
           {error && <Alert severity="error">{error}</Alert>}
+
           <Box
             className="lern-box">
             <Box>
@@ -615,6 +616,7 @@ const DomainList = ({ globalSearchQuery }) => {
               </Grid>
             </Box>
           </Box>
+
           <Box textAlign="center">
             <p
               style={{

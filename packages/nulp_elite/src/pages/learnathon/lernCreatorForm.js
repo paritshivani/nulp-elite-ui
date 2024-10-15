@@ -21,6 +21,9 @@ import * as util from "../../services/utilService";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate, useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Alert from "@mui/material/Alert";
 
 // const [globalSearchQuery, setGlobalSearchQuery] = useState();
 // // location.state?.globalSearchQuery || undefined
@@ -549,7 +552,11 @@ const LernCreatorForm = () => {
                     "noopener,noreferrer"
                   )
                 }
-                style={{ float: "right" }}
+                style={{
+                  float: "right",
+                  padding: "7px 35px",
+                  borderRadius: "20px !important",
+                }}
               >
                 Need Help
               </Button>
@@ -565,68 +572,102 @@ const LernCreatorForm = () => {
               "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
           }}
         >
-          <Box p={3} mx="auto">
-            <Typography variant="h6" gutterBottom>
-              Participant Details
-            </Typography>
-            <Divider sx={{ marginBottom: "20px" }} />
+          <Grid container spacing={2}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              sx={{ borderBottom: "2px solid #057184", marginBottom: "20px" }}
+            >
+              <Typography variant="h6" gutterBottom>
+                Participant Details
+              </Typography>
+            </Grid>
+          </Grid>
 
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="User Name"
-                  name="user_name"
-                  value={formData.user_name}
-                  onChange={handleChange}
-                  error={!!errors.user_name}
-                  helperText={errors.user_name}
-                  required
-                />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Grid container>
+                <Grid item xs={2} className="center-align">
+                  <InputLabel htmlFor="User Name">
+                    User Name <span className="mandatory-symbol"> *</span>
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={10}>
+                  <TextField
+                    fullWidth
+                    margin="normal"
+                    label="User Name"
+                    name="user_name"
+                    value={formData.user_name}
+                    onChange={handleChange}
+                    error={!!errors.user_name}
+                    helperText={errors.user_name}
+                    required
+                  />
+                </Grid>
               </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  error={!!errors.email}
-                  helperText={errors.email}
-                  required
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Mobile Number"
-                  name="mobile_number"
-                  value={formData.mobile_number}
-                  onChange={handleChange}
-                  error={!!errors.mobile_number}
-                  helperText={errors.mobile_number}
-                  required
-                />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Grid container>
+                <Grid item xs={2} className="center-align">
+                  <InputLabel htmlFor="Email">
+                    Email <span className="mandatory-symbol"> *</span>
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={10}>
+                  <TextField
+                    fullWidth
+                    margin="normal"
+                    label="Email"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={errors.email}
+                    required
+                  />
+                </Grid>
               </Grid>
             </Grid>
 
+            <Grid item xs={12} sm={6}>
+              <Grid container>
+                <Grid item xs={2} className="center-align">
+                  <InputLabel htmlFor="Mobile Number">
+                    Mobile <br /> Number<span className="red"> *</span>
+                  </InputLabel>
+                </Grid>
+                <Grid item xs={10}>
+                  <TextField
+                    fullWidth
+                    margin="normal"
+                    label="Mobile Number"
+                    name="mobile_number"
+                    value={formData.mobile_number}
+                    onChange={handleChange}
+                    error={!!errors.mobile_number}
+                    helperText={errors.mobile_number}
+                    required
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sx={{ borderBottom: "2px solid #057184" }}>
             <Typography variant="h6" gutterBottom style={{ marginTop: "30px" }}>
               Submission Details
             </Typography>
-            <Divider sx={{ marginBottom: "20px" }} />
-            <Grid item xs={12}>
-              <div>
-                <Tooltip title="Supported formats:jpg, png">
-                  <IconButton>
-                    <HelpOutlineIcon />
-                  </IconButton>
-                </Tooltip>
+          </Grid>
+          <Grid item xs={12} style={{ marginTop: "30px" }}>
+            <Grid container>
+              <Grid item xs={2} className="center-align">
+                <InputLabel htmlFor="Name of Organisation">
+                  Submission Icon
+                </InputLabel>
+              </Grid>
+              <Grid item xs={10}>
                 <TextField
                   type="file"
                   fullWidth
@@ -635,153 +676,233 @@ const LernCreatorForm = () => {
                     accept: "jpg,png",
                   }}
                 />
-              </div>
-            </Grid>
-
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  select
-                  fullWidth
-                  margin="normal"
-                  label="Category of Participation"
-                  name="category_of_participation"
-                  value={formData.category_of_participation}
-                  onChange={handleCategoryChange}
-                  error={!!errors.category_of_participation}
-                  helperText={errors.category_of_participation}
-                  required
-                >
-                  {categories.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                {guidelineLink && (
-                  <a
-                    href={guidelineLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View and Download Guidelines
-                  </a>
-                )}
               </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Name of Organisation"
-                  name="name_of_organisation"
-                  value={formData.name_of_organisation}
-                  onChange={handleChange}
-                  error={!!errors.name_of_organisation}
-                  helperText={errors.name_of_organisation}
-                  required
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Name of Department/Group"
-                  name="name_of_department_group"
-                  value={formData.name_of_department_group}
-                  onChange={handleChange}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  select
-                  fullWidth
-                  margin="normal"
-                  label="Indicative Theme"
-                  name="indicative_theme"
-                  value={formData.indicative_theme}
-                  onChange={handleChange}
-                  error={!!errors.indicative_theme}
-                  helperText={errors.indicative_theme}
-                  required
-                >
-                  {themes.map((theme) => (
-                    <MenuItem key={theme} value={theme}>
-                      {theme}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Title of Submission"
-                  name="title_of_submission"
-                  value={formData.title_of_submission}
-                  onChange={handleChange}
-                  inputProps={{ maxLength: 20 }}
-                  error={!!errors.title_of_submission}
-                  helperText={errors.title_of_submission}
-                  required
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  label="Description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  multiline
-                  rows={3}
-                  inputProps={{ maxLength: 100 }}
-                  error={!!errors.description}
-                  helperText={errors.description}
-                  required
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <div>
-                  <Tooltip title="Supported formats: MP4, PDF, HTML5, YouTube links">
-                    <IconButton>
-                      <HelpOutlineIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <TextField
-                    type="file"
-                    fullWidth
-                    onChange={handleFileChange}
-                    inputProps={{
-                      accept:
-                        "video/mp4,application/pdf,text/html,video/youtube",
-                    }}
-                    sx={{ border: "1px dashed" }}
-                  />
-                </div>
+              <Grid item xs={2}></Grid>
+              <Grid item xs={10}>
+                <Alert className="mt-9" everity="info">
+                  Supported formats: MP4, PDF, HTML5, YouTube links
+                </Alert>
               </Grid>
             </Grid>
-
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={formData.consent_checkbox}
-                  onChange={handleCheckboxChange}
-                  name="consent_checkbox"
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <Grid item xs={12} sm={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="Category of Participation">
+                      Category of Participation
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <TextField
+                      select
+                      fullWidth
+                      margin="normal"
+                      label="Category of Participation"
+                      name="category_of_participation"
+                      value={formData.category_of_participation}
+                      onChange={handleCategoryChange}
+                      error={!!errors.category_of_participation}
+                      helperText={errors.category_of_participation}
+                      required
+                    >
+                      {categories.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Box>
+                      {guidelineLink && (
+                        <a
+                          href={guidelineLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View and Download Guidelines
+                        </a>
+                      )}
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="Name of Organisation">
+                      Name of Organisation{" "}
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      fullWidth
+                      margin="normal"
+                      label="Name of Organisation"
+                      name="name_of_organisation"
+                      value={formData.name_of_organisation}
+                      onChange={handleChange}
+                      error={!!errors.name_of_organisation}
+                      helperText={errors.name_of_organisation}
+                      required
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="Name of Department/Group">
+                      Name of Department/Group
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      fullWidth
+                      margin="normal"
+                      label="Name of Department/Group"
+                      name="name_of_department_group"
+                      value={formData.name_of_department_group}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="Indicative Theme">
+                      Indicative Theme{" "}
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      select
+                      fullWidth
+                      margin="normal"
+                      label="Indicative Theme"
+                      name="indicative_theme"
+                      value={formData.indicative_theme}
+                      onChange={handleChange}
+                      error={!!errors.indicative_theme}
+                      helperText={errors.indicative_theme}
+                      required
+                    >
+                      {themes.map((theme) => (
+                        <MenuItem key={theme} value={theme}>
+                          {theme}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="Title of Submission">
+                      Title of Submission{" "}
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      fullWidth
+                      margin="normal"
+                      label="Title of Submission"
+                      name="title_of_submission"
+                      value={formData.title_of_submission}
+                      onChange={handleChange}
+                      inputProps={{ maxLength: 20 }}
+                      error={!!errors.title_of_submission}
+                      helperText={errors.title_of_submission}
+                      required
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="Description">
+                      Description <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      fullWidth
+                      margin="normal"
+                      label="Description"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      multiline
+                      rows={3}
+                      inputProps={{ maxLength: 100 }}
+                      error={!!errors.description}
+                      helperText={errors.description}
+                      required
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="File Upload">
+                      File Upload <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      type="file"
+                      fullWidth
+                      onChange={handleFileChange}
+                      inputProps={{
+                        accept:
+                          "video/mp4,application/pdf,text/html,video/youtube",
+                      }}
+                      sx={{ border: "1px dashed" }}
+                    />
+                  </Grid>
+                  <Grid item xs={2}></Grid>
+                  <Grid item xs={10}>
+                    <Alert className="mt-9" everity="info">
+                      Supported formats: MP4, PDF, HTML5, YouTube links
+                    </Alert>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                item
+                xs={12}
+                justifyContent="center"
+                alignItems="center"
+                direction="column"
+                textAlign="center"
+                className="mb-30"
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formData.consent_checkbox}
+                      onChange={handleCheckboxChange}
+                      name="consent_checkbox"
+                    />
+                  }
+                  label="Terms and conditions"
                 />
-              }
-              label="Terms and conditions"
-            />
-          </Box>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
       </Container>
-
       <Grid
         container
         item

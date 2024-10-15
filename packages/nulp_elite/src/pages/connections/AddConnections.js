@@ -1289,7 +1289,7 @@ const AddConnections = () => {
     <Box>
       <Header />
       {toasterMessage && <ToasterCommon response={toasterMessage} />}
-      <Box sx={{ height: 'calc(100vh - 210px)', overflowY:'auto' }}>
+      <Box>
       <Container maxWidth="xl" role="main" className="pt-0 xs-pb-62 pt-108">
         {error && (
           <Alert severity="error" className="my-10">
