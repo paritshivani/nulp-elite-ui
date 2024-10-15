@@ -7,13 +7,13 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  Paper,
   TextField,
   Button,
   IconButton,
   Typography,
   Box,
   DialogActions,
+  Grid
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
@@ -23,7 +23,9 @@ import DialogContent from "@mui/material/DialogContent";
 import { Edit, Visibility, Delete } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import submissions from "./lernSubmission.json";
+import Paper from "@mui/material/Paper";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Pagination } from "@mui/material";
 
 import Footer from "components/Footer";
 import Header from "components/header";
@@ -82,6 +84,7 @@ const LernSubmissionTable = () => {
       console.log(result.result);
       setData(result.result.data);
       setTotalRows(result.result.totalCount);
+
     } catch (error) {
       console.log("error---", error);
       // setError(error.message);
@@ -158,35 +161,43 @@ const LernSubmissionTable = () => {
           alignItems="center"
           mb={2}
         >
-          <Typography variant="h6">Learnathon Submissions List</Typography>
+          <Typography variant="h6" gutterBottom className="fw-600 mt-20">
+            Learnathon Submissions List
+          </Typography>
           <Button
-            variant="contained"
-            color="primary"
+            className="viewAll"
             onClick={() =>
-              (window.location.href =
-                routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT)
+            (window.location.href =
+              routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT)
             }
+            sx={{padding: '7px 45px',borderRadius: '90px !important'
+          }}
           >
             Upload Submission
           </Button>
         </Box>
+        <Grid container>
+          <Grid item xs={6}>
+            <Box display="flex" alignItems="center" mb={2}>
+              <TextField
+                variant="outlined"
+                placeholder="Search Submission"
+                value={search}
+                onChange={handleSearchChange}
+                InputProps={{
+                  endAdornment: <SearchIcon />,
+                }}
+                size="small"
+                sx={{ background: '#fff' }}
+              />
 
-        <Box display="flex" alignItems="center" mb={2}>
-          <TextField
-            variant="outlined"
-            placeholder="Search Submission"
-            value={search}
-            onChange={handleSearchChange}
-            InputProps={{
-              endAdornment: <SearchIcon />,
-            }}
-            size="small"
-          />
-        </Box>
+            </Box>
+          </Grid>
+        </Grid>
 
-        <TableContainer>
-          <Table>
-            <TableHead>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead sx={{ background: "#D8F6FF" }}>
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Last Updated</TableCell>
@@ -207,8 +218,9 @@ const LernSubmissionTable = () => {
                         row.status === "live"
                           ? "green"
                           : row.status === "review"
-                          ? "orange"
-                          : "red",
+                            ? "orange"
+                            : "red",
+                      textTransform: 'capitalize'
                     }}
                   >
                     {row.status}
@@ -216,13 +228,16 @@ const LernSubmissionTable = () => {
                   <TableCell>
                     {row.status == "draft" && (
                       <IconButton
+
                         color="primary"
                         onClick={() =>
-                          (window.location.href =
-                            routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
-                            "?" +
-                            row.learnathon_content_id)
+                        (window.location.href =
+                          routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
+                          "?" +
+                          row.learnathon_content_id)
                         }
+                        sx={{ color: '#057184' }}
+                        className="table-icon"
                       >
                         <Edit />
                       </IconButton>
@@ -231,11 +246,13 @@ const LernSubmissionTable = () => {
                       <IconButton
                         color="primary"
                         onClick={() =>
-                          (window.location.href =
-                            routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
-                            "?" +
-                            row.learnathon_content_id)
+                        (window.location.href =
+                          routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
+                          "?" +
+                          row.learnathon_content_id)
                         }
+                        sx={{ color: '#054753' }}
+                        className="table-icon"
                       >
                         <Visibility />
                       </IconButton>
@@ -244,7 +261,10 @@ const LernSubmissionTable = () => {
                       <IconButton
                         color="secondary"
                         onClick={() => handleDialogOpen()}
+                        sx={{ color: 'red' }}
+                        className="table-icon"
                       >
+
                         <Delete />
                       </IconButton>
                     )}
@@ -255,7 +275,7 @@ const LernSubmissionTable = () => {
           </Table>
         </TableContainer>
 
-        <TablePagination
+        <Pagination
           component="div"
           count={totalRows}
           page={page}
