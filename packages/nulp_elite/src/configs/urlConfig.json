@@ -344,8 +344,8 @@
       "RETIRE": "assessment/v3/itemsets/retire"
     },
     "ASSET": {
-      "CREATE": "content/v3/create",
-      "UPLOAD": "content/v3/upload/"
+      "CREATE": "/action/content/v3/create",
+      "UPLOAD": "/action/content/v3/upload/"
     },
     "ITEMSET": {
       "CREATE": "itemset/v3/create",
@@ -460,8 +460,8 @@
       "DELETE": "/learnathon/content/delete"
     },
     "ICON": {
-      "CREATE": "asset/v1/create",
-      "UPLOAD": "asset/v1/upload/"
+      "CREATE": "/action/asset/v1/create",
+      "UPLOAD": "/action/asset/v1/upload/"
     }
   }
 }
