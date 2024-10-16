@@ -145,7 +145,6 @@
       "ADD_CERTIFICATE": "v1/add/template",
       "ATTACH_CERTIFICATE": "v1/template/add",
       "CREATE_CERT_TEMPLATE": "asset/v1/create",
-      "UPLOAD_CERT_TEMPLATE": "asset/v1/upload"
       "UPLOAD_CERT_TEMPLATE": "asset/v1/upload",
       "CUSTOM_CERTIFICATE_CREATE": "/custom_event/certificate/create"
 

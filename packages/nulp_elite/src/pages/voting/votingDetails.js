@@ -265,9 +265,9 @@ const VotingDetails = () => {
 
                 <Box className="pr-5">
                   {isVotingEnded ? (
-                    <span className=" h3-custom-title"> Poll Ended On</span>
+                    <span className="h3-custom-title">{t("POLL_ENDED_ON")}</span>
                   ) : (
-                    <span className=" h3-custom-title"> Live until</span>
+                    <span className="h3-custom-title">{("LIVE_UNTIL")}</span>
                   )}
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 pt-10"
@@ -333,7 +333,7 @@ const VotingDetails = () => {
                   {poll.title}
                 </Typography>
                 <Box className="pr-5 h3-custom-title">
-                  <span className=" h3-custom-title"> Live until</span>
+                  <span className=" h3-custom-title">{t("LIVE_UNTIL")}</span>
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 mb-10 pt-10"
                     style={{
@@ -460,7 +460,7 @@ const VotingDetails = () => {
                     </Typography>
 
                     <Box className="pr-5">
-                      <span className=" h3-custom-title"> Poll Ended On</span>
+                      <span className=" h3-custom-title">{("POLL_ENDED_ON")}</span>
                       <TodayOutlinedIcon
                         className="h3-custom-title pl-10"
                         style={{
@@ -589,7 +589,7 @@ const VotingDetails = () => {
               className="h2-title pl-20 mb-20 mt-20"
               style={{ fontWeight: "600" }}
             >
-              {t("About survey")}
+              {t("ABOUT_SURVEY")}
             </Box>
             <Box
               className="event-h2-title  pl-20 mb-20"
