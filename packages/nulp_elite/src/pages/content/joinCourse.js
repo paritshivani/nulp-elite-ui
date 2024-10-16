@@ -1399,13 +1399,13 @@ const JoinCourse = () => {
                 </AccordionSummary>
                 <AccordionDetails style={{ background: "#fff" }}>
                   <Typography className="h6-title">
-                    {t("Created By")}:{" "}
+                    {t("CREATED_BY")}:{" "}
                     {userData &&
                       userData.result &&
                       userData.result.content.creator}
                   </Typography>
                   <Typography className="h6-title">
-                    {t("Published on NULP by")}:{" "}
+                    {t("PUBLISHED_ON_NULP_BY")}:{" "}
                     {userData &&
                       userData.result &&
                       userData.result?.content?.orgDetails?.orgName}
