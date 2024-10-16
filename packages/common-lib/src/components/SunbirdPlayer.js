@@ -23,7 +23,7 @@ const SunbirdPlayer = ({
     } else if (['application/vnd.sunbird.questionset'].includes(mimeType)) {
       setUrl(`/quml`)
     } else if (
-      [        
+      [
         'application/vnd.ekstep.ecml-archive',
         'application/vnd.ekstep.html-archive',
         'application/vnd.ekstep.content-collection',
@@ -33,19 +33,18 @@ const SunbirdPlayer = ({
       ].includes(mimeType)
     ) {
       setUrl(`/content-player`)
-    } 
+    }
   }, [mimeType])
 
   React.useEffect(() => {
     const fetchData = () => {
-      console.log("url-------------------",url)
+      console.log('url-------------------', url)
       if ([`/content-player`, `/quml`, `/pdf`, `/video`].includes(url)) {
         window.addEventListener(
           'message',
           (event) => {
             handleEvent(event)
-      console.log("event-------------------",event)
-
+            console.log('event-------------------', event)
           },
           false
         )
@@ -69,7 +68,7 @@ const SunbirdPlayer = ({
     } else if (data?.eid) {
       telemetry = data
     }
-telemetryData(telemetry)
+    telemetryData(telemetry)
 
     if (telemetry?.eid === 'EXDATA') {
       try {
@@ -174,7 +173,7 @@ telemetryData(telemetry)
           width='100%'
           name={JSON.stringify({
             ...props,
-            questionListUrl: 'https://nulp.niua.org/api/question/v1/list'
+            questionListUrl: `${window.location.origin}/api/question/v1/list`
             // questionListUrl: `${process.env.REACT_APP_API_URL}/course/questionset`
           })}
           src={`${public_url ? public_url : process.env.PUBLIC_URL}${url}`}

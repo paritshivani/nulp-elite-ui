@@ -24,11 +24,11 @@ import {
   WhatsappIcon,
   LinkedinIcon,
 } from "react-share";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import md5 from 'md5';
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import md5 from "md5";
 const urlConfig = require("../../configs/urlConfig.json");
 
 const Player = () => {
@@ -52,8 +52,8 @@ const Player = () => {
   const [lesson, setLesson] = useState();
   const [isCompleted, setIsCompleted] = useState(false);
   const [openFeedBack, setOpenFeedBack] = useState(false);
-const [assessEvents, setAssessEvents] =useState ([]);
-const [propLength, setPropLength] =useState();
+  const [assessEvents, setAssessEvents] = useState([]);
+  const [propLength, setPropLength] = useState();
   const _userId = util.userId();
 
   const queryString = location.search;
@@ -72,48 +72,41 @@ const [propLength, setPropLength] =useState();
     }
   }, []);
 
-const handleTrackData = useCallback(
-  async ({ score, trackData, attempts, ...props }, playerType = "quml") => {
-    
-setPropLength(Object.keys(props).length);
-console.log(Object.keys(props).length,"Object.keys(props).length");
-    CheckfeedBackSubmitted();
+  const handleTrackData = useCallback(
+    async ({ score, trackData, attempts, ...props }, playerType = "quml") => {
+      setPropLength(Object.keys(props).length);
+      console.log(Object.keys(props).length, "Object.keys(props).length");
+      CheckfeedBackSubmitted();
 
-    if (
-      playerType === "pdf-video" &&
-      props.currentPage === props.totalPages
-    ) {
-      setIsCompleted(true);
+      if (
+        playerType === "pdf-video" &&
+        props.currentPage === props.totalPages
+      ) {
+        setIsCompleted(true);
+      }
+    },
+    [assessEvents]
+  );
+  const handleAssessmentData = async (data) => {
+    if (data.eid === "ASSESS") {
+      setAssessEvents((prevAssessEvents) => {
+        const updatedAssessEvents = [...prevAssessEvents, data];
+        console.log("Updated assessEvents array:", updatedAssessEvents);
+        return updatedAssessEvents;
+      });
+    } else if (data.eid === "END") {
+      await updateContentState(2);
+    } else if (data.eid === "START") {
+      await updateContentState(2);
     }
-  },
-  [assessEvents] 
-);
-const handleAssessmentData = async (data) => {
-  if (data.eid === "ASSESS") {
-    setAssessEvents((prevAssessEvents) => {
-      const updatedAssessEvents = [...prevAssessEvents, data];
-      console.log("Updated assessEvents array:", updatedAssessEvents);
-      return updatedAssessEvents;
-    });
-  }
-  else if(data.eid === "END") {
-    await updateContentState(2)
-  }
-  else if (data.eid === "START"){
+  };
 
-    await updateContentState(2)
-
-
-  }
-};
-
-
-useEffect(() => {
-  if(propLength===assessEvents.length){
-updateContentStateForAssessment();
-  }
-  handleTrackData();
-}, [assessEvents,propLength]);
+  useEffect(() => {
+    if (propLength === assessEvents.length) {
+      updateContentStateForAssessment();
+    }
+    handleTrackData();
+  }, [assessEvents, propLength]);
 
   const CheckfeedBackSubmitted = async () => {
     try {
@@ -139,83 +132,84 @@ updateContentStateForAssessment();
   };
 
   function formatDate() {
-  const now = new Date();
+    const now = new Date();
 
- 
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-  const day = String(now.getDate()).padStart(2, '0');
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
 
-  
-  const offset = -now.getTimezoneOffset();
-  const offsetHours = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0');
-  const offsetMinutes = String(Math.abs(offset) % 60).padStart(2, '0');
-  const offsetSign = offset >= 0 ? '+' : '-';
-  
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}:${milliseconds}${offsetSign}${offsetHours}${offsetMinutes}`;
-}
+    const offset = -now.getTimezoneOffset();
+    const offsetHours = String(Math.floor(Math.abs(offset) / 60)).padStart(
+      2,
+      "0"
+    );
+    const offsetMinutes = String(Math.abs(offset) % 60).padStart(2, "0");
+    const offsetSign = offset >= 0 ? "+" : "-";
 
-function getCurrentTimestamp() {
-  return Date.now();
-}
-
-const attemptid = ()=>{
-      const timestamp = new Date().getTime();
-      const string = [courseId, batchId, contentId, _userId, timestamp].join('-');
-       const hashValue = md5(string);
-       return hashValue;
-}
-
-const updateContentStateForAssessment = async () => {
-    await updateContentState(2);
-  try {
-    const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
-    const requestBody = {
-      request: {
-        userId: _userId,
-        contents: [
-          {
-            contentId: contentId,
-            batchId: batchId,
-            status: 2,
-            courseId: courseId,
-            lastAccessTime:formatDate(),
-          },
-        ],
-        assessments: [
-          {
-            assessmentTs : getCurrentTimestamp(),
-            batchId: batchId,
-            courseId: courseId,
-            userId: _userId,
-            attemptId: attemptid(),
-            contentId: contentId,
-            events: assessEvents, 
-          },
-        ],
-      },
-    };
-    const response = await axios.patch(url, requestBody);
-  } catch (error) {
-    console.error("Error fetching course data:", error);
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}:${milliseconds}${offsetSign}${offsetHours}${offsetMinutes}`;
   }
-};
+
+  function getCurrentTimestamp() {
+    return Date.now();
+  }
+
+  const attemptid = () => {
+    const timestamp = new Date().getTime();
+    const string = [courseId, batchId, contentId, _userId, timestamp].join("-");
+    const hashValue = md5(string);
+    return hashValue;
+  };
+
+  const updateContentStateForAssessment = async () => {
+    await updateContentState(2);
+    try {
+      const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
+      const requestBody = {
+        request: {
+          userId: _userId,
+          contents: [
+            {
+              contentId: contentId,
+              batchId: batchId,
+              status: 2,
+              courseId: courseId,
+              lastAccessTime: formatDate(),
+            },
+          ],
+          assessments: [
+            {
+              assessmentTs: getCurrentTimestamp(),
+              batchId: batchId,
+              courseId: courseId,
+              userId: _userId,
+              attemptId: attemptid(),
+              contentId: contentId,
+              events: assessEvents,
+            },
+          ],
+        },
+      };
+      const response = await axios.patch(url, requestBody);
+    } catch (error) {
+      console.error("Error fetching course data:", error);
+    }
+  };
 
   const updateContentState = useCallback(
-     async (status) => {
+    async (status) => {
       // if (isEnrolled) {
-        console.log("enrolled true")
-        const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
-        await axios.patch(url, {
-          request: {
-            userId: _userId,
-            contents: [{ contentId, courseId, batchId, status }],
-          },
-        });
+      console.log("enrolled true");
+      const url = `${urlConfig.URLS.CONTENT_PREFIX}${urlConfig.URLS.COURSE.USER_CONTENT_STATE_UPDATE}`;
+      await axios.patch(url, {
+        request: {
+          userId: _userId,
+          contents: [{ contentId, courseId, batchId, status }],
+        },
+      });
       // }
     },
     [isEnrolled, _userId, contentId, courseId, batchId]
@@ -262,270 +256,287 @@ const updateContentStateForAssessment = async () => {
     <div>
       <Header />
       <Box>
-      <Container maxWidth="xl" role="main" className="player mt-15">
-        <Grid container spacing={2} className="mt-10 mb-30">
-          <Grid item xs={12} md={12} lg={12}>
-          <Box
-            className="d-flex mr-20 my-20 px-10"
-            style={{ alignItems: "center",justifyContent:'space-between' }}
-          >
-            <Button
-            onClick={handleBackNavigation}
-              className="custom-btn-primary mr-17 mt-15"
-            >
-              {t("BACK")}
-            </Button>
-          </Box>
-          </Grid>
-          <Grid item xs={12} md={9} lg={9}>
-            <Box>
-              {lesson && (
-                <Breadcrumbs
-                  aria-label="breadcrumb"
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "600",
-                  }}
+        <Container maxWidth="xl" role="main" className="player mt-15">
+          <Grid container spacing={2} className="mt-10 mb-30">
+            <Grid item xs={12} md={12} lg={12}>
+              <Box
+                className="d-flex mr-20 my-20 px-10"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  onClick={handleBackNavigation}
+                  className="custom-btn-primary mr-17 mt-15"
                 >
-                  <Link
-                    underline="hover"
-                    href=""
-                    aria-current="page"
-                    color="#484848"
+                  {t("BACK")}
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={9} lg={9}>
+              <Box>
+                {lesson && (
+                  <Breadcrumbs
+                    aria-label="breadcrumb"
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                    }}
                   >
-                    {courseName}
-                  </Link>
-                </Breadcrumbs>
-              )}
-              <Box className="h3-title">{lesson?.name}</Box>
-            </Box>
-            <Box>
-              {lesson && (
-                <Box className="xs-mb-20 mt-10">
-                  <Typography
-                    className="h6-title mb-20"
-                    style={{ display: "inline-block", verticalAlign: "text-top" }}
-                  >
-                    {t("CONTENT_TAGS")}:{" "}
-                  </Typography>
-                  {lesson.board && (
-                    <Button
-                      key={`board`}
-                      size="small"
-                      style={{
-                        color: "#424242",
-                        fontSize: "10px",
-                        margin: "0 10px 3px 6px",
-                        cursor: "auto"
-                      }}
-                      className="bg-blueShade3"
+                    <Link
+                      underline="hover"
+                      href=""
+                      aria-current="page"
+                      color="#484848"
                     >
-                      {lesson.board}
-                    </Button>
-                  )}
-                  {!lesson.board &&
-                    lesson.se_boards &&
-                    lesson.se_boards.map((item, index) => (
+                      {courseName}
+                    </Link>
+                  </Breadcrumbs>
+                )}
+                <Box className="h3-title">{lesson?.name}</Box>
+              </Box>
+              <Box>
+                {lesson && (
+                  <Box className="xs-mb-20 mt-10">
+                    <Typography
+                      className="h6-title mb-20"
+                      style={{
+                        display: "inline-block",
+                        verticalAlign: "text-top",
+                      }}
+                    >
+                      {t("CONTENT_TAGS")}:{" "}
+                    </Typography>
+                    {lesson.board && (
                       <Button
-                        key={`se_boards-${index}`}
+                        key={`board`}
                         size="small"
                         style={{
                           color: "#424242",
                           fontSize: "10px",
                           margin: "0 10px 3px 6px",
-                          cursor: "auto"
+                          cursor: "auto",
                         }}
                         className="bg-blueShade3"
                       >
-                        {item}
+                        {lesson.board}
                       </Button>
-                    ))}
-                  {lesson.gradeLevel &&
-                    lesson.gradeLevel.map((item, index) => (
-                      <Button
-                        key={`gradeLevel-${index}`}
-                        size="small"
-                        style={{
-                          color: "#424242",
-                          fontSize: "10px",
-                          margin: "0 10px 3px 6px",
-                          cursor: "auto"
-                        }}
-                        className="bg-blueShade3"
-                      >
-                        {item}
-                      </Button>
-                    ))}
-                  {!lesson.gradeLevel &&
-                    lesson.se_gradeLevels &&
-                    lesson.se_gradeLevels.map((item, index) => (
-                      <Button
-                        key={`se_gradeLevels-${index}`}
-                        size="small"
-                        style={{
-                          color: "#424242",
-                          fontSize: "10px",
-                          margin: "0 10px 3px 6px",
-                          cursor: "auto"
-                        }}
-                        className="bg-blueShade3"
-                      >
-                        {item}
-                      </Button>
-                    ))}
-                </Box>
-              )}
-            </Box>
-          </Grid>
+                    )}
+                    {!lesson.board &&
+                      lesson.se_boards &&
+                      lesson.se_boards.map((item, index) => (
+                        <Button
+                          key={`se_boards-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px 3px 6px",
+                            cursor: "auto",
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      ))}
+                    {lesson.gradeLevel &&
+                      lesson.gradeLevel.map((item, index) => (
+                        <Button
+                          key={`gradeLevel-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px 3px 6px",
+                            cursor: "auto",
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      ))}
+                    {!lesson.gradeLevel &&
+                      lesson.se_gradeLevels &&
+                      lesson.se_gradeLevels.map((item, index) => (
+                        <Button
+                          key={`se_gradeLevels-${index}`}
+                          size="small"
+                          style={{
+                            color: "#424242",
+                            fontSize: "10px",
+                            margin: "0 10px 3px 6px",
+                            cursor: "auto",
+                          }}
+                          className="bg-blueShade3"
+                        >
+                          {item}
+                        </Button>
+                      ))}
+                  </Box>
+                )}
+              </Box>
+            </Grid>
 
-          <Grid item xs={12} md={3} lg={3}  style={{ textAlign: "right" }}>
-            <FacebookShareButton url={shareUrl} className="pr-5">
-              <FacebookIcon size={32} round={true} />
-            </FacebookShareButton>
-            <WhatsappShareButton url={shareUrl} className="pr-5">
-              <WhatsappIcon size={32} round={true} />
-            </WhatsappShareButton>
-            <LinkedinShareButton url={shareUrl} className="pr-5">
-              <LinkedinIcon size={32} round={true} />
-            </LinkedinShareButton>
-            <TwitterShareButton url={shareUrl} className="pr-5">
-              <img
-                src={require("../../assets/twitter.png")}
-                alt="Twitter"
-                style={{ width: 32, height: 32 }}
-              />
-            </TwitterShareButton>
+            <Grid item xs={12} md={3} lg={3} style={{ textAlign: "right" }}>
+              <FacebookShareButton url={shareUrl} className="pr-5">
+                <FacebookIcon size={32} round={true} />
+              </FacebookShareButton>
+              <WhatsappShareButton url={shareUrl} className="pr-5">
+                <WhatsappIcon size={32} round={true} />
+              </WhatsappShareButton>
+              <LinkedinShareButton url={shareUrl} className="pr-5">
+                <LinkedinIcon size={32} round={true} />
+              </LinkedinShareButton>
+              <TwitterShareButton url={shareUrl} className="pr-5">
+                <img
+                  src={require("../../assets/twitter.png")}
+                  alt="Twitter"
+                  style={{ width: 32, height: 32 }}
+                />
+              </TwitterShareButton>
+            </Grid>
           </Grid>
-
-        </Grid>
-        <Box
-          className="lg-mx-90"
-          style={{
-            position: "relative",
-            paddingBottom: "56.25%",
-            height: 0,
-            overflow: "hidden",
-            maxWidth: "100%",
-          }}
-        >
-          {lesson && (
-            <SunbirdPlayer
-              {...lesson}
-              userData={{
-                firstName: userFirstName || "",
-                lastName: userLastName || "",
-              }}
-               telemetryData={(data) => {handleAssessmentData(data)}}
-              setTrackData={(data) => {
-                const type = lesson?.mimeType;
-                if (
-                  [
-                    "assessment",
-                    "SelfAssess",
-                    "QuestionSet",
-                    "QuestionSetImage",
-                  ].includes(type)
-                ) {
-                  handleTrackData(data);
-                }else if(["application/vnd.ekstep.html-archive","application/vnd.ekstep.html-archive","application/epub"].includes(type)){
-                  handleTrackData(data);
-                } else if (
-                  ["application/vnd.sunbird.questionset"].includes(type)
-                ) {
-                  handleTrackData(data, "application/vnd.sunbird.questionset");
-                } else if (
-                  [
-                    "application/pdf",
-                    "video/mp4",
-                    "video/webm",
-                    "video/x-youtube",
-                    "application/vnd.ekstep.h5p-archive",
-                  ].includes(type)
-                ) {
-                  handleTrackData(data, "pdf-video");
-                } else if (
-                  ["application/vnd.ekstep.ecml-archive"].includes(type)
-                ) {
-                  const score = Array.isArray(data)
-                    ? data.reduce((old, newData) => old + newData?.score, 0)
-                    : 0;
-                  handleTrackData({ ...data, score: `${score}` }, "ecml");
-                  setTrackData(data);
-                }
-              }}
-              public_url= "https://nulp.niua.org/newplayer" 
-            />
-          )}
-        </Box>
-        <Box style={{
-          paddingBottom: "2%",
-          marginTop: '2%'
-        }}>
-          <Accordion defaultExpanded
+          <Box
+            className="lg-mx-90"
+            style={{
+              position: "relative",
+              paddingBottom: "56.25%",
+              height: 0,
+              overflow: "hidden",
+              maxWidth: "100%",
+            }}
           >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1-content"
-              id="panel1-header"
-            >
-              <Typography>{t("DESCRIPTION")}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                {lesson?.description}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2-content"
-              id="panel2-header"
-            >
-              <Typography>{t("ABOUTTHECONTENT")}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              {lesson?.attributions && (
-                <>
-                  <Box sx={{ fontWeight: 'bold' }}>{t("ATTRIBUTIONS")}</Box>
-                  <Box>
-                    {lesson?.attributions.join(', ')}
-                  </Box>
-                </>               
-              )}
-              <Box sx={{ fontWeight: 'bold' }}>{t("LICENSEDETAILS")} : </Box>
-              {lesson?.licenseDetails && (
-                <Typography className="mb-10">
-                  <Box>
-                    {lesson?.licenseDetails.name} - {lesson?.licenseDetails.description}
-                  </Box>
-                  <Box className="url-class">
-                    <a href={lesson?.licenseDetails.url} target="_blank" rel="noopener noreferrer" >
-                      {lesson?.licenseDetails.url}
-                    </a>
-                  </Box>
-                </Typography>
-              )}
+            {lesson && (
+              <SunbirdPlayer
+                {...lesson}
+                userData={{
+                  firstName: userFirstName || "",
+                  lastName: userLastName || "",
+                }}
+                telemetryData={(data) => {
+                  handleAssessmentData(data);
+                }}
+                setTrackData={(data) => {
+                  const type = lesson?.mimeType;
+                  if (
+                    [
+                      "assessment",
+                      "SelfAssess",
+                      "QuestionSet",
+                      "QuestionSetImage",
+                    ].includes(type)
+                  ) {
+                    handleTrackData(data);
+                  } else if (
+                    [
+                      "application/vnd.ekstep.html-archive",
+                      "application/vnd.ekstep.html-archive",
+                      "application/epub",
+                    ].includes(type)
+                  ) {
+                    handleTrackData(data);
+                  } else if (
+                    ["application/vnd.sunbird.questionset"].includes(type)
+                  ) {
+                    handleTrackData(
+                      data,
+                      "application/vnd.sunbird.questionset"
+                    );
+                  } else if (
+                    [
+                      "application/pdf",
+                      "video/mp4",
+                      "video/webm",
+                      "video/x-youtube",
+                      "application/vnd.ekstep.h5p-archive",
+                    ].includes(type)
+                  ) {
+                    handleTrackData(data, "pdf-video");
+                  } else if (
+                    ["application/vnd.ekstep.ecml-archive"].includes(type)
+                  ) {
+                    const score = Array.isArray(data)
+                      ? data.reduce((old, newData) => old + newData?.score, 0)
+                      : 0;
+                    handleTrackData({ ...data, score: `${score}` }, "ecml");
+                    setTrackData(data);
+                  }
+                }}
+                public_url={`${window.location.origin}/newplayer`}
+              />
+            )}
+          </Box>
+          <Box
+            style={{
+              paddingBottom: "2%",
+              marginTop: "2%",
+            }}
+          >
+            <Accordion defaultExpanded>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+              >
+                <Typography>{t("DESCRIPTION")}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>{lesson?.description}</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2-content"
+                id="panel2-header"
+              >
+                <Typography>{t("ABOUTTHECONTENT")}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {lesson?.attributions && (
+                  <>
+                    <Box sx={{ fontWeight: "bold" }}>{t("ATTRIBUTIONS")}</Box>
+                    <Box>{lesson?.attributions.join(", ")}</Box>
+                  </>
+                )}
+                <Box sx={{ fontWeight: "bold" }}>{t("LICENSEDETAILS")} : </Box>
+                {lesson?.licenseDetails && (
+                  <Typography className="mb-10">
+                    <Box>
+                      {lesson?.licenseDetails.name} -{" "}
+                      {lesson?.licenseDetails.description}
+                    </Box>
+                    <Box className="url-class">
+                      <a
+                        href={lesson?.licenseDetails.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {lesson?.licenseDetails.url}
+                      </a>
+                    </Box>
+                  </Typography>
+                )}
 
-              <Typography className="mb-10">
-                <Box sx={{ fontWeight: 'bold' }}>{t("COPYRIGHT")} :</Box>
-                <Box>{lesson?.copyright}</Box>
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
-        <Box>
-        </Box>
-      </Container>
-      {openFeedBack && (
-        <FeedbackPopup
-          open={openFeedBack}
-          onClose={handleClose}
-          className="feedback-popup"
-          contentId={contentId}
-        />
-      )}
-      <FloatingChatIcon />
+                <Typography className="mb-10">
+                  <Box sx={{ fontWeight: "bold" }}>{t("COPYRIGHT")} :</Box>
+                  <Box>{lesson?.copyright}</Box>
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+          <Box></Box>
+        </Container>
+        {openFeedBack && (
+          <FeedbackPopup
+            open={openFeedBack}
+            onClose={handleClose}
+            className="feedback-popup"
+            contentId={contentId}
+          />
+        )}
+        <FloatingChatIcon />
       </Box>
       <Footer />
     </div>
