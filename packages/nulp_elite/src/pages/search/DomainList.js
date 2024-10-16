@@ -112,13 +112,10 @@ const DomainList = ({ globalSearchQuery }) => {
       const user = userID.find((user) => user.user_id === _userId);
 
       if (!user) {
-        console.log("User ID not found. Calling fetchUserAccess...");
         fetchUserAccess();
       } else if (user.creator_access === true) {
         navigate('/webapp/mylernsubmissions');
-        console.log("User ID found with creator access. No need to call fetchUserAccess.");
       } else if (user.creator_access === false) {
-        console.log("User ID found but no creator access. Calling fetchUserAccess...");
         fetchUserAccess();
       }
     } catch (error) {
@@ -185,7 +182,6 @@ const DomainList = ({ globalSearchQuery }) => {
     fetchUserData();
     getRecentlyAddedCourses();
     getPopularCourses();
-    // console.log("domainWithImage--",domainWithImage)
   }, []);
 
   // Function to push data to the array
@@ -197,10 +193,6 @@ const DomainList = ({ globalSearchQuery }) => {
     sessionStorage.setItem("previousRoutes", newPath);
     try {
       const uservData = await util.userData();
-      console.log(
-        "-------------",
-        uservData?.data?.result?.response?.framework?.id[0]
-      );
       setOrgId(uservData?.data?.result?.response?.rootOrgId);
       setFramework(uservData?.data?.result?.response?.framework?.id[0]);
     } catch (error) {
@@ -223,10 +215,8 @@ const DomainList = ({ globalSearchQuery }) => {
     try {
       const url = `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CHANNEL.READ}/${orgId}`;
       const response = await frameworkService.getChannel(url);
-      // console.log("channel---",response.data.result);
       setChannelData(response.data.result);
     } catch (error) {
-      console.log("error---", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     } finally {
       setIsLoading(false);
@@ -241,7 +231,6 @@ const DomainList = ({ globalSearchQuery }) => {
       const selectedIndex = categories.findIndex(
         (category) => category.code === "board"
       );
-      console.log("---------", selectedIndex);
 
       response?.data?.result?.framework?.categories[selectedIndex].terms.map(
         (term) => {
@@ -262,10 +251,8 @@ const DomainList = ({ globalSearchQuery }) => {
       );
       setData(itemsArray);
     } catch (error) {
-      console.log("nulp--  error-", error);
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
     } finally {
-      console.log("nulp finally---");
       setIsLoading(false);
     }
   };
@@ -341,7 +328,6 @@ const DomainList = ({ globalSearchQuery }) => {
       }
 
       const responseData = await response.json();
-      console.log("data", responseData);
       setRecentlyAddedCourses(responseData?.result?.content || []);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -351,14 +337,12 @@ const DomainList = ({ globalSearchQuery }) => {
   };
 
   const loadContents = async (term) => {
-    // console.log(term);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { domain: term.name, domainName: term.name },
     });
   };
 
   const handleSearch = async (domainquery) => {
-    console.log(domainquery);
     navigate(`${routeConfig.ROUTES.CONTENTLIST_PAGE.CONTENTLIST}?1`, {
       state: { domainquery },
     });
@@ -369,7 +353,6 @@ const DomainList = ({ globalSearchQuery }) => {
       state: { domain: query, domainName: domainName },
     });
   };
-  // console.log(frameworkHardCodedData.result.framework.categories[0].terms);
 
   const handleCardClick = (contentId, courseType) => {
     if (courseType === "Course") {
@@ -450,7 +433,6 @@ const DomainList = ({ globalSearchQuery }) => {
       }
 
       const responseData = await response.json();
-      console.log("data", responseData);
       setPopularCourses(responseData?.result?.content || []);
     } catch (error) {
       showErrorMessage(t("FAILED_TO_FETCH_DATA"));
@@ -467,7 +449,6 @@ const DomainList = ({ globalSearchQuery }) => {
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
-    console.log("value", event.target.value);
   };
 
   const handleKeyPress = (event) => {
@@ -475,7 +456,6 @@ const DomainList = ({ globalSearchQuery }) => {
       onMobileSearch();
     }
   };
-  console.log(lernUser, 'lernUser from dashboard');
 
 
   return (
@@ -528,7 +508,10 @@ const DomainList = ({ globalSearchQuery }) => {
                 spacing={2}
                 style={{ margin: "20px 0", marginBottom: "10px" }}
               >
-                {data &&
+                 {isLoading ? (
+                  <Loading style={{ margin: "20px 50px", marginBottom: "10px" }}message={t("LOADING")} />
+                ) :
+                (data &&
                   data.slice(0, 10).map((term) => (
                     <Grid
                       item
@@ -559,7 +542,7 @@ const DomainList = ({ globalSearchQuery }) => {
                         </h5>
                       </Box>
                     </Grid>
-                  ))}
+                  )))}
               </Grid>
             </Box>
           </Container>

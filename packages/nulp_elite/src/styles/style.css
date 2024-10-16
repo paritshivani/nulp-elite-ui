@@ -772,6 +772,9 @@ button {
 }
 
 @media (max-width: 768px) {
+  .jss2{
+    display: block!important;
+  }
   .xs-mt-10{
     margin-top:10px;
   }
@@ -792,7 +795,7 @@ button {
   }
   .viewAll{
     font-size: 10px !important;
-    padding: 9px 4px !important;
+    padding: 10px !important;
   }
   .d-flex-none {
     display: block !important;
@@ -1184,7 +1187,7 @@ button {
   }
 
   .MuiGrid-container.MuiGrid-spacing-xs-2 {
-    margin: 0 -16px !important;
+    margin: 40px -16px !important;
   }
 
   /* .react-multi-carousel-list{
