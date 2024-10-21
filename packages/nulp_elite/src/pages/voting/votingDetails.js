@@ -266,6 +266,15 @@ const VotingDetails = () => {
               {poll.title}
             </Link>
           </Breadcrumbs>
+          <Box>
+                <Button
+                  type="button"
+                  className="custom-btn-primary ml-20"
+                  onClick={handleGoBack}
+                >
+                  {t("BACK")}
+                </Button>
+              </Box>
           <Grid
             container
             spacing={2}
@@ -283,9 +292,9 @@ const VotingDetails = () => {
 
                 <Box className="pr-5">
                   {isVotingEnded ? (
-                    <span className=" h3-custom-title"> Poll Ended On</span>
+                    <span className="h3-custom-title">{t("POLL_ENDED_ON")}</span>
                   ) : (
-                    <span className=" h3-custom-title"> Live until</span>
+                    <span className="h3-custom-title">{("LIVE_UNTIL")}</span>
                   )}
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 pt-10"
@@ -350,7 +359,7 @@ const VotingDetails = () => {
                   {poll.title}
                 </Typography>
                 <Box className="pr-5 h3-custom-title">
-                  <span className=" h3-custom-title"> Live until</span>
+                  <span className=" h3-custom-title">{t("LIVE_UNTIL")}</span>
                   <TodayOutlinedIcon
                     className="h3-custom-title pl-10 mb-10 pt-10"
                     style={{
@@ -497,7 +506,7 @@ const VotingDetails = () => {
                     </Typography>
 
                     <Box className="pr-5">
-                      <span className=" h3-custom-title"> Poll Ended On</span>
+                      <span className=" h3-custom-title">{("POLL_ENDED_ON")}</span>
                       <TodayOutlinedIcon
                         className="h3-custom-title pl-10"
                         style={{
@@ -624,28 +633,12 @@ const VotingDetails = () => {
               className="h2-title pl-20 mb-20 mt-20"
               style={{ fontWeight: "600" }}
             >
-              {t("About survey")}
+              {t("ABOUT_SURVEY")}
             </Box>
             <Box
               className="event-h2-title  pl-20 mb-20"
               style={{ fontWeight: "400" }}
             >
-              {poll && poll.category === "Learnathon" && (
-                <Box>
-                  <Button
-                    type="button"
-                    className="custom-btn-primary"
-                    onClick={() =>
-                      window.open("/webapp/player?" + poll.content_id, "_blank")
-                    }
-                    sx={{ marginTop: "24px" }}
-
-                    // disabled={!selectedOption} // Disable the button if no option is selected
-                  >
-                    {t("VIEW_SUBMISSIONS")}
-                  </Button>
-                </Box>
-              )}
               <Box className="mt-20">
               {poll.description}
               </Box>
