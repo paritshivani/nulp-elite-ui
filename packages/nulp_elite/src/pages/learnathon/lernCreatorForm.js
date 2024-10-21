@@ -21,9 +21,9 @@ import * as util from "../../services/utilService";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate, useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Alert from '@mui/material/Alert';
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Alert from "@mui/material/Alert";
 
 // const [globalSearchQuery, setGlobalSearchQuery] = useState();
 // // location.state?.globalSearchQuery || undefined
@@ -85,6 +85,7 @@ const LernCreatorForm = () => {
     fetchData();
     getUserData();
   }, [contentId]);
+  const reader = new FileReader();
 
   const fetchData = async () => {
     const requestBody = {
@@ -201,6 +202,7 @@ const LernCreatorForm = () => {
   };
 
   const handleIconChange = async (e) => {
+    reader.readAsDataURL(e.target.files[0]);
     const _uuid = uuidv4();
     const assetBody = {
       request: {
@@ -241,7 +243,7 @@ const LernCreatorForm = () => {
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ICON.UPLOAD}${result.result.identifier}`,
+          `${urlConfig.URLS.ICON.UPLOAD}/${result.result.identifier}`,
           {
             method: "POST",
             headers: {
@@ -322,7 +324,7 @@ const LernCreatorForm = () => {
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ASSET.UPDATE}${result.result.identifier}`,
+          `${urlConfig.URLS.ASSET.UPLOAD}/${result.result.identifier}`,
           {
             method: "POST",
             headers: {
@@ -550,16 +552,33 @@ const LernCreatorForm = () => {
                     "noopener,noreferrer"
                   )
                 }
-                style={{ float: "right", padding: "7px 35px", borderRadius: '20px !important' }}
+                style={{
+                  float: "right",
+                  padding: "7px 35px",
+                  borderRadius: "20px !important",
+                }}
               >
                 Need Help
               </Button>
             </Box>
           </Grid>
         </Grid>
-        <Grid container sx={{ padding: "20px", backgroundColor: "#fff", boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
+        <Grid
+          container
+          sx={{
+            padding: "20px",
+            backgroundColor: "#fff",
+            boxShadow:
+              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          }}
+        >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} sx={{ borderBottom: '2px solid #057184',marginBottom:'20px' }}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              sx={{ borderBottom: "2px solid #057184", marginBottom: "20px" }}
+            >
               <Typography variant="h6" gutterBottom>
                 Participant Details
               </Typography>
@@ -570,7 +589,9 @@ const LernCreatorForm = () => {
             <Grid item xs={12} sm={6}>
               <Grid container>
                 <Grid item xs={2} className="center-align">
-                  <InputLabel htmlFor="User Name">User Name <span className="mandatory-symbol"> *</span></InputLabel>
+                  <InputLabel htmlFor="User Name">
+                    User Name <span className="mandatory-symbol"> *</span>
+                  </InputLabel>
                 </Grid>
                 <Grid item xs={10}>
                   <TextField
@@ -590,7 +611,9 @@ const LernCreatorForm = () => {
             <Grid item xs={12} sm={6}>
               <Grid container>
                 <Grid item xs={2} className="center-align">
-                  <InputLabel htmlFor="Email">Email <span className="mandatory-symbol"> *</span></InputLabel>
+                  <InputLabel htmlFor="Email">
+                    Email <span className="mandatory-symbol"> *</span>
+                  </InputLabel>
                 </Grid>
                 <Grid item xs={10}>
                   <TextField
@@ -612,7 +635,9 @@ const LernCreatorForm = () => {
             <Grid item xs={12} sm={6}>
               <Grid container>
                 <Grid item xs={2} className="center-align">
-                  <InputLabel htmlFor="Mobile Number">Mobile <br /> Number<span className="red"> *</span></InputLabel>
+                  <InputLabel htmlFor="Mobile Number">
+                    Mobile <br /> Number<span className="red"> *</span>
+                  </InputLabel>
                 </Grid>
                 <Grid item xs={10}>
                   <TextField
@@ -630,7 +655,7 @@ const LernCreatorForm = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sx={{ borderBottom: '2px solid #057184'}}>
+          <Grid item xs={12} sx={{ borderBottom: "2px solid #057184" }}>
             <Typography variant="h6" gutterBottom style={{ marginTop: "30px" }}>
               Submission Details
             </Typography>
@@ -638,7 +663,9 @@ const LernCreatorForm = () => {
           <Grid item xs={12} style={{ marginTop: "30px" }}>
             <Grid container>
               <Grid item xs={2} className="center-align">
-                <InputLabel htmlFor="Name of Organisation">Submission Icon</InputLabel>
+                <InputLabel htmlFor="Name of Organisation">
+                  Submission Icon
+                </InputLabel>
               </Grid>
               <Grid item xs={10}>
                 <TextField
@@ -649,21 +676,26 @@ const LernCreatorForm = () => {
                     accept: "jpg,png",
                   }}
                 />
-
               </Grid>
               <Grid item xs={2}></Grid>
-                  <Grid item xs={10}><Alert className="mt-9" everity="info">Supported formats: MP4, PDF, HTML5, YouTube links</Alert></Grid>
+              <Grid item xs={10}>
+                <Alert className="mt-9" everity="info">
+                  Supported formats: MP4, PDF, HTML5, YouTube links
+                </Alert>
+              </Grid>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-
               <Grid item xs={12} sm={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Category of Participation">Category of Participation<span className="mandatory-symbol"> *</span></InputLabel>
+                    <InputLabel htmlFor="Category of Participation">
+                      Category of Participation
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
                   </Grid>
-                  <Grid item xs={7} >
+                  <Grid item xs={7}>
                     <TextField
                       select
                       fullWidth
@@ -701,7 +733,10 @@ const LernCreatorForm = () => {
               <Grid item xs={12} sm={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Name of Organisation">Name of Organisation <span className="mandatory-symbol"> *</span></InputLabel>
+                    <InputLabel htmlFor="Name of Organisation">
+                      Name of Organisation{" "}
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
                   </Grid>
                   <Grid item xs={10}>
                     <TextField
@@ -721,7 +756,9 @@ const LernCreatorForm = () => {
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Name of Department/Group">Name of Department/Group</InputLabel>
+                    <InputLabel htmlFor="Name of Department/Group">
+                      Name of Department/Group
+                    </InputLabel>
                   </Grid>
                   <Grid item xs={10}>
                     <TextField
@@ -738,7 +775,10 @@ const LernCreatorForm = () => {
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Indicative Theme">Indicative Theme <span className="mandatory-symbol"> *</span></InputLabel>
+                    <InputLabel htmlFor="Indicative Theme">
+                      Indicative Theme{" "}
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
                   </Grid>
                   <Grid item xs={10}>
                     <TextField
@@ -765,7 +805,10 @@ const LernCreatorForm = () => {
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Title of Submission">Title of Submission <span className="mandatory-symbol"> *</span></InputLabel>
+                    <InputLabel htmlFor="Title of Submission">
+                      Title of Submission{" "}
+                      <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
                   </Grid>
                   <Grid item xs={10}>
                     <TextField
@@ -786,7 +829,9 @@ const LernCreatorForm = () => {
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Description">Description <span className="mandatory-symbol"> *</span></InputLabel>
+                    <InputLabel htmlFor="Description">
+                      Description <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
                   </Grid>
                   <Grid item xs={10}>
                     <TextField
@@ -809,7 +854,9 @@ const LernCreatorForm = () => {
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="File Upload">File Upload <span className="mandatory-symbol"> *</span></InputLabel>
+                    <InputLabel htmlFor="File Upload">
+                      File Upload <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
                   </Grid>
                   <Grid item xs={10}>
                     <TextField
@@ -817,13 +864,18 @@ const LernCreatorForm = () => {
                       fullWidth
                       onChange={handleFileChange}
                       inputProps={{
-                        accept: "video/mp4,application/pdf,text/html,video/youtube",
+                        accept:
+                          "video/mp4,application/pdf,text/html,video/youtube",
                       }}
-                      sx={{ border: '1px dashed' }}
+                      sx={{ border: "1px dashed" }}
                     />
                   </Grid>
                   <Grid item xs={2}></Grid>
-                  <Grid item xs={10}><Alert className="mt-9" everity="info">Supported formats: MP4, PDF, HTML5, YouTube links</Alert></Grid>
+                  <Grid item xs={10}>
+                    <Alert className="mt-9" everity="info">
+                      Supported formats: MP4, PDF, HTML5, YouTube links
+                    </Alert>
+                  </Grid>
                 </Grid>
               </Grid>
               <Grid
@@ -862,7 +914,8 @@ const LernCreatorForm = () => {
         className="mb-30"
       >
         <Box>
-          Your submission will be used for NULP purposes only and your personal details will not be disclosed to any entity.
+          Your submission will be used for NULP purposes only and your personal
+          details will not be disclosed to any entity.
         </Box>
 
         <Box mt={3}>
@@ -878,7 +931,7 @@ const LernCreatorForm = () => {
             disabled={isNotDraft}
             className="viewAll"
             onClick={() => handleSubmit("review")}
-            sx={{ ml: 2, padding: '9px 35px' }} // Adds spacing between the buttons
+            sx={{ ml: 2, padding: "9px 35px" }} // Adds spacing between the buttons
           >
             Submit
           </Button>
