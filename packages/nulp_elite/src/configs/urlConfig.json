@@ -463,7 +463,8 @@
     },
     "ICON": {
       "CREATE": "/action/asset/v1/create",
-      "UPLOAD": "/action/asset/v1/upload/"
+      "UPLOADIMG": "/action/content/v3/upload/url/",
+      "UPLOAD": "/action/content/v3/upload/"
     }
   }
 }

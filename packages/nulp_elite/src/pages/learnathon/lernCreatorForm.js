@@ -243,7 +243,7 @@ const LernCreatorForm = () => {
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ICON.UPLOAD}/${result.result.identifier}`,
+          `${urlConfig.URLS.ICON.UPLOADIMG}/${result.result.identifier}`,
           {
             method: "POST",
             headers: {
