@@ -291,7 +291,7 @@ const LernCreatorForm = () => {
           language: ["English"],
           code: _uuid,
           name: e.target.files[0].name,
-          framework: "nulp-learn"
+          framework: "nulp-learn",
           mimeType: e.target.files[0].type,
           createdBy: _userId,
           organisation: [userInfo.rootOrg.channel],
