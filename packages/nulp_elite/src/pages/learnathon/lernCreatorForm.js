@@ -24,9 +24,10 @@ import Container from "@mui/material/Container";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
+// import SunbirdFileUploadLib from "@project-sunbird/sunbird-file-upload-library";
 
 // const [globalSearchQuery, setGlobalSearchQuery] = useState();
-// // location.state?.globalSearchQuery || undefined
+// location.state?.globalSearchQuery || undefined
 // const [searchQuery, setSearchQuery] = useState(globalSearchQuery || "");
 
 const categories = [
@@ -55,7 +56,7 @@ const LernCreatorForm = () => {
   const [userInfo, setUserInfo] = useState();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-
+  // const uploader = new SunbirdFileUploadLib();
   const [formData, setFormData] = useState({
     user_name: "",
     email: "",
@@ -234,16 +235,20 @@ const LernCreatorForm = () => {
       const result = await response.json();
       console.log("suceesss----", result);
 
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+
       const uploadBody = {
         request: {
           content: {
-            fileName: e.target.files[0].name,
+            file: formData,
+            mimeType: "image/png",
           },
         },
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ICON.UPLOADIMG}/${result.result.identifier}`,
+          `${urlConfig.URLS.ICON.UPLOAD}/${result.result.identifier}?enctype=multipart/form-data&processData=false&contentType=false&cache=false`,
           {
             method: "POST",
             headers: {
@@ -259,6 +264,39 @@ const LernCreatorForm = () => {
 
         const uploadResult = await response.json();
         console.log("upload suceesss------", uploadResult);
+
+        try {
+          const response = await fetch(
+            `${urlConfig.URLS.ICON.UPLOADIMG}/${result.result.identifier}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(uploadBody),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch polls");
+          }
+
+          const uploadResult = await response.json();
+          console.log("upload suceesss------", uploadResult);
+          setFormData({
+            ...formData,
+            icon: uploadResult.result.identifier,
+          });
+          setErrors({ ...errors, icon: "" });
+
+          // setData(result.result.data);
+          // setTotalPages(Math.ceil(result.result.totalCount / 10));
+        } catch (error) {
+          console.log("error---", error);
+          // setError(error.message);
+        } finally {
+          // setIsLoading(false);
+        }
         setFormData({
           ...formData,
           icon: uploadResult.result.identifier,
@@ -324,7 +362,7 @@ const LernCreatorForm = () => {
       };
       try {
         const response = await fetch(
-          `${urlConfig.URLS.ASSET.UPLOAD}/${result.result.identifier}`,
+          `${urlConfig.URLS.ASSET.UPLOADURL}/${result.result.identifier}`,
           {
             method: "POST",
             headers: {
@@ -340,6 +378,19 @@ const LernCreatorForm = () => {
 
         const uploadResult = await response.json();
         console.log("upload suceesss------", uploadResult);
+
+        // const url = `${urlConfig.URLS.ASSET.UPLOADURL}/${result.result.identifier}`;
+        // const file = e.target.files[0];
+        // const csp = "azure"; // Cloud provider (azure, aws, etc.)
+
+        // uploader
+        //   .upload(url, file, csp)
+        //   .then((response) => {
+        //     console.log("Upload successful:", response);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Upload failed:", error);
+        //   });
         setFormData({
           ...formData,
           content_id: uploadResult.result.identifier,

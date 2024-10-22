@@ -69,6 +69,7 @@
     "uuid": "^9.0.1",
     "yarn": "^1.22.21",
     "yup": "^1.2.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "@project-sunbird/sunbird-file-upload-library": "1.0.4"
   }
 }
