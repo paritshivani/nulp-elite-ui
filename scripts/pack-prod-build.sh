@@ -14,8 +14,8 @@ done
 cp -r  packages/nulp_elite/build/* prod-build/
 # cp -r  packages/players/* prod-build/
 find  prod-build -name  'modules.json' | xargs sed -i 's|http://localhost:[0-9]*||g'
-cd prod-build
-# cd prod-build && tar -cf ../shiksha-ui.tar . && cd ../
+
+cd prod-build && tar -cf ../shiksha-ui.tar . && cd ../
 if [ ! -d "../dist" ]; then
     mkdir ../dist
 fi
