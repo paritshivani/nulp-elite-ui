@@ -259,7 +259,7 @@ const LernReviewList = () => {
                             () =>
                               (window.location.href =
                                 routeConfig.ROUTES.PLAYER_PAGE.PLAYER +
-                                "?do_1140802311509934081375")
+                                "?id=do_1140802311509934081375&page=review")
                             // +row.learnathon_content_id
                           }
                           // sx={{ color: "#057184" }}
@@ -293,6 +293,8 @@ const LernReviewList = () => {
             alignItems="center"
             mb={2}
           >
+            Review is not available for your role. You can participate in
+            contest
             <Button className="viewAll" onClick={handleCardClick}>
               {t("PARTICIPATE_NOW")}
             </Button>

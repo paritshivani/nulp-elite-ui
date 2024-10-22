@@ -253,7 +253,6 @@ function App() {
       };
       const response = await axios.post(url, requestBody);
       const Data = response.data;
-      console.log("Data of user----------- ", Data);
       if (
         (Array.isArray(Data?.result) && Data.result.length === 0) ||
         (Array.isArray(Data?.result) &&
@@ -303,7 +302,6 @@ function App() {
         console.error("Error fetching user data:", error);
       }
     };
-    console.log("dev here");
     fetchData();
     UserData();
   }, []);
@@ -340,7 +338,6 @@ function App() {
           </Routes>
 
           <LernModal />
-
         </Router>
       </React.Suspense>
       {/* </ChakraProvider> */}

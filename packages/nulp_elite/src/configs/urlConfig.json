@@ -457,7 +457,9 @@
       "LIST": "/learnathon/content/list",
       "CREATE": "/learnathon/content/create",
       "UPDATE": "/learnathon/content/update",
-      "DELETE": "/learnathon/content/delete"
+      "DELETE": "/learnathon/content/delete",
+      "PUBLISH": "/content/content/v1/publish/",
+      "REJECT": "/content/content/v1/reject/"
     },
     "ICON": {
       "CREATE": "/action/asset/v1/create",
