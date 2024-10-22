@@ -79,7 +79,7 @@ const LernReviewList = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch polls");
+        throw new Error("Failed to fetch list");
       }
 
       const result = await response.json();

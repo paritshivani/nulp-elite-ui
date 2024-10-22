@@ -345,7 +345,7 @@
     },
     "ASSET": {
       "CREATE": "/action/content/v3/create",
-      "UPLOAD": "/action/content/v3/upload/"
+      "UPLOAD": "/action/content/v3/upload/url"
     },
     "ITEMSET": {
       "CREATE": "itemset/v3/create",
@@ -463,7 +463,7 @@
     },
     "ICON": {
       "CREATE": "/action/asset/v1/create",
-      "UPLOADIMG": "/action/content/v3/upload/url/",
+      "UPLOADIMG": "/action/content/v3/upload/url",
       "UPLOAD": "/action/content/v3/upload/"
     }
   }
