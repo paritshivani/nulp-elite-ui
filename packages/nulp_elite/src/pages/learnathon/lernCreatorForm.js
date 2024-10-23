@@ -367,7 +367,7 @@ const LernCreatorForm = () => {
       const uploadBody = {
         request: {
           content: {
-            fileName: formData.title_of_submission,
+            fileName: e.target.files[0].name,
           },
         },
       };
