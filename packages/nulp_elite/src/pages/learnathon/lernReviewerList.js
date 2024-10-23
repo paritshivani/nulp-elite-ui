@@ -259,7 +259,9 @@ const LernReviewList = () => {
                             () =>
                               (window.location.href =
                                 routeConfig.ROUTES.PLAYER_PAGE.PLAYER +
-                                "?id=do_1140802311509934081375&page=review")
+                                "?id=" +
+                                row.learnathon_content_id +
+                                "&page=lern")
                             // +row.learnathon_content_id
                           }
                           // sx={{ color: "#057184" }}

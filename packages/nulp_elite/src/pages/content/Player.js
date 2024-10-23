@@ -180,6 +180,11 @@ const Player = () => {
       extractedRoles.includes("SYSTEM_ADMINISTRATION")
     ) {
       setReviewEnable(true);
+    } else if (
+      pageParam == "lern" &&
+      extractedRoles.includes("SYSTEM_ADMINISTRATION")
+    ) {
+      setReviewEnable(true);
     }
   }
 
@@ -234,12 +239,12 @@ const Player = () => {
   );
 
   useEffect(
-    () => {
+    async () => {
       setPreviousRoute(sessionStorage.getItem("previousRoutes"));
-      const fetchData = async () => {
+      const fetchData = async (content_Id) => {
         try {
           const response = await fetch(
-            `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.GET}/${contentId}?fields=transcripts,ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&orgdetails=orgName,email&licenseDetails=name,description,url`,
+            `${urlConfig.URLS.PUBLIC_PREFIX}${urlConfig.URLS.CONTENT.GET}/${content_Id}?fields=transcripts,ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType&orgdetails=orgName,email&licenseDetails=name,description,url`,
             {
               headers: { "Content-Type": "application/json" },
             }
@@ -253,11 +258,47 @@ const Player = () => {
         }
       };
 
+      if (pageParam == "review" || pageParam == "lern") {
+        const assetBody = {
+          request: {
+            filters: {
+              learnathon_content_id: contentId,
+            },
+          },
+        };
+        try {
+          const response = await fetch(`${urlConfig.URLS.LEARNATHON.LIST}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(assetBody),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch polls");
+          }
+
+          const result = await response.json();
+          console.log("suceesss----", result);
+          console.log(result.result);
+          contentId = result.result.data.content_id;
+          // fetchData(result.result.data.content_id);
+          fetchData("do_1141679594120396801562");
+        } catch (error) {
+          console.log("error---", error);
+          // setError(error.message);
+        } finally {
+          // setIsLoading(false);
+        }
+      } else {
+        fetchData(contentId);
+      }
+
+      fetchUserData();
       if (!consumedContent.includes(contentId)) {
         updateContentState(2);
       }
-      fetchData();
-      fetchUserData();
     },
     [contentId, consumedContent, fetchUserData, updateContentState],
     pageParam
@@ -353,14 +394,14 @@ const Player = () => {
       console.log(result.result);
       alert("Published successfully");
 
-      data = {
+      const data = {
         title: lesson.name,
         description: lesson,
         visibility: "PublicToAll",
-        poll_options: ["Like"],
+        poll_options: ["I would like to vote this submission"],
         poll_type: "Polls",
-        start_date: "2024-10-21T13:15:09.754Z",
-        end_date: "2024-10-22T12:21:09.754Z",
+        start_date: "2024-10-23T13:15:09.754Z",
+        end_date: "2024-11-22T12:21:09.754Z",
         is_live_poll_result: true,
         content_id: courseId,
         category: "Learnathon",
