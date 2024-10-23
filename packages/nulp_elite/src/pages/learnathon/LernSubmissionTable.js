@@ -13,7 +13,7 @@ import {
   Typography,
   Box,
   DialogActions,
-  Grid
+  Grid,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
@@ -84,7 +84,6 @@ const LernSubmissionTable = () => {
       console.log(result.result);
       setData(result.result.data);
       setTotalRows(result.result.totalCount);
-
     } catch (error) {
       console.log("error---", error);
       // setError(error.message);
@@ -167,11 +166,10 @@ const LernSubmissionTable = () => {
           <Button
             className="viewAll"
             onClick={() =>
-            (window.location.href =
-              routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT)
+              (window.location.href =
+                routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT)
             }
-            sx={{padding: '7px 45px',borderRadius: '90px !important'
-          }}
+            sx={{ padding: "7px 45px", borderRadius: "90px !important" }}
           >
             Upload Submission
           </Button>
@@ -188,9 +186,8 @@ const LernSubmissionTable = () => {
                   endAdornment: <SearchIcon />,
                 }}
                 size="small"
-                sx={{ background: '#fff' }}
+                sx={{ background: "#fff" }}
               />
-
             </Box>
           </Grid>
         </Grid>
@@ -218,9 +215,9 @@ const LernSubmissionTable = () => {
                         row.status === "live"
                           ? "green"
                           : row.status === "review"
-                            ? "orange"
-                            : "red",
-                      textTransform: 'capitalize'
+                          ? "orange"
+                          : "red",
+                      textTransform: "capitalize",
                     }}
                   >
                     {row.status}
@@ -228,15 +225,14 @@ const LernSubmissionTable = () => {
                   <TableCell>
                     {row.status == "draft" && (
                       <IconButton
-
                         color="primary"
                         onClick={() =>
-                        (window.location.href =
-                          routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
-                          "?" +
-                          row.learnathon_content_id)
+                          (window.location.href =
+                            routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
+                            "?" +
+                            row.learnathon_content_id)
                         }
-                        sx={{ color: '#057184' }}
+                        sx={{ color: "#057184" }}
                         className="table-icon"
                       >
                         <Edit />
@@ -246,12 +242,13 @@ const LernSubmissionTable = () => {
                       <IconButton
                         color="primary"
                         onClick={() =>
-                        (window.location.href =
-                          routeConfig.ROUTES.LEARNATHON.CREATELEARNCONTENT +
-                          "?" +
-                          row.learnathon_content_id)
+                          (window.location.href =
+                            routeConfig.ROUTES.PLAYER_PAGE.PLAYER +
+                            "?id=" +
+                            row.learnathon_content_id +
+                            "&page=lern")
                         }
-                        sx={{ color: '#054753' }}
+                        sx={{ color: "#054753" }}
                         className="table-icon"
                       >
                         <Visibility />
@@ -261,10 +258,9 @@ const LernSubmissionTable = () => {
                       <IconButton
                         color="secondary"
                         onClick={() => handleDialogOpen()}
-                        sx={{ color: 'red' }}
+                        sx={{ color: "red" }}
                         className="table-icon"
                       >
-
                         <Delete />
                       </IconButton>
                     )}
