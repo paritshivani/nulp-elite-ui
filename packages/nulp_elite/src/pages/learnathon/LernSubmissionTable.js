@@ -35,7 +35,7 @@ const LernSubmissionTable = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalRows, setTotalRows] = useState(0);
   const [search, setSearch] = useState("");
   const _userId = util.userId(); // Assuming util.userId() is defined
@@ -83,7 +83,7 @@ const LernSubmissionTable = () => {
       console.log("suceesss----", result);
       console.log(result.result);
       setData(result.result.data);
-      setTotalRows(result.result.totalCount);
+      setTotalRows(result.result.totalCount / 10);
     } catch (error) {
       console.log("error---", error);
       // setError(error.message);
