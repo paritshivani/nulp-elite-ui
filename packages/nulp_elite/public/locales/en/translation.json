@@ -351,5 +351,9 @@
   "VOTE_FOR_THIS_CONTENT":"Vote for this content",
   "ARE_YOU_SURE" : "Are you sure?",
   "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"You will not be able to edit content after you proceed.",
-  "PROCEED":"Proceed"
+  "PROCEED":"Proceed",
+  "CATEGORY_OF_PARTICIPATION":"Category of Participation",
+  "NAME_OF_ORGANISATION":"Name of Organisation",
+  "NAME_OF_DEPARTMENT_GROUP":"Name of Department/Group",
+  "INDICATIVE_THEME":"Indicative Theme"
 }
