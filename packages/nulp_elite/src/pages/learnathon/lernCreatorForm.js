@@ -404,7 +404,7 @@ const LernCreatorForm = () => {
             console.log("Upload successful1111:", response);
           })
           .catch((error) => {
-            console.error("Upload failed:", error);
+            console.error("Upload failed11111:", error);
           });
         setFormData({
           ...formData,
@@ -418,7 +418,7 @@ const LernCreatorForm = () => {
             console.log("Upload successful22222:", response);
           })
           .catch((error) => {
-            console.error("Upload failed:", error);
+            console.error("Upload failed:22222", error);
           });
         setFormData({
           ...formData,
