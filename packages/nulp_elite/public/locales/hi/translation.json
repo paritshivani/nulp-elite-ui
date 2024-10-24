@@ -345,6 +345,12 @@
   "VIEW_SUBMISSIONS":"सबमिशन देखें",
   "VOTIGN_DEADLINE":"मतदान की समय सीमा",
   "VIEW_AND_VOTE":"देखें और वोट करें",
-  "VOTE_FOR_THIS_CONTENT":"इस सामग्री के लिए वोट करें"
-
+  "VOTE_FOR_THIS_CONTENT":"इस सामग्री के लिए वोट करें",
+  "ARE_YOU_SURE" : "क्या आपको यकीन है?",
+  "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"आगे बढ़ने के बाद आप सामग्री संपादित नहीं कर पाएंगे.",
+  "PROCEED":"आगे बढ़े",
+  "CATEGORY_OF_PARTICIPATION": "भागीदारी की श्रेणी",
+  "NAME_OF_ORGANISATION": "संगठन का नाम",
+  "NAME_OF_DEPARTMENT_GROUP": "विभाग/समूह का नाम",
+  "INDICATIVE_THEME": "सूचक थीम"
 }

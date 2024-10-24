@@ -366,5 +366,12 @@
   "VOTING_DEADLINE":"வாக்களிக்கும் காலக்கெடு",
   "VOTE_COUNT":"வாக்கு எண்ணிக்கை",
   "VOTE_NOW":"இப்போது வாக்களியுங்கள்",
-  "SEARCH_SUBMISSION":"தேடல் சமர்ப்பிப்பு"
+  "SEARCH_SUBMISSION":"தேடல் சமர்ப்பிப்பு",
+  "ARE_YOU_SURE" : "நீங்கள் உறுதியாக இருக்கிறீர்களா?",
+  "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"நீங்கள் தொடர்ந்த பிறகு உள்ளடக்கத்தைத் திருத்த முடியாது.",
+  "PROCEED":"தொடரவும்",
+  "CATEGORY_OF_PARTICIPATION": "பங்கேற்பின் வகை",
+  "NAME_OF_ORGANISATION": "அமைப்பின் பெயர்",
+  "NAME_OF_DEPARTMENT_GROUP": "துறை/குழுவின் பெயர்",
+  "INDICATIVE_THEME": "குறிப்பிடத்தக்க தீம்"
 }

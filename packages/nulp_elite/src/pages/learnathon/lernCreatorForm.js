@@ -12,6 +12,7 @@ import {
   Grid,
   Paper,
   Divider,
+  Modal,
 } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Footer from "components/Footer";
@@ -24,7 +25,11 @@ import Container from "@mui/material/Container";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
+
 import { Observable } from "rxjs";
+
+import { useTranslation } from "react-i18next";
+
 // import SunbirdFileUploadLib from "@project-sunbird/sunbird-file-upload-library/sunbird-file-upload-library";
 // import * as SunbirdFileUploadLib from "@project-sunbird/sunbird-file-upload-library/sunbird-file-upload-library";
 // import "@project-sunbird/sunbird-file-upload-library/sunbird-file-upload-library";
@@ -61,6 +66,7 @@ const LernCreatorForm = () => {
   const [errors, setErrors] = useState({});
   const [openPersonalForm, setOpenPersonalForm] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     user_name: "",
@@ -1117,13 +1123,70 @@ const LernCreatorForm = () => {
                   <Button
                     disabled={isNotDraft || openPersonalForm}
                     className="viewAll"
-                    onClick={() => setOpenPersonalForm(true)}
+                    onClick={() => setOpenConfirmModal(true)}
                     sx={{ ml: 2, padding: "9px 35px" }} // Adds spacing between the buttons
                   >
                     Proceed to Submit
                   </Button>
                 </Box>
               </Grid>
+
+
+              {openConfirmModal && (
+                <Modal
+                  open={openConfirmModal}
+                  onClose={() => setOpenConfirmModal(false)}  
+                  aria-labelledby="confirmation-modal-title"
+                  aria-describedby="confirmation-modal-description"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: 'white',
+                      padding: '20px',
+                      borderRadius: '8px',
+                      boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                      width: '400px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Typography variant="h6" id="confirmation-modal-title" gutterBottom>
+                      {t("ARE_YOU_SURE")}
+                    </Typography>
+                    <Typography id="confirmation-modal-description" color="textSecondary">
+                      {t("YOU_WILL_NOT_BE_ABLE_TO_UPDATE")}
+                    </Typography>
+
+                    {/* Modal Actions */}
+                    <div style={{ marginTop: '20px' }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          setOpenPersonalForm(true); // Proceed action
+                          setOpenConfirmModal(false); // Close modal after proceeding
+                        }}
+                        style={{ marginRight: '10px' }}
+                      >
+                        {t("PROCEED")}
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => setOpenConfirmModal(false)}  
+                      >
+                        {("CANCEL")}
+                      </Button>
+                    </div>
+                  </div>
+                </Modal>
+              )}
+
+
               {openPersonalForm && (
                 <>
                   <Grid container spacing={2}>

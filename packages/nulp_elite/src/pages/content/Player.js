@@ -57,8 +57,10 @@ const Player = () => {
   const [propLength, setPropLength] = useState();
   const _userId = util.userId();
   const [isLearnathon, setIsLearnathon] = useState(false);
+  const [isLearnathonContent, setIsLearnathonContent] = useState(false)
   const [alreadyVoted, setAlreadyVoted] = useState(false);
   const [pollId, setPollId] = useState();
+  const [learnathonDetails,setLearnathonDetails] = useState();
   const [isPublished, setIsPublished] = useState(false);
   const params = new URLSearchParams(window.location.search);
   const idParam = params.get("id");
@@ -259,6 +261,7 @@ const Player = () => {
       };
 
       if (pageParam == "review" || pageParam == "lern") {
+        setIsLearnathonContent(true)
         const assetBody = {
           request: {
             filters: {
@@ -332,6 +335,7 @@ const Player = () => {
 
       const response = await axios.post(url, requestBody);
       if (response?.data?.result?.totalCount > 0) {
+        setLearnathonDetails(response?.data?.result?.data[0])
         setPollId(response?.data?.result?.data[0]?.poll_id);
         setIsLearnathon(true);
       }
@@ -700,7 +704,7 @@ const Player = () => {
               marginTop: "2%",
             }}
           >
-            {isLearnathon && (
+            {isLearnathon && learnathonDetails.status === "Live" && (
               <div className="vote-section">
                 <Button
                   type="button"
@@ -745,12 +749,49 @@ const Player = () => {
                 aria-controls="panel1-content"
                 id="panel1-header"
               >
-                <Typography>{t("DESCRIPTION")}</Typography>
+                <Typography fontWeight={"700"}>{t("DESCRIPTION")}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>{lesson?.description}</Typography>
+                <Typography>{isLearnathon ? learnathonDetails?.description : lesson?.description}</Typography>
+                {isLearnathon && (
+                  <div>
+                    <AccordionSummary
+                     
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      <Typography marginLeft={"-22px"} fontWeight={"700"}>{t("CATEGORY_OF_PARTICIPATION")}</Typography>
+                    </AccordionSummary>
+                    <Typography marginLeft={"0px"}>{learnathonDetails?.category_of_participation}</Typography>
+                    <AccordionSummary
+                      
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      <Typography marginLeft={"-22px"} fontWeight={"700"}>{t("NAME_OF_ORGANISATION")}</Typography>
+                    </AccordionSummary>
+                    <Typography marginLeft={"0px"}>{learnathonDetails?.name_of_organisation}</Typography>
+                    <AccordionSummary
+                      
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      <Typography marginLeft={"-22px"} fontWeight={"700"}>{t("NAME_OF_DEPARTMENT_GROUP")}</Typography>
+                    </AccordionSummary>
+                    <Typography marginLeft={"0px"}>{learnathonDetails?.name_of_department_group}</Typography>
+                    <AccordionSummary
+                      
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      <Typography marginLeft={"-22px"} fontWeight={"700"}>{t("INDICATIVE_THEME")}</Typography>
+                    </AccordionSummary>
+                    <Typography marginLeft={"0px"}>{learnathonDetails?.indicative_theme}</Typography>
+                  </div>
+                )}
               </AccordionDetails>
             </Accordion>
+            {!isLearnathon && (
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -790,7 +831,7 @@ const Player = () => {
                   <Box>{lesson?.copyright}</Box>
                 </Typography>
               </AccordionDetails>
-            </Accordion>
+            </Accordion>)}
           </Box>
           <Box></Box>
         </Container>

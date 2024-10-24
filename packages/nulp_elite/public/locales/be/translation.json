@@ -351,5 +351,12 @@
   "VIEW_SUBMISSIONS":"সাবমিশন দেখুন",
   "VOTIGN_DEADLINE":"ভোটের সময়সীমা",
   "VIEW_AND_VOTE":"দেখুন এবং ভোট দিন",
-  "VOTE_FOR_THIS_CONTENT":"এই কন্টেন্ট জন্য ভোট"
+  "VOTE_FOR_THIS_CONTENT":"এই কন্টেন্ট জন্য ভোট",
+  "ARE_YOU_SURE" : "আপনি কি নিশ্চিত?",
+  "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"আপনি এগিয়ে যাওয়ার পরে সামগ্রী সম্পাদনা করতে পারবেন না৷",
+  "PROCEED":"এগিয়ে যান",
+  "CATEGORY_OF_PARTICIPATION": "অংশগ্রহণের শ্রেণী",
+  "NAME_OF_ORGANISATION": "সংগঠনের নাম",
+  "NAME_OF_DEPARTMENT_GROUP": "বিভাগ/দলের নাম",
+  "INDICATIVE_THEME": "সূচক থিম"
 }
