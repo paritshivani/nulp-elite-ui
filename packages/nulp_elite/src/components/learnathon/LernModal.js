@@ -37,7 +37,14 @@ const LernModal = () => {
       const data = await response.json();
       const rolesData = data.result.response.channel;
       const roles = data.result.response.roles;
-      const organizationId = roles[0]?.scope[0]?.organisationId;
+      let organizationId;
+
+      if (roles[0]?.scope[0]?.organisationId) {
+        organizationId = roles[0].scope[0].organisationId;
+      } else {
+          organizationId = data?.result?.response?.organisations[0]?.organisationId;
+        }
+
       const extractedRoles = roles.map((roleObj) => roleObj.role);
       setRoleList(extractedRoles);
       setOrgId(organizationId);
@@ -77,8 +84,8 @@ const LernModal = () => {
   };
 
   let responsecode;
-  const isCreator = roleList.includes("CONTENT_CREATOR");
   const fetchUserAccess = async () => {
+    const isCreator = roleList.includes("CONTENT_CREATOR");
     try {
       const url = `${urlConfig.URLS.PROVIDE_ACCESS}`;
       const role = isCreator ? roleList : ["CONTENT_CREATOR", ...roleList];
