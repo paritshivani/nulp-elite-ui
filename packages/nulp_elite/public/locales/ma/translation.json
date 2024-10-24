@@ -346,7 +346,9 @@
   "VIEW_SUBMISSIONS":"सबमिशन पहा",
   "VOTIGN_DEADLINE":"मतदानाची अंतिम मुदत",
   "VIEW_AND_VOTE":"पहा आणि मत द्या",
-  "VOTE_FOR_THIS_CONTENT":"या सामग्रीसाठी मत द्या"
-
+  "VOTE_FOR_THIS_CONTENT":"या सामग्रीसाठी मत द्या",
+  "ARE_YOU_SURE" : "तुम्हाला खात्री आहे का?",
+  "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"तुम्ही पुढे गेल्यानंतर तुम्ही सामग्री संपादित करू शकणार नाही.",
+  "PROCEED":"पुढे जा"
 }
 

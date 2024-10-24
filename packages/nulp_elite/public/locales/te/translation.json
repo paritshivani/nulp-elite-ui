@@ -310,6 +310,9 @@
   "VIEW_SUBMISSIONS":"సమర్పణలను వీక్షించండి",
   "VOTIGN_DEADLINE":"ఓటింగ్ గడువు",
   "VIEW_AND_VOTE":"వీక్షించి ఓటు వేయండి",
-  "VOTE_FOR_THIS_CONTENT":"ఈ కంటెంట్ కోసం ఓటు వేయండి"
+  "VOTE_FOR_THIS_CONTENT":"ఈ కంటెంట్ కోసం ఓటు వేయండి",
+  "ARE_YOU_SURE" : "మీరు ఖచ్చితంగా ఉన్నారా?",
+  "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"మీరు కొనసాగించిన తర్వాత మీరు కంటెంట్‌ని సవరించలేరు.",
+  "PROCEED":"కొనసాగండి"
 
 }
