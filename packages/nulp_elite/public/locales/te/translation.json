@@ -313,6 +313,9 @@
   "VOTE_FOR_THIS_CONTENT":"ఈ కంటెంట్ కోసం ఓటు వేయండి",
   "ARE_YOU_SURE" : "మీరు ఖచ్చితంగా ఉన్నారా?",
   "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"మీరు కొనసాగించిన తర్వాత మీరు కంటెంట్‌ని సవరించలేరు.",
-  "PROCEED":"కొనసాగండి"
-
+  "PROCEED":"కొనసాగండి",
+  "CATEGORY_OF_PARTICIPATION": "పాల్గొనడానికి కేటగిరీ",
+  "NAME_OF_ORGANISATION": "సంస్థ పేరు",
+  "NAME_OF_DEPARTMENT_GROUP": "విభాగం/సంస్థ పేరు",
+  "INDICATIVE_THEME": "సూచక థీమ్"
 }

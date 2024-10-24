@@ -349,6 +349,10 @@
   "VOTE_FOR_THIS_CONTENT":"ഈ ഉള്ളടക്കത്തിന് വോട്ട് ചെയ്യുക",
   "ARE_YOU_SURE" : "നിങ്ങൾക്ക് ഉറപ്പാണോ?",
   "YOU_WILL_NOT_BE_ABLE_TO_UPDATE":"നിങ്ങൾ മുന്നോട്ട് പോയതിന് ശേഷം നിങ്ങൾക്ക് ഉള്ളടക്കം എഡിറ്റ് ചെയ്യാൻ കഴിയില്ല.",
-  "PROCEED":"തുടരുക"
+  "PROCEED":"തുടരുക",
+  "CATEGORY_OF_PARTICIPATION": "പങ്കെടുക്കുന്ന വിഭാഗം",
+  "NAME_OF_ORGANISATION": "സംസ്ഥാനത്തിന്റെ പേര്",
+  "NAME_OF_DEPARTMENT_GROUP": "വകുപ്പ്/ഗ്രൂപ്പിന്റെ പേര്",
+  "INDICATIVE_THEME": "സൂചക തീം"
 
 }
