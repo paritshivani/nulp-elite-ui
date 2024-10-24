@@ -25,7 +25,11 @@ import Container from "@mui/material/Container";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
+
+import { Observable } from "rxjs";
+
 import { useTranslation } from "react-i18next";
+
 // import SunbirdFileUploadLib from "@project-sunbird/sunbird-file-upload-library/sunbird-file-upload-library";
 // import * as SunbirdFileUploadLib from "@project-sunbird/sunbird-file-upload-library/sunbird-file-upload-library";
 // import "@project-sunbird/sunbird-file-upload-library/sunbird-file-upload-library";
@@ -74,6 +78,9 @@ const LernCreatorForm = () => {
     name_of_department_group: "",
     indicative_theme: "",
     other_indicative_themes: "",
+    indicative_SubTheme: "",
+    state: "",
+    city: "",
     title_of_submission: "",
     description: "",
     content_id: null,
@@ -137,6 +144,9 @@ const LernCreatorForm = () => {
           name_of_department_group: readResponse.name_of_department_group || "",
           indicative_theme: readResponse.indicative_theme || "",
           other_indicative_themes: readResponse.other_indicative_themes || "",
+          indicative_SubTheme: readResponse.indicative_SubTheme || "",
+          state: readResponse.state || "",
+          city: readResponse.city || "",
           title_of_submission: readResponse.title_of_submission || "",
           description: readResponse.description || "",
           content_id: readResponse.content_id || null,
@@ -175,7 +185,15 @@ const LernCreatorForm = () => {
       tempErrors.name_of_organisation = "Name of Organisation is required";
     if (!formData.indicative_theme)
       tempErrors.indicative_theme = "Indicative Theme is required";
-    // if (!formData.other_indicative_theme) tempErrors.other_indicative_theme = "Indicative Theme is required";
+    if (
+      formData.indicative_theme == "Miscellaneous/ Others" &&
+      !formData.other_indicative_themes
+    )
+      tempErrors.other_indicative_themes = "Provide other indicative theme";
+
+    if (!formData.state) tempErrors.state = "Provide state";
+
+    if (!formData.city) tempErrors.city = "Provide city";
     if (!formData.title_of_submission)
       tempErrors.title_of_submission = "Title of Submission is required";
     if (!formData.description)
@@ -212,6 +230,7 @@ const LernCreatorForm = () => {
 
   const handleIconChange = async (e) => {
     reader.readAsDataURL(e.target.files[0]);
+    const mimeType = e.target.files[0].type;
     const _uuid = uuidv4();
     const assetBody = {
       request: {
@@ -335,6 +354,7 @@ const LernCreatorForm = () => {
   };
   const handleFileChange = async (e) => {
     console.log("e.target.files[0]----", e.target.files[0]);
+    const mimeType = e.target.files[0].type;
     const _uuid = uuidv4();
     const assetBody = {
       request: {
@@ -345,7 +365,7 @@ const LernCreatorForm = () => {
           code: _uuid,
           name: e.target.files[0].name,
           framework: "nulp-learn",
-          mimeType: e.target.files[0].type,
+          mimeType: mimeType,
           createdBy: _userId,
           organisation: [userInfo.rootOrg.channel],
           createdFor: [userInfo.rootOrg.id],
@@ -367,7 +387,7 @@ const LernCreatorForm = () => {
 
       const result = await response.json();
       console.log("suceesss----", result);
-
+      const imgId = result.result.identifier;
       const uploadBody = {
         request: {
           content: {
@@ -406,36 +426,75 @@ const LernCreatorForm = () => {
             url: url,
             csp: "azure",
           })
-          .then((response) => {
-            console.log("Upload successful000:", response);
+          .on("error", (error) => {
+            console.log("0000", error);
           })
-          .catch((error) => {
-            console.error("Upload failed0000:", error);
+          .on("completed", async (completed) => {
+            console.log("1111", completed);
+
+            const fileURL = url.split("?")[0];
+            const data = new FormData();
+            data.append("fileUrl", fileURL);
+            data.append("mimeType", mimeType);
+            // const config1 = {
+            //   enctype: "multipart/form-data",
+            //   processData: false,
+            //   contentType: false,
+            //   cache: false,
+            // };
+            // const uploadMediaConfig = {
+            //   data,
+            //   param: config1,
+            // };
+            try {
+              const response = await fetch(
+                `${urlConfig.URLS.ASSET.UPLOAD}/${imgId}`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: data,
+                }
+              );
+
+              if (!response.ok) {
+                throw new Error("Failed to fetch polls");
+              }
+
+              const uploadResult = await response.json();
+              console.log("upload suceesss------", uploadResult);
+              setFormData({
+                ...formData,
+                icon: uploadResult.result.identifier,
+              });
+              setErrors({ ...errors, icon: "" });
+            } catch (error) {
+              console.log("error---", error);
+              // setError(error.message);
+            } finally {
+              // setIsLoading(false);
+            }
           });
 
-        // $scope.uploaderLib.upload({url: url, file:  e.target.files[0], csp:  "azure"})
-        uploader
-          .upload({ url: url, file: file, csp: "azure" })
-          .then((response) => {
-            console.log("Upload successful1111:", response);
-          })
-          .catch((error) => {
-            console.error("Upload failed11111:", error);
+        try {
+          const subscription = uploadToBlob(url, file, csp).subscribe({
+            next: (completed) => {
+              console.log("Upload completed successfully!");
+            },
+            error: (error) => {
+              console.log(`Upload failed: ${error.message}`);
+            },
+            complete: () => {
+              console.log("Upload process completed.");
+            },
           });
-        setFormData({
-          ...formData,
-          content_id: uploadResult.result.identifier,
-        });
-        setErrors({ ...errors, content_id: "" });
 
-        uploader
-          .upload(url, file, csp)
-          .then((response) => {
-            console.log("Upload successful22222:", response);
-          })
-          .catch((error) => {
-            console.error("Upload failed:22222", error);
-          });
+          // Clean up subscription on unmount
+          return () => subscription.unsubscribe();
+        } catch (err) {
+          console.log(err);
+        }
         setFormData({
           ...formData,
           content_id: uploadResult.result.identifier,
@@ -458,6 +517,23 @@ const LernCreatorForm = () => {
     }
   };
 
+  const uploadToBlob = (signedURL, file, csp) => {
+    return new Observable((observer) => {
+      const uploaderLib = new SunbirdFileUploadLib.FileUploader();
+
+      uploaderLib
+        .upload({ url: signedURL, file, csp })
+        .on("error", (error) => {
+          // Emit the error and notify the observer of failure
+          observer.error(error);
+        })
+        .on("completed", (completed) => {
+          // Emit the completed status and close the observable stream
+          observer.next(completed);
+          observer.complete();
+        });
+    });
+  };
   const handleCheckboxChange = (e) => {
     setFormData({
       ...formData,
@@ -691,6 +767,7 @@ const LernCreatorForm = () => {
                   Submission Icon
                 </InputLabel>
               </Grid>
+
               <Grid item xs={10}>
                 <TextField
                   type="file"
@@ -706,6 +783,55 @@ const LernCreatorForm = () => {
                 {/* <Alert className="mt-9" everity="info">
                   Supported formats: MP4, PDF, HTML5, YouTube links
                 </Alert> */}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item xs={2} className="center-align">
+                <InputLabel htmlFor="Title of Submission">
+                  Title of Submission{" "}
+                  <span className="mandatory-symbol"> *</span>
+                </InputLabel>
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Title of Submission"
+                  name="title_of_submission"
+                  value={formData.title_of_submission}
+                  onChange={handleChange}
+                  inputProps={{ maxLength: 20 }}
+                  error={!!errors.title_of_submission}
+                  helperText={errors.title_of_submission}
+                  required
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item xs={2} className="center-align">
+                <InputLabel htmlFor="Description">
+                  Description <span className="mandatory-symbol"> *</span>
+                </InputLabel>
+              </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  multiline
+                  rows={3}
+                  inputProps={{ maxLength: 100 }}
+                  error={!!errors.description}
+                  helperText={errors.description}
+                  required
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -826,52 +952,125 @@ const LernCreatorForm = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Grid container>
-                  <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Title of Submission">
-                      Title of Submission{" "}
-                      <span className="mandatory-symbol"> *</span>
-                    </InputLabel>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <TextField
-                      fullWidth
-                      margin="normal"
-                      label="Title of Submission"
-                      name="title_of_submission"
-                      value={formData.title_of_submission}
-                      onChange={handleChange}
-                      inputProps={{ maxLength: 20 }}
-                      error={!!errors.title_of_submission}
-                      helperText={errors.title_of_submission}
-                      required
-                    />
+              {formData.indicative_theme == "Miscellaneous/ Others" && (
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={2} className="center-align">
+                      <InputLabel htmlFor="Other Indicative Theme">
+                        Other Indicative Theme{" "}
+                        <span className="mandatory-symbol"> *</span>
+                      </InputLabel>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <TextField
+                        select
+                        fullWidth
+                        margin="normal"
+                        label="Other Indicative Theme"
+                        name="other_indicative_themes"
+                        value={formData.other_indicative_themes}
+                        onChange={handleChange}
+                        error={!!errors.other_indicative_themes}
+                        helperText={errors.other_indicative_themes}
+                        required
+                      >
+                        {themes.map((theme) => (
+                          <MenuItem key={theme} value={theme}>
+                            {theme}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              )}
+              {formData.indicative_theme != "Miscellaneous/ Others" && (
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={2} className="center-align">
+                      <InputLabel htmlFor="Indicative Theme">
+                        Indicative SubTheme{" "}
+                        <span className="mandatory-symbol"> *</span>
+                      </InputLabel>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <TextField
+                        select
+                        fullWidth
+                        margin="normal"
+                        label="Indicative SubTheme"
+                        name="indicative_SubTheme"
+                        value={formData.indicative_SubTheme}
+                        onChange={handleChange}
+                        error={!!errors.indicative_SubTheme}
+                        helperText={errors.indicative_SubTheme}
+                        required
+                      >
+                        {themes.map((theme) => (
+                          <MenuItem key={theme} value={theme}>
+                            {theme}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item xs={2} className="center-align">
-                    <InputLabel htmlFor="Description">
-                      Description <span className="mandatory-symbol"> *</span>
+                    <InputLabel htmlFor="State">
+                      State <span className="mandatory-symbol"> *</span>
                     </InputLabel>
                   </Grid>
                   <Grid item xs={10}>
                     <TextField
+                      select
                       fullWidth
                       margin="normal"
-                      label="Description"
-                      name="description"
-                      value={formData.description}
+                      label="State"
+                      name="state"
+                      value={formData.state}
                       onChange={handleChange}
-                      multiline
-                      rows={3}
-                      inputProps={{ maxLength: 100 }}
-                      error={!!errors.description}
-                      helperText={errors.description}
+                      error={!!errors.state}
+                      helperText={errors.state}
                       required
-                    />
+                    >
+                      {themes.map((theme) => (
+                        <MenuItem key={theme} value={theme}>
+                          {theme}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                </Grid>
+              </Grid>{" "}
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={2} className="center-align">
+                    <InputLabel htmlFor="City">
+                      City <span className="mandatory-symbol"> *</span>
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <TextField
+                      select
+                      fullWidth
+                      margin="normal"
+                      label="City"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      error={!!errors.city}
+                      helperText={errors.city}
+                      required
+                    >
+                      {themes.map((theme) => (
+                        <MenuItem key={theme} value={theme}>
+                          {theme}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   </Grid>
                 </Grid>
               </Grid>
@@ -931,6 +1130,7 @@ const LernCreatorForm = () => {
                   </Button>
                 </Box>
               </Grid>
+
 
               {openConfirmModal && (
                 <Modal
