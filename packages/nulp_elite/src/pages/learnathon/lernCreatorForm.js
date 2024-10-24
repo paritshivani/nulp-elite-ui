@@ -58,6 +58,9 @@ const LernCreatorForm = () => {
   const [userInfo, setUserInfo] = useState();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const [openPersonalForm, setOpenPersonalForm] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+
   const uploader = window.SunbirdFileUploadLib;
   // $scope.uploaderLib = new SunbirdFileUploadLib.FileUploader();
   const [formData, setFormData] = useState({
@@ -367,7 +370,7 @@ const LernCreatorForm = () => {
       const uploadBody = {
         request: {
           content: {
-            fileName: formData.title_of_submission,
+            fileName: e.target.files[0].name,
           },
         },
       };
@@ -451,17 +454,20 @@ const LernCreatorForm = () => {
 
   const checkDraftValidations = () => {
     let tempErrors = {};
-    if (!formData.user_name) tempErrors.user_name = "User Name is required";
+    // if (!formData.user_name) tempErrors.user_name = "User Name is required";
     if (!formData.title_of_submission)
       tempErrors.title_of_submission = "Title of Submission is required";
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
+  const confirmSubmission = async () => {
+    setOpenConfirmModal();
+  };
   const handleSubmit = async (action) => {
-    if (!formData.consent_checkbox) {
-      alert("You must accept the terms and conditions.");
-      return;
-    }
+    // if (!formData.consent_checkbox) {
+    //   alert("You must accept the terms and conditions.");
+    //   return;
+    // }
 
     formData.created_by = _userId;
     // Handle form submission (draft or review)
@@ -644,89 +650,6 @@ const LernCreatorForm = () => {
               "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
           }}
         >
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              sx={{ borderBottom: "2px solid #057184", marginBottom: "20px" }}
-            >
-              <Typography variant="h6" gutterBottom>
-                Participant Details
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Grid container>
-                <Grid item xs={2} className="center-align">
-                  <InputLabel htmlFor="User Name">
-                    User Name <span className="mandatory-symbol"> *</span>
-                  </InputLabel>
-                </Grid>
-                <Grid item xs={10}>
-                  <TextField
-                    fullWidth
-                    margin="normal"
-                    label="User Name"
-                    name="user_name"
-                    value={formData.user_name}
-                    onChange={handleChange}
-                    error={!!errors.user_name}
-                    helperText={errors.user_name}
-                    required
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Grid container>
-                <Grid item xs={2} className="center-align">
-                  <InputLabel htmlFor="Email">
-                    Email <span className="mandatory-symbol"> *</span>
-                  </InputLabel>
-                </Grid>
-                <Grid item xs={10}>
-                  <TextField
-                    fullWidth
-                    margin="normal"
-                    label="Email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    error={!!errors.email}
-                    helperText={errors.email}
-                    required
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Grid container>
-                <Grid item xs={2} className="center-align">
-                  <InputLabel htmlFor="Mobile Number">
-                    Mobile <br /> Number<span className="red"> *</span>
-                  </InputLabel>
-                </Grid>
-                <Grid item xs={10}>
-                  <TextField
-                    fullWidth
-                    margin="normal"
-                    label="Mobile Number"
-                    name="mobile_number"
-                    value={formData.mobile_number}
-                    onChange={handleChange}
-                    error={!!errors.mobile_number}
-                    helperText={errors.mobile_number}
-                    required
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
           <Grid item xs={12} sx={{ borderBottom: "2px solid #057184" }}>
             <Typography variant="h6" gutterBottom style={{ marginTop: "30px" }}>
               Submission Details
@@ -751,9 +674,9 @@ const LernCreatorForm = () => {
               </Grid>
               <Grid item xs={2}></Grid>
               <Grid item xs={10}>
-                <Alert className="mt-9" everity="info">
+                {/* <Alert className="mt-9" everity="info">
                   Supported formats: MP4, PDF, HTML5, YouTube links
-                </Alert>
+                </Alert> */}
               </Grid>
             </Grid>
           </Grid>
@@ -960,55 +883,169 @@ const LernCreatorForm = () => {
                 textAlign="center"
                 className="mb-30"
               >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={formData.consent_checkbox}
-                      onChange={handleCheckboxChange}
-                      name="consent_checkbox"
-                    />
-                  }
-                  label="Terms and conditions"
-                />
+                <Box mt={3}>
+                  <Button
+                    disabled={isNotDraft || openPersonalForm}
+                    className="custom-btn-default"
+                    onClick={() => handleSubmit("draft")}
+                  >
+                    Save as Draft
+                  </Button>
+
+                  <Button
+                    disabled={isNotDraft || openPersonalForm}
+                    className="viewAll"
+                    onClick={() => setOpenPersonalForm(true)}
+                    sx={{ ml: 2, padding: "9px 35px" }} // Adds spacing between the buttons
+                  >
+                    Proceed to Submit
+                  </Button>
+                </Box>
               </Grid>
+
+              {openPersonalForm && (
+                <>
+                  <Grid container spacing={2}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      sx={{
+                        borderBottom: "2px solid #057184",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <Typography variant="h6" gutterBottom>
+                        Participant Details
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <Grid container>
+                        <Grid item xs={2} className="center-align">
+                          <InputLabel htmlFor="User Name">
+                            User Name{" "}
+                            <span className="mandatory-symbol"> *</span>
+                          </InputLabel>
+                        </Grid>
+                        <Grid item xs={10}>
+                          <TextField
+                            fullWidth
+                            margin="normal"
+                            label="User Name"
+                            name="user_name"
+                            value={formData.user_name}
+                            onChange={handleChange}
+                            error={!!errors.user_name}
+                            helperText={errors.user_name}
+                            required
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Grid container>
+                        <Grid item xs={2} className="center-align">
+                          <InputLabel htmlFor="Email">
+                            Email <span className="mandatory-symbol"> *</span>
+                          </InputLabel>
+                        </Grid>
+                        <Grid item xs={10}>
+                          <TextField
+                            fullWidth
+                            margin="normal"
+                            label="Email"
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            error={!!errors.email}
+                            helperText={errors.email}
+                            required
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                      <Grid container>
+                        <Grid item xs={2} className="center-align">
+                          <InputLabel htmlFor="Mobile Number">
+                            Mobile <br /> Number<span className="red"> *</span>
+                          </InputLabel>
+                        </Grid>
+                        <Grid item xs={10}>
+                          <TextField
+                            fullWidth
+                            margin="normal"
+                            label="Mobile Number"
+                            name="mobile_number"
+                            value={formData.mobile_number}
+                            onChange={handleChange}
+                            error={!!errors.mobile_number}
+                            helperText={errors.mobile_number}
+                            required
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    container
+                    item
+                    xs={12}
+                    justifyContent="center"
+                    alignItems="center"
+                    direction="column"
+                    textAlign="center"
+                    className="mb-30"
+                  >
+                    <Box>
+                      Your submission will be used for NULP purposes only and
+                      your personal details will not be disclosed to any entity.
+                    </Box>
+
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.consent_checkbox}
+                          onChange={handleCheckboxChange}
+                          name="consent_checkbox"
+                        />
+                      }
+                      label="Terms and conditions"
+                    />
+                  </Grid>
+                  <Grid
+                    container
+                    item
+                    xs={12}
+                    justifyContent="center"
+                    alignItems="center"
+                    direction="column"
+                    textAlign="center"
+                    className="mb-30"
+                  >
+                    <Box mt={3}>
+                      <Button
+                        disabled={isNotDraft}
+                        className="viewAll"
+                        onClick={() => handleSubmit("review")}
+                        sx={{ ml: 2, padding: "9px 35px" }} // Adds spacing between the buttons
+                      >
+                        Submit
+                      </Button>
+                    </Box>
+                  </Grid>
+                </>
+              )}
             </Grid>
           </Grid>
         </Grid>
       </Container>
-      <Grid
-        container
-        item
-        xs={12}
-        justifyContent="center"
-        alignItems="center"
-        direction="column"
-        textAlign="center"
-        className="mb-30"
-      >
-        <Box>
-          Your submission will be used for NULP purposes only and your personal
-          details will not be disclosed to any entity.
-        </Box>
-
-        <Box mt={3}>
-          <Button
-            disabled={isNotDraft}
-            className="custom-btn-default"
-            onClick={() => handleSubmit("draft")}
-          >
-            Save as Draft
-          </Button>
-
-          <Button
-            disabled={isNotDraft}
-            className="viewAll"
-            onClick={() => handleSubmit("review")}
-            sx={{ ml: 2, padding: "9px 35px" }} // Adds spacing between the buttons
-          >
-            Submit
-          </Button>
-        </Box>
-      </Grid>
 
       <Footer />
     </>
