@@ -224,6 +224,7 @@ const LernCreatorForm = () => {
 
   const handleIconChange = async (e) => {
     reader.readAsDataURL(e.target.files[0]);
+    const mimeType = e.target.files[0].type;
     const _uuid = uuidv4();
     const assetBody = {
       request: {
@@ -347,6 +348,7 @@ const LernCreatorForm = () => {
   };
   const handleFileChange = async (e) => {
     console.log("e.target.files[0]----", e.target.files[0]);
+    const mimeType = e.target.files[0].type;
     const _uuid = uuidv4();
     const assetBody = {
       request: {
@@ -357,7 +359,7 @@ const LernCreatorForm = () => {
           code: _uuid,
           name: e.target.files[0].name,
           framework: "nulp-learn",
-          mimeType: e.target.files[0].type,
+          mimeType: mimeType,
           createdBy: _userId,
           organisation: [userInfo.rootOrg.channel],
           createdFor: [userInfo.rootOrg.id],
@@ -379,7 +381,7 @@ const LernCreatorForm = () => {
 
       const result = await response.json();
       console.log("suceesss----", result);
-
+      const imgId = result.result.identifier;
       const uploadBody = {
         request: {
           content: {
@@ -421,13 +423,55 @@ const LernCreatorForm = () => {
           .on("error", (error) => {
             console.log("0000", error);
           })
-          .on("completed", (completed) => {
+          .on("completed", async (completed) => {
             console.log("1111", completed);
+
+            const fileURL = url.split("?")[0];
+            const data = new FormData();
+            data.append("fileUrl", fileURL);
+            data.append("mimeType", mimeType);
+            // const config1 = {
+            //   enctype: "multipart/form-data",
+            //   processData: false,
+            //   contentType: false,
+            //   cache: false,
+            // };
+            // const uploadMediaConfig = {
+            //   data,
+            //   param: config1,
+            // };
+            try {
+              const response = await fetch(
+                `${urlConfig.URLS.ASSET.UPLOAD}/${imgId}`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: data,
+                }
+              );
+
+              if (!response.ok) {
+                throw new Error("Failed to fetch polls");
+              }
+
+              const uploadResult = await response.json();
+              console.log("upload suceesss------", uploadResult);
+              setFormData({
+                ...formData,
+                icon: uploadResult.result.identifier,
+              });
+              setErrors({ ...errors, icon: "" });
+            } catch (error) {
+              console.log("error---", error);
+              // setError(error.message);
+            } finally {
+              // setIsLoading(false);
+            }
           });
 
         try {
-          // Pick a file from the user's device (this requires a third-party library like react-native-document-picker)
-
           const subscription = uploadToBlob(url, file, csp).subscribe({
             next: (completed) => {
               console.log("Upload completed successfully!");
@@ -443,19 +487,8 @@ const LernCreatorForm = () => {
           // Clean up subscription on unmount
           return () => subscription.unsubscribe();
         } catch (err) {
-          if (DocumentPicker.isCancel(err)) {
-            console.log("User cancelled file picker");
-          } else {
-            console.error("File picking error: ", err);
-          }
+          console.log(err);
         }
-
-        // uploadToBlob(signedURL, this.imageFile, blobConfig).subscribe(
-        //   (response) => {}
-        // );
-
-        // $scope.uploaderLib.upload({url: url, file:  e.target.files[0], csp:  "azure"})
-
         setFormData({
           ...formData,
           content_id: uploadResult.result.identifier,
