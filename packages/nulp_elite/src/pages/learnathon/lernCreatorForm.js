@@ -61,8 +61,6 @@ const LernCreatorForm = () => {
   const [openPersonalForm, setOpenPersonalForm] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
-  const uploader = new window.SunbirdFileUploadLib.FileUploader();
-  // $scope.uploaderLib = new SunbirdFileUploadLib.FileUploader();
   const [formData, setFormData] = useState({
     user_name: "",
     email: "",
@@ -393,9 +391,24 @@ const LernCreatorForm = () => {
         const uploadResult = await response.json();
         console.log("upload suceesss------", uploadResult);
 
-        const url = `${urlConfig.URLS.ASSET.UPLOADURL}/${result.result.identifier}`;
+        const url = uploadResult.result.pre_signed_url;
         const file = e.target.files[0];
         const csp = "azure"; // Cloud provider (azure, aws, etc.)
+
+        const uploader = new SunbirdFileUploadLib.FileUploader();
+
+        uploader
+          .upload({
+            file: file,
+            url: url,
+            csp: "azure",
+          })
+          .then((response) => {
+            console.log("Upload successful000:", response);
+          })
+          .catch((error) => {
+            console.error("Upload failed0000:", error);
+          });
 
         // $scope.uploaderLib.upload({url: url, file:  e.target.files[0], csp:  "azure"})
         uploader
