@@ -454,7 +454,7 @@ const LernCreatorForm = () => {
 
   const checkDraftValidations = () => {
     let tempErrors = {};
-    if (!formData.user_name) tempErrors.user_name = "User Name is required";
+    // if (!formData.user_name) tempErrors.user_name = "User Name is required";
     if (!formData.title_of_submission)
       tempErrors.title_of_submission = "Title of Submission is required";
     setErrors(tempErrors);
@@ -464,10 +464,10 @@ const LernCreatorForm = () => {
     setOpenConfirmModal();
   };
   const handleSubmit = async (action) => {
-    if (!formData.consent_checkbox) {
-      alert("You must accept the terms and conditions.");
-      return;
-    }
+    // if (!formData.consent_checkbox) {
+    //   alert("You must accept the terms and conditions.");
+    //   return;
+    // }
 
     formData.created_by = _userId;
     // Handle form submission (draft or review)
@@ -674,9 +674,9 @@ const LernCreatorForm = () => {
               </Grid>
               <Grid item xs={2}></Grid>
               <Grid item xs={10}>
-                <Alert className="mt-9" everity="info">
+                {/* <Alert className="mt-9" everity="info">
                   Supported formats: MP4, PDF, HTML5, YouTube links
-                </Alert>
+                </Alert> */}
               </Grid>
             </Grid>
           </Grid>
@@ -885,7 +885,7 @@ const LernCreatorForm = () => {
               >
                 <Box mt={3}>
                   <Button
-                    disabled={isNotDraft}
+                    disabled={isNotDraft || openPersonalForm}
                     className="custom-btn-default"
                     onClick={() => handleSubmit("draft")}
                   >
@@ -893,9 +893,9 @@ const LernCreatorForm = () => {
                   </Button>
 
                   <Button
-                    disabled={isNotDraft}
+                    disabled={isNotDraft || openPersonalForm}
                     className="viewAll"
-                    onClick={() => setOpenConfirmModal(true)}
+                    onClick={() => setOpenPersonalForm(true)}
                     sx={{ ml: 2, padding: "9px 35px" }} // Adds spacing between the buttons
                   >
                     Proceed to Submit
